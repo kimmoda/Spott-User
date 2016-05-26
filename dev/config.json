@@ -1,0 +1,6 @@
+{
+  "urls": {
+    "api": "https://spott-ios-rest-tst.appiness.mobi/rest"
+  },
+  "environment": "tst"
+}

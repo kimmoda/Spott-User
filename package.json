@@ -1,0 +1,65 @@
+{
+  "name": "appiness-spott-website",
+  "version": "0.0.0",
+  "description": "The website for Spott",
+  "repository": "https://bitbucket.org/appiness/appiness.spott.website.git",
+  "contributors": [
+    {
+      "name": "Arvid De Meyer"
+    },
+    {
+      "name": "Stijn Tytgat"
+    },
+    {
+      "name": "Ziggy Verstrepen"
+    }
+  ],
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "scripts": {
+    "build": "rm -rf ./dist/* && NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config webpack.prod.config.babel.js",
+    "dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --watch --config webpack.dev.config.babel.js"
+  },
+  "private": true,
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "babel-core": "^6.9.0",
+    "babel-eslint": "^6.0.4",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-builtin-extend": "^1.1.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-polyfill": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-runtime": "^6.9.0",
+    "copy-webpack-plugin": "^3.0.0",
+    "css-loader": "^0.23.1",
+    "eslint": "^2.10.2",
+    "eslint-loader": "^1.3.0",
+    "eslint-plugin-babel": "^3.2.0",
+    "eslint-plugin-import": "^1.8.0",
+    "eslint-plugin-react": "^5.1.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "history": "^2.1.1",
+    "html-webpack-plugin": "^2.17.0",
+    "httpinvoke": "^1.4.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.1",
+    "react-router-redux": "^4.0.4",
+    "redux": "^3.5.2",
+    "redux-immutablejs": "0.0.8",
+    "redux-logger": "^2.6.1",
+    "redux-saga": "^0.10.4",
+    "strip-loader": "^0.1.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
