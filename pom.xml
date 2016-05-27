@@ -21,7 +21,7 @@
 	</repositories>
 	<properties>
 		<stage.dir>${project.build.directory}/stage</stage.dir>
-		<cms.dist.file>${project.build.directory}/${project.artifactId}-${project.version}.zip</cms.dist.file>
+		<website.dist.file>${project.build.directory}/${project.artifactId}-${project.version}.zip</website.dist.file>
 	</properties>
 	<build>
 		<plugins>
@@ -95,7 +95,8 @@
 										<include name="**/**" />
 									</fileset>
 								</copy>
-								<zip destfile="${cms.dist.file}" basedir="${stage.dir}" />
+								<copy todir="${stage.dir}" file="${project.build.directory}/version.json" />
+								<zip destfile="${website.dist.file}" basedir="${stage.dir}" />
 							</target>
 						</configuration>
 					</execution>
@@ -138,7 +139,7 @@
 						<configuration>
 							<artifacts>
 								<artifact>
-									<file>${cms.dist.file}</file>
+									<file>${website.dist.file}</file>
 									<type>zip</type>
 								</artifact>
 							</artifacts>
