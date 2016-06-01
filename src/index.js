@@ -1,13 +1,12 @@
 import { createHashHistory } from 'history';
 import React from 'react';
-import { IndexRoute, Router, Route, useRouterHistory } from 'react-router';
+import { Router, Route, useRouterHistory } from 'react-router';
 import ReactDOM from 'react-dom';
 import { combineReducers } from 'redux-immutablejs';
 import { routerReducer as routerReducer, syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
-import { init } from './actions';
+import { doInit } from './actions';
 import createStore from './createStore';
-import saga from './saga';
 
 import appReducer from './reducer';
 import App from './view/app';
@@ -48,11 +47,11 @@ async function boot () {
   // Create history
   const hashHistory = useRouterHistory(createHashHistory)({ queryKey: false });
   // Create redux store
-  const store = createStore(hashHistory, reducer, saga);
+  const store = createStore(hashHistory, reducer);
   // Create an enhanced history that syncs navigation events with the store.
   const ourHistory = syncHistoryWithStore(hashHistory, store, { selectLocationState: (state) => state.get('router') });
   // Initialize the app.
-  await store.dispatch(init());
+  await store.dispatch(doInit());
   // Render application
   ReactDOM.render(
     <Provider key='provider' store={store}>

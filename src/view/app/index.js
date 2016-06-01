@@ -1,15 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 
 require('./reset.css');
-require('./fonts.css');
+require('./fonts/index.css');
 
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.node
   }
   render () {
-    return (
-      <div>{this.props.children}</div>
-    );
+    return this.props.children;
   }
 }
