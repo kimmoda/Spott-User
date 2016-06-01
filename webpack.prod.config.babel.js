@@ -1,5 +1,6 @@
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
@@ -28,6 +29,9 @@ const configuration = {
     path: path.join(__dirname, 'dist')
   },
   plugins: [
+    new CopyWebpackPlugin([
+      { from: './src/favicon.ico', to: 'favicon.ico' }
+    ]),
     // Protects against multiple React installs when npm linking
     new webpack.NormalModuleReplacementPlugin(/^react?$/, require.resolve('react')),
     // In production we write css to its own file
@@ -56,6 +60,7 @@ const configuration = {
     }),
     // Build index.html
     new HtmlWebpackPlugin({
+      favicon: 'favicon.ico',
       inject: 'body',
       minify: {},
       template: './src/index.html'

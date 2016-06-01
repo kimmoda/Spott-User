@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'ProximaNova';
+    src: url('./fonts/proximaNova/proximaNova-light.eot');
+    src: url('./fonts/proximaNova/proximaNova-light.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/proximaNova/proximaNova-light.woff') format('woff'),
+         url('./fonts/proximaNova/proximaNova-light.ttf') format('truetype'),
+         url('./fonts/proximaNova/proximaNova-light.svg#proxima_novaregular_italic') format('svg');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ProximaNova';
+    src: url('./fonts/proximaNova/proximaNova-regular.eot');
+    src: url('./fonts/proximaNova/proximaNova-regular.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/proximaNova/proximaNova-regular.woff') format('woff'),
+         url('./fonts/proximaNova/proximaNova-regular.ttf') format('truetype'),
+         url('./fonts/proximaNova/proximaNova-regular.svg#proxima_nova_rgreg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ProximaNova';
+    src: url('./fonts/proximaNova/proximaNova-semibold.eot');
+    src: url('./fonts/proximaNova/proximaNova-semibold.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/proximaNova/proximaNova-semibold.woff') format('woff'),
+         url('./fonts/proximaNova/proximaNova-semibold.ttf') format('truetype'),
+         url('./fonts/proximaNova/proximaNova-semibold.svg#proxima_nova_rgreg') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ProximaNova';
+    src: url('./fonts/proximaNova/proximaNova-bold.eot');
+    src: url('./fonts/proximaNova/proximaNova-bold.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/proximaNova/proximaNova-bold.woff') format('woff'),
+         url('./fonts/proximaNova/proximaNova-bold.ttf') format('truetype'),
+         url('./fonts/proximaNova/proximaNova-bold.svg#proxima_nova_rgbold') format('svg');
+    font-weight: bolder;
+    font-style: normal;
+}

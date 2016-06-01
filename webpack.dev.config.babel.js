@@ -56,6 +56,7 @@ const configuration = {
     new webpack.optimize.OccurenceOrderPlugin(),
     // Build index.html
     new HtmlWebpackPlugin({
+      favicon: './src/favicon.ico',
       inject: 'body',
       minify: {},
       template: './src/index.html'

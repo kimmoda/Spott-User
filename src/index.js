@@ -1,6 +1,6 @@
 import { createHashHistory } from 'history';
 import React from 'react';
-import { Router, Route, useRouterHistory } from 'react-router';
+import { IndexRoute, Router, Route, useRouterHistory } from 'react-router';
 import ReactDOM from 'react-dom';
 import { combineReducers } from 'redux-immutablejs';
 import { routerReducer as routerReducer, syncHistoryWithStore } from 'react-router-redux';
@@ -10,14 +10,21 @@ import createStore from './createStore';
 import saga from './saga';
 
 import appReducer from './reducer';
-import App from './view';
+import App from './view/app';
+import Error404 from './view/error404';
+import Privacy from './view/privacy';
+import Terms from './view/terms';
 
 /**
  * The application routes
  */
 const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-types
   return (
-    <Route component={App} path='*' />
+    <Route component={App}>
+      <Route component={Privacy} path='/privacy' />
+      <Route component={Terms} path='/terms' />
+      <Route component={Error404} path='*' />
+    </Route>
   );
 };
 
