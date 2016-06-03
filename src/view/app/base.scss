@@ -1,0 +1,124 @@
+/* Border box */
+
+* {
+    box-sizing: border-box;
+}
+
+/* Pink selection */
+
+::selection {
+  background: #cf315b;
+  color: #fff;
+}
+::-moz-selection {
+  background: #cf315b;
+  color: #fff;
+}
+
+/* Custom scrollbar */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+::-webkit-scrollbar-thumb {
+  background: #cf315b;
+}
+
+/* Clearfix - http://nicolasgallagher.com/micro-clearfix-hack/ */
+
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
+/* Base styles */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-size: 18px;
+  font-family: ProximaNova-Regular;
+  color: #221f26;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #cf315b;
+  font-family: ProximaNova-Bold;
+  font-size: 24px;
+
+  @media (min-width: 960px) {
+    font-size: 48px;
+    line-height: 48px;
+  }
+}
+
+h2 {
+  font-family: ProximaNova-Light;
+  font-weight: 100;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#root {
+  // position: relative;
+  //footer always at the bottom
+  height: 100%;
+
+  .container {
+    height: 100%;
+
+    .container__wrapper {
+      min-height: 100%;
+      margin: 0 auto -255px;
+
+      @media (min-width: 960px) {
+        margin: 0 auto -155px;
+      }
+    }
+
+    .push {
+      height: 255px;
+
+      @media (min-width: 960px) {
+        height: 155px;
+      }
+    }
+  }
+}
+
+.wrapper {
+  &.wrapper--small {
+    padding: 0 16px;
+  }
+
+  @media (min-width: 1200px) {
+    margin: 0 auto;
+    max-width: 1200px;
+
+    &.wrapper--small {
+      max-width: 960px;
+      padding: 0;
+    }
+  }
+}

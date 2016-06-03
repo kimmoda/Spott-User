@@ -1,6 +1,8 @@
 import httpinvoke from 'httpinvoke';
 import RequestError from './_requestError';
 
+export const apiKey = 'EbQzeWS7VzRTYd8ZhhB5nwwZZGpC6BruJpWQDC3Ynd3TwFCtfe6MJMFNu9';
+
 // Errors
 // //////
 
@@ -111,7 +113,8 @@ function optionsWithoutBody (authenticationToken) {
   return {
     converters: CONVERTERS,
     headers: { // Request headers
-      authtoken: authenticationToken
+      authtoken: authenticationToken,
+      api_key: apiKey // eslint-disable-line camelcase
     },
     outputType: 'json'
   };
@@ -122,23 +125,12 @@ function optionsWithBody (authenticationToken, body) {
     converters: CONVERTERS,
     headers: { // Request headers
       'Content-Type': 'application/json',
-      authtoken: authenticationToken
+      authtoken: authenticationToken,
+      api_key: apiKey // eslint-disable-line camelcase
     },
     input: body || {},
     inputType: 'json', // Type of request data
     outputType: 'json' // Type of response body
-  };
-}
-
-function optionsWithBodyForFormData (authenticationToken, body) {
-  return {
-    converters: CONVERTERS,
-    headers: { // Request headers
-      authtoken: authenticationToken
-    },
-    inputType: 'formdata', // type of request data
-    outputType: 'text', // type of response body
-    input: body
   };
 }
 
@@ -171,25 +163,6 @@ export function get (authenticationToken, url) {
  */
 export function post (authenticationToken, url, body) {
   return hookedHttpinvoke(url, 'POST', optionsWithBody(authenticationToken, body));
-}
-
-/**
- * Perform a POST request with form data to the given URL.
- * @param {string} authenticationToken The authentication token to send in the header.
- * @param {string} url The URL to which the POST request will be sent.
- * @param {FormData} body The body of the POST request.
- * @param {function} uploadingCallback Callback that is called when HTTP request upload progress event happens.
- *                   It is called with these arguments:
- *                   - current is a number for the number of bytes currently sent.
- *                   - total is a number for the total number of bytes to be sent.
- * @return {Promise<Response, Object}>} The server response or resulting error.
- */
-export function postFormData (authenticationToken, url, body, uploadingCallback) {
-  const options = optionsWithBodyForFormData(authenticationToken, body);
-  if (uploadingCallback) {
-    options.uploading = uploadingCallback;
-  }
-  return hookedHttpinvoke(url, 'POST', options);
 }
 
 /**

@@ -9,9 +9,14 @@ import { doInit } from './actions';
 import createStore from './createStore';
 
 import appReducer from './reducer';
+
 import App from './view/app';
+import Carrefour from './view/carrefour';
+import ConfirmedNewsletter from './view/confirmedNewsletter';
 import Error404 from './view/error404';
+import Medialaan from './view/medialaan';
 import Privacy from './view/privacy';
+import Redirect from './view/redirect';
 import Terms from './view/terms';
 
 /**
@@ -20,8 +25,14 @@ import Terms from './view/terms';
 const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-types
   return (
     <Route component={App}>
+      <Route component={Redirect} path='/app' />
+      <Route component={ConfirmedNewsletter} path='/confirmed' />
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />
+
+      <Route component={Medialaan} path='/medialaan' />
+      <Route component={Carrefour} path='/carrefour' />,
+
       <Route component={Error404} path='*' />
     </Route>
   );

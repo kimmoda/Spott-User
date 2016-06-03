@@ -1,7 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import { Component, PropTypes } from 'react';
 
 require('./reset.css');
 require('./fonts/index.css');
+require('./base.scss');
+require('./slick.css');
 
 export default class App extends Component {
   static propTypes = {
