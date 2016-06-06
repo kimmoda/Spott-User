@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import Navbar from '../Home/Navbar/';
-// import Footer from '../Home/Footer/';
+import Navbar from '../_common/navbar/';
+import Footer from '../_common/footer/';
 
 const appStoreImage = require('./appStore.svg');
 require('./confirm.scss');
@@ -11,7 +11,7 @@ class Confirm extends Component {
     return (
       <div className='container'>
         <div className='container__wrapper'>
-          {/* <Navbar hideRightBar={true}/> */}
+          <Navbar />
           <section className='confirm'>
             <div className='confirm__textwrapper wrapper wrapper--small'>
               <h1>Hurray!</h1>
@@ -29,7 +29,7 @@ class Confirm extends Component {
           </section>
           <div className='push'></div>
         </div>
-        {/* <Footer/> */}
+        <Footer />
       </div>
     );
   }

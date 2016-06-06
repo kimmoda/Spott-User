@@ -1,8 +1,7 @@
 import { getConfiguration } from '../api/config';
-/*
 import * as authenticationApi from '../api/authentication';
+import { authenticationTokenSelector, baseUrlSelector, userFirstnameSelector } from '../selectors';
 import * as helloBankApi from '../api/helloBank';
-*/
 
 export const CONFIGURE = 'CONFIGURE';
 export function doInit () {
@@ -11,14 +10,15 @@ export function doInit () {
     dispatch({ type: CONFIGURE, configuration });
   };
 }
-/*
+
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export function doLogin ({ email, password }) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch({ type: LOGIN_REQUEST });
     try {
+      const baseUrl = baseUrlSelector(getState());
       const {
         authenticationToken,
         user: {
@@ -26,7 +26,7 @@ export function doLogin ({ email, password }) {
           userName,
           uuid
         }
-      } = await authenticationApi.login({ email, password });
+      } = await authenticationApi.login(baseUrl, { email, password });
       const data = {
         authenticationToken,
         user: {
@@ -48,7 +48,8 @@ export function doLogin ({ email, password }) {
   };
 }
 export function doLoginFacebook ({ facebookAccessToken }) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const baseUrl = baseUrlSelector(getState());
     dispatch({ type: LOGIN_REQUEST });
     try {
       const {
@@ -58,7 +59,7 @@ export function doLoginFacebook ({ facebookAccessToken }) {
           userName,
           uuid
         }
-      } = await authenticationApi.loginFacebook({ facebookAccessToken });
+      } = await authenticationApi.loginFacebook(baseUrl, { facebookAccessToken });
       const data = {
         authenticationToken,
         user: {
@@ -107,10 +108,11 @@ export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 export function doRegister ({ email, firstname, lastname, password }) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch({ type: REGISTER_REQUEST });
+    const baseUrl = baseUrlSelector(getState());
     try {
-      await authenticationApi.register({ email, firstname, lastname, password });
+      await authenticationApi.register(baseUrl, { email, firstname, lastname, password });
       dispatch({ type: REGISTER_SUCCESS });
     } catch (error) {
       dispatch({ error, type: REGISTER_FAILURE });
@@ -125,7 +127,7 @@ export const HELLOBANK_FAILURE = 'HELLOBANK_FAILURE';
 export function submitHellobank ({ birthdate, email, firstname, lastname, password, productCount }) {
   return async (dispatch, getState) => {
     let state = getState();
-    const isAuthenticated = state.auth.authenticationToken;
+    const isAuthenticated = Boolean(authenticationTokenSelector(state));
 
     dispatch({ type: HELLOBANK_REQUEST });
     try {
@@ -137,9 +139,10 @@ export function submitHellobank ({ birthdate, email, firstname, lastname, passwo
       }
       // Get new state that contains the authentication token.
       state = getState();
-      const authenticationToken = state.auth.authenticationToken;
-      const name = state.auth.user.firstname;
-      await helloBankApi.postHellobankAnswer(authenticationToken, { birthdate, productCount });
+      const authenticationToken = authenticationTokenSelector(state);
+      const baseUrl = baseUrlSelector(getState());
+      const name = userFirstnameSelector(state);
+      await helloBankApi.postHellobankAnswer(baseUrl, authenticationToken, { birthdate, productCount });
       dispatch({ type: HELLOBANK_SUCCESS });
       return { name };
     } catch (error) {
@@ -150,4 +153,3 @@ export function submitHellobank ({ birthdate, email, firstname, lastname, passwo
     }
   };
 }
-*/

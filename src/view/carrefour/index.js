@@ -1,6 +1,5 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { submit as apiSubmit } from '../../api/carrefour';
 import { baseUrlSelector } from '../../selectors';
 
@@ -287,10 +286,6 @@ const styles = {
   }
 };
 
-@connect((state) => {
-  console.log(state);
-  return {};
-})
 export default class Carrefour extends Component {
 
   static propTypes = {
@@ -335,7 +330,6 @@ export default class Carrefour extends Component {
       // Done!
       this.setState({ confirmed: true }); // eslint-disable-line react/no-set-state
     } catch (error) {
-      console.dir(error);
       // Mail already sent
       if (error.body &&
           error.body.childMessages &&

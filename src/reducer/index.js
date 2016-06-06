@@ -1,10 +1,13 @@
-import { Map, fromJS } from 'immutable';
-import * as actions from '../actions';
+import { combineReducers } from 'redux-immutablejs';
+import { routerReducer } from 'react-router-redux';
+import configuration from './configuration';
+import authentication from './authentication';
 
-export default (state = Map(), action) => {
-  switch (action.type) {
-    case actions.CONFIGURE:
-      return state.set('configuration', fromJS(action.configuration));
-  }
-  return state;
-};
+// add the router reducer to the store on the 'routing' key
+const rootReducer = combineReducers({
+  authentication,
+  configuration,
+  routing: routerReducer
+});
+
+export default rootReducer;

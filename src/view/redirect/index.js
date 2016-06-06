@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import Navbar from '../Home/Navbar';
+import Navbar from '../_common/navbar';
 
 const rippleGifImage = require('./ripple.gif');
 const googlePlayImage = require('./googlePlay.svg');
@@ -30,7 +30,7 @@ class Redirect extends Component {
   render () {
     return (
       <div className='container'>
-        {/* <Navbar hideRightBar={true} /> */}
+        <Navbar hideRightBar />
         <section className='redirect'>
             <div className='wrapper wrapper--small'>
               <img heigth='150' src={rippleGifImage} width='150'/>

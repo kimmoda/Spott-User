@@ -1,23 +1,28 @@
 import { createHashHistory } from 'history';
+import { StyleRoot } from 'radium';
 import React from 'react';
-import { Router, Route, useRouterHistory } from 'react-router';
+import { IndexRoute, Router, Route, useRouterHistory } from 'react-router';
 import ReactDOM from 'react-dom';
-import { combineReducers } from 'redux-immutablejs';
-import { routerReducer as routerReducer, syncHistoryWithStore } from 'react-router-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { doInit } from './actions';
 import createStore from './createStore';
 
-import appReducer from './reducer';
+import reducer from './reducer';
 
 import App from './view/app';
-import Carrefour from './view/carrefour';
 import ConfirmedNewsletter from './view/confirmedNewsletter';
 import Error404 from './view/error404';
-import Medialaan from './view/medialaan';
 import Privacy from './view/privacy';
 import Redirect from './view/redirect';
 import Terms from './view/terms';
+import HellobankHomeWrapper from './view/hellobank/home';
+import HelloBankHomeStep1 from './view/hellobank/home/step1';
+import HelloBankHomeStep2 from './view/hellobank/home/step2';
+import HelloBankHomeStep3 from './view/hellobank/home/step3';
+import HelloBankContestRules from './view/hellobank/contestRules';
+import Carrefour from './view/carrefour';
+import Medialaan from './view/medialaan';
 
 /**
  * The application routes
@@ -30,6 +35,14 @@ const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-types
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />
 
+      <Route>
+        <Route component={HellobankHomeWrapper} path='/hellobank'>
+          <IndexRoute component={HelloBankHomeStep1} key='helloBankHomeStep1' />
+          <Route component={HelloBankHomeStep2} path='/hellobank/participate' />
+          <Route component={HelloBankHomeStep3} path='/hellobank/confirmed' />
+        </Route>
+        <Route component={HelloBankContestRules} path='/hellobank-reglement' /> {/* Keep fixed, url is used externally! */}
+      </Route>
       <Route component={Medialaan} path='/medialaan' />
       <Route component={Carrefour} path='/carrefour' />,
 
@@ -37,14 +50,6 @@ const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-types
     </Route>
   );
 };
-
-/**
- * The application's main reducer
- */
-const reducer = combineReducers({
-  app: appReducer,
-  router: routerReducer
-});
 
 /**
  * Bootstrap the application. Performs all necessary initializations.
@@ -60,15 +65,17 @@ async function boot () {
   // Create redux store
   const store = createStore(hashHistory, reducer);
   // Create an enhanced history that syncs navigation events with the store.
-  const ourHistory = syncHistoryWithStore(hashHistory, store, { selectLocationState: (state) => state.get('router') });
+  const ourHistory = syncHistoryWithStore(hashHistory, store, { selectLocationState: (state) => state.get('routing') });
   // Initialize the app.
   await store.dispatch(doInit());
   // Render application
   ReactDOM.render(
     <Provider key='provider' store={store}>
-      <Router history={ourHistory}>
-        {getRoutes(store)}
-      </Router>
+      <StyleRoot>
+        <Router history={ourHistory}>
+          {getRoutes(store)}
+        </Router>
+      </StyleRoot>
     </Provider>,
     document.getElementById('root'));
 }

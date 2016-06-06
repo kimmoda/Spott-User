@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import Navbar from '../Home/Navbar/';
-// import Footer from '../Home/Footer/';
+import Navbar from '../_common/navbar/';
+import Footer from '../_common/footer/';
 
 require('./terms.scss');
 
@@ -8,7 +8,7 @@ export default class Terms extends Component {
   render () {
     return (
       <div className='container'>
-        {/* <Navbar hideRightBar={true}/> */}
+        <Navbar />
         <section className='terms'>
 
           <div className='wrapper wrapper--small'>
@@ -180,7 +180,7 @@ export default class Terms extends Component {
           </div>
 
         </section>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     );
   }

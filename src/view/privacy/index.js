@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import Navbar from '../Home/Navbar/';
-// import Footer from '../Home/Footer/';
+import Navbar from '../_common/navbar/';
+import Footer from '../_common/footer/';
 
 require('./privacy.scss');
 
@@ -8,7 +8,7 @@ export default class Privacy extends Component {
   render () {
     return (
       <div className='container'>
-        {/* <Navbar hideRightBar={true}/> */}
+        <Navbar />
         <section className='privacy'>
 
           <div className='wrapper wrapper--small'>
@@ -185,7 +185,7 @@ export default class Privacy extends Component {
           </div>
 
         </section>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     );
   }

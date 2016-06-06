@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-// import Navbar from '../Home/Navbar';
+import React, { Component, PropTypes } from 'react';
+import Navbar from '../_common/navbar';
 import Channels from './channels';
-const $ = require('jquery');
+import $ from 'jquery';
+import { baseUrlSelector } from '../../selectors';
 
 const heroImage = require('./hero.jpg');
 const deviceImage = require('./device.png');
@@ -13,6 +14,11 @@ const iosUrl = 'https://itunes.apple.com/be/app/spott-screen-just-became-your/id
 const androidUrl = 'https://play.google.com/store/apps/details?id=mobi.appiness.spott';
 
 class Medialaan extends Component {
+
+  static contextTypes = {
+    store: PropTypes.any
+  }
+
   componentDidMount () {
     const formMedia = $('form#medialaanForm');
     const email = this.getParam('email');
@@ -167,7 +173,7 @@ class Medialaan extends Component {
   render () {
     return (
       <div className='container'>
-        {/* <Navbar hideRightBar={true} medialaanLogo={true}/> */}
+        <Navbar hideRightBar medialaanLogo />
         <section className='medialaan' style={{ backgroundImage: `url(${heroImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center' }}>
           <div className='overlay__header'></div>
           <div className='medialaan__container'>
@@ -176,10 +182,7 @@ class Medialaan extends Component {
               <div className='medialaan__form'>
                 <h1>Test nu Spott samen met MEDIALAAN.</h1>
                 <h3>Spott is een innovatieve app die automatisch items op televisie kan herkennen en deze onmiddelijk linkt aan de juiste producten op webshops. Jouw TV wordt nu voor het eerst écht interactief!</h3>
-                <form action={window.location.hostname === 'spott.it'
-                  ? 'https://spott-cms-rest-prd.appiness.mobi/rest/v003/user/emailRegistrations'
-                  : 'https://spott-cms-rest-tst.appiness.mobi/rest/v003/user/emailRegistrations'
-                } id='medialaanForm' method='POST'>
+                <form action={`${baseUrlSelector(this.context.store.getState())}/user/emailRegistrations`} id='medialaanForm' method='POST'>
                   <div className='input__group'>
                     <input id='email_media' placeholder='E-mailadres' type='email' onInput={this.onInput.bind(this)} />
                     <p>E-mailadres waarop je jouw uitnodiging om te testen ontvangen hebt</p>
