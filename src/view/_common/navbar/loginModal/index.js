@@ -33,7 +33,8 @@ class Form extends Component {
 
   static propTypes = {
     error: PropTypes.any,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    submit: PropTypes.func.isRequired
   }
 
   constructor (props) {
