@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>appiness.mobi</groupId>
@@ -9,10 +8,11 @@
 	<artifactId>appiness.spott.website</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	<version>00.00.01-SNAPSHOT</version>
+	<version>00.00.02-SNAPSHOT</version>
 	<scm>
 		<connection>scm:git:https://bitbucket.org/appiness/appiness.spott.website</connection>
-	</scm>
+	  <tag>HEAD</tag>
+  </scm>
 	<repositories>
 		<repository>
 			<id>appiness</id>
@@ -21,7 +21,7 @@
 	</repositories>
 	<properties>
 		<stage.dir>${project.build.directory}/stage</stage.dir>
-		<cms.dist.file>${project.build.directory}/${project.artifactId}-${project.version}.zip</cms.dist.file>
+		<website.dist.file>${project.build.directory}/${project.artifactId}-${project.version}.zip</website.dist.file>
 	</properties>
 	<build>
 		<plugins>
@@ -40,7 +40,7 @@
 				</configuration>
 			</plugin>
 
-<!-- 			<plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
@@ -75,8 +75,8 @@
 					</execution>
 				</executions>
 			</plugin>
- -->
-<!-- 			<plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
@@ -95,6 +95,8 @@
 										<include name="**/**" />
 									</fileset>
 								</copy>
+								<copy todir="${stage.dir}" file="${project.build.directory}/version.json" />
+								<zip destfile="${website.dist.file}" basedir="${stage.dir}" />
 							</target>
 						</configuration>
 					</execution>
@@ -111,12 +113,9 @@
 									<format property="build.time" pattern="yyyy-MM-dd'T'HH:mm:ssZ" />
 								</tstamp>
 								<echo message="{${line.separator}" file="${project.build.directory}/version.json" append="false" />
-								<echo message=" &quot;version&quot;:&quot;${project.version}&quot;,${line.separator}" file="${project.build.directory}/version.json"
-									append="true" />
-								<echo message=" &quot;build&quot;:&quot;${buildNumber}&quot;,${line.separator}" file="${project.build.directory}/version.json"
-									append="true" />
-								<echo message=" &quot;timestamp&quot;:&quot;${build.time}&quot;${line.separator}" file="${project.build.directory}/version.json"
-									append="true" />
+								<echo message=" &quot;version&quot;:&quot;${project.version}&quot;,${line.separator}" file="${project.build.directory}/version.json" append="true" />
+								<echo message=" &quot;build&quot;:&quot;${buildNumber}&quot;,${line.separator}" file="${project.build.directory}/version.json" append="true" />
+								<echo message=" &quot;timestamp&quot;:&quot;${build.time}&quot;${line.separator}" file="${project.build.directory}/version.json" append="true" />
 								<echo message="}${line.separator}" file="${project.build.directory}/version.json" append="true" />
 							</target>
 						</configuration>
@@ -124,8 +123,8 @@
 
 				</executions>
 			</plugin>
- -->
-<!-- 			<plugin>
+
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<executions>
@@ -137,7 +136,7 @@
 						<configuration>
 							<artifacts>
 								<artifact>
-									<file>${cms.dist.file}</file>
+									<file>${website.dist.file}</file>
 									<type>zip</type>
 								</artifact>
 							</artifacts>
@@ -145,8 +144,7 @@
 					</execution>
 				</executions>
 			</plugin>
- -->
+
 		</plugins>
 	</build>
-
 </project>
