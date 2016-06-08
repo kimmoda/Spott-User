@@ -36,7 +36,7 @@
     }
 
     h2 {
-      font-family: ProximaNova-Medium;
+      font-family: ProximaNova-Semibold;
       text-align: center;
       font-size: 16px;
       color: white;
@@ -77,6 +77,18 @@
 
     .movielist__form {
       position: relative;
+      
+      .notification__error {
+        color: #d0315a;
+        font-size: 18px;
+        font-family: ProximaNova-Bold;
+      }
+
+      .notification__success {
+        color: #29c67f;
+        font-size: 18px;
+        font-family: ProximaNova-Bold;
+      }
 
       .movielist__notifications {
         height: 0;
@@ -97,6 +109,7 @@
           margin-top: 25px;
 
           .notification__success {
+
             display: block;
           }
         }
@@ -116,7 +129,7 @@
 
     span {
       color: white;
-      font-family: ProximaNova-Medium;
+      font-family: ProximaNova-Semibold;
       font-size: 16px;
       display: block;
       margin-bottom: 15px;
@@ -289,7 +302,7 @@
 }
 
 #widthreadout {
-  font-family: ProximaNova-Medium;
+  font-family: ProximaNova-Semibold;
   font-size: 16px;
 
   @media (min-width: 960px) {

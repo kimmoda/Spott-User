@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "rm -rf ./dist/* && NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config webpack.prod.config.babel.js",
-    "dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --watch --config webpack.dev.config.babel.js"
+    "dev": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --host 0.0.0.0 --hot --inline --watch --config webpack.dev.config.babel.js"
   },
   "private": true,
   "license": "UNLICENSED",

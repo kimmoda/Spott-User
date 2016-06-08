@@ -110,18 +110,21 @@ const CONVERTERS = {
 };
 
 function optionsWithoutBody (authenticationToken) {
-  return {
+  const options = {
     converters: CONVERTERS,
     headers: { // Request headers
-      authtoken: authenticationToken,
       api_key: apiKey // eslint-disable-line camelcase
     },
     outputType: 'json'
   };
+  if (authenticationToken) {
+    options.headers.authtoken = authenticationToken;
+  }
+  return options;
 }
 
 function optionsWithBody (authenticationToken, body) {
-  return {
+  const options = {
     converters: CONVERTERS,
     headers: { // Request headers
       'Content-Type': 'application/json',
@@ -132,6 +135,10 @@ function optionsWithBody (authenticationToken, body) {
     inputType: 'json', // Type of request data
     outputType: 'json' // Type of response body
   };
+  if (authenticationToken) {
+    options.headers.authtoken = authenticationToken;
+  }
+  return options;
 }
 
 // Public functions

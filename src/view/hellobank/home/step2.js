@@ -297,7 +297,7 @@ export default withRouter(
     error: state.contest.hellobankError,
     isAuthenticated: Boolean(state.auth.authenticationToken)
   }), (dispatch) => ({
-    openLoginModal: bindActionCreators(actions.openLoginModal, dispatch),
+  //  openLoginModal: bindActionCreators(actions.openLoginModal, dispatch),
     submitHellobank: bindActionCreators(actions.submitHellobank, dispatch)
   }))(Radium(Step2))
 );

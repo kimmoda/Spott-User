@@ -1,12 +1,24 @@
-import React, {
-    Component
-} from 'react';
+import React, { Component, PropTypes } from 'react';
+import { apiBaseUrlSelector } from '../../selectors';
 import Navbar from '../_common/navbar/';
 import Footer from '../_common/footer/';
+
+require('./changePassword.scss');
 
 const $ = require('jquery');
 
 class ChangePassword extends Component {
+
+  static propTypes = {
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }).isRequired
+  };
+
+  static contextTypes = {
+    store: PropTypes.any
+  }
+
   componentDidMount () {
     $('#resetForm').submit((event) => {
       // Stop form from submitting normally
@@ -15,21 +27,13 @@ class ChangePassword extends Component {
       const password = $('#resetForm').find('input[name="password"]').val();
       const confirmPassword = $('#resetForm').find('input[name="confirm-password"]').val();
       const token = this.getParam('token');
-      const env = this.getParam('env');
       if (this.validatePassword(password) && this.confirmPassword(password, confirmPassword)) {
         // Send the data using post
-        let baseUrl = 'http://localhost:8080';
-        if (env === 'tst') {
-          baseUrl = 'https://spott-ios-rest-tst.appiness.mobi:443';
-        } else if (env === 'uat') {
-          baseUrl = 'https://spott-ios-rest-uat.appiness.mobi:443';
-        } else if (env === 'prd') {
-          baseUrl = 'https://spott-ios-rest-prd.appiness.mobi:443';
-        }
+        const baseUrl = apiBaseUrlSelector(this.context.store.getState());
         const showError = this.showError.bind(this);
         const hideError = this.removeError.bind(this);
         $.ajax({
-          url: `${baseUrl}/spott/rest/v003/user/users/register/changepassword`,
+          url: `${baseUrl}/v003/user/users/register/changepassword`,
           type: 'POST',
           data: JSON.stringify({ token, password }),
           contentType: 'application/json; charset=utf-8',
@@ -91,7 +95,7 @@ class ChangePassword extends Component {
     return (
       <div className='container'>
         <div className='container__wrapper'>
-          <Navbar hideRightBar />
+          <Navbar currentPathname={this.props.location.pathname} hideRightBar />
           <section className='change__password'>
             <div className='wrapper wrapper--small'>
               <h1>Change your Spott password</h1>

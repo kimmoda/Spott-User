@@ -1,7 +1,7 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { submit as apiSubmit } from '../../api/carrefour';
-import { baseUrlSelector } from '../../selectors';
+import { apiBaseUrlSelector } from '../../selectors';
 
 // Header
 // //////
@@ -326,7 +326,7 @@ export default class Carrefour extends Component {
     }
     try {
       // Perform request
-      await apiSubmit(baseUrlSelector(this.context.store.getState()), { email: this.state.email });
+      await apiSubmit(apiBaseUrlSelector(this.context.store.getState()), { email: this.state.email });
       // Done!
       this.setState({ confirmed: true }); // eslint-disable-line react/no-set-state
     } catch (error) {

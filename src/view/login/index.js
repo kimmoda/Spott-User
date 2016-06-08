@@ -4,9 +4,10 @@ import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import FacebookLoginButton from './facebookLoginButton';
-import * as actions from '../../../../actions';
-import { authenticationErrorSelector, authenticationIsLoadingSelector, isLoginModalOpenSelector }
-  from '../../../../selectors';
+import * as actions from '../../actions';
+import { authenticationErrorSelector, authenticationIsLoadingSelector }
+  from '../../selectors';
+import { push as routerPush } from 'react-router-redux';
 
 const dialogStyle = {
   overlay: {
@@ -107,21 +108,28 @@ class Form extends Component {
   }
 }
 
-class NormalLogin extends Component {
+class Login extends Component {
 
   static propTypes = {
     closeLoginModal: PropTypes.func.isRequired,
-    isOpen: PropTypes.bool,
+    modalReturnTo: PropTypes.string,
+    routerPush: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired
   }
 
   constructor (props) {
     super(props);
+    this.onCancelClick = ::this.onCancelClick;
     this.onRequestClose = ::this.onRequestClose;
   }
 
+  onCancelClick (e) {
+    e.preventDefault();
+    this.onRequestClose();
+  }
+
   onRequestClose () {
-    this.props.closeLoginModal();
+    this.props.routerPush(this.props.modalReturnTo || '/');
   }
 
   static styles = {
@@ -138,28 +146,36 @@ class NormalLogin extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { isOpen } = this.props;
 
+    if (this.props.modalReturnTo) {
+      return (
+        <ReactModal
+          isOpen
+          style={dialogStyle}
+          onRequestClose={this.onRequestClose}>
+          <section style={styles.container}>
+            <h2 style={styles.title}>Log In</h2>
+            <FacebookLoginButton />
+            <Form {...this.props} />
+          </section>
+        </ReactModal>
+      );
+    }
     return (
-      <ReactModal
-        isOpen={isOpen}
-        style={dialogStyle}
-        onRequestClose={this.onRequestClose}>
-        <section style={styles.container}>
-          <h2 style={styles.title}>Log In</h2>
-          <FacebookLoginButton />
-          <Form {...this.props} />
-        </section>
-      </ReactModal>
+      <section style={styles.container}>
+        <h2 style={styles.title}>Log In</h2>
+        <FacebookLoginButton />
+        <Form {...this.props} />
+        <button style={styles.button} type='button' onClick={this.onCancelClick}>Cancel</button>
+      </section>
     );
   }
 }
 
-export default connect((state) => ({
+export default connect((state, ownProps) => ({
   error: authenticationErrorSelector(state),
-  isLoading: authenticationIsLoadingSelector(state),
-  isOpen: isLoginModalOpenSelector(state)
+  isLoading: authenticationIsLoadingSelector(state)
 }), (dispatch) => ({
-  closeLoginModal: bindActionCreators(actions.closeLoginModal, dispatch),
-  submit: bindActionCreators(actions.doLogin, dispatch)
-}))(NormalLogin);
+  submit: bindActionCreators(actions.doLogin, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch)
+}))(Login);

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-
+import React, { Component, PropTypes } from 'react';
+import { cmsApiBaseUrlSelector } from '../../../selectors';
 const Slider = require('react-slick');
 const Slide = require('./SliderComponents/Slide').default;
 const $ = require('jquery');
@@ -15,6 +15,11 @@ const xFiles = require('./xFiles.jpg');
 require('./movielist.scss');
 
 class MovieList extends Component {
+
+  static contextTypes = {
+    store: PropTypes.any
+  }
+
   constructor (props) {
     super(props);
     this.slides = [];
@@ -32,9 +37,8 @@ class MovieList extends Component {
   componentDidMount () {
     $('.movielist__form').submit((e) => {
       e.preventDefault();
-      const env = (window.location.hostname === 'spott.it') ? 'prd' : 'tst';
-      const baseUrl = `https://spott-cms-rest-${env}.appiness.mobi/`;
-      const requestUrl = 'rest/v002/request/votes';
+      const baseUrl = cmsApiBaseUrlSelector(this.context.store.getState());
+      const requestUrl = '/v003/request/votes';
       const url = baseUrl + requestUrl;
       const method = 'POST';
       const title = $('input[name=\'movie\']').val();
@@ -135,9 +139,17 @@ class MovieList extends Component {
     };
     return (
       <div className='movielist__slider'>
-        <Slider {...sliderSettings}>
-          {this.renderSlides()}
-        </Slider>
+        <div>
+          <Slider {...sliderSettings}>
+            {this.slides.map((slide, index) => (
+              <div key={index}>
+                <Slide
+                  image={slide.image}
+                  key={slide.name}/>
+              </div>
+            ))}
+          </Slider>
+        </div>
         <div className='movielist__gradient--left'/>
         <div className='movielist__gradient--right'/>
 
@@ -153,20 +165,6 @@ class MovieList extends Component {
         </button>
       </div>
     );
-  }
-
-  renderSlides () {
-    const arr = [];
-    for (let i = 0; i < this.slides.length; i++) {
-      arr.push(
-        <div key={this.slides[i].name}>
-          <Slide
-            image={this.slides[i].image}
-            key={this.slides[i].name}/>
-        </div>
-      );
-    }
-    return arr;
   }
 
   render () {
@@ -189,7 +187,7 @@ class MovieList extends Component {
         <div className='wrapper wrapper--small movielist__text movielist__text--bot'>
           <form className='movielist__form'>
             <span>{'I\'d like to see'}</span>
-            <span><input autoComplete='off' name='movie' placeholder='The walking dead' style={{ width: '200px' }} type='text'
+            <span><input autoComplete='off' name='movie' placeholder='The walking dead' style={{ color: '#fff', width: '200px' }} type='text'
               onInput={(e) => {
                 const input = $(e.target);
                 if (input.val()) {

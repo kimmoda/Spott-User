@@ -34,6 +34,7 @@ class TwitterFeed extends Component {
       },
       dataOnly: true
     };
+    console.log(config);
     twitterFetcher.fetch(config);
   }
 

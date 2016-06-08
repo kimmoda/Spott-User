@@ -2,18 +2,11 @@ import { Map, fromJS } from 'immutable';
 import * as types from '../actions';
 
 export default function authentication (state = fromJS({
-  isLoginModalOpen: false,
   isLoading: false,
   user: {},
   authenticationToken: null
 }), action) {
   switch (action.type) {
-    case types.OPEN_LOGIN_MODAL:
-      return state
-        .set('isLoginModalOpen', true);
-    case types.CLOSE_LOGIN_MODAL:
-      return state
-        .set('isLoginModalOpen', false);
     case types.LOGIN_REQUEST:
       return state
         .set('error', null)

@@ -13,12 +13,13 @@ import useScroll from 'scroll-behavior/lib/useStandardScroll';
 import reducer from './reducer';
 
 import Home from './view/home';
-// import ChangePassword from './view/changePassword';
+import ChangePassword from './view/changePassword';
 import App from './view/app';
 import ConfirmedNewsletter from './view/confirmedNewsletter';
 import Error404 from './view/error404';
 import Privacy from './view/privacy';
 import Redirect from './view/redirect';
+import Login from './view/login';
 import Terms from './view/terms';
 import HellobankHomeWrapper from './view/hellobank/home';
 import HelloBankHomeStep1 from './view/hellobank/home/step1';
@@ -69,21 +70,19 @@ const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-types
   }
 */
   return (
-    <Route component={App}>
+    <Route component={App} path='/'>
 
       <IndexRoute component={Home} />
       <Route component={Home} path='/content' />
       <Route component={Home} path='/get-in-touch' />
       <Route component={Home} path='/subscribe' />
-{/*
-      <Route component={Login} path='/login' />
-      <Route component={Register} path='/register' />
-      <Route component={ChangePassword} path='/user/changepwd' />
-*/}
       <Route component={Redirect} path='/app' />
       <Route component={ConfirmedNewsletter} path='/confirmed' />
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />
+
+      <Route component={Login} path='/login' />
+      <Route component={ChangePassword} path='/user/changepwd' />
 
       <Route>
         <Route component={HellobankHomeWrapper} path='/hellobank'>
@@ -112,7 +111,7 @@ async function boot () {
   }
   // Create history
   const createScrollHistory = useScroll(createHashHistory);
-  const almostHistory = useRouterHistory(createScrollHistory)({ queryKey: false });
+  const almostHistory = useRouterHistory(createScrollHistory)();
   // Create redux store
   const store = createStore(almostHistory, reducer);
   // Create an enhanced history that syncs navigation events with the store.

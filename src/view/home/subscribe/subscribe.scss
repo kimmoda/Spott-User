@@ -12,7 +12,7 @@
 
   h3 {
     font-size: 16px;
-    font-family: ProximaNova-Medium;
+    font-family: ProximaNova-Semibold;
 
     @media (min-width: 768px) {
       font-size: 24px;
@@ -66,6 +66,18 @@
         }
       }
     }
+  }
+
+  .notification__error {
+    color: #d0315a;
+    font-size: 18px;
+    font-family: ProximaNova-Bold;
+  }
+
+  .notification__success {
+    color: #29c67f;
+    font-size: 18px;
+    font-family: ProximaNova-Bold;
   }
 
   .subscribe__notifications {

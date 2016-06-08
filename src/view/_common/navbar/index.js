@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import LoginModal from './loginModal';
 import * as actions from '../../../actions';
 import { authenticationTokenSelector } from '../../../selectors';
 import { Link } from 'react-router';
@@ -14,16 +13,15 @@ const medialaanImage = require('./medialaan.jpg');
 class Navbar extends Component {
 
   static propTypes = {
+    currentPathname: PropTypes.string.isRequired,
     hideRightBar: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
     logout: PropTypes.func.isRequired,
-    medialaanLogo: PropTypes.bool,
-    openLoginModal: PropTypes.func.isRequired
+    medialaanLogo: PropTypes.bool
   };
 
   constructor (props) {
     super(props);
-    this.openLoginModal = ::this.openLoginModal;
     this.logout = ::this.logout;
   }
 
@@ -37,11 +35,6 @@ class Navbar extends Component {
       scrollTop: $(id).offset().top
     }, 850);
     return false;
-  }
-
-  openLoginModal (e) {
-    e.preventDefault();
-    this.props.openLoginModal();
   }
 
   logout (e) {
@@ -93,19 +86,23 @@ class Navbar extends Component {
           <li className='navbar__regitem'>
             <Link className='navbar__link' to='subscribe'>Subscribe</Link>
           </li>
-          <li className='navbar__regitem navbar__cta'>
+          <li className='navbar__regitem'>
             <Link className='navbar__link' to='get-in-touch'>Get in touch</Link>
           </li>
           {!isAuthenticated &&
             <li className='navbar__cta'>
-              <a className='navbar__link' href='#login' onClick={this.openLoginModal}>Login</a>
+             <Link className='navbar__link' to={{
+               pathname: '/login',
+               state: { modal: true, returnTo: this.props.currentPathname }
+             }}>
+               Login
+             </Link>
             </li>}
           {isAuthenticated &&
             <li className='navbar__cta'>
               <a className='navbar__link' href='#logout' onClick={this.logout}>Logout</a>
             </li>}
         </ul>
-        <LoginModal />
       </div>
     );
   }
@@ -125,6 +122,5 @@ class Navbar extends Component {
 export default connect((state) => ({
   isAuthenticated: Boolean(authenticationTokenSelector(state))
 }), (dispatch) => ({
-  logout: bindActionCreators(actions.doLogout, dispatch),
-  openLoginModal: bindActionCreators(actions.openLoginModal, dispatch)
+  logout: bindActionCreators(actions.doLogout, dispatch)
 }))(Navbar);

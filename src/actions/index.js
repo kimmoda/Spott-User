@@ -1,6 +1,6 @@
 import { getConfiguration } from '../api/config';
 import * as authenticationApi from '../api/authentication';
-import { authenticationTokenSelector, baseUrlSelector, userFirstnameSelector } from '../selectors';
+import { authenticationTokenSelector, apiBaseUrlSelector, userFirstnameSelector } from '../selectors';
 import * as helloBankApi from '../api/helloBank';
 
 export const CONFIGURE = 'CONFIGURE';
@@ -18,7 +18,7 @@ export function doLogin ({ email, password }) {
   return async (dispatch, getState) => {
     dispatch({ type: LOGIN_REQUEST });
     try {
-      const baseUrl = baseUrlSelector(getState());
+      const baseUrl = apiBaseUrlSelector(getState());
       const {
         authenticationToken,
         user: {
@@ -49,7 +49,7 @@ export function doLogin ({ email, password }) {
 }
 export function doLoginFacebook ({ facebookAccessToken }) {
   return async (dispatch, getState) => {
-    const baseUrl = baseUrlSelector(getState());
+    const baseUrl = apiBaseUrlSelector(getState());
     dispatch({ type: LOGIN_REQUEST });
     try {
       const {
@@ -94,23 +94,13 @@ export function doLogout () {
   };
 }
 
-export const OPEN_LOGIN_MODAL = 'OPEN_LOGIN_MODAL';
-export function openLoginModal () {
-  return { type: OPEN_LOGIN_MODAL };
-}
-
-export const CLOSE_LOGIN_MODAL = 'CLOSE_LOGIN_MODAL';
-export function closeLoginModal () {
-  return { type: CLOSE_LOGIN_MODAL };
-}
-
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 export function doRegister ({ email, firstname, lastname, password }) {
   return async (dispatch, getState) => {
     dispatch({ type: REGISTER_REQUEST });
-    const baseUrl = baseUrlSelector(getState());
+    const baseUrl = apiBaseUrlSelector(getState());
     try {
       await authenticationApi.register(baseUrl, { email, firstname, lastname, password });
       dispatch({ type: REGISTER_SUCCESS });
@@ -140,7 +130,7 @@ export function submitHellobank ({ birthdate, email, firstname, lastname, passwo
       // Get new state that contains the authentication token.
       state = getState();
       const authenticationToken = authenticationTokenSelector(state);
-      const baseUrl = baseUrlSelector(getState());
+      const baseUrl = apiBaseUrlSelector(getState());
       const name = userFirstnameSelector(state);
       await helloBankApi.postHellobankAnswer(baseUrl, authenticationToken, { birthdate, productCount });
       dispatch({ type: HELLOBANK_SUCCESS });

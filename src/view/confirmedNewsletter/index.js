@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Navbar from '../_common/navbar/';
 import Footer from '../_common/footer/';
 
@@ -7,11 +7,17 @@ require('./confirm.scss');
 
 class Confirm extends Component {
 
+  static propTypes = {
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }).isRequired
+  };
+
   render () {
     return (
       <div className='container'>
         <div className='container__wrapper'>
-          <Navbar />
+          <Navbar currentPathname={this.props.location.pathname} />
           <section className='confirm'>
             <div className='confirm__textwrapper wrapper wrapper--small'>
               <h1>Hurray!</h1>

@@ -149,14 +149,17 @@ const wrapperStyles = {
 class Wrapper extends Component {
 
   static propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }).isRequired
   }
 
   render () {
     return (
       <div>
         <div style={wrapperStyles.background}></div>
-        <Navbar />
+        <Navbar currentPathname={this.props.location.pathname} />
         <div style={wrapperStyles.body}>
           <div style={wrapperStyles.deviceWrapper}>
             <img src={deviceImage} style={wrapperStyles.device} />

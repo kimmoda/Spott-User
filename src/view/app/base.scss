@@ -107,6 +107,10 @@ ul {
   }
 }
 
+#root > div {
+  height: 100%;
+}
+
 .wrapper {
   &.wrapper--small {
     padding: 0 16px;
