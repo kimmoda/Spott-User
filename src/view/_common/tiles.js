@@ -39,10 +39,7 @@ export default class Tiles extends Component {
   static propTypes = {
     horizontalSpacing: PropTypes.number.isRequired,
     items: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string,
-        value: PropTypes.object
-      })
+      PropTypes.object
     ).isRequired,
     numColumns: PropTypes.number.isRequired,
     // The component for rendering the tile. Is cloned with an additional
@@ -136,10 +133,9 @@ export default class Tiles extends Component {
       for (let column = 0; column < numColumns; column++) {
         const index = row * numColumns + column;
         // No more items on this row? (last row is not full)
-        if (index > numItems) {
+        if (index >= numItems) {
           break;
         }
-        const { key, value } = items[index];
         // Determine position
         const positionX = (column * size) + (column * horizontalSpacing);
         // Build style
@@ -150,7 +146,7 @@ export default class Tiles extends Component {
           position: 'absolute',
           transition: 'transform 200ms'
         };
-        renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key, ...value }));
+        renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: index, ...items[index] }));
       }
     }
     // Determine container style

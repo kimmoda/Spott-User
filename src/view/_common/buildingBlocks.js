@@ -12,6 +12,7 @@ export const colors = {
   darkPink: '#cf315b',
   coolGray: '#a7a6a9',
   slateGray: '#59575c',
+  whiteThree: '#e9e9e9',
   whiteTwo: '#fcfcfc',
   white: '#ffffff'
 };
@@ -204,10 +205,12 @@ const submenuItemStyles = {
     marginRight: '2.8125em'
   },
   base: {
+    ...makeTextStyle(fontWeights.medium, '0.8125em', '0.03125em'),
     color: colors.coolGray,
     display: 'inline-block',
     paddingBottom: '1.1875em',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    textTransform: 'uppercase'
   },
   active: {
     borderBottom: `2px solid ${colors.darkPink}`,
