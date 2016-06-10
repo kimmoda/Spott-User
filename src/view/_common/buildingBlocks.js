@@ -1,5 +1,5 @@
 import Radium from 'radium';
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import Navbar from './navbar';
 import { Link } from 'react-router';
 
@@ -48,11 +48,13 @@ export function makeTextStyle (fontWeight = fontWeights.regular, fontSize = '1em
 const buttonStyle = {
   ...makeTextStyle(fontWeights.bold, '0.875em', '0.013em', '1em'),
   backgroundColor: 'rgba(255, 255, 255, 0)',
-  border: '1px solid',
+  borderWidth: '1px',
+  borderStyle: 'solid',
   borderColor: colors.white,
   borderRadius: 0,
   boxShadow: 'none',
   color: colors.white,
+  cursor: 'pointer',
   display: 'inline-block',
   outline: 0,
   padding: '0.625em 1.375em',
@@ -86,10 +88,10 @@ const containerStyles = {
   marginRight: 'auto',
   width: '100%',
   paddingLeft: '0.9375em',
-  paddingRIght: '0.9375em',
+  paddingRight: '0.9375em',
   [mediaQueries.medium]: {
     paddingLeft: 0,
-    paddingRIght: 0,
+    paddingRight: 0,
     width: 738
   },
   [mediaQueries.large]: {
@@ -113,15 +115,18 @@ Container.propTypes = {
 // //////////////
 
 const pageStyles = {
-  container: {
+  wrapper: {
     backgroundColor: colors.whiteTwo,
+    minHeight: '100%'
+  },
+  container: {
     paddingTop: '1.875em',
     paddingBottom: '1.875em'
   }
 };
-export const Page = Radium(({ children, header, submenuItems }) => (
-  <div>
-    <Navbar />
+export const Page = Radium(({ children, currentPathname, header, submenuItems }) => (
+  <div style={pageStyles.wrapper}>
+    <Navbar currentPathname={currentPathname}/>
     {header}
     <Container style={pageStyles.container}>
       {submenuItems && <Submenu>{submenuItems}</Submenu>}

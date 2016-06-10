@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Button, colors, EntityHeader, SubmenuItem, Page, fontWeights, makeTextStyle } from '../_common/buildingBlocks';
 
 const headerStyles = {
@@ -33,14 +33,20 @@ const Header = (props) => (
 );
 
 export default class Profile extends Component {
+  static propTypes = {
+    children: PropTypes.node,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }).isRequired
+  }
+
   render () {
     return (
       <Page
+        currentPathname={this.props.location.pathname}
         header={<Header />}
         submenuItems={[
-          <SubmenuItem name='Loves' pathname='/profile/loves' />,
-          <SubmenuItem name='Wishlists' pathname='/profile/wishlist' />,
-          <SubmenuItem name='Subscriptions' pathname='/profile/subscriptions' />
+          <SubmenuItem name='Wishlists' pathname='/profile/wishlist' />
         ]}>
         {this.props.children}
       </Page>
