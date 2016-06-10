@@ -20,11 +20,13 @@ export function doLogin ({ email, password }) {
     try {
       const baseUrl = apiBaseUrlSelector(getState());
       const {
-        authenticationToken,
-        user: {
-          profile: { email: profileEmail, firstName, lastName },
-          userName,
-          uuid
+        body: {
+          authenticationToken,
+          user: {
+            profile: { email: profileEmail, firstName, lastName },
+            userName,
+            uuid
+          }
         }
       } = await authenticationApi.login(baseUrl, { email, password });
       const data = {
@@ -53,11 +55,13 @@ export function doLoginFacebook ({ facebookAccessToken }) {
     dispatch({ type: LOGIN_REQUEST });
     try {
       const {
-        authenticationToken,
-        user: {
-          profile: { email: profileEmail, firstName, lastName },
-          userName,
-          uuid
+        body: {
+          authenticationToken,
+          user: {
+            profile: { email: profileEmail, firstName, lastName },
+            userName,
+            uuid
+          }
         }
       } = await authenticationApi.loginFacebook(baseUrl, { facebookAccessToken });
       const data = {

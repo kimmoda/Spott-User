@@ -94,6 +94,7 @@ class Form extends Component {
   render () {
     const styles = this.constructor.styles;
     const { error, isLoading } = this.props;
+    console.warn(error);
     return (
       <form onSubmit={this.onSubmit}>
         <div style={styles.line}>&nbsp;</div>
@@ -101,7 +102,7 @@ class Form extends Component {
           style={styles.textInput} type='text' />
         <input disabled={isLoading} name='password' placeholder='Your Password' ref={(c) => { this._password = c; }}
           style={styles.textInput} type='password' />
-        <div style={styles.error}>{error}</div>
+        {error && <div style={styles.error}>{error}</div>}
         <input disabled={isLoading} style={styles.button} type='submit' value='Log In'/>
       </form>
     );

@@ -15,7 +15,7 @@ export default function authentication (state = fromJS({
       return state
         .set('isLoginModalOpen', false)
         .set('isLoading', false)
-        .merge(action.data);
+        .merge(fromJS(action.data));
     case types.LOGIN_FAILURE:
       return state
         .set('error', action.error)
