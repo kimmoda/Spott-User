@@ -90,7 +90,8 @@ const hookedHttpinvoke = httpinvoke.hook('finished', (err, output, statusCode, h
       case 401:
         responseError = new UnauthorizedError(newOutput); break;
       case 403:
-        return window.location.reload();
+        return console.log('403');
+        //  return window.location.reload();
       case 404:
         responseError = new NotFoundError(newOutput); break;
       default:
@@ -113,6 +114,7 @@ function optionsWithoutBody (authenticationToken) {
   const options = {
     converters: CONVERTERS,
     headers: { // Request headers
+      Accept: 'application/json, text/javascript, */*; q=0.01',
       api_key: apiKey // eslint-disable-line camelcase
     },
     outputType: 'json'
@@ -127,8 +129,8 @@ function optionsWithBody (authenticationToken, body) {
   const options = {
     converters: CONVERTERS,
     headers: { // Request headers
-      'Content-Type': 'application/json',
-      authtoken: authenticationToken,
+      'Content-Type': 'application/json; charset=UTF-8',
+      Accept: 'application/json, text/javascript, */*; q=0.01',
       api_key: apiKey // eslint-disable-line camelcase
     },
     input: body || {},

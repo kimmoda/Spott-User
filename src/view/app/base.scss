@@ -40,6 +40,14 @@
   clear: both;
 }
 
+/* Smooth text */
+
+body {
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+}
+
 /* Base styles */
 
 html, body {
@@ -51,6 +59,14 @@ body {
   font-family: ProximaNova-Regular;
   color: #221f26;
   overflow-x: hidden;
+}
+
+button {
+  cursor: pointer !important;
+}
+
+*:focus {
+  outline: none;
 }
 
 h1, h2, h3, p {

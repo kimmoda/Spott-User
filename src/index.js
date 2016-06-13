@@ -1,7 +1,7 @@
 import { createHashHistory } from 'history';
 import { StyleRoot } from 'radium';
 import React from 'react';
-import { IndexRoute, Router, Route, useRouterHistory } from 'react-router';
+import { IndexRoute, IndexRedirect, Router, Route, useRouterHistory } from 'react-router';
 import ReactDOM from 'react-dom';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
@@ -9,25 +9,28 @@ import $ from 'jquery';
 import { doInit } from './actions';
 import createStore from './createStore';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
+import { authenticationTokenSelector } from './selectors';
 
 import reducer from './reducer';
 
-import Home from './view/home';
-import ChangePassword from './view/changePassword';
 import App from './view/app';
+import Carrefour from './view/carrefour';
+import ChangePassword from './view/changePassword';
 import ConfirmedNewsletter from './view/confirmedNewsletter';
 import Error404 from './view/error404';
-import Privacy from './view/privacy';
-import Redirect from './view/redirect';
-import Login from './view/login';
-import Terms from './view/terms';
-import HellobankHomeWrapper from './view/hellobank/home';
+import HelloBankContestRules from './view/hellobank/contestRules';
 import HelloBankHomeStep1 from './view/hellobank/home/step1';
 import HelloBankHomeStep2 from './view/hellobank/home/step2';
 import HelloBankHomeStep3 from './view/hellobank/home/step3';
-import HelloBankContestRules from './view/hellobank/contestRules';
-import Carrefour from './view/carrefour';
+import HellobankHomeWrapper from './view/hellobank/home';
+import Home from './view/home';
+import Login from './view/login';
 import Medialaan from './view/medialaan';
+import Privacy from './view/privacy';
+import Profile from './view/profile';
+import ProfileWishlist from './view/profile/wishlist';
+import Redirect from './view/redirect';
+import Terms from './view/terms';
 
 /**
  * Utility.
@@ -57,18 +60,16 @@ function hashLinkScroll () {
  * The application routes
  */
 const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-types
-/*
   function requireAuth (nextState, replace) {
-    const authData = getState();
     // Not authenticated.. replace current location with /login
-    if (!authData.auth.isAuthenticated) {
+    if (!authenticationTokenSelector(getState())) {
       replace({
         pathname: '/login',
-        state: { nextPathname: nextState.location.pathname }
+        state: { returnTo: nextState.location.pathname }
       });
     }
   }
-*/
+
   return (
     <Route component={App} path='/'>
 
@@ -77,12 +78,17 @@ const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-types
       <Route component={Home} path='/get-in-touch' />
       <Route component={Home} path='/subscribe' />
       <Route component={Redirect} path='/app' />
-      <Route component={ConfirmedNewsletter} path='/confirmed' />
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />
 
       <Route component={Login} path='/login' />
       <Route component={ChangePassword} path='/user/changepwd' />
+      <Route component={ConfirmedNewsletter} path='/confirmed' />
+
+      <Route component={Profile} path='/profile' onEnter={requireAuth} >
+        <IndexRedirect to='/profile/wishlist' />
+        <Route component={ProfileWishlist} path='/profile/wishlist'/>
+      </Route>
 
       <Route>
         <Route component={HellobankHomeWrapper} path='/hellobank'>

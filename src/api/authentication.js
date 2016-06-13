@@ -1,15 +1,50 @@
 import * as request from './_request';
 
-export async function login (baseUrl, { email, password }) {
+export async function login (baseUrl, { email: emailIn, password }) {
   try {
-    console.log(arguments);
-    return await request.post(null, `${baseUrl}/v003/security/login`, { userName: email, password });
+    const {
+      body: {
+        authenticationToken,
+        user: {
+          profile: {
+            avatar,
+            dateOfBirth,
+            email,
+            firstName,
+            followerCount,
+            followingCount,
+            lastName,
+            picture,
+            tagLine
+          },
+          userName,
+          uuid
+        }
+      }
+    } = await request.post(null, `${baseUrl}/v003/security/login`, { userName: emailIn, password });
+    return {
+      authenticationToken,
+      user: {
+        id: uuid,
+        username: userName
+      },
+      profile: {
+        avatar: avatar ? { id: avatar.uuid, url: avatar.url } : null,
+        dateOfBirth,
+        email,
+        firstname: firstName,
+        followerCount,
+        followingCount,
+        lastname: lastName,
+        picture: picture ? { id: picture.uuid, url: picture.url } : null,
+        tagline: tagLine
+      }
+    };
   } catch (error) {
-    console.info(error);
-    if (error.message === 'verkeerde gebruikersnaam/password combinatie') {
+    if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
       throw 'Email/password combination is incorrect.';
     }
-    throw error.message;
+    throw error.body.message;
   }
 }
 
@@ -17,10 +52,10 @@ export async function loginFacebook (baseUrl, { facebookAccessToken }) {
   try {
     return await request.post(null, `${baseUrl}/v003/security/login`, { facebookAccessToken });
   } catch (error) {
-    if (error.message === 'verkeerde gebruikersnaam/password combinatie') {
+    if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
       throw 'Your Facebook account is not linked to a Spott account. You can create an account on Spott by using your Facebook account.';
     }
-    throw error.message;
+    throw error.body.message;
   }
 }
 

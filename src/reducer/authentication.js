@@ -4,6 +4,7 @@ import * as types from '../actions';
 export default function authentication (state = fromJS({
   isLoading: false,
   user: {},
+  profile: {},
   authenticationToken: null
 }), action) {
   switch (action.type) {
@@ -15,7 +16,7 @@ export default function authentication (state = fromJS({
       return state
         .set('isLoginModalOpen', false)
         .set('isLoading', false)
-        .merge(action.data);
+        .merge(fromJS(action.data));
     case types.LOGIN_FAILURE:
       return state
         .set('error', action.error)
