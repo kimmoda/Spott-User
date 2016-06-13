@@ -4,6 +4,7 @@ import * as types from '../actions';
 export default function authentication (state = fromJS({
   isLoading: false,
   user: {},
+  profile: {},
   authenticationToken: null
 }), action) {
   switch (action.type) {

@@ -1,11 +1,46 @@
 import * as request from './_request';
 
-export async function login (baseUrl, { email, password }) {
-  console.log('API REACHED', arguments);
+export async function login (baseUrl, { email: emailIn, password }) {
   try {
-    return await request.post(null, `${baseUrl}/v003/security/login`, { userName: email, password });
+    const {
+      body: {
+        authenticationToken,
+        user: {
+          profile: {
+            avatar,
+            dateOfBirth,
+            email,
+            firstName,
+            followerCount,
+            followingCount,
+            lastName,
+            picture,
+            tagLine
+          },
+          userName,
+          uuid
+        }
+      }
+    } = await request.post(null, `${baseUrl}/v003/security/login`, { userName: emailIn, password });
+    return {
+      authenticationToken,
+      user: {
+        id: uuid,
+        username: userName
+      },
+      profile: {
+        avatar: avatar ? { id: avatar.uuid, url: avatar.url } : null,
+        dateOfBirth,
+        email,
+        firstname: firstName,
+        followerCount,
+        followingCount,
+        lastname: lastName,
+        picture: picture ? { id: picture.uuid, url: picture.url } : null,
+        tagline: tagLine
+      }
+    };
   } catch (error) {
-    console.dir(error);
     if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
       throw 'Email/password combination is incorrect.';
     }

@@ -41,7 +41,7 @@ export default class Tiles extends Component {
     items: PropTypes.arrayOf(
       PropTypes.object
     ).isRequired,
-    numColumns: PropTypes.number.isRequired,
+    numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
     // The component for rendering the tile. Is cloned with an additional
     // 'value' prop.
     tile: PropTypes.node.isRequired,
@@ -74,6 +74,7 @@ export default class Tiles extends Component {
 
   _patch () {
     // Read width from DOM
+    const screenWidth = window.innerWidth;
     const width = this.container.clientWidth;
     // Get global scroll top and bottom
     const scrollTop = document.body.scrollTop;
@@ -84,11 +85,11 @@ export default class Tiles extends Component {
     // Determine visible area
     if (scrollBottom < myTop || scrollTop > myBottom) {
       // No visible part
-      this.setState({ from: -1, to: -1, width: -1 });
+      this.setState({ from: -1, to: -1, screenWidth: -1, width: -1 });
     } else {
       const visibleTop = (scrollTop < myTop ? myTop : scrollTop);
       const visibleBottom = (scrollBottom > myBottom ? myBottom : scrollBottom);
-      this.setState({ from: visibleTop - myTop, to: visibleBottom - myTop, width });
+      this.setState({ from: visibleTop - myTop, screenWidth, to: visibleBottom - myTop, width });
     }
   }
 
@@ -104,8 +105,7 @@ export default class Tiles extends Component {
 
   render () {
     const { horizontalSpacing, items, numColumns, verticalSpacing, tile } = this.props;
-    const { width, from, to } = this.state;
-    const size = Math.floor(width / numColumns) - horizontalSpacing;
+    const { from, screenWidth, to, width } = this.state;
     // If we have no known container width (first render), there is no reason to proced
     if (width === -1) {
       return (
@@ -113,9 +113,20 @@ export default class Tiles extends Component {
         </div>
       );
     }
+    // Determine number of columbs
+    const resolvedNumColumns = Object.keys(numColumns).reduce(({ bestFit, bestNumColumns }, aFit) => {
+      // The current one is not a better fit
+      if (screenWidth >= aFit && aFit > bestFit) {
+        const aNumColumns = numColumns[aFit];
+        return { bestFit: aFit, bestNumColumns: aNumColumns };
+      }
+      return { bestFit, bestNumColumns };
+    }, { bestFit: -1, bestNumColumns: 1 }).bestNumColumns;
+    // Size of a cell
+    const size = Math.ceil((width - horizontalSpacing * (resolvedNumColumns - 1)) / resolvedNumColumns);
     // Calculate some necessities
     const numItems = items.length;
-    const numRows = Math.ceil(numItems / numColumns);
+    const numRows = Math.ceil(numItems / resolvedNumColumns);
     const rowHeight = size + verticalSpacing;
     // Render items
     const renderedItems = [];
@@ -130,8 +141,8 @@ export default class Tiles extends Component {
         break;
       }
       // Iterate over columns
-      for (let column = 0; column < numColumns; column++) {
-        const index = row * numColumns + column;
+      for (let column = 0; column < resolvedNumColumns; column++) {
+        const index = row * resolvedNumColumns + column;
         // No more items on this row? (last row is not full)
         if (index >= numItems) {
           break;
@@ -143,8 +154,7 @@ export default class Tiles extends Component {
           width: `${size}px`,
           height: `${size}px`,
           transform: `translate(${positionX}px, ${positionY}px)`,
-          position: 'absolute',
-          transition: 'transform 200ms'
+          position: 'absolute'
         };
         renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: index, ...items[index] }));
       }
@@ -153,7 +163,6 @@ export default class Tiles extends Component {
     const containerStyle = {
       height: (numRows * rowHeight) - verticalSpacing
     };
-    console.log('rendered ', renderedItems.length, ' items');
     // Return render result
     return (
       <div ref={(x) => { this.container = x; }} style={containerStyle}>

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import Tiles from '../../_common/tiles';
+import { wishListSelector } from '../../../selectors';
 
 const itemStyles = {
   container: {
@@ -38,13 +40,15 @@ class Tile extends Component {
   }
 }
 
-const fakeItems = Reflect.apply(Array, Array, Array(50)).map((x, index) => ({ name: `Item ${index.toString()}`, image: 'linear-gradient(to right, #d9345d, rgb(31, 188, 233))' }));
-
+@connect(wishListSelector)
 export default class Wishlist extends Component {
+  static propTypes = {
+    items: PropTypes.list
+  };
 
   render () {
     return (
-      <Tiles horizontalSpacing={10} items={fakeItems} numColumns={4} tile={<Tile />} verticalSpacing={60} />
+      <Tiles horizontalSpacing={10} items={this.props.items} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Tile />} verticalSpacing={60} />
     );
   }
 }

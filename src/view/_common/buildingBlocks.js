@@ -63,10 +63,10 @@ const buttonStyle = {
   textTransform: 'uppercase',
   transition: 'background-color 0.5s ease',
   ':hover': {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)'
+    backgroundColor: 'rgba(255, 255, 255, 0.1)'
   },
   ':focus': {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)'
+    backgroundColor: 'rgba(255, 255, 255, 0.1)'
   }
 };
 export const Button = Radium((props) => {
@@ -160,7 +160,7 @@ const entityHeaderStyles = {
   },
   container: {
     paddingTop: '20.5%',
-    paddingBottom: '3%',
+    paddingBottom: '1em',
     [mediaQueries.medium]: {
       paddingTop: '9.0625em',
       paddingBottom: '1.1875em'
@@ -182,7 +182,7 @@ const entityHeaderStyles = {
   }
 };
 export const EntityHeader = Radium(({ backgroundImage, buttons, children }) => (
-  <div style={[ entityHeaderStyles.wrapper, { backgroundImage } ]}>
+  <div style={[ entityHeaderStyles.wrapper, backgroundImage && { backgroundImage: `url(${backgroundImage})` } ]}>
     <div style={entityHeaderStyles.backgroundOverlay}></div>
     <Container style={entityHeaderStyles.container}>
       <div style={entityHeaderStyles.contents}>{children}</div>

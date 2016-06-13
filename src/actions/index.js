@@ -19,26 +19,7 @@ export function doLogin ({ email, password }) {
     dispatch({ type: LOGIN_REQUEST });
     try {
       const baseUrl = apiBaseUrlSelector(getState());
-      const {
-        body: {
-          authenticationToken,
-          user: {
-            profile: { email: profileEmail, firstName, lastName },
-            userName,
-            uuid
-          }
-        }
-      } = await authenticationApi.login(baseUrl, { email, password });
-      const data = {
-        authenticationToken,
-        user: {
-          email: profileEmail,
-          firstname: firstName,
-          id: uuid,
-          lastname: lastName,
-          username: userName
-        }
-      };
+      const data = await authenticationApi.login(baseUrl, { email, password });
       dispatch({ data, type: LOGIN_SUCCESS });
       if (localStorage) {
         localStorage.setItem('session', JSON.stringify(data));
