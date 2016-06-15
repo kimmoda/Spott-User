@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 const $ = require('jquery');
 const Slider = require('react-slick');
 const Tweet = require('./Tweet').default;
-const twitterFetcher = require('twitter-fetcher');
+const twitterFetcher = !__SERVER__ && require('twitter-fetcher');
 
 require('./twitterFeed.scss');
 

@@ -1,4 +1,3 @@
-import httpinvoke from 'httpinvoke';
 import RequestError from './_requestError';
 
 export const apiKey = 'EbQzeWS7VzRTYd8ZhhB5nwwZZGpC6BruJpWQDC3Ynd3TwFCtfe6MJMFNu9';
@@ -68,79 +67,76 @@ function tryToParseJson (text) {
 // Hooking a finished hook into httpinvoke creates a new httpinvoke. The given callback is executed
 // upon each processed request. The callback has the power to manipulate the arguments seen by the
 // rest of the appication.
-const hookedHttpinvoke = httpinvoke.hook('finished', (err, output, statusCode, headers) => {
-  // httpinvoke failed?
-  if (err) {
-    // Was there a network error?
-    if (typeof err === 'object' && err.message === 'network error') {
-      return [ new NetworkError(err), output, statusCode, headers ];
-    }
-    // We do not know the exact reason, throw a general error
-    return [ new UnexpectedError(null, null, err), output, statusCode, headers ];
-  }
-  // Convert 400's and 500's to error
-  if (statusCode >= 400 && statusCode <= 599) {
-    let responseError;
+const wrappedFetch = async function () {
+  // Try to perform the request
+  let responseBody;
+  let statusCode;
+  try {
+    const response = await Reflect.apply(fetch, null, arguments);
+    // Store status code
+    statusCode = response.statusCode;
     // Try parse body text as JSON, but don't fail if we do not succeed.
-    const newOutput = tryToParseJson(output);
+    responseBody = tryToParseJson(await response.text());
+  } catch (e) {
+    // Was there a network error?
+    if (typeof e === 'object' && e.message === 'network error') {
+      throw new NetworkError(e);
+    }
+    throw e;
+  }
+  // Process response
+  if (statusCode >= 400 && statusCode <= 599) { // Convert 400's and 500's to error
     // Construct correct low-level error
     switch (statusCode) {
       case 400:
-        responseError = new BadRequestError(newOutput); break;
+        throw new BadRequestError(responseBody);
       case 401:
-        responseError = new UnauthorizedError(newOutput); break;
+        throw new UnauthorizedError(responseBody);
       case 403:
         return console.log('403');
         //  return window.location.reload();
       case 404:
-        responseError = new NotFoundError(newOutput); break;
+        throw new NotFoundError(responseBody);
       default:
-        responseError = new UnexpectedError(null, newOutput);
+        throw new UnexpectedError(null, responseBody);
     }
-    return [ responseError, newOutput, statusCode, headers ];
   }
-  return [ null, tryToParseJson(output), statusCode, headers ];
-});
+  return { statusCode, body: responseBody };
+};
 
 // Internal helpers
 // ----------------
 
-const CONVERTERS = {
-  'json text': JSON.stringify,
-  'text json': (identity) => identity
-};
-
-function optionsWithoutBody (authenticationToken) {
-  const options = {
-    converters: CONVERTERS,
-    headers: { // Request headers
-      Accept: 'application/json, text/javascript, */*; q=0.01',
-      api_key: apiKey // eslint-disable-line camelcase
-    },
-    outputType: 'json'
-  };
+function optionsWithoutBody (method, authenticationToken) {
+  const headers = new Headers({ // Request headers
+    Accept: 'application/json, text/javascript, */*; q=0.01',
+    api_key: 'apiKey' // eslint-disable-line camelcase
+  });
   if (authenticationToken) {
-    options.headers.authtoken = authenticationToken;
+    headers.append('authtoken', authenticationToken);
   }
-  return options;
+  return {
+    method: 'GET',
+    headers,
+    mode: 'cors'
+  };
 }
 
-function optionsWithBody (authenticationToken, body) {
-  const options = {
-    converters: CONVERTERS,
-    headers: { // Request headers
-      'Content-Type': 'application/json; charset=UTF-8',
-      Accept: 'application/json, text/javascript, */*; q=0.01',
-      api_key: apiKey // eslint-disable-line camelcase
-    },
-    input: body || {},
-    inputType: 'json', // Type of request data
-    outputType: 'json' // Type of response body
-  };
+function optionsWithBody (method, authenticationToken, body) {
+  const headers = new Headers({ // Request headers
+    'Content-Type': 'application/json; charset=UTF-8',
+    Accept: 'application/json, text/javascript, */*; q=0.01',
+    api_key: 'apiKey' // eslint-disable-line camelcase
+  });
   if (authenticationToken) {
-    options.headers.authtoken = authenticationToken;
+    headers.append('authtoken', authenticationToken);
   }
-  return options;
+  return {
+    body: JSON.stringify(body),
+    method: 'GET',
+    headers,
+    mode: 'cors'
+  };
 }
 
 // Public functions
@@ -160,7 +156,7 @@ function optionsWithBody (authenticationToken, body) {
  * @return {Promise<Response, Object}>} The server response or resulting error.
  */
 export function get (authenticationToken, url) {
-  return hookedHttpinvoke(url, 'GET', optionsWithoutBody(authenticationToken));
+  return wrappedFetch(url, optionsWithoutBody('GET', authenticationToken));
 }
 
 /**
@@ -171,7 +167,7 @@ export function get (authenticationToken, url) {
  * @return {Promise<Response, Object}>} The server response or resulting error.
  */
 export function post (authenticationToken, url, body) {
-  return hookedHttpinvoke(url, 'POST', optionsWithBody(authenticationToken, body));
+  return wrappedFetch(url, optionsWithBody('POST', authenticationToken, body));
 }
 
 /**
@@ -182,7 +178,7 @@ export function post (authenticationToken, url, body) {
  * @return {Promise<Response, Object}>} The server response or resulting error.
  */
 export function put (authenticationToken, url, body) {
-  return hookedHttpinvoke(url, 'PUT', optionsWithBody(authenticationToken, body));
+  return wrappedFetch(url, optionsWithBody('PUT', authenticationToken, body));
 }
 
 /**
@@ -192,5 +188,5 @@ export function put (authenticationToken, url, body) {
  * @return {Promise<Response, Object}>} The server response or resulting error.
  */
 export function del (authenticationToken, url) {
-  return hookedHttpinvoke(url, 'DELETE', optionsWithoutBody(authenticationToken));
+  return wrappedFetch(url, optionsWithoutBody('DELETE', authenticationToken));
 }

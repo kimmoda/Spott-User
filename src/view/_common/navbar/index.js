@@ -5,6 +5,7 @@ import * as actions from '../../../actions';
 import { authenticationTokenSelector } from '../../../selectors';
 import { Link } from 'react-router';
 import $ from 'jquery';
+
 require('./navbar.scss');
 
 const spottImage = require('./spott.png');
