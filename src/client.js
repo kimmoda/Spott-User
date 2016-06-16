@@ -3,10 +3,11 @@
  */
 import { StyleRoot } from 'radium';
 import React from 'react';
-import { useRouterHistory, browserHistory } from 'react-router';
+import { browserHistory, Router } from 'react-router';
 import ReactDOM from 'react-dom';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
+import AsyncProps from 'async-props';
 import { doInit } from './actions';
 import createStore from './createStore';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
@@ -14,10 +15,37 @@ import { getRoutes } from './routes';
 import reducer from './reducer';
 import { fromJS } from 'immutable';
 
+const $ = require('jquery');
+
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
   // For dev tool support, attach to window...
   window.React = React;
+}
+
+/**
+ * Utility.
+ *
+ * Every time the route changes, we check if we don't need to scroll down on
+ * the current page.
+ */
+function updateScroll () {
+  const { hash } = window.location;
+  console.log(window.location);
+  if (hash) {
+    // Push onto callback queue so it runs after the DOM is updated,
+    // this is required when navigating from a different page so that
+    // the element is rendered on the page before trying to getElementById.
+    setTimeout(() => {
+      const matches = /^\/(subscribe|content|get-in-touch)\?.*/.exec(hash);
+      if (matches && matches.length > 1) {
+        const id = matches[1];
+        $('html, body').animate({
+          scrollTop: $(`#${id}`).offset().top
+        }, 850);
+      }
+    }, 0);
+  }
 }
 
 async function boot () {
@@ -39,11 +67,13 @@ async function boot () {
   }
   // Render application
   ReactDOM.render(
-    <Provider store={store}>
-      <StyleRoot>
-        {getRoutes(ourHistory, store)}
-      </StyleRoot>
-    </Provider>,
+    <StyleRoot>
+      <Provider key='provider' store={store}>
+        <Router history={history} render={(props) => <AsyncProps {...props}/>} onUpdate={updateScroll}>
+          {getRoutes(ourHistory, store)}
+        </Router>
+      </Provider>
+    </StyleRoot>,
     document.getElementById('root'));
 }
 

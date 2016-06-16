@@ -2,42 +2,22 @@ import * as request from './_request';
 
 export async function login (baseUrl, { email: emailIn, password }) {
   try {
-    const {
-      body: {
-        authenticationToken,
-        user: {
-          profile: {
-            avatar,
-            dateOfBirth,
-            email,
-            firstName,
-            followerCount,
-            followingCount,
-            lastName,
-            picture,
-            tagLine
-          },
-          userName,
-          uuid
-        }
-      }
-    } = await request.post(null, `${baseUrl}/v003/security/login`, { userName: emailIn, password });
+    const { body } = await request.post(null, `${baseUrl}/v003/security/login`, { userName: emailIn, password });
+    const bodyProfile = body.user.profile;
     return {
-      authenticationToken,
+      authenticationToken: body.authenticationToken,
       user: {
-        id: uuid,
-        username: userName
-      },
-      profile: {
-        avatar: avatar ? { id: avatar.uuid, url: avatar.url } : null,
-        dateOfBirth,
-        email,
-        firstname: firstName,
-        followerCount,
-        followingCount,
-        lastname: lastName,
-        picture: picture ? { id: picture.uuid, url: picture.url } : null,
-        tagline: tagLine
+        avatar: bodyProfile.avatar ? { id: bodyProfile.avatar.uuid, url: bodyProfile.avatar.url } : null,
+        dateOfBirth: bodyProfile.dateOfBirth,
+        email: bodyProfile.email,
+        firstname: bodyProfile.firstName,
+        followerCount: bodyProfile.followerCount,
+        followingCount: bodyProfile.followingCount,
+        id: body.user.uuid,
+        lastname: bodyProfile.lastName,
+        picture: bodyProfile.picture ? { id: bodyProfile.picture.uuid, url: bodyProfile.picture.url } : null,
+        tagline: bodyProfile.tagLine,
+        username: body.user.userName
       }
     };
   } catch (error) {

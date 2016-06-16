@@ -7,15 +7,17 @@ export const authenticationTokenSelector = (state) => state.getIn([ 'authenticat
 export const authenticationErrorSelector = (state) => state.getIn([ 'authentication', 'error' ]);
 export const authenticationIsLoadingSelector = (state) => state.getIn([ 'authentication', 'isLoading' ]);
 
-export const userAvatarSelector = (state) => state.getIn([ 'authentication', 'profile', 'avatar' ]);
-export const userDataOfBirthSelector = (state) => state.getIn([ 'authentication', 'profile', 'dateOfBirth' ]);
-export const userEmailSelector = (state) => state.getIn([ 'authentication', 'profile', 'email' ]);
-export const userFirstnameSelector = (state) => state.getIn([ 'authentication', 'profile', 'firstname' ]);
-export const userFollowerCountSelector = (state) => state.getIn([ 'authentication', 'profile', 'followerCount' ]);
-export const userFollowingCountSelector = (state) => state.getIn([ 'authentication', 'profile', 'followingCount' ]);
-export const userLastnameSelector = (state) => state.getIn([ 'authentication', 'profile', 'lastname' ]);
-export const userPictureSelector = (state) => state.getIn([ 'authentication', 'profile', 'picture' ]);
-export const userTaglineSelector = (state) => state.getIn([ 'authentication', 'profile', 'tagline' ]);
+export const userAvatarSelector = (state) => state.getIn([ 'authentication', 'user', 'avatar' ]);
+export const userDataOfBirthSelector = (state) => state.getIn([ 'authentication', 'user', 'dateOfBirth' ]);
+export const userEmailSelector = (state) => state.getIn([ 'authentication', 'user', 'email' ]);
+export const userFirstnameSelector = (state) => state.getIn([ 'authentication', 'user', 'firstname' ]);
+export const userFollowerCountSelector = (state) => state.getIn([ 'authentication', 'user', 'followerCount' ]);
+export const userFollowingCountSelector = (state) => state.getIn([ 'authentication', 'user', 'followingCount' ]);
+export const userIdSelector = (state) => state.getIn([ 'authentication', 'user', 'id' ]);
+export const userLastnameSelector = (state) => state.getIn([ 'authentication', 'user', 'lastname' ]);
+export const usernameSelector = (state) => state.getIn([ 'authentication', 'user', 'username' ]);
+export const userPictureSelector = (state) => state.getIn([ 'authentication', 'user', 'picture' ]);
+export const userTaglineSelector = (state) => state.getIn([ 'authentication', 'user', 'tagline' ]);
 
 export const userProfileSelector = createStructuredSelector({
   avatar: userAvatarSelector,
@@ -24,9 +26,11 @@ export const userProfileSelector = createStructuredSelector({
   firstname: userFirstnameSelector,
   followerCount: userFollowerCountSelector,
   followingCount: userFollowingCountSelector,
+  id: userIdSelector,
   lastname: userLastnameSelector,
   picture: userPictureSelector,
-  tagline: userTaglineSelector
+  tagline: userTaglineSelector,
+  username: usernameSelector
 });
 
 // TODO

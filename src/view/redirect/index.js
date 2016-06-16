@@ -10,11 +10,11 @@ const iosUrl = 'https://itunes.apple.com/be/app/spott-screen-just-became-your/id
 const androidUrl = 'https://play.google.com/store/apps/details?id=mobi.appiness.spott';
 
 function isIos () {
-  return navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i);
+  return window.navigator.userAgent.match(/iPad/i) || window.navigator.userAgent.match(/iPhone/i) || window.navigator.userAgent.match(/iPod/i);
 }
 
 function isAndroid () {
-  return navigator.userAgent.match(/Android/i);
+  return window.navigator.userAgent.match(/Android/i);
 }
 
 class Redirect extends Component {

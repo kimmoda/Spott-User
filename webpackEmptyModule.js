@@ -1,1 +1,1 @@
-module.exports = function() { return new Function(); };
+module.exports = () => new Function(); // eslint-disable-line no-new-func

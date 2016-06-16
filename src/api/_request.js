@@ -74,12 +74,12 @@ const wrappedFetch = async function () {
   try {
     const response = await Reflect.apply(fetch, null, arguments);
     // Store status code
-    statusCode = response.statusCode;
+    statusCode = response.status;
     // Try parse body text as JSON, but don't fail if we do not succeed.
     responseBody = tryToParseJson(await response.text());
   } catch (e) {
     // Was there a network error?
-    if (typeof e === 'object' && e.message === 'network error') {
+    if (typeof e === 'object' && e.name === 'TypeError') {
       throw new NetworkError(e);
     }
     throw e;
@@ -116,7 +116,8 @@ function optionsWithoutBody (method, authenticationToken) {
     headers.append('authtoken', authenticationToken);
   }
   return {
-    method: 'GET',
+    cache: 'no-cache',
+    method,
     headers,
     mode: 'cors'
   };
@@ -133,7 +134,8 @@ function optionsWithBody (method, authenticationToken, body) {
   }
   return {
     body: JSON.stringify(body),
-    method: 'GET',
+    cache: 'no-cache',
+    method,
     headers,
     mode: 'cors'
   };
