@@ -45,7 +45,6 @@ class ChangePassword extends Component {
             }, 3500);
           },
           error (data) {
-            console.log(data);
             showError('changed', 'We encountered an error while trying to change your password :(');
             setTimeout(() => {
               hideError('changed');

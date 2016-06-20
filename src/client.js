@@ -14,6 +14,7 @@ import useScroll from 'scroll-behavior/lib/useStandardScroll';
 import { getRoutes } from './routes';
 import reducer from './reducer';
 import { fromJS } from 'immutable';
+import { AsyncRouterContext } from 'redux-async-props';
 
 const $ = require('jquery');
 
@@ -31,7 +32,6 @@ if (process.env.NODE_ENV !== 'production') {
  */
 function updateScroll () {
   const { hash } = window.location;
-  console.log(window.location);
   if (hash) {
     // Push onto callback queue so it runs after the DOM is updated,
     // this is required when navigating from a different page so that
@@ -53,7 +53,8 @@ async function boot () {
   const createScrollHistory = useScroll(() => browserHistory);
   const almostHistory = createScrollHistory();
   // Create redux store
-  const store = createStore(almostHistory, reducer, fromJS(window.__INITIAL_STATE__));
+  const initialState = fromJS(window.__INITIAL_STATE__ || {});
+  const store = createStore(almostHistory, reducer, initialState);
   // Create an enhanced history that syncs navigation events with the store.
   const ourHistory = syncHistoryWithStore(almostHistory, store, { selectLocationState: (state) => state.get('routing') });
   // Initialize the app.
@@ -69,8 +70,8 @@ async function boot () {
   ReactDOM.render(
     <StyleRoot>
       <Provider key='provider' store={store}>
-        <Router history={history} render={(props) => <AsyncProps {...props}/>} onUpdate={updateScroll}>
-          {getRoutes(ourHistory, store)}
+        <Router history={ourHistory} render={(props) => <AsyncRouterContext {...props} asyncProps={initialState.get('asyncProps')} />} onUpdate={updateScroll}>
+          {getRoutes(store)}
         </Router>
       </Provider>
     </StyleRoot>,

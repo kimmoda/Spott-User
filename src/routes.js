@@ -16,9 +16,9 @@ import Home from './view/home';
 import Login from './view/login';
 import Medialaan from './view/medialaan';
 import Privacy from './view/privacy';
-import Profile from './view/profile';
-import ProfileWishlists from './view/profile/wishlists';
-import ProfileWishlistProducts from './view/profile/wishlistProducts';
+import Profile from './view/profile/view';
+import ProfileWishlists from './view/profile/view/wishlists';
+import ProfileWishlistProducts from './view/profile/view/wishlistProducts';
 import Redirect from './view/redirect';
 import Terms from './view/terms';
 
@@ -50,11 +50,11 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
       <Route component={ChangePassword} path='/user/changepwd' />
       <Route component={ConfirmedNewsletter} path='/confirmed' />
 
-      <Route component={Profile} path='/profile' onEnter={requireAuth} >
-        <IndexRedirect to='/profile/wishlist' />
-        <Route path='/profile/wishlists'>
+      <Route component={Profile} path='/profile/:userSlug/:userId' onEnter={requireAuth} >
+        <IndexRedirect to='/profile/:userSlug/:userId/wishlists' />
+        <Route path='/profile/:userSlug/:userId/wishlists'>
           <IndexRoute component={ProfileWishlists} />
-          <Route component={ProfileWishlistProducts} path='/:wishlistId' />
+          <Route component={ProfileWishlistProducts} path='/profile/:userSlug/:userId/wishlists/:wishlistSlug/:wishlistId' />
         </Route>
       </Route>
 

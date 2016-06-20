@@ -97,7 +97,6 @@ class Subscribe extends Component {
             sectionSubscribe.addClass(error);
           }
 
-          console.log(JSON.stringify(data.msg));
           setTimeout(removeMessage, 4500);
         }
       }

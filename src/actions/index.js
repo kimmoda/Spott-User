@@ -1,6 +1,6 @@
 import { getConfiguration } from '../api/config';
 import * as authenticationApi from '../api/authentication';
-import { authenticationTokenSelector, apiBaseUrlSelector, userFirstnameSelector } from '../selectors';
+import { authenticationTokenSelector, apiBaseUrlSelector, currentUserFirstnameSelector } from '../selectors';
 import * as helloBankApi from '../api/helloBank';
 
 export const CONFIGURE = 'CONFIGURE';
@@ -116,7 +116,7 @@ export function submitHellobank ({ birthdate, email, firstname, lastname, passwo
       state = getState();
       const authenticationToken = authenticationTokenSelector(state);
       const baseUrl = apiBaseUrlSelector(getState());
-      const name = userFirstnameSelector(state);
+      const name = currentUserFirstnameSelector(state);
       await helloBankApi.postHellobankAnswer(baseUrl, authenticationToken, { birthdate, productCount });
       dispatch({ type: HELLOBANK_SUCCESS });
       return { name };

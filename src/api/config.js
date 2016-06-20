@@ -16,8 +16,8 @@ export async function getConfiguration () {
     configuration = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../dev/config.json'))); // eslint-disable-line
     version = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../dev/version.json'))); // eslint-disable-line
   } else {
-    configuration = (await request.get(null, 'config.json')).body;
-    version = (await request.get(null, 'version.json')).body;
+    configuration = (await request.get(null, '/config.json')).body;
+    version = (await request.get(null, '/version.json')).body;
   }
   const { body: { apptvateVersion, spottVersion } } = await request.get(null, `${configuration.urls.api}/version`);
   return { apptvateVersion, spottVersion, version, ...configuration };

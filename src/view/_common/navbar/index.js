@@ -82,13 +82,13 @@ class Navbar extends Component {
       <div className='navbar__right'>
         <ul>
           <li className='navbar__regitem'>
-            <Link className='navbar__link' to='content'>Content</Link>
+            <Link className='navbar__link' to='/content'>Content</Link>
           </li>
           <li className='navbar__regitem'>
-            <Link className='navbar__link' to='subscribe'>Subscribe</Link>
+            <Link className='navbar__link' to='/subscribe'>Subscribe</Link>
           </li>
           <li className='navbar__regitem'>
-            <Link className='navbar__link' to='get-in-touch'>Get in touch</Link>
+            <Link className='navbar__link' to='/get-in-touch'>Get in touch</Link>
           </li>
           {!isAuthenticated &&
             <li className='navbar__cta'>

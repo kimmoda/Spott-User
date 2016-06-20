@@ -34,7 +34,6 @@ class TwitterFeed extends Component {
       },
       dataOnly: true
     };
-    console.log(config);
     twitterFetcher.fetch(config);
   }
 
@@ -53,7 +52,6 @@ class TwitterFeed extends Component {
   renderTweets () {
     const arr = [];
     for (let k in this.state.tweets) {
-      // console.log(this.state.tweets[k]);
       arr.push(
         <div
           className='twitter__tile-container'

@@ -19,7 +19,8 @@
   },
   "scripts": {
     "build": "rm -rf ./dist/* && NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --config webpack.prod.config.babel.js",
-    "dev": "NODE_ENV=development ./server"
+    "dev": "NODE_ENV=development ./server",
+    "dev-rad": "NODE_ENV=development SERVER=false ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --config ./webpack.dev.config.babel.js --port 2999"
   },
   "private": true,
   "license": "UNLICENSED",
@@ -38,6 +39,7 @@
     "node-sass": "^3.7.0",
     "piping": "^1.0.0-rc.2",
     "raw-loader": "^0.5.1",
+    "react-immutable-proptypes": "^1.7.1",
     "redux-logger": "^2.6.1",
     "sass-loader": "^3.2.0",
     "strip-loader": "^0.1.2",
@@ -79,6 +81,7 @@
     "react-slick": "^0.12.2",
     "redux": "^3.5.2",
     "redux-async-connect": "^1.0.0-rc4",
+    "redux-async-props": "^0.2.0",
     "redux-connect": "^2.4.0",
     "redux-immutablejs": "0.0.8",
     "redux-thunk": "^2.1.0",

@@ -1,5 +1,6 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 /**
  * Creates and returns a new debounced version of the passed function which
@@ -38,8 +39,8 @@ export function slowdown (func, wait, immediate) {
 export default class Tiles extends Component {
   static propTypes = {
     horizontalSpacing: PropTypes.number.isRequired,
-    items: PropTypes.arrayOf(
-      PropTypes.object
+    items: ImmutablePropTypes.listOf(
+      PropTypes.any
     ).isRequired,
     numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
     // The component for rendering the tile. Is cloned with an additional
@@ -85,7 +86,7 @@ export default class Tiles extends Component {
     // Determine visible area
     if (scrollBottom < myTop || scrollTop > myBottom) {
       // No visible part
-      this.setState({ from: -1, to: -1, screenWidth: -1, width: -1 });
+      this.setState({ from: -1, to: -1, screenWidth, width });
     } else {
       const visibleTop = (scrollTop < myTop ? myTop : scrollTop);
       const visibleBottom = (scrollBottom > myBottom ? myBottom : scrollBottom);
@@ -107,9 +108,9 @@ export default class Tiles extends Component {
     const { horizontalSpacing, items, numColumns, verticalSpacing, tile } = this.props;
     const { from, screenWidth, to, width } = this.state;
     // If we have no known container width (first render), there is no reason to proced
-    if (width === -1) {
+    if (width === -1 || items.size === 0) {
       return (
-        <div ref={(x) => { this.container = x; }}>
+        <div ref={(x) => { this.container = x; }} style={{ minHeight: 1 }}>
         </div>
       );
     }
@@ -125,7 +126,7 @@ export default class Tiles extends Component {
     // Size of a cell
     const size = Math.ceil((width - horizontalSpacing * (resolvedNumColumns - 1)) / resolvedNumColumns);
     // Calculate some necessities
-    const numItems = items.length;
+    const numItems = items.size;
     const numRows = Math.ceil(numItems / resolvedNumColumns);
     const rowHeight = size + verticalSpacing;
     // Render items
@@ -156,12 +157,13 @@ export default class Tiles extends Component {
           transform: `translate(${positionX}px, ${positionY}px)`,
           position: 'absolute'
         };
-        renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: index, ...items[index] }));
+        renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: index, item: items.get(index) }));
       }
     }
     // Determine container style
     const containerStyle = {
-      height: (numRows * rowHeight) - verticalSpacing
+      height: (numRows * rowHeight),
+      minHeight: 1
     };
     // Return render result
     return (

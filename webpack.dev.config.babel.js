@@ -1,6 +1,7 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /**
  * Webpack plugin which Writes the js/css files to include in HTML responses to the file
@@ -52,10 +53,14 @@ const configuration = {
       { loader: 'file?name=[name]-[md5:hash].[ext]', test: /\.gif$|\.jpg$|\.jpeg$|\.png|\.eot$|\.svg$|\.otf$|\.ttf$|\.woff$|\.woff2$|\.pdf$/ }
     ]
   },
+  devServer: {
+    historyApiFallback: true
+  },
   output: {
     chunkFilename: '[name]-[hash].js',
     filename: '[name]-[hash].js',
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/'
   },
   plugins: [
     new CopyWebpackPlugin([
@@ -82,6 +87,13 @@ const configuration = {
     new webpack.optimize.AggressiveMergingPlugin(),
     // Optimization: assign the module and chunk ids by occurrence count
     new webpack.optimize.OccurenceOrderPlugin(),
+    // Useful for rad
+    new HtmlWebpackPlugin({
+      favicon: './src/favicon.ico',
+      inject: 'body',
+      minify: {},
+      template: './webpackHtmlTemplate.html'
+    }),
     // Write resulting filenames to a json-file for inclusion in the back-end
     new ResultsWriter()
   ],

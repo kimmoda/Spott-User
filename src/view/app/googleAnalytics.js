@@ -32,7 +32,6 @@ export function init () {
  * @param {string} page - The path portion of the URL the page being tracked. This value should start with a slash (/) character.
  */
 export function pageView (page) {
-  console.log(page);
   // Set page
   window.ga('set', {
     page

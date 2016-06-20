@@ -49,7 +49,7 @@ export class NotFoundError extends RequestError {
  */
 export class UnexpectedError extends RequestError {
   constructor (message, body, originalError) {
-    super(message || originalError.message || 'An unexpected error occurred while processing your request.', body, originalError);
+    super(message || (originalError && originalError.message) || 'An unexpected error occurred while processing your request.', body, originalError);
   }
 }
 
@@ -93,8 +93,8 @@ const wrappedFetch = async function () {
       case 401:
         throw new UnauthorizedError(responseBody);
       case 403:
-        return console.log('403');
-        //  return window.location.reload();
+        // window.location.reload();
+        throw new UnexpectedError();
       case 404:
         throw new NotFoundError(responseBody);
       default:
@@ -110,7 +110,7 @@ const wrappedFetch = async function () {
 function optionsWithoutBody (method, authenticationToken) {
   const headers = new Headers({ // Request headers
     Accept: 'application/json, text/javascript, */*; q=0.01',
-    api_key: 'apiKey' // eslint-disable-line camelcase
+    api_key: apiKey // eslint-disable-line camelcase
   });
   if (authenticationToken) {
     headers.append('authtoken', authenticationToken);
@@ -127,7 +127,7 @@ function optionsWithBody (method, authenticationToken, body) {
   const headers = new Headers({ // Request headers
     'Content-Type': 'application/json; charset=UTF-8',
     Accept: 'application/json, text/javascript, */*; q=0.01',
-    api_key: 'apiKey' // eslint-disable-line camelcase
+    api_key: apiKey // eslint-disable-line camelcase
   });
   if (authenticationToken) {
     headers.append('authtoken', authenticationToken);

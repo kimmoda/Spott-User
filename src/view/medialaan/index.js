@@ -95,7 +95,6 @@ class Medialaan extends Component {
           setTimeout(removeMessage, 4500);
         },
         success (data) {
-          console.log('data', data, Object.keys(data));
           if (!('email' in data) || !('source' in data)) {
             // something went wrong
             medialaan.removeClass(success);

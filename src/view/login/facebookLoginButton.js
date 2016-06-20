@@ -36,8 +36,6 @@ class FacebookLoginButton extends Component {
 
   fetchUser (facebookAccessToken) {
     FB.api('/me', (response) => {
-      console.log('Fetching user from token...');
-      console.log('Dispatch user name and token to props...', response);
       this.props.loginFacebook({ facebookAccessToken });
     });
   }
@@ -45,7 +43,6 @@ class FacebookLoginButton extends Component {
   // handle fb button click
   handleClick (e) {
     FB.login((response) => {
-      console.log('Logging in...');
       if (response.authResponse) {
         // user authorized
         // get user data

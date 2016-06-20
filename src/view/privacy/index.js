@@ -56,7 +56,7 @@ export default class Privacy extends Component {
                 <li><strong>Verantwoordelijke voor de Verwerking:</strong> de natuurlijke persoon of de rechtspersoon, de feitelijke vereniging of het openbaar bestuur die alleen of samen met anderen het doel en de middelen voor de Verwerking van Persoonsgegevens bepaalt;</li>
                 <li><strong>Verwerken, Verwerkt of Verwerking:</strong> elke bewerking of elk geheel van bewerkingen met betrekking tot Persoonsgegevens, al dan niet uitgevoerd met behulp van geautomatiseerde procédés, zoals het verzamelen, vastleggen, ordenen, bewaren, bijwerken, wijzigen, opvragen, raadplegen, gebruiken, verstrekken door middel van doorzending, verspreiden of op enigerlei andere wijze ter beschikking stellen, samenbrengen, met elkaar in verband brengen, alsmede het afschermen, uitwissen of vernietigen van Persoonsgegevens;</li>
                 <li><strong>Verwerker:</strong> de natuurlijke persoon, de rechtspersoon, de feitelijke vereniging of het openbaar bestuur die ten behoeve van de Verantwoordelijke voor de Verwerking Persoonsgegevens Verwerkt, met uitsluiting van de personen die onder rechtstreeks gezag van de Verantwoordelijke voor de Verwerking gemachtigd zijn om gegevens te Verwerken;</li>
-                <li><strong>Website:</strong> de SPOTT website van Appiness: <a href='http://spott.it' target='_blank'>www.spott.it</a>.</li>
+                <li><strong>Website:</strong> de SPOTT website van Appiness: <a href='http://spott.it'>www.spott.it</a>.</li>
               </ul>
 
               <li className='list__heading'>De verzamelde Persoonsgegevens</li>
@@ -146,7 +146,7 @@ export default class Privacy extends Component {
                   </div>
                 </div>
                 <li>Indien u uw toestemming wenst in te trekken voor het gebruik van cookies, voor zover die toestemming vereist is, of indien u geplaatste cookies op uw computer wenst te verwijderen of controleren, kan u uw webbrowser meestal instellen om bepaalde cookies te blokkeren of te verwijderen. Merk op dat indien u ervoor kiest om cookies te blokkeren of te verwijderen, dit een impact kan hebben op uw gebruikservaring van de Website en het mogelijk is dat sommige onderdelen ervan niet naar behoren zullen werken. </li>
-                <li>Voor meer informatie over het gebruik van cookies en hoe deze te blokkeren kan u terecht op <a href='http://www.allaboutcookies.org' target='_blank'>www.allaboutcookies.org</a> of <a href='www.youronlinechoices.eu' target='_blank'>www.youronlinechoices.eu</a>. U kan ook steeds contact opnemen met de Appiness helpdesk als u vragen of opmerkingen heeft over het gebruik van cookies.</li>
+                <li>Voor meer informatie over het gebruik van cookies en hoe deze te blokkeren kan u terecht op <a href='http://www.allaboutcookies.org'>www.allaboutcookies.org</a> of <a href='www.youronlinechoices.eu'>www.youronlinechoices.eu</a>. U kan ook steeds contact opnemen met de Appiness helpdesk als u vragen of opmerkingen heeft over het gebruik van cookies.</li>
               </ol>
 
               <li className='list__heading'>Wijzigingen van dit Privacy Reglement en nieuwe doeleinden</li>
@@ -186,7 +186,7 @@ export default class Privacy extends Component {
                 <li>Hertshage 10</li>
                 <li>9300 Aalst</li>
                 <li>E-mail: <a href='mailto:helpdesk@spott.it'>helpdesk@spott.it</a>;</li>
-                <li>Website: <a href='http://spott.it' target='_blank'>www.spott.it</a></li>
+                <li>Website: <a href='http://spott.it'>www.spott.it</a></li>
               </ul>
             </ol>
           </div>

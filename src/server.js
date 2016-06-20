@@ -18,16 +18,8 @@ import { doInit } from './actions';
 import createStore from './createStore';
 import reducer from './reducer';
 import { getRoutes } from './routes';
-import AsyncProps, { loadPropsOnServer } from 'async-props';
+import { fetchNeeds, AsyncRouterContext } from 'redux-async-props';
 
-const loadPropsOnServerPromised = function () {
-  return new Promise((resolve, reject) => {
-    loadPropsOnServer(...arguments, (err, asyncProps, scriptTag) => {
-      if (err) { return reject(err); }
-      resolve({ asyncProps, scriptTag });
-    })
-  });
-}
 // We want pretty errors!
 const prettyError = new PrettyError();
 prettyError.skipNodeFiles();
@@ -150,17 +142,16 @@ app.get('*', async (req, res) => {
       res.status(500);
     } else {
       try {
-        const { asyncProps, scriptTag } = await loadPropsOnServerPromised(renderProps, store);
+        const { asyncProps } = await fetchNeeds(renderProps, store);
         // Render component
         const component = (
           <StyleRoot>
             <Provider key='provider' store={store}>
-                <AsyncProps {...renderProps} {...asyncProps} />
+                <AsyncRouterContext {...renderProps} asyncProps={asyncProps} />
             </Provider>
           </StyleRoot>);
-        console.log(scriptTag);
         // Grab and serialize the initial state from our Redux store
-        const state = `window.__INITIAL_STATE__=${serializeJavascript(store.getState().toJS())};`;
+        const state = `window.__INITIAL_STATE__=${serializeJavascript(...store.getState().set('asyncProps', asyncProps).toJS())};`;
         // Render and send response
         global.navigator = { userAgent: req.headers['user-agent'] };
         global.window = { navigator: global.navigator }; // Make window accessible as global
