@@ -1,31 +1,31 @@
 import React from 'react';
 import { IndexRoute, IndexRedirect, Route } from 'react-router';
-import { authenticationTokenSelector } from './selectors';
 
-import App from './view/app';
-import Carrefour from './view/carrefour';
-import ChangePassword from './view/changePassword';
-import ConfirmedNewsletter from './view/confirmedNewsletter';
-import Error404 from './view/error404';
-import HelloBankContestRules from './view/hellobank/contestRules';
-import HelloBankHomeStep1 from './view/hellobank/home/step1';
-import HelloBankHomeStep2 from './view/hellobank/home/step2';
-import HelloBankHomeStep3 from './view/hellobank/home/step3';
-import HellobankHomeWrapper from './view/hellobank/home';
-import Home from './view/home';
-import Login from './view/login';
-import Medialaan from './view/medialaan';
-import Privacy from './view/privacy';
-import Profile from './view/profile/view';
-import ProfileWishlists from './view/profile/view/wishlists';
-import ProfileWishlistProducts from './view/profile/view/wishlistProducts';
-import Redirect from './view/redirect';
-import Terms from './view/terms';
+import App from './pages/app/view';
+import Carrefour from './pages/carrefour/view';
+import ChangePassword from './pages/changePassword';
+import ConfirmedNewsletter from './pages/confirmedNewsletter';
+import Error404 from './pages/error404';
+import HelloBankContestRules from './pages/hellobank/view/contestRules';
+import HelloBankHomeStep1 from './pages/hellobank/view/home/step1';
+import HelloBankHomeStep2 from './pages/hellobank/view/home/step2';
+import HelloBankHomeStep3 from './pages/hellobank/view/home/step3';
+import HellobankHomeWrapper from './pages/hellobank/view/home';
+import Home from './pages/home';
+import Login from './pages/login';
+import Medialaan from './pages/medialaan';
+import Privacy from './pages/privacy';
+import Profile from './pages/profile/view';
+import ProfileWishlists from './pages/profile/view/wishlists';
+import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
+import Redirect from './pages/redirect';
+import Terms from './pages/terms';
 
 /**
  * The application routes
  */
 export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-types
+/*
   function requireAuth (nextState, replace) {
     // Not authenticated.. replace current location with /login
     if (!authenticationTokenSelector(getState())) {
@@ -35,6 +35,7 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
       });
     }
   }
+*/
 
   return (
     <Route component={App} path='/'>
@@ -50,7 +51,7 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
       <Route component={ChangePassword} path='/user/changepwd' />
       <Route component={ConfirmedNewsletter} path='/confirmed' />
 
-      <Route component={Profile} path='/profile/:userSlug/:userId' onEnter={requireAuth} >
+      <Route component={Profile} path='/profile/:userSlug/:userId' >
         <IndexRedirect to='/profile/:userSlug/:userId/wishlists' />
         <Route path='/profile/:userSlug/:userId/wishlists'>
           <IndexRoute component={ProfileWishlists} />

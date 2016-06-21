@@ -19,8 +19,7 @@
   },
   "scripts": {
     "build": "rm -rf ./dist/* && NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --config webpack.prod.config.babel.js",
-    "dev": "NODE_ENV=development ./server",
-    "dev-rad": "NODE_ENV=development SERVER=false ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --config ./webpack.dev.config.babel.js --port 2999"
+    "dev": "NODE_ENV=development ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --config ./webpack.dev.config.babel.js --port 2999"
   },
   "private": true,
   "license": "UNLICENSED",

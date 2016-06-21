@@ -16,7 +16,7 @@ export default function (theHistory, reducers, initialState) {
   // Install react-router-redux's router middleware
   middleware.push(routerMiddleware(theHistory));
   // Install logging middleware when not in production
-  if (__DEVELOPMENT__ && !__SERVER__) {
+  if (__DEVELOPMENT__) {
     const createLogger = require('redux-logger');
     middleware.push(createLogger({
       // Collapse by default to preserve space in the console
