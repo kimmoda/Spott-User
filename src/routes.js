@@ -16,6 +16,7 @@ import Home from './view/home';
 import Login from './view/login';
 import Medialaan from './view/medialaan';
 import Privacy from './view/privacy';
+import ProductDetail from './view/productDetail/view';
 import Profile from './view/profile/view';
 import ProfileWishlists from './view/profile/view/wishlists';
 import ProfileWishlistProducts from './view/profile/view/wishlistProducts';
@@ -45,6 +46,8 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
       <Route component={Redirect} path='/app' />
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />
+
+      <Route component={ProductDetail} path='/product/:productId' />
 
       <Route component={Login} path='/login' />
       <Route component={ChangePassword} path='/user/changepwd' />
