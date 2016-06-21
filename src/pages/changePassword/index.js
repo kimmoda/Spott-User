@@ -11,6 +11,7 @@ class ChangePassword extends Component {
 
   static propTypes = {
     location: PropTypes.shape({
+      query: PropTypes.object.isRequired,
       pathname: PropTypes.string.isRequired
     }).isRequired
   };
@@ -55,21 +56,9 @@ class ChangePassword extends Component {
     });
   }
   getParam (param) {
-    const qstring = window.location.hash.substring(1).split('&');
-    for (let i = 0; i < qstring.length; i++) {
-      const p = qstring[i].split('=');
-
-      // if parameter contains /user/changepwd?
-      if (p[0].indexOf('/user/changepwd?') > -1) {
-        // replace with nothing
-        const splitUrl = p[0].replace('/user/changepwd?', '');
-        p[0] = splitUrl;
-      }
-
-      if (p[0] === param) {
-        return p[1];
-      }
-    }
+    console.log(this.props);
+    const { location: { query } } = this.props;
+    return query && query[param];
   }
   validatePassword (password) {
     return password.length >= 6;

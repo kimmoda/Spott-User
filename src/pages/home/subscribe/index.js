@@ -72,7 +72,7 @@ class Subscribe extends Component {
       cache: false,
       dataType: 'json',
       contentType: 'application/json; charset=utf-8',
-      error () {
+      error (e) {
         // connection error
         sectionSubscribe.removeClass(success);
         if (!sectionSubscribe.hasClass(error)) {

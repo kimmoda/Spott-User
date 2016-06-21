@@ -5,3 +5,5 @@ export const authenticationTokenSelector = (state) => state.getIn([ 'app', 'auth
 export const authenticationErrorSelector = (state) => state.getIn([ 'app', 'authentication', 'error' ]);
 export const authenticationIsLoadingSelector = (state) => state.getIn([ 'app', 'authentication', 'isLoading' ]);
 export const currentUserFirstnameSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'firstname' ]);
+export const currentUserUsernameSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'username' ]);
+export const currentUserIdSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'id' ]);

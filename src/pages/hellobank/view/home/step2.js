@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Link, withRouter } from 'react-router';
 import * as actions from '../../actions';
 import commonStyles from './commonStyles';
-
+import { authenticationTokenSelector } from '../../../app/selector';
 const step2styles = {
   title: {
     fontFamily: 'Roboto-Bold',
@@ -294,8 +294,8 @@ class Step2 extends Component {
 
 export default withRouter(
   connect((state) => ({
-    error: state.contest.hellobankError,
-    isAuthenticated: Boolean(state.auth.authenticationToken)
+    error: state.getIn([ 'hellobank', 'hellobankError' ]),
+    isAuthenticated: authenticationTokenSelector(state)
   }), (dispatch) => ({
   //  openLoginModal: bindActionCreators(actions.openLoginModal, dispatch),
     submitHellobank: bindActionCreators(actions.submitHellobank, dispatch)

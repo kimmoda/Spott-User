@@ -51,9 +51,7 @@ export default class App extends Component {
       return (
         <div style={styles.container}>
           {this.previousChildren}
-          {this.props.children && React.cloneElement(this.props.children, {
-            modalReturnTo: location.state.returnTo
-          })}
+          {this.props.children}
         </div>
       );
     }

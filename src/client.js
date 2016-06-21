@@ -33,13 +33,14 @@ if (process.env.NODE_ENV !== 'production') {
  * the current page.
  */
 function updateScroll () {
-  const { hash } = window.location;
-  if (hash) {
+  const url = window.location.pathname;
+  console.log(url);
+  if (url) {
     // Push onto callback queue so it runs after the DOM is updated,
     // this is required when navigating from a different page so that
     // the element is rendered on the page before trying to getElementById.
     setTimeout(() => {
-      const matches = /^\/(subscribe|content|get-in-touch)\?.*/.exec(hash);
+      const matches = /^\/(subscribe|content|get-in-touch).*/.exec(url);
       if (matches && matches.length > 1) {
         const id = matches[1];
         $('html, body').animate({

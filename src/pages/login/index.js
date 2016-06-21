@@ -7,6 +7,8 @@ import FacebookLoginButton from './facebookLoginButton';
 import * as actions from '../app/actions';
 import { authenticationErrorSelector, authenticationIsLoadingSelector }
   from '../app/selector';
+import { Page } from '../_common/buildingBlocks';
+import Footer from '../_common/footer';
 import { push as routerPush } from 'react-router-redux';
 
 const dialogStyle = {
@@ -35,7 +37,8 @@ class Form extends Component {
   static propTypes = {
     error: PropTypes.any,
     isLoading: PropTypes.bool,
-    submit: PropTypes.func.isRequired
+    submit: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -49,11 +52,12 @@ class Form extends Component {
     }, 0);
   }
 
-  onSubmit (e) {
+  async onSubmit (e) {
     e.preventDefault();
     const email = this._email.value;
     const password = this._password.value;
-    this.props.submit({ email, password });
+    await this.props.submit({ email, password });
+    this.props.onClose();
   }
 
   static styles = {
@@ -94,7 +98,6 @@ class Form extends Component {
   render () {
     const styles = this.constructor.styles;
     const { error, isLoading } = this.props;
-    console.warn(error);
     return (
       <form onSubmit={this.onSubmit}>
         <div style={styles.line}>&nbsp;</div>
@@ -104,7 +107,6 @@ class Form extends Component {
           style={styles.textInput} type='password' />
         {error && <div style={styles.error}>{error}</div>}
         <input disabled={isLoading} style={styles.button} type='submit' value='Log In'/>
-        {this.props.onCancel && <button style={styles.button} onClick={this.props.onCancel}>Cancel</button>}
       </form>
     );
   }
@@ -113,62 +115,69 @@ class Form extends Component {
 class Login extends Component {
 
   static propTypes = {
-    closeLoginModal: PropTypes.func.isRequired,
-    modalReturnTo: PropTypes.string,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      state: PropTypes.shape({
+        modal: PropTypes.bool,
+        returnTo: PropTypes.string
+      })
+    }).isRequired,
     routerPush: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired
   }
 
   constructor (props) {
     super(props);
-    this.onCancelClick = ::this.onCancelClick;
-    this.onRequestClose = ::this.onRequestClose;
+    this.onClose = ::this.onClose;
   }
 
-  onCancelClick (e) {
-    e.preventDefault();
-    this.onRequestClose();
-  }
-
-  onRequestClose () {
-    this.props.routerPush(this.props.modalReturnTo || '/');
+  onClose () {
+    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || '/');
   }
 
   static styles = {
     container: {
-      padding: 30
+      padding: '32px 16px',
+      maxWidth: '420px',
+      margin: '0 auto'
     },
     title: {
-      color: '#221f26',
-      fontFamily: 'ProximaNova-Light',
-      fontSize: '28px',
-      marginBottom: 30
+      color: '#cf315b',
+      fontFamily: 'ProximaNova-Bold',
+      fontSize: '3rem',
+      lineHeight: '48px',
+      marginBottom: 45,
+      textAlign: 'center'
     }
   };
 
   render () {
     const styles = this.constructor.styles;
-
-    if (this.props.modalReturnTo) {
+    if (this.props.location.state && this.props.location.state.modal) {
       return (
         <ReactModal
           isOpen
           style={dialogStyle}
-          onRequestClose={this.onRequestClose}>
+          onRequestClose={this.onClose}>
           <section style={styles.container}>
             <h2 style={styles.title}>Log In</h2>
             <FacebookLoginButton />
-            <Form {...this.props} />
+            <Form {...this.props} onClose={this.onClose} />
           </section>
         </ReactModal>
       );
     }
     return (
-      <section style={styles.container}>
-        <h2 style={styles.title}>Log In</h2>
-        <FacebookLoginButton />
-        <Form {...this.props} type='button' onCancel={this.onCancelClick} />
-      </section>
+      <div>
+        <Page currentPathname={this.props.location.pathname}>
+          <section style={styles.container}>
+            <h2 style={styles.title}>Log In</h2>
+            <FacebookLoginButton />
+            <Form {...this.props} type='button' />
+          </section>
+        </Page>
+        <Footer />
+      </div>
     );
   }
 }

@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../app/actions';
-import { authenticationTokenSelector } from '../../app/selector';
+import { authenticationTokenSelector, currentUserUsernameSelector, currentUserIdSelector } from '../../app/selector';
 import { Link } from 'react-router';
 import $ from 'jquery';
+import { slugify } from '../../../utils';
 
 require('./navbar.scss');
 
@@ -15,6 +16,8 @@ class Navbar extends Component {
 
   static propTypes = {
     currentPathname: PropTypes.string.isRequired,
+    currentUserId: PropTypes.string,
+    currentUserUsername: PropTypes.string,
     hideRightBar: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
     logout: PropTypes.func.isRequired,
@@ -74,7 +77,7 @@ class Navbar extends Component {
   }
 
   renderRightNavBar () {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, currentUserId, currentPathname, currentUserUsername } = this.props;
     if (this.props.hideRightBar) {
       return null;
     }
@@ -90,7 +93,7 @@ class Navbar extends Component {
           <li className='navbar__regitem'>
             <Link className='navbar__link' to='/get-in-touch'>Get in touch</Link>
           </li>
-          {!isAuthenticated &&
+          {currentPathname !== '/login' && !isAuthenticated &&
             <li className='navbar__cta'>
              <Link className='navbar__link' to={{
                pathname: '/login',
@@ -100,8 +103,12 @@ class Navbar extends Component {
              </Link>
             </li>}
           {isAuthenticated &&
+            <li className='navbar__regitem'>
+              <Link className='navbar__link' to={`/profile/${slugify(currentUserUsername)}/${currentUserId}`}>My Wishlists</Link>
+            </li>}
+          {isAuthenticated &&
             <li className='navbar__cta'>
-              <a className='navbar__link' href='#logout' onClick={this.logout}>Logout</a>
+              <a className='navbar__link' href='#' onClick={this.logout}>Logout</a>
             </li>}
         </ul>
       </div>
@@ -121,7 +128,9 @@ class Navbar extends Component {
 }
 
 export default connect((state) => ({
-  isAuthenticated: Boolean(authenticationTokenSelector(state))
+  isAuthenticated: Boolean(authenticationTokenSelector(state)),
+  currentUserUsername: currentUserUsernameSelector(state),
+  currentUserId: currentUserIdSelector(state)
 }), (dispatch) => ({
   logout: bindActionCreators(actions.doLogout, dispatch)
 }))(Navbar);
