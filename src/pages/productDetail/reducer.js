@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import * as actions from './actions';
-import { fetchStart, fetchSuccess, fetchError } from '../../reducer/_utils';
+import { fetchStart, fetchSuccess, fetchError } from '../../utils';
 
 export default function productReducer (state = fromJS({
   currentProduct: {}

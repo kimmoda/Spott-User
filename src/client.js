@@ -15,6 +15,7 @@ import { fromJS } from 'immutable';
 import { AsyncRouterContext } from 'redux-async-props';
 import { combineReducers } from 'redux-immutablejs';
 import app from './pages/app/reducer';
+import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import hellobank from './pages/hellobank/reducer';
 
@@ -55,6 +56,7 @@ function updateScroll () {
 const rootReducer = combineReducers({
   app,
   hellobank,
+  productDetail,
   profile,
   routing: routerReducer
 });

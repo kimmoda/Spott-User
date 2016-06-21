@@ -1,4 +1,4 @@
-import { authenticationTokenSelector, apiBaseUrlSelector } from '../../selectors';
+import { authenticationTokenSelector, apiBaseUrlSelector } from '../app/selector';
 import * as productApi from './api';
 
 export const LOAD_PRODUCT_START = 'LOAD_PRODUCT_START';

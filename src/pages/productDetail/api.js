@@ -1,4 +1,4 @@
-import * as request from '../../api/_request';
+import * as request from '../../request';
 
 /**
  * @throws NetworkError
