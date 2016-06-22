@@ -44,10 +44,10 @@ export function submitHellobank ({ birthdate, email, firstname, lastname, passwo
       dispatch({ type: HELLOBANK_SUCCESS });
       return { name };
     } catch (error) {
-      if (error === 'gebruiker bestaat reeds') {
-        return dispatch({ error: 'Er is reeds een Spott-gebruiker geregistreerd onder dit e-mailadres. Gelieve je aan te melden via bovenstaande link.', type: HELLOBANK_FAILURE });
+      if (error.body.message === 'gebruiker bestaat reeds') {
+        throw dispatch({ error: 'Er is reeds een Spott-gebruiker geregistreerd onder dit e-mailadres. Gelieve je aan te melden via bovenstaande link.', type: HELLOBANK_FAILURE });
       }
-      dispatch({ error, type: HELLOBANK_FAILURE });
+      throw dispatch({ error: (error.body && error.body.message) || error.message, type: HELLOBANK_FAILURE });
     }
   };
 }

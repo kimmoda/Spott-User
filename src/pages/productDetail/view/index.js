@@ -2,6 +2,7 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Container } from '../../_common/buildingBlocks';
+import FacebookShareData from '../../_common/facebookShareData';
 import { loadProduct } from '../actions';
 import { productSelector } from '../selector';
 
@@ -31,6 +32,8 @@ export default class ProductDetail extends Component {
         <div>
           Sub Images
         </div>
+        {/* TODO: Didier will provide title, description and maybe images for sharing */}
+        <FacebookShareData description={product.get('description')} imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()} title={product.get('shortName')} />
       </Container>
     );
   }
