@@ -11,6 +11,7 @@ const RadiumedLink = Radium(Link);
 export const colors = {
   darkPink: '#cf315b',
   coolGray: '#a7a6a9',
+  dark: '#221f26',
   slateGray: '#59575c',
   whiteThree: '#e9e9e9',
   whiteTwo: '#fcfcfc',

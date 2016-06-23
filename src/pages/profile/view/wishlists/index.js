@@ -69,6 +69,12 @@ class Wishlist extends Component {
   }
 }
 
+const styles = {
+  emptyText: {
+    ...makeTextStyle(fontWeights.medium, '0.875em'),
+    color: colors.slateGray
+  }
+};
 @connect(wishlistsOfCurrentUserSelector)
 export default class Wishlists extends Component {
   static propTypes = {
@@ -90,14 +96,13 @@ export default class Wishlists extends Component {
   render () {
     const { params: { userId, userSlug }, wishlists } = this.props;
     if (wishlists.get('_status') === FETCHING) {
-      return (
-        <Spinner />
-      );
+      return (<Spinner />);
     } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
-      return (
-        <Tiles horizontalSpacing={10} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />} verticalSpacing={60} />
-      );
+      if (wishlists.get('data').size > 0) {
+        return (<Tiles horizontalSpacing={10} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />} verticalSpacing={60} />);
+      }
+      return (<p style={styles.emptyText}>You have no wishlists yet.</p>);
     }
-    return <div></div>;
+    return (<div></div>);
   }
 }

@@ -54,7 +54,7 @@ class WishlistProduct extends Component {
     const { item, style } = this.props;
     return (
       <div style={style}>
-        <a href={item.get('buyUrl')} title={item.get('name')} style={itemStyles.container} target='_blank'>
+        <a href={item.get('buyUrl')} style={itemStyles.container} target='_blank' title={item.get('name')}>
           <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? 'none' : item.getIn([ 'image', 'url' ]) })` }}></div>
         </a>
@@ -63,12 +63,24 @@ class WishlistProduct extends Component {
   }
 }
 
+const styles = {
+  emptyText: {
+    ...makeTextStyle(fontWeights.medium, '0.875em'),
+    color: colors.slateGray
+  },
+  title: {
+    ...makeTextStyle(fontWeights.light, '1.75em'),
+    color: colors.dark,
+    paddingBottom: '1.143em'
+  }
+};
 @connect(productsOfWishlistSelector)
 export default class WishlistProducts extends Component {
   static propTypes = {
     productsOfWishlist: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
-      data: ImmutablePropTypes.list
+      data: ImmutablePropTypes.list,
+      name: PropTypes.string.isRequired
     })
   };
 
@@ -80,14 +92,23 @@ export default class WishlistProducts extends Component {
   render () {
     const { productsOfWishlist } = this.props;
     if (productsOfWishlist.get('_status') === FETCHING) {
-      return (
-        <Spinner />
-      );
+      return (<Spinner />);
     } else if (productsOfWishlist.get('_status') === LOADED || productsOfWishlist.get('_status') === UPDATING) {
+      if (productsOfWishlist.get('data').size > 0) {
+        return (
+          <div>
+            <h1 style={styles.title}>{productsOfWishlist.get('name') || 'Wishlist'}</h1>
+            <Tiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
+          </div>
+        );
+      }
       return (
-        <Tiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
+        <div>
+          {productsOfWishlist.get('name') || 'Wishlist'}
+          <p style={styles.emptyText}>This wishlist is empty.</p>
+        </div>
       );
     }
-    return <div></div>;
+    return (<div></div>);
   }
 }
