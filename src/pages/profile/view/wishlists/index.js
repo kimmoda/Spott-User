@@ -8,6 +8,9 @@ import { fetchWishlistsOfUser } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 import { slugify } from '../../../../utils';
+import { FETCHING, LOADED, UPDATING } from '../../../../statusTypes';
+import Spinner from '../../../_common/spinner';
+
 const RadiumLink = Radium(Link);
 
 const placeholderLargeImage = require('./placeholderLarge.png');
@@ -20,19 +23,23 @@ const itemStyles = {
     padding: '1.25em',
     textDecoration: 'none',
     ':hover': {
-      filter: 'brightness(1.1) saturate(1.7)'
+      filter: 'brightness(1.05)'
     }
   },
   name: {
-    ...makeTextStyle(fontWeights.medium, '1.0625em'),
-    color: colors.slateGray
+    ...makeTextStyle(fontWeights.medium, '0.875em'),
+    color: colors.slateGray,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   image: {
     marginTop: '1.25em',
     width: '100%',
     paddingBottom: '100%',
     backgroundSize: 'contain',
-    backgroundPosition: 'center center'
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat'
   }
 };
 class Wishlist extends Component {
@@ -53,8 +60,8 @@ class Wishlist extends Component {
     const { baseUrl, item, style } = this.props;
     return (
       <div style={style}>
-        <RadiumLink style={itemStyles.container} to={`${baseUrl}/${slugify(item.get('name')) || 'unnamed-wishlist'}/${item.get('id')}`}>
-          <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
+        <RadiumLink style={itemStyles.container} title={item.get('name') || 'Wishlist'} to={`${baseUrl}/${slugify(item.get('name')) || 'wishlist'}/${item.get('id')}`}>
+          <p style={itemStyles.name}>{item.get('name') || 'Wishlist'}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? placeholderLargeImage : item.getIn([ 'image', 'url' ]) })` }}></div>
         </RadiumLink>
       </div>
@@ -82,8 +89,15 @@ export default class Wishlists extends Component {
 
   render () {
     const { params: { userId, userSlug }, wishlists } = this.props;
-    return (
-      <Tiles horizontalSpacing={10} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />} verticalSpacing={60} />
-    );
+    if (wishlists.get('_status') === FETCHING) {
+      return (
+        <Spinner />
+      );
+    } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
+      return (
+        <Tiles horizontalSpacing={10} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />} verticalSpacing={60} />
+      );
+    }
+    return <div></div>;
   }
 }

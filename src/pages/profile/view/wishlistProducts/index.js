@@ -5,7 +5,8 @@ import Tiles from '../../../_common/tiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { fetchProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { LOADED } from '../../../../statusTypes';
+import { FETCHING, LOADED, UPDATING } from '../../../../statusTypes';
+import Spinner from '../../../_common/spinner';
 
 const itemStyles = {
   container: {
@@ -15,19 +16,23 @@ const itemStyles = {
     padding: '1.25em',
     textDecoration: 'none',
     ':hover': {
-      filter: 'brightness(1.1) saturate(1.7)'
+      filter: 'brightness(1.1)'
     }
   },
   name: {
-    ...makeTextStyle(fontWeights.medium, '1.0625em'),
-    color: colors.slateGray
+    ...makeTextStyle(fontWeights.medium, '0.875em'),
+    color: colors.slateGray,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   image: {
     marginTop: '1.25em',
     width: '100%',
     paddingBottom: '100%',
     backgroundSize: 'contain',
-    backgroundPosition: 'center center'
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat'
   }
 };
 class WishlistProduct extends Component {
@@ -49,7 +54,7 @@ class WishlistProduct extends Component {
     const { item, style } = this.props;
     return (
       <div style={style}>
-        <a href={item.get('buyUrl')} style={itemStyles.container} target='_blank'>
+        <a href={item.get('buyUrl')} title={item.get('name')} style={itemStyles.container} target='_blank'>
           <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? 'none' : item.getIn([ 'image', 'url' ]) })` }}></div>
         </a>
@@ -74,7 +79,11 @@ export default class WishlistProducts extends Component {
 
   render () {
     const { productsOfWishlist } = this.props;
-    if (productsOfWishlist.get('_status') === LOADED) {
+    if (productsOfWishlist.get('_status') === FETCHING) {
+      return (
+        <Spinner />
+      );
+    } else if (productsOfWishlist.get('_status') === LOADED || productsOfWishlist.get('_status') === UPDATING) {
       return (
         <Tiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
       );
