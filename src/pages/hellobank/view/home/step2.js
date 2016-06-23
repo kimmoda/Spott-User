@@ -119,6 +119,9 @@ class Step2 extends Component {
   static propTypes = {
     error: PropTypes.string,
     isAuthenticated: PropTypes.bool,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }).isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired
     }).isRequired,
@@ -213,7 +216,6 @@ class Step2 extends Component {
 
   render () {
     const { error, isAuthenticated } = this.props;
-    console.info(this.props);
     const { errors, showError } = this.state;
     return (
       <form onSubmit={this.onSubmit}>
