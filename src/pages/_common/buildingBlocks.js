@@ -1,5 +1,6 @@
 import Radium from 'radium';
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import Navbar from './navbar';
 import { Link } from 'react-router';
 
@@ -9,6 +10,7 @@ const RadiumedLink = Radium(Link);
 // /////////
 
 export const colors = {
+  dark: '#221f26',
   darkPink: '#cf315b',
   coolGray: '#a7a6a9',
   slateGray: '#59575c',
@@ -111,6 +113,119 @@ Container.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object
 };
+
+// Container component
+// ///////////////////
+
+const scalableContainerStyles = {
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  width: '100%',
+  paddingLeft: '0.9375em',
+  paddingRight: '0.9375em'
+  // [mediaQueries.medium]: {
+  //   paddingLeft: 0,
+  //   paddingRight: 0,
+  //   width: 738
+  // },
+  // [mediaQueries.large]: {
+  //   width: 962
+  // },
+  // [mediaQueries.extraLarge]: {
+  //   width: 1170
+  // }
+};
+export const ScalableContainer = Radium((props) => (
+  <div style={[ scalableContainerStyles, props.style ]}>
+    {props.children}
+  </div>
+));
+ScalableContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object
+};
+
+// SectionTitle Component
+// //////////////////////
+
+const sectionTitleStyle = {
+  color: colors.dark,
+  fontSize: '1.438em',
+  fontFamily: 'Roboto',
+  fontWeight: 300,
+  letterSpacing: '0.031em',
+  marginBottom: '1.875em'
+};
+export const SectionTitle = Radium((props) => {
+  return <h2 {...props} style={[ sectionTitleStyle, props.style ]}>{props.children}</h2>;
+});
+SectionTitle.propTypes = {
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object
+};
+
+// Tiles Component
+// ///////////////
+
+@Radium
+export class Tiles extends Component {
+
+  static propTypes = {
+    horizontalSpacing: PropTypes.number.isRequired,
+    items: ImmutablePropTypes.listOf(
+      PropTypes.any
+    ).isRequired,
+    numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
+    // The component for rendering the tile. Is cloned with an additional
+    // 'value' prop.
+    style: PropTypes.object,
+    tile: PropTypes.node.isRequired,
+    verticalSpacing: PropTypes.number.isRequired
+  };
+
+  render () {
+    const { horizontalSpacing, items, numColumns, verticalSpacing, style: tilesStyle, tile } = this.props;
+
+    const renderedItems = [];
+
+    const style = {
+      display: 'inline-block',
+      width: '100%',
+      [mediaQueries.medium]: {
+        width: `${100 / numColumns.medium}%`,
+        paddingLeft: horizontalSpacing,
+        paddingRight: horizontalSpacing
+      },
+      [mediaQueries.large]: {
+        width: `${100 / numColumns.large}%`,
+        paddingLeft: horizontalSpacing,
+        paddingRight: horizontalSpacing
+      },
+      [mediaQueries.extraLarge]: {
+        width: `${100 / numColumns.extraLarge}%`,
+        paddingLeft: horizontalSpacing,
+        paddingRight: horizontalSpacing
+      }
+    };
+
+    for (let i = 0, l = items.size; i < l; i++) {
+      renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: i, item: items.get(i) }));
+    }
+
+    // Determine container style
+    const containerStyle = {
+      whiteSpace: 'nowrap',
+      overflow: 'hidden'
+    };
+    // Return render result
+    return (
+      <div style={[ containerStyle, tilesStyle ]}>
+        {renderedItems}
+      </div>
+    );
+  }
+
+}
 
 // Page Component
 // //////////////
