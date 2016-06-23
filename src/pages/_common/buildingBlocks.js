@@ -216,6 +216,7 @@ export class Tiles extends Component {
     // Determine container style
     const containerStyle = {
       whiteSpace: 'nowrap',
+      lineHeight: 0,
       overflow: 'hidden'
     };
     // Return render result

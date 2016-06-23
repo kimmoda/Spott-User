@@ -8,7 +8,7 @@ export default class DownloadApp extends Component {
 
   render () {
     return (
-      <div>Download App</div>
+      <div style={{ paddingTop: 100, paddingBottom: 100 }}>Download App</div>
     );
   }
 
