@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { Button, colors, Container, Page, fontWeights, makeTextStyle, SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
+import { Button, colors, Container, Page, fontWeights, makeTextStyle, SectionUpperCaseSubtitle, SectionSubtitle, SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
 import { dummySelector } from '../../selectors';
 import { dummy } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -93,7 +93,7 @@ export default class RecentlyAdded extends Component {
       fontSize: '0.688em',
       letterSpacing: '0.219em',
       padding: '0.85em 2.45em',
-      marginBottom: '3.75em',
+      marginBottom: '5.45em',
       position: 'relative'
     },
     container: {
@@ -112,33 +112,25 @@ export default class RecentlyAdded extends Component {
       backgroundImage: 'linear-gradient(to bottom, #000000, rgb(255, 255, 255))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
-    sectionTitle: {
+    title: {
       color: 'white',
-      position: 'relative'
+      marginBottom: '0.17em'
     },
     subtitle: {
       color: 'white',
-      fontFamily: 'Roboto',
-      fontSize: '0.688em',
-      fontWeight: 'bold',
-      letterSpacing: '0.219em',
-      textTransform: 'uppercase',
-      marginBottom: '1.875em',
-      position: 'relative'
+      marginBottom: '1.304em'
     },
-    title: {
+    upperCaseSubtitle: {
       color: 'white',
-      fontFamily: 'Roboto',
-      fontSize: '3.75em',
-      fontWeight: 300,
-      letterSpacing: '0.063em',
-      marginBottom: '0.17em',
-      position: 'relative'
+      marginBottom: '2.725em'
     },
     tiles: {
       marginLeft: '-0.938em',
       marginRight: '-0.938em',
       transform: 'translateY(1.875em)'
+    },
+    wrapper: {
+      position: 'relative'
     }
   };
 
@@ -147,10 +139,12 @@ export default class RecentlyAdded extends Component {
     return (
       <ScalableContainer style={[ styles.container, { backgroundImage: `url("${xFilesImage}")` } ]}>
         <div style={styles.overlay}></div>
-        <h1 style={styles.title}>X-files</h1>
-        <h3 style={styles.subtitle}>Now available on Spott</h3>
-        <Button style={styles.button}>Browse</Button>
-        <SectionTitle style={styles.sectionTitle}>Recently added</SectionTitle>
+        <div style={styles.wrapper}>
+          <SectionTitle style={styles.title}>X-files</SectionTitle>
+          <SectionUpperCaseSubtitle style={styles.upperCaseSubtitle}>Now available on Spott</SectionUpperCaseSubtitle>
+          <Button style={styles.button}>Browse</Button>
+          <SectionSubtitle style={styles.subtitle}>Recently added</SectionSubtitle>
+        </div>
         <Tiles
           horizontalSpacing='0.938em'
           items={dummySeries}
