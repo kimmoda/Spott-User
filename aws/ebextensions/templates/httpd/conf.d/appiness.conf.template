@@ -1,0 +1,26 @@
+# Server status
+ExtendedStatus On
+
+# Disable TRACE requests
+TraceEnable off      
+
+# Name based virtual hosts
+NameVirtualHost *:80
+
+# Website virtual host
+<VirtualHost *:80>
+
+  ServerName spott-%{APP_ENVIRONMENT}.appiness.mobi
+  DocumentRoot /var/www/website
+
+  # Force HTTPS (termination is done on AWS load balancer)
+  RewriteEngine On
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI}
+ 
+  # Logging
+  LogFormat "%h (%{X-Forwarded-For}i) %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\""
+  ErrorLog /var/log/httpd/website_error_log
+  TransferLog /var/log/httpd/website_access_log
+
+</VirtualHost>
