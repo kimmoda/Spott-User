@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { Button, colors, Container, Page, fontWeights, makeTextStyle, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
+import { Button, colors, Container, Page, fontWeights, makeTextStyle, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, Tiles, pinkButtonStyle } from '../../../_common/buildingBlocks';
 import { dummySelector } from '../../selectors';
 import { dummy } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -27,12 +27,6 @@ export default class RecentlyAdded extends Component {
 
   static styles = {
     button: {
-      borderRadius: '6.25em',
-      backgroundColor: colors.darkPink,
-      border: `solid 0.125em ${colors.darkPink}`,
-      fontSize: '0.688em',
-      letterSpacing: '0.219em',
-      padding: '0.85em 2.45em',
       marginBottom: '5.45em',
       position: 'relative'
     },
@@ -82,7 +76,7 @@ export default class RecentlyAdded extends Component {
         <div style={styles.wrapper}>
           <Title style={styles.title}>X-files</Title>
           <UpperCaseSubtitle style={styles.upperCaseSubtitle}>Now available on Spott</UpperCaseSubtitle>
-          <Button style={styles.button}>Browse</Button>
+          <Button style={[ pinkButtonStyle, styles.button ]}>Browse</Button>
           <SectionTitle style={styles.subtitle}>Recently added</SectionTitle>
         </div>
         <Tiles

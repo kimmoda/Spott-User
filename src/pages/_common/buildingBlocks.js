@@ -72,6 +72,20 @@ const buttonStyle = {
     backgroundColor: 'rgba(255, 255, 255, 0.1)'
   }
 };
+export const pinkButtonStyle = {
+  borderRadius: '6.25em',
+  backgroundColor: colors.darkPink,
+  border: `solid 0.125em ${colors.darkPink}`,
+  fontSize: '0.688em',
+  letterSpacing: '0.219em',
+  padding: '0.85em 2.45em',
+  ':hover': {
+    backgroundColor: 'rgba(207, 49, 91, 0.6)'
+  },
+  ':focus': {
+    backgroundColor: 'rgba(207, 49, 91, 0.6)'
+  }
+};
 export const Button = Radium((props) => {
   if (!props.href) {
     return <button {...props} style={[ buttonStyle, props.style ]}>{props.children}</button>;
