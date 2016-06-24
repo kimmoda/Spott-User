@@ -12,6 +12,8 @@ export default function productReducer (state = fromJS({
       return fetchSuccess(state, [ 'currentProduct' ], action.data);
     case actions.LOAD_PRODUCT_ERROR:
       return fetchError(state, [ 'currentProduct' ], action.error);
+    case actions.CHANGE_IMAGE_SELECTION:
+      return state.setIn([ 'currentProduct', 'selectedImage' ], action.imageUrl);
     default:
       return state;
   }
