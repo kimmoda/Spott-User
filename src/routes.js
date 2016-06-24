@@ -48,7 +48,7 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />
 
-      <Route component={ProductDetail} path='/product/:productId' />
+      <Route component={ProductDetail} path='/product/:productSlug/:productId' />
 
       <Route component={Login} path='/login' />
       <Route component={ChangePassword} path='/user/changepwd' />

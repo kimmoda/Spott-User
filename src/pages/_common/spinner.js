@@ -23,7 +23,7 @@ const styles = {
     animation: 'x 1s ease-in-out infinite',
     animationName: spinnerKeyframes
   }
-}
+};
 
 @Radium
 export default class Spinner extends Component {

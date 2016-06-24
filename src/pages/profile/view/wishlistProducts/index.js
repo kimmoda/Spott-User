@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Radium from 'radium';
+import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
 import Tiles from '../../../_common/tiles';
 import { productsOfWishlistSelector } from '../../selector';
@@ -7,6 +9,9 @@ import { fetchProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { FETCHING, LOADED, UPDATING } from '../../../../statusTypes';
 import Spinner from '../../../_common/spinner';
+import { slugify } from '../../../../utils';
+
+const RadiumLink = Radium(Link);
 
 const itemStyles = {
   container: {
@@ -54,10 +59,10 @@ class WishlistProduct extends Component {
     const { item, style } = this.props;
     return (
       <div style={style}>
-        <a href={item.get('buyUrl')} style={itemStyles.container} target='_blank' title={item.get('name')}>
+        <RadiumLink style={itemStyles.container} to={`/product/${slugify(item.get('name'))}/${item.get('id')}`}>
           <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? 'none' : item.getIn([ 'image', 'url' ]) })` }}></div>
-        </a>
+        </RadiumLink>
       </div>
     );
   }
