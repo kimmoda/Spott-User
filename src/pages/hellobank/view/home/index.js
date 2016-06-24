@@ -2,7 +2,7 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Navbar from '../../../_common/navbar';
-require('../helloBank.scss');
+require('../hellobank.scss');
 
 const RadiumLink = Radium(Link);
 

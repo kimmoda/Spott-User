@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../../../_common/navbar';
 import Footer from '../../../_common/footer';
 
-require('../helloBank.scss');
+require('../hellobank.scss');
 
 export default class HelloBankContestRules extends Component {
   render () {
