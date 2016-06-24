@@ -9,7 +9,7 @@ import SceneTile from '../_tiles/sceneTile';
 
 const dummyScenes = fromJS([ {
   image: require('./images/daredevil.png'),
-  logo: require('./images/daredevil.png')
+  seriesLogo: require('./images/daredevilLogo.png')
 }, {
   image: require('./images/suits.png')
 } ]);
