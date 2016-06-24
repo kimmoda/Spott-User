@@ -1,0 +1,6 @@
+{
+  "urls": {
+    "api": "https://spott-ios-rest-%{APP_ENVIRONMENT}.appiness.mobi/rest"
+  },
+  "environment": "%{APP_ENVIRONMENT}"
+}
