@@ -37,6 +37,10 @@
     "jsx": true,
     "experimentalObjectRestSpread": true,
   },
+  globals: {
+    "__DEVELOPMENT__": 1,
+    "__SERVER__": 1
+  },
   "settings": {
     "import/parser": "babel-eslint"
   },

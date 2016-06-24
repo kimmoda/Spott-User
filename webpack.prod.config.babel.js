@@ -1,8 +1,7 @@
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /**
  * The webpack configuration for production.
@@ -13,15 +12,16 @@ const configuration = {
   entry: {
     main: [
       'babel-polyfill', // Install babel-friendly environment
-      './src/index.js' // Include our client source code
+      'isomorphic-fetch', // Polyfill fetch
+      './src/client.js' // Include our client source code
     ]
   },
   module: {
     loaders: [
       { exclude: /node_modules/, loader: 'strip-loader?strip[]=console.log!babel!eslint?failOnWarning=false&failOnError=false', test: /\.js$/ },
-      { loader: ExtractTextWebpackPlugin.extract('style', 'css'), test: /\.css$/ },
-      { loader: ExtractTextWebpackPlugin.extract('style', 'css', 'sass'), test: /\.scss/ },
-      { loader: 'file?name=[name]-[md5:hash].[ext]', test: /\.gif$|\.jpg$|\.jpeg$|\.png|\.eot$|\.svg$|\.ttf$|\.woff$|\.woff2$|\.pdf$/ }
+      { loader: 'style!css', test: /\.css$/ },
+      { loader: 'style!raw!sass', test: /\.scss/ },
+      { loader: 'file?name=[name]-[md5:hash].[ext]', test: /\.gif$|\.jpg$|\.jpeg$|\.png|\.eot$|\.svg$|\.ttf|\.otf$|\.woff$|\.woff2$|\.pdf$/ }
     ]
   },
   output: {
@@ -30,19 +30,19 @@ const configuration = {
     path: path.join(__dirname, 'dist')
   },
   plugins: [
-    new CopyWebpackPlugin([
-      { from: './src/favicon.ico', to: 'favicon.ico' }
-    ]),
-    // Protects against multiple React installs when npm linking
-    new webpack.NormalModuleReplacementPlugin(/^react?$/, require.resolve('react')),
-    // In production we write css to its own file
-    new ExtractTextWebpackPlugin('[name]-[chunkhash].css'),
     // Define constants used throughout the codebase
     new webpack.DefinePlugin({
+      __DEVELOPMENT__: false,
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
+    new CopyWebpackPlugin([
+      { from: './dev/version.json', to: 'version.json' },
+      { from: './dev/config.json', to: 'config.json' }
+    ]),
+    // Protects against multiple React installs when npm linking
+    new webpack.NormalModuleReplacementPlugin(/^react?$/, require.resolve('react')),
     // Optimization: remove duplicates
     new webpack.optimize.DedupePlugin(),
     // Optimization: aggressive merging
@@ -59,12 +59,12 @@ const configuration = {
         max_line_len: 0 // eslint-disable-line camelcase
       }
     }),
-    // Build index.html
+    // Generate index.html
     new HtmlWebpackPlugin({
-      favicon: 'favicon.ico',
+      favicon: './src/favicon.ico',
       inject: 'body',
       minify: {},
-      template: './src/index.html'
+      template: './webpackHtmlTemplate.html'
     })
   ],
   progress: true
