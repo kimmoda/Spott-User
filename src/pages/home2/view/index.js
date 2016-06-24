@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Search from './search';
 import RecentlyAdded from './recentlyAdded';
+import NewScenesForYou from './newScenesForYou';
 import DownloadApp from './downloadApp';
 
 export default class Home2 extends Component {
@@ -10,6 +11,7 @@ export default class Home2 extends Component {
       <div>
         <Search />
         <RecentlyAdded />
+        <NewScenesForYou />
         <DownloadApp />
       </div>
     );
