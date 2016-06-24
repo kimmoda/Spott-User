@@ -149,41 +149,41 @@ ScalableContainer.propTypes = {
 // SectionTitle Component
 // //////////////////////
 
-const sectionTitleStyle = {
+const titleStyle = {
   ...makeTextStyle(fontWeights.light, '3.75em', '0.0168em'),
   color: colors.dark,
   fontWeight: 300
 };
+export const Title = Radium((props) => {
+  return <h1 {...props} style={[ titleStyle, props.style ]}>{props.children}</h1>;
+});
+Title.propTypes = {
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object
+};
+
+const sectionTitleStyle = {
+  ...makeTextStyle(fontWeights.light, '1.438em', '0.031em'),
+  color: colors.dark
+};
 export const SectionTitle = Radium((props) => {
-  return <h1 {...props} style={[ sectionTitleStyle, props.style ]}>{props.children}</h1>;
+  return <h2 {...props} style={[ sectionTitleStyle, props.style ]}>{props.children}</h2>;
 });
 SectionTitle.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object
 };
 
-const sectionSubtitleStyle = {
-  ...makeTextStyle(fontWeights.light, '1.438em', '0.031em'),
-  color: colors.dark
-};
-export const SectionSubtitle = Radium((props) => {
-  return <h2 {...props} style={[ sectionSubtitleStyle, props.style ]}>{props.children}</h2>;
-});
-SectionSubtitle.propTypes = {
-  children: PropTypes.node.isRequired,
-  style: PropTypes.object
-};
-
-const sectionUpperCaseSubtitleStyle = {
+const upperCaseSubtitleStyle = {
   ...makeTextStyle(fontWeights.light, '0.688em', '0.318em'),
   color: colors.dark,
   textTransform: 'uppercase'
 };
 
-export const SectionUpperCaseSubtitle = Radium((props) => {
-  return <h3 {...props} style={[ sectionUpperCaseSubtitleStyle, props.style ]}>{props.children}</h3>;
+export const UpperCaseSubtitle = Radium((props) => {
+  return <h3 {...props} style={[ upperCaseSubtitleStyle, props.style ]}>{props.children}</h3>;
 });
-SectionUpperCaseSubtitle.propTypes = {
+UpperCaseSubtitle.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object
 };
