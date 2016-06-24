@@ -5,10 +5,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { colors, Container, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
 import * as actions from '../actions';
+import FacebookShareData from '../../_common/facebookShareData';
+import { FETCHING, LOADED, UPDATING } from '../../../statusTypes';
 import { productSelector } from '../selector';
 import Tiles from '../../_common/tiles';
 import { slugify } from '../../../utils';
 import Navbar from '../../_common/navbar';
+import Spinner from '../../_common/spinner';
 
 const RadiumLink = Radium(Link);
 
@@ -230,76 +233,89 @@ export default class ProductDetail extends Component {
       ...makeTextStyle(fontWeights.regular, '1.75em'),
       color: colors.cool,
       paddingBottom: '1.0714em'
+    },
+    similarProductsNone: {
+      ...makeTextStyle(fontWeights.regular, '0.938em'),
+      paddingBottom: '0.6565em',
+      color: colors.slateGray
     }
   }
 
   render () {
     const { styles } = this.constructor;
     const { onChangeImageSelection, product } = this.props;
-    return (
-      <div>
-        <Navbar currentPathname={this.props.location.pathname}/>
-        <div style={styles.productInfo}>
-          <Container>
-            <div style={styles.left}>
-              <div style={styles.images.wrapper}>
-                <img src={product.get('selectedImage')} style={styles.images.big} />
+    if (product.get('_status') === FETCHING) {
+      return (<Spinner />);
+    } else if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
+      return (
+        <div>
+          <Navbar currentPathname={this.props.location.pathname}/>
+          <div style={styles.productInfo}>
+            <Container>
+              <div style={styles.left}>
+                <div style={styles.images.wrapper}>
+                  <img src={product.get('selectedImage')} style={styles.images.big} />
+                </div>
+                <div>
+                  {product.get('images') && product.get('images').map((image) =>
+                    <div
+                      key={image.get('id')}
+                      style={[ styles.images.small.wrapper, image.get('url') === product.get('selectedImage') && styles.images.selected ]}
+                      onClick={onChangeImageSelection.bind(null, image.get('url'))}>
+                      <img
+                        src={image.get('url')}
+                        style={styles.images.small.image}/>
+                    </div>)}
+                </div>
               </div>
-              <div>
-                {product.get('images') && product.get('images').map((image) =>
-                  <div
-                    key={image.get('id')}
-                    style={[ styles.images.small.wrapper, image.get('url') === product.get('selectedImage') && styles.images.selected ]}
-                    onClick={onChangeImageSelection.bind(null, image.get('url'))}>
-                    <img
-                      src={image.get('url')}
-                      style={styles.images.small.image}/>
-                  </div>)}
-              </div>
-            </div>
-            <div style={styles.right}>
-              <div style={styles.details.wrapper}>
-                <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
-                {/* <div style={styles.details.match.wrapper}>
+              <div style={styles.right}>
+                <div style={styles.details.wrapper}>
+                  <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
+                  {/* <div style={styles.details.match.wrapper}>
 
-                </div>*/}
-                <p style={styles.details.productDescription}>{product.get('description')}</p>
-                <h2 style={styles.details.price}>{product.getIn([ 'offerings', '0', 'price', 'amount' ])}&nbsp;{product.getIn([ 'offerings', '0', 'price', 'currency' ])}</h2>
-                <div style={styles.details.buttons.wrapper}>
-                  {/* <div style={styles.details.buttons.squareButton}>
-                    <svg height='15' viewBox='0 0 16 15' width='16' xmlns='http://www.w3.org/2000/svg'><g fill='none' fill-rule='evenodd'><path d='M-4-5h24v24H-4'/><path d='M8 14.68l-1.16-1.056C2.72 9.888 0 7.416 0 4.4 0 1.928 1.936 0 4.4 0 5.792 0 7.128.648 8 1.664 8.872.648 10.208 0 11.6 0 14.064 0 16 1.928 16 4.4c0 3.016-2.72 5.488-6.84 9.224L8 14.68z' fill='#A7A6A9'/></g></svg>
-                  </div>
-                  <div style={styles.details.buttons.squareButton}>
-                    <svg height='14' viewBox='0 0 20 14' width='20' xmlns='http://www.w3.org/2000/svg'><g fill='none' fill-rule='evenodd'><path d='M-2-6h24v24H-2'/><path d='M12 4H0v2h12V4zm0-4H0v2h12V0zm4 8V4h-2v4h-4v2h4v4h2v-4h4V8h-4zM0 10h8V8H0v2z' fill='#A7A6A9'/></g></svg>
                   </div>*/}
-                  <a href={product.getIn([ 'offerings', '0', 'url' ])} style={styles.details.buttons.growButton}>
-                    <span style={styles.details.buttons.buyText}>BUY NOW</span>
-                  </a>
+                  <p style={styles.details.productDescription}>{product.get('description')}</p>
+                  <h2 style={styles.details.price}>{product.getIn([ 'offerings', '0', 'price', 'amount' ])}&nbsp;{product.getIn([ 'offerings', '0', 'price', 'currency' ])}</h2>
+                  <div style={styles.details.buttons.wrapper}>
+                    {/* <div style={styles.details.buttons.squareButton}>
+                      <svg height='15' viewBox='0 0 16 15' width='16' xmlns='http://www.w3.org/2000/svg'><g fill='none' fill-rule='evenodd'><path d='M-4-5h24v24H-4'/><path d='M8 14.68l-1.16-1.056C2.72 9.888 0 7.416 0 4.4 0 1.928 1.936 0 4.4 0 5.792 0 7.128.648 8 1.664 8.872.648 10.208 0 11.6 0 14.064 0 16 1.928 16 4.4c0 3.016-2.72 5.488-6.84 9.224L8 14.68z' fill='#A7A6A9'/></g></svg>
+                    </div>
+                    <div style={styles.details.buttons.squareButton}>
+                      <svg height='14' viewBox='0 0 20 14' width='20' xmlns='http://www.w3.org/2000/svg'><g fill='none' fill-rule='evenodd'><path d='M-2-6h24v24H-2'/><path d='M12 4H0v2h12V4zm0-4H0v2h12V0zm4 8V4h-2v4h-4v2h4v4h2v-4h4V8h-4zM0 10h8V8H0v2z' fill='#A7A6A9'/></g></svg>
+                    </div>*/}
+                    <a href={product.getIn([ 'offerings', '0', 'url' ])} style={styles.details.buttons.growButton}>
+                      <span style={styles.details.buttons.buyText}>BUY NOW</span>
+                    </a>
+                  </div>
+                  {/* <hr style={styles.details.line}/>
+                  <span style={styles.details.offers.label}>All vendors</span><span style={styles.details.offers.ammount}>(3)</span>*/}
                 </div>
-                {/* <hr style={styles.details.line}/>
-                <span style={styles.details.offers.label}>All vendors</span><span style={styles.details.offers.ammount}>(3)</span>*/}
-              </div>
-              <div style={styles.brand.wrapper}>
-                <div style={styles.brand.left}>
-                  {product.getIn([ 'brand', 'logo' ]) && <img src={product.getIn([ 'brand', 'logo', 'url' ])} style={styles.brand.logo} />} <span style={styles.brand.name}>{product.getIn([ 'brand', 'name' ])}</span>
+                <div style={styles.brand.wrapper}>
+                  <div style={styles.brand.left}>
+                    {product.getIn([ 'brand', 'logo' ]) && <img src={product.getIn([ 'brand', 'logo', 'url' ])} style={styles.brand.logo} />} <span style={styles.brand.name}>{product.getIn([ 'brand', 'name' ])}</span>
+                  </div>
+                  {/* <svg height='13' viewBox='0 0 8 13' width='8' xmlns='http://www.w3.org/2000/svg'><g fill='none' fill-rule='evenodd'><path d='M-8-5.25h24v24H-8'/><path d='M.59 11.34l4.58-4.59L.59 2.16 2 .75l6 6-6 6' fill='#221F26' fill-opacity='.54' /></g></svg>*/}
                 </div>
-                {/* <svg height='13' viewBox='0 0 8 13' width='8' xmlns='http://www.w3.org/2000/svg'><g fill='none' fill-rule='evenodd'><path d='M-8-5.25h24v24H-8'/><path d='M.59 11.34l4.58-4.59L.59 2.16 2 .75l6 6-6 6' fill='#221F26' fill-opacity='.54' /></g></svg>*/}
+                {/* <div style={styles.report.wrapper}>
+                  <span style={styles.report.text}>Report this product</span>
+                </div>*/}
               </div>
-              {/* <div style={styles.report.wrapper}>
-                <span style={styles.report.text}>Report this product</span>
-              </div>*/}
-            </div>
-            <div style={styles.clear} />
-          </Container>
+              <div style={styles.clear} />
+              {/* TODO: Didier will provide title, description and maybe images for sharing */}
+              <FacebookShareData description={product.get('description')} imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()} title={product.get('shortName')} />
+            </Container>
+          </div>
+          <div style={styles.similarProducts}>
+            <Container>
+              <h1 style={styles.similarProductsTitle}>Similar items</h1>
+              {product.get('similarProducts') && product.get('similarProducts').size > 0 && <Tiles horizontalSpacing={30} items={product.get('similarProducts')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<SimilarProduct />} verticalSpacing={101} />}
+              {product.get('similarProducts') && product.get('similarProducts').size === 0 && <p style={styles.similarProductsNone}>No similar items found.</p>}
+            </Container>
+          </div>
         </div>
-        <div style={styles.similarProducts}>
-          <Container>
-            <h1 style={styles.similarProductsTitle}>Similar items</h1>
-            {product.get('similarProducts') && product.get('similarProducts').size > 0 && <Tiles horizontalSpacing={30} items={product.get('similarProducts')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<SimilarProduct />} verticalSpacing={101} />}
-          </Container>
-        </div>
-      </div>
-    );
+      );
+    }
+    return (<div></div>);
   }
 }
 

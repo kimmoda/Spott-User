@@ -56,16 +56,18 @@ export function fetchProductsOfWishlist (wishlistId) {
     try {
       dispatch({ type: FETCH_PRODUCTS_OF_WISHLIST_START, wishlistId });
       const state = getState();
-      // Get the currently logged on user
-      const data = await profileApi.getWishlistProducts(
-        apiBaseUrlSelector(state),
-        authenticationTokenSelector(state),
-        currentUserIdSelector(state),
-        wishlistId,
-        0);
-      console.log(data);
+      const apiBaseUrl = apiBaseUrlSelector(state);
+      const authenticationToken = authenticationTokenSelector(state);
+      const userId = currentUserIdSelector(state);
+      // Get the wishlist
+      const wishlistData = await profileApi.getWishlistOfUser(apiBaseUrl, authenticationToken, userId, wishlistId);
+      // Get products of the wishlist
+      const productsData = await profileApi.getWishlistProducts(apiBaseUrl, authenticationToken, userId, wishlistId, 0);
       // Dispatch success
-      return dispatch({ type: FETCH_PRODUCTS_OF_WISHLIST_SUCCESS, wishlistId, data });
+      return dispatch({ type: FETCH_PRODUCTS_OF_WISHLIST_SUCCESS, wishlistId, data: {
+        ...productsData,
+        name: wishlistData.name
+      } });
     } catch (error) {
       console.log(error.stack);
       return dispatch({ type: FETCH_PRODUCTS_OF_WISHLIST_ERROR, wishlistId, error });

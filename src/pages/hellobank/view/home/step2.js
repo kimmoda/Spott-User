@@ -119,7 +119,9 @@ class Step2 extends Component {
   static propTypes = {
     error: PropTypes.string,
     isAuthenticated: PropTypes.bool,
-    openLoginModal: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }).isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired
     }).isRequired,
@@ -127,7 +129,6 @@ class Step2 extends Component {
   }
   constructor (props) {
     super(props);
-    this.openLoginModal = ::this.openLoginModal;
     this.onSubmit = ::this.onSubmit;
     this.state = { acceptTerms: false, errors: {}, showError: false };
   }
@@ -139,11 +140,6 @@ class Step2 extends Component {
         showError: false // Act as if the form wasn't submitted yet.
       });
     }
-  }
-
-  openLoginModal (e) {
-    e.preventDefault();
-    this.props.openLoginModal();
   }
 
   validate () {
@@ -198,22 +194,24 @@ class Step2 extends Component {
   }
 
   async onSubmit (e) {
-    const { birthdate, productCount } = this.state;
-    e.preventDefault();
-    // Validate
-    if (!this.validate()) {
-      return;
-    }
-    // Set submitted state
-    this.setState({ showError: true }); // eslint-disable-line react/no-set-state
-    // Perform submit
-    const { name } = await this.props.submitHellobank({
-      ...this.state,
-      birthdate: parseDate(birthdate),
-      productCount: parseInt(productCount, 10)
-    });
-    // Navigate to confirmed page.
-    this.props.router.push(`/hellobank/confirmed?name=${encodeURIComponent(name)}`);
+    try {
+      const { birthdate, productCount } = this.state;
+      e.preventDefault();
+      // Validate
+      if (!this.validate()) {
+        return;
+      }
+      // Set submitted state
+      this.setState({ showError: true }); // eslint-disable-line react/no-set-state
+      // Perform submit
+      const { name } = await this.props.submitHellobank({
+        ...this.state,
+        birthdate: parseDate(birthdate),
+        productCount: parseInt(productCount, 10)
+      });
+      // Navigate to confirmed page.
+      this.props.router.push(`/hellobank/confirmed?name=${encodeURIComponent(name)}`);
+    } catch (error) { console.error(error); }
   }
 
   render () {
@@ -235,7 +233,12 @@ class Step2 extends Component {
         {!isAuthenticated &&
           <div>
             <p style={step2styles.login}>
-              Meld je aan voor een Spott account, indien u reeds een Spott-gebruiker bent <a href='#login' style={step2styles.link} onClick={this.openLoginModal}>klik hier</a>.
+              Meld je aan voor een Spott account, indien u reeds een Spott-gebruiker bent <Link style={step2styles.link} to={{
+                pathname: '/login',
+                state: { modal: true, returnTo: this.props.location.pathname }
+              }}>
+                klik hier
+              </Link>
             </p>
             <div style={step2styles.firstFieldContainer}>
               <input
@@ -279,7 +282,7 @@ class Step2 extends Component {
 
         <label style={step2styles.rules}>
           <input type='checkbox' onChange={this.onChange.bind(this, 'acceptTerms')}/>&nbsp;
-            Ik ga akkoord met de <Link style={step2styles.link} target='_blank' to='terms'>algemene voorwaarden</Link> en
+            Ik ga akkoord met de <Link style={step2styles.link} target='_blank' to='/terms'>algemene voorwaarden</Link> en
             het <Link style={step2styles.link} target='_blank' to='/hellobank-reglement'>wedstrijd reglement</Link>.
         </label>
         {errors.acceptTerms && <div style={step2styles.error}>{errors.acceptTerms}</div>}
@@ -293,11 +296,13 @@ class Step2 extends Component {
 }
 
 export default withRouter(
-  connect((state) => ({
-    error: state.getIn([ 'hellobank', 'hellobankError' ]),
-    isAuthenticated: authenticationTokenSelector(state)
-  }), (dispatch) => ({
-  //  openLoginModal: bindActionCreators(actions.openLoginModal, dispatch),
+  connect((state) => {
+    console.log(state);
+    return {
+      error: state.getIn([ 'hellobank', 'hellobankError' ]),
+      isAuthenticated: authenticationTokenSelector(state)
+    };
+  }, (dispatch) => ({
     submitHellobank: bindActionCreators(actions.submitHellobank, dispatch)
   }))(Radium(Step2))
 );

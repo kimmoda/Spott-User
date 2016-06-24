@@ -14,6 +14,7 @@ export const colors = {
   cool: '#221f26',
   coolGray: '#a7a6a9',
   green: '#1ab61a',
+  dark: '#221f26',
   slateGray: '#59575c',
   whiteThree: '#e9e9e9',
   whiteTwo: '#fcfcfc',

@@ -1,13 +1,16 @@
-import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Radium from 'radium';
+import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
 import Tiles from '../../../_common/tiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { fetchProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Link } from 'react-router';
-import { LOADED } from '../../../../statusTypes';
+import { FETCHING, LOADED, UPDATING } from '../../../../statusTypes';
+import Spinner from '../../../_common/spinner';
+import { slugify } from '../../../../utils';
+
 const RadiumLink = Radium(Link);
 
 const itemStyles = {
@@ -18,19 +21,23 @@ const itemStyles = {
     padding: '1.25em',
     textDecoration: 'none',
     ':hover': {
-      filter: 'brightness(1.1) saturate(1.7)'
+      filter: 'brightness(1.1)'
     }
   },
   name: {
-    ...makeTextStyle(fontWeights.medium, '1.0625em'),
-    color: colors.slateGray
+    ...makeTextStyle(fontWeights.medium, '0.875em'),
+    color: colors.slateGray,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   image: {
     marginTop: '1.25em',
     width: '100%',
     paddingBottom: '100%',
     backgroundSize: 'contain',
-    backgroundPosition: 'center center'
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat'
   }
 };
 class WishlistProduct extends Component {
@@ -52,21 +59,33 @@ class WishlistProduct extends Component {
     const { item, style } = this.props;
     return (
       <div style={style}>
-        <a href={item.get('buyUrl')} style={itemStyles.container} target='_blank'>
+        <RadiumLink style={itemStyles.container} to={`/product/${slugify(item.get('name'))}/${item.get('id')}`}>
           <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? 'none' : item.getIn([ 'image', 'url' ]) })` }}></div>
-        </a>
+        </RadiumLink>
       </div>
     );
   }
 }
 
+const styles = {
+  emptyText: {
+    ...makeTextStyle(fontWeights.medium, '0.875em'),
+    color: colors.slateGray
+  },
+  title: {
+    ...makeTextStyle(fontWeights.light, '1.75em'),
+    color: colors.dark,
+    paddingBottom: '1.143em'
+  }
+};
 @connect(productsOfWishlistSelector)
 export default class WishlistProducts extends Component {
   static propTypes = {
     productsOfWishlist: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
-      data: ImmutablePropTypes.list
+      data: ImmutablePropTypes.list,
+      name: PropTypes.string.isRequired
     })
   };
 
@@ -77,11 +96,24 @@ export default class WishlistProducts extends Component {
 
   render () {
     const { productsOfWishlist } = this.props;
-    if (productsOfWishlist.get('_status') === LOADED) {
+    if (productsOfWishlist.get('_status') === FETCHING) {
+      return (<Spinner />);
+    } else if (productsOfWishlist.get('_status') === LOADED || productsOfWishlist.get('_status') === UPDATING) {
+      if (productsOfWishlist.get('data').size > 0) {
+        return (
+          <div>
+            <h1 style={styles.title}>{productsOfWishlist.get('name') || 'Wishlist'}</h1>
+            <Tiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
+          </div>
+        );
+      }
       return (
-        <Tiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
+        <div>
+          {productsOfWishlist.get('name') || 'Wishlist'}
+          <p style={styles.emptyText}>This wishlist is empty.</p>
+        </div>
       );
     }
-    return <div></div>;
+    return (<div></div>);
   }
 }

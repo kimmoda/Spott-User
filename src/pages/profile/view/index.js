@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { colors, EntityHeader, SubmenuItem, Page, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import { userSelector } from '../selector';
 import { loadUser } from '../actions';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const dummyProfilePictureImage = require('./dummyProfilePicture.svg');
 const dummyProfileAvatarImage = require('./dummyProfileAvatar.svg');
@@ -50,7 +51,13 @@ const Header = ({ user }) => (
   </EntityHeader>
 );
 Header.propTypes = {
-  user: PropTypes.any
+  user: ImmutablePropTypes.mapContains({
+    firstname: PropTypes.string.isRequired,
+    lastname: PropTypes.string.isRequired,
+    tagline: PropTypes.string,
+    followerCount: PropTypes.number.isRequired,
+    followingCount: PropTypes.number.isRequired
+  })
 };
 
 // TODO: proptypes
@@ -60,7 +67,12 @@ export default class Profile extends Component {
     children: PropTypes.node,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    params: PropTypes.object({
+      userId: PropTypes.string.isRequired,
+      userSlug: PropTypes.string.isRequired
+    }),
+    user: ImmutablePropTypes.map
   }
 
   static needs (props, store) {
