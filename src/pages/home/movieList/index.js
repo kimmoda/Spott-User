@@ -11,6 +11,11 @@ const thuis = require('./thuis.jpg');
 const modernFamily = require('./modernFamily.jpg');
 const theBigBangTheory = require('./theBigBangTheory.jpg');
 const xFiles = require('./xFiles.jpg');
+const deviousMaids = require('./deviousMaids.jpg');
+const laGrandeBallade = require('./laGrandeBallade.jpg');
+const lesReinesDuShopping = require('./lesReinesDuShopping.jpg');
+const martinBonheur = require('./martinBonheur.jpg');
+const revenge = require('./revenge.jpg');
 
 require('./movielist.scss');
 
@@ -24,7 +29,7 @@ class MovieList extends Component {
     super(props);
     this.slides = [];
 
-    const images = [ familie, dkvs, dagelijkseKost, thuis, theBigBangTheory, modernFamily, xFiles ];
+    const images = [ familie, dkvs, dagelijkseKost, thuis, theBigBangTheory, modernFamily, xFiles, deviousMaids, laGrandeBallade, lesReinesDuShopping, martinBonheur, revenge ];
 
     for (const k in images) {
       this.slides.push({
