@@ -2,15 +2,18 @@
 ExtendedStatus On
 
 # Disable TRACE requests
-TraceEnable off      
+TraceEnable off
 
-# Name based virtual hosts
-NameVirtualHost *:80
+# Listen on port 8080 (iptables natting fowards traffic on port 80 to port 8080, this is default EC2 behaviour)      
+Listen 8080
 
 # Website virtual host
-<VirtualHost *:80>
+<VirtualHost *:8080>
 
-  ServerName spott-%{APP_ENVIRONMENT}.appiness.mobi
+  # Selective deflate
+  AddOutputFilterByType DEFLATE text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript
+  
+  # Static document root
   DocumentRoot /var/www/website
 
   # Force HTTPS (termination is done on AWS load balancer)
