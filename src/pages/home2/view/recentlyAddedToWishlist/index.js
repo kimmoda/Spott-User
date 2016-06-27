@@ -28,7 +28,7 @@ const dummySeries = fromJS([ {
 } ]);
 
 @Radium
-export default class RecentlyAdded extends Component {
+export default class RecentlyAddedToWishlist extends Component {
 
   static styles = {
     container: {
