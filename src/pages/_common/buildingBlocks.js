@@ -231,6 +231,11 @@ export class Tiles extends Component {
     const style = {
       display: 'inline-block',
       width: '100%',
+      [mediaQueries.small]: {
+        width: `${100 / numColumns.small}%`,
+        paddingLeft: horizontalSpacing,
+        paddingRight: horizontalSpacing
+      },
       [mediaQueries.medium]: {
         width: `${100 / numColumns.medium}%`,
         paddingLeft: horizontalSpacing,
@@ -251,12 +256,22 @@ export class Tiles extends Component {
     // Determine container style
     const containerStyle = {
       overflow: 'visible',
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
+      position: 'relative'
+    };
+    const fadeStyle = {
+      backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
+      position: 'absolute',
+      width: '6em',
+      right: '-8.438em',
+      top: 0,
+      bottom: 5
     };
     // Return render result
     return (
       <div style={[ containerStyle, tilesStyle ]}>
         {items.map((item, i) => tileRenderer({ style, key: i, item }))}
+        <div style={fadeStyle}></div>
       </div>
     );
   }
