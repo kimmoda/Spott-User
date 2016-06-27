@@ -1,11 +1,11 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from './_baseTile';
+import BaseTile from '../../home2/view/_tiles/_baseTile';
 
 @Radium
-export default class SeriesTile extends Component {
+export default class CharacterTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
@@ -17,7 +17,7 @@ export default class SeriesTile extends Component {
   static styles = {
     container: {
       position: 'relative',
-      paddingTop: '56%',
+      paddingTop: '100%',
       height: 0
     },
     layer: {
@@ -30,11 +30,11 @@ export default class SeriesTile extends Component {
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     title: {
-      ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
+      ...makeTextStyle(fontWeights.bold, '0.54em', '0.219em'),
       color: 'white',
       textTransform: 'uppercase',
       position: 'absolute',
-      bottom: '1em',
+      bottom: '1.24em',
       left: '1.25em',
       right: '1.25em'
     },

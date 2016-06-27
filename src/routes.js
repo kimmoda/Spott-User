@@ -18,9 +18,10 @@ import Medialaan from './pages/medialaan';
 import Privacy from './pages/privacy';
 import ProductDetail from './pages/productDetail/view';
 import Profile from './pages/profile/view';
-import ProfileWishlists from './pages/profile/view/wishlists';
 import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
+import ProfileWishlists from './pages/profile/view/wishlists';
 import Redirect from './pages/redirect';
+import Series from './pages/series/view';
 import Terms from './pages/terms';
 
 /**
@@ -49,6 +50,7 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
       <Route component={Redirect} path='/app' />
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />
+      <Route component={Series} path='/series' /> {/* TODO: add id of the series */}
 
       <Route component={ProductDetail} path='/product/:productId' />
 
