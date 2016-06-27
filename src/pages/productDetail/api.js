@@ -8,7 +8,6 @@ import * as request from '../../request';
 export async function getProduct (baseUrl, authenticationToken, id) {
   const { body } = await request.get(null, `${baseUrl}/v003/product/products/${id}`);
   const { body: { data } } = await request.get(null, `${baseUrl}/v003/product/products/${id}/similar`);
-  console.log(data);
   return {
     description: body.description,
     images: body.images ? body.images.map((image) => ({ id: image.uuid, url: image.url })) : null,
@@ -28,7 +27,7 @@ export async function getProduct (baseUrl, authenticationToken, id) {
       shortName: product.shortName,
       image: product.image ? product.image.url : null,
       price: { currency: product.price.currency, amount: product.price.amount },
-      id: product.uuid },
+      id: product.uuid }
     ))
   };
 }
