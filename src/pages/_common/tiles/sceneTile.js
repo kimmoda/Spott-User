@@ -1,6 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import Marker from './_marker';
@@ -10,10 +10,30 @@ export default class SceneTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
+      id: PropTypes.string.isRequired,
       image: PropTypes.string.isRequired,
       seriesLogo: PropTypes.string,
       seasonName: PropTypes.string.isRequired,
-      episodeName: PropTypes.string.isRequired
+      episodeName: PropTypes.string.isRequired,
+      faces: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.mapContains({
+          id: PropTypes.string.isRequired,
+          image: PropTypes.string.isRequired
+        })
+      ),
+      products: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.mapContains({
+          id: PropTypes.string.isRequired,
+          image: PropTypes.string.isRequired
+        })
+      ),
+      markers: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.mapContains({
+          id: PropTypes.string.isRequired,
+          relativeLeft: PropTypes.number.isRequired,
+          relativeTop: PropTypes.number.isRequired
+        })
+      )
     }).isRequired,
     style: PropTypes.object
   };
@@ -43,6 +63,14 @@ export default class SceneTile extends Component {
       bottom: 0,
       right: 0
     },
+    markers: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflow: 'hidden'
+    },
     seriesLogo: {
       position: 'absolute',
       maxWidth: '5.1875em',
@@ -53,22 +81,76 @@ export default class SceneTile extends Component {
     },
     text: {
       position: 'absolute',
-      bottom: '3.695em',
-      left: '1.25em',
+      bottom: '6.8em',
+      left: '1.818em',
+      right: '1.818em',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
       ...makeTextStyle(fontWeights.regular, '0.6875em', '0.318em'),
       color: '#ffffff',
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
+      [mediaQueries.large]: {
+        bottom: '7.6em'
+      }
     },
     textHighlight: {
       ...makeTextStyle(fontWeights.bold, '1em', '0.318em')
     },
-    markers: {
+    line: {
       position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
+      left: '1.25em',
+      right: '1.25em',
+      bottom: '4.125em',
+      opacity: 0.3,
+      backgroundColor: '#ffffff',
+      height: '1px',
+      [mediaQueries.large]: {
+        bottom: '4.625em'
+      }
+    },
+    faces: {
+      position: 'absolute',
+      left: '1.25em',
+      right: '1.25em',
+      textAlign: 'right',
+      top: '1.125em'
+    },
+    products: {
+      position: 'absolute',
+      left: '1.25em',
+      right: '1.25em',
+      bottom: '1.125em'
+    },
+    subtile: {
+      base: {
+        height: '2em',
+        position: 'relative',
+        display: 'inline-block',
+        opacity: 0.98,
+        width: '2em',
+        [mediaQueries.large]: {
+          width: '2.5em',
+          height: '2.5em'
+        }
+      },
+      face: {
+        marginLeft: '0.4em'
+      },
+      product: {
+        marginRight: '0.4em'
+      }
+    },
+    subtileImage: {
       bottom: 0,
-      overflow: 'hidden'
+      height: 'auto',
+      left: 0,
+      margin: 'auto',
+      maxHeight: '100%',
+      maxWidth: '100%',
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      width: 'auto'
     }
   };
 
@@ -80,12 +162,14 @@ export default class SceneTile extends Component {
         <div style={styles.container}>
           <div style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]} />
           <div style={styles.layer}></div>
-          <div style={styles.markers}>
-            {item.get('markers').map((marker) => <Marker relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}
+          <div>
+            <div>{item.get('markers').map((marker) => <Marker key={marker.get('id')} relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}</div>
+            <div style={styles.faces}>{item.get('faces').take(4).map((face) => <div key={face.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}><img alt={face.get('name')} src={face.get('image')} style={styles.subtileImage} /></div>)}</div>
+            <div style={styles.line} />
+            <div style={styles.products}>{item.get('products').take(8).map((product) => <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}><img alt={product.get('name')} src={product.get('image')} style={styles.subtileImage} /></div>)}</div>
+            <p style={styles.text}>Scene from <span style={styles.textHighlight}>{item.get('seasonName')}</span> &ndash; <span style={styles.textHighlight}>{item.get('episodeName')}</span></p>
+            {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
           </div>
-          <p style={styles.text}>Scene from <span style={styles.textHighlight}>{item.get('seasonName')}</span> &ndash; <span style={styles.textHighlight}>{item.get('episodeName')}</span></p>
-          {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
-
         </div>
       </BaseTile>
     );

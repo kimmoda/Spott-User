@@ -106,7 +106,7 @@ export default class Hero extends Component {
           <Tiles
             horizontalSpacing='0.938em'
             items={characters}
-            numColumns={{ small: 4, medium: 5, large: 6, extraLarge: 7 }}
+            numColumns={{ small: 2, medium: 4, large: 5, extraLarge: 7 }}
             style={styles.tiles}
             tileRenderer={({ item, key, style }) => <CharacterTile item={item} key={key} style={style} />}
             verticalSpacing={0} />
