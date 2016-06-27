@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component /* , PropTypes */ } from 'react';
 import Radium from 'radium';
-import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { mediaQueries, Button, colors, Container, Page, fontWeights, makeTextStyle, UpperCaseSubtitle, SectionTitle, Title, ScalableContainer, Tiles, pinkButtonStyle } from '../../../_common/buildingBlocks';
-import { dummySelector } from '../../selectors';
-import { dummy } from '../../actions';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+// import { fromJS } from 'immutable'; // TODO: remove after API is implemented
+import { mediaQueries, Button, UpperCaseSubtitle, SectionTitle, Title, ScalableContainer, pinkButtonStyle } from '../../../_common/buildingBlocks';
+// import { dummySelector } from '../../selectors';
+// import { dummy } from '../../actions';
+// import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const spottImage = require('./images/spott.jpg');
 const deviceImage = require('./images/device.png');
@@ -41,7 +41,7 @@ export default class DownloadApp extends Component {
       bottom: 0,
       right: 0,
       backgroundImage: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8))',
-      //backgroundImage: 'linear-gradient(to bottom, #000000, rgb(255, 255, 255))',
+      // backgroundImage: 'linear-gradient(to bottom, #000000, rgb(255, 255, 255))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     title: {

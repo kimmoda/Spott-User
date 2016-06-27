@@ -1,26 +1,27 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component /* , PropTypes */ } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { Button, colors, Container, Page, fontWeights, makeTextStyle, SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
-import { dummySelector } from '../../selectors';
-import { dummy } from '../../actions';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import { ScalableContainer, SectionTitle, Tiles } from '../../../_common/buildingBlocks';
+// import { dummySelector } from '../../selectors';
+// import { dummy } from '../../actions';
+// import ImmutablePropTypes from 'react-immutable-proptypes';
 import SceneTile from '../_tiles/sceneTile';
 
 const dummyScenes = fromJS([ {
   image: require('./images/suits.png'),
   seasonName: 'Season 1',
   episodeName: 'Episode 1',
-  markers: [ { x: 20, y: 40 } ]
+  markers: [ { relativeLeft: 20, relativeTop: 40 } ]
 }, {
   image: require('./images/daredevil.png'),
   seriesLogo: require('./images/daredevilLogo.png'),
   seasonName: 'Season 3',
   episodeName: 'Episode 5',
   markers: [
-    { x: 20, y: 40 },
-    { x: 0, y: 0 },
-    { x: 100, y: 100 }
+    { relativeLeft: 40, relativeTop: 38 },
+    { relativeLeft: 53, relativeTop: 47 },
+    { relativeLeft: 65, relativeTop: 33 },
+    { relativeLeft: 90, relativeTop: 60 }
   ]
 } ]);
 

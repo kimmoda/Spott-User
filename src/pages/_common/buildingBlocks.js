@@ -217,12 +217,11 @@ export class Tiles extends Component {
     // The component for rendering the tile. Is cloned with an additional
     // 'value' prop.
     style: PropTypes.object,
-    tile: PropTypes.node.isRequired,
-    verticalSpacing: PropTypes.number.isRequired
+    tile: PropTypes.node.isRequired
   };
 
   render () {
-    const { horizontalSpacing, items, numColumns, verticalSpacing, style: tilesStyle, tile } = this.props;
+    const { horizontalSpacing, items, numColumns, style: tilesStyle, tile } = this.props;
 
     const renderedItems = [];
 

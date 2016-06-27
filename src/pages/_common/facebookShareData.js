@@ -17,7 +17,7 @@ export default class FacebookShareData extends Component {
           ...(imageUrls ? imageUrls.map((image) => ({ property: 'og:image', content: image })) : []),
           { property: 'og:site_name', content: 'Spott' },
           { property: 'og:title', content: title },
-          { property: 'og:type', content: 'website' },
+          { property: 'og:type', content: 'website' }
         ]} />
     );
   }

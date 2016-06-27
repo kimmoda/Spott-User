@@ -1,16 +1,30 @@
-import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Container } from '../../_common/buildingBlocks';
 import FacebookShareData from '../../_common/facebookShareData';
 import { loadProduct } from '../actions';
 import { productSelector } from '../selector';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 @connect(productSelector)
 export default class ProductDetail extends Component {
 
-  static styles = {
-
+  static propTypes = {
+    params: PropTypes.shape({
+      productId: PropTypes.string.isRequired
+    }).isRequired,
+    product: ImmutablePropTypes.mapContains({
+      shortName: PropTypes.string.isRequired,
+      longName: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      images: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.mapContains({
+          url: PropTypes.string.isRequired,
+          uuid: PropTypes.string.isRequired
+        })
+      ),
+      uuid: PropTypes.string.isRequired
+    })
   }
 
   static needs (props, store) {

@@ -1,4 +1,3 @@
-import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
@@ -6,9 +5,7 @@ import Tiles from '../../../_common/tiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { fetchProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Link } from 'react-router';
 import { LOADED } from '../../../../statusTypes';
-const RadiumLink = Radium(Link);
 
 const itemStyles = {
   container: {

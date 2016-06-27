@@ -47,7 +47,7 @@ export default class SceneTile extends Component {
       position: 'absolute',
       maxWidth: '5.1875em',
       maxHeight: '2em',
-      filter: 'grayscale(100%) brightness(500%)',
+      filter: 'brightness(0) invert(1)',
       top: '1.125em',
       left: '1.25em'
     },
@@ -61,6 +61,14 @@ export default class SceneTile extends Component {
     },
     textHighlight: {
       ...makeTextStyle(fontWeights.bold, '1em', '0.318em')
+    },
+    markers: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflow: 'hidden'
     }
   };
 
@@ -72,8 +80,9 @@ export default class SceneTile extends Component {
         <div style={styles.container}>
           <div style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]} />
           <div style={styles.layer}></div>
-          {item.get('markers').map((marker) => <Marker x={marker.get('x')} y={marker.get('y')} />)}
-
+          <div style={styles.markers}>
+            {item.get('markers').map((marker) => <Marker relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}
+          </div>
           <p style={styles.text}>Scene from <span style={styles.textHighlight}>{item.get('seasonName')}</span> &ndash; <span style={styles.textHighlight}>{item.get('episodeName')}</span></p>
           {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
 
