@@ -8,10 +8,20 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import SceneTile from '../_tiles/sceneTile';
 
 const dummyScenes = fromJS([ {
-  image: require('./images/daredevil.png'),
-  seriesLogo: require('./images/daredevilLogo.png')
+  image: require('./images/suits.png'),
+  seasonName: 'Season 1',
+  episodeName: 'Episode 1',
+  markers: [ { x: 20, y: 40 } ]
 }, {
-  image: require('./images/suits.png')
+  image: require('./images/daredevil.png'),
+  seriesLogo: require('./images/daredevilLogo.png'),
+  seasonName: 'Season 3',
+  episodeName: 'Episode 5',
+  markers: [
+    { x: 20, y: 40 },
+    { x: 0, y: 0 },
+    { x: 100, y: 100 }
+  ]
 } ]);
 
 @Radium

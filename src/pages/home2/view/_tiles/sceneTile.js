@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
+import Marker from './_marker';
 
 @Radium
 export default class SceneTile extends Component {
@@ -10,7 +11,9 @@ export default class SceneTile extends Component {
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
       image: PropTypes.string.isRequired,
-      seriesLogo: PropTypes.string
+      seriesLogo: PropTypes.string,
+      seasonName: PropTypes.string.isRequired,
+      episodeName: PropTypes.string.isRequired
     }).isRequired,
     style: PropTypes.object
   };
@@ -44,9 +47,20 @@ export default class SceneTile extends Component {
       position: 'absolute',
       maxWidth: '5.1875em',
       maxHeight: '2em',
-      filter: 'grayscale(100%) contrast(10%) brightness(200%)',
-      top: 0,
-      left: 0
+      filter: 'grayscale(100%) brightness(500%)',
+      top: '1.125em',
+      left: '1.25em'
+    },
+    text: {
+      position: 'absolute',
+      bottom: '3.695em',
+      left: '1.25em',
+      ...makeTextStyle(fontWeights.regular, '0.6875em', '0.318em'),
+      color: '#ffffff',
+      textTransform: 'uppercase'
+    },
+    textHighlight: {
+      ...makeTextStyle(fontWeights.bold, '1em', '0.318em')
     }
   };
 
@@ -58,7 +72,11 @@ export default class SceneTile extends Component {
         <div style={styles.container}>
           <div style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]} />
           <div style={styles.layer}></div>
+          {item.get('markers').map((marker) => <Marker x={marker.get('x')} y={marker.get('y')} />)}
+
+          <p style={styles.text}>Scene from <span style={styles.textHighlight}>{item.get('seasonName')}</span> &ndash; <span style={styles.textHighlight}>{item.get('episodeName')}</span></p>
           {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
+
         </div>
       </BaseTile>
     );
