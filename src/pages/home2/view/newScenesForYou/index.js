@@ -8,20 +8,34 @@ import { ScalableContainer, SectionTitle, Tiles } from '../../../_common/buildin
 import SceneTile from '../_tiles/sceneTile';
 
 const dummyScenes = fromJS([ {
+  id: '0',
   image: require('./images/suits.png'),
   seasonName: 'Season 1',
   episodeName: 'Episode 1',
-  markers: [ { relativeLeft: 20, relativeTop: 40 } ]
+  markers: [ { relativeLeft: 20, relativeTop: 40 } ],
+  faces: [],
+  products: []
 }, {
+  id: '1',
   image: require('./images/daredevil.png'),
   seriesLogo: require('./images/daredevilLogo.png'),
   seasonName: 'Season 3',
   episodeName: 'Episode 5',
   markers: [
-    { relativeLeft: 40, relativeTop: 38 },
-    { relativeLeft: 53, relativeTop: 47 },
-    { relativeLeft: 65, relativeTop: 33 },
-    { relativeLeft: 90, relativeTop: 60 }
+    { id: '1', relativeLeft: 40, relativeTop: 38 },
+    { id: '2', relativeLeft: 53, relativeTop: 47 },
+    { id: '3', relativeLeft: 65, relativeTop: 33 },
+    { id: '4', relativeLeft: 90, relativeTop: 60 }
+  ],
+  faces: [
+    { id: '1', name: 'Murdock', image: require('./images/murdock.png') },
+    { id: '2', name: 'Page', image: require('./images/page.png') }
+  ],
+  products: [
+    { id: '1', name: 'product 1', image: require('./images/product1.png') },
+    { id: '2', name: 'product 2', image: require('./images/product2.png') },
+    { id: '3', name: 'product 3', image: require('./images/product3.png') },
+    { id: '4', name: 'product 4', image: require('./images/product4.png') }
   ]
 } ]);
 
