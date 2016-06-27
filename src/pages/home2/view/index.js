@@ -3,6 +3,7 @@ import Search from './search';
 import RecentlyAdded from './recentlyAdded';
 import NewScenesForYou from './newScenesForYou';
 import DownloadApp from './downloadApp';
+import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
 
 export default class Home2 extends Component {
 
@@ -13,6 +14,7 @@ export default class Home2 extends Component {
         <RecentlyAdded />
         <NewScenesForYou />
         <DownloadApp />
+        <RecentlyAddedToWishlist />
       </div>
     );
   }
