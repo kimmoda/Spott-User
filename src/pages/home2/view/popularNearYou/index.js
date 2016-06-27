@@ -48,14 +48,14 @@ export default class PopularNearYou extends Component {
   render () {
     const styles = this.constructor.styles;
     return (
-      <ScalableContainer style={[ styles.container ]}>
+      <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Popular near you</SectionTitle>
         <Tiles
           horizontalSpacing='0.938em'
           items={dummyPosters}
           numColumns={{ small: 4, medium: 5, large: 6, extraLarge: 7 }}
           style={styles.tiles}
-          tile={<PosterTile />}
+          tileRenderer={(instanceProps) => <PosterTile {...instanceProps} />}
           verticalSpacing={0} />
       </ScalableContainer>
     );

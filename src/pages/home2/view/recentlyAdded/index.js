@@ -71,12 +71,12 @@ export default class RecentlyAdded extends Component {
   render () {
     const styles = this.constructor.styles;
     return (
-      <ScalableContainer style={[ styles.container, { backgroundImage: `url("${xFilesImage}")` } ]}>
+      <ScalableContainer style={{ ...styles.container, backgroundImage: `url("${xFilesImage}")` }}>
         <div style={styles.overlay}></div>
         <div style={styles.wrapper}>
           <Title style={styles.title}>X-files</Title>
           <UpperCaseSubtitle style={styles.upperCaseSubtitle}>Now available on Spott</UpperCaseSubtitle>
-          <Button style={[ pinkButtonStyle, styles.button ]}>Browse</Button>
+          <Button style={{ ...pinkButtonStyle, ...styles.button }}>Browse</Button>
           <SectionTitle style={styles.subtitle}>Recently added</SectionTitle>
         </div>
         <Tiles
@@ -84,7 +84,7 @@ export default class RecentlyAdded extends Component {
           items={dummySeries}
           numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
           style={styles.tiles}
-          tile={<SeriesTile />}
+          tileRenderer={(instanceProps) => <SeriesTile {...instanceProps} />}
           verticalSpacing={0} />
       </ScalableContainer>
     );
