@@ -5,7 +5,7 @@ import { Button, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, Tile
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
-import SeriesTile from '../_tiles/seriesTile';
+import SeriesTile from '../../../_common/tiles/seriesTile';
 const xFilesImage = require('./images/x-files.jpg');
 
 const dummySeries = fromJS([ {
@@ -71,12 +71,12 @@ export default class RecentlyAdded extends Component {
   render () {
     const styles = this.constructor.styles;
     return (
-      <ScalableContainer style={[ styles.container, { backgroundImage: `url("${xFilesImage}")` } ]}>
+      <ScalableContainer style={{ ...styles.container, backgroundImage: `url("${xFilesImage}")` }}>
         <div style={styles.overlay}></div>
         <div style={styles.wrapper}>
           <Title style={styles.title}>X-files</Title>
           <UpperCaseSubtitle style={styles.upperCaseSubtitle}>Now available on Spott</UpperCaseSubtitle>
-          <Button style={[ pinkButtonStyle, styles.button ]}>Browse</Button>
+          <Button style={{ ...pinkButtonStyle, ...styles.button }}>Browse</Button>
           <SectionTitle style={styles.subtitle}>Recently added</SectionTitle>
         </div>
         <Tiles
@@ -84,7 +84,7 @@ export default class RecentlyAdded extends Component {
           items={dummySeries}
           numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
           style={styles.tiles}
-          tile={<SeriesTile />}
+          tileRenderer={(instanceProps) => <SeriesTile {...instanceProps} />}
           verticalSpacing={0} />
       </ScalableContainer>
     );

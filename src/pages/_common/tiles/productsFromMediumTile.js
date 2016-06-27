@@ -1,15 +1,21 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 
 @Radium
-export default class SceneTile extends Component {
+export default class ProductsFromMediumTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
-      name: PropTypes.string.isRequired
+      image: PropTypes.string.isRequired,
+      products: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.mapContains({
+          image: PropTypes.string.isRequired,
+          id: PropTypes.string.isRequired
+        }).isRequired,
+      ).isRequired,
+      logo: PropTypes.string.isRequired
     }).isRequired,
     style: PropTypes.object
   };
@@ -40,7 +46,7 @@ export default class SceneTile extends Component {
       width: 'auto',
       height: 'auto',
       filter: 'brightness(0) invert(1)',
-      objectFit: 'contain' // Firefox doesn't keep aspect ration when using maxwidth and maxheight
+      objectFit: 'contain' // Firefox doesn't keep aspect ratio when using maxwidth and maxheight
     },
     productWrapper: {
       position: 'absolute',
@@ -82,7 +88,12 @@ export default class SceneTile extends Component {
             <img src={item.get('logo')} style={styles.logo} />
           </div>
           <div style={styles.productWrapper}>
-            {item.get('products').map((productImage) => <div key={productImage} style={styles.productImageWrapper}><div key={productImage} style={[ styles.productImage, { backgroundImage: `url("${productImage}")` } ]} /></div>)}
+            {item.get('products').map((product) => (
+              <div key={product.get('id')} style={styles.productImageWrapper}>
+                <div
+                  key={`"animation-${product.get('id')}"`}
+                  style={[ styles.productImage, { backgroundImage: `url("${product.get('image')}")` } ]} />
+              </div>))}
           </div>
           {/* <div style={styles.layer}></div>*/}
         </div>

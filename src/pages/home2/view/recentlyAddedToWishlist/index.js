@@ -5,7 +5,7 @@ import { SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildin
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
-import ProductTile from '../_tiles/productTile';
+import ProductTile from '../../../_common/tiles/productTile';
 
 const dummySeries = fromJS([ {
   image: require('./images/glasses.jpg'),
@@ -48,14 +48,14 @@ export default class RecentlyAddedToWishlist extends Component {
   render () {
     const styles = this.constructor.styles;
     return (
-      <ScalableContainer style={[ styles.container ]}>
+      <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Recently added to wishlist</SectionTitle>
         <Tiles
           horizontalSpacing='0.938em'
           items={dummySeries}
           numColumns={{ small: 3, medium: 4, large: 5, extraLarge: 6 }}
           style={styles.tiles}
-          tile={<ProductTile />}
+          tileRenderer={(instanceProps) => <ProductTile {...instanceProps} />}
           verticalSpacing={0} />
       </ScalableContainer>
     );

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
 import { SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
-import PosterTile from '../_tiles/posterTile';
+import PosterTile from '../../../_common/tiles/posterTile';
 
 const dummyPosters = fromJS([ {
   image: require('./images/criminalMinds.jpg'),
@@ -48,14 +48,14 @@ export default class PopularNearYou extends Component {
   render () {
     const styles = this.constructor.styles;
     return (
-      <ScalableContainer style={[ styles.container ]}>
+      <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Popular near you</SectionTitle>
         <Tiles
           horizontalSpacing='0.938em'
           items={dummyPosters}
           numColumns={{ small: 4, medium: 5, large: 6, extraLarge: 7 }}
           style={styles.tiles}
-          tile={<PosterTile />}
+          tileRenderer={(instanceProps) => <PosterTile {...instanceProps} />}
           verticalSpacing={0} />
       </ScalableContainer>
     );
