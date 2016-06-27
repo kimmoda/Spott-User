@@ -1,6 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 
@@ -40,7 +40,8 @@ export default class PosterTile extends Component {
       position: 'absolute',
       right: 0,
       top: 0,
-      width: 'auto'
+      width: 'auto',
+      zoom: 8
     },
     imageContainer: {
       height: 0,

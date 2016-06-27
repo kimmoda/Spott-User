@@ -1,6 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 
@@ -35,7 +35,8 @@ export default class SeriesTile extends Component {
       textTransform: 'uppercase',
       position: 'absolute',
       bottom: '1em',
-      left: '1.25em'
+      left: '1.25em',
+      right: '1.25em'
     },
     image: {
       backgroundSize: 'cover',

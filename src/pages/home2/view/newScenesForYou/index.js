@@ -5,7 +5,7 @@ import { ScalableContainer, SectionTitle, Tiles } from '../../../_common/buildin
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
-import SceneTile from '../_tiles/sceneTile';
+import SceneTile from '../../../_common/tiles/sceneTile';
 
 const dummyScenes = fromJS([ {
   id: '0',
@@ -58,14 +58,14 @@ export default class NewScenesForYou extends Component {
   render () {
     const styles = this.constructor.styles;
     return (
-      <ScalableContainer style={[ styles.container ]}>
+      <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.sectionTitle}>New Scenes for You</SectionTitle>
         <Tiles
           horizontalSpacing='0.938em'
           items={dummyScenes}
           numColumns={{ small: 1, medium: 2, large: 2, extraLarge: 2 }}
           style={styles.tiles}
-          tile={<SceneTile />}
+          tileRenderer={(instanceProps) => <SceneTile {...instanceProps} />}
           verticalSpacing={0} />
       </ScalableContainer>
     );

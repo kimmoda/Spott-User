@@ -96,7 +96,7 @@ export default class DownloadApp extends Component {
   render () {
     const styles = this.constructor.styles;
     return (
-      <ScalableContainer style={[ styles.container, { backgroundImage: `url("${spottImage}")` } ]}>
+      <ScalableContainer style={{ ...styles.container, backgroundImage: `url("${spottImage}")` }}>
         <div style={styles.overlay}></div>
         <div style={styles.phone}></div>
         <div style={styles.deviceWrapper}>
@@ -106,7 +106,7 @@ export default class DownloadApp extends Component {
           <Title style={styles.title}>Explore while you watch</Title>
           <SectionTitle style={styles.subtitle}>Live on your mobile device</SectionTitle>
           <UpperCaseSubtitle style={styles.upperCaseSubtitle}>Available for iOS & Android</UpperCaseSubtitle>
-          <Button style={[ pinkButtonStyle, styles.button ]}>Download</Button>
+          <Button style={{ ...pinkButtonStyle, ...styles.button }}>Download</Button>
         </div>
       </ScalableContainer>
     );

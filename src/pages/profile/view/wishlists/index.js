@@ -2,7 +2,7 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
-import Tiles from '../../../_common/tiles';
+import Tiles from '../../../_common/verticalTiles';
 import { wishlistsOfCurrentUserSelector } from '../../selector';
 import { fetchWishlistsOfUser } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';

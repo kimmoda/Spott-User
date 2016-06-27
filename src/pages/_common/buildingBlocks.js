@@ -52,9 +52,9 @@ export function makeTextStyle (fontWeight = fontWeights.regular, fontSize = '1em
 const buttonStyle = {
   ...makeTextStyle(fontWeights.bold, '0.875em', '0.013em', '1em'),
   backgroundColor: 'rgba(255, 255, 255, 0)',
-  borderWidth: '1px',
   borderStyle: 'solid',
-  borderColor: colors.white,
+  borderWidth: ' 1px',
+  borderColor: `${colors.white}`,
   borderRadius: 0,
   boxShadow: 'none',
   color: colors.white,
@@ -75,7 +75,7 @@ const buttonStyle = {
 export const pinkButtonStyle = {
   borderRadius: '6.25em',
   backgroundColor: colors.darkPink,
-  border: `solid 0.125em ${colors.darkPink}`,
+  borderColor: colors.darkPink,
   fontSize: '0.688em',
   letterSpacing: '0.219em',
   padding: '0.85em 2.45em',
@@ -86,6 +86,7 @@ export const pinkButtonStyle = {
     backgroundColor: 'rgba(207, 49, 91, 0.6)'
   }
 };
+
 export const Button = Radium((props) => {
   if (!props.href) {
     return <button {...props} style={[ buttonStyle, props.style ]}>{props.children}</button>;
@@ -95,7 +96,9 @@ export const Button = Radium((props) => {
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   href: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array ])
 };
 
 // Container component
@@ -209,7 +212,9 @@ UpperCaseSubtitle.propTypes = {
 export class Tiles extends Component {
 
   static propTypes = {
-    horizontalSpacing: PropTypes.number.isRequired,
+    horizontalSpacing: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number ]).isRequired,
     items: ImmutablePropTypes.listOf(
       PropTypes.any
     ).isRequired,
@@ -217,13 +222,11 @@ export class Tiles extends Component {
     // The component for rendering the tile. Is cloned with an additional
     // 'value' prop.
     style: PropTypes.object,
-    tile: PropTypes.node.isRequired
+    tileRenderer: PropTypes.func.isRequired
   };
 
   render () {
-    const { horizontalSpacing, items, numColumns, style: tilesStyle, tile } = this.props;
-
-    const renderedItems = [];
+    const { horizontalSpacing, items, numColumns, style: tilesStyle, tileRenderer } = this.props;
 
     const style = {
       display: 'inline-block',
@@ -245,10 +248,6 @@ export class Tiles extends Component {
       }
     };
 
-    for (let i = 0, l = items.size; i < l; i++) {
-      renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: i, item: items.get(i) }));
-    }
-
     // Determine container style
     const containerStyle = {
       overflow: 'visible',
@@ -257,7 +256,7 @@ export class Tiles extends Component {
     // Return render result
     return (
       <div style={[ containerStyle, tilesStyle ]}>
-        {renderedItems}
+        {items.map((item, i) => tileRenderer({ style, key: i, item }))}
       </div>
     );
   }
