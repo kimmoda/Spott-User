@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable';
 import { fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle, Tiles } from '../_common/buildingBlocks';
-import CharacterTile from './_tiles/characterTile';
+import CharacterTile from '../_common/tiles/characterTile';
 const backgroundImage = require('./images/daredevil.jpg');
 
 const characters = fromJS([ {

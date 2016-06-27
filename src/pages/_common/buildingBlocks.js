@@ -52,7 +52,9 @@ export function makeTextStyle (fontWeight = fontWeights.regular, fontSize = '1em
 const buttonStyle = {
   ...makeTextStyle(fontWeights.bold, '0.875em', '0.013em', '1em'),
   backgroundColor: 'rgba(255, 255, 255, 0)',
-  border: `solid 1px ${colors.white}`,
+  borderStyle: 'solid',
+  borderWidth: ' 1px',
+  borderColor: `${colors.white}`,
   borderRadius: 0,
   boxShadow: 'none',
   color: colors.white,
