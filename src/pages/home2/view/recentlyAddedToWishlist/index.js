@@ -1,10 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { Button, colors, Container, Page, fontWeights, makeTextStyle, SectionUpperCaseSubtitle, SectionSubtitle, SectionTitle, ScalableContainer, Tiles, pinkButtonStyle } from '../../../_common/buildingBlocks';
-import { dummySelector } from '../../selectors';
-import { dummy } from '../../actions';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import { SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
 import ProductTile from '../_tiles/productTile';
 
 const dummySeries = fromJS([ {
@@ -28,7 +25,7 @@ const dummySeries = fromJS([ {
 } ]);
 
 @Radium
-export default class RecentlyAdded extends Component {
+export default class RecentlyAddedToWishlist extends Component {
 
   static styles = {
     container: {
@@ -49,7 +46,7 @@ export default class RecentlyAdded extends Component {
     const styles = this.constructor.styles;
     return (
       <ScalableContainer style={[ styles.container ]}>
-        <SectionSubtitle style={styles.subtitle}>Recently added to wishlist</SectionSubtitle>
+        <SectionTitle style={styles.subtitle}>Recently added to wishlist</SectionTitle>
         <Tiles
           horizontalSpacing='0.938em'
           items={dummySeries}
