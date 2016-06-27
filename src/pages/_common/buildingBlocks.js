@@ -94,7 +94,9 @@ export const Button = Radium((props) => {
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   href: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array ])
 };
 
 // Container component

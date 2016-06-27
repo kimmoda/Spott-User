@@ -2,7 +2,7 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from '../../_common/tiles/_baseTile';
+import BaseTile from './_baseTile';
 
 @Radium
 export default class CharacterTile extends Component {
@@ -36,7 +36,10 @@ export default class CharacterTile extends Component {
       position: 'absolute',
       bottom: '1.24em',
       left: '1.25em',
-      right: '1.25em'
+      right: '1.25em',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
     },
     image: {
       backgroundSize: 'cover',

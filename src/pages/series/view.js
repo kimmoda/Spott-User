@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable';
 import { fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle, Tiles } from '../_common/buildingBlocks';
-import CharacterTile from './_tiles/characterTile';
+import CharacterTile from '../_common/tiles/characterTile';
 const backgroundImage = require('./images/daredevil.jpg');
 
 const characters = fromJS([ {
@@ -108,7 +108,7 @@ export default class Series extends Component {
             items={characters}
             numColumns={{ small: 4, medium: 5, large: 6, extraLarge: 7 }}
             style={styles.tiles}
-            tile={<CharacterTile />}
+            tileRenderer={({ item, key, style }) => <CharacterTile item={item} key={key} style={style} />}
             verticalSpacing={0} />
         </div>
       </div>
