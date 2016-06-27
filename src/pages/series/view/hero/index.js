@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable';
-import { fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle, Tiles } from '../_common/buildingBlocks';
-import CharacterTile from '../_common/tiles/characterTile';
+import { fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle, Tiles } from '../../../_common/buildingBlocks';
+import CharacterTile from '../../../_common/tiles/characterTile';
 const backgroundImage = require('./images/daredevil.jpg');
 
 const characters = fromJS([ {
@@ -36,7 +36,7 @@ const characters = fromJS([ {
 
 /* TODO: add id of the series */
 @Radium
-export default class Series extends Component {
+export default class Hero extends Component {
 
   static styles = {
     background: {

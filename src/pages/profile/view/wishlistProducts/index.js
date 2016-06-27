@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
-import Tiles from '../../../_common/tiles';
+import VerticalTiles from '../../../_common/verticalTiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { fetchProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -76,7 +76,7 @@ export default class WishlistProducts extends Component {
     const { productsOfWishlist } = this.props;
     if (productsOfWishlist.get('_status') === LOADED) {
       return (
-        <Tiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
+        <VerticalTiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
       );
     }
     return <div></div>;
