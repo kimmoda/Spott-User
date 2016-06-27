@@ -44,7 +44,7 @@ export default class Hero extends Component {
       backgroundImage: `url(${backgroundImage})`,
       backgroundSize: 'cover',
       width: '100%',
-      position: 'absolute',
+      position: 'relative',
       top: 0,
       height: '46.8em'
     },
