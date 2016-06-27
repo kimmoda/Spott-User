@@ -20,6 +20,12 @@ Listen 8080
   RewriteEngine On
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI}
+  
+  # Bots go to the headless browser
+  RewriteCond %{HTTP_USER_AGENT} "googlebot|google.com|bingbot|bing.com|yandexbot|yandex.com|yahooseeker|yahoo.com|slurp|feedfetcher|blekkobot|crawler" [NC]
+  RewriteRule /(.*) http://localhost:4000/$1 [P]
+  ProxyPassReverse / http://localhost:4000
+  ProxyPreserveHost on
  
   # Logging
   LogFormat "%h (%{X-Forwarded-For}i) %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\""
