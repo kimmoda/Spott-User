@@ -26,6 +26,9 @@ Listen 8080
   RewriteRule /(.*) http://localhost:4000/$1 [P]
   ProxyPassReverse / http://localhost:4000
   ProxyPreserveHost on
+  
+  # Error handling
+  ErrorDocument 404 /index.html
  
   # Logging
   LogFormat "%h (%{X-Forwarded-For}i) %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\""
