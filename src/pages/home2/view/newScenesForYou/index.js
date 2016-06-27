@@ -5,7 +5,7 @@ import { ScalableContainer, SectionTitle, Tiles } from '../../../_common/buildin
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
-import SceneTile from '../_tiles/sceneTile';
+import SceneTile from '../../../_common/tiles/sceneTile';
 
 const dummyScenes = fromJS([ {
   image: require('./images/suits.png'),

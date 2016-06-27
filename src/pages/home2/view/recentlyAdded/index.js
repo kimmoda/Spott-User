@@ -5,7 +5,7 @@ import { Button, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, Tile
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
-import SeriesTile from '../_tiles/seriesTile';
+import SeriesTile from '../../../_common/tiles/seriesTile';
 const xFilesImage = require('./images/x-files.jpg');
 
 const dummySeries = fromJS([ {

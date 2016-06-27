@@ -5,7 +5,7 @@ import { SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildin
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
-import ProductTile from '../_tiles/productTile';
+import ProductTile from '../../../_common/tiles/productTile';
 
 const dummySeries = fromJS([ {
   image: require('./images/glasses.jpg'),

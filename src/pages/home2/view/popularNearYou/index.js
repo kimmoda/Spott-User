@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
 import { SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
-import PosterTile from '../_tiles/posterTile';
+import PosterTile from '../../../_common/tiles/posterTile';
 
 const dummyPosters = fromJS([ {
   image: require('./images/criminalMinds.jpg'),
