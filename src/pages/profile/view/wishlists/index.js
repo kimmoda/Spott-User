@@ -65,6 +65,10 @@ class Wishlist extends Component {
 @connect(wishlistsOfCurrentUserSelector)
 export default class Wishlists extends Component {
   static propTypes = {
+    params: PropTypes.shape({
+      userId: PropTypes.string.isRequired,
+      userSlug: PropTypes.string.isRequired
+    }).isRequired,
     wishlists: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.list

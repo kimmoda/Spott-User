@@ -4,6 +4,8 @@ import RecentlyAdded from './recentlyAdded';
 import NewScenesForYou from './newScenesForYou';
 import TopSellingProducts from './topSellingProducts';
 import DownloadApp from './downloadApp';
+import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
+import PopularNearYou from './popularNearYou';
 
 export default class Home2 extends Component {
 
@@ -15,6 +17,8 @@ export default class Home2 extends Component {
         <NewScenesForYou />
         <TopSellingProducts />
         <DownloadApp />
+        <RecentlyAddedToWishlist />
+        <PopularNearYou />
       </div>
     );
   }

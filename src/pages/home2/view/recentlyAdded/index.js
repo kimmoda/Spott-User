@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component /* , PropTypes */ } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { Button, colors, Container, Page, fontWeights, makeTextStyle, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, Tiles, pinkButtonStyle } from '../../../_common/buildingBlocks';
-import { dummySelector } from '../../selectors';
-import { dummy } from '../../actions';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import { Button, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, Tiles, pinkButtonStyle } from '../../../_common/buildingBlocks';
+// import { dummySelector } from '../../selectors';
+// import { dummy } from '../../actions';
+// import ImmutablePropTypes from 'react-immutable-proptypes';
 import SeriesTile from '../_tiles/seriesTile';
 const xFilesImage = require('./images/x-files.jpg');
 

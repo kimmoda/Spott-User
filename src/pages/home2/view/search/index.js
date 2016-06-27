@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import { colors, Container, Page, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
-import { dummySelector } from '../../selectors';
-import { dummy } from '../../actions';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import React, { Component /* , PropTypes */ } from 'react';
+import { colors, Container, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
+// import { dummySelector } from '../../selectors';
+// import { dummy } from '../../actions';
+// import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const icon = require('./icon.svg');
 
