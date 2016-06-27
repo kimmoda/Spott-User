@@ -40,7 +40,8 @@ export default class PosterTile extends Component {
       position: 'absolute',
       right: 0,
       top: 0,
-      width: 'auto'
+      width: 'auto',
+      zoom: 8
     },
     imageContainer: {
       height: 0,
