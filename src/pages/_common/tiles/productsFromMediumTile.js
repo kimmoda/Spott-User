@@ -9,8 +9,10 @@ export default class ProductsFromMediumTile extends Component {
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
       image: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
       products: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
+          name: PropTypes.string.isRequired,
           image: PropTypes.string.isRequired,
           id: PropTypes.string.isRequired
         }).isRequired,
@@ -85,14 +87,15 @@ export default class ProductsFromMediumTile extends Component {
         <div style={styles.container}>
           <div
             style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]}>
-            <img src={item.get('logo')} style={styles.logo} />
+            <img src={item.get('logo')} style={styles.logo} title={item.get('name')} />
           </div>
           <div style={styles.productWrapper}>
             {item.get('products').map((product) => (
               <div key={product.get('id')} style={styles.productImageWrapper}>
                 <div
                   key={`"animation-${product.get('id')}"`}
-                  style={[ styles.productImage, { backgroundImage: `url("${product.get('image')}")` } ]} />
+                  style={[ styles.productImage, { backgroundImage: `url("${product.get('image')}")` } ]}
+                  title={product.get('name')} />
               </div>))}
           </div>
           {/* <div style={styles.layer}></div>*/}
