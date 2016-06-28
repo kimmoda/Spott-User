@@ -115,7 +115,7 @@ export default class TopSellingProducts extends Component {
     const styles = this.constructor.styles;
     return (
       <ScalableContainer style={styles.container}>
-        <SectionTitle style={styles.sectionTitle}>New Scenes for You</SectionTitle>
+        <SectionTitle style={styles.sectionTitle}>Top Selling Products</SectionTitle>
         <Tiles
           horizontalSpacing='0.938em'
           items={dummyScenes}
