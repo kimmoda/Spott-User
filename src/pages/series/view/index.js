@@ -4,13 +4,18 @@ import Hero from './_hero';
 export default class Series extends Component {
 
   static propTypes = {
-    children: PropTypes.node
-  }
+    children: PropTypes.node,
+    params: PropTypes.shape({
+      seriesId: PropTypes.string.isRequired
+    }).isRequired
+  };
 
   render () {
+    const { params: { seriesId } } = this.props;
+    console.warn(this.props);
     return (
       <div>
-        <Hero />
+        <Hero seriesId={seriesId} />
         {this.props.children}
       </div>
     );
