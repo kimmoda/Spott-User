@@ -1,7 +1,7 @@
 import React, { Component /* , PropTypes */ } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
+import { colors, SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -32,7 +32,7 @@ export default class RecentlyAddedToWishlist extends Component {
 
   static styles = {
     container: {
-      backgroundColor: 'white',
+      backgroundColor: colors.white,
       paddingTop: '2.5em',
       paddingBottom: '3.25em'
     },

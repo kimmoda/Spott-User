@@ -150,7 +150,11 @@ export default class SceneTile extends Component {
       position: 'absolute',
       right: 0,
       top: 0,
-      width: 'auto'
+      width: 'auto',
+      transition: '0.25s ease-in-out',
+      ':hover': {
+        filter: 'opacity(70%)'
+      }
     }
   };
 
@@ -163,10 +167,20 @@ export default class SceneTile extends Component {
           <div style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]} />
           <div style={styles.layer}></div>
           <div>
-            <div>{item.get('markers').map((marker) => <Marker key={marker.get('id')} relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}</div>
-            <div style={styles.faces}>{item.get('faces').take(4).map((face) => <div key={face.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}><img alt={face.get('name')} src={face.get('image')} style={styles.subtileImage} /></div>)}</div>
+            <div>{item.get('markers').map((marker) =>
+              <Marker key={marker.get('id')} relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}
+            </div>
+            <div style={styles.faces}>{item.get('faces').take(4).map((face) =>
+              <div key={face.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}>
+                <img alt={face.get('name')} key={face.get('id')} src={face.get('image')} style={styles.subtileImage} title={face.get('name')}/>
+              </div>)}
+            </div>
             <div style={styles.line} />
-            <div style={styles.products}>{item.get('products').take(8).map((product) => <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}><img alt={product.get('name')} src={product.get('image')} style={styles.subtileImage} /></div>)}</div>
+            <div style={styles.products}>{item.get('products').take(8).map((product) =>
+              <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
+                <img alt={product.get('name')} key={product.get('id')} src={product.get('image')} style={styles.subtileImage} title={product.get('name')}/>
+              </div>)}
+            </div>
             <p style={styles.text}>Scene from <span style={styles.textHighlight}>{item.get('seasonName')}</span> &ndash; <span style={styles.textHighlight}>{item.get('episodeName')}</span></p>
             {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
           </div>
