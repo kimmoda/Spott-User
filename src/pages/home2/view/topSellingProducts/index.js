@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
+import { colors, SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
 import ProductsFromMediumTile from '../../../_common/tiles/productsFromMediumTile';
 
 const dummyScenes = fromJS([ {
@@ -80,7 +80,7 @@ export default class TopSellingProducts extends Component {
 
   static styles = {
     container: {
-      backgroundColor: 'white',
+      backgroundColor: colors.white,
       paddingTop: '6.25em',
       marginBottom: '3.125em' // Compensate for tiles' transform
     },

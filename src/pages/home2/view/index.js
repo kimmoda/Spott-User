@@ -11,7 +11,7 @@ export default class Home2 extends Component {
 
   render () {
     return (
-      <div>
+      <div style={{ fontSize: '16px' }}>
         <Search />
         <RecentlyAdded />
         <NewScenesForYou />

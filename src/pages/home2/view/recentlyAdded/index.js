@@ -1,7 +1,7 @@
 import React, { Component /* , PropTypes */ } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { Button, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, Tiles, pinkButtonStyle } from '../../../_common/buildingBlocks';
+import { Button, colors, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, Tiles, pinkButtonStyle } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -31,7 +31,7 @@ export default class RecentlyAdded extends Component {
       position: 'relative'
     },
     container: {
-      backgroundColor: 'white',
+      backgroundColor: colors.white,
       paddingTop: '6.25em',
       backgroundSize: 'cover',
       position: 'relative'

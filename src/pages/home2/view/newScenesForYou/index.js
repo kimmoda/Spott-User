@@ -1,7 +1,7 @@
 import React, { Component /* , PropTypes */ } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { ScalableContainer, SectionTitle, Tiles } from '../../../_common/buildingBlocks';
+import { colors, ScalableContainer, SectionTitle, Tiles } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -22,20 +22,20 @@ const dummyScenes = fromJS([ {
   seasonName: 'Season 3',
   episodeName: 'Episode 5',
   markers: [
-    { id: '1', relativeLeft: 40, relativeTop: 38 },
-    { id: '2', relativeLeft: 53, relativeTop: 47 },
-    { id: '3', relativeLeft: 65, relativeTop: 33 },
-    { id: '4', relativeLeft: 90, relativeTop: 60 }
+    { id: 'm1', relativeLeft: 40, relativeTop: 38 },
+    { id: 'm2', relativeLeft: 53, relativeTop: 47 },
+    { id: 'm3', relativeLeft: 65, relativeTop: 33 },
+    { id: 'm4', relativeLeft: 90, relativeTop: 60 }
   ],
   faces: [
-    { id: '1', name: 'Murdock', image: require('./images/murdock.png') },
-    { id: '2', name: 'Page', image: require('./images/page.png') }
+    { id: 'f1', name: 'Murdock', image: require('./images/murdock.png') },
+    { id: 'f2', name: 'Page', image: require('./images/page.png') }
   ],
   products: [
-    { id: '1', name: 'product 1', image: require('./images/product1.png') },
-    { id: '2', name: 'product 2', image: require('./images/product2.png') },
-    { id: '3', name: 'product 3', image: require('./images/product3.png') },
-    { id: '4', name: 'product 4', image: require('./images/product4.png') }
+    { id: 'p1', name: 'product 1', image: require('./images/product1.png') },
+    { id: 'p2', name: 'product 2', image: require('./images/product2.png') },
+    { id: 'p3', name: 'product 3', image: require('./images/product3.png') },
+    { id: 'p4', name: 'product 4', image: require('./images/product4.png') }
   ]
 } ]);
 
@@ -44,7 +44,7 @@ export default class NewScenesForYou extends Component {
 
   static styles = {
     container: {
-      backgroundColor: 'white',
+      backgroundColor: colors.white,
       paddingTop: '6.25em',
       marginBottom: '1.875em' // Compensate for tiles' transform
     },

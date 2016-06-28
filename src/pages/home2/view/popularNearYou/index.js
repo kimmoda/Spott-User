@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
+import { colors, SectionTitle, ScalableContainer, Tiles } from '../../../_common/buildingBlocks';
 import PosterTile from '../../../_common/tiles/posterTile';
 
 const dummyPosters = fromJS([ {
@@ -32,7 +32,7 @@ export default class PopularNearYou extends Component {
 
   static styles = {
     container: {
-      backgroundColor: 'white',
+      backgroundColor: colors.white,
       paddingTop: '2.5em',
       paddingBottom: '3.25em'
     },
