@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import Hero from './hero';
-import Products from './products';
+import Hero from './_hero';
 
-@connect()
 export default class Series extends Component {
 
   static propTypes = {
+    children: PropTypes.node,
     params: PropTypes.shape({
       seriesId: PropTypes.string.isRequired
     }).isRequired
@@ -18,8 +16,9 @@ export default class Series extends Component {
     return (
       <div>
         <Hero seriesId={seriesId} />
-        <Products />
+        {this.props.children}
       </div>
     );
   }
+
 }

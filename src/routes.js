@@ -22,6 +22,9 @@ import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
 import Redirect from './pages/redirect';
 import Series from './pages/series/view';
+import SeriesOverview from './pages/series/view/overview';
+import SeriesProducts from './pages/series/view/products';
+import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
 
 /**
@@ -50,13 +53,11 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
       <Route component={Redirect} path='/app' />
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />
-
-      {/* TODO: add id of the series */}
-      <Route component={Series} path='/series/:seriesId' >
+      <Route component={Series} path='/series/:seriesId'>
         <IndexRedirect to='/series/:seriesId/overview' />
-        <Route component={Series} path='/series/:seriesId/overview' />
-        <Route component={Series} path='/series/:seriesId/products' />
-        <Route component={Series} path='/series/:seriesId/scenes' />
+        <Route component={SeriesOverview} path='/series/:seriesId/overview' />
+        <Route component={SeriesProducts} path='/series/:seriesId/products' />
+        <Route component={SeriesScenes} path='/series/:seriesId/scenes' />
       </Route>
 
       <Route component={ProductDetail} path='/product/:productId' />
