@@ -287,7 +287,6 @@ export const FadedTiles = Radium((props) => (
   </div>
 ));
 
-
 // Page Component
 // //////////////
 
