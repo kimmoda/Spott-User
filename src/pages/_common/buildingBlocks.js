@@ -230,26 +230,20 @@ export class Tiles extends Component {
 
     const style = {
       display: 'inline-block',
-      width: '100%',
+      width: `${100 / numColumns.extraSmall}%`,
+      paddingLeft: horizontalSpacing,
+      paddingRight: horizontalSpacing,
       [mediaQueries.small]: {
-        width: `${100 / numColumns.small}%`,
-        paddingLeft: horizontalSpacing,
-        paddingRight: horizontalSpacing
+        width: `${100 / numColumns.small}%`
       },
       [mediaQueries.medium]: {
-        width: `${100 / numColumns.medium}%`,
-        paddingLeft: horizontalSpacing,
-        paddingRight: horizontalSpacing
+        width: `${100 / numColumns.medium}%`
       },
       [mediaQueries.large]: {
-        width: `${100 / numColumns.large}%`,
-        paddingLeft: horizontalSpacing,
-        paddingRight: horizontalSpacing
+        width: `${100 / numColumns.large}%`
       },
       [mediaQueries.extraLarge]: {
-        width: `${100 / numColumns.extraLarge}%`,
-        paddingLeft: horizontalSpacing,
-        paddingRight: horizontalSpacing
+        width: `${100 / numColumns.extraLarge}%`
       }
     };
 
@@ -259,19 +253,11 @@ export class Tiles extends Component {
       whiteSpace: 'nowrap',
       position: 'relative'
     };
-    const fadeStyle = {
-      backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
-      position: 'absolute',
-      width: '6em',
-      right: '-8.438em',
-      top: 0,
-      bottom: 5
-    };
+
     // Return render result
     return (
       <div style={[ containerStyle, tilesStyle ]}>
         {items.map((item, i) => tileRenderer({ style, key: i, item }))}
-        <div style={fadeStyle}></div>
       </div>
     );
   }

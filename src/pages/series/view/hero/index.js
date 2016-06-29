@@ -54,6 +54,7 @@ export default class Hero extends Component {
     },
     container: {
       paddingTop: '5.222em',
+      paddingRight: 0,
       position: 'relative'
     },
     mediaType: {
@@ -126,7 +127,15 @@ export default class Hero extends Component {
   render () {
     const styles = this.constructor.styles;
     const { seriesId } = this.props;
-
+    // const fadeStyle = {
+    //   backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
+    //   position: 'relative',
+    //   width: '6em',
+    //   right: '-0.9375em',
+    //   top: 0,
+    //   bottom: 5
+    // };
+    // <div style={fadeStyle}></div>
     return (
       <div style={styles.background}>
         <div style={styles.overlay} />
@@ -138,11 +147,10 @@ export default class Hero extends Component {
           <Tiles
             horizontalSpacing='0.938em'
             items={characters}
-            numColumns={{ small: 2, medium: 4, large: 5, extraLarge: 7 }}
+            numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
             style={styles.tiles}
             tileRenderer={({ item, key, style }) => <CharacterTile item={item} key={key} style={style} />}
             verticalSpacing={0} />
-
         </Container>
         <Container style={styles.tabs}>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/overview`}>Overview</Link>
