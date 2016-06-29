@@ -62,7 +62,7 @@ export default class NewEpisodes extends Component {
         <Tiles
           horizontalSpacing={0.938}
           items={dummyEpisodes}
-          numColumns={{ small: 1, medium: 3, large: 4, extraLarge: 5 }}
+          numColumns={{ small: 1, medium: 3, large: 3, extraLarge: 3 }}
           style={styles.tiles}
           tileRenderer={(instanceProps) => <EpisodeTile {...instanceProps} />}
           verticalSpacing={0} />

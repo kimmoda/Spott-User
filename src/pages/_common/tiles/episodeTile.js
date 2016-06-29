@@ -54,7 +54,7 @@ export default class SceneTile extends Component {
     contents: {
       textAlign: 'center',
       position: 'absolute',
-      bottom: '6.8em',
+      top: '2.625em',
       left: '1.818em',
       right: '1.818em'
     },
@@ -82,34 +82,28 @@ export default class SceneTile extends Component {
 
     line: {
       position: 'absolute',
-      left: '1.25em',
-      right: '1.25em',
-      bottom: '4.125em',
+      left: '0.625em',
+      right: '0.625em',
+      bottom: '2.625em',
       opacity: 0.3,
       backgroundColor: '#ffffff',
-      height: '1px',
-      [mediaQueries.large]: {
-        bottom: '4.625em'
-      }
+      height: '1px'
     },
 
     products: {
       position: 'absolute',
-      left: '1.25em',
-      right: '1.25em',
-      bottom: '1.125em'
+      left: '0.625em',
+      right: '0.625em',
+      bottom: '0.625em',
+      lineHeight: 0
     },
     subtile: {
-      height: '2em',
+      height: '1.5em',
       marginRight: '0.4em',
       position: 'relative',
       display: 'inline-block',
       opacity: 0.98,
-      width: '2em',
-      [mediaQueries.large]: {
-        width: '2.5em',
-        height: '2.5em'
-      }
+      width: '1.5em'
     },
     subtileImage: {
       bottom: 0,
