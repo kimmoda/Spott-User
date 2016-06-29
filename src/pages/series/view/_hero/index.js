@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { Link } from 'react-router';
 import { fromJS } from 'immutable';
-import { colors, Container, fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle, Tiles } from '../../../_common/buildingBlocks';
+import { colors, Container, fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle, FadedTiles } from '../../../_common/buildingBlocks';
 import CharacterTile from '../../../_common/tiles/characterTile';
 const backgroundImage = require('./images/daredevil.jpg');
 
@@ -53,9 +53,7 @@ export default class Hero extends Component {
       top: 0
     },
     container: {
-      paddingTop: '5.222em',
-      paddingRight: 0,
-      position: 'relative'
+      paddingTop: '5.222em'
     },
     mediaType: {
       ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
@@ -91,8 +89,6 @@ export default class Hero extends Component {
       marginBottom: '2.222em'
     },
     tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em',
       marginBottom: '1.7em'
     },
     tab: {
@@ -127,15 +123,7 @@ export default class Hero extends Component {
   render () {
     const styles = this.constructor.styles;
     const { seriesId } = this.props;
-    // const fadeStyle = {
-    //   backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
-    //   position: 'relative',
-    //   width: '6em',
-    //   right: '-0.9375em',
-    //   top: 0,
-    //   bottom: 5
-    // };
-    // <div style={fadeStyle}></div>
+
     return (
       <div style={styles.background}>
         <div style={styles.overlay} />
@@ -144,19 +132,20 @@ export default class Hero extends Component {
           <Title style={styles.title.large}>Daredevil</Title>
           <SectionTitle style={styles.title.medium}>Followers <span style={styles.emph}>825</span></SectionTitle>
           <Button style={[ pinkButtonStyle, styles.followButton ]}>Follow</Button>
-          <Tiles
-            horizontalSpacing='0.938em'
-            items={characters}
-            numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
-            style={styles.tiles}
-            tileRenderer={({ item, key, style }) => <CharacterTile item={item} key={key} style={style} />}
-            verticalSpacing={0} />
         </Container>
+        <FadedTiles
+          horizontalSpacing={0.833}
+          items={characters}
+          numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
+          style={styles.tiles}
+          tileRenderer={({ item, key, style }) => <CharacterTile item={item} key={key} style={style} />}
+          verticalSpacing={0} />
         <Container style={styles.tabs}>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/overview`}>Overview</Link>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/products`}>Products</Link>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/scenes`}>Scenes</Link>
         </Container>
+
       </div>
     );
   }

@@ -61,7 +61,7 @@ export default class NewScenesForYou extends Component {
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.sectionTitle}>New Scenes for You</SectionTitle>
         <Tiles
-          horizontalSpacing='0.938em'
+          horizontalSpacing={0.938}
           items={dummyScenes}
           numColumns={{ small: 1, medium: 2, large: 2, extraLarge: 2 }}
           style={styles.tiles}
