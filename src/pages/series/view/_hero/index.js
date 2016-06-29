@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { Link } from 'react-router';
-import { colors, Container, fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle } from '../../../_common/buildingBlocks';
+import { colors, Container, FadedTiles, fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
 const backgroundImage = require('./images/daredevil.jpg');
 
@@ -23,8 +23,7 @@ export default class Hero extends Component {
       top: 0
     },
     container: {
-      paddingTop: '5.222em',
-      position: 'relative'
+      paddingTop: '5.222em'
     },
     mediaType: {
       ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
@@ -100,15 +99,16 @@ export default class Hero extends Component {
           <Title style={styles.title.large}>Daredevil</Title>
           <SectionTitle style={styles.title.medium}>Followers <span style={styles.emph}>825</span></SectionTitle>
           <Button style={[ pinkButtonStyle, styles.followButton ]}>Follow</Button>
-
-          <CharacterTiles />
-
         </Container>
+        <FadedTiles>
+          <CharacterTiles />
+        </FadedTiles>
         <Container style={styles.tabs}>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/overview`}>Overview</Link>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/products`}>Products</Link>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/scenes`}>Scenes</Link>
         </Container>
+
       </div>
     );
   }

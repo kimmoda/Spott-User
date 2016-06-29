@@ -236,7 +236,7 @@ export default class SceneTiles extends Component {
     const { styles } = this.constructor;
     return (
       <Tiles
-        horizontalSpacing='0.938em'
+        horizontalSpacing={0.938}
         items={dummyScenes}
         numColumns={{ small: 1, medium: 2, large: 2, extraLarge: 2 }}
         style={styles.tiles}

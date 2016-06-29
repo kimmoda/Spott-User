@@ -51,7 +51,7 @@ export default class PickedForYou extends Component {
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Picked For You</SectionTitle>
         <Tiles
-          horizontalSpacing='0.938em'
+          horizontalSpacing={0.938}
           items={dummySeries}
           numColumns={{ small: 3, medium: 4, large: 5, extraLarge: 6 }}
           style={styles.tiles}

@@ -51,7 +51,7 @@ export default class PeopleAlsoWatch extends Component {
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>People Also Watch</SectionTitle>
         <Tiles
-          horizontalSpacing='0.938em'
+          horizontalSpacing={0.938}
           items={dummyPosters}
           numColumns={{ small: 4, medium: 5, large: 6, extraLarge: 7 }}
           style={styles.tiles}

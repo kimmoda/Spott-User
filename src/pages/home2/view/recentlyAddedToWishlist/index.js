@@ -38,10 +38,6 @@ export default class RecentlyAddedToWishlist extends Component {
     },
     subtitle: {
       marginBottom: '1.304em'
-    },
-    tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em'
     }
   };
 
@@ -51,10 +47,9 @@ export default class RecentlyAddedToWishlist extends Component {
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Recently added to wishlist</SectionTitle>
         <Tiles
-          horizontalSpacing='0.938em'
+          horizontalSpacing={0.938}
           items={dummySeries}
           numColumns={{ small: 3, medium: 4, large: 5, extraLarge: 6 }}
-          style={styles.tiles}
           tileRenderer={(instanceProps) => <ProductTile {...instanceProps} />}
           verticalSpacing={0} />
       </ScalableContainer>

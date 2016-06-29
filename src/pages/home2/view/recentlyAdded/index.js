@@ -59,8 +59,6 @@ export default class RecentlyAdded extends Component {
       marginBottom: '2.725em'
     },
     tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em',
       transform: 'translateY(1.875em)'
     },
     wrapper: {
@@ -80,7 +78,7 @@ export default class RecentlyAdded extends Component {
           <SectionTitle style={styles.subtitle}>Recently added</SectionTitle>
         </div>
         <Tiles
-          horizontalSpacing='0.938em'
+          horizontalSpacing={0.938}
           items={dummySeries}
           numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
           style={styles.tiles}

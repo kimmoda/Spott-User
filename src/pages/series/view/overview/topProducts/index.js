@@ -52,7 +52,7 @@ export default class TopProducts extends Component {
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Top {seriesName} Products</SectionTitle>
         <Tiles
-          horizontalSpacing='0.938em'
+          horizontalSpacing={0.938}
           items={dummySeries}
           numColumns={{ small: 3, medium: 4, large: 5, extraLarge: 6 }}
           style={styles.tiles}

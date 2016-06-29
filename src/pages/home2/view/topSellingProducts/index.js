@@ -105,8 +105,6 @@ export default class TopSellingProducts extends Component {
       marginBottom: '3.125em' // Compensate for tiles' transform
     },
     tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em',
       transform: 'translateY(1.875em)'
     }
   };
@@ -117,7 +115,7 @@ export default class TopSellingProducts extends Component {
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.sectionTitle}>Top Selling Products</SectionTitle>
         <Tiles
-          horizontalSpacing='0.938em'
+          horizontalSpacing={0.938}
           items={dummyScenes}
           numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
           style={styles.tiles}

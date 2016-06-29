@@ -38,10 +38,6 @@ export default class PopularNearYou extends Component {
     },
     subtitle: {
       marginBottom: '1.304em'
-    },
-    tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em'
     }
   };
 
@@ -51,10 +47,9 @@ export default class PopularNearYou extends Component {
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Popular near you</SectionTitle>
         <Tiles
-          horizontalSpacing='0.938em'
+          horizontalSpacing={0.938}
           items={dummyPosters}
           numColumns={{ small: 4, medium: 5, large: 6, extraLarge: 7 }}
-          style={styles.tiles}
           tileRenderer={(instanceProps) => <PosterTile {...instanceProps} />}
           verticalSpacing={0} />
       </ScalableContainer>

@@ -212,9 +212,7 @@ UpperCaseSubtitle.propTypes = {
 export class Tiles extends Component {
 
   static propTypes = {
-    horizontalSpacing: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number ]).isRequired,
+    horizontalSpacing: PropTypes.number.isRequired,
     items: ImmutablePropTypes.listOf(
       PropTypes.any
     ).isRequired,
@@ -230,26 +228,22 @@ export class Tiles extends Component {
 
     const style = {
       display: 'inline-block',
-      width: '100%',
+      width: `${100 / numColumns.extraSmall}%`,
+      paddingLeft: `${horizontalSpacing / 2}em`,
+      paddingRight: `${horizontalSpacing / 2}em`,
       [mediaQueries.small]: {
-        width: `${100 / numColumns.small}%`,
-        paddingLeft: horizontalSpacing,
-        paddingRight: horizontalSpacing
+        width: `${100 / numColumns.small}%`
       },
       [mediaQueries.medium]: {
         width: `${100 / numColumns.medium}%`,
-        paddingLeft: horizontalSpacing,
-        paddingRight: horizontalSpacing
+        paddingLeft: `${horizontalSpacing}em`,
+        paddingRight: `${horizontalSpacing}em`
       },
       [mediaQueries.large]: {
-        width: `${100 / numColumns.large}%`,
-        paddingLeft: horizontalSpacing,
-        paddingRight: horizontalSpacing
+        width: `${100 / numColumns.large}%`
       },
       [mediaQueries.extraLarge]: {
-        width: `${100 / numColumns.extraLarge}%`,
-        paddingLeft: horizontalSpacing,
-        paddingRight: horizontalSpacing
+        width: `${100 / numColumns.extraLarge}%`
       }
     };
 
@@ -257,26 +251,45 @@ export class Tiles extends Component {
     const containerStyle = {
       overflow: 'visible',
       whiteSpace: 'nowrap',
-      position: 'relative'
+      position: 'relative',
+      marginLeft: `-${horizontalSpacing / 2}em`,
+      marginRight: `-${horizontalSpacing / 2}em`,
+      [mediaQueries.medium]: {
+        marginLeft: `-${horizontalSpacing}em`,
+        marginRight: `-${horizontalSpacing}em`
+      }
     };
-    const fadeStyle = {
-      backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
-      position: 'absolute',
-      width: '6em',
-      right: '-8.438em',
-      top: 0,
-      bottom: 5
-    };
+
     // Return render result
     return (
       <div style={[ containerStyle, tilesStyle ]}>
         {items.map((item, i) => tileRenderer({ style, key: i, item }))}
-        <div style={fadeStyle}></div>
       </div>
     );
   }
 
 }
+
+const fadeStyle = {
+  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), green)', //
+  position: 'absolute',
+  width: '6em',
+  right: 0,
+  top: 0,
+  bottom: 5
+};
+
+export const FadedTiles = Radium((props) => (
+  <div style={{ position: 'relative' }}>
+    <Container>
+      {props.children}
+    </Container>
+    <div style={fadeStyle}></div>
+  </div>
+));
+FadedTiles.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 // Page Component
 // //////////////
