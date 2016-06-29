@@ -12,7 +12,6 @@ export default class Series extends Component {
 
   render () {
     const { params: { seriesId } } = this.props;
-    console.warn(this.props);
     return (
       <div>
         <Hero seriesId={seriesId} />

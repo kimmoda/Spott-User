@@ -45,13 +45,12 @@ export default class NewScenesForYou extends Component {
   static styles = {
     container: {
       backgroundColor: colors.white,
-      paddingTop: '6.25em',
-      marginBottom: '1.875em' // Compensate for tiles' transform
+      paddingTop: '6.25em'
     },
     tiles: {
       marginLeft: '-0.938em',
       marginRight: '-0.938em',
-      transform: 'translateY(1.875em)'
+      paddingTop: '1.875em'
     }
   };
 
