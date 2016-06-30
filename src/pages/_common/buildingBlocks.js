@@ -139,19 +139,20 @@ const scalableContainerStyles = {
   marginLeft: 'auto',
   marginRight: 'auto',
   width: '100%',
-  paddingLeft: '0.9375em',
-  paddingRight: '0.9375em'
-  // [mediaQueries.medium]: {
-  //   paddingLeft: 0,
-  //   paddingRight: 0,
-  //   width: 738
-  // },
-  // [mediaQueries.large]: {
-  //   width: 962
-  // },
-  // [mediaQueries.extraLarge]: {
-  //   width: 1170
-  // }
+  paddingLeft: '1em',
+  paddingRight: '1em',
+  [mediaQueries.medium]: {
+    paddingLeft: '3em',
+    paddingRight: '3em'
+  },
+  [mediaQueries.large]: {
+    paddingLeft: '4em',
+    paddingRight: '4em'
+  },
+  [mediaQueries.extraLarge]: {
+    paddingLeft: '6.5em',
+    paddingRight: '6.5em'
+  }
 };
 export const ScalableContainer = Radium((props) => (
   <div style={[ scalableContainerStyles, props.style ]}>
@@ -281,9 +282,9 @@ const fadeStyle = {
 
 export const FadedTiles = Radium((props) => (
   <div style={{ position: 'relative' }}>
-    <Container>
+    <ScalableContainer>
       {props.children}
-    </Container>
+    </ScalableContainer>
     <div style={fadeStyle}></div>
   </div>
 ));

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { Link } from 'react-router';
 import { fromJS } from 'immutable';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, FadedTiles, SectionTitle, Title, Tiles } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, ScalableContainer, FadedTiles, SectionTitle, Title, Tiles } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
 import SmallEpisodeTile from '../../../_common/tiles/smallEpisodeTile';
 const backgroundImage = require('./images/daredevil.jpg');
@@ -143,16 +143,16 @@ export default class Hero extends Component {
     return (
       <div style={styles.background}>
         <div style={styles.overlay} />
-        <Container style={styles.container}>
+        <ScalableContainer style={styles.container}>
           <h4 style={styles.mediaType}>Tv show</h4>
           <Title style={styles.title.large}>Daredevil</Title>
           <SectionTitle style={styles.title.medium}>Followers <span style={styles.emph}>825</span></SectionTitle>
           <Button style={[ pinkButtonStyle, styles.followButton ]}>Follow</Button>
-        </Container>
+        </ScalableContainer>
         <FadedTiles>
           <CharacterTiles />
         </FadedTiles>
-        <Container style={styles.tabs}>
+        <ScalableContainer style={styles.tabs}>
           <div>
             <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/overview`}>Overview</Link>
             <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/products`}>Products</Link>
@@ -163,7 +163,7 @@ export default class Hero extends Component {
             <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/products`}>Season 2</Link>
             <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/scenes`}>Season 1</Link>
           </div>
-        </Container>
+        </ScalableContainer>
         <div style={styles.smallEpisodes}>
           <FadedTiles>
             <Tiles
