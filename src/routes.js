@@ -57,7 +57,9 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
         <IndexRedirect to='/series/:seriesId/overview' />
         <Route component={SeriesOverview} path='/series/:seriesId/overview' />
         <Route component={SeriesProducts} path='/series/:seriesId/products' />
-        <Route component={SeriesScenes} path='/series/:seriesId/scenes' />
+        <Route component={SeriesScenes} path='/series/:seriesId/season/:seasonId'>
+          <Route component={SeriesScenes} path='/series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
+        </Route>
       </Route>
 
       <Route component={ProductDetail} path='/product/:productId' />
