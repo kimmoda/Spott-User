@@ -278,14 +278,19 @@ const fadeStyle = {
   top: 0,
   bottom: 5
 };
+
 export const FadedTiles = Radium((props) => (
   <div style={{ position: 'relative' }}>
     <Container>
-      <Tiles {...props} />
+      {props.children}
     </Container>
     <div style={fadeStyle}></div>
   </div>
 ));
+
+FadedTiles.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 // Page Component
 // //////////////
