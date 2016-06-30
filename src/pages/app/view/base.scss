@@ -129,6 +129,10 @@ ul {
   }
 }
 
+button:focus {
+  outline:0;
+}
+
 #root > div {
   height: 100%;
 }

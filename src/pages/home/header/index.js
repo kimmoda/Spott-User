@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const deviceImage = require('./device.png');
+const deviceRtlImage = require('./deviceRtl.png');
 const badgeImageios = require('./appStore.svg');
 const badgeImageAndroid = require('./googlePlay.svg');
 const heroImage = require('./hero.jpg');
@@ -16,7 +16,7 @@ class Header extends Component {
         <div className='wrapper wrapper--small header__container'>
           <div className='header__content cf'>
             <div className='header__headings'>
-              <h1>Spott is looking for 50.000 testers!</h1>
+              <h1>Television is now your favourite shop</h1>
               <h2>Spott shows you the products from the series and movies you watch, and allows you to buy what you see on the screen.<br/>
                   Live on your smartphone.<br/><br/>
                   Download Spott now and give <a href='mailto:info@spott.it'>us</a> your feedback.</h2>
@@ -33,7 +33,7 @@ class Header extends Component {
                 </p>
               </div>
             </div>
-            <img className='device' src={deviceImage}/>
+            <img className='device' src={deviceRtlImage}/>
           </div>
         </div>
       </section>

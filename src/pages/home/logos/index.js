@@ -7,6 +7,7 @@ export default class Logos extends Component {
   constructor (props) {
     super(props);
     this.images = [
+      require('./rtl.png'),
       require('./vrt.png'),
       require('./medialaan.png'),
       require('./proximus.png')

@@ -20,8 +20,8 @@ class Home extends Component {
       <div className='container'>
         <Navbar currentPathname={this.props.location.pathname} />
         <Header />
-        <Logos />
         <MovieList />
+        <Logos />
         <Subscribe />
         <TwitterFeed />
         <Footer />
