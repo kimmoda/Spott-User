@@ -81,8 +81,12 @@ export default class Hero extends Component {
       fontFamily: fontWeights.bold
     },
     followButton: {
-      backgroundColor: 'transparent',
-      marginBottom: '2.222em'
+      base: {
+        marginBottom: '2.222em'
+      },
+      unactive: {
+        backgroundColor: 'transparent'
+      }
     },
     tiles: {
       marginBottom: '1.7em'
@@ -140,6 +144,8 @@ export default class Hero extends Component {
     const styles = this.constructor.styles;
     const { seriesId } = this.props;
 
+    const following = true;
+
     return (
       <div style={styles.background}>
         <div style={styles.overlay} />
@@ -147,7 +153,7 @@ export default class Hero extends Component {
           <h4 style={styles.mediaType}>Tv show</h4>
           <Title style={styles.title.large}>Daredevil</Title>
           <SectionTitle style={styles.title.medium}>Followers <span style={styles.emph}>825</span></SectionTitle>
-          <Button style={[ pinkButtonStyle, styles.followButton ]}>Follow</Button>
+          <Button style={[ pinkButtonStyle, styles.followButton.base, !following && styles.followButton.unactive ]}>Follow</Button>
         </ScalableContainer>
         <FadedTiles>
           <CharacterTiles />
@@ -156,12 +162,12 @@ export default class Hero extends Component {
           <div>
             <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/overview`}>Overview</Link>
             <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/products`}>Products</Link>
-            <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/scenes`}>Scenes</Link>
+            <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/season/3`}>Scenes</Link>
           </div>
           <div>
-            <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/overview`}>Season 3</Link>
-            <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/products`}>Season 2</Link>
-            <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/scenes`}>Season 1</Link>
+            <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/3`}>Season 3</Link>
+            <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/2`}>Season 2</Link>
+            <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/1`}>Season 1</Link>
           </div>
         </ScalableContainer>
         <div style={styles.smallEpisodes}>
@@ -171,9 +177,7 @@ export default class Hero extends Component {
               items={episodes}
               numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
               tileRenderer={({ item, key, style }) => (
-                <Link to={`/series/${seriesId}/overview`}>
-                  <SmallEpisodeTile item={item} key={key} selected={key === 0} style={style} />
-                </Link>
+                <SmallEpisodeTile item={item} key={key} linkTo={`/series/${seriesId}/season/3/episode/${key}/scenes`} style={style} />
               )}
               verticalSpacing={0} />
           </FadedTiles>

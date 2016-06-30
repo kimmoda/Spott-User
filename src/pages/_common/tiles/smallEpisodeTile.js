@@ -1,5 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
@@ -14,7 +15,7 @@ export default class SmallEpisodeTile extends Component {
     item: ImmutablePropTypes.mapContains({
       name: PropTypes.string.isRequired
     }).isRequired,
-    selected: PropTypes.bool,
+    linkTo: PropTypes.string,
     style: PropTypes.object
   };
 
@@ -23,6 +24,16 @@ export default class SmallEpisodeTile extends Component {
       position: 'relative',
       paddingTop: '60%',
       height: 0
+    },
+    image: {
+      backgroundPosition: 'center center',
+      backgroundSize: 'cover',
+      borderRadius: '0.25em',
+      bottom: 0,
+      left: 0,
+      position: 'absolute',
+      right: 0,
+      top: 0
     },
     layer: {
       position: 'absolute',
@@ -33,62 +44,62 @@ export default class SmallEpisodeTile extends Component {
       backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
+    link: {
+      active: {
+        borderColor: colors.darkPink
+      },
+      base: {
+        borderColor: 'transparent',
+        borderRadius: '0.25em',
+        borderStyle: 'solid',
+        borderWidth: 2,
+        display: 'block',
+        padding: 2
+      }
+    },
     title: {
       base: {
         ...makeTextStyle(fontWeights.bold, '0.54em', '0.219em'),
         color: 'white',
-        textTransform: 'uppercase',
+        left: 0,
+        opacity: 0,
         overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        position: 'absolute',
-        top: '45%',
         paddingLeft: '1em',
         paddingRight: '1em',
-        left: 0,
+        position: 'absolute',
         right: 0,
         textAlign: 'center',
-        opacity: 0,
-        transition: 'opacity 0.5s ease-in'
+        textOverflow: 'ellipsis',
+        textTransform: 'uppercase',
+        top: '45%',
+        transition: 'opacity 0.5s ease-in',
+        whiteSpace: 'nowrap'
       },
       hovered: {
-        transition: 'opacity 0.5s ease-out',
-        opacity: 1
+        opacity: 1,
+        transition: 'opacity 0.5s ease-out'
       }
-    },
-    image: {
-      backgroundSize: 'cover',
-      backgroundPosition: 'center center',
-      borderRadius: '0.25em',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0
-    },
-    selected: {
-      borderColor: colors.darkPink,
-      borderWidth: 2,
-      borderRadius: '0.25em',
-      borderStyle: 'solid',
-      padding: 2
     }
   };
 
   render () {
     const styles = this.constructor.styles;
-    const { hovered, item, selected, style } = this.props;
+    const { hovered, item, linkTo, style } = this.props;
+
+    const children = (
+      <div style={styles.container}>
+        <div
+          style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]}
+          title={item.get('name')} />
+        <div style={styles.layer} />
+        <div style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</div>
+      </div>
+    );
     return (
       <BaseTile style={style}>
-        <div style={[ selected && styles.selected ]}>
-          <div style={styles.container}>
-            <div
-              style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]}
-              title={item.get('name')} />
-            <div style={styles.layer}></div>
-            <div style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</div>
-          </div>
-        </div>
+        {linkTo
+          ? <Link activeStyle={styles.link.active} style={styles.link.base} to={linkTo}>{children}</Link>
+          : children}
       </BaseTile>
     );
   }
