@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { fromJS } from 'immutable';
 import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, ScalableContainer, FadedTiles, SectionTitle, Title, Tiles } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
 import SmallEpisodeTile from '../../../_common/tiles/smallEpisodeTile';
 const backgroundImage = require('./images/daredevil.jpg');
+import * as actions from '../../actions';
 
 const episodes = fromJS([ {
   image: require('./images/episodes/1.png'),
@@ -31,11 +34,15 @@ const episodes = fromJS([ {
 } ]);
 
 /* TODO: add id of the series */
+@connect(null, (dispatch) => ({
+  toggleFollow: bindActionCreators(actions.toggleFollow, dispatch)
+}))
 @Radium
 export default class Hero extends Component {
 
   static propTypes = {
-    seriesId: PropTypes.string.isRequired
+    seriesId: PropTypes.string.isRequired,
+    toggleFollow: PropTypes.func.isRequired
   };
 
   static styles = {
@@ -142,7 +149,7 @@ export default class Hero extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { seriesId } = this.props;
+    const { seriesId, toggleFollow } = this.props;
 
     const following = true;
 
@@ -153,7 +160,7 @@ export default class Hero extends Component {
           <h4 style={styles.mediaType}>Tv show</h4>
           <Title style={styles.title.large}>Daredevil</Title>
           <SectionTitle style={styles.title.medium}>Followers <span style={styles.emph}>825</span></SectionTitle>
-          <Button style={[ pinkButtonStyle, styles.followButton.base, !following && styles.followButton.unactive ]}>Follow</Button>
+          <Button style={[ pinkButtonStyle, styles.followButton.base, !following && styles.followButton.unactive ]} onClick={toggleFollow}>Follow</Button>
         </ScalableContainer>
         <FadedTiles>
           <CharacterTiles />

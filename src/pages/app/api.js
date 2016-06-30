@@ -1,4 +1,4 @@
-import * as request from '../../request';
+import * as request from '../../api/request';
 
 /**
  * GET /config.json (local)
@@ -7,12 +7,11 @@ import * as request from '../../request';
  *
  * Get the configuration, like the root url of the API.
  */
-export function getConfiguration () {
-  // const configuration = (await request.get(null, '/config.json')).body;
-  // const version = (await request.get(null, '/version.json')).body;
-  // const { body: { apptvateVersion, spottVersion } } = await request.get(null, `${configuration.urls.api}/version`);
-  // return { apptvateVersion, spottVersion, version, ...configuration };
-  return {};
+export async function getConfiguration () {
+  const configuration = (await request.get(null, '/config.json')).body;
+  const version = (await request.get(null, '/version.json')).body;
+  const { body: { apptvateVersion, spottVersion } } = await request.get(null, `${configuration.urls.api}/version`);
+  return { apptvateVersion, spottVersion, version, ...configuration };
 }
 
 export async function login (baseUrl, { email: emailIn, password }) {

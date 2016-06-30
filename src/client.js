@@ -81,6 +81,7 @@ async function boot () {
       store.dispatch({ data: JSON.parse(session), type: 'LOGIN_SUCCESS' });
     }
   }
+
   // Render application
   ReactDOM.render(
     <StyleRoot>
