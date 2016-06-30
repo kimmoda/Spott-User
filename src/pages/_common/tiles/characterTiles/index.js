@@ -1,11 +1,41 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { fromJS } from 'immutable';
+import { fontWeights, makeTextStyle, Tiles } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from './_baseTile';
+import BaseTile from '../_baseTile';
+
+const characters = fromJS([ {
+  image: require('./images/mattMurdock.jpg'),
+  name: 'Matt Murdock Matt Murdock'
+}, {
+  image: require('./images/karenPage.jpg'),
+  name: 'Karen Page'
+}, {
+  image: require('./images/foggy.jpg'),
+  name: 'Foggy'
+}, {
+  image: require('./images/frankCastle.jpg'),
+  name: 'Frank Castle'
+}, {
+  image: require('./images/elektra.jpg'),
+  name: 'Elektra'
+}, {
+  image: require('./images/claireTemple.jpg'),
+  name: 'Claire Temple'
+}, {
+  image: require('./images/mattMurdock.jpg'),
+  name: 'Matt Murdock'
+}, {
+  image: require('./images/karenPage.jpg'),
+  name: 'Karen Page'
+}, {
+  image: require('./images/foggy.jpg'),
+  name: 'Foggy'
+} ]);
 
 @Radium
-export default class CharacterTile extends Component {
+export class CharacterTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
@@ -66,6 +96,27 @@ export default class CharacterTile extends Component {
           <span style={styles.title}>{item.get('name')}</span>
         </div>
       </BaseTile>
+    );
+  }
+}
+
+export default class CharacterTiles extends Component {
+
+  static styles = {
+    tiles: {
+      marginBottom: '1.7em'
+    }
+  }
+  render () {
+    const { styles } = this.constructor;
+    return (
+      <Tiles
+        horizontalSpacing={0.833}
+        items={characters}
+        numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
+        style={styles.tiles}
+        tileRenderer={({ item, key, style }) => <CharacterTile item={item} key={key} style={style} />}
+        verticalSpacing={0} />
     );
   }
 }

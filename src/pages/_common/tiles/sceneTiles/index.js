@@ -1,12 +1,45 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
+import { fromJS } from 'immutable';
+import { fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from './_baseTile';
-import Marker from './_marker';
+import BaseTile from '../_baseTile';
+import Marker from '../_marker';
+
+const dummyScenes = fromJS([ {
+  id: '0',
+  image: require('./images/suits.png'),
+  seasonName: 'Season 1',
+  episodeName: 'Episode 1',
+  markers: [ { relativeLeft: 20, relativeTop: 40 } ],
+  faces: [],
+  products: []
+}, {
+  id: '1',
+  image: require('./images/daredevil.png'),
+  seriesLogo: require('./images/daredevilLogo.png'),
+  seasonName: 'Season 3',
+  episodeName: 'Episode 5',
+  markers: [
+    { id: 'm1', relativeLeft: 40, relativeTop: 38 },
+    { id: 'm2', relativeLeft: 53, relativeTop: 47 },
+    { id: 'm3', relativeLeft: 65, relativeTop: 33 },
+    { id: 'm4', relativeLeft: 90, relativeTop: 60 }
+  ],
+  faces: [
+    { id: 'f1', name: 'Murdock', image: require('./images/murdock.png') },
+    { id: 'f2', name: 'Page', image: require('./images/page.png') }
+  ],
+  products: [
+    { id: 'p1', name: 'product 1', image: require('./images/product1.png') },
+    { id: 'p2', name: 'product 2', image: require('./images/product2.png') },
+    { id: 'p3', name: 'product 3', image: require('./images/product3.png') },
+    { id: 'p4', name: 'product 4', image: require('./images/product4.png') }
+  ]
+} ]);
 
 @Radium
-export default class SceneTile extends Component {
+export class SceneTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
@@ -151,7 +184,7 @@ export default class SceneTile extends Component {
       right: 0,
       top: 0,
       width: 'auto',
-      transition: '0.25s ease-in-out',
+      transition: 'filter 0.25s ease-in-out',
       ':hover': {
         filter: 'opacity(70%)'
       }
@@ -186,6 +219,29 @@ export default class SceneTile extends Component {
           </div>
         </div>
       </BaseTile>
+    );
+  }
+}
+
+export default class SceneTiles extends Component {
+
+  static styles = {
+    tiles: {
+      marginLeft: '-0.938em',
+      marginRight: '-0.938em',
+      transform: 'translateY(1.875em)'
+    }
+  }
+  render () {
+    const { styles } = this.constructor;
+    return (
+      <Tiles
+        horizontalSpacing={0.938}
+        items={dummyScenes}
+        numColumns={{ small: 1, medium: 2, large: 2, extraLarge: 2 }}
+        style={styles.tiles}
+        tileRenderer={(instanceProps) => <SceneTile {...instanceProps} />}
+        verticalSpacing={0} />
     );
   }
 }

@@ -13,7 +13,7 @@ export default class BaseTile extends Component {
     container: {
       boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.3)',
       // marginBottom: '15px',
-      transition: '0.25s ease-in-out',
+      transition: 'transform 0.25s ease-in-out',
       ':hover': {
         transform: 'scale(1.02)',
         boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.4)'

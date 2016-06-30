@@ -1,39 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { Link } from 'react-router';
-import { fromJS } from 'immutable';
-import { colors, Container, fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle, FadedTiles } from '../../../_common/buildingBlocks';
-import CharacterTile from '../../../_common/tiles/characterTile';
+import { colors, Container, FadedTiles, fontWeights, makeTextStyle, Button, SectionTitle, Title, pinkButtonStyle } from '../../../_common/buildingBlocks';
+import CharacterTiles from '../../../_common/tiles/characterTiles';
 const backgroundImage = require('./images/daredevil.jpg');
-
-const characters = fromJS([ {
-  image: require('./images/mattMurdock.jpg'),
-  name: 'Matt Murdock Matt Murdock'
-}, {
-  image: require('./images/karenPage.jpg'),
-  name: 'Karen Page'
-}, {
-  image: require('./images/foggy.jpg'),
-  name: 'Foggy'
-}, {
-  image: require('./images/frankCastle.jpg'),
-  name: 'Frank Castle'
-}, {
-  image: require('./images/elektra.jpg'),
-  name: 'Elektra'
-}, {
-  image: require('./images/claireTemple.jpg'),
-  name: 'Claire Temple'
-}, {
-  image: require('./images/mattMurdock.jpg'),
-  name: 'Matt Murdock'
-}, {
-  image: require('./images/karenPage.jpg'),
-  name: 'Karen Page'
-}, {
-  image: require('./images/foggy.jpg'),
-  name: 'Foggy'
-} ]);
 
 /* TODO: add id of the series */
 @Radium
@@ -88,9 +58,6 @@ export default class Hero extends Component {
       backgroundColor: 'transparent',
       marginBottom: '2.222em'
     },
-    tiles: {
-      marginBottom: '1.7em'
-    },
     tab: {
       base: {
         ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
@@ -133,13 +100,9 @@ export default class Hero extends Component {
           <SectionTitle style={styles.title.medium}>Followers <span style={styles.emph}>825</span></SectionTitle>
           <Button style={[ pinkButtonStyle, styles.followButton ]}>Follow</Button>
         </Container>
-        <FadedTiles
-          horizontalSpacing={0.833}
-          items={characters}
-          numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
-          style={styles.tiles}
-          tileRenderer={({ item, key, style }) => <CharacterTile item={item} key={key} style={style} />}
-          verticalSpacing={0} />
+        <FadedTiles>
+          <CharacterTiles />
+        </FadedTiles>
         <Container style={styles.tabs}>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/overview`}>Overview</Link>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/products`}>Products</Link>
