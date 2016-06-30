@@ -16,7 +16,7 @@ class Header extends Component {
         <div className='wrapper wrapper--small header__container'>
           <div className='header__content cf'>
             <div className='header__headings'>
-              <h1>Television is now your favourite shop</h1>
+              <h1>Discover all there is to know about your favorite shows & series</h1>
               <h2>Spott shows you the products from the series and movies you watch, and allows you to buy what you see on the screen.<br/>
                   Live on your smartphone.<br/><br/>
                   Download Spott now and give <a href='mailto:info@spott.it'>us</a> your feedback.</h2>
