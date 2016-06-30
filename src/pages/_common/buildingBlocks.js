@@ -271,7 +271,7 @@ export class Tiles extends Component {
 }
 
 const fadeStyle = {
-  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), green)', //
+  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0))',
   position: 'absolute',
   width: '6em',
   right: 0,
@@ -286,7 +286,6 @@ export const FadedTiles = Radium((props) => (
     <div style={fadeStyle}></div>
   </div>
 ));
-
 
 // Page Component
 // //////////////
