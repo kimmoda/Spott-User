@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { fromJS } from 'immutable'; // TODO: remove after API is implemented
 import VerticalTiles from '../../../_common/verticalTiles';
-import ProductTile from '../../../_common/tiles/productTile';
+import { ProductTile } from '../../../_common/tiles/productTiles';
 import { ScalableContainer } from '../../../_common/buildingBlocks';
 
 const products = fromJS([ {

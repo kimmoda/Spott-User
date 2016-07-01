@@ -1,11 +1,26 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { fromJS } from 'immutable';
+import { fontWeights, makeTextStyle, Tiles } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from './_baseTile';
+import BaseTile from '../_baseTile';
+
+const dummySeries = fromJS([ {
+  image: require('./images/modern-family.jpg'),
+  name: 'Modern family'
+}, {
+  image: require('./images/new-girl.jpg'),
+  name: 'New girl'
+}, {
+  image: require('./images/orange-is-the-new-black.jpg'),
+  name: 'Orange is the new black'
+}, {
+  image: require('./images/kardashians.jpg'),
+  name: 'Kardasians'
+} ]);
 
 @Radium
-export default class SeriesTile extends Component {
+export class SeriesTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
@@ -63,6 +78,35 @@ export default class SeriesTile extends Component {
           <span style={styles.title}>{item.get('name')}</span>
         </div>
       </BaseTile>
+    );
+  }
+}
+
+@Radium
+export default class SeriesTiles extends Component {
+
+  static propTypes = {
+    items: ImmutablePropTypes.list,
+    style: PropTypes.object
+  };
+
+  static styles = {
+    tiles: {
+      transform: 'translateY(1.875em)'
+    }
+  }
+  render () {
+    const { styles } = this.constructor;
+    const { items, style } = this.props;
+
+    return (
+      <Tiles
+        horizontalSpacing={0.938}
+        items={items ? items : dummySeries}
+        numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
+        style={[ styles.tiles, style ]}
+        tileRenderer={(instanceProps) => <SeriesTile {...instanceProps} />}
+        verticalSpacing={0} />
     );
   }
 }

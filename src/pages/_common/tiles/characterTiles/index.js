@@ -113,6 +113,11 @@ export class CharacterTile extends Component {
 
 export default class CharacterTiles extends Component {
 
+  static propTypes = {
+    items: ImmutablePropTypes.list,
+    style: PropTypes.object
+  };
+
   static styles = {
     tiles: {
       marginBottom: '1.7em'
@@ -121,13 +126,15 @@ export default class CharacterTiles extends Component {
 
   render () {
     const { styles } = this.constructor;
+    const { items, style } = this.props;
+
     return (
       <Tiles
         horizontalSpacing={0.833}
-        items={characters}
+        items={items ? items : characters}
         numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
-        style={styles.tiles}
-        tileRenderer={({ item, key, style }) => <CharacterTile item={item} key={key} style={style} />}
+        style={[ styles.tiles, style ]}
+        tileRenderer={(instanceProps) => <CharacterTile {...instanceProps} />}
         verticalSpacing={0} />
     );
   }

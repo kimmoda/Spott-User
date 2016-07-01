@@ -225,6 +225,11 @@ export class SceneTile extends Component {
 
 export default class SceneTiles extends Component {
 
+  static propTypes = {
+    items: ImmutablePropTypes.list,
+    style: PropTypes.object
+  };
+
   static styles = {
     tiles: {
       marginLeft: '-0.938em',
@@ -234,12 +239,14 @@ export default class SceneTiles extends Component {
   }
   render () {
     const { styles } = this.constructor;
+    const { items, style } = this.props;
+
     return (
       <Tiles
         horizontalSpacing={0.938}
-        items={dummyScenes}
+        items={items ? items : dummyScenes}
         numColumns={{ small: 1, medium: 2, large: 2, extraLarge: 2 }}
-        style={styles.tiles}
+        style={[ styles.tiles, style ]}
         tileRenderer={(instanceProps) => <SceneTile {...instanceProps} />}
         verticalSpacing={0} />
     );

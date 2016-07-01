@@ -1,32 +1,12 @@
 import React, { Component /* , PropTypes */ } from 'react';
 import Radium from 'radium';
-import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { colors, SectionTitle, ScalableContainer, Tiles } from '../../../../_common/buildingBlocks';
+import { colors, SectionTitle, ScalableContainer } from '../../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
-import ProductTile from '../../../../_common/tiles/productTile';
+import ProductTiles from '../../../../_common/tiles/productTiles';
 
 const seriesName = 'Deadpool';
-const dummySeries = fromJS([ {
-  image: require('./images/glasses.jpg'),
-  name: 'Ray Ban Sunglasses - Ray Ban Sunglasses - Ray Ban Sunglasses'
-}, {
-  image: require('./images/car.jpg'),
-  name: 'What a super car'
-}, {
-  image: require('./images/chair.jpg'),
-  name: 'Chair'
-}, {
-  image: require('./images/glasses.jpg'),
-  name: 'Ray Ban Sunglasses'
-}, {
-  image: require('./images/car.jpg'),
-  name: 'What a super car'
-}, {
-  image: require('./images/mnm.png'),
-  name: 'M&M\'s'
-} ]);
 
 @Radium
 export default class TopProducts extends Component {
@@ -39,10 +19,6 @@ export default class TopProducts extends Component {
     },
     subtitle: {
       marginBottom: '1.304em'
-    },
-    tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em'
     }
   };
 
@@ -51,12 +27,7 @@ export default class TopProducts extends Component {
     return (
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Top {seriesName} Products</SectionTitle>
-        <Tiles
-          horizontalSpacing={0.938}
-          items={dummySeries}
-          numColumns={{ small: 3, medium: 4, large: 5, extraLarge: 6 }}
-          style={styles.tiles}
-          tileRenderer={(instanceProps) => <ProductTile {...instanceProps} />}
+        <ProductTiles />}
           verticalSpacing={0} />
       </ScalableContainer>
     );

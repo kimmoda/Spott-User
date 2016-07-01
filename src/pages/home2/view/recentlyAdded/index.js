@@ -1,26 +1,11 @@
 import React, { Component /* , PropTypes */ } from 'react';
 import Radium from 'radium';
-import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { Button, colors, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, Tiles, pinkButtonStyle } from '../../../_common/buildingBlocks';
+import { Button, colors, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, pinkButtonStyle } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
-import SeriesTile from '../../../_common/tiles/seriesTile';
+import SeriesTiles from '../../../_common/tiles/seriesTiles';
 const xFilesImage = require('./images/x-files.jpg');
-
-const dummySeries = fromJS([ {
-  image: require('./images/modern-family.jpg'),
-  name: 'Modern family'
-}, {
-  image: require('./images/new-girl.jpg'),
-  name: 'New girl'
-}, {
-  image: require('./images/orange-is-the-new-black.jpg'),
-  name: 'Orange is the new black'
-}, {
-  image: require('./images/kardashians.jpg'),
-  name: 'Kardasians'
-} ]);
 
 @Radium
 export default class RecentlyAdded extends Component {
@@ -77,13 +62,7 @@ export default class RecentlyAdded extends Component {
           <Button style={{ ...pinkButtonStyle, ...styles.button }}>Browse</Button>
           <SectionTitle style={styles.subtitle}>Recently added</SectionTitle>
         </div>
-        <Tiles
-          horizontalSpacing={0.938}
-          items={dummySeries}
-          numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
-          style={styles.tiles}
-          tileRenderer={(instanceProps) => <SeriesTile {...instanceProps} />}
-          verticalSpacing={0} />
+        <SeriesTiles />
       </ScalableContainer>
     );
   }

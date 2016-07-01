@@ -1,31 +1,7 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
-import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { colors, SectionTitle, ScalableContainer, Tiles } from '../../../../_common/buildingBlocks';
-import PosterTile from '../../../../_common/tiles/posterTile';
-
-const dummyPosters = fromJS([ {
-  image: require('./images/criminalMinds.jpg'),
-  name: 'Criminal Minds'
-}, {
-  image: require('./images/ghostInTheShell.jpg'),
-  name: 'Ghost In The Shell'
-}, {
-  image: require('./images/modernFamily.jpg'),
-  name: 'Modern Family'
-}, {
-  image: require('./images/batman.jpg'),
-  name: 'Batman'
-}, {
-  image: require('./images/batman.jpg'),
-  name: 'Batman'
-}, {
-  image: require('./images/ghostInTheShell.jpg'),
-  name: 'Ghost In The Shell'
-}, {
-  image: require('./images/modernFamily.jpg'),
-  name: 'Modern Family'
-} ]);
+import { colors, SectionTitle, ScalableContainer } from '../../../../_common/buildingBlocks';
+import PosterTiles from '../../../../_common/tiles/posterTiles';
 
 @Radium
 export default class PeopleAlsoWatch extends Component {
@@ -38,10 +14,6 @@ export default class PeopleAlsoWatch extends Component {
     },
     subtitle: {
       marginBottom: '1.304em'
-    },
-    tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em'
     }
   };
 
@@ -50,13 +22,7 @@ export default class PeopleAlsoWatch extends Component {
     return (
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>People Also Watch</SectionTitle>
-        <Tiles
-          horizontalSpacing={0.938}
-          items={dummyPosters}
-          numColumns={{ small: 4, medium: 5, large: 6, extraLarge: 7 }}
-          style={styles.tiles}
-          tileRenderer={(instanceProps) => <PosterTile {...instanceProps} />}
-          verticalSpacing={0} />
+        <PosterTiles />
       </ScalableContainer>
     );
   }
