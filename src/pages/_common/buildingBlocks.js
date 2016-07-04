@@ -1,5 +1,6 @@
 import Radium from 'radium';
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import Navbar from './navbar';
 import { Link } from 'react-router';
 
@@ -9,12 +10,13 @@ const RadiumedLink = Radium(Link);
 // /////////
 
 export const colors = {
+  dark: '#221f26',
+  whiteGray: '#f9f9f9',
   darkPink: '#cf315b',
   charcoalGray: '#38353c',
   cool: '#221f26',
   coolGray: '#a7a6a9',
   green: '#1ab61a',
-  dark: '#221f26',
   slateGray: '#59575c',
   whiteThree: '#e9e9e9',
   whiteTwo: '#fcfcfc',
@@ -53,9 +55,9 @@ export function makeTextStyle (fontWeight = fontWeights.regular, fontSize = '1em
 const buttonStyle = {
   ...makeTextStyle(fontWeights.bold, '0.875em', '0.013em', '1em'),
   backgroundColor: 'rgba(255, 255, 255, 0)',
-  borderWidth: '1px',
   borderStyle: 'solid',
-  borderColor: colors.white,
+  borderWidth: ' 1px',
+  borderColor: `${colors.white}`,
   borderRadius: 0,
   boxShadow: 'none',
   color: colors.white,
@@ -73,6 +75,21 @@ const buttonStyle = {
     backgroundColor: 'rgba(255, 255, 255, 0.1)'
   }
 };
+export const pinkButtonStyle = {
+  borderRadius: '6.25em',
+  backgroundColor: colors.darkPink,
+  borderColor: colors.darkPink,
+  fontSize: '0.688em',
+  letterSpacing: '0.219em',
+  padding: '0.85em 2.45em',
+  ':hover': {
+    backgroundColor: 'rgba(207, 49, 91, 0.6)'
+  },
+  ':focus': {
+    backgroundColor: 'rgba(207, 49, 91, 0.6)'
+  }
+};
+
 export const Button = Radium((props) => {
   if (!props.href) {
     return <button {...props} style={[ buttonStyle, props.style ]}>{props.children}</button>;
@@ -82,7 +99,9 @@ export const Button = Radium((props) => {
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   href: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array ])
 };
 
 // Container component
@@ -114,6 +133,172 @@ export const Container = Radium((props) => (
 Container.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object
+};
+
+// Container component
+// ///////////////////
+
+const scalableContainerStyles = {
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  width: '100%',
+  paddingLeft: '1em',
+  paddingRight: '1em',
+  [mediaQueries.medium]: {
+    paddingLeft: '3em',
+    paddingRight: '3em'
+  },
+  [mediaQueries.large]: {
+    paddingLeft: '4em',
+    paddingRight: '4em'
+  },
+  [mediaQueries.extraLarge]: {
+    paddingLeft: '6.5em',
+    paddingRight: '6.5em'
+  }
+};
+export const ScalableContainer = Radium((props) => (
+  <div style={[ scalableContainerStyles, props.style ]}>
+    {props.children}
+  </div>
+));
+ScalableContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object
+};
+
+// SectionTitle Component
+// //////////////////////
+
+const titleStyle = {
+  ...makeTextStyle(fontWeights.light, '3.75em', '0.0168em'),
+  color: colors.dark,
+  fontWeight: 300
+};
+export const Title = Radium((props) => {
+  return <h1 {...props} style={[ titleStyle, props.style ]}>{props.children}</h1>;
+});
+Title.propTypes = {
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object
+};
+
+const sectionTitleStyle = {
+  ...makeTextStyle(fontWeights.light, '1.438em', '0.031em'),
+  color: colors.dark,
+  marginBottom: '1.304em'
+};
+export const SectionTitle = Radium((props) => {
+  return <h2 {...props} style={[ sectionTitleStyle, props.style ]}>{props.children}</h2>;
+});
+SectionTitle.propTypes = {
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object
+};
+
+const upperCaseSubtitleStyle = {
+  ...makeTextStyle(fontWeights.light, '0.688em', '0.318em'),
+  color: colors.dark,
+  textTransform: 'uppercase'
+};
+
+export const UpperCaseSubtitle = Radium((props) => {
+  return <h3 {...props} style={[ upperCaseSubtitleStyle, props.style ]}>{props.children}</h3>;
+});
+UpperCaseSubtitle.propTypes = {
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object
+};
+
+// Tiles Component
+// ///////////////
+
+@Radium
+export class Tiles extends Component {
+
+  static propTypes = {
+    horizontalSpacing: PropTypes.number.isRequired,
+    items: ImmutablePropTypes.listOf(
+      PropTypes.any
+    ).isRequired,
+    numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
+    // The component for rendering the tile. Is cloned with an additional
+    // 'value' prop.
+    style: PropTypes.object,
+    tileRenderer: PropTypes.func.isRequired
+  };
+
+  render () {
+    const { horizontalSpacing, items, numColumns, style: tilesStyle, tileRenderer } = this.props;
+
+    const style = {
+      display: 'inline-block',
+      width: `${100 / numColumns.extraSmall}%`,
+      paddingLeft: `${horizontalSpacing / 2}em`,
+      paddingRight: `${horizontalSpacing / 2}em`,
+      [mediaQueries.small]: {
+        width: `${100 / numColumns.small}%`
+      },
+      [mediaQueries.medium]: {
+        width: `${100 / numColumns.medium}%`,
+        paddingLeft: `${horizontalSpacing}em`,
+        paddingRight: `${horizontalSpacing}em`
+      },
+      [mediaQueries.large]: {
+        width: `${100 / numColumns.large}%`
+      },
+      [mediaQueries.extraLarge]: {
+        width: `${100 / numColumns.extraLarge}%`
+      }
+    };
+
+    // Determine container style
+    const containerStyle = {
+      whiteSpace: 'nowrap',
+      position: 'relative',
+      marginBottom: '-1em',
+      marginLeft: `-${horizontalSpacing / 2}em`,
+      marginRight: `-${horizontalSpacing / 2}em`,
+      marginTop: '-1em',
+      paddingBottom: '1em',
+      paddingTop: '1em',
+      overflow: 'hidden',
+      [mediaQueries.medium]: {
+        marginLeft: `-${horizontalSpacing}em`,
+        marginRight: `-${horizontalSpacing}em`
+      }
+    };
+
+    // Return render result
+    return (
+      <div style={[ containerStyle, tilesStyle ]}>
+        {items.map((item, i) => tileRenderer({ style, key: i, item }))}
+      </div>
+    );
+  }
+
+}
+
+const fadeStyle = {
+  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgb(244, 0, 0))',
+  position: 'absolute',
+  width: '4em',
+  right: 0,
+  top: 0,
+  bottom: 5
+};
+
+export const FadedTiles = Radium((props) => (
+  <div style={{ position: 'relative' }}>
+    <ScalableContainer>
+      {props.children}
+    </ScalableContainer>
+    <div style={fadeStyle}></div>
+  </div>
+));
+
+FadedTiles.propTypes = {
+  children: PropTypes.node.isRequired
 };
 
 // Page Component

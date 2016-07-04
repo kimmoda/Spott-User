@@ -13,3 +13,4 @@ dist/
 pom.xml.versionsBackup
 release.properties
 target
+node

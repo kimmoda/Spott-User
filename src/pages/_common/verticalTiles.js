@@ -36,7 +36,7 @@ export function slowdown (func, wait, immediate) {
 /**
  * Main component, containing and efficiently rendering our tiles.
  */
-export default class Tiles extends Component {
+export default class VerticalTiles extends Component {
   static propTypes = {
     horizontalSpacing: PropTypes.number.isRequired,
     items: ImmutablePropTypes.listOf(

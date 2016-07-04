@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Radium from 'radium';
 import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
-import Tiles from '../../../_common/tiles';
+import VerticalTiles from '../../../_common/verticalTiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { fetchProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -103,7 +103,7 @@ export default class WishlistProducts extends Component {
         return (
           <div>
             <h1 style={styles.title}>{productsOfWishlist.get('name') || 'Wishlist'}</h1>
-            <Tiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
+            <VerticalTiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
           </div>
         );
       }

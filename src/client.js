@@ -18,6 +18,7 @@ import app from './pages/app/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import hellobank from './pages/hellobank/reducer';
+import home2 from './pages/home2/reducer';
 
 const $ = require('jquery');
 
@@ -55,6 +56,7 @@ function updateScroll () {
 // add the router reducer to the store on the 'routing' key
 const rootReducer = combineReducers({
   app,
+  home2,
   hellobank,
   productDetail,
   profile,
@@ -79,6 +81,7 @@ async function boot () {
       store.dispatch({ data: JSON.parse(session), type: 'LOGIN_SUCCESS' });
     }
   }
+
   // Render application
   ReactDOM.render(
     <StyleRoot>

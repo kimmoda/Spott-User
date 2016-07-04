@@ -1,14 +1,14 @@
-import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Radium from 'radium';
 import { Link } from 'react-router';
-import { colors, Container, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
+import { colors, Container, fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../_common/buildingBlocks';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
 import { FETCHING, LOADED, UPDATING } from '../../../statusTypes';
 import { productSelector } from '../selector';
-import Tiles from '../../_common/tiles';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { slugify } from '../../../utils';
 import Navbar from '../../_common/navbar';
 import Spinner from '../../_common/spinner';
@@ -25,9 +25,23 @@ export default class ProductDetail extends Component {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
     }).isRequired,
-    product: PropTypes.object.isRequired,
+    params: PropTypes.shape({
+      productId: PropTypes.string.isRequired
+    }).isRequired,
+    product: ImmutablePropTypes.mapContains({
+      shortName: PropTypes.string.isRequired,
+      longName: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      images: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.mapContains({
+          url: PropTypes.string.isRequired,
+          uuid: PropTypes.string.isRequired
+        })
+      ),
+      uuid: PropTypes.string.isRequired
+    }),
     onChangeImageSelection: PropTypes.func.isRequired
-  }
+  };
 
   static needs (props, store) {
     // (Re)fetch the product.
