@@ -4,16 +4,14 @@ import { colors, SectionTitle, ScalableContainer } from '../../../../_common/bui
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
-import ProductTiles from '../../../../_common/tiles/productTiles';
-
-const seriesName = 'Deadpool';
+// import ProductTiles from '../../../../_common/tiles/productTiles';
 
 @Radium
-export default class TopProducts extends Component {
+export default class RecentEpisodes extends Component {
 
   static styles = {
     container: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.whiteGray,
       paddingTop: '2.5em',
       paddingBottom: '3.25em'
     },
@@ -26,8 +24,8 @@ export default class TopProducts extends Component {
     const styles = this.constructor.styles;
     return (
       <ScalableContainer style={styles.container}>
-        <SectionTitle style={styles.subtitle}>Top {seriesName} Products</SectionTitle>
-        <ProductTiles />
+        <SectionTitle style={styles.subtitle}>Recent Episodes</SectionTitle>
+        TODO
       </ScalableContainer>
     );
   }

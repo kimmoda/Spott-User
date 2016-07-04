@@ -14,9 +14,6 @@ export default class RecentlyAddedToWishlist extends Component {
       backgroundColor: colors.white,
       paddingTop: '2.5em',
       paddingBottom: '3.25em'
-    },
-    subtitle: {
-      marginBottom: '1.304em'
     }
   };
 
@@ -24,7 +21,7 @@ export default class RecentlyAddedToWishlist extends Component {
     const styles = this.constructor.styles;
     return (
       <ScalableContainer style={styles.container}>
-        <SectionTitle style={styles.subtitle}>Recently added to wishlist</SectionTitle>
+        <SectionTitle>Recently added to wishlist</SectionTitle>
         <ProductTiles />
       </ScalableContainer>
     );

@@ -104,7 +104,7 @@ export default class PosterTiles extends Component {
     return (
       <Tiles
         horizontalSpacing={0.938}
-        items={items ? items : dummyPosters}
+        items={items || dummyPosters}
         numColumns={{ small: 4, medium: 5, large: 6, extraLarge: 7 }}
         style={style}
         tileRenderer={(instanceProps) => <PosterTile {...instanceProps} />}

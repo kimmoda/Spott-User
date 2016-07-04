@@ -120,7 +120,11 @@ export default class CharacterTiles extends Component {
 
   static styles = {
     tiles: {
-      marginBottom: '1.7em'
+      marginBottom: '1.7em',
+      marginTop: 0,
+      overflow: 'visible',
+      paddingBottom: 0,
+      paddingTop: 0
     }
   };
 
@@ -131,7 +135,7 @@ export default class CharacterTiles extends Component {
     return (
       <Tiles
         horizontalSpacing={0.833}
-        items={items ? items : characters}
+        items={items || characters}
         numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
         style={[ styles.tiles, style ]}
         tileRenderer={(instanceProps) => <CharacterTile {...instanceProps} />}

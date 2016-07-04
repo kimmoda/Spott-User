@@ -92,7 +92,6 @@ export default class SeriesTiles extends Component {
 
   static styles = {
     tiles: {
-      transform: 'translateY(1.875em)'
     }
   }
   render () {
@@ -102,7 +101,7 @@ export default class SeriesTiles extends Component {
     return (
       <Tiles
         horizontalSpacing={0.938}
-        items={items ? items : dummySeries}
+        items={items || dummySeries}
         numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
         style={[ styles.tiles, style ]}
         tileRenderer={(instanceProps) => <SeriesTile {...instanceProps} />}

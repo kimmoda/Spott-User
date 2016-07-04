@@ -233,8 +233,7 @@ export default class SceneTiles extends Component {
   static styles = {
     tiles: {
       marginLeft: '-0.938em',
-      marginRight: '-0.938em',
-      transform: 'translateY(1.875em)'
+      marginRight: '-0.938em'
     }
   }
   render () {
@@ -244,7 +243,7 @@ export default class SceneTiles extends Component {
     return (
       <Tiles
         horizontalSpacing={0.938}
-        items={items ? items : dummyScenes}
+        items={items || dummyScenes}
         numColumns={{ small: 1, medium: 2, large: 2, extraLarge: 2 }}
         style={[ styles.tiles, style ]}
         tileRenderer={(instanceProps) => <SceneTile {...instanceProps} />}

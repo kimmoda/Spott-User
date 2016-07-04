@@ -48,16 +48,10 @@ export default class DownloadApp extends Component {
       marginBottom: '0.17em'
     },
     subtitle: {
-      opacity: 0.5,
-      marginBottom: '1.304em'
+      opacity: 0.5
     },
     upperCaseSubtitle: {
       marginBottom: '1.635em'
-    },
-    tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em',
-      transform: 'translateY(1.875em)'
     },
     wrapper: {
       position: 'relative'

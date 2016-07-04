@@ -103,7 +103,7 @@ export default class ProductTiles extends Component {
     return (
       <Tiles
         horizontalSpacing={0.938}
-        items={items ? items : dummySeries}
+        items={items || dummySeries}
         numColumns={{ small: 3, medium: 4, large: 5, extraLarge: 6 }}
         style={style}
         tileRenderer={(instanceProps) => <ProductTile {...instanceProps} />}

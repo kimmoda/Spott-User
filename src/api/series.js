@@ -1,4 +1,5 @@
 import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
+import { transformProduct } from './transformers';
 
 /**
   * @returnExample
@@ -32,18 +33,6 @@ function transformEpisode ({ title, uuid: id }) {
   return {
     id,
     title
-  };
-}
-
-function transformProduct ({ available, buyUrl, image, price, shortName, shareUrl, uuid: id }) {
-  return {
-    available,
-    buyUrl,
-    id,
-    image: image && image.url,
-    price,
-    shareUrl,
-    shortName
   };
 }
 

@@ -1,10 +1,10 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from './_baseTile';
-import hoverable from '../hoverable';
+import BaseTile from '../_baseTile';
+import hoverable from '../../hoverable';
 
 @hoverable
 @Radium

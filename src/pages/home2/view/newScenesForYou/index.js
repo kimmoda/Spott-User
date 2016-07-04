@@ -12,12 +12,8 @@ export default class NewScenesForYou extends Component {
   static styles = {
     container: {
       backgroundColor: colors.white,
-      paddingTop: '6.25em'
-    },
-    tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em',
-      paddingTop: '1.875em'
+      paddingTop: '6.25em',
+      paddingBottom: '3.125em'
     }
   };
 

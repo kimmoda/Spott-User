@@ -8,13 +8,9 @@ export default class NewEpisodes extends Component {
 
   static styles = {
     container: {
-      backgroundColor: colors.white,
-      paddingTop: '6.25em'
-    },
-    tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em',
-      paddingTop: '1.875em'
+      backgroundColor: colors.whiteGray,
+      paddingTop: '2.5em',
+      paddingBottom: '3.125em'
     }
   };
 

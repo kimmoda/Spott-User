@@ -9,8 +9,8 @@ export default class TopSellingProducts extends Component {
   static styles = {
     container: {
       backgroundColor: colors.white,
-      paddingTop: '6.25em',
-      marginBottom: '3.125em' // Compensate for tiles' transform
+      paddingTop: '2.5em',
+      paddingBottom: '3.125em'
     }
   };
 
@@ -18,7 +18,7 @@ export default class TopSellingProducts extends Component {
     const styles = this.constructor.styles;
     return (
       <ScalableContainer style={styles.container}>
-        <SectionTitle style={styles.sectionTitle}>Top Selling Products</SectionTitle>
+        <SectionTitle>Top Selling Products</SectionTitle>
         <ProductsFromMediumTiles />
       </ScalableContainer>
     );

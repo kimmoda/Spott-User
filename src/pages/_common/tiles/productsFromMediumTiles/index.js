@@ -207,7 +207,6 @@ export default class ProductsFromMediumTiles extends Component {
 
   static styles = {
     tiles: {
-      transform: 'translateY(1.875em)'
     }
   };
 
@@ -217,7 +216,7 @@ export default class ProductsFromMediumTiles extends Component {
     return (
       <Tiles
         horizontalSpacing={0.938}
-        items={items ? items : dummyScenes}
+        items={items || dummyScenes}
         numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
         style={[ styles.tiles, style ]}
         tileRenderer={(instanceProps) => <ProductsFromMediumTile {...instanceProps} />}

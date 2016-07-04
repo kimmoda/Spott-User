@@ -6,32 +6,9 @@ import { Link } from 'react-router';
 import { fromJS } from 'immutable';
 import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, ScalableContainer, FadedTiles, SectionTitle, Title, Tiles } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
-import SmallEpisodeTile from '../../../_common/tiles/smallEpisodeTile';
+import SmallEpisodeTiles from '../../../_common/tiles/smallEpisodeTiles';
 const backgroundImage = require('./images/daredevil.jpg');
 import * as actions from '../../actions';
-
-const episodes = fromJS([ {
-  image: require('./images/episodes/1.png'),
-  name: 'Episode 1'
-}, {
-  image: require('./images/episodes/2.png'),
-  name: 'Episode 2'
-}, {
-  image: require('./images/episodes/3.png'),
-  name: 'Episode 3'
-}, {
-  image: require('./images/episodes/4.png'),
-  name: 'Episode 4'
-}, {
-  image: require('./images/episodes/5.png'),
-  name: 'Episode 5'
-}, {
-  image: require('./images/episodes/6.png'),
-  name: 'Episode 6'
-}, {
-  image: require('./images/episodes/7.png'),
-  name: 'Episode 7'
-} ]);
 
 /* TODO: add id of the series */
 @connect(null, (dispatch) => ({
@@ -179,14 +156,7 @@ export default class Hero extends Component {
         </ScalableContainer>
         <div style={styles.smallEpisodes}>
           <FadedTiles>
-            <Tiles
-              horizontalSpacing={0.833}
-              items={episodes}
-              numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
-              tileRenderer={({ item, key, style }) => (
-                <SmallEpisodeTile item={item} key={key} linkTo={`/series/${seriesId}/season/3/episode/${key}/scenes`} style={style} />
-              )}
-              verticalSpacing={0} />
+            <SmallEpisodeTiles />
           </FadedTiles>
         </div>
       </div>

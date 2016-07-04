@@ -17,9 +17,10 @@ export default class RecentlyAdded extends Component {
     },
     container: {
       backgroundColor: colors.white,
-      paddingTop: '6.25em',
       backgroundSize: 'cover',
-      position: 'relative'
+      position: 'relative',
+      paddingTop: '2.5em',
+      paddingBottom: 0
     },
     overlay: {
       position: 'absolute',
@@ -36,15 +37,15 @@ export default class RecentlyAdded extends Component {
       marginBottom: '0.17em'
     },
     subtitle: {
-      color: 'white',
-      marginBottom: '1.304em'
+      color: 'white'
     },
     upperCaseSubtitle: {
       color: 'white',
       marginBottom: '2.725em'
     },
     tiles: {
-      transform: 'translateY(1.875em)'
+      marginTop: '-3em',
+      transform: 'translateY(3em)'
     },
     wrapper: {
       position: 'relative'
@@ -62,7 +63,7 @@ export default class RecentlyAdded extends Component {
           <Button style={{ ...pinkButtonStyle, ...styles.button }}>Browse</Button>
           <SectionTitle style={styles.subtitle}>Recently added</SectionTitle>
         </div>
-        <SeriesTiles />
+        <SeriesTiles style={styles.tiles}/>
       </ScalableContainer>
     );
   }

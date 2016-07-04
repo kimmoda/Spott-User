@@ -182,7 +182,8 @@ Title.propTypes = {
 
 const sectionTitleStyle = {
   ...makeTextStyle(fontWeights.light, '1.438em', '0.031em'),
-  color: colors.dark
+  color: colors.dark,
+  marginBottom: '1.304em'
 };
 export const SectionTitle = Radium((props) => {
   return <h2 {...props} style={[ sectionTitleStyle, props.style ]}>{props.children}</h2>;
@@ -250,11 +251,15 @@ export class Tiles extends Component {
 
     // Determine container style
     const containerStyle = {
-      overflow: 'visible',
       whiteSpace: 'nowrap',
       position: 'relative',
+      marginBottom: '-1em',
       marginLeft: `-${horizontalSpacing / 2}em`,
       marginRight: `-${horizontalSpacing / 2}em`,
+      marginTop: '-1em',
+      paddingBottom: '1em',
+      paddingTop: '1em',
+      overflow: 'hidden',
       [mediaQueries.medium]: {
         marginLeft: `-${horizontalSpacing}em`,
         marginRight: `-${horizontalSpacing}em`
@@ -272,9 +277,9 @@ export class Tiles extends Component {
 }
 
 const fadeStyle = {
-  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0, 0, 0))',
+  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgb(244, 0, 0))',
   position: 'absolute',
-  width: '6em',
+  width: '4em',
   right: 0,
   top: 0,
   bottom: 5

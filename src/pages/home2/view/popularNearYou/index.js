@@ -8,12 +8,9 @@ export default class PopularNearYou extends Component {
 
   static styles = {
     container: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.whiteGray,
       paddingTop: '2.5em',
-      paddingBottom: '3.25em'
-    },
-    subtitle: {
-      marginBottom: '1.304em'
+      paddingBottom: '3.125em'
     }
   };
 
@@ -21,7 +18,7 @@ export default class PopularNearYou extends Component {
     const styles = this.constructor.styles;
     return (
       <ScalableContainer style={styles.container}>
-        <SectionTitle style={styles.subtitle}>Popular near you</SectionTitle>
+        <SectionTitle>Popular near you</SectionTitle>
         <PosterTiles />
       </ScalableContainer>
     );
