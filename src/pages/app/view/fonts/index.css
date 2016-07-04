@@ -72,24 +72,24 @@
 
 @font-face {
     font-family: 'Roboto-Light';
-    src: url('./roboto/Roboto-light.woff') format('woff'),
-         url('./roboto/Roboto-light.ttf') format('truetype');
+    src: url('./roboto/roboto-light.woff') format('woff'),
+         url('./roboto/roboto-light.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Roboto-Medium';
-    src: url('./roboto/Roboto-medium.woff') format('woff'),
-         url('./roboto/Roboto-medium.ttf') format('truetype');
+    src: url('./roboto/roboto-medium.woff') format('woff'),
+         url('./roboto/roboto-medium.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Roboto-Regular';
-    src: url('./roboto/Roboto-regular.woff') format('woff'),
-         url('./roboto/Roboto-regular.ttf') format('truetype');
+    src: url('./roboto/roboto-regular.woff') format('woff'),
+         url('./roboto/roboto-regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -97,8 +97,8 @@
 
 @font-face {
     font-family: 'Roboto-Bold';
-    src: url('./roboto/Roboto-bold.woff') format('woff'),
-         url('./roboto/Roboto-bold.ttf') format('truetype');
+    src: url('./roboto/roboto-bold.woff') format('woff'),
+         url('./roboto/roboto-bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }

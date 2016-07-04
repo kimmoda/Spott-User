@@ -21,3 +21,8 @@ export function loadProduct (productId) {
     }
   };
 }
+
+export const CHANGE_IMAGE_SELECTION = 'CHANGE_IMAGE_SELECTION';
+export function changeImageSelection (imageUrl) {
+  return ({ type: CHANGE_IMAGE_SELECTION, imageUrl });
+}

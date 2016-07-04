@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../app/actions';
-import { authenticationTokenSelector, currentUserUsernameSelector, currentUserIdSelector } from '../../app/selector';
+import { authenticationTokenSelector, currentUserFirstnameSelector, currentUserLastnameSelector, currentUserIdSelector } from '../../app/selector';
 import { Link } from 'react-router';
 import $ from 'jquery';
 import { slugify } from '../../../utils';
@@ -17,7 +17,7 @@ class Navbar extends Component {
   static propTypes = {
     currentPathname: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
-    currentUserUsername: PropTypes.string,
+    currentUsername: PropTypes.string,
     hideRightBar: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
     logout: PropTypes.func.isRequired,
@@ -77,7 +77,7 @@ class Navbar extends Component {
   }
 
   renderRightNavBar () {
-    const { isAuthenticated, currentUserId, currentPathname, currentUserUsername } = this.props;
+    const { isAuthenticated, currentUserId, currentPathname, currentUsername } = this.props;
     if (this.props.hideRightBar) {
       return null;
     }
@@ -104,7 +104,7 @@ class Navbar extends Component {
             </li>}
           {isAuthenticated &&
             <li className='navbar__regitem'>
-              <Link className='navbar__link' to={`/profile/${slugify(currentUserUsername)}/${currentUserId}`}>My Wishlists</Link>
+              <Link className='navbar__link' to={`/profile/${slugify(currentUsername)}/${currentUserId}`}>My Wishlists</Link>
             </li>}
           {isAuthenticated &&
             <li className='navbar__cta'>
@@ -129,7 +129,7 @@ class Navbar extends Component {
 
 export default connect((state) => ({
   isAuthenticated: Boolean(authenticationTokenSelector(state)),
-  currentUserUsername: currentUserUsernameSelector(state),
+  currentUsername: `${currentUserFirstnameSelector(state)} ${currentUserLastnameSelector(state)}`,
   currentUserId: currentUserIdSelector(state)
 }), (dispatch) => ({
   logout: bindActionCreators(actions.doLogout, dispatch)
