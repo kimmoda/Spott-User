@@ -11,8 +11,7 @@ import HelloBankHomeStep1 from './pages/hellobank/view/home/step1';
 import HelloBankHomeStep2 from './pages/hellobank/view/home/step2';
 import HelloBankHomeStep3 from './pages/hellobank/view/home/step3';
 import HellobankHomeWrapper from './pages/hellobank/view/home';
-import Home from './pages/home';
-import Home2 from './pages/home2/view';
+import Home from './pages/home/view';
 import Login from './pages/login';
 import Medialaan from './pages/medialaan';
 import Privacy from './pages/privacy';
@@ -46,10 +45,7 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
   return (
     <Route component={App} path='/'>
       <IndexRoute component={Home} />
-      <Route component={Home} path='/content' />
-      <Route component={Home} path='/get-in-touch' />
-      <Route component={Home} path='/subscribe' />
-      <Route component={Home2} path='/home2' />
+      <Route component={Home} path='/' />
       <Route component={Redirect} path='/app' />
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />

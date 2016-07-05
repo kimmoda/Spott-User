@@ -1,8 +1,11 @@
 {
+  "redirect": {
+    "redirecting": "Redirecting..."
+  },
   "error404": {
-    "title": "Whoops!",
-    "somethingWentWrong": "Something went wrong!",
     "pageDoesNotExist": "The page you requested doesn't exist.",
-    "returnToSpott": "Return to Spott.it"
+    "returnToSpott": "Return to Spott.it",
+    "somethingWentWrong": "Something went wrong!",
+    "title": "Whoops!"
   }
 }
