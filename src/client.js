@@ -5,10 +5,9 @@ import { StyleRoot } from 'radium';
 import React from 'react';
 import { browserHistory, Router } from 'react-router';
 import ReactDOM from 'react-dom';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import { doInit } from './pages/app/actions';
-import createStore from './createStore';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
 import { getRoutes } from './routes';
 import { fromJS } from 'immutable';
@@ -19,6 +18,8 @@ import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import hellobank from './pages/hellobank/reducer';
 import home2 from './pages/home2/reducer';
+import { applyMiddleware, createStore } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
 const $ = require('jquery');
 
@@ -63,13 +64,43 @@ const rootReducer = combineReducers({
   routing: routerReducer
 });
 
+
+/**
+ * Creates a Redux store that holds the complete state tree of this app.
+ * @param {object} theHistory The history used during redux store synchronization.
+ * @param {function(state, action: object)} reducers A reducing function that returns the next state tree, given the current state tree and an action to handle.
+ * @param {any} initialState
+ * @return A redux store.
+ */
+export function createOurStore (theHistory, reducers, initialState) {
+  const middleware = [];
+  // Install thunk middleware
+  middleware.push(thunkMiddleware);
+  // Install react-router-redux's router middleware
+  middleware.push(routerMiddleware(theHistory));
+  // Install logging middleware when not in production
+  if (__DEVELOPMENT__) {
+    const createLogger = require('redux-logger');
+    middleware.push(createLogger({
+      // Collapse by default to preserve space in the console
+      collapsed: true,
+      // Convert Immutable state to plain JavaScript object, before logging.
+      stateTransformer: (state) => state.toJS()
+    }));
+  }
+  // Construct our new createStore() function, using given middleware
+  const newCreateStore = Reflect.apply(applyMiddleware, null, middleware)(createStore);
+  // Create the store
+  return newCreateStore(reducers, initialState);
+}
+
 async function boot () {
   // Create history
   const createScrollHistory = useScroll(() => browserHistory);
   const almostHistory = createScrollHistory();
   // Create redux store
   const initialState = fromJS({});
-  const store = createStore(almostHistory, rootReducer, initialState);
+  const store = createOurStore(almostHistory, rootReducer, initialState);
   // Create an enhanced history that syncs navigation events with the store.
   const ourHistory = syncHistoryWithStore(almostHistory, store, { selectLocationState: (state) => state.get('routing') });
   // Initialize the app.

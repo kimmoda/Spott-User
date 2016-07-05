@@ -8,7 +8,7 @@ import { fetchWishlistsOfUser } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 import { slugify } from '../../../../utils';
-import { FETCHING, LOADED, UPDATING } from '../../../../statusTypes';
+import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import Spinner from '../../../_common/spinner';
 
 const RadiumLink = Radium(Link);

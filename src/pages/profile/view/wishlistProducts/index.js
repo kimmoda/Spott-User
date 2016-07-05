@@ -7,7 +7,7 @@ import VerticalTiles from '../../../_common/verticalTiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { fetchProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { FETCHING, LOADED, UPDATING } from '../../../../statusTypes';
+import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import Spinner from '../../../_common/spinner';
 import { slugify } from '../../../../utils';
 

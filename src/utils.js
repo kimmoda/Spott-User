@@ -1,4 +1,4 @@
-import { LAZY, ERROR, FETCHING, LOADED, UPDATING } from './statusTypes';
+import { LAZY, ERROR, FETCHING, LOADED, UPDATING } from './data/statusTypes';
 import { Map, List, fromJS } from 'immutable';
 import { createSelector } from 'reselect';
 

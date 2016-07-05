@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import { colors, Container, fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../_common/buildingBlocks';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
-import { FETCHING, LOADED, UPDATING } from '../../../statusTypes';
+import { FETCHING, LOADED, UPDATING } from '../../../data/statusTypes';
 import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { slugify } from '../../../utils';

@@ -1,0 +1,8 @@
+{
+  "error404": {
+    "title": "Whoops!",
+    "somethingWentWrong": "Something went wrong!",
+    "pageDoesNotExist": "The page you requested doesn't exist.",
+    "returnToSpott": "Return to Spott.it"
+  }
+}
