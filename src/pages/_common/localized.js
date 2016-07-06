@@ -3,20 +3,20 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { currentLocaleSelector } from '../app/selector';
 import counterpart from 'counterpart';
-import allLocaleData from '../../lang/index';
+import lang from '../../lang/index';
 
 // Register counterpart locales
-Object.keys(allLocaleData).forEach((locale) => {
-  const localeData = allLocaleData[locale];
+Object.keys(lang.localeData).forEach((locale) => {
+  const localeData = lang.localeData[locale];
   counterpart.registerTranslations(locale, localeData);
 });
 
 /**
-  * Decorator which adds a prop 't' (a function).
+  * Decorator which adds props 'getLocalizedResource' and 't' (both functions).
   * Each time the language changes the component will be rerendered.
   * The function 't', translates a given key to the current language.
   */
-export default function translated (WrappedComponent) {
+export default function localized (WrappedComponent) {
   return (
     @connect(createStructuredSelector({ currentLocale: currentLocaleSelector }))
     class Translated extends Component {
@@ -27,7 +27,12 @@ export default function translated (WrappedComponent) {
 
       constructor (props, context) {
         super(props, context);
+        this._getLocalizedResource = ::this._getLocalizedResource;
         this._t = ::this._t;
+      }
+
+      _getLocalizedResource (resource) {
+        return lang.localizedResources[resource][this.props.currentLocale];
       }
 
       _t (key, interpolationValues) {
@@ -36,7 +41,7 @@ export default function translated (WrappedComponent) {
       }
 
       render () {
-        return <WrappedComponent {...this.props} t={this._t} />;
+        return <WrappedComponent {...this.props} getLocalizedResource={this._getLocalizedResource} t={this._t} />;
       }
     }
   );

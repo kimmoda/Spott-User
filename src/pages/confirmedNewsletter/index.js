@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import Navbar from '../_common/navbar/';
 import Footer from '../_common/footer/';
-import translated from '../_common/translated';
+import localized from '../_common/localized';
 
 const appStoreImage = require('./appStore.svg');
 require('./confirm.scss');
 
-@translated
+@localized
 class Confirm extends Component {
 
   static propTypes = {

@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import Navbar from '../_common/navbar';
 import Footer from '../_common/footer/';
-import translated from '../_common/translated';
+import localized from '../_common/localized';
 
 require('./error404.scss');
 
-@translated
+@localized
 export default class Error404 extends Component {
 
   static propTypes = {

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Navbar from '../_common/navbar';
-import translated from '../_common/translated';
+import localized from '../_common/localized';
 
 const rippleGifImage = require('./ripple.gif');
 const googlePlayImage = require('./googlePlay.svg');
@@ -18,7 +18,7 @@ function isAndroid () {
   return window.navigator.userAgent.match(/Android/i);
 }
 
-@translated
+@localized
 class Redirect extends Component {
 
   static propTypes = {
