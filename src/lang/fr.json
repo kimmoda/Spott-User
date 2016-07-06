@@ -13,5 +13,29 @@
   },
   "redirect": {
     "redirecting": "Redirecting..."
+  },
+  "profile": {
+    "header": {
+      "followers": {
+        "zero":  "[[0]] followers",
+        "one":   "[[1]] follower",
+        "other": "[[%(count)s]] followers"
+      },
+      "following": {
+        "zero":  "[[0]] following",
+        "one":   "[[1]] following",
+        "other": "[[%(count)s]] following"
+      }
+    },
+    "menu": {
+      "wishlists": "Wishlists"
+    },
+    "wishlists": {
+      "empty": "You have no wishlists yet.",
+      "unnamedWishlist": "Wishlist"
+    },
+    "wishlistProducts": {
+      "empty": "This wishlist is empty."
+    }
   }
 }

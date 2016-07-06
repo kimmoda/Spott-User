@@ -4,11 +4,15 @@ import { createStructuredSelector } from 'reselect';
 import { currentLocaleSelector } from '../app/selector';
 import counterpart from 'counterpart';
 import lang from '../../lang/index';
+import reactStringReplace from 'react-string-replace';
 
 // Register counterpart locales
 Object.keys(lang.localeData).forEach((locale) => {
   const localeData = lang.localeData[locale];
-  counterpart.registerTranslations(locale, localeData);
+  counterpart.registerTranslations(locale, {
+    counterpart: { pluralize: require('pluralizers/en') },
+    ...localeData
+  });
 });
 
 /**
@@ -35,9 +39,13 @@ export default function localized (WrappedComponent) {
         return lang.localizedResources[resource][this.props.currentLocale];
       }
 
-      _t (key, interpolationValues) {
+      _t (key, interpolationValues = {}, injectElFunction = null) {
         // If key is a string we want a normal internal translation
-        return counterpart(key, { locale: this.props.currentLocale, ...interpolationValues });
+        const localizedString = counterpart(key, { locale: this.props.currentLocale, ...(interpolationValues || {}) });
+        if (injectElFunction) {
+          return reactStringReplace(localizedString, /\[\[(.*)\]\]/g, (match, i) => injectElFunction(match, i));
+        }
+        return localizedString;
       }
 
       render () {
