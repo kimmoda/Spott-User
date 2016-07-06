@@ -2,7 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { currentLocaleSelector } from '../app/selector';
-import translations from '../../lang/index';
+import counterpart from 'counterpart';
+import allLocaleData from '../../lang/index';
+
+// Register counterpart locales
+Object.keys(allLocaleData).forEach((locale) => {
+  const localeData = allLocaleData[locale];
+  counterpart.registerTranslations(locale, localeData);
+});
 
 /**
   * Decorator which adds a prop 't' (a function).
@@ -23,29 +30,9 @@ export default function translated (WrappedComponent) {
         this._t = ::this._t;
       }
 
-      // Example: _indexObject(obj, 'prop[idx].subprop');
-      // Based upon: http://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
-      _nestedIndexing (obj, str) {
-        // Split string to array
-        const keys = str.replace(/\[(\w+)\]/g, '.$1') // Convert indices to properties
-          .replace(/^\./, '')                         // Strip a leading dot
-          .split('.');
-        // Nested lookup
-        let current = obj;
-        while (keys.length) {
-          const n = keys.shift(); // Eat key destructively
-          if (n in current) {
-            current = current[n];
-            continue;
-          }
-          return str; // Translation not found, return the key for informative purposes.
-        }
-        return current;
-      }
-
-      _t (key) {
+      _t (key, interpolationValues) {
         // If key is a string we want a normal internal translation
-        return this._nestedIndexing(translations[this.props.currentLocale], key);
+        return counterpart(key, { locale: this.props.currentLocale, ...interpolationValues });
       }
 
       render () {

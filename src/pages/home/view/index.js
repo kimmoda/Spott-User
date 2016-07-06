@@ -8,7 +8,7 @@ import DownloadApp from './downloadApp';
 import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
 import PopularNearYou from './popularNearYou';
 
-export default class Home2 extends Component {
+export default class Home extends Component {
 
   render () {
     return (

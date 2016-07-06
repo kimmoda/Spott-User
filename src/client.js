@@ -16,7 +16,7 @@ import app from './pages/app/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import hellobank from './pages/hellobank/reducer';
-import home2 from './pages/home2/reducer';
+import home from './pages/home/reducer';
 import { applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -29,7 +29,7 @@ if (process.env.NODE_ENV !== 'production') {
 // add the router reducer to the store on the 'routing' key
 const rootReducer = combineReducers({
   app,
-  home2,
+  home,
   hellobank,
   productDetail,
   profile,

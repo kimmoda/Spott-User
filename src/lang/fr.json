@@ -1,11 +1,17 @@
 {
-  "redirect": {
-    "redirecting": "Redirecting..."
+  "confirmedNewsletter": {
+    "title": "Hurray!",
+    "thankYou": "Thank you for registering to the Spott newsletter! [[click here]] for getting started, and downloading Spott onto your mobile.",
+    "enjoy": "Enjoy using Spott,",
+    "spottTeam": "the Spott team"
   },
   "error404": {
     "pageDoesNotExist": "The page you requested doesn't exist.",
     "returnToSpott": "Return to Spott.it",
     "somethingWentWrong": "Something went wrong!",
     "title": "Whoops!"
+  },
+  "redirect": {
+    "redirecting": "Redirecting..."
   }
 }
