@@ -30,7 +30,7 @@ function authentication (state = fromJS({
   }
 }
 
-function configuration (state = Map({ currentLocale: 'fr' }), action) {
+function configuration (state = Map({ currentLocale: 'en' }), action) {
   switch (action.type) {
     case actions.CONFIGURE:
       return state.merge(fromJS(action.configuration));
