@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { apiBaseUrlSelector } from '../app/selector';
 import Navbar from '../_common/navbar/';
-import Footer from '../_common/footer/';
 import localized from '../_common/localized';
 require('./changePassword.scss');
 
@@ -139,7 +138,6 @@ class ChangePassword extends Component {
           </section>
           <div className='push'></div>
         </div>
-        <Footer />
       </div>
     );
   }

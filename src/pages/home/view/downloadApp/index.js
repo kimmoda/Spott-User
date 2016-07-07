@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 // import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { colors, mediaQueries, Button, UpperCaseSubtitle, SectionTitle, Title, ScalableContainer, pinkButtonStyle } from '../../../_common/buildingBlocks';
+import { colors, mediaQueries, Button, UpperCaseSubtitle, SectionTitle, Title, Container, pinkButtonStyle } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -29,7 +29,7 @@ export default class DownloadApp extends Component {
         marginBottom: '16.262em'
       }
     },
-    container: {
+    wrapper: {
       backgroundColor: colors.white,
       paddingTop: '6.25em',
       backgroundSize: 'cover',
@@ -59,7 +59,7 @@ export default class DownloadApp extends Component {
     upperCaseSubtitle: {
       marginBottom: '1.635em'
     },
-    wrapper: {
+    innerWrapper: {
       position: 'relative'
     },
     deviceWrapper: {
@@ -97,19 +97,21 @@ export default class DownloadApp extends Component {
     const { styles } = this.constructor;
     const { t } = this.props;
     return (
-      <ScalableContainer style={{ ...styles.container, backgroundImage: `url("${spottImage}")` }}>
-        <div style={styles.overlay}></div>
-        <div style={styles.phone}></div>
-        <div style={styles.deviceWrapper}>
-          <img src={deviceImage} style={styles.device} />
-        </div>
-        <div style={styles.wrapper}>
-          <Title style={styles.title}>{t('home.downloadApp.title')}</Title>
-          <SectionTitle style={styles.subtitle}>{t('home.downloadApp.subtitle')}</SectionTitle>
-          <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.downloadApp.availability')}</UpperCaseSubtitle>
-          <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.downloadApp.downloadButton')}</Button>
-        </div>
-      </ScalableContainer>
+      <div style={{ ...styles.wrapper, backgroundImage: `url("${spottImage}")` }}>
+        <Container>
+          <div style={styles.overlay}></div>
+          <div style={styles.phone}></div>
+          <div style={styles.deviceWrapper}>
+            <img src={deviceImage} style={styles.device} />
+          </div>
+          <div style={styles.innerWrapper}>
+            <Title style={styles.title}>{t('home.downloadApp.title')}</Title>
+            <SectionTitle style={styles.subtitle}>{t('home.downloadApp.subtitle')}</SectionTitle>
+            <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.downloadApp.availability')}</UpperCaseSubtitle>
+            <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.downloadApp.downloadButton')}</Button>
+          </div>
+        </Container>
+      </div>
     );
   }
 

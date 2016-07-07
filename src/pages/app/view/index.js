@@ -1,5 +1,6 @@
 import { init, pageView } from './googleAnalytics';
 import React, { Component, PropTypes } from 'react';
+import Footer from './footer';
 
 require('./reset.css');
 require('./fonts/index.css');
@@ -50,12 +51,18 @@ export default class App extends Component {
       // Render containing page (previousChildren) and modal (children)
       return (
         <div style={styles.container}>
-          {this.previousChildren}
-          {this.props.children}
+          <div>{this.previousChildren}</div>
+          <div>{this.props.children}</div>
+          <Footer />
         </div>
       );
     }
     // Standard route, nothing special here.
-    return this.props.children;
+    return (
+      <div>
+        <div>{this.props.children}</div>
+        <Footer />
+      </div>
+    );
   }
 }

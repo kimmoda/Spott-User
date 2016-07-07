@@ -8,7 +8,6 @@ import * as actions from '../app/actions';
 import { authenticationErrorSelector, authenticationIsLoadingSelector }
   from '../app/selector';
 import { Page } from '../_common/buildingBlocks';
-import Footer from '../_common/footer';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
 
@@ -182,7 +181,6 @@ class Login extends Component {
             <Form {...this.props} type='button' />
           </section>
         </Page>
-        <Footer />
       </div>
     );
   }

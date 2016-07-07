@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Navbar from '../_common/navbar';
-import Footer from '../_common/footer/';
 import localized from '../_common/localized';
 
 require('./error404.scss');
@@ -34,7 +33,6 @@ export default class Error404 extends Component {
           </section>
           <div className='push'></div>
         </div>
-        <Footer />
       </div>
     );
   }

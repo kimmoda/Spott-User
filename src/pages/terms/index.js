@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Navbar from '../_common/navbar/';
-import Footer from '../_common/footer/';
 import localized from '../_common/localized';
 
 require('./terms.scss');
@@ -23,7 +22,6 @@ export default class Terms extends Component {
           <div className='wrapper wrapper--small' dangerouslySetInnerHTML={{ __html: this.props.getLocalizedResource('privacy') }} />
 
         </section>
-        <Footer />
       </div>
     );
   }

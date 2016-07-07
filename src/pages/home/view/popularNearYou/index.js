@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { colors, SectionTitle, ScalableContainer } from '../../../_common/buildingBlocks';
+import { colors, SectionTitle, Container } from '../../../_common/buildingBlocks';
 import PosterTiles from '../../../_common/tiles/posterTiles';
 import localized from '../../../_common/localized';
 
@@ -13,7 +13,7 @@ export default class PopularNearYou extends Component {
   }
 
   static styles = {
-    container: {
+    wrapper: {
       backgroundColor: colors.whiteGray,
       paddingTop: '2.5em',
       paddingBottom: '3.125em'
@@ -24,10 +24,12 @@ export default class PopularNearYou extends Component {
     const { styles } = this.constructor;
     const { t } = this.props;
     return (
-      <ScalableContainer style={styles.container}>
-        <SectionTitle>{t('home.popularNearYou.title')}</SectionTitle>
-        <PosterTiles />
-      </ScalableContainer>
+      <div style={styles.wrapper}>
+        <Container>
+          <SectionTitle>{t('home.popularNearYou.title')}</SectionTitle>
+          <PosterTiles />
+        </Container>
+      </div>
     );
   }
 
