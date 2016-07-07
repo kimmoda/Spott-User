@@ -2,18 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import { apiBaseUrlSelector } from '../app/selector';
 import Navbar from '../_common/navbar/';
 import Footer from '../_common/footer/';
-
+import localized from '../_common/localized';
 require('./changePassword.scss');
 
 const $ = require('jquery');
 
+@localized
 class ChangePassword extends Component {
 
   static propTypes = {
     location: PropTypes.shape({
       query: PropTypes.object.isRequired,
       pathname: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    t: PropTypes.func.isRequired
   };
 
   static contextTypes = {
@@ -21,6 +23,7 @@ class ChangePassword extends Component {
   }
 
   componentDidMount () {
+    const { t } = this.props;
     $('#resetForm').submit((event) => {
       // Stop form from submitting normally
       event.preventDefault();
@@ -40,13 +43,13 @@ class ChangePassword extends Component {
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
           success (data) {
-            showError('changed', 'Your password has been changed!');
+            showError('changed', t('changePassword.successMessage'));
             setTimeout(() => {
               hideError('changed');
             }, 3500);
           },
           error (data) {
-            showError('changed', 'We encountered an error while trying to change your password :(');
+            showError('changed', t('changePassword.errorMessage'));
             setTimeout(() => {
               hideError('changed');
             }, 3500);
@@ -80,17 +83,18 @@ class ChangePassword extends Component {
     setTimeout(() => { $(`.change__password__error[data-name="${name}"]`).remove(); }, 200);
   }
   render () {
+    const { t } = this.props;
     return (
       <div className='container'>
         <div className='container__wrapper'>
           <Navbar currentPathname={this.props.location.pathname} hideRightBar />
           <section className='change__password'>
             <div className='wrapper wrapper--small'>
-              <h1>Change your Spott password</h1>
+              <h1>{t('changePassword.title')}</h1>
               <form action='' className='change__password__form' id='resetForm'>
                 <p className='input__group'>
                   <input
-                    name='password' placeholder='Enter your new password' required type='password'
+                    name='password' placeholder={t('changePassword.newPasswordPlaceholder')} required type='password'
                     onInput={(e) => {
                       if (this.passwordTimeout !== undefined) {
                         clearTimeout(this.passwordTimeout);
@@ -98,7 +102,7 @@ class ChangePassword extends Component {
                       const target = e.target;
                       this.passwordTimeout = setTimeout(() => {
                         if (!this.validatePassword($(target).val()) && this.isFilledIn($(target).val())) {
-                          this.showError('length', 'This password isn\'t long enough!');
+                          this.showError('length', t('changePassword.passwordLengthError'));
                         } else {
                           this.removeError('length');
                         }
@@ -107,7 +111,7 @@ class ChangePassword extends Component {
                 </p>
                 <p className='input__group'>
                   <input
-                    name='confirm-password' placeholder='Confirm password' required type='password'
+                    name='confirm-password' placeholder={t('changePassword.confirmPasswordPlaceholder')} required type='password'
                     onInput={(e) => {
                       if (this.confirmTimeout !== undefined) {
                         clearTimeout(this.confirmTimeout);
@@ -119,13 +123,13 @@ class ChangePassword extends Component {
                           !this.isFilledIn($(target).val())) {
                           this.removeError('confirm');
                         } else {
-                          this.showError('confirm', 'Passwords don\'t match!');
+                          this.showError('confirm', t('changePassword.passwordMatchError'));
                         }
                       }, 750);
                     }}/>
                 </p>
                 <p className='input__group'>
-                  <input name='submit' type='submit' value='Change Password'/>
+                  <input name='submit' type='submit' value={t('changePassword.submitButton')}/>
                 </p>
                 <div style={{ clear: 'both' }}/>
                 <div className='password__form__errors'>
