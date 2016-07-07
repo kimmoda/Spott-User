@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Navbar from '../_common/navbar';
+import localized from '../_common/localized';
 
 const rippleGifImage = require('./ripple.gif');
 const googlePlayImage = require('./googlePlay.svg');
@@ -17,12 +18,14 @@ function isAndroid () {
   return window.navigator.userAgent.match(/Android/i);
 }
 
+@localized
 class Redirect extends Component {
 
   static propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    t: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -34,6 +37,7 @@ class Redirect extends Component {
   }
 
   render () {
+    const { t } = this.props;
     return (
       <div className='container'>
         <Navbar currentPathname={this.props.location.pathname} hideRightBar />
@@ -41,7 +45,7 @@ class Redirect extends Component {
             <div className='wrapper wrapper--small'>
               <img heigth='150' src={rippleGifImage} width='150'/>
               {(isIos() || isAndroid()) &&
-                <p id='para__redirect'>Redirecting...</p>}
+                <p id='para__redirect'>{t('redirect.redirecting')}</p>}
             </div>
           {!isIos() && !isAndroid() &&
             <div className='badge_container'>

@@ -8,8 +8,10 @@ import { fetchWishlistsOfUser } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 import { slugify } from '../../../../utils';
-import { FETCHING, LOADED, UPDATING } from '../../../../statusTypes';
+import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import Spinner from '../../../_common/spinner';
+import { bindActionCreators } from 'redux';
+import localized from '../../../_common/localized';
 
 const RadiumLink = Radium(Link);
 
@@ -42,6 +44,7 @@ const itemStyles = {
     backgroundRepeat: 'no-repeat'
   }
 };
+@localized
 class Wishlist extends Component {
   static propTypes = {
     baseUrl: PropTypes.string.isRequired,
@@ -53,15 +56,16 @@ class Wishlist extends Component {
       name: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired
     }),
-    style: PropTypes.object
+    style: PropTypes.object,
+    t: PropTypes.func.isRequired
   }
 
   render () {
-    const { baseUrl, item, style } = this.props;
+    const { baseUrl, item, style, t } = this.props;
     return (
       <div style={style}>
-        <RadiumLink style={itemStyles.container} title={item.get('name') || 'Wishlist'} to={`${baseUrl}/${slugify(item.get('name')) || 'wishlist'}/${item.get('id')}`}>
-          <p style={itemStyles.name}>{item.get('name') || 'Wishlist'}</p>
+        <RadiumLink style={itemStyles.container} title={item.get('name') || t('profile.wishlists.unnamedWishlist')} to={`${baseUrl}/${slugify(item.get('name')) || 'wishlist'}/${item.get('id')}`}>
+          <p style={itemStyles.name}>{item.get('name') || t('profile.wishlists.unnamedWishlist')}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? placeholderLargeImage : item.getIn([ 'image', 'url' ]) })` }}></div>
         </RadiumLink>
       </div>
@@ -75,33 +79,38 @@ const styles = {
     color: colors.slateGray
   }
 };
-@connect(wishlistsOfCurrentUserSelector)
+@localized
+@connect(wishlistsOfCurrentUserSelector, (dispatch) => ({
+  fetchWishlistsOfUser: bindActionCreators(fetchWishlistsOfUser, dispatch)
+}))
 export default class Wishlists extends Component {
   static propTypes = {
+    fetchWishlistsOfUser: PropTypes.func.isRequired,
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired,
       userSlug: PropTypes.string.isRequired
     }).isRequired,
+    t: PropTypes.func.isRequired,
     wishlists: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.list
     })
   };
 
-  static needs (props, store) {
-    // (Re)fetch the profile.
-    return store.dispatch(fetchWishlistsOfUser(props.params.userId));
+  componentWillMount () {
+    // (Re)fetch the wishlists.
+    this.props.fetchWishlistsOfUser(this.props.params.userId);
   }
 
   render () {
-    const { params: { userId, userSlug }, wishlists } = this.props;
+    const { params: { userId, userSlug }, t, wishlists } = this.props;
     if (wishlists.get('_status') === FETCHING) {
       return (<Spinner />);
     } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
       if (wishlists.get('data').size > 0) {
         return (<Tiles horizontalSpacing={10} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />} verticalSpacing={60} />);
       }
-      return (<p style={styles.emptyText}>You have no wishlists yet.</p>);
+      return (<p style={styles.emptyText}>{t('profile.wishlists.empty')}}</p>);
     }
     return (<div></div>);
   }

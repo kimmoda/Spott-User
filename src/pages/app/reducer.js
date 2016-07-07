@@ -30,10 +30,10 @@ function authentication (state = fromJS({
   }
 }
 
-function configuration (state = Map(), action) {
+function configuration (state = Map({ currentLocale: 'en' }), action) {
   switch (action.type) {
     case actions.CONFIGURE:
-      return fromJS(action.configuration);
+      return state.merge(fromJS(action.configuration));
   }
   return state;
 }

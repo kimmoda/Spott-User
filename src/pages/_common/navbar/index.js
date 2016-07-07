@@ -6,12 +6,14 @@ import { authenticationTokenSelector, currentUserFirstnameSelector, currentUserL
 import { Link } from 'react-router';
 import $ from 'jquery';
 import { slugify } from '../../../utils';
+import localized from '../localized';
 
 require('./navbar.scss');
 
 const spottImage = require('./spott.png');
 const medialaanImage = require('./medialaan.jpg');
 
+@localized
 class Navbar extends Component {
 
   static propTypes = {
@@ -21,7 +23,8 @@ class Navbar extends Component {
     hideRightBar: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
     logout: PropTypes.func.isRequired,
-    medialaanLogo: PropTypes.bool
+    medialaanLogo: PropTypes.bool,
+    t: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -77,7 +80,7 @@ class Navbar extends Component {
   }
 
   renderRightNavBar () {
-    const { isAuthenticated, currentUserId, currentPathname, currentUsername } = this.props;
+    const { isAuthenticated, currentUserId, currentPathname, currentUsername, t } = this.props;
     if (this.props.hideRightBar) {
       return null;
     }
@@ -85,13 +88,7 @@ class Navbar extends Component {
       <div className='navbar__right'>
         <ul>
           <li className='navbar__regitem'>
-            <Link className='navbar__link' to='/content'>Content</Link>
-          </li>
-          <li className='navbar__regitem'>
-            <Link className='navbar__link' to='/subscribe'>Subscribe</Link>
-          </li>
-          <li className='navbar__regitem'>
-            <Link className='navbar__link' to='/get-in-touch'>Get in touch</Link>
+            <Link className='navbar__link' to='/'>{t('_common.navBar.home')}</Link>
           </li>
           {currentPathname !== '/login' && !isAuthenticated &&
             <li className='navbar__cta'>
@@ -99,16 +96,17 @@ class Navbar extends Component {
                pathname: '/login',
                state: { modal: true, returnTo: this.props.currentPathname }
              }}>
-               Login
+               {t('_common.navBar.login')}
              </Link>
             </li>}
           {isAuthenticated &&
             <li className='navbar__regitem'>
-              <Link className='navbar__link' to={`/profile/${slugify(currentUsername)}/${currentUserId}`}>My Wishlists</Link>
+              <Link className='navbar__link' to={`/profile/${slugify(currentUsername)}/${currentUserId}`}>{t('_common.navBar.myWishlists')}</Link>
             </li>}
           {isAuthenticated &&
             <li className='navbar__cta'>
-              <a className='navbar__link' href='#' onClick={this.logout}>Logout</a>
+              <a className='navbar__link' href='#' onClick={this.logout}>
+                {t('_common.navBar.logout')}</a>
             </li>}
         </ul>
       </div>

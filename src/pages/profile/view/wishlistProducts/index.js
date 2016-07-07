@@ -7,8 +7,10 @@ import VerticalTiles from '../../../_common/verticalTiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { fetchProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { FETCHING, LOADED, UPDATING } from '../../../../statusTypes';
+import { bindActionCreators } from 'redux';
+import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import Spinner from '../../../_common/spinner';
+import localized from '../../../_common/localized';
 import { slugify } from '../../../../utils';
 
 const RadiumLink = Radium(Link);
@@ -40,6 +42,7 @@ const itemStyles = {
     backgroundRepeat: 'no-repeat'
   }
 };
+@localized
 class WishlistProduct extends Component {
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
@@ -52,7 +55,8 @@ class WishlistProduct extends Component {
       priceCurrency: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
     }),
-    style: PropTypes.object
+    style: PropTypes.object,
+    t: PropTypes.func.isRequired
   }
 
   render () {
@@ -79,38 +83,43 @@ const styles = {
     paddingBottom: '1.143em'
   }
 };
-@connect(productsOfWishlistSelector)
+@localized
+@connect(productsOfWishlistSelector, (dispatch) => ({
+  fetchProductsOfWishlist: bindActionCreators(fetchProductsOfWishlist, dispatch)
+}))
 export default class WishlistProducts extends Component {
   static propTypes = {
+    fetchProductsOfWishlist: PropTypes.func.isRequired,
     productsOfWishlist: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.list,
       name: PropTypes.string.isRequired
-    })
+    }),
+    t: PropTypes.func.isRequired
   };
 
-  static needs (props, store) {
-    // (Re)fetch the profile.
-    return store.dispatch(fetchProductsOfWishlist(props.params.wishlistId));
+  componentWillMount () {
+    // (Re)fetch the wishlist.
+    this.props.fetchProductsOfWishlist(this.props.params.wishlistId);
   }
 
   render () {
-    const { productsOfWishlist } = this.props;
+    const { productsOfWishlist, t } = this.props;
     if (productsOfWishlist.get('_status') === FETCHING) {
       return (<Spinner />);
     } else if (productsOfWishlist.get('_status') === LOADED || productsOfWishlist.get('_status') === UPDATING) {
       if (productsOfWishlist.get('data').size > 0) {
         return (
           <div>
-            <h1 style={styles.title}>{productsOfWishlist.get('name') || 'Wishlist'}</h1>
+            <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
             <VerticalTiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
           </div>
         );
       }
       return (
         <div>
-          {productsOfWishlist.get('name') || 'Wishlist'}
-          <p style={styles.emptyText}>This wishlist is empty.</p>
+          <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}}</h1>
+          <p style={styles.emptyText}>{t('profile.wishlistProducts.empty')}</p>
         </div>
       );
     }

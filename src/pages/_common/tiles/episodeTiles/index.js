@@ -4,6 +4,7 @@ import { fromJS } from 'immutable';
 import { colors, fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from '../_baseTile';
+import localized from '../../localized';
 
 const dummyEpisodes = fromJS([ {
   id: '0',
@@ -40,6 +41,7 @@ const dummyEpisodes = fromJS([ {
   products: []
 } ]);
 
+@localized
 @Radium
 export class EpisodeTile extends Component {
 
@@ -58,7 +60,8 @@ export class EpisodeTile extends Component {
         })
       )
     }).isRequired,
-    style: PropTypes.object
+    style: PropTypes.object,
+    t: PropTypes.func.isRequired
   };
 
   static styles = {
@@ -161,7 +164,7 @@ export class EpisodeTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { item, style } = this.props;
+    const { item, style, t } = this.props;
     return (
       <BaseTile style={style}>
         <div style={styles.container}>
@@ -170,7 +173,7 @@ export class EpisodeTile extends Component {
           <div>
             <div style={styles.contents}>
               {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
-              <p style={styles.text}>Season {item.get('season')} &ndash; Episode {item.get('episodeName')}</p>
+              <p style={styles.text}>{t('_common.episodeTiles.episode', { episode: item.get('episode'), season: item.get('season') })}</p>
               <p style={styles.subtext}>{item.get('episodeTitle')}</p>
             </div>
             <div style={styles.line} />

@@ -11,8 +11,7 @@ import HelloBankHomeStep1 from './pages/hellobank/view/home/step1';
 import HelloBankHomeStep2 from './pages/hellobank/view/home/step2';
 import HelloBankHomeStep3 from './pages/hellobank/view/home/step3';
 import HellobankHomeWrapper from './pages/hellobank/view/home';
-import Home from './pages/home';
-import Home2 from './pages/home2/view';
+import Home from './pages/home/view';
 import Login from './pages/login';
 import Medialaan from './pages/medialaan';
 import Privacy from './pages/privacy';
@@ -21,10 +20,10 @@ import Profile from './pages/profile/view';
 import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
 import Redirect from './pages/redirect';
-import Series from './pages/series/view';
-import SeriesOverview from './pages/series/view/overview';
-import SeriesProducts from './pages/series/view/products';
-import SeriesScenes from './pages/series/view/scenes';
+// import Series from './pages/series/view';
+// import SeriesOverview from './pages/series/view/overview';
+// import SeriesProducts from './pages/series/view/products';
+// import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
 
 /**
@@ -46,13 +45,11 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
   return (
     <Route component={App} path='/'>
       <IndexRoute component={Home} />
-      <Route component={Home} path='/content' />
-      <Route component={Home} path='/get-in-touch' />
-      <Route component={Home} path='/subscribe' />
-      <Route component={Home2} path='/home2' />
+      <Route component={Home} path='/' />
       <Route component={Redirect} path='/app' />
       <Route component={Privacy} path='/privacy' />
       <Route component={Terms} path='/terms' />
+      {/*
       <Route component={Series} path='/series/:seriesId'>
         <IndexRedirect to='/series/:seriesId/overview' />
         <Route component={SeriesOverview} path='/series/:seriesId/overview' />
@@ -61,6 +58,7 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
           <Route component={SeriesScenes} path='/series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
         </Route>
       </Route>
+      */}
 
       <Route component={ProductDetail} path='/product/:productSlug/:productId' />
 

@@ -6,22 +6,95 @@ import { Link } from 'react-router';
 import { colors, Container, fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../_common/buildingBlocks';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
-import { FETCHING, LOADED, UPDATING } from '../../../statusTypes';
+import { FETCHING, LOADED, UPDATING } from '../../../data/statusTypes';
 import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { slugify } from '../../../utils';
 import Navbar from '../../_common/navbar';
 import Spinner from '../../_common/spinner';
+import localized from '../../_common/localized';
 
 const RadiumLink = Radium(Link);
 
+@Radium
+export class SimilarProduct extends Component {
+  static propTypes = {
+    item: PropTypes.object,
+    style: PropTypes.object
+  }
+
+  static styles = {
+    wrapper: {
+      display: 'block',
+      textDecoration: 'none',
+      borderRadius: '0.25em',
+      backgroundColor: colors.white,
+      boxShadow: '0 0.063em 0.063em 0 rgba(0, 0, 0, 0.1)',
+      border: `solid 0.063em ${colors.whiteThree}`,
+      cursor: 'pointer'
+    },
+    name: {
+      ...makeTextStyle(fontWeights.regular, '0.938em'),
+      color: colors.slateGray,
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden'
+    },
+    price: {
+      ...makeTextStyle(fontWeights.bold, '0.875em'),
+      color: colors.cool
+    },
+    textWrapper: {
+      padding: '1em'
+    },
+    imageWrapper: {
+      width: '100%',
+      paddingTop: '100%',
+      position: 'relative',
+      height: 0
+    },
+    image: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      maxWidth: '100%',
+      maxHeight: '100%',
+      margin: 'auto',
+      zoom: '8'
+    }
+  }
+
+  render () {
+    const { styles } = this.constructor;
+    const { item, style } = this.props;
+    return (
+      <div style={style}>
+        <RadiumLink style={styles.wrapper} to={`/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
+          <div style={styles.imageWrapper}>
+            <img src={item.get('image')} style={styles.image} />
+          </div>
+          <div style={styles.textWrapper}>
+            <p style={styles.name}>{item.get('shortName')}</p>
+            <p style={styles.price}>{item.getIn([ 'price', 'amount' ])}&nbsp;{item.getIn([ 'price', 'currency' ])}</p>
+          </div>
+        </RadiumLink>
+      </div>
+    );
+  }
+}
+
+@localized
 @connect(productSelector, (dispatch) => ({
-  onChangeImageSelection: bindActionCreators(actions.changeImageSelection, dispatch)
+  onChangeImageSelection: bindActionCreators(actions.changeImageSelection, dispatch),
+  loadProduct: bindActionCreators(actions.loadProduct, dispatch)
 }))
 @Radium
 export default class ProductDetail extends Component {
 
   static propTypes = {
+    loadProduct: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
     }).isRequired,
@@ -40,12 +113,13 @@ export default class ProductDetail extends Component {
       ),
       uuid: PropTypes.string.isRequired
     }),
+    t: PropTypes.func.isRequired,
     onChangeImageSelection: PropTypes.func.isRequired
   };
 
-  static needs (props, store) {
+  componentWillMount () {
     // (Re)fetch the product.
-    return store.dispatch(actions.loadProduct(props.params.productId));
+    this.props.loadProduct(this.props.params.productId);
   }
 
   static styles = {
@@ -257,7 +331,8 @@ export default class ProductDetail extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { onChangeImageSelection, product } = this.props;
+    const { onChangeImageSelection, product, t } = this.props;
+    console.log(product.toJS());
     if (product.get('_status') === FETCHING) {
       return (<Spinner />);
     } else if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
@@ -298,7 +373,7 @@ export default class ProductDetail extends Component {
                       <svg height='14' viewBox='0 0 20 14' width='20' xmlns='http://www.w3.org/2000/svg'><g fill='none' fill-rule='evenodd'><path d='M-2-6h24v24H-2'/><path d='M12 4H0v2h12V4zm0-4H0v2h12V0zm4 8V4h-2v4h-4v2h4v4h2v-4h4V8h-4zM0 10h8V8H0v2z' fill='#A7A6A9'/></g></svg>
                     </div>*/}
                     <a href={product.getIn([ 'offerings', '0', 'url' ])} style={styles.details.buttons.growButton}>
-                      <span style={styles.details.buttons.buyText}>BUY NOW</span>
+                      <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow').toUpperCase()}</span>
                     </a>
                   </div>
                   {/* <hr style={styles.details.line}/>
@@ -322,7 +397,7 @@ export default class ProductDetail extends Component {
           <div style={styles.similarProducts}>
             <Container>
               <h1 style={styles.similarProductsTitle}>Similar items</h1>
-              {product.get('similarProducts') && product.get('similarProducts').size > 0 && <Tiles horizontalSpacing={30} items={product.get('similarProducts')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<SimilarProduct />} verticalSpacing={101} />}
+              {product.get('similarProducts') && product.get('similarProducts').size > 0 && <Tiles horizontalSpacing={30} items={product.get('similarProducts')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tileRenderer={(instanceProps) => <SimilarProduct {...instanceProps} />} verticalSpacing={101} />}
               {product.get('similarProducts') && product.get('similarProducts').size === 0 && <p style={styles.similarProductsNone}>No similar items found.</p>}
             </Container>
           </div>
@@ -330,74 +405,5 @@ export default class ProductDetail extends Component {
       );
     }
     return (<div></div>);
-  }
-}
-
-@Radium
-export class SimilarProduct extends Component {
-  static propTypes = {
-    item: PropTypes.object,
-    style: PropTypes.object
-  }
-
-  static styles = {
-    wrapper: {
-      display: 'block',
-      textDecoration: 'none',
-      borderRadius: '0.25em',
-      backgroundColor: colors.white,
-      boxShadow: '0 0.063em 0.063em 0 rgba(0, 0, 0, 0.1)',
-      border: `solid 0.063em ${colors.whiteThree}`,
-      cursor: 'pointer'
-    },
-    name: {
-      ...makeTextStyle(fontWeights.regular, '0.938em'),
-      color: colors.slateGray,
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden'
-    },
-    price: {
-      ...makeTextStyle(fontWeights.bold, '0.875em'),
-      color: colors.cool
-    },
-    textWrapper: {
-      padding: '1em'
-    },
-    imageWrapper: {
-      width: '100%',
-      paddingTop: '100%',
-      position: 'relative',
-      height: 0
-    },
-    image: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      maxWidth: '100%',
-      maxHeight: '100%',
-      margin: 'auto',
-      zoom: '8'
-    }
-  }
-
-  render () {
-    const { styles } = this.constructor;
-    const { item, style } = this.props;
-    return (
-      <div style={style}>
-        <RadiumLink style={styles.wrapper} to={`/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
-          <div style={styles.imageWrapper}>
-            <img src={item.get('image')} style={styles.image} />
-          </div>
-          <div style={styles.textWrapper}>
-            <p style={styles.name}>{item.get('shortName')}</p>
-            <p style={styles.price}>{item.getIn([ 'price', 'amount' ])}&nbsp;{item.getIn([ 'price', 'currency' ])}</p>
-          </div>
-        </RadiumLink>
-      </div>
-    );
   }
 }
