@@ -92,7 +92,6 @@ export default class Profile extends Component {
 
   render () {
     const { user, params: { userId, userSlug }, t } = this.props;
-    console.log( user.get('followerCount') || 0 );
     return (
       <Page
         currentPathname={this.props.location.pathname}

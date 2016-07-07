@@ -1,10 +1,16 @@
-import React, { Component /* , PropTypes */ } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { colors, ScalableContainer, SectionTitle } from '../../../_common/buildingBlocks';
 import EpisodeTiles from '../../../_common/tiles/episodeTiles';
+import localized from '../../../_common/localized';
 
+@localized
 @Radium
 export default class NewEpisodes extends Component {
+
+  static propTypes = {
+    t: PropTypes.func.isRequired
+  }
 
   static styles = {
     container: {
@@ -15,10 +21,11 @@ export default class NewEpisodes extends Component {
   };
 
   render () {
-    const styles = this.constructor.styles;
+    const { styles } = this.constructor;
+    const { t } = this.props;
     return (
       <ScalableContainer style={styles.container}>
-        <SectionTitle style={styles.sectionTitle}>New Episodes</SectionTitle>
+        <SectionTitle style={styles.sectionTitle}>{t('home.newEpisodes.title')}</SectionTitle>
         <EpisodeTiles />
       </ScalableContainer>
     );

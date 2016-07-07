@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import $ from 'jquery';
+import localized from '../localized';
 
 require('./footer.scss');
 
@@ -8,10 +9,12 @@ const facebookImage = require('./facebook.svg');
 const linkedInImage = require('./linkedin.svg');
 const twitterImage = require('./twitter.svg');
 
+@localized
 export default class Footer extends Component {
   static propTypes = {
     absolute: PropTypes.bool,
-    hide: PropTypes.bool
+    hide: PropTypes.bool,
+    t: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -35,6 +38,7 @@ export default class Footer extends Component {
   }
 
   render () {
+    const { t } = this.props;
     return (
       <section className={`${(this.props.absolute ? 'footer absolute ' : 'footer ')} ${(this.props.hide ? 'hidden' : '')}`} id='get-in-touch'>
         <div className='wrapper footer__container cf'>
@@ -50,12 +54,12 @@ export default class Footer extends Component {
             </a>
           </div>
           <div className='footer__info'>
-            <p>Want to get involved with Spott?</p>
-            <p>Mail us at <a href='mailto:info@spott.it'>info@spott.it</a></p>
+            <p>{t('_common.footer.getInvolved')}</p>
+            <p>{t('_common.footer.getInvolvedMailUs', {}, (_, key) => <a href='mailto:info@spott.it' key={key}>info@spott.it</a>)}</p>
           </div>
           <div className='footer__info footer__info--copyright'>
-            <p className='info__fat'>Copyright 2016 • Appiness NV • All rights reserved</p>
-            <p><Link to='/terms'>Terms</Link> • <Link to='/privacy'>Privacy</Link> • made with <span className='heart'></span> in Belgium</p>
+            <p className='info__fat'>{t('_common.footer.copyright')} • {t('_common.footer.appiness')} • {t('_common.footer.allRightsReserved')}</p>
+            <p><Link to='/terms'>{t('_common.footer.terms')}</Link> • <Link to='/privacy'>{t('_common.footer.privacy')}</Link> • {t('_common.footer.madeWithLove', {}, (_, key) => <span className='heart' key={key}></span>)}</p>
           </div>
         </div>
       </section>

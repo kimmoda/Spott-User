@@ -1,4 +1,4 @@
-import * as request from '../../api/request';
+import * as request from './request';
 
 function transformWishlist (wishlist) {
   return {

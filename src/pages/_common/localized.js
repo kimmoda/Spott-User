@@ -43,7 +43,7 @@ export default function localized (WrappedComponent) {
         // If key is a string we want a normal internal translation
         const localizedString = counterpart(key, { locale: this.props.currentLocale, ...(interpolationValues || {}) });
         if (injectElFunction) {
-          return reactStringReplace(localizedString, /\[\[(.*)\]\]/g, (match, i) => injectElFunction(match, i));
+          return reactStringReplace(localizedString, /\[\[(.*?)\]\]/g, (match, i) => injectElFunction(match, i));
         }
         return localizedString;
       }

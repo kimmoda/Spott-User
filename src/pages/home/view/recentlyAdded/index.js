@@ -1,14 +1,21 @@
-import React, { Component /* , PropTypes */ } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { Button, colors, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, pinkButtonStyle } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
 import SeriesTiles from '../../../_common/tiles/seriesTiles';
+import localized from '../../../_common/localized';
+
 const xFilesImage = require('./images/x-files.jpg');
 
+@localized
 @Radium
 export default class RecentlyAdded extends Component {
+
+  static propTypes = {
+    t: PropTypes.func.isRequired
+  }
 
   static styles = {
     button: {
@@ -53,15 +60,16 @@ export default class RecentlyAdded extends Component {
   };
 
   render () {
-    const styles = this.constructor.styles;
+    const { styles } = this.constructor;
+    const { t } = this.props;
     return (
       <ScalableContainer style={{ ...styles.container, backgroundImage: `url("${xFilesImage}")` }}>
         <div style={styles.overlay}></div>
         <div style={styles.wrapper}>
           <Title style={styles.title}>X-files</Title>
-          <UpperCaseSubtitle style={styles.upperCaseSubtitle}>Now available on Spott</UpperCaseSubtitle>
-          <Button style={{ ...pinkButtonStyle, ...styles.button }}>Browse</Button>
-          <SectionTitle style={styles.subtitle}>Recently added</SectionTitle>
+          <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
+          <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.recentlyAdded.browseButton')}</Button>
+          <SectionTitle style={styles.subtitle}>{t('home.recentlyAdded.title')}</SectionTitle>
         </div>
         <SeriesTiles style={styles.tiles}/>
       </ScalableContainer>

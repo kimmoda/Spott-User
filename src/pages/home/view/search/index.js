@@ -1,8 +1,9 @@
-import React, { Component /* , PropTypes */ } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { colors, Container, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
+import localized from '../../../_common/localized';
 
 const icon = require('./icon.svg');
 
@@ -56,18 +57,24 @@ const styles = {
     ...makeTextStyle(fontWeights.light, '1.125em')
   }
 };
+@localized
 export default class Search extends Component {
 
+  static propTypes = {
+    t: PropTypes.func.isRequired
+  }
+
   render () {
+    const { t } = this.props;
     return (
       <div style={styles.wrapper}>
         <Container>
-          <h1 style={styles.title}>Television is now your favourite shop</h1>
+          <h1 style={styles.title}>{t('home.search.title')}</h1>
           <div style={styles.body}>
-            <p style={styles.info}>Spott allows you to find products in the things you watch</p>
+            <p style={styles.info}>{t('home.search.info')}</p>
             <div style={styles.searchFieldWrapper}>
               <div style={styles.searchFieldContainer}>
-                <input placeholder='Search for movies, series, characters or brands' style={styles.searchField} type='text' />
+                <input placeholder={t('home.search.placeholder')} style={styles.searchField} type='text' />
               </div>
             </div>
           </div>

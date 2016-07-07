@@ -5,12 +5,13 @@ import { fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../../_commo
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from '../_baseTile';
 import Marker from '../_marker';
+import localized from '../../localized';
 
 const dummyScenes = fromJS([ {
   id: '0',
   image: require('./images/suits.png'),
-  seasonName: 'Season 1',
-  episodeName: 'Episode 1',
+  season: 1,
+  episode: 1,
   markers: [ { relativeLeft: 20, relativeTop: 40 } ],
   faces: [],
   products: []
@@ -18,8 +19,8 @@ const dummyScenes = fromJS([ {
   id: '1',
   image: require('./images/daredevil.png'),
   seriesLogo: require('./images/daredevilLogo.png'),
-  seasonName: 'Season 3',
-  episodeName: 'Episode 5',
+  season: 3,
+  episode: 5,
   markers: [
     { id: 'm1', relativeLeft: 40, relativeTop: 38 },
     { id: 'm2', relativeLeft: 53, relativeTop: 47 },
@@ -38,6 +39,7 @@ const dummyScenes = fromJS([ {
   ]
 } ]);
 
+@localized
 @Radium
 export class SceneTile extends Component {
 
@@ -46,8 +48,8 @@ export class SceneTile extends Component {
       id: PropTypes.string.isRequired,
       image: PropTypes.string.isRequired,
       seriesLogo: PropTypes.string,
-      seasonName: PropTypes.string.isRequired,
-      episodeName: PropTypes.string.isRequired,
+      season: PropTypes.number.isRequired,
+      episode: PropTypes.number.isRequired,
       faces: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
           id: PropTypes.string.isRequired,
@@ -68,7 +70,8 @@ export class SceneTile extends Component {
         })
       )
     }).isRequired,
-    style: PropTypes.object
+    style: PropTypes.object,
+    t: PropTypes.func.isRequired
   };
 
   static styles = {
@@ -192,8 +195,8 @@ export class SceneTile extends Component {
   };
 
   render () {
-    const styles = this.constructor.styles;
-    const { item, style } = this.props;
+    const { styles } = this.constructor;
+    const { item, style, t } = this.props;
     return (
       <BaseTile style={style}>
         <div style={styles.container}>
@@ -214,7 +217,11 @@ export class SceneTile extends Component {
                 <img alt={product.get('name')} key={product.get('id')} src={product.get('image')} style={styles.subtileImage} title={product.get('name')}/>
               </div>)}
             </div>
-            <p style={styles.text}>Scene from <span style={styles.textHighlight}>{item.get('seasonName')}</span> &ndash; <span style={styles.textHighlight}>{item.get('episodeName')}</span></p>
+            <p style={styles.text}>
+              {t('_common.sceneTiles.sceneFrom', { episode: item.get('episode'), season: item.get('season') }, (contents, key) => {
+                return <span key={key} style={styles.textHighlight}>{contents}</span>;
+              })}
+            </p>
             {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
           </div>
         </div>

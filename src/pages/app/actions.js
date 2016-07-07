@@ -1,4 +1,4 @@
-import * as api from './api';
+import * as api from '../../data/api/configuration';
 import { apiBaseUrlSelector } from './selector';
 
 export const CONFIGURE = 'CONFIGURE';

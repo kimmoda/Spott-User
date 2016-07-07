@@ -1,13 +1,19 @@
-import React, { Component /* , PropTypes */ } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { colors, SectionTitle, ScalableContainer } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
 import ProductTiles from '../../../_common/tiles/productTiles';
+import localized from '../../../_common/localized';
 
+@localized
 @Radium
 export default class RecentlyAddedToWishlist extends Component {
+
+  static propTypes = {
+    t: PropTypes.func.isRequired
+  }
 
   static styles = {
     container: {
@@ -18,10 +24,11 @@ export default class RecentlyAddedToWishlist extends Component {
   };
 
   render () {
-    const styles = this.constructor.styles;
+    const { t } = this.props;
+    const { styles } = this.constructor;
     return (
       <ScalableContainer style={styles.container}>
-        <SectionTitle>Recently added to wishlist</SectionTitle>
+        <SectionTitle>{t('home.recentlyAddedToWishlist.title')}</SectionTitle>
         <ProductTiles />
       </ScalableContainer>
     );

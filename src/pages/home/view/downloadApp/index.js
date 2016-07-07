@@ -1,16 +1,22 @@
-import React, { Component /* , PropTypes */ } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 // import { fromJS } from 'immutable'; // TODO: remove after API is implemented
 import { colors, mediaQueries, Button, UpperCaseSubtitle, SectionTitle, Title, ScalableContainer, pinkButtonStyle } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
+import localized from '../../../_common/localized';
 
 const spottImage = require('./images/spott.jpg');
 const deviceImage = require('./images/device.png');
 
+@localized
 @Radium
 export default class DownloadApp extends Component {
+
+  static propTypes = {
+    t: PropTypes.func.isRequired
+  }
 
   static styles = {
     button: {
@@ -88,7 +94,8 @@ export default class DownloadApp extends Component {
   };
 
   render () {
-    const styles = this.constructor.styles;
+    const { styles } = this.constructor;
+    const { t } = this.props;
     return (
       <ScalableContainer style={{ ...styles.container, backgroundImage: `url("${spottImage}")` }}>
         <div style={styles.overlay}></div>
@@ -97,10 +104,10 @@ export default class DownloadApp extends Component {
           <img src={deviceImage} style={styles.device} />
         </div>
         <div style={styles.wrapper}>
-          <Title style={styles.title}>Explore while you watch</Title>
-          <SectionTitle style={styles.subtitle}>Live on your mobile device</SectionTitle>
-          <UpperCaseSubtitle style={styles.upperCaseSubtitle}>Available for iOS & Android</UpperCaseSubtitle>
-          <Button style={{ ...pinkButtonStyle, ...styles.button }}>Download</Button>
+          <Title style={styles.title}>{t('home.downloadApp.title')}</Title>
+          <SectionTitle style={styles.subtitle}>{t('home.downloadApp.subtitle')}</SectionTitle>
+          <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.downloadApp.availability')}</UpperCaseSubtitle>
+          <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.downloadApp.downloadButton')}</Button>
         </div>
       </ScalableContainer>
     );

@@ -1,5 +1,5 @@
 import { authenticationTokenSelector, apiBaseUrlSelector } from '../app/selector';
-import * as productApi from './api';
+import * as productApi from '../../data/api/products';
 
 export const LOAD_PRODUCT_START = 'LOAD_PRODUCT_START';
 export const LOAD_PRODUCT_SUCCESS = 'LOAD_PRODUCT_SUCCESS';
