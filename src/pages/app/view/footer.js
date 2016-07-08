@@ -1,19 +1,32 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { colors, Container, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { colors, Container, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
 import localized from '../../_common/localized';
+import Radium from 'radium';
+
+const RadiumLink = Radium(Link);
 
 const footerStyles = {
   wrapper: {
     backgroundColor: colors.dark,
-    paddingTop: '15px',
-    paddingBottom: '15px',
-    textAlign: 'center'
+    paddingTop: '0.9375em',
+    paddingBottom: '0.9375em'
+  },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap'
   },
   languageSelection: {
     ...makeTextStyle(fontWeights.regular, '0.813em', '0.031em'),
-    float: 'left',
-    color: colors.coolGray
+    color: colors.coolGray,
+    flex: '1 1 100%',
+    width: '100%',
+    textAlign: 'center',
+    [mediaQueries.medium]: {
+      width: 'auto',
+      flex: '0 0 auto',
+      textAlign: 'left'
+    }
   },
   languageSelectionCurrent: {
     ...makeTextStyle(fontWeights.regular),
@@ -21,25 +34,55 @@ const footerStyles = {
     display: 'inline-block'
   },
   menu: {
+    flex: '1 1 100%',
+    width: '100%',
+    textAlign: 'center',
+    lineHeight: '1em',
+    margin: '0 auto',
+    paddingTop: '0.5em',
+    paddingBottom: '0.5em',
+    [mediaQueries.medium]: {
+      width: 'auto',
+      flex: '1',
+      paddingTop: 0,
+      paddingBottom: 0,
+    }
+  },
+  menuSeparator: {
+    ...makeTextStyle(fontWeights.regular, '0.813em', '0.031em'),
+    color: colors.coolGray,
     display: 'inline-block',
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    [mediaQueries.medium]: {
+      display: 'none'
+    }
   },
   menuItem: {
     ...makeTextStyle(fontWeights.regular, '0.813em', '0.031em'),
     color: colors.coolGray,
     display: 'inline-block',
-    paddingLeft: '1.385em',
-    paddingRight: '1.385em',
-    textDecoration: 'none'
+    paddingLeft: '0.25em',
+    paddingRight: '0.25em',
+    textDecoration: 'none',
+    [mediaQueries.medium]: {
+      paddingLeft: '1.385em',
+      paddingRight: '1.385em'
+    }
   },
   copyright: {
     ...makeTextStyle(fontWeights.regular, '0.813em', '0.031em'),
     color: colors.coolGray,
-    float: 'right'
+    flex: '1 1 100%',
+    width: '100%',
+    textAlign: 'center',
+    [mediaQueries.medium]: {
+      width: 'auto',
+      flex: '0 0 auto',
+      textAlign: 'left'
+    }
   }
 };
 @localized
+@Radium
 export default class Footer extends Component {
   static propTypes = {
     t: PropTypes.func.isRequired
@@ -49,15 +92,16 @@ export default class Footer extends Component {
     const { t } = this.props;
     return (
       <footer style={footerStyles.wrapper}>
-        <Container>
+        <Container className='cf' style={footerStyles.container}>
           <div style={footerStyles.languageSelection}>
             {t('_common.footer.language', {}, (_, key) => (
               <div style={footerStyles.languageSelectionCurrent}>English</div>
             ))}
           </div>
           <div style={footerStyles.menu}>
-            <Link style={footerStyles.menuItem} to='/terms'>{t('_common.footer.terms')}</Link>
-            <Link style={footerStyles.menuItem} to='/privacy'>{t('_common.footer.privacy')}</Link>
+            <RadiumLink style={footerStyles.menuItem} to='/terms'>{t('_common.footer.terms')}</RadiumLink>
+            <span style={footerStyles.menuSeparator}>/</span>
+            <RadiumLink style={footerStyles.menuItem} to='/privacy'>{t('_common.footer.privacy')}</RadiumLink>
           </div>
           <div style={footerStyles.copyright}>
             {t('_common.footer.copyright')}

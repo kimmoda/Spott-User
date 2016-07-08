@@ -19,7 +19,7 @@ export default class Terms extends Component {
         <Navbar currentPathname={this.props.location.pathname} />
         <section className='terms'>
 
-          <div className='wrapper wrapper--small' dangerouslySetInnerHTML={{ __html: this.props.getLocalizedResource('privacy') }} />
+          <div className='wrapper wrapper--small' dangerouslySetInnerHTML={{ __html: this.props.getLocalizedResource('terms') }} />
 
         </section>
       </div>

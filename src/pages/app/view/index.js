@@ -22,7 +22,8 @@ export default class App extends Component {
       state: PropTypes.shape({
         modal: PropTypes.bool
       })
-    }).isRequired
+    }).isRequired,
+    routes: PropTypes.array
   }
 
   componentDidMount () {
@@ -47,13 +48,15 @@ export default class App extends Component {
 
   render () {
     const location = this.props.location;
+    console.log(this.props.routes);
+    const standalone = this.props.routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
     if (location.state && location.state.modal && this.previousChildren) {
       // Render containing page (previousChildren) and modal (children)
       return (
         <div style={styles.container}>
           <div>{this.previousChildren}</div>
           <div>{this.props.children}</div>
-          <Footer />
+          {!standalone && <Footer />}
         </div>
       );
     }
@@ -61,7 +64,7 @@ export default class App extends Component {
     return (
       <div>
         <div>{this.props.children}</div>
-        <Footer />
+        {!standalone && <Footer />}
       </div>
     );
   }
