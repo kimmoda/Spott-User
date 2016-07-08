@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Navbar from '../_common/navbar';
 import localized from '../_common/localized';
 
 const rippleGifImage = require('./ripple.gif');
@@ -22,9 +21,6 @@ function isAndroid () {
 class Redirect extends Component {
 
   static propTypes = {
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired
-    }).isRequired,
     t: PropTypes.func.isRequired
   }
 
@@ -40,7 +36,6 @@ class Redirect extends Component {
     const { t } = this.props;
     return (
       <div className='container'>
-        <Navbar currentPathname={this.props.location.pathname} hideRightBar />
         <section className='redirect'>
             <div className='wrapper wrapper--small'>
               <img heigth='150' src={rippleGifImage} width='150'/>

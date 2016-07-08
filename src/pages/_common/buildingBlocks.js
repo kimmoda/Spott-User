@@ -1,7 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Navbar from './navbar';
 import { Link } from 'react-router';
 
 const RadiumedLink = Radium(Link);
@@ -316,7 +315,6 @@ const pageStyles = {
 };
 export const Page = Radium(({ children, currentPathname, header, submenuItems }) => (
   <div style={pageStyles.wrapper}>
-    <Navbar currentPathname={currentPathname}/>
     {header}
     <Container style={pageStyles.container}>
       {submenuItems && <Submenu>{submenuItems}</Submenu>}

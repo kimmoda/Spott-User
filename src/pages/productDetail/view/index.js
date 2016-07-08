@@ -10,7 +10,6 @@ import { FETCHING, LOADED, UPDATING } from '../../../data/statusTypes';
 import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { slugify } from '../../../utils';
-import Navbar from '../../_common/navbar';
 import Spinner from '../../_common/spinner';
 import localized from '../../_common/localized';
 
@@ -95,9 +94,6 @@ export default class ProductDetail extends Component {
 
   static propTypes = {
     loadProduct: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired
-    }).isRequired,
     params: PropTypes.shape({
       productId: PropTypes.string.isRequired
     }).isRequired,
@@ -338,7 +334,6 @@ export default class ProductDetail extends Component {
     } else if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
       return (
         <div>
-          <Navbar currentPathname={this.props.location.pathname}/>
           <div style={styles.productInfo}>
             <Container>
               <div style={styles.left}>

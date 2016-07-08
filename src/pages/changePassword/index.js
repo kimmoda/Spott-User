@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { apiBaseUrlSelector } from '../app/selector';
-import Navbar from '../_common/navbar/';
 import localized from '../_common/localized';
 require('./changePassword.scss');
 
@@ -11,8 +10,7 @@ class ChangePassword extends Component {
 
   static propTypes = {
     location: PropTypes.shape({
-      query: PropTypes.object.isRequired,
-      pathname: PropTypes.string.isRequired
+      query: PropTypes.object.isRequired
     }).isRequired,
     t: PropTypes.func.isRequired
   };
@@ -86,7 +84,6 @@ class ChangePassword extends Component {
     return (
       <div className='container'>
         <div className='container__wrapper'>
-          <Navbar currentPathname={this.props.location.pathname} hideRightBar />
           <section className='change__password'>
             <div className='wrapper wrapper--small'>
               <h1>{t('changePassword.title')}</h1>

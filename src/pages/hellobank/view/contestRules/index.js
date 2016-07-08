@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Navbar from '../../../_common/navbar';
 
 require('../hellobank.scss');
 
@@ -7,7 +6,6 @@ export default class HelloBankContestRules extends Component {
   render () {
     return (
       <div className='container'>
-        <Navbar hideRightBar />
         <section className='hellobank-contest-rules'>
           <div className='wrapper wrapper--small'>
             <h1>Wedstrijdreglement - SPOTT</h1>
