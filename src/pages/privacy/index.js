@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Navbar from '../_common/navbar/';
-import Footer from '../_common/footer/';
 import localized from '../_common/localized';
 
 require('./privacy.scss');
@@ -24,7 +23,6 @@ export default class Privacy extends Component {
           <div className='wrapper wrapper--small' dangerouslySetInnerHTML={{ __html: this.props.getLocalizedResource('privacy') }} />
 
         </section>
-        <Footer />
       </div>
     );
   }

@@ -75,15 +75,15 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
       </Route>
 
       <Route>
-        <Route component={HellobankHomeWrapper} path='/hellobank'>
+        <Route component={HellobankHomeWrapper} path='/hellobank' standalone={true}>
           <IndexRoute component={HelloBankHomeStep1} key='helloBankHomeStep1' />
           <Route component={HelloBankHomeStep2} path='/hellobank/participate' />
           <Route component={HelloBankHomeStep3} path='/hellobank/confirmed' />
         </Route>
         <Route component={HelloBankContestRules} path='/hellobank-reglement' />
       </Route>
-      <Route component={Medialaan} path='/medialaan' />
-      <Route component={Carrefour} path='/carrefour' />,
+      <Route component={Medialaan} path='/medialaan' standalone={true} />
+      <Route component={Carrefour} path='/carrefour' standalone={true} />,
 
       <Route component={Error404} path='*' />
     </Route>

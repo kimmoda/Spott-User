@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { colors, SectionTitle, ScalableContainer } from '../../../_common/buildingBlocks';
+import { colors, SectionTitle, Container } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -16,7 +16,7 @@ export default class RecentlyAddedToWishlist extends Component {
   }
 
   static styles = {
-    container: {
+    wrapper: {
       backgroundColor: colors.white,
       paddingTop: '2.5em',
       paddingBottom: '3.25em'
@@ -27,10 +27,12 @@ export default class RecentlyAddedToWishlist extends Component {
     const { t } = this.props;
     const { styles } = this.constructor;
     return (
-      <ScalableContainer style={styles.container}>
-        <SectionTitle>{t('home.recentlyAddedToWishlist.title')}</SectionTitle>
-        <ProductTiles />
-      </ScalableContainer>
+      <div style={styles.wrapper}>
+        <Container>
+          <SectionTitle>{t('home.recentlyAddedToWishlist.title')}</SectionTitle>
+          <ProductTiles />
+        </Container>
+      </div>
     );
   }
 

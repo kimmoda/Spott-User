@@ -126,7 +126,7 @@ const containerStyles = {
   }
 };
 export const Container = Radium((props) => (
-  <div style={[ containerStyles, props.style ]}>
+  <div {...props} style={[ containerStyles, props.style ]}>
     {props.children}
   </div>
 ));

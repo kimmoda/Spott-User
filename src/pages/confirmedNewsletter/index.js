@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Navbar from '../_common/navbar/';
-import Footer from '../_common/footer/';
 import localized from '../_common/localized';
 
 const appStoreImage = require('./appStore.svg');
@@ -37,7 +36,6 @@ class Confirm extends Component {
           </section>
           <div className='push'></div>
         </div>
-        <Footer />
       </div>
     );
   }

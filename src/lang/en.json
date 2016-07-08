@@ -4,14 +4,10 @@
       "episode": "Season %(season)i – Episode %(episode)i"
     },
     "footer": {
-      "allRightsReserved": "All rights reserved",
-      "appiness": "Appiness NV",
-      "copyright": "Copyright 2016",
-      "getInvolved": "Want to get involved with Spott?",
-      "getInvolvedMailUs": "Mail us at [[]]",
-      "madeWithLove": "made with [[]] in Belgium",
+      "copyright": "Copyright © 2015–2016 Spott Ltd.",
       "privacy": "Privacy",
-      "terms": "Terms"
+      "terms": "Terms",
+      "language": "Use Spott in [[]]"
     },
     "navBar": {
       "home": "Home",

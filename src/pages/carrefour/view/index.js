@@ -267,7 +267,7 @@ const footerStyles = {
   }
 };
 const carrefourSloganImage = require('./carrefourSlogan.png');
-const Footer = () => (
+const CarrefourFooter = () => (
   <footer style={footerStyles.container}>
     <img src={carrefourSloganImage} style={footerStyles.slogan} />
   </footer>
@@ -357,7 +357,7 @@ export default class Carrefour extends Component {
             <FormConfirmedSection email={email} />}
           <LegalSection />
         </main>
-        <Footer />
+        <CarrefourFooter />
       </div>
     );
   }

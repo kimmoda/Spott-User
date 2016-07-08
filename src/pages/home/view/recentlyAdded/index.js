@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { Button, colors, Title, UpperCaseSubtitle, SectionTitle, ScalableContainer, pinkButtonStyle } from '../../../_common/buildingBlocks';
+import { Button, colors, Title, UpperCaseSubtitle, SectionTitle, Container, pinkButtonStyle } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -22,7 +22,7 @@ export default class RecentlyAdded extends Component {
       marginBottom: '5.45em',
       position: 'relative'
     },
-    container: {
+    wrapper: {
       backgroundColor: colors.white,
       backgroundSize: 'cover',
       position: 'relative',
@@ -54,7 +54,7 @@ export default class RecentlyAdded extends Component {
       marginTop: '-3em',
       transform: 'translateY(3em)'
     },
-    wrapper: {
+    innerWrapper: {
       position: 'relative'
     }
   };
@@ -63,16 +63,18 @@ export default class RecentlyAdded extends Component {
     const { styles } = this.constructor;
     const { t } = this.props;
     return (
-      <ScalableContainer style={{ ...styles.container, backgroundImage: `url("${xFilesImage}")` }}>
-        <div style={styles.overlay}></div>
-        <div style={styles.wrapper}>
-          <Title style={styles.title}>X-files</Title>
-          <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
-          <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.recentlyAdded.browseButton')}</Button>
-          <SectionTitle style={styles.subtitle}>{t('home.recentlyAdded.title')}</SectionTitle>
-        </div>
-        <SeriesTiles style={styles.tiles}/>
-      </ScalableContainer>
+      <div style={{ ...styles.wrapper, backgroundImage: `url("${xFilesImage}")` }}>
+        <Container>
+          <div style={styles.overlay}></div>
+          <div style={styles.innerWrapper}>
+            <Title style={styles.title}>X-files</Title>
+            <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
+            <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.recentlyAdded.browseButton')}</Button>
+            <SectionTitle style={styles.subtitle}>{t('home.recentlyAdded.title')}</SectionTitle>
+          </div>
+          <SeriesTiles style={styles.tiles}/>
+        </Container>
+      </div>
     );
   }
 

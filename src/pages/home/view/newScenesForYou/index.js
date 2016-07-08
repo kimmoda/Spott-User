@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { colors, ScalableContainer, SectionTitle } from '../../../_common/buildingBlocks';
+import { colors, Container, SectionTitle } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -16,7 +16,7 @@ export default class NewScenesForYou extends Component {
   }
 
   static styles = {
-    container: {
+    wrapper: {
       backgroundColor: colors.white,
       paddingTop: '6.25em',
       paddingBottom: '3.125em'
@@ -27,10 +27,12 @@ export default class NewScenesForYou extends Component {
     const { t } = this.props;
     const styles = this.constructor.styles;
     return (
-      <ScalableContainer style={styles.container}>
-        <SectionTitle style={styles.sectionTitle}>{t('home.newScenesForYou.title')}</SectionTitle>
-        <SceneTiles />
-      </ScalableContainer>
+      <div style={styles.wrapper}>
+        <Container>
+          <SectionTitle style={styles.sectionTitle}>{t('home.newScenesForYou.title')}</SectionTitle>
+          <SceneTiles />
+        </Container>
+      </div>
     );
   }
 
