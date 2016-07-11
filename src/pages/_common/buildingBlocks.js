@@ -90,10 +90,12 @@ export const pinkButtonStyle = {
 };
 
 export const Button = Radium((props) => {
-  if (!props.href) {
+  if (!props.href && !props.to) {
     return <button {...props} style={[ buttonStyle, props.style ]}>{props.children}</button>;
+  } else if (props.href) {
+    return <a {...props} style={[ buttonStyle, props.style ]}>{props.children}</a>;
   }
-  return <a {...props} style={[ buttonStyle, props.style ]}>{props.children}</a>;
+  return <RadiumedLink {...props} style={[ buttonStyle, props.style ]}>{props.children}</RadiumedLink>;
 });
 Button.propTypes = {
   children: PropTypes.node.isRequired,

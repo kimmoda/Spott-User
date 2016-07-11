@@ -37,7 +37,7 @@ export function doLoginFacebook ({ facebookAccessToken }) {
         body: {
           authenticationToken,
           user: {
-            profile: { email: profileEmail, firstName, lastName },
+            profile: { avatar: profileAvatar, email: profileEmail, firstName, lastName },
             userName,
             uuid
           }
@@ -46,6 +46,7 @@ export function doLoginFacebook ({ facebookAccessToken }) {
       const data = {
         authenticationToken,
         user: {
+          avatar: profileAvatar ? { id: profileAvatar.uuid, url: profileAvatar.url } : null,
           email: profileEmail,
           firstname: firstName,
           id: uuid,

@@ -9,11 +9,10 @@
       "terms": "Terms",
       "language": "Use Spott in [[]]"
     },
-    "navBar": {
-      "home": "Home",
-      "myWishlists": "My Wishlists",
-      "login": "Log In",
-      "logout": "Log Out"
+    "header": {
+      "login": "Sign In",
+      "logout": "Log Out",
+      "home": "Home"
     },
     "sceneTiles": {
       "sceneFrom": "Scene from Season [[%(season)i]] – Episode [[%(episode)i]]"
