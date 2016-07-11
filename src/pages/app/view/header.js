@@ -12,7 +12,6 @@ import { slugify } from '../../../utils';
 
 const spottImage = require('./spott.png');
 const dummyAvatarImage = require('./dummyAvatar.svg');
-const RadiumLink = Radium(Link);
 
 const styles = {
   wrapper: {
@@ -21,36 +20,74 @@ const styles = {
   container: {
     paddingTop: '1.125em',
     paddingBottom: '1em',
-    display: 'flex'
+    display: 'flex',
+    alignItems: 'center'
   },
   logoSection: {
     container: {
-      flex: '1'
+      display: 'none',
+      '@media (min-width: 240px)': {
+        display: 'block'
+      }
     },
     logo: {
-      height: '2.8125em',
-      width: 'auto'
+      display: 'block',
+      height: '2.125em',
+      width: 'auto',
+      [mediaQueries.medium]: {
+        height: '2.8125em'
+      }
     }
   },
   userSection: {
-    container: {},
-    avatar: {
+    container: {
+      flex: '1',
+      textAlign: 'right'
+    },
+    trigger: {
+      lineHeight: '2.125em',
+      verticalAlign: 'middle'
+    },
+    triggerAvatar: {
+      borderRadius: '100%',
+      display: 'inline-block',
       width: '2.125em',
       height: '2.125em',
-      borderRadius: '100%',
-      float: 'left',
-      marginRight: '1.875em',
+      marginRight: '0.5em',
+      verticalAlign: 'middle'
     },
-    arrow: {
+    triggerArrow: {
+      display: 'inline-block',
+      float: 'right',
       textDecoration: 'none',
       color: colors.coolGray
     },
+    menu: {
+      borderRadius: '0.25em',
+      backgroundColor: colors.white,
+      boxShadow: '0 6px 8px 0 rgba(0, 0, 0, 0.3)',
+      border: `1px solid ${colors.whiteThree}`,
+      width: 200
+    },
     menuItem: {
-
+      ...makeTextStyle(fontWeights.regular, '0.8125em'),
+      display: 'block',
+      color: 'black',
+      textAlign: 'left',
+      width: '100%',
+      ':hover': {
+        backgroundColor: colors.whiteThree
+      }
+    },
+    profileMenuItem: {
+      borderBottom: `1px solid ${colors.charcoal}`
+    },
+    signInButton: {
+      marginLeft: 'auto'
     }
   }
-
 };
+
 @Radium
 @localized
 class Header extends Component {
@@ -67,7 +104,7 @@ class Header extends Component {
 
   constructor (props, context) {
     super(props, context);
-    this.onLogoutClick = ::this.onLogoutClick
+    this.onLogoutClick = ::this.onLogoutClick;
   }
 
   onLogoutClick (e) {
@@ -90,24 +127,22 @@ class Header extends Component {
             {isAuthenticated &&
               <div>
                 <Dropdown button={
-                  <div>
-                    <img src={currentUserAvatar ? currentUserAvatar.get('url') : dummyAvatarImage} style={styles.userSection.avatar} />
-                    <span style={styles.userSection.arrow}>▾</span>
+                  <div style={styles.userSection.trigger}>
+                    <img src={currentUserAvatar ? currentUserAvatar.get('url') : dummyAvatarImage} style={styles.userSection.triggerAvatar} />
+                    <span style={styles.userSection.triggerArrow}>▾</span>
                   </div>
-                }>
-                  <Button style={styles.userSection.menuItem} to={`/profile/${slugify(currentUsername)}/${currentUserId}`}>{currentUsername}</Button>
+                } contentStyle={styles.userSection.menu}>
+                  <Button style={[ styles.userSection.menuItem, styles.userSection.profileMenuItem ]} to={`/profile/${slugify(currentUsername)}/${currentUserId}`}>{currentUsername}</Button>
                   <Button style={styles.userSection.menuItem} onClick={this.onLogoutClick}>{t('_common.header.logout')}</Button>
                 </Dropdown>
               </div>}
             {!isAuthenticated &&
-              <div>
-                <Button style={pinkButtonStyle} to={{
-                  pathname: '/login',
-                  state: { modal: true, returnTo: this.props.currentPathname }
-                }}>
-                  {t('_common.header.login')}
-                </Button>
-              </div>}
+              <Button style={{ ...pinkButtonStyle, ...styles.userSection.signInButton }} to={{
+                pathname: '/login',
+                state: { modal: true, returnTo: this.props.currentPathname }
+              }}>
+                {t('_common.header.login')}
+              </Button>}
           </div>
         </Container>
       </header>

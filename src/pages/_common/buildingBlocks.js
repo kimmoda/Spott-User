@@ -13,6 +13,7 @@ export const colors = {
   whiteGray: '#f9f9f9',
   darkPink: '#cf315b',
   charcoalGray: '#38353c',
+  charcoal: '#161b15',
   cool: '#221f26',
   coolGray: '#a7a6a9',
   green: '#1ab61a',

@@ -45,7 +45,7 @@ const styles = {
       width: 'auto',
       flex: '1',
       paddingTop: 0,
-      paddingBottom: 0,
+      paddingBottom: 0
     }
   },
   menuSeparator: {

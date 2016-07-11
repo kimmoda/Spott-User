@@ -27,7 +27,8 @@ export default class RecentlyAdded extends Component {
       backgroundSize: 'cover',
       position: 'relative',
       paddingTop: '2.5em',
-      paddingBottom: 0
+      paddingBottom: 0,
+      marginBottom: '3em'
     },
     overlay: {
       position: 'absolute',
