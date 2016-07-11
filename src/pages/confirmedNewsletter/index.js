@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Navbar from '../_common/navbar/';
 import localized from '../_common/localized';
 
 const appStoreImage = require('./appStore.svg');
@@ -9,9 +8,6 @@ require('./confirm.scss');
 class Confirm extends Component {
 
   static propTypes = {
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired
-    }).isRequired,
     t: PropTypes.func.isRequired
   };
 
@@ -20,7 +16,6 @@ class Confirm extends Component {
     return (
       <div className='container'>
         <div className='container__wrapper'>
-          <Navbar currentPathname={this.props.location.pathname} />
           <section className='confirm'>
             <div className='confirm__textwrapper wrapper wrapper--small'>
               <h1>{t('confirmedNewsletter.title')}</h1>

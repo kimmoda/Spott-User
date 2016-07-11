@@ -6,7 +6,7 @@ import Radium from 'radium';
 
 const RadiumLink = Radium(Link);
 
-const footerStyles = {
+const styles = {
   wrapper: {
     backgroundColor: colors.dark,
     paddingTop: '0.9375em',
@@ -45,7 +45,7 @@ const footerStyles = {
       width: 'auto',
       flex: '1',
       paddingTop: 0,
-      paddingBottom: 0,
+      paddingBottom: 0
     }
   },
   menuSeparator: {
@@ -91,19 +91,19 @@ export default class Footer extends Component {
   render () {
     const { t } = this.props;
     return (
-      <footer style={footerStyles.wrapper}>
-        <Container className='cf' style={footerStyles.container}>
-          <div style={footerStyles.languageSelection}>
+      <footer style={styles.wrapper}>
+        <Container className='cf' style={styles.container}>
+          <div style={styles.languageSelection}>
             {t('_common.footer.language', {}, (_, key) => (
-              <div style={footerStyles.languageSelectionCurrent}>English</div>
+              <div style={styles.languageSelectionCurrent}>English</div>
             ))}
           </div>
-          <div style={footerStyles.menu}>
-            <RadiumLink style={footerStyles.menuItem} to='/terms'>{t('_common.footer.terms')}</RadiumLink>
-            <span style={footerStyles.menuSeparator}>/</span>
-            <RadiumLink style={footerStyles.menuItem} to='/privacy'>{t('_common.footer.privacy')}</RadiumLink>
+          <div style={styles.menu}>
+            <RadiumLink style={styles.menuItem} to='/terms'>{t('_common.footer.terms')}</RadiumLink>
+            <span style={styles.menuSeparator}>/</span>
+            <RadiumLink style={styles.menuItem} to='/privacy'>{t('_common.footer.privacy')}</RadiumLink>
           </div>
-          <div style={footerStyles.copyright}>
+          <div style={styles.copyright}>
             {t('_common.footer.copyright')}
           </div>
         </Container>

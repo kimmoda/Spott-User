@@ -5,6 +5,7 @@ export const currentLocaleSelector = (state) => state.getIn([ 'app', 'configurat
 export const authenticationTokenSelector = (state) => state.getIn([ 'app', 'authentication', 'authenticationToken' ]);
 export const authenticationErrorSelector = (state) => state.getIn([ 'app', 'authentication', 'error' ]);
 export const authenticationIsLoadingSelector = (state) => state.getIn([ 'app', 'authentication', 'isLoading' ]);
+export const currentUserAvatarSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'avatar' ]);
 export const currentUserFirstnameSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'firstname' ]);
 export const currentUserLastnameSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'lastname' ]);
 export const currentUserUsernameSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'username' ]);

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Navbar from '../../../_common/navbar';
 
 require('../hellobank.scss');
 
@@ -7,11 +6,11 @@ export default class HelloBankContestRules extends Component {
   render () {
     return (
       <div className='container'>
-        <Navbar hideRightBar />
         <section className='hellobank-contest-rules'>
           <div className='wrapper wrapper--small'>
             <h1>Wedstrijdreglement - SPOTT</h1>
             <ol>
+
               <li className='list__heading'>Artikel 1: Organisator</li>
               <p>BNP Paribas Fortis NV, Warandeberg 3, 1000 Brussel, RPR Brussel 0403.199.702, handelend onder het merk Hello bank!, hierna 'BNP Paribas Fortis' of 'de organisator' genoemd.</p>
 

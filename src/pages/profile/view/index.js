@@ -16,7 +16,8 @@ const headerStyles = {
     height: '4.375em',
     borderRadius: '100%',
     float: 'left',
-    marginRight: '1.875em'
+    marginRight: '1.875em',
+    backgroundColor: 'transparent'
   },
   name: {
     ...makeTextStyle(fontWeights.bold, '1.750em'),

@@ -1,7 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Navbar from './navbar';
 import { Link } from 'react-router';
 
 const RadiumedLink = Radium(Link);
@@ -14,6 +13,7 @@ export const colors = {
   whiteGray: '#f9f9f9',
   darkPink: '#cf315b',
   charcoalGray: '#38353c',
+  charcoal: '#161b15',
   cool: '#221f26',
   coolGray: '#a7a6a9',
   green: '#1ab61a',
@@ -91,10 +91,12 @@ export const pinkButtonStyle = {
 };
 
 export const Button = Radium((props) => {
-  if (!props.href) {
+  if (!props.href && !props.to) {
     return <button {...props} style={[ buttonStyle, props.style ]}>{props.children}</button>;
+  } else if (props.href) {
+    return <a {...props} style={[ buttonStyle, props.style ]}>{props.children}</a>;
   }
-  return <a {...props} style={[ buttonStyle, props.style ]}>{props.children}</a>;
+  return <RadiumedLink {...props} style={[ buttonStyle, props.style ]}>{props.children}</RadiumedLink>;
 });
 Button.propTypes = {
   children: PropTypes.node.isRequired,
@@ -316,7 +318,6 @@ const pageStyles = {
 };
 export const Page = Radium(({ children, currentPathname, header, submenuItems }) => (
   <div style={pageStyles.wrapper}>
-    <Navbar currentPathname={currentPathname}/>
     {header}
     <Container style={pageStyles.container}>
       {submenuItems && <Submenu>{submenuItems}</Submenu>}

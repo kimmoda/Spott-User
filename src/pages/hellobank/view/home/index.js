@@ -1,7 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Navbar from '../../../_common/navbar';
 require('../hellobank.scss');
 
 const RadiumLink = Radium(Link);
@@ -149,17 +148,13 @@ const wrapperStyles = {
 class Wrapper extends Component {
 
   static propTypes = {
-    children: PropTypes.node.isRequired,
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired
-    }).isRequired
+    children: PropTypes.node.isRequired
   }
 
   render () {
     return (
       <div>
         <div style={wrapperStyles.background}></div>
-        <Navbar currentPathname={this.props.location.pathname} />
         <div style={wrapperStyles.body}>
           <div style={wrapperStyles.deviceWrapper}>
             <img src={deviceImage} style={wrapperStyles.device} />

@@ -73,7 +73,7 @@ class FacebookLoginButton extends Component {
     const { styles } = this.constructor;
     const { t } = this.props;
     return (
-      <button style={styles.facebookButton} type='button' onClick={::this.handleClick}>{t('logInWithFacebookButton')}</button>
+      <button style={styles.facebookButton} type='button' onClick={::this.handleClick}>{t('login.logInWithFacebookButton')}</button>
     );
   }
 

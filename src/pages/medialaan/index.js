@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Navbar from '../_common/navbar';
+import MedialaanNavbar from './medialaanNavbar';
 import Channels from './channels';
 import $ from 'jquery';
 import { cmsApiBaseUrlSelector } from '../app/selector';
@@ -178,7 +178,7 @@ class Medialaan extends Component {
   render () {
     return (
       <div className='container'>
-        <Navbar currentPathname={this.props.location.pathname} hideRightBar medialaanLogo />
+        <MedialaanNavbar />
         <section className='medialaan' style={{ backgroundImage: `url(${heroImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center' }}>
           <div className='overlay__header'></div>
           <div className='medialaan__container'>
