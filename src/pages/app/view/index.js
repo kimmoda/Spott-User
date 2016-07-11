@@ -63,12 +63,13 @@ export default class App extends Component {
     const location = this.props.location;
     console.log(this.props.routes);
     const standalone = this.props.routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
+    const floating = this.props.routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
     const noNavigation = this.props.routes.reduce((acc, curr) => typeof curr.noNavigation === 'undefined' ? acc : curr.noNavigation, false);
     if (location.state && location.state.modal && this.previousChildren) {
       // Render containing page (previousChildren) and modal (children)
       return (
         <div style={styles.container}>
-          {!standalone && <Header currentPathname={location.pathname} noNavigation={noNavigation} />}
+          {!standalone && <Header currentPathname={location.pathname} floating={floating} noNavigation={noNavigation} />}
           <div style={!standalone && styles.content.footerCompensation}>{this.previousChildren}</div>
           <div>{this.props.children}</div>
           {!standalone && <Footer style={styles.footer} />}
@@ -78,7 +79,7 @@ export default class App extends Component {
     // Standard route, nothing special here.
     return (
       <div style={styles.container}>
-        {!standalone && <Header currentPathname={location.pathname} noNavigation={noNavigation} />}
+        {!standalone && <Header currentPathname={location.pathname} floating={floating} noNavigation={noNavigation} />}
         <div style={!standalone && styles.content.footerCompensation}>{this.props.children}</div>
         {!standalone && <Footer style={styles.footer} />}
       </div>
