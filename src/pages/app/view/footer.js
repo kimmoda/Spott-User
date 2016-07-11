@@ -85,13 +85,14 @@ const styles = {
 @Radium
 export default class Footer extends Component {
   static propTypes = {
+    style: PropTypes.object,
     t: PropTypes.func.isRequired
   }
 
   render () {
-    const { t } = this.props;
+    const { style, t } = this.props;
     return (
-      <footer style={styles.wrapper}>
+      <footer style={[ styles.wrapper, style ]}>
         <Container className='cf' style={styles.container}>
           <div style={styles.languageSelection}>
             {t('_common.footer.language', {}, (_, key) => (

@@ -37,25 +37,27 @@ const headerStyles = {
     color: colors.white
   }
 };
-const Header = localized(({ user, t }) => (
-  <EntityHeader
-    backgroundImage={user.get('picture') === null ? dummyProfilePictureImage : user.getIn([ 'picture', 'url' ])}>
-      <img src={user.get('avatar') === null ? dummyProfileAvatarImage : user.getIn([ 'picture', 'url' ])} style={headerStyles.image} />
-      <div>
-        <h1 style={headerStyles.name}>{user.get('firstname')} {user.get('lastname')}</h1>
-        <h1 style={headerStyles.tagline}>{user.get('tagline')}</h1>
-        <p style={headerStyles.followers}>
-          {t('profile.header.followers', { count: user.get('followerCount') || 0 }, (contents, key) => {
-            return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
-          })}
-          &nbsp;—&nbsp;
-          {t('profile.header.following', { count: user.get('followingCount') || 0 }, (contents, key) => {
-            return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
-          })}
-        </p>
-      </div>
-  </EntityHeader>
-));
+const Header = localized(function ({ user, t }) {
+  return (
+    <EntityHeader
+      backgroundImage={user.get('picture') === null ? dummyProfilePictureImage : user.getIn([ 'picture', 'url' ])}>
+        <img src={user.get('avatar') === null ? dummyProfileAvatarImage : user.getIn([ 'avatar', 'url' ])} style={headerStyles.image} />
+        <div>
+          <h1 style={headerStyles.name}>{user.get('firstname')} {user.get('lastname')}</h1>
+          <h1 style={headerStyles.tagline}>{user.get('tagline')}</h1>
+          <p style={headerStyles.followers}>
+            {t('profile.header.followers', { count: user.get('followerCount') || 0 }, (contents, key) => {
+              return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
+            })}
+            &nbsp;—&nbsp;
+            {t('profile.header.following', { count: user.get('followingCount') || 0 }, (contents, key) => {
+              return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
+            })}
+          </p>
+        </div>
+    </EntityHeader>
+  );
+});
 Header.propTypes = {
   t: PropTypes.func.isRequired,
   user: ImmutablePropTypes.mapContains({

@@ -10,7 +10,19 @@ require('./slick.css');
 
 const styles = {
   container: {
-    height: '100%'
+    minHeight: '100%',
+    position: 'relative'
+  },
+  content: {
+    footerCompensation: {
+      paddingBottom: '1.25em'
+    }
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%'
   }
 };
 
@@ -57,18 +69,18 @@ export default class App extends Component {
       return (
         <div style={styles.container}>
           {!standalone && <Header currentPathname={location.pathname} noNavigation={noNavigation} />}
-          <div>{this.previousChildren}</div>
+          <div style={!standalone && styles.content.footerCompensation}>{this.previousChildren}</div>
           <div>{this.props.children}</div>
-          {!standalone && <Footer />}
+          {!standalone && <Footer style={styles.footer} />}
         </div>
       );
     }
     // Standard route, nothing special here.
     return (
-      <div>
+      <div style={styles.container}>
         {!standalone && <Header currentPathname={location.pathname} noNavigation={noNavigation} />}
-        <div>{this.props.children}</div>
-        {!standalone && <Footer />}
+        <div style={!standalone && styles.content.footerCompensation}>{this.props.children}</div>
+        {!standalone && <Footer style={styles.footer} />}
       </div>
     );
   }
