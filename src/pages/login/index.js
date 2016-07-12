@@ -7,7 +7,6 @@ import FacebookLoginButton from './facebookLoginButton';
 import * as actions from '../app/actions';
 import { authenticationErrorSelector, authenticationIsLoadingSelector }
   from '../app/selector';
-import { Page } from '../_common/buildingBlocks';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
 
@@ -174,13 +173,13 @@ class Login extends Component {
     }
     return (
       <div>
-        <Page currentPathname={this.props.location.pathname}>
+        <div currentPathname={this.props.location.pathname}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton />
             <Form {...this.props} type='button' />
           </section>
-        </Page>
+        </div>
       </div>
     );
   }

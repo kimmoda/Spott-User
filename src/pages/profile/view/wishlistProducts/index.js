@@ -118,7 +118,7 @@ export default class WishlistProducts extends Component {
       }
       return (
         <div>
-          <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}}</h1>
+          <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
           <p style={styles.emptyText}>{t('profile.wishlistProducts.empty')}</p>
         </div>
       );

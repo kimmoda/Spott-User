@@ -66,7 +66,7 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
       <Route component={ChangePassword} noNavigation path='/user/changepwd'/>
       <Route component={ConfirmedNewsletter} path='/confirmed' />
 
-      <Route component={Profile} path='/profile/:userSlug/:userId' >
+      <Route component={Profile} floating path='/profile/:userSlug/:userId' >
         <IndexRedirect to='/profile/:userSlug/:userId/wishlists' />
         <Route path='/profile/:userSlug/:userId/wishlists'>
           <IndexRoute component={ProfileWishlists} />
