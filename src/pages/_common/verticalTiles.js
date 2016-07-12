@@ -38,6 +38,7 @@ export function slowdown (func, wait, immediate) {
  */
 export default class VerticalTiles extends Component {
   static propTypes = {
+    aspectRatio: PropTypes.number.isRequired,
     horizontalSpacing: PropTypes.number.isRequired,
     items: ImmutablePropTypes.listOf(
       PropTypes.any
@@ -105,7 +106,7 @@ export default class VerticalTiles extends Component {
   }
 
   render () {
-    const { horizontalSpacing, items, numColumns, verticalSpacing, tile } = this.props;
+    const { aspectRatio, horizontalSpacing, items, numColumns, verticalSpacing, tile } = this.props;
     const { from, screenWidth, to, width } = this.state;
     // If we have no known container width (first render), there is no reason to proced
     if (width === -1 || items.size === 0) {
@@ -124,15 +125,15 @@ export default class VerticalTiles extends Component {
       return { bestFit, bestNumColumns };
     }, { bestFit: -1, bestNumColumns: 1 }).bestNumColumns;
     // Size of a cell
-    const size = Math.ceil((width - horizontalSpacing * (resolvedNumColumns - 1)) / resolvedNumColumns);
+    const cellWidth = Math.ceil((width - horizontalSpacing * (resolvedNumColumns - 1)) / resolvedNumColumns);
     // Calculate some necessities
     const numItems = items.size;
     const numRows = Math.ceil(numItems / resolvedNumColumns);
-    const rowHeight = size + verticalSpacing;
+    const rowHeight = cellWidth * aspectRatio + verticalSpacing;
     // Render items
     const renderedItems = [];
     for (let row = 0; row < numRows; row++) {
-      const positionY = (size + verticalSpacing) * row;
+      const positionY = rowHeight * row;
       // Continue if not visible yet
       if (positionY + rowHeight < from - 7 * rowHeight) {  // Render 7 rows extra
         continue;
@@ -149,11 +150,11 @@ export default class VerticalTiles extends Component {
           break;
         }
         // Determine position
-        const positionX = (column * size) + (column * horizontalSpacing);
+        const positionX = (column * cellWidth) + (column * horizontalSpacing);
         // Build style
         const style = {
-          width: `${size}px`,
-          height: `${size}px`,
+          width: `${cellWidth}px`,
+          height: `${rowHeight - verticalSpacing}px`,
           transform: `translate(${positionX}px, ${positionY}px)`,
           position: 'absolute'
         };
@@ -162,7 +163,7 @@ export default class VerticalTiles extends Component {
     }
     // Determine container style
     const containerStyle = {
-      height: (numRows * rowHeight),
+      height: (numRows * rowHeight) - verticalSpacing, // No vertical spacing below the last row
       minHeight: 1
     };
     // Return render result

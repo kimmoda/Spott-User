@@ -12,19 +12,16 @@ import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import Spinner from '../../../_common/spinner';
 import localized from '../../../_common/localized';
 import { slugify } from '../../../../utils';
+import BaseTile from '../../../_common/tiles/_baseTile';
 
 const RadiumLink = Radium(Link);
 
 const itemStyles = {
   container: {
-    border: `1px solid ${colors.whiteThree}`,
     backgroundColor: colors.white,
     display: 'block',
     padding: '1.25em',
-    textDecoration: 'none',
-    ':hover': {
-      filter: 'brightness(1.1)'
-    }
+    textDecoration: 'none'
   },
   name: {
     ...makeTextStyle(fontWeights.medium, '0.875em'),
@@ -62,12 +59,12 @@ class WishlistProduct extends Component {
   render () {
     const { item, style } = this.props;
     return (
-      <div style={style}>
+      <BaseTile style={style}>
         <RadiumLink style={itemStyles.container} to={`/product/${slugify(item.get('name'))}/${item.get('id')}`}>
           <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? 'none' : item.getIn([ 'image', 'url' ]) })` }}></div>
         </RadiumLink>
-      </div>
+      </BaseTile>
     );
   }
 }
@@ -112,7 +109,7 @@ export default class WishlistProducts extends Component {
         return (
           <div>
             <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
-            <VerticalTiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
+            <VerticalTiles horizontalSpacing={30} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={30} />
           </div>
         );
       }
