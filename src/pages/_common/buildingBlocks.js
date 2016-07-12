@@ -303,108 +303,28 @@ FadedTiles.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-// Page Component
-// //////////////
-
-const pageStyles = {
-  wrapper: {
-    backgroundColor: colors.whiteTwo,
-    minHeight: '100%'
-  },
-  container: {
-    paddingTop: '1.875em',
-    paddingBottom: '1.875em'
-  }
-};
-export const Page = Radium(({ children, currentPathname, header, submenuItems }) => (
-  <div style={pageStyles.wrapper}>
-    {header}
-    <Container style={pageStyles.container}>
-      {submenuItems && <Submenu>{submenuItems}</Submenu>}
-      {children}
-    </Container>
-  </div>
-));
-Page.propTypes = {
-  children: PropTypes.node.isRequired,
-  header: PropTypes.node,
-  submenuItems: PropTypes.node
-};
-
-// Entity header
-// /////////////
-
-const entityHeaderStyles = {
-  wrapper: {
-    backgroundSize: 'cover',
-    position: 'relative'
-  },
-  backgroundOverlay: {
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    pointerEvents: 'none',
-    position: 'absolute',
-    backgroundImage: 'linear-gradient(to top, #221f26, rgba(58, 34, 44, 0))'
-  },
-  container: {
-    paddingTop: '20.5%',
-    paddingBottom: '1em',
-    [mediaQueries.medium]: {
-      paddingTop: '9.0625em',
-      paddingBottom: '1.1875em'
-    },
-    [mediaQueries.large]: {
-      paddingTop: '11.8125em',
-      paddingBottom: '1.5em'
-    },
-    [mediaQueries.extraLarge]: {
-      paddingTop: '14.375em',
-      paddingBottom: '1.875em'
-    },
-    display: 'flex',
-    alignItems: 'flex-end',
-    position: 'relative' // Display in front of background overlay
-  },
-  contents: {
-    flex: '1'
-  }
-};
-export const EntityHeader = Radium(({ backgroundImage, buttons, children }) => (
-  <div style={[ entityHeaderStyles.wrapper, backgroundImage && { backgroundImage: `url(${backgroundImage})` } ]}>
-    <div style={entityHeaderStyles.backgroundOverlay}></div>
-    <Container style={entityHeaderStyles.container}>
-      <div style={entityHeaderStyles.contents}>{children}</div>
-      <div>{buttons}</div>
-    </Container>
-  </div>
-));
-EntityHeader.propTypes = {
-  backgroundImage: PropTypes.string,
-  buttons: PropTypes.node,
-  children: PropTypes.node.isRequired
-};
-
 // Submenu and submenuitem styles
 // //////////////////////////////
 
 const submenuItemStyles = {
   container: {
-    display: 'inline-block',
-    marginRight: '2.8125em'
+    display: 'block',
+    float: 'left'
   },
   base: {
-    ...makeTextStyle(fontWeights.medium, '0.8125em', '0.03125em'),
+    ...makeTextStyle(fontWeights.bold, '0.750em', '0.317em'),
     color: colors.coolGray,
     display: 'inline-block',
-    paddingBottom: '1.1875em',
+    paddingTop: '1.6296em',
+    paddingBottom: '1.6296em',
     textDecoration: 'none',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    textAlign: 'center',
+    width: '14.815em'
   },
   active: {
-    borderBottom: `2px solid ${colors.darkPink}`,
-    color: colors.darkPink
+    borderBottom: `4px solid ${colors.darkPink}`,
+    color: colors.white
   }
 };
 export const SubmenuItem = Radium(({ name, pathname, style }) => (
@@ -423,12 +343,11 @@ SubmenuItem.propTypes = {
 const submenuStyles = {
   container: {
     display: 'block',
-    listStyleType: 'none',
-    paddingBottom: '1.875em'
+    listStyleType: 'none'
   }
 };
 export const Submenu = Radium(({ children, style }) => (
-  <ul style={[ submenuStyles.container, style ]}>
+  <ul className='cf' style={[ submenuStyles.container, style ]}>
     {children}
   </ul>
 ));

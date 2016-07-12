@@ -22,7 +22,7 @@ const styles = {
     },
     floating: {
       position: 'absolute',
-      backgroundColor: 'rgba(255, 255, 255, 0.02)',
+      backgroundColor: 'rgba(255, 255, 255, 0.03)',
       left: 0,
       right: 0
     }
@@ -36,7 +36,7 @@ const styles = {
   logoSection: {
     container: {
       display: 'none',
-      '@media (min-width: 240px)': {
+      '@media (min-width: 340px)': {
         display: 'block'
       }
     },

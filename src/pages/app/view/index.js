@@ -1,5 +1,7 @@
 import { init, pageView } from './googleAnalytics';
 import React, { Component, PropTypes } from 'react';
+import { mediaQueries } from '../../_common/buildingBlocks';
+import Radium from 'radium';
 import Footer from './footer';
 import Header from './header';
 
@@ -13,9 +15,13 @@ const styles = {
     minHeight: '100%',
     position: 'relative'
   },
-  content: {
-    footerCompensation: {
-      paddingBottom: '1.25em'
+  footerCompensation: {
+    paddingBottom: '6.3em',
+    [mediaQueries.small]: {
+      paddingBottom: '6em'
+    },
+    [mediaQueries.medium]: {
+      paddingBottom: '3em'
     }
   },
   footer: {
@@ -26,6 +32,7 @@ const styles = {
   }
 };
 
+@Radium
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -70,7 +77,7 @@ export default class App extends Component {
       return (
         <div style={styles.container}>
           {!standalone && <Header currentPathname={location.pathname} floating={floating} noNavigation={noNavigation} />}
-          <div style={!standalone && styles.content.footerCompensation}>{this.previousChildren}</div>
+          <div style={standalone ? {} : styles.footerCompensation}>{this.previousChildren}</div>
           <div>{this.props.children}</div>
           {!standalone && <Footer style={styles.footer} />}
         </div>
@@ -80,7 +87,7 @@ export default class App extends Component {
     return (
       <div style={styles.container}>
         {!standalone && <Header currentPathname={location.pathname} floating={floating} noNavigation={noNavigation} />}
-        <div style={!standalone && styles.content.footerCompensation}>{this.props.children}</div>
+        <div style={standalone ? {} : styles.footerCompensation}>{this.props.children}</div>
         {!standalone && <Footer style={styles.footer} />}
       </div>
     );
