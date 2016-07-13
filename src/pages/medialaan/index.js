@@ -3,15 +3,11 @@ import MedialaanNavbar from './medialaanNavbar';
 import Channels from './channels';
 import $ from 'jquery';
 import { cmsApiBaseUrlSelector } from '../app/selector';
+import { androidUrl, iosUrl, androidImage, iosImage } from '../_common/downloadAppButtons';
 
 const heroImage = require('./hero.jpg');
 const deviceImage = require('./device.png');
-const googlePlayImage = require('./googlePlay.svg');
-const appStoreImage = require('./appStore.svg');
 require('./medialaan.scss');
-
-const iosUrl = 'https://itunes.apple.com/be/app/spott-screen-just-became-your/id1047568044?mt=8';
-const androidUrl = 'https://play.google.com/store/apps/details?id=mobi.appiness.spott';
 
 class Medialaan extends Component {
 
@@ -157,8 +153,8 @@ class Medialaan extends Component {
       }, 1000);
     } else {
       const submit = $('form#medialaanForm input[type="submit"]');
-      const androidLink = $(`<a href="${androidUrl}" class="medialaan__linktostore"><img src=${googlePlayImage}></a>`);
-      const iosLink = $(`<a href="${iosUrl}" class="medialaan__linktostore"><img src=${appStoreImage}></a>`);
+      const androidLink = $(`<a href="${androidUrl}" class="medialaan__linktostore"><img src=${androidImage}></a>`);
+      const iosLink = $(`<a href="${iosUrl}" class="medialaan__linktostore"><img src=${iosImage}></a>`);
       submit.replaceWith([ iosLink, androidLink ]);
     }
   }

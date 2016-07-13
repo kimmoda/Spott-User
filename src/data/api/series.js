@@ -1,6 +1,8 @@
 import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
 import { transformProduct } from './transformers';
 
+/* TODO Temporarily removed, out of scope
+
 /**
   * @returnExample
   * {
@@ -10,7 +12,7 @@ import { transformProduct } from './transformers';
   *   subscribed: true,
   *   subscriberCount: 111
   * }
-  */
+  *
 function transformSeries ({ posterImage, profileImage, subscribed, subscriberCount, title, uuid: id }) {
   return {
     id,
@@ -35,6 +37,13 @@ function transformEpisode ({ title, uuid: id }) {
     title
   };
 }
+*/
+
+export async function getRecentlyAdded () {
+
+}
+
+/* TODO Temporarily removed, out of scope
 
 /**
  * GET /media/series/:seriesId
@@ -52,7 +61,7 @@ function transformEpisode ({ title, uuid: id }) {
  * @throws NotFoundError
  * @throws UnauthorizedError
  * @throws UnexpectedError
- */
+ *
 export async function getSeries (baseUrl, authenticationToken, { seriesId }) {
   try {
     const { body } = await get(authenticationToken, `${baseUrl}/v003/media/series/${seriesId}`);
@@ -112,3 +121,5 @@ export async function getEpisodeProducts (baseUrl, authenticationToken, { episod
     throw new UnexpectedError(error);
   }
 }
+
+*/
