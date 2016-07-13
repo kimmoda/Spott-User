@@ -28,7 +28,7 @@ const itemStyles = {
     textDecoration: 'none'
   },
   name: {
-    ...makeTextStyle(fontWeights.medium, '0.9em', '0.01875em'),
+    ...makeTextStyle(fontWeights.medium, '0.875em', '0.01875em'),
     color: colors.cool,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -111,7 +111,8 @@ export default class Wishlists extends Component {
       return (<Spinner />);
     } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
       if (wishlists.get('data').size > 0) {
-        return (<Tiles aspectRatio={1.1333866} horizontalSpacing={30} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />} verticalSpacing={30} />);
+        return (<Tiles aspectRatio={1.1333866} horizontalSpacing={30} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />}
+          verticalSpacing={30} />);
       }
       return (<p style={styles.emptyText}>{t('profile.wishlists.empty')}}</p>);
     }

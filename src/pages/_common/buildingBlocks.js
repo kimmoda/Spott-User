@@ -355,3 +355,20 @@ Submenu.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object
 };
+
+export class Money extends Component {
+  static propTypes = {
+    amount: PropTypes.number,
+    currency: PropTypes.string
+  }
+
+  render () {
+    const { amount, currency } = this.props;
+    switch (currency) {
+      case 'EUR':
+        return (<span>€ {amount}</span>);
+      default:
+        return (<span>{amount} {currency}</span>);
+    }
+  }
+}

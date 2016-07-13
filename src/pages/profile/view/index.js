@@ -160,7 +160,7 @@ Header.propTypes = {
 
 const styles = {
   content: {
-    marginBottom: '2.5em',
+    marginBottom: '3em', // We contain only tiles with shadow, so we overcompensate a bit for the shadow.
     marginTop: '2.5em'
   }
 };
