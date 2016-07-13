@@ -1,6 +1,8 @@
 import { authenticationTokenSelector, apiBaseUrlSelector } from '../app/selector';
 import { currentUserIdSelector } from './selector';
-import * as profileApi from '../../data/api/profile';
+import * as productsApi from '../../api/products';
+import * as usersApi from '../../api/users';
+import * as wishlistsApi from '../../api/wishlists';
 
 export const LOAD_USER_START = 'LOAD_USER_START';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
@@ -11,7 +13,7 @@ export function loadUser (userId) {
       dispatch({ type: LOAD_USER_START, userId });
       const state = getState();
       // Get the currently logged on user
-      const data = await profileApi.getUser(
+      const data = await usersApi.getUser(
         apiBaseUrlSelector(state),
         authenticationTokenSelector(state),
         userId);
@@ -33,7 +35,7 @@ export function fetchWishlistsOfUser (userId) {
       dispatch({ type: FETCH_WISHLISTS_OF_USER_START, userId });
       const state = getState();
       // Get the currently logged on user
-      const data = await profileApi.getWishlistsOfUser(
+      const data = await wishlistsApi.getWishlistsOfUser(
         apiBaseUrlSelector(state),
         authenticationTokenSelector(state),
         userId,
@@ -61,9 +63,9 @@ export function fetchProductsOfWishlist (wishlistId) {
       const authenticationToken = authenticationTokenSelector(state);
       const userId = currentUserIdSelector(state);
       // Get the wishlist
-      const wishlistData = await profileApi.getWishlistOfUser(apiBaseUrl, authenticationToken, userId, wishlistId);
+      const wishlistData = await wishlistsApi.getWishlistOfUser(apiBaseUrl, authenticationToken, userId, wishlistId);
       // Get products of the wishlist
-      const productsData = await profileApi.getWishlistProducts(apiBaseUrl, authenticationToken, userId, wishlistId, 0);
+      const productsData = await productsApi.getWishlistProducts(apiBaseUrl, authenticationToken, userId, wishlistId, 0);
       // Dispatch success
       return dispatch({ type: FETCH_PRODUCTS_OF_WISHLIST_SUCCESS, wishlistId, data: {
         ...productsData,

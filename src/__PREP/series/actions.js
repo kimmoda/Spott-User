@@ -1,6 +1,6 @@
-import { getSeries, getSeasons, getEpisodes, getEpisodeProducts } from '../../data/api/series';
-import { getRecentlyAddedToWishlist, getPopularProducts } from '../../data/api/products';
-import { getMediumCharacters, getMediumProducts } from '../../data/api/medium';
+import { getSeries, getSeasons, getEpisodes, getEpisodeProducts } from '../../api/series';
+import { getRecentlyAddedToWishlist, getPopularProducts } from '../../api/products';
+import { getMediumCharacters, getMediumProducts } from '../../api/medium';
 import { apiBaseUrlSelector, authenticationTokenSelector, currentUserIdSelector } from '../app/selector';
 
 // 4adb58ee-0801-45fa-b6f6-e1dc628e5d48 userId

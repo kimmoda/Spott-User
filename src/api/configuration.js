@@ -1,4 +1,5 @@
 import * as request from './request';
+import { transformUser } from './transformers';
 
 /**
  * GET /config.json (local)
@@ -17,22 +18,9 @@ export async function getConfiguration () {
 export async function login (baseUrl, { email: emailIn, password }) {
   try {
     const { body } = await request.post(null, `${baseUrl}/v003/security/login`, { userName: emailIn, password });
-    const bodyProfile = body.user.profile;
     return {
       authenticationToken: body.authenticationToken,
-      user: {
-        avatar: bodyProfile.avatar ? { id: bodyProfile.avatar.uuid, url: bodyProfile.avatar.url } : null,
-        dateOfBirth: bodyProfile.dateOfBirth,
-        email: bodyProfile.email,
-        firstname: bodyProfile.firstName,
-        followerCount: bodyProfile.followerCount,
-        followingCount: bodyProfile.followingCount,
-        id: body.user.uuid,
-        lastname: bodyProfile.lastName,
-        picture: bodyProfile.picture ? { id: bodyProfile.picture.uuid, url: bodyProfile.picture.url } : null,
-        tagline: bodyProfile.tagLine,
-        username: body.user.userName
-      }
+      user: transformUser(body.user)
     };
   } catch (error) {
     if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
@@ -44,7 +32,11 @@ export async function login (baseUrl, { email: emailIn, password }) {
 
 export async function loginFacebook (baseUrl, { facebookAccessToken }) {
   try {
-    return await request.post(null, `${baseUrl}/v003/security/login`, { facebookAccessToken });
+    const { body } = await request.post(null, `${baseUrl}/v003/security/login`, { facebookAccessToken });
+    return {
+      authenticationToken: body.authenticationToken,
+      user: transformUser(body.user)
+    };
   } catch (error) {
     if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
       throw 'Your Facebook account is not linked to a Spott account. You can create an account on Spott by using your Facebook account.';

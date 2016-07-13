@@ -82,3 +82,50 @@ export async function getPopularProducts (baseUrl, authenticationToken) {
     throw new UnexpectedError(error);
   }
 }
+
+/**
+ * GET /media/media/:mediumId/products
+ * Get medium products.
+ * @param {string} authenticationToken
+ * @param {string} mediumId
+ * @param {number} page
+ * @returnExample see transformProduct
+ * @throws NotFoundError
+ * @throws UnauthorizedError
+ * @throws UnexpectedError
+ */
+export async function getMediumProducts (baseUrl, authenticationToken, { mediumId, page = 0 }) {
+  try {
+    const { body: { data } } = await get(authenticationToken, `${baseUrl}/v003/media/media/${mediumId}/products?pageSize=50&page=${page}`);
+    return data.map(transformProduct);
+  } catch (error) {
+    switch (error.statusCode) {
+      case 403:
+        throw new UnauthorizedError();
+      case 404:
+        throw new NotFoundError('medium', error);
+    }
+    throw new UnexpectedError(error);
+  }
+}
+
+/**
+ * @throws NetworkError
+ * @throws NotFoundError
+ * @throws UnexpectedError
+ */
+export async function getWishlistProducts (baseUrl, authenticationToken, userId, wishlistId, page) {
+  const { body: { data, pageCount } } = await get(null, `${baseUrl}/v003/user/users/${userId}/wishlists/${wishlistId}/products?pageSize=500&page=${page}`);
+  // Transform items
+  return {
+    data: data.map((bodyWishlistProduct) => ({
+      buyUrl: bodyWishlistProduct.buyUrl,
+      id: bodyWishlistProduct.uuid,
+      image: bodyWishlistProduct.image ? { id: bodyWishlistProduct.image.uuid, url: bodyWishlistProduct.image.url } : null,
+      priceAmount: bodyWishlistProduct.price.amount,
+      priceCurrency: bodyWishlistProduct.price.currency,
+      name: bodyWishlistProduct.shortName
+    })),
+    pageCount
+  };
+}
