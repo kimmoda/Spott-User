@@ -14,8 +14,7 @@ const dummyProfileAvatarImage = require('./dummyProfileAvatar.svg');
 const headerStyles = {
   wrapper: {
     backgroundSize: 'cover',
-    position: 'relative',
-    marginBottom: '2.5em'
+    position: 'relative'
   },
   backgroundOverlay: {
     top: 0,
@@ -159,6 +158,12 @@ Header.propTypes = {
   })
 };
 
+const styles = {
+  content: {
+    marginBottom: '3em', // We contain only tiles with shadow, so we overcompensate a bit for the shadow.
+    marginTop: '2.5em'
+  }
+};
 @localized
 @connect(userSelector, (dispatch) => ({
   loadUser: bindActionCreators(loadUser, dispatch)
@@ -192,7 +197,7 @@ export default class Profile extends Component {
             <SubmenuItem key='wishlists' name={t('profile.menu.wishlists')} pathname={`/profile/${userSlug}/${userId}/wishlists`} />
           </Submenu>
         } user={user} />
-        <Container>
+        <Container style={styles.content}>
           {children}
         </Container>
       </div>

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 import { Link } from 'react-router';
-import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, Money } from '../../../_common/buildingBlocks';
 import VerticalTiles from '../../../_common/verticalTiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { fetchProductsOfWishlist } from '../../actions';
@@ -12,34 +12,43 @@ import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import Spinner from '../../../_common/spinner';
 import localized from '../../../_common/localized';
 import { slugify } from '../../../../utils';
+import BaseTile from '../../../_common/tiles/_baseTile';
 
 const RadiumLink = Radium(Link);
 
 const itemStyles = {
   container: {
-    border: `1px solid ${colors.whiteThree}`,
     backgroundColor: colors.white,
     display: 'block',
-    padding: '1.25em',
-    textDecoration: 'none',
-    ':hover': {
-      filter: 'brightness(1.1)'
-    }
+    textDecoration: 'none'
+  },
+  image: {
+    width: '100%',
+    paddingBottom: '100%',
+    backgroundSize: 'contain',
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat'
   },
   name: {
     ...makeTextStyle(fontWeights.medium, '0.875em'),
     color: colors.slateGray,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    paddingLeft: '1.1428em',
+    paddingTop: '1.1428em',
+    paddingRight: '1.1428em'
   },
-  image: {
-    marginTop: '1.25em',
-    width: '100%',
-    paddingBottom: '100%',
-    backgroundSize: 'contain',
-    backgroundPosition: 'center center',
-    backgroundRepeat: 'no-repeat'
+  price: {
+    ...makeTextStyle(fontWeights.bold, '0.875em'),
+    color: colors.dark,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    paddingTop: '0.1875em',
+    paddingLeft: '1.1428em',
+    paddingBottom: '1.1428em',
+    paddingRight: '1.1428em'
   }
 };
 @localized
@@ -62,12 +71,13 @@ class WishlistProduct extends Component {
   render () {
     const { item, style } = this.props;
     return (
-      <div style={style}>
+      <BaseTile style={style}>
         <RadiumLink style={itemStyles.container} to={`/product/${slugify(item.get('name'))}/${item.get('id')}`}>
-          <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? 'none' : item.getIn([ 'image', 'url' ]) })` }}></div>
+          <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
+          <p style={itemStyles.price}><Money amount={item.get('priceAmount')} currency={item.get('priceCurrency')} /></p>
         </RadiumLink>
-      </div>
+      </BaseTile>
     );
   }
 }
@@ -78,9 +88,9 @@ const styles = {
     color: colors.slateGray
   },
   title: {
-    ...makeTextStyle(fontWeights.light, '1.75em'),
+    ...makeTextStyle(fontWeights.light, '1.4375em', '0.02174em'),
     color: colors.dark,
-    paddingBottom: '1.143em'
+    paddingBottom: '1.30435em'
   }
 };
 @localized
@@ -90,6 +100,9 @@ const styles = {
 export default class WishlistProducts extends Component {
   static propTypes = {
     fetchProductsOfWishlist: PropTypes.func.isRequired,
+    params: PropTypes.shape({
+      wishlistId: PropTypes.string.isRequired
+    }),
     productsOfWishlist: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.list,
@@ -110,9 +123,10 @@ export default class WishlistProducts extends Component {
     } else if (productsOfWishlist.get('_status') === LOADED || productsOfWishlist.get('_status') === UPDATING) {
       if (productsOfWishlist.get('data').size > 0) {
         return (
-          <div>
+          <div style={styles.content}>
             <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
-            <VerticalTiles horizontalSpacing={10} items={productsOfWishlist.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<WishlistProduct />} verticalSpacing={60} />
+            <VerticalTiles aspectRatio={1.38876} horizontalSpacing={30} items={productsOfWishlist.get('data')} numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }} tile={<WishlistProduct />}
+              verticalSpacing={30} />
           </div>
         );
       }

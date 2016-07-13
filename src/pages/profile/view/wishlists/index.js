@@ -12,6 +12,7 @@ import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import Spinner from '../../../_common/spinner';
 import { bindActionCreators } from 'redux';
 import localized from '../../../_common/localized';
+import BaseTile from '../../../_common/tiles/_baseTile';
 
 const RadiumLink = Radium(Link);
 
@@ -19,29 +20,31 @@ const placeholderLargeImage = require('./placeholderLarge.png');
 
 const itemStyles = {
   container: {
-    border: `1px solid ${colors.whiteThree}`,
     backgroundColor: colors.white,
     display: 'block',
-    padding: '1.25em',
-    textDecoration: 'none',
-    ':hover': {
-      filter: 'brightness(1.05)'
-    }
+    paddingBottom: '0.5em',
+    paddingLeft: '0.5em',
+    paddingRight: '0.5em',
+    textDecoration: 'none'
   },
   name: {
-    ...makeTextStyle(fontWeights.medium, '0.875em'),
-    color: colors.slateGray,
+    ...makeTextStyle(fontWeights.medium, '0.875em', '0.01875em'),
+    color: colors.cool,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    paddingTop: '0.7em',
+    paddingBottom: '0.7em',
+    paddingLeft: '0.5em'
   },
   image: {
-    marginTop: '1.25em',
     width: '100%',
     paddingBottom: '100%',
+    borderRadius: '0.125em',
     backgroundSize: 'contain',
     backgroundPosition: 'center center',
-    backgroundRepeat: 'no-repeat'
+    backgroundRepeat: 'no-repeat',
+    border: '1px solid rgba(34, 31, 38, 0.05)'
   }
 };
 @localized
@@ -63,12 +66,12 @@ class Wishlist extends Component {
   render () {
     const { baseUrl, item, style, t } = this.props;
     return (
-      <div style={style}>
+      <BaseTile style={style}>
         <RadiumLink style={itemStyles.container} title={item.get('name') || t('profile.wishlists.unnamedWishlist')} to={`${baseUrl}/${slugify(item.get('name')) || 'wishlist'}/${item.get('id')}`}>
           <p style={itemStyles.name}>{item.get('name') || t('profile.wishlists.unnamedWishlist')}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? placeholderLargeImage : item.getIn([ 'image', 'url' ]) })` }}></div>
         </RadiumLink>
-      </div>
+      </BaseTile>
     );
   }
 }
@@ -108,7 +111,8 @@ export default class Wishlists extends Component {
       return (<Spinner />);
     } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
       if (wishlists.get('data').size > 0) {
-        return (<Tiles horizontalSpacing={10} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />} verticalSpacing={60} />);
+        return (<Tiles aspectRatio={1.1333866} horizontalSpacing={30} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />}
+          verticalSpacing={30} />);
       }
       return (<p style={styles.emptyText}>{t('profile.wishlists.empty')}}</p>);
     }
