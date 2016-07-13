@@ -68,7 +68,7 @@ export default class RecentlyAdded extends Component {
         <Container>
           <div style={styles.overlay}></div>
           <div style={styles.innerWrapper}>
-            <Title style={styles.title}>X-files</Title>
+            <Title style={styles.title}>The X-files</Title>
             <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
             <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.recentlyAdded.browseButton')}</Button>
             <SectionTitle style={styles.subtitle}>{t('home.recentlyAdded.title')}</SectionTitle>

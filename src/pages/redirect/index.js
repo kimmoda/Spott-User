@@ -1,23 +1,42 @@
+import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import localized from '../_common/localized';
-
+import { mediaQueries } from '../_common/buildingBlocks';
+import DownloadAppButtons, { androidUrl, iosUrl, isIos, isAndroid } from '../_common/downloadAppButtons';
 const rippleGifImage = require('./ripple.gif');
-const googlePlayImage = require('./googlePlay.svg');
-const appStoreImage = require('./appStore.svg');
-require('./redirect.scss');
 
-const iosUrl = 'https://itunes.apple.com/be/app/spott-screen-just-became-your/id1047568044?mt=8';
-const androidUrl = 'https://play.google.com/store/apps/details?id=mobi.appiness.spott';
-
-function isIos () {
-  return window.navigator.userAgent.match(/iPad/i) || window.navigator.userAgent.match(/iPhone/i) || window.navigator.userAgent.match(/iPod/i);
-}
-
-function isAndroid () {
-  return window.navigator.userAgent.match(/Android/i);
-}
-
+const styles = {
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    // Compensate footer
+    bottom: '6.3em',
+    // Compensate header
+    top: '4.78125em',
+    [mediaQueries.small]: {
+      bottom: '6em'
+    },
+    [mediaQueries.medium]: {
+      bottom: '3em'
+    },
+    [mediaQueries.large]: {
+      top: '5.55469em'
+    }
+  },
+  container: {
+    textAlign: 'center'
+  },
+  ripple: {
+    width: '9.375em',
+    paddingBottom: '2em'
+  }
+};
 @localized
+@Radium
 class Redirect extends Component {
 
   static propTypes = {
@@ -35,20 +54,15 @@ class Redirect extends Component {
   render () {
     const { t } = this.props;
     return (
-      <div className='container'>
-        <section className='redirect'>
-            <div className='wrapper wrapper--small'>
-              <img heigth='150' src={rippleGifImage} width='150'/>
-              {(isIos() || isAndroid()) &&
-                <p id='para__redirect'>{t('redirect.redirecting')}</p>}
-            </div>
+      <section style={styles.wrapper}>
+        <div style={styles.container}>
+          <img src={rippleGifImage} style={styles.ripple}/>
+          {(isIos() || isAndroid()) &&
+            <p>{t('redirect.redirecting')}</p>}
           {!isIos() && !isAndroid() &&
-            <div className='badge_container'>
-              <a className='redirect__linktostore' href={androidUrl}><img src={googlePlayImage} /></a>
-              <a className='redirect__linktostore' href={iosUrl}><img src={appStoreImage} /></a>
-            </div>}
-        </section>
-      </div>
+            <DownloadAppButtons />}
+        </div>
+      </section>
     );
   }
 

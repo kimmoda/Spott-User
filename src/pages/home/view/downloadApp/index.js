@@ -6,6 +6,7 @@ import { colors, mediaQueries, Button, UpperCaseSubtitle, SectionTitle, Title, C
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../../_common/localized';
+import DownloadAppButtons, { iosUrl, isIos, androidUrl, isAndroid } from '../../../_common/downloadAppButtons';
 
 const spottImage = require('./images/spott.jpg');
 const deviceImage = require('./images/device.png');
@@ -20,14 +21,7 @@ export default class DownloadApp extends Component {
 
   static styles = {
     button: {
-      marginBottom: '21em',
-      position: 'relative',
-      [mediaQueries.small]: {
-        marginBottom: '28em'
-      },
-      [mediaQueries.medium]: {
-        marginBottom: '16.262em'
-      }
+      position: 'relative'
     },
     wrapper: {
       backgroundColor: colors.white,
@@ -37,6 +31,7 @@ export default class DownloadApp extends Component {
       position: 'relative',
       textAlign: 'center',
       [mediaQueries.medium]: {
+        paddingBottom: '11em',
         textAlign: 'left'
       }
     },
@@ -63,24 +58,27 @@ export default class DownloadApp extends Component {
       position: 'relative'
     },
     deviceWrapper: {
-      position: 'absolute',
+      display: 'block',
       height: 'auto',
       // right: 0,
-      width: '50%',
-      bottom: 0,
-      left: 0,
-      right: 0,
+      width: '70%',
       marginLeft: 'auto',
       marginRight: 'auto',
+      position: 'relative',
+      paddingTop: '1.875em',
       [mediaQueries.small]: {
         width: '60%',
         maxWidth: 360
       },
       [mediaQueries.medium]: {
+        paddingTop: 0,
+        position: 'absolute',
         width: '60%',
         marginLeft: 'inherit',
         marginRight: 'inherit',
-        left: 'inherit'
+        left: 'inherit',
+        right: 0,
+        bottom: 0
       },
       [mediaQueries.large]: {
         width: '40%',
@@ -101,14 +99,23 @@ export default class DownloadApp extends Component {
         <Container>
           <div style={styles.overlay}></div>
           <div style={styles.phone}></div>
-          <div style={styles.deviceWrapper}>
-            <img src={deviceImage} style={styles.device} />
-          </div>
           <div style={styles.innerWrapper}>
             <Title style={styles.title}>{t('home.downloadApp.title')}</Title>
             <SectionTitle style={styles.subtitle}>{t('home.downloadApp.subtitle')}</SectionTitle>
             <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.downloadApp.availability')}</UpperCaseSubtitle>
-            <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.downloadApp.downloadButton')}</Button>
+            {(() => {
+              // IOS or Android?
+              if (isIos()) {
+                return <Button href={iosUrl} style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.downloadApp.downloadButton')}</Button>;
+              } else if (isAndroid()) {
+                return <Button href={androidUrl} style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.downloadApp.downloadButton')}</Button>;
+              }
+              // Non-mobile
+              return <DownloadAppButtons style={styles.button} />;
+            })()}
+          </div>
+          <div style={styles.deviceWrapper}>
+            <img src={deviceImage} style={styles.device} />
           </div>
         </Container>
       </div>
