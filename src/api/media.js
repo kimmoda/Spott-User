@@ -1,9 +1,12 @@
 import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
 import { transformSeries, transformSeason, transformEpisode } from './transformers';
+import recentlyAddedMediaMock from './mock/recentlyAddedMedia';
 
 export async function getRecentlyAdded (baseUrl, authenticationToken) {
-  return await Promise.resolve([ 'a', 'b', 'c' ]);
+  return await Promise.resolve(recentlyAddedMediaMock);
 }
+
+/*
 
 /**
  * GET /media/series/:seriesId
@@ -21,7 +24,7 @@ export async function getRecentlyAdded (baseUrl, authenticationToken) {
  * @throws NotFoundError
  * @throws UnauthorizedError
  * @throws UnexpectedError
- */
+ *
 export async function getSeries (baseUrl, authenticationToken, { seriesId }) {
   try {
     const { body } = await get(authenticationToken, `${baseUrl}/v003/media/series/${seriesId}`);
@@ -66,3 +69,4 @@ export async function getEpisodes (baseUrl, authenticationToken, { seasonId }) {
     throw new UnexpectedError(error);
   }
 }
+*/

@@ -9,7 +9,7 @@ export const mediaEntitiesSelector = (state) => state.getIn([ 'data', 'entities'
 // NONE
 
 // List selectors
-export const recentlyAddedMediaListSelector = (state) => state.getIn([ 'data', 'list', 'recentlyAddedMedia' ]);
+export const recentlyAddedMediaListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedMedia' ]);
 
 /**
  * Utility selector factory for accessing related id's.
@@ -51,6 +51,20 @@ export function createEntitiesByRelationSelector (relationSelector, relationEntr
   return createSelector(entitiesByIdSelector, createEntityIdsByRelationSelector(relationSelector, relationEntryKeySelector), (entitiesById, relation) => {
     // Good, we have a relation. Map over its data (a list of id's, if already there) and substitute by the entities.
     return relation.set('data', relation.get('data').map((id) => entitiesById.get(id)));
+  });
+}
+
+export function createEntitiesByListSelector (listSelector, entitiesByIdSelector) {
+  return createSelector(entitiesByIdSelector, listSelector, (entitiesById, list) => {
+    // If we did not have a list container, no fetching has started yet.
+    if (!list) {
+      return Map({ _status: LAZY, data: List() });
+    }
+    // Good, we have a list container. Ensure we always have a list in 'data', then
+    // resolve each item in the underlying 'data' list.
+    return list.set('data', (list.get('data') || List()).map((id) => {
+      return entitiesById.get(id);
+    }));
   });
 }
 

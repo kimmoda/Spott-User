@@ -1,26 +1,11 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fromJS } from 'immutable';
 import { fontWeights, makeTextStyle, Tiles } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from '../_baseTile';
 
-const dummySeries = fromJS([ {
-  image: require('./images/modern-family.jpg'),
-  name: 'Modern family'
-}, {
-  image: require('./images/new-girl.jpg'),
-  name: 'New girl'
-}, {
-  image: require('./images/orange-is-the-new-black.jpg'),
-  name: 'Orange is the new black'
-}, {
-  image: require('./images/kardashians.jpg'),
-  name: 'Kardasians'
-} ]);
-
 @Radium
-export class SeriesTile extends Component {
+export class TopLevelMediumTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
@@ -83,7 +68,7 @@ export class SeriesTile extends Component {
 }
 
 @Radium
-export default class SeriesTiles extends Component {
+export default class TopLevelMediumTiles extends Component {
 
   static propTypes = {
     items: ImmutablePropTypes.list,
@@ -101,10 +86,10 @@ export default class SeriesTiles extends Component {
     return (
       <Tiles
         horizontalSpacing={0.938}
-        items={items || dummySeries}
+        items={items}
         numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
         style={[ styles.tiles, style ]}
-        tileRenderer={(instanceProps) => <SeriesTile {...instanceProps} />}
+        tileRenderer={(instanceProps) => <TopLevelMediumTile {...instanceProps} />}
         verticalSpacing={0} />
     );
   }

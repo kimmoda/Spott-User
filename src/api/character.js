@@ -1,3 +1,5 @@
+/* TODO: currently out of scope
+
 import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
 import { transformCharacter } from './transformers';
 
@@ -15,3 +17,4 @@ export async function getMediumCharacters (baseUrl, authenticationToken, { mediu
     throw new UnexpectedError(error);
   }
 }
+*/
