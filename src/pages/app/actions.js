@@ -1,4 +1,4 @@
-import * as api from '../../data/api/configuration';
+import * as api from '../../api/configuration';
 import { apiBaseUrlSelector } from './selector';
 
 export const CONFIGURE = 'CONFIGURE';
@@ -33,27 +33,7 @@ export function doLoginFacebook ({ facebookAccessToken }) {
     const baseUrl = apiBaseUrlSelector(getState());
     dispatch({ type: LOGIN_REQUEST });
     try {
-      const {
-        body: {
-          authenticationToken,
-          user: {
-            profile: { avatar: profileAvatar, email: profileEmail, firstName, lastName },
-            userName,
-            uuid
-          }
-        }
-      } = await api.loginFacebook(baseUrl, { facebookAccessToken });
-      const data = {
-        authenticationToken,
-        user: {
-          avatar: profileAvatar ? { id: profileAvatar.uuid, url: profileAvatar.url } : null,
-          email: profileEmail,
-          firstname: firstName,
-          id: uuid,
-          lastname: lastName,
-          username: userName
-        }
-      };
+      const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
       dispatch({ data, type: LOGIN_SUCCESS });
       if (localStorage) {
         localStorage.setItem('session', JSON.stringify(data));

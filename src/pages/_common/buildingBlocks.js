@@ -274,7 +274,7 @@ export class Tiles extends Component {
     // Return render result
     return (
       <div style={[ containerStyle, tilesStyle ]}>
-        {items.map((item, i) => tileRenderer({ style, key: i, item }))}
+        {(items || []).map((item, i) => tileRenderer({ style, key: i, item }))}
       </div>
     );
   }

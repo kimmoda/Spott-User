@@ -217,7 +217,7 @@ export default class ProductsFromMediumTiles extends Component {
       <Tiles
         horizontalSpacing={0.938}
         items={items || dummyScenes}
-        numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
+        numColumns={{ extraSmall: 1, small: 1, medium: 2, large: 3, extraLarge: 4 }}
         style={[ styles.tiles, style ]}
         tileRenderer={(instanceProps) => <ProductsFromMediumTile {...instanceProps} />}
         verticalSpacing={0} />
