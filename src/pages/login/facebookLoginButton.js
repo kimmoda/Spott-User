@@ -3,20 +3,26 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../app/actions';
+import { facebookAppIdSelector } from '../app/selector';
 import localized from '../_common/localized';
 
 @localized
+@connect((state) => ({
+  facebookAppId: facebookAppIdSelector(state)
+}))
 class FacebookLoginButton extends Component {
 
   static propTypes = {
+    facebookAppId: PropTypes.string.isRequired,
     loginFacebook: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired
   }
 
   componentDidMount () {
+    const { facebookAppId } = this.props;
     window.fbAsyncInit = () => {
       FB.init({
-        appId: 418487828343937,
+        appId: facebookAppId,
         cookie: true,
         xfbml: true,
         version: 'v2.6'
