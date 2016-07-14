@@ -4,7 +4,7 @@ ExtendedStatus On
 # Disable TRACE requests
 TraceEnable off
 
-# Listen on port 8080 (iptables natting fowards traffic on port 80 to port 8080, this is default EC2 behaviour)      
+# Listen on port 8080 (iptables natting fowards traffic on port 80 to port 8080, this is default EC2 behaviour)
 Listen 8080
 
 # Website virtual host
@@ -12,7 +12,7 @@ Listen 8080
 
   # Selective deflate
   AddOutputFilterByType DEFLATE text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript
-  
+
   # Static document root
   DocumentRoot /var/www/website
 
@@ -20,16 +20,16 @@ Listen 8080
   RewriteEngine On
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI}
-  
+
   # Bots go to the headless browser
-  RewriteCond %{HTTP_USER_AGENT} "googlebot|google.com|bingbot|bing.com|yandexbot|yandex.com|yahooseeker|yahoo.com|slurp|feedfetcher|blekkobot|crawler" [NC]
+  RewriteCond %{HTTP_USER_AGENT} "googlebot|google.com|bingbot|bing.com|yandexbot|yandex.com|yahooseeker|yahoo.com|slurp|feedfetcher|blekkobot|crawler|^facebookexternalhit.*$|Facebot" [NC]
   RewriteRule /(.*) http://localhost:4000/$1 [P]
   ProxyPassReverse / http://localhost:4000
   ProxyPreserveHost on
-  
+
   # Error handling
   ErrorDocument 404 /index.html
- 
+
   # Logging
   LogFormat "%h (%{X-Forwarded-For}i) %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\""
   ErrorLog /var/log/httpd/website_error_log
