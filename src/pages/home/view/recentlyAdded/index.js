@@ -60,7 +60,8 @@ export default class RecentlyAdded extends Component {
       marginBottom: '0.17em'
     },
     subtitle: {
-      color: 'white'
+      color: 'white',
+      marginBottom: 0
     },
     upperCaseSubtitle: {
       color: 'white',
@@ -68,7 +69,7 @@ export default class RecentlyAdded extends Component {
     },
     tiles: {
       marginTop: '-3em',
-      transform: 'translateY(3em)'
+      transform: 'translateY(3.8em)'
     },
     innerWrapper: {
       position: 'relative'

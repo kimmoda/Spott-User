@@ -12,7 +12,7 @@ export default class Home extends Component {
 
   render () {
     return (
-      <div style={{ fontSize: '16px' }}>
+      <div style={{ fontSize: '16px', backgroundColor: 'white' }}>
         {/* <Search /> */}
         <RecentlyAdded />
         {/* <NewScenesForYou /> */}

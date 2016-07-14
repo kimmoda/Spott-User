@@ -87,7 +87,7 @@ export default class TopLevelMediumTiles extends Component {
       <Tiles
         horizontalSpacing={0.938}
         items={items}
-        numColumns={{ small: 1, medium: 2, large: 3, extraLarge: 4 }}
+        numColumns={{ extraSmall: 1, small: 1, medium: 2, large: 3, extraLarge: 4 }}
         style={[ styles.tiles, style ]}
         tileRenderer={(instanceProps) => <TopLevelMediumTile {...instanceProps} />}
         verticalSpacing={0} />
