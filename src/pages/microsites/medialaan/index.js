@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import MedialaanNavbar from './medialaanNavbar';
 import Channels from './channels';
 import $ from 'jquery';
-import { cmsApiBaseUrlSelector } from '../app/selector';
-import { androidUrl, iosUrl, androidImage, iosImage } from '../_common/downloadAppButtons';
+import { cmsApiBaseUrlSelector } from '../../app/selector';
+import { androidUrl, iosUrl, androidImage, iosImage } from '../../_common/downloadAppButtons';
 
 const heroImage = require('./hero.jpg');
 const deviceImage = require('./device.png');

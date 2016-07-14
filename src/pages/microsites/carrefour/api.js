@@ -1,4 +1,4 @@
-import * as request from '../../api/request';
+import * as request from '../../../api/request';
 
 export async function submit (baseUrl, { email }) {
   return await request.post(null, `${baseUrl}/v003/system/mail`, {

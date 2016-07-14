@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Link, withRouter } from 'react-router';
 import * as actions from '../../actions';
 import commonStyles from './commonStyles';
-import { authenticationTokenSelector } from '../../../app/selector';
+import { authenticationTokenSelector } from '../../../../app/selector';
 const step2styles = {
   title: {
     fontFamily: 'Roboto-Bold',

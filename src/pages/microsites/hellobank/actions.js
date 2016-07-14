@@ -1,6 +1,6 @@
-import { authenticationTokenSelector, apiBaseUrlSelector, currentUserFirstnameSelector } from '../app/selector';
+import { authenticationTokenSelector, apiBaseUrlSelector, currentUserFirstnameSelector } from '../../app/selector';
 import * as api from './api';
-import { doLogin } from '../app/actions';
+import { doLogin } from '../../app/actions';
 
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';

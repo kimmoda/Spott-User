@@ -1,4 +1,4 @@
-import * as request from '../../api/request';
+import * as request from '../../../api/request';
 
 export async function postHellobankAnswer (baseUrl, authenticationToken, { birthdate, productCount }) {
   return await request.post(authenticationToken, `${baseUrl}/v003/user/form`, {

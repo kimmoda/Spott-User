@@ -1,7 +1,7 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { submit as apiSubmit } from '../api';
-import { apiBaseUrlSelector } from '../../app/selector';
+import { apiBaseUrlSelector } from '../../../app/selector';
 
 // Header
 // //////
