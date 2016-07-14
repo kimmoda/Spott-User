@@ -29,7 +29,8 @@ const configuration = {
   output: {
     chunkFilename: '[name]-[chunkhash].js',
     filename: '[name]-[chunkhash].js',
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/'
   },
   plugins: [
     // Define constants used throughout the codebase
