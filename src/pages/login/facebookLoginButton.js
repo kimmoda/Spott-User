@@ -3,11 +3,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../app/actions';
+import localized from '../_common/localized';
 
+@localized
 class FacebookLoginButton extends Component {
 
   static propTypes = {
-    loginFacebook: PropTypes.func.isRequired
+    loginFacebook: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -67,9 +70,10 @@ class FacebookLoginButton extends Component {
   }
 
   render () {
-    const styles = this.constructor.styles;
+    const { styles } = this.constructor;
+    const { t } = this.props;
     return (
-      <button style={styles.facebookButton} type='button' onClick={::this.handleClick}>Log in with Facebook</button>
+      <button style={styles.facebookButton} type='button' onClick={::this.handleClick}>{t('login.logInWithFacebookButton')}</button>
     );
   }
 

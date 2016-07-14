@@ -2,14 +2,17 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
-import Tiles from '../../../_common/tiles';
+import Tiles from '../../../_common/verticalTiles';
 import { wishlistsOfCurrentUserSelector } from '../../selector';
 import { fetchWishlistsOfUser } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 import { slugify } from '../../../../utils';
-import { FETCHING, LOADED, UPDATING } from '../../../../statusTypes';
+import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import Spinner from '../../../_common/spinner';
+import { bindActionCreators } from 'redux';
+import localized from '../../../_common/localized';
+import BaseTile from '../../../_common/tiles/_baseTile';
 
 const RadiumLink = Radium(Link);
 
@@ -17,31 +20,34 @@ const placeholderLargeImage = require('./placeholderLarge.png');
 
 const itemStyles = {
   container: {
-    border: `1px solid ${colors.whiteThree}`,
     backgroundColor: colors.white,
     display: 'block',
-    padding: '1.25em',
-    textDecoration: 'none',
-    ':hover': {
-      filter: 'brightness(1.05)'
-    }
+    paddingBottom: '0.5em',
+    paddingLeft: '0.5em',
+    paddingRight: '0.5em',
+    textDecoration: 'none'
   },
   name: {
-    ...makeTextStyle(fontWeights.medium, '0.875em'),
-    color: colors.slateGray,
+    ...makeTextStyle(fontWeights.medium, '0.875em', '0.01875em'),
+    color: colors.cool,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    paddingTop: '0.7em',
+    paddingBottom: '0.7em',
+    paddingLeft: '0.5em'
   },
   image: {
-    marginTop: '1.25em',
     width: '100%',
     paddingBottom: '100%',
+    borderRadius: '0.125em',
     backgroundSize: 'contain',
     backgroundPosition: 'center center',
-    backgroundRepeat: 'no-repeat'
+    backgroundRepeat: 'no-repeat',
+    border: '1px solid rgba(34, 31, 38, 0.05)'
   }
 };
+@localized
 class Wishlist extends Component {
   static propTypes = {
     baseUrl: PropTypes.string.isRequired,
@@ -53,18 +59,19 @@ class Wishlist extends Component {
       name: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired
     }),
-    style: PropTypes.object
+    style: PropTypes.object,
+    t: PropTypes.func.isRequired
   }
 
   render () {
-    const { baseUrl, item, style } = this.props;
+    const { baseUrl, item, style, t } = this.props;
     return (
-      <div style={style}>
-        <RadiumLink style={itemStyles.container} title={item.get('name') || 'Wishlist'} to={`${baseUrl}/${slugify(item.get('name')) || 'wishlist'}/${item.get('id')}`}>
-          <p style={itemStyles.name}>{item.get('name') || 'Wishlist'}</p>
+      <BaseTile style={style}>
+        <RadiumLink style={itemStyles.container} title={item.get('name') || t('profile.wishlists.unnamedWishlist')} to={`${baseUrl}/${slugify(item.get('name')) || 'wishlist'}/${item.get('id')}`}>
+          <p style={itemStyles.name}>{item.get('name') || t('profile.wishlists.unnamedWishlist')}</p>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? placeholderLargeImage : item.getIn([ 'image', 'url' ]) })` }}></div>
         </RadiumLink>
-      </div>
+      </BaseTile>
     );
   }
 }
@@ -75,33 +82,39 @@ const styles = {
     color: colors.slateGray
   }
 };
-@connect(wishlistsOfCurrentUserSelector)
+@localized
+@connect(wishlistsOfCurrentUserSelector, (dispatch) => ({
+  fetchWishlistsOfUser: bindActionCreators(fetchWishlistsOfUser, dispatch)
+}))
 export default class Wishlists extends Component {
   static propTypes = {
+    fetchWishlistsOfUser: PropTypes.func.isRequired,
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired,
       userSlug: PropTypes.string.isRequired
     }).isRequired,
+    t: PropTypes.func.isRequired,
     wishlists: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.list
     })
   };
 
-  static needs (props, store) {
-    // (Re)fetch the profile.
-    return store.dispatch(fetchWishlistsOfUser(props.params.userId));
+  componentWillMount () {
+    // (Re)fetch the wishlists.
+    this.props.fetchWishlistsOfUser(this.props.params.userId);
   }
 
   render () {
-    const { params: { userId, userSlug }, wishlists } = this.props;
+    const { params: { userId, userSlug }, t, wishlists } = this.props;
     if (wishlists.get('_status') === FETCHING) {
       return (<Spinner />);
     } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
       if (wishlists.get('data').size > 0) {
-        return (<Tiles horizontalSpacing={10} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />} verticalSpacing={60} />);
+        return (<Tiles aspectRatio={1.1333866} horizontalSpacing={30} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />}
+          verticalSpacing={30} />);
       }
-      return (<p style={styles.emptyText}>You have no wishlists yet.</p>);
+      return (<p style={styles.emptyText}>{t('profile.wishlists.empty')}}</p>);
     }
     return (<div></div>);
   }

@@ -7,9 +7,8 @@ import FacebookLoginButton from './facebookLoginButton';
 import * as actions from '../app/actions';
 import { authenticationErrorSelector, authenticationIsLoadingSelector }
   from '../app/selector';
-import { Page } from '../_common/buildingBlocks';
-import Footer from '../_common/footer';
 import { push as routerPush } from 'react-router-redux';
+import localized from '../_common/localized';
 
 const dialogStyle = {
   overlay: {
@@ -32,12 +31,14 @@ const dialogStyle = {
   }
 };
 
+@localized
 class Form extends Component {
 
   static propTypes = {
     error: PropTypes.any,
     isLoading: PropTypes.bool,
     submit: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
   }
 
@@ -97,21 +98,22 @@ class Form extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { error, isLoading } = this.props;
+    const { error, isLoading, t } = this.props;
     return (
       <form onSubmit={this.onSubmit}>
         <div style={styles.line}>&nbsp;</div>
-        <input autoFocus disabled={isLoading} name='email' placeholder='Your E-mail' ref={(c) => { this._email = c; }}
+        <input autoFocus disabled={isLoading} name='email' placeholder={t('login.email')} ref={(c) => { this._email = c; }}
           style={styles.textInput} type='text' />
-        <input disabled={isLoading} name='password' placeholder='Your Password' ref={(c) => { this._password = c; }}
+        <input disabled={isLoading} name='password' placeholder={t('login.password')} ref={(c) => { this._password = c; }}
           style={styles.textInput} type='password' />
         {error && <div style={styles.error}>{error}</div>}
-        <input disabled={isLoading} style={styles.button} type='submit' value='Log In'/>
+        <input disabled={isLoading} style={styles.button} type='submit' value={t('login.submitButton')}/>
       </form>
     );
   }
 }
 
+@localized
 class Login extends Component {
 
   static propTypes = {
@@ -123,7 +125,8 @@ class Login extends Component {
       })
     }).isRequired,
     routerPush: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired
+    submit: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -152,7 +155,8 @@ class Login extends Component {
   };
 
   render () {
-    const styles = this.constructor.styles;
+    const { styles } = this.constructor;
+    const { t } = this.props;
     if (this.props.location.state && this.props.location.state.modal) {
       return (
         <ReactModal
@@ -160,7 +164,7 @@ class Login extends Component {
           style={dialogStyle}
           onRequestClose={this.onClose}>
           <section style={styles.container}>
-            <h2 style={styles.title}>Log In</h2>
+            <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton />
             <Form {...this.props} onClose={this.onClose} />
           </section>
@@ -169,14 +173,13 @@ class Login extends Component {
     }
     return (
       <div>
-        <Page currentPathname={this.props.location.pathname}>
+        <div currentPathname={this.props.location.pathname}>
           <section style={styles.container}>
-            <h2 style={styles.title}>Log In</h2>
+            <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton />
             <Form {...this.props} type='button' />
           </section>
-        </Page>
-        <Footer />
+        </div>
       </div>
     );
   }

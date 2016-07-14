@@ -1,0 +1,113 @@
+{
+  "_common": {
+    "episodeTiles": {
+      "episode": "Season %(season)i – Episode %(episode)i"
+    },
+    "footer": {
+      "copyright": "Copyright © 2015–2016 Spott Ltd.",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "language": "Use Spott in [[]]"
+    },
+    "header": {
+      "login": "Sign In",
+      "logout": "Log Out",
+      "home": "Home"
+    },
+    "sceneTiles": {
+      "sceneFrom": "Scene from Season [[%(season)i]] – Episode [[%(episode)i]]"
+    }
+  },
+  "changePassword": {
+    "successMessage": "Your password has been changed!",
+    "errorMessage": "We encountered an error while trying to change your password :(",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "title": "Change your Spott password",
+    "passwordLengthError": "This password isn't long enough!",
+    "passwordMatchError": "Passwords don't match!",
+    "submitButton": "Change Password"
+  },
+  "confirmedNewsletter": {
+    "enjoy": "Enjoy using Spott,",
+    "spottTeam": "the Spott team",
+    "thankYou": "Thank you for registering to the Spott newsletter! [[click here]] for getting started, and downloading Spott onto your mobile.",
+    "title": "Hurray!"
+  },
+  "error404": {
+    "pageDoesNotExist": "The page you requested doesn't exist.",
+    "returnToSpott": "Return to Spott.it",
+    "somethingWentWrong": "Something went wrong!",
+    "title": "Whoops!"
+  },
+  "home": {
+    "downloadApp": {
+      "title": "Explore while you watch",
+      "subtitle": "Live on your mobile device",
+      "availability": "Available for iOS & Android",
+      "downloadButton": "Download"
+    },
+    "newEpisodes": {
+      "title": "New Episodes"
+    },
+    "newScenesForYou": {
+      "title": "New Scenes for You"
+    },
+    "popularNearYou": {
+      "title": "Popular Near You"
+    },
+    "recentlyAdded": {
+      "browseButton": "Browse",
+      "highlight": "Now available on Spott",
+      "title": "Recently added"
+    },
+    "recentlyAddedToWishlist": {
+      "title": "Recently Added to Wishlist"
+    },
+    "search": {
+      "info": "Spott allows you to find products in the things you watch",
+      "placeholder": "Search for movies, series, characters or brands",
+      "title": "Television is now your favourite shop"
+    },
+    "topSellingProducts": {
+      "title": "Top Selling Products"
+    }
+  },
+  "redirect": {
+    "redirecting": "Redirecting..."
+  },
+  "login": {
+    "title": "Log In",
+    "email": "Your Email",
+    "password": "Your Password",
+    "logInWithFacebookButton": "Log in with Facebook",
+    "submitButton": "Log in"
+  },
+  "productDetail": {
+    "buyNow": "Buy Now"
+  },
+  "profile": {
+    "header": {
+      "followers": {
+        "zero":  "Followers [[0]]",
+        "one":   "Followers [[1]]",
+        "other": "Followers [[%(count)s]]"
+      },
+      "following": {
+        "zero":  "Following [[0]] ",
+        "one":   "Following [[1]]",
+        "other": "Following [[%(count)s]]"
+      }
+    },
+    "menu": {
+      "wishlists": "Wishlists"
+    },
+    "wishlists": {
+      "empty": "You have no wishlists yet.",
+      "unnamedWishlist": "Wishlist"
+    },
+    "wishlistProducts": {
+      "empty": "This wishlist is empty."
+    }
+  }
+}
