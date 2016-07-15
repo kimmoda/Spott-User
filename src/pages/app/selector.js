@@ -1,6 +1,7 @@
 export const apiBaseUrlSelector = (state) => state.getIn([ 'app', 'configuration', 'urls', 'api' ]);
 export const cmsApiBaseUrlSelector = (state) => state.getIn([ 'app', 'configuration', 'urls', 'cmsApi' ]);
 export const currentLocaleSelector = (state) => state.getIn([ 'app', 'configuration', 'currentLocale' ]);
+export const facebookAppIdSelector = (state) => state.getIn([ 'app', 'configuration', 'facebookAppId' ]);
 
 export const authenticationTokenSelector = (state) => state.getIn([ 'app', 'authentication', 'authenticationToken' ]);
 export const authenticationErrorSelector = (state) => state.getIn([ 'app', 'authentication', 'error' ]);
