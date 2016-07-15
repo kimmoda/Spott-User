@@ -1,6 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle, Tiles } from '../buildingBlocks';
+import { fontWeights, makeTextStyle } from '../buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import hoverable from '../hoverable';
 import BaseTile from './_baseTile';

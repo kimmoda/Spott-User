@@ -11,6 +11,7 @@ export async function getProduct (baseUrl, authenticationToken, id) {
   const { body: { data } } = await get(null, `${baseUrl}/v003/product/products/${id}/similar`);
   return {
     description: body.description,
+    id: body.uuid,
     images: body.images ? body.images.map((image) => ({ id: image.uuid, url: image.url })) : null,
     longName: body.longName,
     shareUrl: body.shareUrl,
@@ -25,7 +26,7 @@ export async function getProduct (baseUrl, authenticationToken, id) {
       shop: offer.shop.name })) : null,
     selectedImage: body.images ? body.images[0].url : null,
     similarProducts: data.map((product) => ({
-      shortName: product.shortName,
+      name: product.shortName,
       image: product.image ? product.image.url : null,
       price: { currency: product.price.currency, amount: product.price.amount },
       id: product.uuid }

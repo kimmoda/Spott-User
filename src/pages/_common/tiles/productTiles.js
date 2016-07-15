@@ -1,6 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, Money } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
@@ -63,7 +63,7 @@ export class ProductTile extends Component {
           </div>
           <div style={styles.detailsContainer}>
             <div style={styles.name}>{item.get('name')}</div>
-            <div style={styles.price}>€ 120</div>
+            <div style={styles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])}/></div>
           </div>
         </div>
       </BaseTile>
@@ -73,6 +73,6 @@ export class ProductTile extends Component {
 
 export default makeTiles(
   0.938,
-  { extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 6 },
+  { extraSmall: 2, small: 3, medium: 3, large: 4, extraLarge: 5 },
   (instanceProps) => <ProductTile {...instanceProps} />
 );
