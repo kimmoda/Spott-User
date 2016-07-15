@@ -1,8 +1,9 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle, Tiles } from '../../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from '../_baseTile';
+import BaseTile from './_baseTile';
+import makeTiles from './_makeTiles';
 
 @Radium
 export class TopLevelMediumTile extends Component {
@@ -67,30 +68,8 @@ export class TopLevelMediumTile extends Component {
   }
 }
 
-@Radium
-export default class TopLevelMediumTiles extends Component {
-
-  static propTypes = {
-    items: ImmutablePropTypes.list,
-    style: PropTypes.object
-  };
-
-  static styles = {
-    tiles: {
-    }
-  }
-  render () {
-    const { styles } = this.constructor;
-    const { items, style } = this.props;
-
-    return (
-      <Tiles
-        horizontalSpacing={0.938}
-        items={items}
-        numColumns={{ extraSmall: 1, small: 1, medium: 2, large: 3, extraLarge: 4 }}
-        style={[ styles.tiles, style ]}
-        tileRenderer={(instanceProps) => <TopLevelMediumTile {...instanceProps} />}
-        verticalSpacing={0} />
-    );
-  }
-}
+export default makeTiles(
+  0.938,
+  { extraSmall: 1, small: 1, medium: 2, large: 3, extraLarge: 4 },
+  (instanceProps) => <TopLevelMediumTile {...instanceProps} />
+);

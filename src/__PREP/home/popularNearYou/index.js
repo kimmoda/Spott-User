@@ -3,6 +3,8 @@ import Radium from 'radium';
 import { colors, SectionTitle, Container } from '../../../_common/buildingBlocks';
 import PosterTiles from '../../../_common/tiles/posterTiles';
 import localized from '../../../_common/localized';
+import posters from '../../../../../api/mock/posters';
+import { fromJS } from 'immutable';
 
 @localized
 @Radium
@@ -27,7 +29,7 @@ export default class PopularNearYou extends Component {
       <div style={styles.wrapper}>
         <Container>
           <SectionTitle>{t('home.popularNearYou.title')}</SectionTitle>
-          <PosterTiles />
+          <PosterTiles items={fromJS(posters)} />
         </Container>
       </div>
     );

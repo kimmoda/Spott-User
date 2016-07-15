@@ -6,6 +6,8 @@ import { colors, SectionTitle, Container } from '../../../_common/buildingBlocks
 // import ImmutablePropTypes from 'react-immutable-proptypes';
 import ProductTiles from '../../../_common/tiles/productTiles';
 import localized from '../../../_common/localized';
+import { fromJS } from 'immutable';
+import dummyProducts from '../../../../api/mock/products';
 
 @localized
 @Radium
@@ -29,8 +31,7 @@ export default class RecentlyAddedToWishlist extends Component {
     return (
       <div style={styles.wrapper}>
         <Container>
-          <SectionTitle>{t('home.recentlyAddedToWishlist.title')}</SectionTitle>
-          <ProductTiles />
+          <ProductTiles items={fromJS(dummyProducts)} title={t('home.recentlyAddedToWishlist.title')} />
         </Container>
       </div>
     );

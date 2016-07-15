@@ -6,6 +6,8 @@ import { colors, Container, SectionTitle } from '../../../_common/buildingBlocks
 // import ImmutablePropTypes from 'react-immutable-proptypes';
 import SceneTiles from '../../../_common/tiles/sceneTiles';
 import localized from '../../../_common/localized';
+import { fromJS } from 'immutable';
+import scenes from '../../../../api/mock/scenes';
 
 @localized
 @Radium
@@ -20,6 +22,10 @@ export default class NewScenesForYou extends Component {
       backgroundColor: colors.white,
       paddingTop: '6.25em',
       paddingBottom: '3.125em'
+    },
+    list: {
+      marginLeft: '-0.938em',
+      marginRight: '-0.938em'
     }
   };
 
@@ -29,8 +35,7 @@ export default class NewScenesForYou extends Component {
     return (
       <div style={styles.wrapper}>
         <Container>
-          <SectionTitle style={styles.sectionTitle}>{t('home.newScenesForYou.title')}</SectionTitle>
-          <SceneTiles />
+          <SceneTiles items={scenes} listStyle={styles.list} title={t('home.newScenesForYou.title')} />
         </Container>
       </div>
     );

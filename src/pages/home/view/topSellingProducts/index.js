@@ -3,6 +3,8 @@ import Radium from 'radium';
 import { colors, SectionTitle, Container } from '../../../_common/buildingBlocks';
 import ProductsFromMediumTiles from '../../../_common/tiles/productsFromMediumTiles';
 import localized from '../../../_common/localized';
+import dummyTopSellingProducts from '../../../../api/mock/topSellingProducts';
+import { fromJS } from 'immutable';
 
 @localized
 @Radium
@@ -26,8 +28,7 @@ export default class TopSellingProducts extends Component {
     return (
       <div style={styles.wrapper}>
         <Container>
-          <SectionTitle>{t('home.topSellingProducts.title')}</SectionTitle>
-          <ProductsFromMediumTiles />
+          <ProductsFromMediumTiles items={fromJS(dummyTopSellingProducts)} title={t('home.topSellingProducts.title')} />
         </Container>
       </div>
     );

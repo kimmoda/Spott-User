@@ -7,6 +7,9 @@ import { fromJS } from 'immutable';
 import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, ScalableContainer, FadedTiles, SectionTitle, Title, Tiles } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
 import SmallEpisodeTiles from '../../../_common/tiles/smallEpisodeTiles';
+import dummySmallEpisodes from '../../../../api/mock/smallEpisodes';
+import dummyCharacters from '../../../../api/mock/characters';
+
 const backgroundImage = require('./images/daredevil.jpg');
 import * as actions from '../../actions';
 
@@ -34,6 +37,13 @@ export default class Hero extends Component {
     container: {
       paddingTop: '5.222em',
       position: 'relative'
+    },
+    characters: {
+      marginBottom: '1.7em',
+      marginTop: 0,
+      overflow: 'visible',
+      paddingBottom: 0,
+      paddingTop: 0
     },
     mediaType: {
       ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
@@ -121,6 +131,13 @@ export default class Hero extends Component {
       bottom: 0,
       left: 0,
       right: 0
+    },
+    smallEpisodeList: {
+      overflow: 'visible',
+      paddingTop: 0,
+      paddingBottom: 0,
+      marginBottom: 0,
+      marginTop: 0
     }
   };
 
@@ -140,7 +157,7 @@ export default class Hero extends Component {
           <Button style={[ pinkButtonStyle, styles.followButton.base, !following && styles.followButton.unactive ]} onClick={toggleFollow}>Follow</Button>
         </ScalableContainer>
         <FadedTiles>
-          <CharacterTiles />
+          <CharacterTiles items={fromJS(dummyCharacters)} style={styles.characters}/>
         </FadedTiles>
         <ScalableContainer style={styles.tabs}>
           <div>
@@ -156,7 +173,7 @@ export default class Hero extends Component {
         </ScalableContainer>
         <div style={styles.smallEpisodes}>
           <FadedTiles>
-            <SmallEpisodeTiles />
+            <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} />
           </FadedTiles>
         </div>
       </div>
