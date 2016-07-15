@@ -209,7 +209,7 @@ export default class ProductDetail extends Component {
               <div style={styles.right}>
                 <div>
                   <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
-                  <p style={styles.details.brand.label}>By&nbsp;<span style={styles.details.brand.brandName}>{product.getIn([ 'brand', 'name' ])}</span></p>
+                  <p style={styles.details.brand.label}>By&nbsp;<span>{product.getIn([ 'brand', 'name' ])}</span></p>
                   <p style={styles.details.productDescription}>{product.get('description')}</p>
                   <h2 style={styles.details.price}><Money amount={product.getIn([ 'offerings', '0', 'price', 'amount' ])} currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} /></h2>
                   <div style={styles.details.buttons.wrapper}>
