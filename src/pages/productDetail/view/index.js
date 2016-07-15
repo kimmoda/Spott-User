@@ -28,7 +28,7 @@ export default class ProductDetail extends Component {
     product: ImmutablePropTypes.mapContains({
       shortName: PropTypes.string.isRequired,
       longName: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
+      description: PropTypes.string,
       images: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
           url: PropTypes.string.isRequired,
@@ -41,9 +41,18 @@ export default class ProductDetail extends Component {
     onChangeImageSelection: PropTypes.func.isRequired
   };
 
+  constructor (props) {
+    super(props);
+    this.share = ::this.share;
+  }
+
   componentWillMount () {
     // (Re)fetch the product.
     this.props.loadProduct(this.props.params.productId);
+  }
+
+  share () {
+    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
   }
 
   static styles = {
@@ -182,7 +191,6 @@ export default class ProductDetail extends Component {
   render () {
     const { styles } = this.constructor;
     const { onChangeImageSelection, product, t } = this.props;
-    console.log(product.toJS());
     if (product.get('_status') === FETCHING) {
       return (<Spinner />);
     } else if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
@@ -210,7 +218,7 @@ export default class ProductDetail extends Component {
                 <div>
                   <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
                   <p style={styles.details.brand.label}>By&nbsp;<span>{product.getIn([ 'brand', 'name' ])}</span></p>
-                  <p style={styles.details.productDescription}>{product.get('description')}</p>
+                  {product.get('description') && <p style={styles.details.productDescription}>{product.get('description')}</p>}
                   <h2 style={styles.details.price}><Money amount={product.getIn([ 'offerings', '0', 'price', 'amount' ])} currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} /></h2>
                   <div style={styles.details.buttons.wrapper}>
                     <Button href={product.getIn([ 'offerings', '0', 'url' ])} style={pinkButtonStyle} target='_blank'>
@@ -218,7 +226,7 @@ export default class ProductDetail extends Component {
                     </Button>
                     <button
                       style={styles.details.buttons.shareButton}
-                      onClick={() => window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://spott-tst2.appiness.mobi/product/weber-gas-barbecue/3a032791-3f7b-4ceb-838e-ceb2df5ba2e5')}&title=Discover ${product.get('shortName')} now on Spott`, 'name', 'width=600,height=400')}>
+                      onClick={this.share}>
                       <svg style={styles.details.buttons.shareIcon} viewBox='-280 402.8 27.6 19.1' xmlns='http://www.w3.org/2000/svg'>
                         <path d='M-252.6 412.7l-13 9.1c-.3.2-.5.1-.5-.2v-5.8c-3.7 0-11.6-.1-14 5.2.2-11 11.2-12.5 14-12.7v-5.2c0-.3.2-.4.5-.2l13 9.1c.3.2.3.6 0 .7z'/>
                       </svg>
@@ -228,7 +236,7 @@ export default class ProductDetail extends Component {
               </div>
               <div style={styles.clear} />
               {/* TODO: Didier will provide title, description and maybe images for sharing */}
-              <FacebookShareData description={product.get('description')} imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()} title={product.get('shortName')} />
+              <FacebookShareData description={product.get('description') || ''} imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()} title={product.get('shortName')} />
             </Container>
           </div>
           <div style={styles.similarProducts}>
