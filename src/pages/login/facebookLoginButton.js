@@ -15,7 +15,8 @@ class FacebookLoginButton extends Component {
   static propTypes = {
     facebookAppId: PropTypes.string.isRequired,
     loginFacebook: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -44,8 +45,9 @@ class FacebookLoginButton extends Component {
   }
 
   fetchUser (facebookAccessToken) {
-    FB.api('/me', (response) => {
-      this.props.loginFacebook({ facebookAccessToken });
+    FB.api('/me', async (response) => {
+      await this.props.loginFacebook({ facebookAccessToken });
+      this.props.onClose();
     });
   }
 
