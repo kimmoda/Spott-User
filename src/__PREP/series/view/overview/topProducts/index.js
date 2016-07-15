@@ -5,6 +5,8 @@ import { colors, SectionTitle, ScalableContainer } from '../../../../_common/bui
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
 import ProductTiles from '../../../../_common/tiles/productTiles';
+import { fromJS } from 'immutable';
+import dummyProducts from '../../../../../api/mock/products';
 
 const seriesName = 'Deadpool';
 
@@ -27,7 +29,7 @@ export default class TopProducts extends Component {
     return (
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Top {seriesName} Products</SectionTitle>
-        <ProductTiles />
+        <ProductTiles items={fromJS(dummyProducts)} />
       </ScalableContainer>
     );
   }

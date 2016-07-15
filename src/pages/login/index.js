@@ -165,7 +165,7 @@ class Login extends Component {
           onRequestClose={this.onClose}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('login.title')}</h2>
-            <FacebookLoginButton />
+            <FacebookLoginButton onClose={this.onClose} />
             <Form {...this.props} onClose={this.onClose} />
           </section>
         </ReactModal>
@@ -176,7 +176,7 @@ class Login extends Component {
         <div currentPathname={this.props.location.pathname}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('login.title')}</h2>
-            <FacebookLoginButton />
+            <FacebookLoginButton onClose={this.onClose} />
             <Form {...this.props} type='button' />
           </section>
         </div>

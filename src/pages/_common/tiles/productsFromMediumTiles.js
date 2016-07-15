@@ -1,100 +1,8 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fromJS } from 'immutable';
-import { Tiles } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from '../_baseTile';
-
-const dummyScenes = fromJS([ {
-  image: require('./images/daredevil.jpg'),
-  logo: require('./images/daredevilLogo.png'),
-  name: 'Daredevil',
-  products: [ {
-    name: 'Backpack',
-    id: 'XYZ1',
-    image: require('./images/backpack.png')
-  }, {
-    name: 'Eames',
-    id: 'XYZ2',
-    image: require('./images/eames.png')
-
-  }, {
-    name: 'Lasagna',
-    id: 'XYZ3',
-    image: require('./images/lasagna.png')
-
-  }, {
-    name: 'Tabasco',
-    id: 'XYZ4',
-    image: require('./images/tabasco.png')
-  } ]
-}, {
-  image: require('./images/gameOfThrones.jpg'),
-  logo: require('./images/gameOfThronesLogo.png'),
-  name: 'Game of Thrones',
-  products: [ {
-    name: 'Backpack',
-    id: 'XYZ5',
-    image: require('./images/backpack.png')
-  }, {
-    name: 'Eames',
-    id: 'XYZ6',
-    image: require('./images/eames.png')
-
-  }, {
-    name: 'Lasagna',
-    id: 'XYZ7',
-    image: require('./images/lasagna.png')
-
-  }, {
-    name: 'Tabasco',
-    id: 'XYZ8',
-    image: require('./images/tabasco.png')
-  } ]
-}, {
-  image: require('./images/warcraft.jpg'),
-  logo: require('./images/warcraftLogo.png'),
-  name: 'Warcraft',
-  products: [ {
-    name: 'Backpack',
-    id: 'XYZ9',
-    image: require('./images/backpack.png')
-  }, {
-    name: 'Eames',
-    id: 'XYZ10',
-    image: require('./images/eames.png')
-
-  }, {
-    name: 'Lasagna',
-    id: 'XYZ11',
-    image: require('./images/lasagna.png')
-  }, {
-    name: 'Tabasco',
-    id: 'XYZ12',
-    image: require('./images/tabasco.png')
-  } ]
-}, {
-  image: require('./images/daredevil.jpg'),
-  logo: require('./images/daredevilLogo.png'),
-  name: 'Daredevil',
-  products: [ {
-    name: 'Backpack',
-    id: 'XYZ13',
-    image: require('./images/backpack.png')
-  }, {
-    name: 'Eames',
-    id: 'XYZ14',
-    image: require('./images/eames.png')
-  }, {
-    name: 'Lasagna',
-    id: 'XYZ15',
-    image: require('./images/lasagna.png')
-  }, {
-    name: 'Tabasco',
-    id: 'XYZ16',
-    image: require('./images/tabasco.png')
-  } ]
-} ]);
+import BaseTile from './_baseTile';
+import makeTiles from './_makeTiles';
 
 @Radium
 export class ProductsFromMediumTile extends Component {
@@ -198,29 +106,8 @@ export class ProductsFromMediumTile extends Component {
   }
 }
 
-export default class ProductsFromMediumTiles extends Component {
-
-  static propTypes = {
-    items: ImmutablePropTypes.list,
-    style: PropTypes.object
-  };
-
-  static styles = {
-    tiles: {
-    }
-  };
-
-  render () {
-    const { styles } = this.constructor;
-    const { items, style } = this.props;
-    return (
-      <Tiles
-        horizontalSpacing={0.938}
-        items={items || dummyScenes}
-        numColumns={{ extraSmall: 1, small: 1, medium: 2, large: 3, extraLarge: 4 }}
-        style={[ styles.tiles, style ]}
-        tileRenderer={(instanceProps) => <ProductsFromMediumTile {...instanceProps} />}
-        verticalSpacing={0} />
-    );
-  }
-}
+export default makeTiles(
+  0.938,
+  { extraSmall: 1, small: 1, medium: 2, large: 3, extraLarge: 4 },
+  (instanceProps) => <ProductsFromMediumTile {...instanceProps} />
+);

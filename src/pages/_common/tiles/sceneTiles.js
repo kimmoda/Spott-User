@@ -1,43 +1,11 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fromJS } from 'immutable';
-import { fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from '../_baseTile';
-import Marker from '../_marker';
-import localized from '../../localized';
-
-const dummyScenes = fromJS([ {
-  id: '0',
-  image: require('./images/suits.png'),
-  season: 1,
-  episode: 1,
-  markers: [ { relativeLeft: 20, relativeTop: 40 } ],
-  faces: [],
-  products: []
-}, {
-  id: '1',
-  image: require('./images/daredevil.png'),
-  seriesLogo: require('./images/daredevilLogo.png'),
-  season: 3,
-  episode: 5,
-  markers: [
-    { id: 'm1', relativeLeft: 40, relativeTop: 38 },
-    { id: 'm2', relativeLeft: 53, relativeTop: 47 },
-    { id: 'm3', relativeLeft: 65, relativeTop: 33 },
-    { id: 'm4', relativeLeft: 90, relativeTop: 60 }
-  ],
-  faces: [
-    { id: 'f1', name: 'Murdock', image: require('./images/murdock.png') },
-    { id: 'f2', name: 'Page', image: require('./images/page.png') }
-  ],
-  products: [
-    { id: 'p1', name: 'product 1', image: require('./images/product1.png') },
-    { id: 'p2', name: 'product 2', image: require('./images/product2.png') },
-    { id: 'p3', name: 'product 3', image: require('./images/product3.png') },
-    { id: 'p4', name: 'product 4', image: require('./images/product4.png') }
-  ]
-} ]);
+import BaseTile from './_baseTile';
+import Marker from './_marker';
+import localized from '../localized';
+import makeTiles from './_makeTiles';
 
 @localized
 @Radium
@@ -230,31 +198,8 @@ export class SceneTile extends Component {
   }
 }
 
-export default class SceneTiles extends Component {
-
-  static propTypes = {
-    items: ImmutablePropTypes.list,
-    style: PropTypes.object
-  };
-
-  static styles = {
-    tiles: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em'
-    }
-  }
-  render () {
-    const { styles } = this.constructor;
-    const { items, style } = this.props;
-
-    return (
-      <Tiles
-        horizontalSpacing={0.938}
-        items={items || dummyScenes}
-        numColumns={{ small: 1, medium: 2, large: 2, extraLarge: 2 }}
-        style={[ styles.tiles, style ]}
-        tileRenderer={(instanceProps) => <SceneTile {...instanceProps} />}
-        verticalSpacing={0} />
-    );
-  }
-}
+export default makeTiles(
+  0.938,
+  { small: 1, medium: 2, large: 2, extraLarge: 2 },
+  (instanceProps) => <SceneTile {...instanceProps} />
+);

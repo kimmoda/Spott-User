@@ -43,7 +43,7 @@ export default class RecentlyAdded extends Component {
       position: 'relative',
       paddingTop: '2.5em',
       paddingBottom: 0,
-      marginBottom: '3em'
+      marginBottom: '4.5em'
     },
     overlay: {
       position: 'absolute',
@@ -59,16 +59,14 @@ export default class RecentlyAdded extends Component {
       color: 'white',
       marginBottom: '0.17em'
     },
-    subtitle: {
-      color: 'white',
-      marginBottom: 0
+    tilesTitle: {
+      color: colors.white
     },
     upperCaseSubtitle: {
-      color: 'white',
+      color: colors.white,
       marginBottom: '2.725em'
     },
     tiles: {
-      marginTop: '-3em',
       transform: 'translateY(3.8em)'
     },
     innerWrapper: {
@@ -85,12 +83,11 @@ export default class RecentlyAdded extends Component {
           <div style={styles.overlay}></div>
           <div style={styles.innerWrapper}>
             <Title style={styles.title}>The X-files</Title>
-            <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
+            <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
             {/* TODO: temporarily removed
                 <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.recentlyAdded.browseButton')}</Button> */}
-            <SectionTitle style={styles.subtitle}>{t('home.recentlyAdded.title')}</SectionTitle>
           </div>
-          <TopLevelMediumTiles items={recentlyAddedMedia.get('data')} style={styles.tiles}/>
+          <TopLevelMediumTiles items={recentlyAddedMedia.get('data')} style={styles.tiles} title={t('home.recentlyAdded.title')} titleStyle={styles.tilesTitle} />
         </Container>
       </div>
     );

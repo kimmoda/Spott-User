@@ -2,7 +2,7 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
-
+import { List } from 'immutable';
 const RadiumedLink = Radium(Link);
 
 // Constants
@@ -219,6 +219,7 @@ UpperCaseSubtitle.propTypes = {
 export class Tiles extends Component {
 
   static propTypes = {
+    first: PropTypes.number,
     horizontalSpacing: PropTypes.number.isRequired,
     items: ImmutablePropTypes.listOf(
       PropTypes.any
@@ -230,9 +231,19 @@ export class Tiles extends Component {
     tileRenderer: PropTypes.func.isRequired
   };
 
-  render () {
-    const { horizontalSpacing, items, numColumns, style: tilesStyle, tileRenderer } = this.props;
+  rotateList (l, count) {
+    let result = l;
+    if (l.size === 0) { return l; }
+    for (let i = 0; i < count; i++) {
+      const first = result.first();
+      result = result.push(first);
+      result = result.shift();
+    }
+    return result;
+  }
 
+  render () {
+    const { first, horizontalSpacing, items, numColumns, style: tilesStyle, tileRenderer } = this.props;
     const style = {
       display: 'inline-block',
       width: `${100 / numColumns.extraSmall}%`,
@@ -274,7 +285,7 @@ export class Tiles extends Component {
     // Return render result
     return (
       <div style={[ containerStyle, tilesStyle ]}>
-        {(items || []).map((item, i) => tileRenderer({ style, key: i, item }))}
+        {this.rotateList(items || List(), first).map((item, i) => tileRenderer({ style, key: i, item }))}
       </div>
     );
   }
