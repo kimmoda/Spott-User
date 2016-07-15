@@ -1,29 +1,9 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fromJS } from 'immutable';
-import { colors, fontWeights, makeTextStyle, Tiles } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from '../_baseTile';
-
-const dummySeries = fromJS([ {
-  image: require('./images/glasses.jpg'),
-  name: 'Ray Ban Sunglasses - Ray Ban Sunglasses - Ray Ban Sunglasses'
-}, {
-  image: require('./images/car.jpg'),
-  name: 'What a super car'
-}, {
-  image: require('./images/chair.jpg'),
-  name: 'Chair'
-}, {
-  image: require('./images/glasses.jpg'),
-  name: 'Ray Ban Sunglasses'
-}, {
-  image: require('./images/car.jpg'),
-  name: 'What a super car'
-}, {
-  image: require('./images/mnm.png'),
-  name: 'M&M\'s'
-} ]);
+import BaseTile from './_baseTile';
+import makeTiles from './_makeTiles';
 
 @Radium
 export class ProductTile extends Component {
@@ -91,23 +71,8 @@ export class ProductTile extends Component {
   }
 }
 
-export default class ProductTiles extends Component {
-  static propTypes = {
-    items: ImmutablePropTypes.list,
-    style: PropTypes.object
-  };
-
-  render () {
-    const { items, style } = this.props;
-
-    return (
-      <Tiles
-        horizontalSpacing={0.938}
-        items={items || dummySeries}
-        numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 6 }}
-        style={style}
-        tileRenderer={(instanceProps) => <ProductTile {...instanceProps} />}
-        verticalSpacing={0} />
-    );
-  }
-}
+export default makeTiles(
+  0.938,
+  { extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 6 },
+  (instanceProps) => <ProductTile {...instanceProps} />
+);

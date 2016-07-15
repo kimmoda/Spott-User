@@ -5,6 +5,8 @@ import { colors, SectionTitle, ScalableContainer } from '../../../../_common/bui
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
 import ProductTiles from '../../../../_common/tiles/productTiles';
+import { fromJS } from 'immutable';
+import dummyProducts from '../../../../../api/mock/products';
 
 @Radium
 export default class PickedForYou extends Component {
@@ -25,7 +27,7 @@ export default class PickedForYou extends Component {
     return (
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>Picked For You</SectionTitle>
-        <ProductTiles />
+        <ProductTiles items={fromJS(dummyProducts)} />
       </ScalableContainer>
     );
   }

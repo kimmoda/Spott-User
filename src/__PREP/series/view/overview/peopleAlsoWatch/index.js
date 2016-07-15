@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 import { colors, SectionTitle, ScalableContainer } from '../../../../_common/buildingBlocks';
 import PosterTiles from '../../../../_common/tiles/posterTiles';
+import posters from '../../../../../api/mock/posters';
+import { fromJS } from 'immutable';
 
 @Radium
 export default class PeopleAlsoWatch extends Component {
@@ -22,7 +24,7 @@ export default class PeopleAlsoWatch extends Component {
     return (
       <ScalableContainer style={styles.container}>
         <SectionTitle style={styles.subtitle}>People Also Watch</SectionTitle>
-        <PosterTiles />
+        <PosterTiles items={fromJS(posters)} />
       </ScalableContainer>
     );
   }

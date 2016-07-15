@@ -1,39 +1,10 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fromJS } from 'immutable';
-import { fontWeights, makeTextStyle, Tiles } from '../../buildingBlocks';
+import { fontWeights, makeTextStyle, Tiles } from '../buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import hoverable from '../../hoverable';
-import BaseTile from '../_baseTile';
-
-const characters = fromJS([ {
-  image: require('./images/mattMurdock.jpg'),
-  name: 'Matt Murdock Matt Murdock'
-}, {
-  image: require('./images/karenPage.jpg'),
-  name: 'Karen Page'
-}, {
-  image: require('./images/foggy.jpg'),
-  name: 'Foggy'
-}, {
-  image: require('./images/frankCastle.jpg'),
-  name: 'Frank Castle'
-}, {
-  image: require('./images/elektra.jpg'),
-  name: 'Elektra'
-}, {
-  image: require('./images/claireTemple.jpg'),
-  name: 'Claire Temple'
-}, {
-  image: require('./images/mattMurdock.jpg'),
-  name: 'Matt Murdock'
-}, {
-  image: require('./images/karenPage.jpg'),
-  name: 'Karen Page'
-}, {
-  image: require('./images/foggy.jpg'),
-  name: 'Foggy'
-} ]);
+import hoverable from '../hoverable';
+import BaseTile from './_baseTile';
+import makeTiles from './_makeTiles';
 
 @hoverable
 @Radium
@@ -111,35 +82,8 @@ export class CharacterTile extends Component {
   }
 }
 
-export default class CharacterTiles extends Component {
-
-  static propTypes = {
-    items: ImmutablePropTypes.list,
-    style: PropTypes.object
-  };
-
-  static styles = {
-    tiles: {
-      marginBottom: '1.7em',
-      marginTop: 0,
-      overflow: 'visible',
-      paddingBottom: 0,
-      paddingTop: 0
-    }
-  };
-
-  render () {
-    const { styles } = this.constructor;
-    const { items, style } = this.props;
-
-    return (
-      <Tiles
-        horizontalSpacing={0.833}
-        items={items || characters}
-        numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
-        style={[ styles.tiles, style ]}
-        tileRenderer={(instanceProps) => <CharacterTile {...instanceProps} />}
-        verticalSpacing={0} />
-    );
-  }
-}
+export default makeTiles(
+  0.833,
+  { extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 },
+  (instanceProps) => <CharacterTile {...instanceProps} />
+);

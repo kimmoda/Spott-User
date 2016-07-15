@@ -1,32 +1,9 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fromJS } from 'immutable';
-import { colors, fontWeights, makeTextStyle, Tiles } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BaseTile from '../_baseTile';
-
-const dummyPosters = fromJS([ {
-  image: require('./images/criminalMinds.jpg'),
-  name: 'Criminal Minds'
-}, {
-  image: require('./images/ghostInTheShell.jpg'),
-  name: 'Ghost In The Shell'
-}, {
-  image: require('./images/modernFamily.jpg'),
-  name: 'Modern Family'
-}, {
-  image: require('./images/batman.jpg'),
-  name: 'Batman'
-}, {
-  image: require('./images/batman.jpg'),
-  name: 'Batman'
-}, {
-  image: require('./images/ghostInTheShell.jpg'),
-  name: 'Ghost In The Shell'
-}, {
-  image: require('./images/modernFamily.jpg'),
-  name: 'Modern Family'
-} ]);
+import BaseTile from './_baseTile';
+import makeTiles from './_makeTiles';
 
 @Radium
 export class PosterTile extends Component {
@@ -91,24 +68,8 @@ export class PosterTile extends Component {
   }
 }
 
-export default class PosterTiles extends Component {
-
-  static propTypes = {
-    items: ImmutablePropTypes.list,
-    style: PropTypes.object
-  };
-
-  render () {
-    const { items, style } = this.props;
-
-    return (
-      <Tiles
-        horizontalSpacing={0.938}
-        items={items || dummyPosters}
-        numColumns={{ small: 4, medium: 5, large: 6, extraLarge: 7 }}
-        style={style}
-        tileRenderer={(instanceProps) => <PosterTile {...instanceProps} />}
-        verticalSpacing={0} />
-    );
-  }
-}
+export default makeTiles(
+  0.938,
+  { small: 4, medium: 5, large: 6, extraLarge: 7 },
+  (instanceProps) => <PosterTile {...instanceProps} />
+);
