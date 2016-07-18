@@ -33,7 +33,10 @@ function authentication (state = fromJS({
 function configuration (state = Map({ currentLocale: 'en' }), action) {
   switch (action.type) {
     case actions.CONFIGURE:
+      console.warn('action.configuration', action.configuration);
       return state.merge(fromJS(action.configuration));
+    case actions.CHANGE_LOCALE:
+      return state.set('currentLocale', action.locale);
   }
   return state;
 }
