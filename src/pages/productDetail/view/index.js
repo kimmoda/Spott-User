@@ -26,16 +26,16 @@ export default class ProductDetail extends Component {
       productId: PropTypes.string.isRequired
     }).isRequired,
     product: ImmutablePropTypes.mapContains({
-      shortName: PropTypes.string.isRequired,
-      longName: PropTypes.string.isRequired,
+      shortName: PropTypes.string,
+      longName: PropTypes.string,
       description: PropTypes.string,
       images: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
-          url: PropTypes.string.isRequired,
-          id: PropTypes.string.isRequired
+          url: PropTypes.string,
+          id: PropTypes.string
         })
       ),
-      id: PropTypes.string.isRequired
+      id: PropTypes.string
     }),
     t: PropTypes.func.isRequired,
     onChangeImageSelection: PropTypes.func.isRequired
@@ -191,7 +191,7 @@ export default class ProductDetail extends Component {
   render () {
     const { styles } = this.constructor;
     const { onChangeImageSelection, product, t } = this.props;
-    if (product.get('_status') === FETCHING) {
+    if (!product.get('_status') || product.get('_status') === FETCHING) {
       return (<Spinner />);
     } else if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
       return (

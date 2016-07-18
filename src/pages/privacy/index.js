@@ -7,7 +7,7 @@ require('./privacy.scss');
 export default class Privacy extends Component {
 
   static propTypes = {
-    getLocalizedResource: PropTypes.func.isRequired,
+    getLocalizedResource: PropTypes.func.isRequired
   }
 
   render () {

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { colors, SectionTitle, Container } from '../../../_common/buildingBlocks';
+import { colors, Container } from '../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';

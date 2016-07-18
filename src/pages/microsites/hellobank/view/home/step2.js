@@ -297,7 +297,6 @@ class Step2 extends Component {
 
 export default withRouter(
   connect((state) => {
-    console.log(state);
     return {
       error: state.getIn([ 'hellobank', 'hellobankError' ]),
       isAuthenticated: authenticationTokenSelector(state)
