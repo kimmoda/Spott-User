@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { Button, colors, Title, UpperCaseSubtitle, SectionTitle, Container, pinkButtonStyle } from '../../../_common/buildingBlocks';
+import { colors, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
 // import { dummy } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';

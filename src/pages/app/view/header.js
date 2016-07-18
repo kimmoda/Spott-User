@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle } from '../../_common/buildingBlocks';
 import localized from '../../_common/localized';
 import Radium from 'radium';
@@ -111,7 +112,8 @@ class Header extends Component {
 
   static propTypes = {
     currentPathname: PropTypes.string.isRequired,
-    currentUserAvatar: PropTypes.string,
+    currentUserAvatar: ImmutablePropTypes.mapContains({
+      url: PropTypes.string }),
     currentUserId: PropTypes.string,
     currentUsername: PropTypes.string,
     floating: PropTypes.bool,
