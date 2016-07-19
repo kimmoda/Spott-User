@@ -103,8 +103,8 @@ export class ProductTile extends Component {
   render () {
     const styles = this.constructor.styles;
     const { currentLocale, item, style } = this.props;
-    console.warn(item.toJS());
     const title = formatTitle(item.get('shortName'), item.get('price'));
+
     return (
       <BaseTile style={style}>
         <RadiumLink style={styles.container} title={title} to={`/${currentLocale}/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>

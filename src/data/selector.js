@@ -10,6 +10,7 @@ export const productsEntitiesSelector = (state) => state.getIn([ 'data', 'entiti
 // NONE
 
 // List selectors
+export const popularProductsListSelector = (state) => state.getIn([ 'data', 'lists', 'popularProducts' ]);
 export const recentlyAddedMediaListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedMedia' ]);
 export const recentlyAddedToWishlistProductsListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedToWishlistProducts' ]);
 

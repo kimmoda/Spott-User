@@ -62,6 +62,7 @@ export default (state = fromJS({
   relations: {
   },
   lists: {
+    popularProducts: {},
     recentlyAddedMedia: {},
     recentlyAddedToWishlistProducts: {}
   }
@@ -87,6 +88,13 @@ export default (state = fromJS({
       return fetchListSuccess(state, 'recentlyAddedToWishlistProducts', 'products', action.data);
     case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_ERROR:
       return fetchListError(state, 'recentlyAddedToWishlistProducts', action.error);
+
+    case actions.POPULAR_PRODUCTS_FETCH_START:
+      return fetchListStart(state, 'popularProducts');
+    case actions.POPULAR_PRODUCTS_FETCH_SUCCESS:
+      return fetchListSuccess(state, 'popularProducts', 'products', action.data);
+    case actions.POPULAR_PRODUCTS_FETCH_ERROR:
+      return fetchListError(state, 'popularProducts', action.error);
 
     // Uninteresting actions
     // ---------------------
