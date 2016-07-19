@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { colors, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
+import { colors, mediaQueries, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
 // import { dummy } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
@@ -41,9 +41,12 @@ export default class RecentlyAdded extends Component {
       backgroundColor: colors.white,
       backgroundSize: 'cover',
       position: 'relative',
-      paddingTop: '2.5em',
+      paddingTop: '3em',
       paddingBottom: 0,
-      marginBottom: '4.5em'
+      marginBottom: '4.5em',
+      [mediaQueries.medium]: {
+        paddingTop: '5.875em'
+      }
     },
     overlay: {
       position: 'absolute',
@@ -64,7 +67,10 @@ export default class RecentlyAdded extends Component {
     },
     upperCaseSubtitle: {
       color: colors.white,
-      marginBottom: '2.725em'
+      marginBottom: '1.5em',
+      [mediaQueries.medium]: {
+        marginBottom: '7.813em'
+      }
     },
     tiles: {
       transform: 'translateY(3.8em)'
