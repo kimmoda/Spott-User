@@ -87,7 +87,8 @@ export default class DownloadApp extends Component {
     },
     device: {
       display: 'block',
-      width: '100%'
+      width: '100%',
+      userSelect: 'none'
     }
   };
 
@@ -98,7 +99,6 @@ export default class DownloadApp extends Component {
       <div style={{ ...styles.wrapper, backgroundImage: `url("${spottImage}")` }}>
         <Container>
           <div style={styles.overlay}></div>
-          <div style={styles.phone}></div>
           <div style={styles.innerWrapper}>
             <Title style={styles.title}>{t('home.downloadApp.title')}</Title>
             <SectionTitle style={styles.subtitle}>{t('home.downloadApp.subtitle')}</SectionTitle>

@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { colors, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { colors, mediaQueries, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
 // import { dummy } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
 import localized from '../../../_common/localized';
 import { recentlyAddedSelector } from '../../selectors';
 import { loadRecentlyAdded } from '../../actions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
-const xFilesImage = require('./images/x-files.jpg');
+const bigbangImage = require('./images/bigBang.jpg');
 
 @localized
 @connect(recentlyAddedSelector, (dispatch) => ({
@@ -41,9 +41,12 @@ export default class RecentlyAdded extends Component {
       backgroundColor: colors.white,
       backgroundSize: 'cover',
       position: 'relative',
-      paddingTop: '2.5em',
+      paddingTop: '3em',
       paddingBottom: 0,
-      marginBottom: '4.5em'
+      marginBottom: '4.5em',
+      [mediaQueries.medium]: {
+        paddingTop: '5.875em'
+      }
     },
     overlay: {
       position: 'absolute',
@@ -64,7 +67,10 @@ export default class RecentlyAdded extends Component {
     },
     upperCaseSubtitle: {
       color: colors.white,
-      marginBottom: '2.725em'
+      marginBottom: '1.5em',
+      [mediaQueries.medium]: {
+        marginBottom: '7.813em'
+      }
     },
     tiles: {
       transform: 'translateY(3.8em)'
@@ -78,11 +84,11 @@ export default class RecentlyAdded extends Component {
     const { styles } = this.constructor;
     const { recentlyAddedMedia, t } = this.props;
     return (
-      <div style={{ ...styles.wrapper, backgroundImage: `url("${xFilesImage}")` }}>
+      <div style={{ ...styles.wrapper, backgroundImage: `url("${bigbangImage}")` }}>
         <Container>
           <div style={styles.overlay}></div>
           <div style={styles.innerWrapper}>
-            <Title style={styles.title}>The X-files</Title>
+            <Title style={styles.title}>The Big Bang Theory</Title>
             <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
             {/* TODO: temporarily removed
                 <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.recentlyAdded.browseButton')}</Button> */}

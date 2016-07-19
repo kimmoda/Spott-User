@@ -56,6 +56,9 @@
     "popularNearYou": {
       "title": "Popular Near You"
     },
+    "popularProducts": {
+      "title": "Popular Products"
+    },
     "recentlyAdded": {
       "browseButton": "Browse",
       "highlight": "Now available on Spott",

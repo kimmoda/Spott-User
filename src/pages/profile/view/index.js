@@ -1,4 +1,4 @@
-import Radium from 'radium';
+import Radium, { radium } from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { colors, Container, SubmenuItem, Submenu, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
@@ -189,12 +189,12 @@ export default class Profile extends Component {
   }
 
   render () {
-    const { children, user, params: { userId, userSlug }, t } = this.props;
+    const { children, currentLocale, user, params: { userId, userSlug }, t } = this.props;
     return (
       <div>
         <Header menu={
           <Submenu>
-            <SubmenuItem key='wishlists' name={t('profile.menu.wishlists')} pathname={`/profile/${userSlug}/${userId}/wishlists`} />
+            <SubmenuItem key='wishlists' name={t('profile.menu.wishlists')} pathname={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`} />
           </Submenu>
         } user={user} />
         <Container style={styles.content}>

@@ -378,6 +378,8 @@ export class Money extends Component {
     switch (currency) {
       case 'EUR':
         return (<span>€ {amount}</span>);
+      case 'USD':
+        return (<span>$ {amount}</span>);
       default:
         return (<span>{amount} {currency}</span>);
     }

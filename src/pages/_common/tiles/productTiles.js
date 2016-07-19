@@ -3,19 +3,51 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle, Money } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import localized from '../localized';
 import { slugify } from '../../../utils';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
 
 const RadiumLink = Radium(Link);
 
+const currencies = {
+  EUR: '€',
+  USD: '$'
+};
+
+function formatPrice (price) {
+  if (price) {
+    // Try to use symbol.
+    const currency = currencies[price.get('currency')];
+    if (currency) {
+      return `${currency} ${price.get('amount')}`;
+    }
+    return `${price.get('amount')} ${price.get('currency')}`;
+  }
+  return '';
+}
+
+function formatTitle (name, price) {
+  const priceText = formatPrice(price);
+  if (priceText) {
+    return `${name} - ${priceText}`;
+  }
+  return name;
+}
+
+@localized
 @Radium
 export class ProductTile extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     item: ImmutablePropTypes.mapContains({
-      name: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired
+      id: PropTypes.string.isRequired,
+      price: ImmutablePropTypes.mapContains({
+        amount: PropTypes.number.isRequired,
+        currency: PropTypes.string.isRequired
+      }),
+      shortName: PropTypes.string.isRequired
     }).isRequired,
     style: PropTypes.object
   };
@@ -37,7 +69,7 @@ export class ProductTile extends Component {
     detailsContainer: {
       padding: '0.8em 0.9em'
     },
-    name: {
+    shortName: {
       ...makeTextStyle(fontWeights.regular, '0.875em'),
       color: colors.slateGray,
       overflow: 'hidden',
@@ -70,16 +102,17 @@ export class ProductTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { item, style } = this.props;
-    const title = `${item.get('name')} - € 120`;
+    const { currentLocale, item, style } = this.props;
+    const title = formatTitle(item.get('shortName'), item.get('price'));
+
     return (
       <BaseTile style={style}>
-        <RadiumLink style={styles.container} title={title} to={`/product/${slugify(item.get('name'))}/${item.get('id')}`}>
+        <RadiumLink style={styles.container} title={title} to={`/${currentLocale}/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
           <div style={styles.imageContainer}>
-            <img alt={item.get('name')} src={item.get('image')} style={styles.image} />
+            <img alt={item.get('shortName')} src={item.get('image')} style={styles.image} />
           </div>
           <div style={styles.detailsContainer}>
-            <div style={styles.name}>{item.get('name')}</div>
+            <div style={styles.shortName}>{item.get('shortName')}</div>
             <div style={styles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])}/></div>
           </div>
         </RadiumLink>

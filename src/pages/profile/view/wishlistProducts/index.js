@@ -54,6 +54,7 @@ const itemStyles = {
 @localized
 class WishlistProduct extends Component {
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     item: ImmutablePropTypes.mapContains({
       buyUrl: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
@@ -69,10 +70,10 @@ class WishlistProduct extends Component {
   }
 
   render () {
-    const { item, style } = this.props;
+    const { currentLocale, item, style } = this.props;
     return (
       <BaseTile style={style}>
-        <RadiumLink style={itemStyles.container} to={`/product/${slugify(item.get('name'))}/${item.get('id')}`}>
+        <RadiumLink style={itemStyles.container} to={`/${currentLocale}/product/${slugify(item.get('name'))}/${item.get('id')}`}>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? 'none' : item.getIn([ 'image', 'url' ]) })` }}></div>
           <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
           <p style={itemStyles.price}><Money amount={item.get('priceAmount')} currency={item.get('priceCurrency')} /></p>
@@ -125,7 +126,12 @@ export default class WishlistProducts extends Component {
         return (
           <div style={styles.content}>
             <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
-            <VerticalTiles aspectRatio={1.38876} horizontalSpacing={30} items={productsOfWishlist.get('data')} numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }} tile={<WishlistProduct />}
+            <VerticalTiles
+              aspectRatio={1.38876}
+              horizontalSpacing={30}
+              items={productsOfWishlist.get('data')}
+              numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
+              tile={<WishlistProduct />}
               verticalSpacing={30} />
           </div>
         );

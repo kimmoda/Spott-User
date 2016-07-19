@@ -97,7 +97,8 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
 
       static styles = {
         container: {
-          position: 'relative'
+          position: 'relative',
+          userSelect: 'none'
         },
         header: {
           display: 'flex',
