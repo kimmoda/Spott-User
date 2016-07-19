@@ -26,7 +26,7 @@ export async function getProduct (baseUrl, authenticationToken, id) {
       shop: offer.shop.name })) : null,
     selectedImage: body.images ? body.images[0].url : null,
     similarProducts: data.map((product) => ({
-      name: product.shortName,
+      shortName: product.shortName,
       image: product.image ? product.image.url : null,
       price: { currency: product.price.currency, amount: product.price.amount },
       id: product.uuid }
