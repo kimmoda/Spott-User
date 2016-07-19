@@ -44,11 +44,18 @@ export default class ProductDetail extends Component {
   constructor (props) {
     super(props);
     this.share = ::this.share;
+    this.product = this.props.params.productId;
   }
 
   componentWillMount () {
     // (Re)fetch the product.
     this.props.loadProduct(this.props.params.productId);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.params.productId !== nextProps.params.productId) {
+      this.props.loadProduct(nextProps.params.productId);
+    }
   }
 
   share () {
