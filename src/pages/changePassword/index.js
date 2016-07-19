@@ -56,7 +56,6 @@ class ChangePassword extends Component {
     });
   }
   getParam (param) {
-    console.log(this.props);
     const { location: { query } } = this.props;
     return query && query[param];
   }

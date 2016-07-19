@@ -68,7 +68,6 @@ export default class App extends Component {
 
   render () {
     const location = this.props.location;
-    console.log(this.props.routes);
     const standalone = this.props.routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
     const floating = this.props.routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
     const noNavigation = this.props.routes.reduce((acc, curr) => typeof curr.noNavigation === 'undefined' ? acc : curr.noNavigation, false);

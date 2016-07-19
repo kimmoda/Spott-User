@@ -26,16 +26,16 @@ export default class ProductDetail extends Component {
       productId: PropTypes.string.isRequired
     }).isRequired,
     product: ImmutablePropTypes.mapContains({
-      shortName: PropTypes.string.isRequired,
-      longName: PropTypes.string.isRequired,
+      shortName: PropTypes.string,
+      longName: PropTypes.string,
       description: PropTypes.string,
       images: ImmutablePropTypes.listOf(
         ImmutablePropTypes.mapContains({
-          url: PropTypes.string.isRequired,
-          id: PropTypes.string.isRequired
+          url: PropTypes.string,
+          id: PropTypes.string
         })
       ),
-      id: PropTypes.string.isRequired
+      id: PropTypes.string
     }),
     t: PropTypes.func.isRequired,
     onChangeImageSelection: PropTypes.func.isRequired
@@ -44,11 +44,18 @@ export default class ProductDetail extends Component {
   constructor (props) {
     super(props);
     this.share = ::this.share;
+    this.product = this.props.params.productId;
   }
 
   componentWillMount () {
     // (Re)fetch the product.
     this.props.loadProduct(this.props.params.productId);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.params.productId !== nextProps.params.productId) {
+      this.props.loadProduct(nextProps.params.productId);
+    }
   }
 
   share () {
@@ -191,7 +198,7 @@ export default class ProductDetail extends Component {
   render () {
     const { styles } = this.constructor;
     const { onChangeImageSelection, product, t } = this.props;
-    if (product.get('_status') === FETCHING) {
+    if (!product.get('_status') || product.get('_status') === FETCHING) {
       return (<Spinner />);
     } else if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
       return (
@@ -236,7 +243,7 @@ export default class ProductDetail extends Component {
               </div>
               <div style={styles.clear} />
               {/* TODO: Didier will provide title, description and maybe images for sharing */}
-              <FacebookShareData description={product.get('description') || ''} imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()} title={product.get('shortName')} />
+              <FacebookShareData description={product.get('description') || ''} imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()} title={product.get('shortName')} url={window.location.href}/>
             </Container>
           </div>
           <div style={styles.similarProducts}>

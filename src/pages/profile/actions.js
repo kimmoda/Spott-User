@@ -72,7 +72,6 @@ export function fetchProductsOfWishlist (wishlistId) {
         name: wishlistData.name
       } });
     } catch (error) {
-      console.log(error.stack);
       return dispatch({ type: FETCH_PRODUCTS_OF_WISHLIST_ERROR, wishlistId, error });
     }
   };

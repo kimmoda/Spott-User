@@ -96,7 +96,7 @@ export default class Footer extends Component {
         <Container className='cf' style={styles.container}>
           <div style={styles.languageSelection}>
             {t('_common.footer.language', {}, (_, key) => (
-              <div style={styles.languageSelectionCurrent}>English</div>
+              <div key={key} style={styles.languageSelectionCurrent}>English</div>
             ))}
           </div>
           <div style={styles.menu}>

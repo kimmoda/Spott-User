@@ -1,22 +1,38 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle, Money } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { slugify } from '../../../utils';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
+
+const RadiumLink = Radium(Link);
 
 @Radium
 export class ProductTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired
     }).isRequired,
     style: PropTypes.object
   };
 
   static styles = {
     container: {
+      display: 'block',
+      textDecoration: 'none',
+      ':hover': {
+        textDecoration: 'none'
+      },
+      ':active': {
+        textDecoration: 'none'
+      },
+      ':visited': {
+        textDecoration: 'none'
+      }
     },
     detailsContainer: {
       padding: '0.8em 0.9em'
@@ -29,7 +45,8 @@ export class ProductTile extends Component {
       whiteSpace: 'nowrap'
     },
     price: {
-      ...makeTextStyle(fontWeights.regular, '0.875em')
+      ...makeTextStyle(fontWeights.bold, '0.875em'),
+      color: colors.dark
     },
     image: {
       bottom: 0,
@@ -57,15 +74,15 @@ export class ProductTile extends Component {
     const title = `${item.get('name')} - € 120`;
     return (
       <BaseTile style={style}>
-        <div style={styles.container} title={title}>
-          <div style={[ styles.imageContainer ]}>
+        <RadiumLink style={styles.container} title={title} to={`/product/${slugify(item.get('name'))}/${item.get('id')}`}>
+          <div style={styles.imageContainer}>
             <img alt={item.get('name')} src={item.get('image')} style={styles.image} />
           </div>
           <div style={styles.detailsContainer}>
             <div style={styles.name}>{item.get('name')}</div>
             <div style={styles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])}/></div>
           </div>
-        </div>
+        </RadiumLink>
       </BaseTile>
     );
   }
