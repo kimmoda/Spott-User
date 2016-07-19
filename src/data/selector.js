@@ -4,12 +4,14 @@ import { LAZY } from './statusTypes';
 
 // Entities selectors
 export const mediaEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'media' ]);
+export const productsEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'products' ]);
 
 // Relations selectors
 // NONE
 
 // List selectors
 export const recentlyAddedMediaListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedMedia' ]);
+export const recentlyAddedToWishlistProductsListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedToWishlistProducts' ]);
 
 /**
  * Utility selector factory for accessing related id's.
