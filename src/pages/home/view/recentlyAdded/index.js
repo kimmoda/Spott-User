@@ -10,7 +10,7 @@ import localized from '../../../_common/localized';
 import { recentlyAddedSelector } from '../../selectors';
 import { loadRecentlyAdded } from '../../actions';
 
-const xFilesImage = require('./images/x-files.jpg');
+const bigbangImage = require('./images/bigBang.jpg');
 
 @localized
 @connect(recentlyAddedSelector, (dispatch) => ({
@@ -78,7 +78,7 @@ export default class RecentlyAdded extends Component {
     const { styles } = this.constructor;
     const { recentlyAddedMedia, t } = this.props;
     return (
-      <div style={{ ...styles.wrapper, backgroundImage: `url("${xFilesImage}")` }}>
+      <div style={{ ...styles.wrapper, backgroundImage: `url("${bigbangImage}")` }}>
         <Container>
           <div style={styles.overlay}></div>
           <div style={styles.innerWrapper}>
