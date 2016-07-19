@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React, { Component, PropTypes } from 'react';
 import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdown';
 
@@ -26,12 +27,21 @@ export default class OurDropdown extends Component {
     contentStyle: PropTypes.object
   }
 
+  constructor (props) {
+    super(props);
+    this.onClick = ::this.onClick;
+  }
+
+  onClick () {
+    this.dropdown.hide();
+  }
+
   render () {
     const { button, children, contentStyle } = this.props;
     return (
-      <Dropdown style={ourDropdownStyles.container}>
+      <Dropdown ref={(dd) => this.dropdown = dd} style={ourDropdownStyles.container} >
         <DropdownTrigger style={ourDropdownStyles.trigger}>{button}</DropdownTrigger>
-        <DropdownContent style={{ ...ourDropdownStyles.content, ...(contentStyle || {}) }}>
+        <DropdownContent style={{ ...ourDropdownStyles.content, ...(contentStyle || {}) }} onClick={this.onClick}>
           {children}
         </DropdownContent>
       </Dropdown>

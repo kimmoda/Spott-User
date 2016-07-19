@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle, Money } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import localized from '../localized';
 import { slugify } from '../../../utils';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
@@ -34,10 +35,12 @@ function formatTitle (name, price) {
   return name;
 }
 
+@localized
 @Radium
 export class ProductTile extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
       price: ImmutablePropTypes.mapContains({
@@ -99,12 +102,12 @@ export class ProductTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { item, style } = this.props;
+    const { currentLocale, item, style } = this.props;
     console.warn(item.toJS());
     const title = formatTitle(item.get('shortName'), item.get('price'));
     return (
       <BaseTile style={style}>
-        <RadiumLink style={styles.container} title={title} to={`/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
+        <RadiumLink style={styles.container} title={title} to={`/${currentLocale}/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
           <div style={styles.imageContainer}>
             <img alt={item.get('shortName')} src={item.get('image')} style={styles.image} />
           </div>

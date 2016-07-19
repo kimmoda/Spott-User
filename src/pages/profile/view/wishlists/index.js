@@ -88,6 +88,7 @@ const styles = {
 }))
 export default class Wishlists extends Component {
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     fetchWishlistsOfUser: PropTypes.func.isRequired,
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired,
@@ -106,13 +107,20 @@ export default class Wishlists extends Component {
   }
 
   render () {
-    const { params: { userId, userSlug }, t, wishlists } = this.props;
+    const { currentLocale, params: { userId, userSlug }, t, wishlists } = this.props;
     if (wishlists.get('_status') === FETCHING) {
       return (<Spinner />);
     } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
       if (wishlists.get('data').size > 0) {
-        return (<Tiles aspectRatio={1.1333866} horizontalSpacing={30} items={wishlists.get('data')} numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }} tile={<Wishlist baseUrl={`/profile/${userSlug}/${userId}/wishlists`} />}
-          verticalSpacing={30} />);
+        return (
+          <Tiles
+            aspectRatio={1.1333866}
+            horizontalSpacing={30}
+            items={wishlists.get('data')}
+            numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
+            tile={<Wishlist baseUrl={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`} />}
+            verticalSpacing={30} />
+        );
       }
       return (<p style={styles.emptyText}>{t('profile.wishlists.empty')}}</p>);
     }

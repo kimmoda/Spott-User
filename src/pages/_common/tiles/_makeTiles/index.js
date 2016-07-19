@@ -113,6 +113,9 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           padding: '0em 0.5em',
           margin: '0.5em',
           cursor: 'hand'
+        },
+        list: {
+          userSelect: 'none'
         }
       }
       render () {
@@ -130,7 +133,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
               horizontalSpacing={horizontalSpacing}
               items={items}
               numColumns={numColumns}
-              style={listStyle}
+              style={[ styles.list, listStyle ]}
               tileRenderer={tileRenderer} />
           </div>
         );

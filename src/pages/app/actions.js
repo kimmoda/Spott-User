@@ -57,3 +57,8 @@ export function doLogout () {
     }
   };
 }
+
+export const CHANGE_LOCALE = 'CHANGE_LOCALE';
+export function changeLocale (locale) {
+  return { locale, type: CHANGE_LOCALE };
+}
