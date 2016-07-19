@@ -243,7 +243,7 @@ export default class ProductDetail extends Component {
               </div>
               <div style={styles.clear} />
               {/* TODO: Didier will provide title, description and maybe images for sharing */}
-              <FacebookShareData description={product.get('description') || ''} imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()} title={product.get('shortName')} />
+              <FacebookShareData description={product.get('description') || ''} imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()} title={product.get('shortName')} url={window.location.href}/>
             </Container>
           </div>
           <div style={styles.similarProducts}>
