@@ -111,9 +111,11 @@ const styles = {
 class Header extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     currentPathname: PropTypes.string.isRequired,
     currentUserAvatar: ImmutablePropTypes.mapContains({
-      url: PropTypes.string }),
+      url: PropTypes.string
+    }),
     currentUserId: PropTypes.string,
     currentUsername: PropTypes.string,
     floating: PropTypes.bool,
@@ -133,7 +135,7 @@ class Header extends Component {
   }
 
   render () {
-    const { isAuthenticated, currentUsername, currentUserAvatar, currentUserId, floating, t } = this.props;
+    const { currentLocale, currentUsername, currentUserAvatar, currentUserId, floating, isAuthenticated, t } = this.props;
     return (
       <header style={[ styles.wrapper.base, floating && styles.wrapper.floating ]}>
         <Container style={styles.container}>
@@ -151,13 +153,13 @@ class Header extends Component {
                     <span style={[ styles.userSection.triggerArrow.base, floating && styles.userSection.triggerArrow.floating ]}>▾</span>
                   </div>
                 } contentStyle={styles.userSection.menu}>
-                  <Button style={[ styles.userSection.menuItem, styles.userSection.profileMenuItem ]} to={`/profile/${slugify(currentUsername)}/${currentUserId}`}>{currentUsername}</Button>
+                  <Button style={[ styles.userSection.menuItem, styles.userSection.profileMenuItem ]} to={`/${currentLocale}/profile/${slugify(currentUsername)}/${currentUserId}`}>{currentUsername}</Button>
                   <Button style={styles.userSection.menuItem} onClick={this.onLogoutClick}>{t('_common.header.logout')}</Button>
                 </Dropdown>
               </div>}
             {!isAuthenticated &&
               <Button style={{ ...pinkButtonStyle, ...styles.userSection.signInButton }} to={{
-                pathname: '/login',
+                pathname: `/${currentLocale}/login`,
                 state: { modal: true, returnTo: this.props.currentPathname }
               }}>
                 {t('_common.header.login')}

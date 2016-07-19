@@ -43,8 +43,9 @@ export default class App extends Component {
         modal: PropTypes.bool
       })
     }).isRequired,
+    params: PropTypes.object,
     routes: PropTypes.array
-  }
+  };
 
   componentDidMount () {
     // Initialize google analytics

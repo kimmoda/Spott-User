@@ -83,10 +83,11 @@ const styles = {
     }
   },
   menu: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: '1 1 100%',
     width: '100%',
-    textAlign: 'center',
-    lineHeight: '1em',
     margin: '0 auto',
     paddingTop: '0.5em',
     paddingBottom: '0.5em',
@@ -120,13 +121,19 @@ const styles = {
   copyright: {
     ...makeTextStyle(fontWeights.regular, '0.813em', '0.031em'),
     color: colors.coolGray,
+    display: 'flex',
     flex: '1 1 100%',
     width: '100%',
-    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: '0.5em',
+    paddingBottom: '0.5em',
     [mediaQueries.medium]: {
       width: 'auto',
       flex: '0 0 auto',
-      textAlign: 'left'
+      textAlign: 'left',
+      paddingTop: 0,
+      paddingBottom: 0
     }
   }
 };
@@ -168,9 +175,9 @@ export default class Footer extends Component {
             ))}
           </div>
           <div style={styles.menu}>
-            <RadiumLink style={styles.menuItem} to='/terms'>{t('_common.footer.terms')}</RadiumLink>
+            <RadiumLink style={styles.menuItem} to={`/${currentLocale}/terms`}>{t('_common.footer.terms')}</RadiumLink>
             <span style={styles.menuSeparator}>/</span>
-            <RadiumLink style={styles.menuItem} to='/privacy'>{t('_common.footer.privacy')}</RadiumLink>
+            <RadiumLink style={styles.menuItem} to={`/${currentLocale}/privacy`}>{t('_common.footer.privacy')}</RadiumLink>
           </div>
           <div style={styles.copyright}>
             {t('_common.footer.copyright')}
