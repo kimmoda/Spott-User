@@ -1,5 +1,5 @@
-import { get /* , NotFoundError, UnauthorizedError, UnexpectedError */ } from './request';
-// import { transformProduct } from './transformers';
+import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
+import { transformProduct } from './transformers';
 
 /**
  * @throws NetworkError
@@ -34,7 +34,6 @@ export async function getProduct (baseUrl, authenticationToken, id) {
   };
 }
 
-/* TODO: out of scope
 /**
  * GET /user/users/:userId/wishlists/searches/products
  * Get recently added products of my wishlists. First 50.
@@ -51,7 +50,7 @@ export async function getProduct (baseUrl, authenticationToken, id) {
  * @throws NotFoundError
  * @throws UnauthorizedError
  * @throws UnexpectedError
- *
+ */
 export async function getRecentlyAddedToWishlist (baseUrl, authenticationToken, { userId }) {
   try {
     // TODO: currently 'Get all products that appear in a whishlist' https://appiness.atlassian.net/browse/SPOTBACK-440
@@ -69,6 +68,7 @@ export async function getRecentlyAddedToWishlist (baseUrl, authenticationToken, 
   }
 }
 
+/* TODO: out of scope
 // Returns only first 50 products.
 export async function getPopularProducts (baseUrl, authenticationToken) {
   try {

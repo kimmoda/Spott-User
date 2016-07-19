@@ -47,19 +47,23 @@ function fetchListError (state, listKey, error) {
   * data
   * -> entities
   *    -> media
+  *    -> products
   * -> relations
   *    -> empty
   * -> lists
   *    -> recentlyAddedMedia
+  *    -> recentlyAddedToWishlistProducts
   */
 export default (state = fromJS({
   entities: {
-    media: {}
+    media: {},
+    products: {}
   },
   relations: {
   },
   lists: {
-    recentlyAddedMedia: {}
+    recentlyAddedMedia: {},
+    recentlyAddedToWishlistProducts: {}
   }
 }), action) => {
   switch (action.type) {
@@ -73,6 +77,16 @@ export default (state = fromJS({
       return fetchListSuccess(state, 'recentlyAddedMedia', 'media', action.data);
     case actions.MEDIA_RECENTLY_ADDED_FETCH_ERROR:
       return fetchListError(state, 'recentlyAddedMedia', action.error);
+
+    // Products
+    // ////////
+
+    case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_START:
+      return fetchListStart(state, 'recentlyAddedToWishlistProducts');
+    case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_SUCCESS:
+      return fetchListSuccess(state, 'recentlyAddedToWishlistProducts', 'products', action.data);
+    case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_ERROR:
+      return fetchListError(state, 'recentlyAddedToWishlistProducts', action.error);
 
     // Uninteresting actions
     // ---------------------
