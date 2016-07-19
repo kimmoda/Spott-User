@@ -97,7 +97,8 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
 
       static styles = {
         container: {
-          position: 'relative'
+          position: 'relative',
+          userSelect: 'none'
         },
         header: {
           display: 'flex',
@@ -113,9 +114,6 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           padding: '0em 0.5em',
           margin: '0.5em',
           cursor: 'hand'
-        },
-        list: {
-          userSelect: 'none'
         }
       }
       render () {
@@ -133,7 +131,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
               horizontalSpacing={horizontalSpacing}
               items={items}
               numColumns={numColumns}
-              style={[ styles.list, listStyle ]}
+              style={listStyle}
               tileRenderer={tileRenderer} />
           </div>
         );
