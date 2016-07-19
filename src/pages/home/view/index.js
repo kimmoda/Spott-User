@@ -5,6 +5,7 @@ import RecentlyAdded from './recentlyAdded';
 // import NewEpisodes from './newEpisodes';
 // import NewScenesForYou from './newScenesForYou';
 // import TopSellingProducts from './topSellingProducts';
+import PopularProducts from './popularProducts';
 import DownloadApp from './downloadApp';
 import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
 // import PopularNearYou from './popularNearYou';
@@ -25,6 +26,7 @@ export default class Home extends Component {
         <RecentlyAdded />
         {/* <NewScenesForYou /> */}
         {/* <NewEpisodes /> */}
+        <PopularProducts />
         {/* <TopSellingProducts /> */}
         <DownloadApp />
         {isAuthenticated && <RecentlyAddedToWishlist />}

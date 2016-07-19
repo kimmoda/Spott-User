@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
-import Dropdown from '../../_common/dropdown';
+import { /* Button, */ colors, Container, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
+// import Dropdown from '../../_common/dropdown';
 import localized from '../../_common/localized';
 import Radium from 'radium';
 import * as actions from '../actions';
@@ -15,7 +15,7 @@ const localesHash = {
   fr: 'Français',
   nl: 'Nederlands'
 };
-const locales = [ 'en' ];
+// const locales = [ 'en' ];
 
 const styles = {
   wrapper: {
@@ -164,7 +164,7 @@ export default class Footer extends Component {
         <Container className='cf' style={styles.container}>
           <div style={styles.languageSelection}>
             {t('_common.footer.language', {}, (_, key) => (
-              <span style={styles.languageSelectionCurrent}>{localesHash[currentLocale]}</span>
+              <span key='en' style={styles.languageSelectionCurrent}>{localesHash[currentLocale]}</span>
               // <Dropdown button={
               //   <div style={styles.language.trigger}>
               //     <span style={styles.languageSelectionCurrent}>{localesHash[currentLocale]}</span>
