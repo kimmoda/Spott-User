@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 // import Search from './search';
 import RecentlyAdded from './recentlyAdded';
 // import NewEpisodes from './newEpisodes';
@@ -7,10 +8,17 @@ import RecentlyAdded from './recentlyAdded';
 import DownloadApp from './downloadApp';
 import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
 // import PopularNearYou from './popularNearYou';
+import { homeSelector } from '../selectors';
 
+@connect(homeSelector)
 export default class Home extends Component {
 
+  static propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired
+  };
+
   render () {
+    const { isAuthenticated } = this.props;
     return (
       <div style={{ fontSize: '16px', backgroundColor: 'white' }}>
         {/* <Search /> */}
@@ -19,7 +27,7 @@ export default class Home extends Component {
         {/* <NewEpisodes /> */}
         {/* <TopSellingProducts /> */}
         <DownloadApp />
-        <RecentlyAddedToWishlist />
+        {isAuthenticated && <RecentlyAddedToWishlist />}
         {/* <PopularNearYou /> */}
       </div>
     );
