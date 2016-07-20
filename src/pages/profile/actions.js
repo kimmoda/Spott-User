@@ -1,4 +1,4 @@
-import { authenticationTokenSelector, apiBaseUrlSelector } from '../app/selector';
+import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../app/selector';
 import { currentUserIdSelector } from './selector';
 import * as productsApi from '../../api/products';
 import * as usersApi from '../../api/users';
@@ -16,7 +16,9 @@ export function loadUser (userId) {
       const data = await usersApi.getUser(
         apiBaseUrlSelector(state),
         authenticationTokenSelector(state),
-        userId);
+        currentLocaleSelector(state),
+        userId
+      );
       // Dispatch success
       return dispatch({ type: LOAD_USER_SUCCESS, userId, data });
     } catch (error) {
@@ -38,8 +40,10 @@ export function fetchWishlistsOfUser (userId) {
       const data = await wishlistsApi.getWishlistsOfUser(
         apiBaseUrlSelector(state),
         authenticationTokenSelector(state),
+        currentLocaleSelector(state),
         userId,
-        0);
+        0
+      );
       // Dispatch success
       return dispatch({ type: FETCH_WISHLISTS_OF_USER_SUCCESS, userId, data });
     } catch (error) {
@@ -61,11 +65,12 @@ export function fetchProductsOfWishlist (wishlistId) {
       const state = getState();
       const apiBaseUrl = apiBaseUrlSelector(state);
       const authenticationToken = authenticationTokenSelector(state);
+      const locale = currentLocaleSelector(state);
       const userId = currentUserIdSelector(state);
       // Get the wishlist
-      const wishlistData = await wishlistsApi.getWishlistOfUser(apiBaseUrl, authenticationToken, userId, wishlistId);
+      const wishlistData = await wishlistsApi.getWishlistOfUser(apiBaseUrl, authenticationToken, locale, userId, wishlistId);
       // Get products of the wishlist
-      const productsData = await productsApi.getWishlistProducts(apiBaseUrl, authenticationToken, userId, wishlistId, 0);
+      const productsData = await productsApi.getWishlistProducts(apiBaseUrl, authenticationToken, locale, userId, wishlistId, 0);
       // Dispatch success
       return dispatch({ type: FETCH_PRODUCTS_OF_WISHLIST_SUCCESS, wishlistId, data: {
         ...productsData,

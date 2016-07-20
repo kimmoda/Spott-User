@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { push as routerPush } from 'react-router-redux';
 import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle } from '../../_common/buildingBlocks';
 import localized from '../../_common/localized';
 import Radium from 'radium';
@@ -106,6 +107,9 @@ const styles = {
   }
 };
 
+@connect(null, (dispatch) => ({
+  routerPush: bindActionCreators(routerPush, dispatch)
+}))
 @localized
 @Radium
 class Header extends Component {
@@ -121,6 +125,7 @@ class Header extends Component {
     floating: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
     logout: PropTypes.func.isRequired,
+    routerPush: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired
   };
 
@@ -132,6 +137,7 @@ class Header extends Component {
   onLogoutClick (e) {
     e.preventDefault();
     this.props.logout();
+    this.props.routerPush('/');
   }
 
   render () {

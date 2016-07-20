@@ -9,15 +9,16 @@ import { transformUser } from './transformers';
  * Get the configuration, like the root url of the API.
  */
 export async function getConfiguration () {
-  const configuration = (await request.get(null, '/config.json')).body;
-  const version = (await request.get(null, '/version.json')).body;
-  const { body: { apptvateVersion, spottVersion } } = await request.get(null, `${configuration.urls.api}/version`);
+  const configuration = (await request.get(null, null, '/config.json')).body;
+  const version = (await request.get(null, null, '/version.json')).body;
+  const { body: { apptvateVersion, spottVersion } } = await request.get(null, null, `${configuration.urls.api}/version`);
   return { apptvateVersion, spottVersion, version, ...configuration };
 }
 
 export async function login (baseUrl, { email: emailIn, password }) {
   try {
-    const { body } = await request.post(null, `${baseUrl}/v003/security/login`, { userName: emailIn, password });
+    // TODO: localize! Server should return proper error message to display to the user.
+    const { body } = await request.post(null, 'nl', `${baseUrl}/v003/security/login`, { userName: emailIn, password });
     return {
       authenticationToken: body.authenticationToken,
       user: transformUser(body.user)
@@ -32,7 +33,8 @@ export async function login (baseUrl, { email: emailIn, password }) {
 
 export async function loginFacebook (baseUrl, { facebookAccessToken }) {
   try {
-    const { body } = await request.post(null, `${baseUrl}/v003/security/login`, { facebookAccessToken });
+    // TODO: localize! Server should return proper error message to display to the user.
+    const { body } = await request.post(null, 'nl', `${baseUrl}/v003/security/login`, { facebookAccessToken });
     return {
       authenticationToken: body.authenticationToken,
       user: transformUser(body.user)
@@ -46,5 +48,5 @@ export async function loginFacebook (baseUrl, { facebookAccessToken }) {
 }
 
 export function register (baseUrl, { email, firstname, lastname, password }) {
-  return request.post(null, `${baseUrl}/v003/user/users/register/username`, { email, firstName: firstname, lastName: lastname, password });
+  return request.post(null, null, `${baseUrl}/v003/user/users/register/username`, { email, firstName: firstname, lastName: lastname, password });
 }
