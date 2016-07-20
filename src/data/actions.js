@@ -1,7 +1,6 @@
 import * as mediaApi from '../api/media';
 import * as productsApi from '../api/products';
-
-import { authenticationTokenSelector, apiBaseUrlSelector } from '../pages/app/selector';
+import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../pages/app/selector';
 
 export function makeApiActionCreator (_apiCall, startActionType, successActionType, errorActionType) {
   return function (params) {
@@ -9,9 +8,10 @@ export function makeApiActionCreator (_apiCall, startActionType, successActionTy
       const state = getState();
       const apiBaseUrl = apiBaseUrlSelector(state);
       const authenticationToken = authenticationTokenSelector(state);
+      const locale = currentLocaleSelector(state);
       dispatch({ ...params, type: startActionType });
       try {
-        const data = await _apiCall(apiBaseUrl, authenticationToken, params);
+        const data = await _apiCall(apiBaseUrl, authenticationToken, locale, params);
         dispatch({ ...params, data, type: successActionType });
         return data;
       } catch (error) {

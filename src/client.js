@@ -15,7 +15,6 @@ import { combineReducers } from 'redux-immutablejs';
 import app from './pages/app/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
-import hellobank from './pages/microsites/hellobank/reducer';
 import home from './pages/home/reducer';
 import data from './data/reducer';
 import { applyMiddleware, createStore } from 'redux';
@@ -32,7 +31,6 @@ const rootReducer = combineReducers({
   app,
   data,
   home,
-  hellobank,
   productDetail,
   profile,
   routing: routerReducer
