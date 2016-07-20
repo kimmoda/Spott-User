@@ -12,8 +12,8 @@ import * as actions from '../../app/actions';
 import { authenticationTokenSelector, currentUserAvatarSelector, currentUserFirstnameSelector, currentUserLastnameSelector, currentUserIdSelector } from '../../app/selector';
 import { slugify } from '../../../utils';
 
-const spottBlackImage = require('./spott.png');
-const spottWhiteImage = require('./spottWhite.png');
+const spottBlackImage = require('./spott.svg');
+const spottWhiteImage = require('./spottWhite.svg');
 const dummyAvatarImage = require('./dummyAvatar.svg');
 
 const styles = {

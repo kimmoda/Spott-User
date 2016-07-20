@@ -76,7 +76,14 @@ export default class RecentlyAdded extends Component {
       transform: 'translateY(3.8em)'
     },
     innerWrapper: {
-      position: 'relative'
+      position: 'relative',
+      fontSize: '12px',
+      [mediaQueries.small]: {
+        fontSize: '14px'
+      },
+      [mediaQueries.medium]: {
+        fontSize: '16px'
+      }
     }
   };
 
