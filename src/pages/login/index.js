@@ -65,7 +65,8 @@ class Form extends Component {
   static styles = {
     button: {
       marginTop: '0.938em',
-      width: '100%'
+      width: '100%',
+      padding: '1.1em'
     },
     error: {
       color: '#ff0000',
@@ -79,13 +80,13 @@ class Form extends Component {
       margin: '1.25em 0'
     },
     textInput: {
-      padding: '10px 20px',
-      fontSize: '18px',
+      padding: '0.556em 1.111em',
+      fontSize: '1.125em',
       width: '100%',
       borderRadius: 2,
-      border: '1px #d7d7d7 solid',
+      border: '0.056em #d7d7d7 solid',
       boxShadow: 'transparent 0 0 0',
-      margin: '5px 0'
+      margin: '0.278em 0'
     }
   }
 
