@@ -44,10 +44,9 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
 
   return (
     <Route component={App} path='/'>
-      <IndexRedirect to='/en/' />
-      <Route path=':currentLocale/'>
+      <IndexRedirect to='/en' />
+      <Route path=':currentLocale'>
         <IndexRoute component={Home} />
-        <Route component={Home} path='/' />
         <Route component={Redirect} noNavigation path='app'/>
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
