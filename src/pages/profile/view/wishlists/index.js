@@ -106,6 +106,12 @@ export default class Wishlists extends Component {
     this.props.fetchWishlistsOfUser(this.props.params.userId);
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.params.userId !== nextProps.params.userId) {
+      this.props.fetchWishlistsOfUser(nextProps.params.userId);
+    }
+  }
+
   render () {
     const { currentLocale, params: { userId, userSlug }, t, wishlists } = this.props;
     if (wishlists.get('_status') === FETCHING) {

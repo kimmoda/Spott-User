@@ -107,7 +107,7 @@ export default class WishlistProducts extends Component {
     productsOfWishlist: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.list,
-      name: PropTypes.string.isRequired
+      name: PropTypes.string
     }),
     t: PropTypes.func.isRequired
   };
@@ -117,11 +117,18 @@ export default class WishlistProducts extends Component {
     this.props.fetchProductsOfWishlist(this.props.params.wishlistId);
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.params.wishlistId !== nextProps.params.wishlistId) {
+      this.props.fetchProductsOfWishlist(nextProps.params.wishlistId);
+    }
+  }
+
   render () {
     const { productsOfWishlist, t } = this.props;
     if (productsOfWishlist.get('_status') === FETCHING) {
       return (<Spinner />);
-    } else if (productsOfWishlist.get('_status') === LOADED || productsOfWishlist.get('_status') === UPDATING) {
+    }
+    if (productsOfWishlist.get('_status') === LOADED || productsOfWishlist.get('_status') === UPDATING) {
       if (productsOfWishlist.get('data').size > 0) {
         return (
           <div style={styles.content}>

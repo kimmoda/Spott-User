@@ -1,4 +1,5 @@
-import { createStructuredSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
+import { currentUserIdSelector as currentLoggedInUserIdSelector } from '../app/selector';
 import { createEntityByIdSelector, createEntitiesByIdSelector } from '../../utils';
 
 export const currentUserIdSelector = (state) => state.getIn([ 'profile', 'currentUser' ]);
@@ -10,9 +11,17 @@ export const userSelector = createStructuredSelector({
 });
 
 // View selector for wishlists
-export const wishlistsOfCurrentUserSelector = createStructuredSelector({
-  wishlists: createEntitiesByIdSelector((state) => state.getIn([ 'profile', 'wishlistsOfUser' ]), currentUserIdSelector)
-});
+export const wishlistsOfCurrentUserSelector = createSelector(
+  currentLoggedInUserIdSelector,
+  currentUserIdSelector,
+  createEntitiesByIdSelector((state) => state.getIn([ 'profile', 'wishlistsOfUser' ]), currentUserIdSelector),
+  (currentLoggedInUserId, currentUserId, wishlists) => {
+    const showPrivateWishlists = currentLoggedInUserId === currentUserId;
+    return {
+      wishlists: wishlists.set('data', wishlists.get('data').filter((wishlist) => wishlist.get('publicWishlist') || showPrivateWishlists))
+    };
+  }
+);
 
 // View selector for wishlist products
 export const productsOfWishlistSelector = createStructuredSelector({

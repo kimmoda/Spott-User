@@ -45,9 +45,10 @@ export function transformCharacter ({ avatar, name, uuid: id }) {
 export function transformWishlist (wishlist) {
   return {
     fixed: wishlist.fixed,
+    id: wishlist.uuid,
     image: wishlist.image ? { id: wishlist.image.uuid, url: wishlist.image.url } : null,
     name: wishlist.name,
-    id: wishlist.uuid
+    publicWishlist: wishlist.public
   };
 }
 
