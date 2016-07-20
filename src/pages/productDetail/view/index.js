@@ -186,7 +186,10 @@ export default class ProductDetail extends Component {
           }
         },
         shareText: {
-          ...makeTextStyle(fontWeights.regular, '1em')
+          ...makeTextStyle(fontWeights.bold, '0.688em'),
+          textTransform: 'uppercase',
+          letterSpacing: '0.219em',
+          lineHeight: 0
         },
         shareIcon: {
           width: '1em',
