@@ -1,4 +1,4 @@
-import Radium, { radium } from 'radium';
+import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { colors, Container, SubmenuItem, Submenu, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
@@ -13,6 +13,7 @@ const dummyProfileAvatarImage = require('./dummyProfileAvatar.svg');
 
 const headerStyles = {
   wrapper: {
+    backgroundPosition: 'center center',
     backgroundSize: 'cover',
     position: 'relative'
   },
@@ -118,45 +119,52 @@ const headerStyles = {
     ...makeTextStyle(fontWeights.regular)
   }
 };
-const Header = localized(Radium(({ menu, user, t }) => {
-  return (
-    <div style={[ headerStyles.wrapper, { backgroundImage: `url(${user.get('picture') === null ? dummyProfilePictureImage : user.getIn([ 'picture', 'url' ])})` } ]}>
-      <div style={headerStyles.backgroundOverlay}></div>
-      <Container style={headerStyles.container}>
-        <div style={headerStyles.innerContainer}>
-          <img src={user.get('avatar') === null ? dummyProfileAvatarImage : user.getIn([ 'avatar', 'url' ])} style={headerStyles.avatar} />
-          <div style={headerStyles.detailsWrapper}>
-            <div style={headerStyles.detailsContainer}>
-              <h1 style={headerStyles.title}>User</h1>
-              <h1 style={headerStyles.name}>{user.get('firstname')} {user.get('lastname')}</h1>
-              <p style={headerStyles.followers}>
-                {t('profile.header.followers', { count: user.get('followerCount') || 0 }, (contents, key) => {
-                  return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
-                })}
-                &nbsp;—&nbsp;
-                {t('profile.header.following', { count: user.get('followingCount') || 0 }, (contents, key) => {
-                  return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
-                })}
-              </p>
+
+@localized
+@Radium
+class Header extends Component {
+  static propTypes = {
+    menu: PropTypes.node.isRequired,
+    t: PropTypes.func.isRequired,
+    user: ImmutablePropTypes.mapContains({
+      firstname: PropTypes.string,
+      followerCount: PropTypes.number,
+      followingCount: PropTypes.number,
+      lastname: PropTypes.string,
+      tagline: PropTypes.string
+    })
+  };
+
+  render () {
+    const { menu, user, t } = this.props;
+    return (
+      <div style={[ headerStyles.wrapper, { backgroundImage: `url(${user.get('picture') === null ? dummyProfilePictureImage : user.getIn([ 'picture', 'url' ])})` } ]}>
+        <div style={headerStyles.backgroundOverlay}></div>
+        <Container style={headerStyles.container}>
+          <div style={headerStyles.innerContainer}>
+            <img src={user.get('avatar') === null ? dummyProfileAvatarImage : user.getIn([ 'avatar', 'url' ])} style={headerStyles.avatar} />
+            <div style={headerStyles.detailsWrapper}>
+              <div style={headerStyles.detailsContainer}>
+                <h1 style={headerStyles.title}>User</h1>
+                <h1 style={headerStyles.name}>{user.get('firstname')} {user.get('lastname')}</h1>
+                <p style={headerStyles.followers}>
+                  {t('profile.header.followers', { count: user.get('followerCount') || 0 }, (contents, key) => {
+                    return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
+                  })}
+                  &nbsp;—&nbsp;
+                  {t('profile.header.following', { count: user.get('followingCount') || 0 }, (contents, key) => {
+                    return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
+                  })}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        {menu}
-      </Container>
-    </div>
-  );
-}));
-Header.propTypes = {
-  menu: PropTypes.node.isRequired,
-  t: PropTypes.func.isRequired,
-  user: ImmutablePropTypes.mapContains({
-    firstname: PropTypes.string.isRequired,
-    lastname: PropTypes.string.isRequired,
-    tagline: PropTypes.string,
-    followerCount: PropTypes.number.isRequired,
-    followingCount: PropTypes.number.isRequired
-  })
-};
+          {menu}
+        </Container>
+      </div>
+    );
+  }
+}
 
 const styles = {
   content: {
@@ -164,6 +172,7 @@ const styles = {
     marginTop: '2.5em'
   }
 };
+
 @localized
 @connect(userSelector, (dispatch) => ({
   loadUser: bindActionCreators(loadUser, dispatch)
@@ -171,6 +180,7 @@ const styles = {
 export default class Profile extends Component {
   static propTypes = {
     children: PropTypes.node,
+    currentLocale: PropTypes.string.isRequired,
     loadUser: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
@@ -180,23 +190,31 @@ export default class Profile extends Component {
       userSlug: PropTypes.string.isRequired
     }),
     t: PropTypes.func.isRequired,
-    user: ImmutablePropTypes.map
-  }
+    user: ImmutablePropTypes.map.isRequired
+  };
 
   componentWillMount () {
     // (Re)fetch the profile.
     this.props.loadUser(this.props.params.userId);
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.params.userId !== nextProps.params.userId) {
+      this.props.loadUser(nextProps.params.userId);
+    }
+  }
+
   render () {
     const { children, currentLocale, user, params: { userId, userSlug }, t } = this.props;
     return (
       <div>
-        <Header menu={
-          <Submenu>
-            <SubmenuItem key='wishlists' name={t('profile.menu.wishlists')} pathname={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`} />
-          </Submenu>
-        } user={user} />
+        <Header
+          menu={
+            <Submenu>
+              <SubmenuItem key='wishlists' name={t('profile.menu.wishlists')} pathname={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`} />
+            </Submenu>
+          }
+          user={user} />
         <Container style={styles.content}>
           {children}
         </Container>

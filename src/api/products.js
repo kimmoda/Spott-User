@@ -7,8 +7,8 @@ import { transformProduct } from './transformers';
  * @throws UnexpectedError
  */
 export async function getProduct (baseUrl, authenticationToken, id) {
-  const { body } = await get(null, `${baseUrl}/v003/product/products/${id}`);
-  const { body: { data } } = await get(null, `${baseUrl}/v003/product/products/${id}/similar`);
+  const { body } = await get(authenticationToken, `${baseUrl}/v003/product/products/${id}`);
+  const { body: { data } } = await get(authenticationToken, `${baseUrl}/v003/product/products/${id}/similar`);
   return {
     description: body.description,
     id: body.uuid,
@@ -118,7 +118,7 @@ export async function getMediumProducts (baseUrl, authenticationToken, { mediumI
  * @throws UnexpectedError
  */
 export async function getWishlistProducts (baseUrl, authenticationToken, userId, wishlistId, page) {
-  const { body: { data, pageCount } } = await get(null, `${baseUrl}/v003/user/users/${userId}/wishlists/${wishlistId}/products?pageSize=500&page=${page}`);
+  const { body: { data, pageCount } } = await get(authenticationToken, `${baseUrl}/v003/user/users/${userId}/wishlists/${wishlistId}/products?pageSize=500&page=${page}`);
   // Transform items
   return {
     data: data.map((bodyWishlistProduct) => ({
