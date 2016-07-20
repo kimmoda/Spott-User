@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { fontWeights, makeTextStyle } from '../_common/buildingBlocks';
 import * as actions from '../app/actions';
 import { facebookAppIdSelector } from '../app/selector';
 import localized from '../_common/localized';
@@ -65,15 +66,15 @@ class FacebookLoginButton extends Component {
 
   static styles = {
     facebookButton: {
-      backgroundColor: '#3b5998',
+      ...makeTextStyle(fontWeights.regular, '0.875em', '0.025em', '1em'),
+      backgroundImage: 'linear-gradient(to bottom, #526ea8, #3b5998)',
       border: 'none',
-      borderRadius: 2,
+      borderRadius: '0.125em',
       color: 'white',
-      fontFamily: 'ProximaNova-Light',
-      fontSize: '14px',
-      padding: '10px 0',
+      padding: '0.625em 0',
+      height: '2.5em',
       width: '100%',
-      margin: '5px 0'
+      marginTop: '1.75em'
     }
   }
 

@@ -2,18 +2,10 @@ import React from 'react';
 import { IndexRoute, IndexRedirect, Route } from 'react-router';
 
 import App from './pages/app/view';
-// import Carrefour from './pages/microsites/carrefour/view';
 import ChangePassword from './pages/changePassword';
-import ConfirmedNewsletter from './pages/confirmedNewsletter';
 import Error404 from './pages/error404';
-// import HelloBankContestRules from './pages/microsites/hellobank/view/contestRules';
-// import HelloBankHomeStep1 from './pages/microsites/hellobank/view/home/step1';
-// import HelloBankHomeStep2 from './pages/microsites/hellobank/view/home/step2';
-// import HelloBankHomeStep3 from './pages/microsites/hellobank/view/home/step3';
-// import HellobankHomeWrapper from './pages/microsites/hellobank/view/home';
 import Home from './pages/home/view';
 import Login from './pages/login';
-// import Medialaan from './pages/microsites/medialaan';
 import Privacy from './pages/privacy';
 import ProductDetail from './pages/productDetail/view';
 import Profile from './pages/profile/view';
@@ -44,10 +36,9 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
 
   return (
     <Route component={App} path='/'>
-      <IndexRedirect to='/en/' />
-      <Route path=':currentLocale/'>
+      <IndexRedirect to='/en' />
+      <Route path=':currentLocale'>
         <IndexRoute component={Home} />
-        <Route component={Home} path='/' />
         <Route component={Redirect} noNavigation path='app'/>
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
@@ -66,7 +57,6 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
 
         <Route component={Login} path='login' />
         <Route component={ChangePassword} noNavigation path='user/changepwd'/>
-        <Route component={ConfirmedNewsletter} path='confirmed' />
 
         <Route component={Profile} floating path='profile/:userSlug/:userId' >
           <IndexRedirect to='wishlists' />
@@ -76,19 +66,6 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
           </Route>
         </Route>
       </Route>
-
-      {/*
-      <Route>
-        <Route component={HellobankHomeWrapper} path='hellobank' standalone>
-          <IndexRoute component={HelloBankHomeStep1} key='helloBankHomeStep1' />
-          <Route component={HelloBankHomeStep2} path='participate' />
-          <Route component={HelloBankHomeStep3} path='confirmed' />
-        </Route>
-        <Route component={HelloBankContestRules} path='hellobank-reglement' />
-      </Route>
-      <Route component={Medialaan} path='medialaan' standalone />
-      <Route component={Carrefour} path='carrefour' standalone />
-      */}
 
       <Route component={Error404} path='*' />
     </Route>

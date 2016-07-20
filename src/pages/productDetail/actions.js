@@ -1,4 +1,4 @@
-import { authenticationTokenSelector, apiBaseUrlSelector } from '../app/selector';
+import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../app/selector';
 import * as productApi from '../../api/products';
 
 export const LOAD_PRODUCT_START = 'LOAD_PRODUCT_START';
@@ -13,7 +13,9 @@ export function loadProduct (productId) {
       const data = await productApi.getProduct(
         apiBaseUrlSelector(state),
         authenticationTokenSelector(state),
-        productId);
+        currentLocaleSelector(state),
+        productId
+      );
       // Dispatch success
       return dispatch({ type: LOAD_PRODUCT_SUCCESS, productId, data });
     } catch (error) {
@@ -24,5 +26,5 @@ export function loadProduct (productId) {
 
 export const CHANGE_IMAGE_SELECTION = 'CHANGE_IMAGE_SELECTION';
 export function changeImageSelection (imageUrl) {
-  return ({ type: CHANGE_IMAGE_SELECTION, imageUrl });
+  return { type: CHANGE_IMAGE_SELECTION, imageUrl };
 }

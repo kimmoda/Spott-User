@@ -41,7 +41,7 @@ export default class DownloadApp extends Component {
       left: 0,
       bottom: 0,
       right: 0,
-      backgroundImage: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8))',
+      backgroundImage: 'linear-gradient(rgba(220, 220, 220, 0.8), rgba(255, 255, 255, 0.95))',
       // backgroundImage: 'linear-gradient(to bottom, #000000, rgb(255, 255, 255))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
@@ -56,6 +56,15 @@ export default class DownloadApp extends Component {
     },
     innerWrapper: {
       position: 'relative'
+    },
+    fontWrapper: {
+      fontSize: '12px',
+      [mediaQueries.small]: {
+        fontSize: '14px'
+      },
+      [mediaQueries.medium]: {
+        fontSize: '16px'
+      }
     },
     deviceWrapper: {
       display: 'block',
@@ -100,9 +109,11 @@ export default class DownloadApp extends Component {
         <Container>
           <div style={styles.overlay}></div>
           <div style={styles.innerWrapper}>
-            <Title style={styles.title}>{t('home.downloadApp.title')}</Title>
-            <SectionTitle style={styles.subtitle}>{t('home.downloadApp.subtitle')}</SectionTitle>
-            <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.downloadApp.availability')}</UpperCaseSubtitle>
+            <div style={styles.fontWrapper}>
+              <Title style={styles.title}>{t('home.downloadApp.title')}</Title>
+              <SectionTitle style={styles.subtitle}>{t('home.downloadApp.subtitle')}</SectionTitle>
+              <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.downloadApp.availability')}</UpperCaseSubtitle>
+            </div>
             {(() => {
               // IOS or Android?
               if (isIos()) {

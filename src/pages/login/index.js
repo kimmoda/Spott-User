@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../_common/buildingBlocks';
 import FacebookLoginButton from './facebookLoginButton';
 import * as actions from '../app/actions';
 import { authenticationErrorSelector, authenticationIsLoadingSelector }
@@ -63,16 +64,9 @@ class Form extends Component {
 
   static styles = {
     button: {
-      backgroundColor: '#cf315b',
-      border: 'none',
-      borderRadius: 2,
-      color: 'white',
-      fontFamily: 'ProximaNova-Light',
-      fontSize: '14px',
-      marginTop: 5,
-      padding: 10,
-      textAlign: 'center',
-      width: '100%'
+      marginTop: '0.938em',
+      width: '100%',
+      padding: '1.1em'
     },
     error: {
       color: '#ff0000',
@@ -83,16 +77,16 @@ class Form extends Component {
       height: 1,
       width: '100%',
       backgroundColor: '#e9e9e9',
-      margin: '10px 0'
+      margin: '1.25em 0'
     },
     textInput: {
-      padding: '10px 20px',
-      fontSize: '18px',
+      padding: '0.556em 1.111em',
+      fontSize: '1.125em',
       width: '100%',
       borderRadius: 2,
-      border: '1px #d7d7d7 solid',
+      border: '0.056em #d7d7d7 solid',
       boxShadow: 'transparent 0 0 0',
-      margin: '5px 0'
+      margin: '0.278em 0'
     }
   }
 
@@ -107,7 +101,7 @@ class Form extends Component {
         <input disabled={isLoading} name='password' placeholder={t('login.password')} ref={(c) => { this._password = c; }}
           style={styles.textInput} type='password' />
         {error && <div style={styles.error}>{error}</div>}
-        <input disabled={isLoading} style={styles.button} type='submit' value={t('login.submitButton')}/>
+        <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('login.submitButton')}/>
       </form>
     );
   }
@@ -140,17 +134,13 @@ class Login extends Component {
 
   static styles = {
     container: {
-      padding: '32px 16px',
+      padding: '29px 16px',
       maxWidth: '420px',
       margin: '0 auto'
     },
     title: {
-      color: '#cf315b',
-      fontFamily: 'ProximaNova-Bold',
-      fontSize: '3rem',
-      lineHeight: '48px',
-      marginBottom: 45,
-      textAlign: 'center'
+      ...makeTextStyle(fontWeights.light, '30px'),
+      color: colors.dark
     }
   };
 

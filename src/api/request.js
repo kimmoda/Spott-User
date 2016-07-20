@@ -119,9 +119,10 @@ const wrappedFetch = async function () {
 // Internal helpers
 // ----------------
 
-function optionsWithoutBody (method, authenticationToken) {
+function optionsWithoutBody (method, authenticationToken, locale = 'en') {
   const headers = new Headers({ // Request headers
     Accept: 'application/json, text/javascript, */*; q=0.01',
+    'Accept-Language': locale,
     api_key: apiKey // eslint-disable-line camelcase
   });
   if (authenticationToken) {
@@ -135,10 +136,11 @@ function optionsWithoutBody (method, authenticationToken) {
   };
 }
 
-function optionsWithBody (method, authenticationToken, body) {
+function optionsWithBody (method, authenticationToken, locale = 'en', body) {
   const headers = new Headers({ // Request headers
     'Content-Type': 'application/json; charset=UTF-8',
     Accept: 'application/json, text/javascript, */*; q=0.01',
+    'Accept-Language': locale,
     api_key: apiKey // eslint-disable-line camelcase
   });
   if (authenticationToken) {
@@ -165,42 +167,46 @@ function optionsWithBody (method, authenticationToken, body) {
 
 /**
  * Perform a GET request to the given URL.
- * @param {string} authenticationToken The authentication token to send in the header.
+ * @param {string} [authenticationToken] The authentication token to send in the header.
+ * @param {string} [locale] The Accept-Language to send in the header.
  * @param {string} url The URL of the resource to get.
  * @return {Promise<Response, Object}>} The server response or resulting error.
  */
-export function get (authenticationToken, url) {
-  return wrappedFetch(url, optionsWithoutBody('GET', authenticationToken));
+export function get (authenticationToken, locale, url) {
+  return wrappedFetch(url, optionsWithoutBody('GET', authenticationToken, locale));
 }
 
 /**
  * Perform a POST request to the given URL.
- * @param {string} authenticationToken The authentication token to send in the header.
+ * @param {string} [authenticationToken] The authentication token to send in the header.
+ * @param {string} [locale] The Accept-Language to send in the header.
  * @param {string} url The URL to which the POST request will be sent.
  * @param {object} body The body of the POST request.
  * @return {Promise<Response, Object}>} The server response or resulting error.
  */
-export function post (authenticationToken, url, body) {
-  return wrappedFetch(url, optionsWithBody('POST', authenticationToken, body));
+export function post (authenticationToken, locale, url, body) {
+  return wrappedFetch(url, optionsWithBody('POST', authenticationToken, locale, body));
 }
 
 /**
  * Perform a PUT request to the given URL.
- * @param {string} authenticationToken The authentication token to send in the header.
+ * @param {string} [authenticationToken] The authentication token to send in the header.
+ * @param {string} [locale] The Accept-Language to send in the header.
  * @param {string} url The URL to which the PUT request will be sent.
  * @param {object} body The body of the PUT request.
  * @return {Promise<Response, Object}>} The server response or resulting error.
  */
-export function put (authenticationToken, url, body) {
-  return wrappedFetch(url, optionsWithBody('PUT', authenticationToken, body));
+export function put (authenticationToken, locale, url, body) {
+  return wrappedFetch(url, optionsWithBody('PUT', authenticationToken, locale, body));
 }
 
 /**
  * Perform a DELETE request to the given URL.
- * @param {string} authenticationToken The authentication token to send in the header.
+ * @param {string} [authenticationToken] The authentication token to send in the header.
+ * @param {string} [locale] The Accept-Language to send in the header.
  * @param {string} url The URL of the resource to delete.
  * @return {Promise<Response, Object}>} The server response or resulting error.
  */
-export function del (authenticationToken, url) {
-  return wrappedFetch(url, optionsWithoutBody('DELETE', authenticationToken));
+export function del (authenticationToken, locale, url) {
+  return wrappedFetch(url, optionsWithoutBody('DELETE', authenticationToken, locale));
 }

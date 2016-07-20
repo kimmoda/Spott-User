@@ -52,7 +52,7 @@ export function makeTextStyle (fontWeight = fontWeights.regular, fontSize = '1em
 // Button component
 // ////////////////
 
-const buttonStyle = {
+export const buttonStyle = {
   ...makeTextStyle(fontWeights.bold, '0.875em', '0.013em', '1em'),
   backgroundColor: 'rgba(255, 255, 255, 0)',
   borderStyle: 'solid',
@@ -338,17 +338,16 @@ const submenuItemStyles = {
     color: colors.white
   }
 };
-export const SubmenuItem = Radium(({ name, pathname, style }) => (
+export const SubmenuItem = Radium(({ name, pathname }) => (
   <li style={submenuItemStyles.container}>
-    <RadiumedLink activeStyle={{ ...submenuItemStyles.base, ...submenuItemStyles.active, style }} key={pathname} style={[ submenuItemStyles.base, style ]} to={pathname}>
+    <RadiumedLink activeStyle={submenuItemStyles.active} key={pathname} style={submenuItemStyles.base} to={pathname}>
       {name}
     </RadiumedLink>
   </li>
 ));
 SubmenuItem.propTypes = {
   name: PropTypes.string.isRequired,
-  pathname: PropTypes.string.isRequired,
-  style: PropTypes.object
+  pathname: PropTypes.string.isRequired
 };
 
 const submenuStyles = {

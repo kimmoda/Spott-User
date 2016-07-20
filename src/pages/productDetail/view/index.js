@@ -166,7 +166,8 @@ export default class ProductDetail extends Component {
         },
         shareButton: {
           backgroundColor: 'transparent',
-          border: 'solid 0.125em',
+          borderStyle: 'solid',
+          borderWidth: '0.125em',
           borderColor: colors.coolGray,
           color: colors.coolGray,
           textDecoration: 'none',

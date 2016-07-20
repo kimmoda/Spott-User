@@ -2,7 +2,7 @@
 // import { transformSeries, transformSeason, transformEpisode } from './transformers';
 import recentlyAddedMediaMock from './mock/recentlyAddedMedia';
 
-export async function getRecentlyAdded (baseUrl, authenticationToken) {
+export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
   return await Promise.resolve(recentlyAddedMediaMock);
 }
 
@@ -25,7 +25,7 @@ export async function getRecentlyAdded (baseUrl, authenticationToken) {
  * @throws UnauthorizedError
  * @throws UnexpectedError
  *
-export async function getSeries (baseUrl, authenticationToken, { seriesId }) {
+export async function getSeries (baseUrl, authenticationToken, locale, { seriesId }) {
   try {
     const { body } = await get(authenticationToken, `${baseUrl}/v003/media/series/${seriesId}`);
     return transformSeries(body);
@@ -40,7 +40,7 @@ export async function getSeries (baseUrl, authenticationToken, { seriesId }) {
   }
 }
 
-export async function getSeasons (baseUrl, authenticationToken, { seriesId }) {
+export async function getSeasons (baseUrl, authenticationToken, locale, { seriesId }) {
   try {
     const { body } = await get(authenticationToken, `${baseUrl}/v003/media/series/${seriesId}/seasons`);
     return body.data.map(transformSeason);
@@ -55,7 +55,7 @@ export async function getSeasons (baseUrl, authenticationToken, { seriesId }) {
   }
 }
 
-export async function getEpisodes (baseUrl, authenticationToken, { seasonId }) {
+export async function getEpisodes (baseUrl, authenticationToken, locale, { seasonId }) {
   try {
     const { body } = await get(authenticationToken, `${baseUrl}/v003/media/serieSeasons/${seasonId}/episodes?sortField=NUMBER&sortDirection=DESC`);
     return body.data.map(transformEpisode);
