@@ -57,6 +57,15 @@ export default class DownloadApp extends Component {
     innerWrapper: {
       position: 'relative'
     },
+    fontWrapper: {
+      fontSize: '12px',
+      [mediaQueries.small]: {
+        fontSize: '14px'
+      },
+      [mediaQueries.medium]: {
+        fontSize: '16px'
+      }
+    },
     deviceWrapper: {
       display: 'block',
       height: 'auto',
@@ -100,9 +109,11 @@ export default class DownloadApp extends Component {
         <Container>
           <div style={styles.overlay}></div>
           <div style={styles.innerWrapper}>
-            <Title style={styles.title}>{t('home.downloadApp.title')}</Title>
-            <SectionTitle style={styles.subtitle}>{t('home.downloadApp.subtitle')}</SectionTitle>
-            <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.downloadApp.availability')}</UpperCaseSubtitle>
+            <div style={styles.fontWrapper}>
+              <Title style={styles.title}>{t('home.downloadApp.title')}</Title>
+              <SectionTitle style={styles.subtitle}>{t('home.downloadApp.subtitle')}</SectionTitle>
+              <UpperCaseSubtitle style={styles.upperCaseSubtitle}>{t('home.downloadApp.availability')}</UpperCaseSubtitle>
+            </div>
             {(() => {
               // IOS or Android?
               if (isIos()) {
