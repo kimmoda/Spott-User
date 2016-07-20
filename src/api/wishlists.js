@@ -6,17 +6,17 @@ import { transformWishlist } from './transformers';
  * @throws NotFoundError
  * @throws UnexpectedError
  */
-export async function getWishlistsOfUser (baseUrl, authenticationToken, userId, page) {
+export async function getWishlistsOfUser (baseUrl, authenticationToken, locale, userId, page) {
   let data;
   let pageCount;
   if (page === 0) {
     // Fetch first page, include the default list at the front
-    const { body } = await request.get(authenticationToken, `${baseUrl}/v003/user/users/${userId}/wishlists?pageSize=500&page=${page}`);
+    const { body } = await request.get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists?pageSize=500&page=${page}`);
     data = body.data;
     data.unshift(body.defaultList);
     pageCount = body.pageCount;
   } else {
-    const { body } = await request.get(authenticationToken, `${baseUrl}/v003/user/users/${userId}/wishlists?pageSize=500&page=${page}&includeDefaultList=false`);
+    const { body } = await request.get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists?pageSize=500&page=${page}&includeDefaultList=false`);
     data = body.data;
     pageCount = body.pageCount;
   }
@@ -32,9 +32,9 @@ export async function getWishlistsOfUser (baseUrl, authenticationToken, userId, 
  * @throws NotFoundError
  * @throws UnexpectedError
  */
-export async function getWishlistOfUser (baseUrl, authenticationToken, userId, wishlistId) {
+export async function getWishlistOfUser (baseUrl, authenticationToken, locale, userId, wishlistId) {
   // Fetch first page, include the default list at the front
-  const { body } = await request.get(authenticationToken, `${baseUrl}/v003/user/users/${userId}/wishlists/${wishlistId}`);
+  const { body } = await request.get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists/${wishlistId}`);
   // Transform items
   return transformWishlist(body);
 }
