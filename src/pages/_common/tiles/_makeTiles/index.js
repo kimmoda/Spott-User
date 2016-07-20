@@ -5,7 +5,7 @@ import Radium from 'radium';
 import { colors, SectionTitle, Tiles } from '../../../_common/buildingBlocks';
 
 const ArrowLeftImage = (props) => (
-  <svg height='13px' {...props} version='1.1' viewBox='0 0 8 13' width='8px'>
+  <svg {...props} version='1.1' viewBox='0 0 8 13'>
       <g fill='none' fill-rule='evenodd' id='UI' stroke='none' strokeWidth='1'>
           <g id='Large-Desktop-Homepage' transform='translate(-1259.000000, -1067.000000)'>
               <g id='Section-New-Scenes-For-You' transform='translate(0.000000, 1017.000000)'>
@@ -27,7 +27,7 @@ ArrowLeftImage.propTypes = {
   style: PropTypes.object
 };
 const ArrowRightImage = (props) => (
-  <svg height='13px' {...props} version='1.1' viewBox='0 0 8 13' width='8px'>
+  <svg {...props} version='1.1' viewBox='0 0 8 13'>
       <g fill='none' fill-rule='evenodd' id='UI' stroke='none' strokeWidth='1'>
           <g id='Large-Desktop-Homepage' transform='translate(-1289.000000, -1067.000000)'>
               <g id='Section-New-Scenes-For-You' transform='translate(0.000000, 1017.000000)'>
@@ -110,10 +110,13 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           justifyContent: 'flex-end',
           alignItems: 'center'
         },
+        headerIconsWrapper: {
+          padding: '0 0.5em'
+        },
         headerIcon: {
-          padding: '0em 0.5em',
-          margin: '0.5em',
-          cursor: 'hand'
+          cursor: 'pointer',
+          width: '8px',
+          height: '12px'
         }
       }
       render () {
@@ -124,7 +127,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           <div style={[ styles.container, style ]}>
             <div style={styles.header}>
               {title && <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>}
-              <div style={styles.headerIcons}><ArrowLeftImage color={arrowColor} style={styles.headerIcon} onClick={this.onBackClick}/><ArrowRightImage color={arrowColor} style={styles.headerIcon} onClick={this.onMoreClick} /></div>
+              <div style={styles.headerIcons}><div style={styles.headerIconsWrapper} onClick={this.onBackClick}><ArrowLeftImage color={arrowColor} style={styles.headerIcon} /></div><div style={styles.headerIconsWrapper} onClick={this.onMoreClick}><ArrowRightImage color={arrowColor} style={styles.headerIcon} /></div></div>
             </div>
             <RadiumTiles
               first={this.state.first}
