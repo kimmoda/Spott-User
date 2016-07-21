@@ -48,6 +48,7 @@ function fetchListError (state, listKey, error) {
   * -> entities
   *    -> media
   *    -> products
+  *    -> users
   * -> relations
   *    -> empty
   * -> lists
@@ -57,7 +58,8 @@ function fetchListError (state, listKey, error) {
 export default (state = fromJS({
   entities: {
     media: {},
-    products: {}
+    products: {},
+    users: {}
   },
   relations: {
   },
@@ -81,6 +83,7 @@ export default (state = fromJS({
 
     // Products
     // ////////
+
     case actions.PRODUCT_FETCH_START:
       return fetchStart(state, [ 'entities', 'products', action.productId ]);
     case actions.PRODUCT_FETCH_SUCCESS:
@@ -101,6 +104,17 @@ export default (state = fromJS({
       return fetchListSuccess(state, 'popularProducts', 'products', action.data);
     case actions.POPULAR_PRODUCTS_FETCH_ERROR:
       return fetchListError(state, 'popularProducts', action.error);
+
+    // Users
+    // /////
+
+    case actions.USER_FETCH_START:
+      return fetchStart(state, [ 'entities', 'users', action.userId ]);
+    case actions.USER_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'users', action.userId ], action.data);
+    case actions.USER_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'users', action.userId ], action.error);
+
     // Uninteresting actions
     // ---------------------
 

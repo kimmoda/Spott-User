@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import * as actions from './actions';
 import { fetchStart, fetchSuccess, fetchError } from '../../utils';
 
@@ -9,13 +9,10 @@ export default function profileReducer (state = fromJS({
   productsOfWishlist: {}
 }), action) {
   switch (action.type) {
-    case actions.LOAD_USER_START:
-      return fetchStart(state, [ 'users', action.userId ])
-        .set('currentUser', action.userId);
-    case actions.LOAD_USER_SUCCESS:
-      return fetchSuccess(state, [ 'users', action.userId ], action.data);
+    case actions.LOAD_USER:
+      return state.set('currentUser', Map({ id: action.userId }));
     case actions.LOAD_USER_ERROR:
-      return fetchError(state, [ 'users', action.userId ], action.error);
+      return state.mergeIn([ 'currentUser' ], Map({ _error: action.error }));
     case actions.FETCH_WISHLISTS_OF_USER_START:
       return fetchStart(state, [ 'wishlistsOfUser', action.userId ]);
     case actions.FETCH_WISHLISTS_OF_USER_SUCCESS:

@@ -5,6 +5,7 @@ import { LAZY } from './statusTypes';
 // Entities selectors
 export const mediaEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'media' ]);
 export const productsEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'products' ]);
+export const usersEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'users' ]);
 
 // Relations selectors
 // NONE

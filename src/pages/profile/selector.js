@@ -1,13 +1,14 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { currentUserIdSelector as currentLoggedInUserIdSelector } from '../app/selector';
+import { usersEntitiesSelector } from '../../data/selector';
 import { createEntityByIdSelector, createEntitiesByIdSelector } from '../../utils';
 
-export const currentUserIdSelector = (state) => state.getIn([ 'profile', 'currentUser' ]);
+export const currentUserIdSelector = (state) => state.getIn([ 'profile', 'currentUser', 'id' ]);
 export const currentWishlistIdSelector = (state) => state.getIn([ 'profile', 'currentWishlist' ]);
 
 // View selector fro user profile
 export const userSelector = createStructuredSelector({
-  user: createEntityByIdSelector((state) => state.getIn([ 'profile', 'users' ]), currentUserIdSelector)
+  user: createEntityByIdSelector(usersEntitiesSelector, currentUserIdSelector)
 });
 
 // View selector for wishlists

@@ -1,29 +1,19 @@
 import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../app/selector';
 import { currentUserIdSelector } from './selector';
+import { fetchUser } from '../../data/actions';
 import * as productsApi from '../../api/products';
-import * as usersApi from '../../api/users';
 import * as wishlistsApi from '../../api/wishlists';
 
-export const LOAD_USER_START = 'LOAD_USER_START';
-export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
+export const LOAD_USER = 'LOAD_USER';
 export const LOAD_USER_ERROR = 'LOAD_USER_ERROR';
+
 export function loadUser (userId) {
   return async (dispatch, getState) => {
     try {
-      dispatch({ type: LOAD_USER_START, userId });
-      const state = getState();
-      // Get the currently logged on user
-      const data = await usersApi.getUser(
-        apiBaseUrlSelector(state),
-        authenticationTokenSelector(state),
-        currentLocaleSelector(state),
-        userId
-      );
-      // Dispatch success
-      return dispatch({ type: LOAD_USER_SUCCESS, userId, data });
+      dispatch({ type: LOAD_USER, userId });
+      return await dispatch(fetchUser({ userId }));
     } catch (error) {
-      console.warn(error.stack);
-      return dispatch({ type: LOAD_USER_ERROR, userId, error });
+      dispatch({ type: LOAD_USER_ERROR, userId, error });
     }
   };
 }

@@ -1,5 +1,6 @@
 import * as mediaApi from '../api/media';
 import * as productsApi from '../api/products';
+import * as usersApi from '../api/users';
 import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../pages/app/selector';
 
 export function makeApiActionCreator (_apiCall, startActionType, successActionType, errorActionType) {
@@ -41,6 +42,10 @@ export const PRODUCT_FETCH_START = 'DATA/PRODUCT_FETCH_START';
 export const PRODUCT_FETCH_SUCCESS = 'DATA/PRODUCT_FETCH_SUCCESS';
 export const PRODUCT_FETCH_ERROR = 'DATA/PRODUCT_FETCH_ERROR';
 
+export const USER_FETCH_START = 'DATA/USER_FETCH_START';
+export const USER_FETCH_SUCCESS = 'DATA/USER_FETCH_SUCCESS';
+export const USER_FETCH_ERROR = 'DATA/USER_FETCH_ERROR';
+
 // Actions creators
 // ////////////////
 
@@ -51,3 +56,5 @@ export const fetchProductsRecentlyAddedToWishlist = makeApiActionCreator(product
 export const fetchPopularProducts = makeApiActionCreator(productsApi.getPopularProducts, POPULAR_PRODUCTS_FETCH_START, POPULAR_PRODUCTS_FETCH_SUCCESS, POPULAR_PRODUCTS_FETCH_ERROR);
 
 export const fetchProduct = makeApiActionCreator(productsApi.getProduct, PRODUCT_FETCH_START, PRODUCT_FETCH_SUCCESS, PRODUCT_FETCH_ERROR);
+
+export const fetchUser = makeApiActionCreator(usersApi.getUser, USER_FETCH_START, USER_FETCH_SUCCESS, USER_FETCH_ERROR);
