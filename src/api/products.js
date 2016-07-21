@@ -6,9 +6,9 @@ import { transformProduct } from './transformers';
  * @throws NotFoundError
  * @throws UnexpectedError
  */
-export async function getProduct (baseUrl, authenticationToken, locale, id) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${id}`);
-  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${id}/similar`);
+export async function getProduct (baseUrl, authenticationToken, locale, { productId }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}`);
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}/similar`);
   return {
     description: body.description,
     id: body.uuid,
@@ -24,7 +24,6 @@ export async function getProduct (baseUrl, authenticationToken, locale, id) {
       url: offer.buyUrl,
       price: { currency: offer.price.currency, amount: offer.price.amount },
       shop: offer.shop.name })) : null,
-    selectedImage: body.images ? body.images[0].url : null,
     similarProducts: data.map((product) => ({
       shortName: product.shortName,
       image: product.image ? product.image.url : null,

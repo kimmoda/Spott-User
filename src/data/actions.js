@@ -37,6 +37,10 @@ export const POPULAR_PRODUCTS_FETCH_START = 'DATA/POPULAR_PRODUCTS_FETCH_START';
 export const POPULAR_PRODUCTS_FETCH_SUCCESS = 'DATA/POPULAR_PRODUCTS_FETCH_SUCCESS';
 export const POPULAR_PRODUCTS_FETCH_ERROR = 'DATA/POPULAR_PRODUCTS_FETCH_ERROR';
 
+export const PRODUCT_FETCH_START = 'DATA/PRODUCT_FETCH_START';
+export const PRODUCT_FETCH_SUCCESS = 'DATA/PRODUCT_FETCH_SUCCESS';
+export const PRODUCT_FETCH_ERROR = 'DATA/PRODUCT_FETCH_ERROR';
+
 // Actions creators
 // ////////////////
 
@@ -45,3 +49,5 @@ export const fetchMediaRecentlyAdded = makeApiActionCreator(mediaApi.getRecently
 export const fetchProductsRecentlyAddedToWishlist = makeApiActionCreator(productsApi.getRecentlyAddedToWishlist, PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_START, PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_SUCCESS, PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_ERROR);
 
 export const fetchPopularProducts = makeApiActionCreator(productsApi.getPopularProducts, POPULAR_PRODUCTS_FETCH_START, POPULAR_PRODUCTS_FETCH_SUCCESS, POPULAR_PRODUCTS_FETCH_ERROR);
+
+export const fetchProduct = makeApiActionCreator(productsApi.getProduct, PRODUCT_FETCH_START, PRODUCT_FETCH_SUCCESS, PRODUCT_FETCH_ERROR);

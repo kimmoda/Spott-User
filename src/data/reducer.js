@@ -17,11 +17,11 @@ function fetchStart (state, path) {
   // If the data do not exist, set the status to 'fetching'.
   return state.mergeIn(path, { _status: FETCHING });
 }
-/* TODO: not used yet.
+
 function fetchSuccess (state, path, data) {
   return state.setIn(path, fromJS({ ...data, _status: LOADED }));
 }
-*/
+
 function fetchError (state, path, error) {
   return state.setIn(path, Map({ _error: error, _status: ERROR }));
 }
@@ -81,6 +81,12 @@ export default (state = fromJS({
 
     // Products
     // ////////
+    case actions.PRODUCT_FETCH_START:
+      return fetchStart(state, [ 'entities', 'products', action.productId ]);
+    case actions.PRODUCT_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'products', action.productId ], action.data);
+    case actions.PRODUCT_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'products', action.productId ], action.error);
 
     case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_START:
       return fetchListStart(state, 'recentlyAddedToWishlistProducts');
@@ -95,7 +101,6 @@ export default (state = fromJS({
       return fetchListSuccess(state, 'popularProducts', 'products', action.data);
     case actions.POPULAR_PRODUCTS_FETCH_ERROR:
       return fetchListError(state, 'popularProducts', action.error);
-
     // Uninteresting actions
     // ---------------------
 
