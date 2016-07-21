@@ -89,14 +89,17 @@ export const pinkButtonStyle = {
     backgroundColor: 'rgba(207, 49, 91, 0.6)'
   }
 };
-
+const disabledButtonStyle = {
+  opacity: 0.3
+};
 export const Button = Radium((props) => {
+  const disabled = Boolean(props.disabled);
   if (!props.href && !props.to) {
-    return <button {...props} style={[ buttonStyle, props.style ]}>{props.children}</button>;
+    return <button {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</button>;
   } else if (props.href) {
-    return <a {...props} style={[ buttonStyle, props.style ]}>{props.children}</a>;
+    return <a {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</a>;
   }
-  return <RadiumedLink {...props} style={[ buttonStyle, props.style ]}>{props.children}</RadiumedLink>;
+  return <RadiumedLink {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</RadiumedLink>;
 });
 Button.propTypes = {
   children: PropTypes.node.isRequired,
@@ -374,6 +377,9 @@ export class Money extends Component {
 
   render () {
     const { amount, currency } = this.props;
+    if (typeof amount !== 'number' || !currency) {
+      return <span>&nbsp;</span>;
+    }
     switch (currency) {
       case 'EUR':
         return (<span>€ {amount}</span>);

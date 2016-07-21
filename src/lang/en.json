@@ -87,7 +87,12 @@
     "submitButton": "Log in"
   },
   "productDetail": {
-    "buyNow": "Buy Now"
+    "buyNow": "Buy Now",
+    "by": "By %(brandName)s",
+    "noSimilar": "No similar items found.",
+    "similarProducts": "Similar Items",
+    "share": "Share",
+    "unavailable": "This product is unavailable."
   },
   "profile": {
     "header": {
