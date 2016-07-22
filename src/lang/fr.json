@@ -1,116 +1,121 @@
 {
   "_common": {
     "episodeTiles": {
-      "episode": "Season %(season)i – Episode %(episode)i"
+      "episode": "Saison %(season)i – Épisode %(episode)i"
     },
     "footer": {
       "copyright": "Copyright © 2015–2016 Spott nv",
-      "privacy": "Privacy",
-      "terms": "Terms",
-      "language": "Use Spott in [[]]"
+      "privacy": "Protection des données",
+      "terms": "Conditions Générales",
+      "language": "Utiliser Spott en [[]]"
     },
     "header": {
-      "login": "Sign In",
-      "logout": "Log Out",
-      "home": "Home"
+      "login": "Connectez-vous",
+      "logout": "Se déconnecter",
+      "home": "Page d'accueil"
     },
     "sceneTiles": {
-      "sceneFrom": "Scene from Season [[%(season)i]] – Episode [[%(episode)i]]"
+      "sceneFrom": "Scène de la saison [[%(season)i]] –  Épisode [[%(episode)i]]"
     }
   },
   "changePassword": {
-    "successMessage": "Your password has been changed!",
-    "errorMessage": "We encountered an error while trying to change your password :(",
-    "newPasswordPlaceholder": "Enter your new password",
-    "confirmPasswordPlaceholder": "Confirm password",
-    "title": "Change your Spott password",
-    "passwordLengthError": "This password isn't long enough!",
-    "passwordMatchError": "Passwords don't match!",
-    "submitButton": "Change Password"
+    "successMessage": "Votre mot de passe a été modifié!",
+    "errorMessage": "Nous avons rencontré une erreur en essayant de changer votre mot de passe :(",
+    "newPasswordPlaceholder": "Entrez votre nouveau mot de passe",
+    "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+    "title": "Changez votre mot de passe de Spott",
+    "passwordLengthError": "Votre mot de passe est trop court!",
+    "passwordMatchError": "Les mots de passe ne correspondent pas!",
+    "submitButton": "Changer mot de passe"
   },
   "confirmedNewsletter": {
-    "enjoy": "Enjoy using Spott,",
-    "spottTeam": "the Spott team",
-    "thankYou": "Thank you for registering to the Spott newsletter! [[click here]] for getting started, and downloading Spott onto your mobile.",
-    "title": "Hurray!"
+    "enjoy": "Profitez de Spott,",
+    "spottTeam": "l'équipe de Spott",
+    "thankYou": "Nous vous remercions de vous inscrire à notre bulletin électronique! [[cliquez ici]] pour commencer, et télécharger Spott sur votre téléphone portable.",
+    "title": "Hourra!"
   },
   "error404": {
-    "pageDoesNotExist": "The page you requested doesn't exist.",
-    "returnToSpott": "Return to Spott.it",
-    "somethingWentWrong": "Something went wrong!",
+    "pageDoesNotExist": "La page demandée n'existe pas.",
+    "returnToSpott": "Retournez à Spott.it",
+    "somethingWentWrong": "Il y a eu un problème!",
     "title": "Whoops!"
   },
   "home": {
     "downloadApp": {
-      "title": "Explore while you watch",
-      "subtitle": "Live on your mobile device",
-      "availability": "Available for iOS & Android",
-      "downloadButton": "Download"
+      "title": "Explorez pendant que vous regardez",
+      "subtitle": "Vivez sur votre téléphone portable",
+      "availability": "Disponible pour iOS & Android",
+      "downloadButton": "Téléchargez"
     },
     "newEpisodes": {
-      "title": "New Episodes"
+      "title": "Nouveaux épisodes"
     },
     "newScenesForYou": {
-      "title": "New Scenes for You"
+      "title": "Nouvelles Scènes pour Vous"
     },
     "popularNearYou": {
-      "title": "Popular Near You"
+      "title": "Populaire près de chez vous"
     },
     "popularProducts": {
-      "title": "Popular Products"
+      "title": "Produits populaires"
     },
     "recentlyAdded": {
-      "browseButton": "Browse",
-      "highlight": "Now available on Spott",
-      "title": "Recently added"
+      "browseButton": "Feuilletez",
+      "highlight": "Maintenant disponible à Spott",
+      "title": "Récemment ajouté"
     },
     "recentlyAddedToWishlist": {
-      "title": "Recently Added to Wishlist"
+      "title": "Récemment ajouté à liste de souhaits"
     },
     "search": {
-      "info": "Spott allows you to find products in the things you watch",
-      "placeholder": "Search for movies, series, characters or brands",
-      "title": "Television is now your favourite shop"
+      "info": "Spott vous permettez de trouver des produits dans les choses que vous regardez",
+      "placeholder": "Recherchez des  films, des séries, des personnages ou des marques",
+      "title": "La télévision est maintenant votre magasin préféré"
     },
     "topSellingProducts": {
-      "title": "Top Selling Products"
+      "title": "Top des ventes"
     }
   },
   "redirect": {
-    "redirecting": "Redirecting..."
+    "redirecting": "Redirectioner..."
   },
   "login": {
-    "title": "Log In",
-    "email": "Your Email",
-    "password": "Your Password",
-    "logInWithFacebookButton": "Log in with Facebook",
-    "submitButton": "Log in"
+    "title": "Connectez-vous",
+    "email": "Votre email",
+    "password": "Votre mot de passe",
+    "logInWithFacebookButton": "Se connecter avec Facebook",
+    "submitButton": "Connectez-vous"
   },
   "productDetail": {
-    "buyNow": "Buy Now"
+    "buyNow": "Achetez maintenant",
+    "by": "De %(brandName)s",
+    "noSimilar": "Aucun produit similaire a été trouvé.",
+    "similarProducts": "Produits similaires",
+    "share": "Partager",
+    "unavailable": "Ce produit n’est pas disponible."
   },
   "profile": {
     "header": {
       "followers": {
-        "zero":  "[[0]] followers",
-        "one":   "[[1]] follower",
-        "other": "[[%(count)s]] followers"
+        "zero":  "[[0]] abonné(e)s",
+        "one":   "[[1]] abonné(e)",
+        "other": "[[%(count)s]] abonné(e)s"
       },
       "following": {
-        "zero":  "[[0]] following",
-        "one":   "[[1]] following",
-        "other": "[[%(count)s]] following"
+        "zero":  "[[0]] abonnements",
+        "one":   "[[1]] abonnement",
+        "other": "[[%(count)s]] abonnements"
       }
     },
     "menu": {
-      "wishlists": "Wishlists"
+      "wishlists": "Listes de souhaits"
     },
     "wishlists": {
-      "empty": "You have no wishlists yet.",
-      "unnamedWishlist": "Wishlist"
+      "empty": "Vous n'avez pas encore des listes de souhaits.",
+      "unnamedWishlist": "Liste de souhaits"
     },
     "wishlistProducts": {
-      "empty": "This wishlist is empty."
+      "empty": "Cette liste de souhaits est vide."
     }
   }
 }
