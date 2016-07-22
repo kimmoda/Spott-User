@@ -6,6 +6,7 @@ import ChangePassword from './pages/changePassword';
 import Error404 from './pages/error404';
 import Home from './pages/home/view';
 import Login from './pages/login';
+import Register from './pages/register';
 import Privacy from './pages/privacy';
 import ProductDetail from './pages/productDetail/view';
 import Profile from './pages/profile/view';
@@ -58,6 +59,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={ProductDetail} path='product/:productSlug/:productId' />
 
         <Route component={Login} path='login' />
+        <Route component={Register} path='register' />
         <Route component={ChangePassword} noNavigation path='user/changepwd'/>
 
         <Route component={Profile} floating path='profile/:userSlug/:userId' >

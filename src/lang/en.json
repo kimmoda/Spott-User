@@ -86,6 +86,16 @@
     "logInWithFacebookButton": "Log in with Facebook",
     "submitButton": "Log in"
   },
+  "register": {
+    "title": "Create Account",
+    "registerWithFacebookButton": "Register with Facebook",
+    "submitButton": "Create",
+    "firstname": "Your first name",
+    "lastname": "Your last name",
+    "email": "Your email",
+    "password": "Choose a password",
+    "passwordRepeat": "Retype password"
+  },
   "productDetail": {
     "buyNow": "Buy Now",
     "by": "By %(brandName)s",

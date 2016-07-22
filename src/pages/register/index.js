@@ -1,16 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../_common/buildingBlocks';
-import FacebookLoginButton from './facebookLoginButton';
-import * as actions from '../app/actions';
-import { authenticationErrorSelector, authenticationIsLoadingSelector }
-  from '../app/selector';
 import { push as routerPush } from 'react-router-redux';
+import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../_common/buildingBlocks';
 import localized from '../_common/localized';
+import FacebookRegisterButton from './facebookRegisterButton';
 
 const dialogStyle = {
   overlay: {
@@ -47,12 +42,6 @@ class Form extends Component {
   constructor (props) {
     super(props);
     this.onSubmit = ::this.onSubmit;
-  }
-
-  componentDidMount () {
-    setTimeout(() => {
-      ReactDOM.findDOMNode(this._email).focus();
-    }, 0);
   }
 
   async onSubmit (e) {
@@ -97,22 +86,27 @@ class Form extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <div style={styles.line}>&nbsp;</div>
-        <input autoFocus disabled={isLoading} name='email' placeholder={t('login.email')} ref={(c) => { this._email = c; }}
+        <input autoFocus disabled={isLoading} name='firstname' placeholder={t('register.firstname')}
           style={styles.textInput} type='text' />
-        <input disabled={isLoading} name='password' placeholder={t('login.password')} ref={(c) => { this._password = c; }}
+        <input autoFocus disabled={isLoading} name='lastname' placeholder={t('register.lastname')}
+          style={styles.textInput} type='text' />
+        <input autoFocus disabled={isLoading} name='email' placeholder={t('register.email')}
+          style={styles.textInput} type='text' />
+        <input disabled={isLoading} name='password' placeholder={t('register.password')}
+          style={styles.textInput} type='password' />
+        <input disabled={isLoading} name='password' placeholder={t('register.passwordRepeat')}
           style={styles.textInput} type='password' />
         {error && <div style={styles.error}>{error}</div>}
-        <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('login.submitButton')}/>
+        <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
       </form>
     );
   }
 }
 
 @localized
-class Login extends Component {
+class Register extends Component {
 
   static propTypes = {
-    currentLocale: PropTypes.string.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -148,20 +142,18 @@ class Login extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { currentLocale, t } = this.props;
+    const { t } = this.props;
     if (this.props.location.state && this.props.location.state.modal) {
+      console.log('in modal');
       return (
         <ReactModal
           isOpen
           style={dialogStyle}
           onRequestClose={this.onClose}>
           <section style={styles.container}>
-            <h2 style={styles.title}>{t('login.title')}</h2>
-            <FacebookLoginButton onClose={this.onClose} />
+            <h2 style={styles.title}>{t('register.title')}</h2>
+            <FacebookRegisterButton onClose={this.onClose}/>
             <Form {...this.props} onClose={this.onClose} />
-            <Link to={{
-              pathname: `/${currentLocale}/register`,
-              state: { modal: true, returnTo: this.props.location.state.returnTo } }}>Register</Link>
           </section>
         </ReactModal>
       );
@@ -170,10 +162,9 @@ class Login extends Component {
       <div>
         <div currentPathname={this.props.location.pathname}>
           <section style={styles.container}>
-            <h2 style={styles.title}>{t('login.title')}</h2>
-            <FacebookLoginButton onClose={this.onClose} />
+            <h2 style={styles.title}>{t('register.title')}</h2>
+            <FacebookRegisterButton onClose={this.onClose}/>
             <Form {...this.props} type='button' />
-            <Link to={`/${currentLocale}/register`}>Register</Link>
           </section>
         </div>
       </div>
@@ -182,9 +173,6 @@ class Login extends Component {
 }
 
 export default connect((state, ownProps) => ({
-  error: authenticationErrorSelector(state),
-  isLoading: authenticationIsLoadingSelector(state)
 }), (dispatch) => ({
-  submit: bindActionCreators(actions.doLogin, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
-}))(Login);
+}))(Register);
