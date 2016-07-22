@@ -37,7 +37,13 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
   // When entering a page, the locale is dispatched.
   return (
-    <Route component={App} path='/'>
+    <Route component={App} path='/' onEnter={(state, replace) => {
+      // EVERY hash url will be replaced by a url without a hash!
+      // The language is set instead.
+      if (state.location.hash) {
+        replace(state.location.hash.replace('#', 'nl'));
+      }
+    }}>
       <IndexRedirect to='/en' />
       <Route path=':currentLocale' onEnter={(state) => dispatch(changeLocale(state.params.currentLocale))}>
         <IndexRoute component={Home} />
