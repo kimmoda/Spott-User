@@ -42,9 +42,9 @@
   },
   "home": {
     "downloadApp": {
-      "title": "Verken terwijl u kijkt",
-      "subtitle": "Live op uw mobiele toestel",
-      "availability": "Beschikbaar iOS & Android",
+      "title": "Ontdek terwijl je kijkt",
+      "subtitle": "Live op je mobiele toestel",
+      "availability": "Beschikbaar voor iOS & Android",
       "downloadButton": "Download"
     },
     "newEpisodes": {
@@ -99,12 +99,12 @@
       "followers": {
         "zero":  "[[0]] volgers",
         "one":   "[[1]] volger",
-        "other": "[[%(count)len]] volgers"
+        "other": "[[%(count)s]] volgers"
       },
       "following": {
-        "zero":  "[[0]] Volgend",
+        "zero":  "[[0]] volgend",
         "one":   "[[1]] volgend",
-        "other": "[[%(count)len]] volgend"
+        "other": "[[%(count)s]] volgend"
       }
     },
     "menu": {

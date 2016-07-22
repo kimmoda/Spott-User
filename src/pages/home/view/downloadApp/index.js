@@ -92,6 +92,10 @@ export default class DownloadApp extends Component {
       [mediaQueries.large]: {
         width: '40%',
         maxWidth: 600
+      },
+      [mediaQueries.extraLarge]: {
+        width: '30%',
+        maxWidth: 600
       }
     },
     device: {

@@ -43,7 +43,7 @@
   "home": {
     "downloadApp": {
       "title": "Explorez pendant que vous regardez",
-      "subtitle": "Vivez sur votre téléphone portable",
+      "subtitle": "Live sur vos appareils mobiles",
       "availability": "Disponible pour iOS & Android",
       "downloadButton": "Téléchargez"
     },
@@ -61,11 +61,11 @@
     },
     "recentlyAdded": {
       "browseButton": "Feuilletez",
-      "highlight": "Maintenant disponible à Spott",
-      "title": "Récemment ajouté"
+      "highlight": "Maintenant disponible sur Spott",
+      "title": "Ajouté récemment"
     },
     "recentlyAddedToWishlist": {
-      "title": "Récemment ajouté à liste de souhaits"
+      "title": "Ajouté récemment à liste de souhaits"
     },
     "search": {
       "info": "Spott vous permettez de trouver des produits dans les choses que vous regardez",
