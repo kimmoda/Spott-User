@@ -1,12 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { /* Button, */ colors, Container, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
-// import Dropdown from '../../_common/dropdown';
+import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
+import Dropdown from '../../_common/dropdown';
 import localized from '../../_common/localized';
 import Radium from 'radium';
-import * as actions from '../actions';
 
 const RadiumLink = Radium(Link);
 
@@ -15,7 +12,7 @@ const localesHash = {
   fr: 'Français',
   nl: 'Nederlands'
 };
-// const locales = [ 'en' ];
+const locales = [ 'en', 'fr', 'nl' ];
 
 const styles = {
   wrapper: {
@@ -138,14 +135,10 @@ const styles = {
   }
 };
 @localized
-@connect(null, (dispatch) => ({
-  changeLocale: bindActionCreators(actions.changeLocale, dispatch)
-}))
 @Radium
 export default class Footer extends Component {
 
   static propTypes = {
-    changeLocale: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     style: PropTypes.object,
     t: PropTypes.func.isRequired
@@ -153,7 +146,8 @@ export default class Footer extends Component {
 
   changeLocale (locale, e) {
     e.preventDefault();
-    this.props.changeLocale(locale);
+    // Full refresh the page with the new locale in the url.
+    window.location.replace(window.location.href.replace(`/${this.props.currentLocale}`, `/${locale}`));
   }
 
   render () {
@@ -164,15 +158,14 @@ export default class Footer extends Component {
         <Container className='cf' style={styles.container}>
           <div style={styles.languageSelection}>
             {t('_common.footer.language', {}, (_, key) => (
-              <span key='en' style={styles.languageSelectionCurrent}>{localesHash[currentLocale]}</span>
-              // <Dropdown button={
-              //   <div style={styles.language.trigger}>
-              //     <span style={styles.languageSelectionCurrent}>{localesHash[currentLocale]}</span>
-              //     <span style={styles.language.triggerArrow}>&nbsp;▾</span>
-              //   </div>
-              // } contentStyle={styles.language.menu} key='languageSelection'>
-              //   {locales.map((locale) => (<Button key={locale} style={[ styles.language.menuItem.base, currentLocale === locale && styles.language.menuItem.selected ]} onClick={this.changeLocale.bind(this, locale)}>{localesHash[locale]}</Button>))}
-              // </Dropdown>
+              <Dropdown button={
+                <div style={styles.language.trigger}>
+                  <span style={styles.languageSelectionCurrent}>{localesHash[currentLocale]}</span>
+                  <span style={styles.language.triggerArrow}>&nbsp;▾</span>
+                </div>
+              } contentStyle={styles.language.menu} key='languageSelection'>
+                {locales.map((locale) => (<Button key={locale} style={[ styles.language.menuItem.base, currentLocale === locale && styles.language.menuItem.selected ]} onClick={this.changeLocale.bind(this, locale)}>{localesHash[locale]}</Button>))}
+              </Dropdown>
             ))}
           </div>
           <div style={styles.menu}>

@@ -17,11 +17,12 @@ import Redirect from './pages/redirect';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
+import { changeLocale } from './pages/app/actions';
 
 /**
  * The application routes
  */
-export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-types
+export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line react/prop-types
 /*
   function requireAuth (nextState, replace) {
     // Not authenticated.. replace current location with /login
@@ -34,10 +35,11 @@ export const getRoutes = ({ getState }) => { // eslint-disable-line react/prop-t
   }
 */
 
+  // When entering a page, the locale is dispatched.
   return (
     <Route component={App} path='/'>
       <IndexRedirect to='/en' />
-      <Route path=':currentLocale'>
+      <Route path=':currentLocale' onEnter={(state) => dispatch(changeLocale(state.params.currentLocale))}>
         <IndexRoute component={Home} />
         <Route component={Redirect} noNavigation path='app'/>
         <Route component={Privacy} path='privacy' />
