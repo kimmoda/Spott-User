@@ -1,5 +1,5 @@
 import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
-import { transformProduct } from './transformers';
+import { transformDetailedProduct, transformListProduct } from './transformers';
 
 /**
  * @throws NetworkError
@@ -9,28 +9,14 @@ import { transformProduct } from './transformers';
 export async function getProduct (baseUrl, authenticationToken, locale, { productId }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}`);
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}/similar`);
-  return {
-    description: body.description,
-    id: body.uuid,
-    images: body.images ? body.images.map((image) => ({ id: image.uuid, url: image.url })) : null,
-    longName: body.longName,
-    shareUrl: body.shareUrl,
-    shortName: body.shortName,
-    brand: body.brand ? { name: body.brand.name,
-                          id: body.brand.uuid,
-                          logo: body.brand.logo ? { url: body.brand.logo.url,
-                                                    id: body.brand.logo.uuid } : null } : null,
-    offerings: body.offerings ? body.offerings.map((offer) => ({
-      url: offer.buyUrl,
-      price: { currency: offer.price.currency, amount: offer.price.amount },
-      shop: offer.shop.name })) : null,
-    similarProducts: data.map((product) => ({
-      shortName: product.shortName,
-      image: product.image ? product.image.url : null,
-      price: { currency: product.price.currency, amount: product.price.amount },
-      id: product.uuid }
-    ))
-  };
+  const product = transformDetailedProduct(body);
+  transformDetailedProduct.similarProducts = data.map((p) => ({
+    shortName: p.shortName,
+    image: p.image ? p.image.url : null,
+    price: { currency: p.price.currency, amount: p.price.amount },
+    id: p.uuid }
+  ));
+  return product;
 }
 
 /**
@@ -55,7 +41,7 @@ export async function getRecentlyAddedToWishlist (baseUrl, authenticationToken, 
     // TODO: currently 'Get all products that appear in a whishlist' https://appiness.atlassian.net/browse/SPOTBACK-440
     // TODO: must become 'Recently added to my wish list section' https://appiness.atlassian.net/browse/SWEWBSITE-43
     const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists/searches/products?pageSize=30`);
-    return data.map(transformProduct);
+    return data.map(transformListProduct);
   } catch (error) {
     switch (error.statusCode) {
       case 403:
@@ -73,7 +59,7 @@ export async function getPopularProducts (baseUrl, authenticationToken, locale) 
     // TODO: currently 'Get the top products based on the number of times they were tagged' https://appiness.atlassian.net/browse/APPTCORE-253
     // TODO: must become 'Get the top selling products for a medium' https://appiness.atlassian.net/browse/APPTCORE-252
     const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/searches/popular?pageSize=30`);
-    return data.map(transformProduct);
+    return data.map(transformListProduct);
   } catch (error) {
     switch (error.statusCode) {
       case 403:
@@ -116,18 +102,11 @@ export async function getMediumProducts (baseUrl, authenticationToken, locale, {
  * @throws NotFoundError
  * @throws UnexpectedError
  */
-export async function getWishlistProducts (baseUrl, authenticationToken, locale, userId, wishlistId, page) {
+export async function getWishlistProducts (baseUrl, authenticationToken, locale, { page, userId, wishlistId }) {
   const { body: { data, pageCount } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists/${wishlistId}/products?pageSize=500&page=${page}`);
   // Transform items
   return {
-    data: data.map((bodyWishlistProduct) => ({
-      buyUrl: bodyWishlistProduct.buyUrl,
-      id: bodyWishlistProduct.uuid,
-      image: bodyWishlistProduct.image ? { id: bodyWishlistProduct.image.uuid, url: bodyWishlistProduct.image.url } : null,
-      priceAmount: bodyWishlistProduct.price.amount,
-      priceCurrency: bodyWishlistProduct.price.currency,
-      name: bodyWishlistProduct.shortName
-    })),
+    data: data.map(transformListProduct),
     pageCount
   };
 }

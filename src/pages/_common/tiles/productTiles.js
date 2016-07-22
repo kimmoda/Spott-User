@@ -43,6 +43,7 @@ export class ProductTile extends Component {
     currentLocale: PropTypes.string.isRequired,
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
+      image: PropTypes.string,
       price: ImmutablePropTypes.mapContains({
         amount: PropTypes.number.isRequired,
         currency: PropTypes.string.isRequired
@@ -109,7 +110,7 @@ export class ProductTile extends Component {
       <BaseTile style={style}>
         <RadiumLink style={styles.container} title={title} to={`/${currentLocale}/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
           <div style={styles.imageContainer}>
-            <img alt={item.get('shortName')} src={`${item.get('image')}?height=375&width=375`} style={styles.image} />
+            {item.get('image') && <img alt={item.get('shortName')} src={`${item.get('image')}?height=375&width=375`} style={styles.image} />}
           </div>
           <div style={styles.detailsContainer}>
             <div style={styles.shortName}>{item.get('shortName')}</div>

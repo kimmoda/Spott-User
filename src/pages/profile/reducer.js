@@ -1,31 +1,23 @@
 import { fromJS, Map } from 'immutable';
 import * as actions from './actions';
-import { fetchStart, fetchSuccess, fetchError } from '../../utils';
 
 export default function profileReducer (state = fromJS({
-  users: {},
   currentUser: null,
-  wishlistsOfUser: {},
-  productsOfWishlist: {}
+  currentWishlist: null
 }), action) {
   switch (action.type) {
     case actions.LOAD_USER:
       return state.set('currentUser', Map({ id: action.userId }));
     case actions.LOAD_USER_ERROR:
       return state.mergeIn([ 'currentUser' ], Map({ _error: action.error }));
-    case actions.FETCH_WISHLISTS_OF_USER_START:
-      return fetchStart(state, [ 'wishlistsOfUser', action.userId ]);
-    case actions.FETCH_WISHLISTS_OF_USER_SUCCESS:
-      return fetchSuccess(state, [ 'wishlistsOfUser', action.userId ], action.data); // Sets Map with _status, data (list) and pageCount
-    case actions.FETCH_WISHLISTS_OF_USER_ERROR:
-      return fetchError(state, [ 'wishlistsOfUser', action.userId ], action.error);
-    case actions.FETCH_PRODUCTS_OF_WISHLIST_START:
-      return fetchStart(state, [ 'productsOfWishlist', action.wishlistId ])
-        .set('currentWishlist', action.wishlistId);
-    case actions.FETCH_PRODUCTS_OF_WISHLIST_SUCCESS:
-      return fetchSuccess(state, [ 'productsOfWishlist', action.wishlistId ], action.data);
-    case actions.FETCH_PRODUCTS_OF_WISHLIST_ERROR:
-      return fetchError(state, [ 'productsOfWishlist', action.wishlistId ], action.error);
+    case actions.LOAD_WISHLISTS_OF_USER:
+      return state.set('wishlistsOfUser', Map({ id: action.userId }));
+    case actions.LOAD_WISHLISTS_OF_USER_ERROR:
+      return state.mergeIn([ 'wishlistsOfUser' ], Map({ _error: action.error }));
+    case actions.LOAD_PRODUCTS_OF_WISHLIST:
+      return state.set('currentWishlist', Map({ id: action.wishlistId }));
+    case actions.LOAD_PRODUCTS_OF_WISHLIST_ERROR:
+      return state.mergeIn([ 'currentWishlist' ], Map({ _error: action.error }));
     default:
       return state;
   }

@@ -43,25 +43,33 @@ function fetchListError (state, listKey, error) {
   return fetchError(state, [ 'lists', listKey ], error);
 }
 
-/**
-  * data
-  * -> entities
-  *    -> media
-  *    -> products
-  *    -> users
-  * -> relations
-  *    -> empty
-  * -> lists
-  *    -> recentlyAddedMedia
-  *    -> recentlyAddedToWishlistProducts
-  */
+function fetchRelationsStart (state, relationsKey, relationEntryKey) {
+  return fetchStart(state, [ 'relations', relationsKey, relationEntryKey ]);
+}
+function fetchRelationsSuccess (state, relationsKey, relationEntryKey, entitiesKey, data) {
+  data.forEach((item) => item._status = LOADED); // Add _status 'loaded' to each fetched entity.
+  return state
+    .mergeIn([ 'entities', entitiesKey ], fromJS(data.reduce((accumulator, next) => {
+      accumulator[next.id] = next;
+      return accumulator;
+    }, {})))
+    .setIn([ 'relations', relationsKey, relationEntryKey ],
+      Map({ _status: LOADED, data: List(data.map((item) => item.id)) }));
+}
+function fetchRelationsError (state, relationsKey, relationEntryKey, error) {
+  return fetchError(state, [ 'relations', relationsKey, relationEntryKey ], error);
+}
+
 export default (state = fromJS({
   entities: {
     media: {},
     products: {},
-    users: {}
+    users: {},
+    wishlists: {}
   },
   relations: {
+    userHasWishlists: {},
+    wishlistHasProducts: {}
   },
   lists: {
     popularProducts: {},
@@ -105,6 +113,14 @@ export default (state = fromJS({
     case actions.POPULAR_PRODUCTS_FETCH_ERROR:
       return fetchListError(state, 'popularProducts', action.error);
 
+    case actions.WISHLIST_PRODUCTS_FETCH_START:
+      return fetchRelationsStart(state, 'wishlistHasProducts', action.wishlistId);
+    case actions.WISHLIST_PRODUCTS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'wishlistHasProducts', action.wishlistId, 'products', action.data.data);
+    case actions.WISHLIST_PRODUCTS_FETCH_ERROR:
+      return fetchRelationsError(state, 'wishlistHasProducts', action.wishlistId, action.error);
+
     // Users
     // /////
 
@@ -114,6 +130,17 @@ export default (state = fromJS({
       return fetchSuccess(state, [ 'entities', 'users', action.userId ], action.data);
     case actions.USER_FETCH_ERROR:
       return fetchError(state, [ 'entities', 'users', action.userId ], action.error);
+
+    // Wishlists
+    // /////////
+
+    case actions.WISHLISTS_OF_USER_FETCH_START:
+      return fetchRelationsStart(state, 'userHasWishlists', action.userId);
+    case actions.WISHLISTS_OF_USER_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'userHasWishlists', action.userId, 'wishlists', action.data.data);
+    case actions.WISHLISTS_OF_USER_FETCH_ERROR:
+      return fetchRelationsError(state, 'userHasWishlists', action.userId, action.error);
 
     // Uninteresting actions
     // ---------------------

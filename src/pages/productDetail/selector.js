@@ -1,5 +1,6 @@
 import { createStructuredSelector } from 'reselect';
-import { createEntityByIdSelector, productsEntitiesSelector } from '../../data/selector';
+import { productsEntitiesSelector } from '../../data/selector';
+import { createEntityByIdSelector } from '../../utils';
 
 export const currentProductIdSelector = (state) => state.getIn([ 'productDetail', 'currentProduct', 'id' ]);
 export const selectedImageIdSelector = (state) => state.getIn([ 'productDetail', 'currentProduct', 'selectedImageId' ]);

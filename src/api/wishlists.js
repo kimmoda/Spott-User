@@ -6,7 +6,7 @@ import { transformWishlist } from './transformers';
  * @throws NotFoundError
  * @throws UnexpectedError
  */
-export async function getWishlistsOfUser (baseUrl, authenticationToken, locale, userId, page) {
+export async function getWishlistsOfUser (baseUrl, authenticationToken, locale, { page, userId }) {
   let data;
   let pageCount;
   if (page === 0) {
@@ -32,7 +32,7 @@ export async function getWishlistsOfUser (baseUrl, authenticationToken, locale, 
  * @throws NotFoundError
  * @throws UnexpectedError
  */
-export async function getWishlistOfUser (baseUrl, authenticationToken, locale, userId, wishlistId) {
+export async function getWishlistOfUser (baseUrl, authenticationToken, locale, { userId, wishlistId }) {
   // Fetch first page, include the default list at the front
   const { body } = await request.get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists/${wishlistId}`);
   // Transform items
