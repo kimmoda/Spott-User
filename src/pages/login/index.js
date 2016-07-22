@@ -143,6 +143,17 @@ class Login extends Component {
     title: {
       ...makeTextStyle(fontWeights.light, '30px'),
       color: colors.dark
+    },
+    subText: {
+      ...makeTextStyle(fontWeights.regular, '14px'),
+      textAlign: 'center',
+      color: colors.coolGray,
+      paddingTop: '28px'
+    },
+    subTextLink: {
+      ...makeTextStyle(fontWeights.bold, '14px'),
+      color: colors.slateGray,
+      textDecoration: 'none'
     }
   };
 
@@ -159,9 +170,9 @@ class Login extends Component {
             <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton onClose={this.onClose} />
             <Form {...this.props} onClose={this.onClose} />
-            <Link to={{
+            <p style={styles.subText}>New user?&nbsp;<Link style={styles.subTextLink} to={{
               pathname: `/${currentLocale}/register`,
-              state: { modal: true, returnTo: this.props.location.state.returnTo } }}>Register</Link>
+              state: { modal: true, returnTo: this.props.location.state.returnTo } }}>Create an Account</Link></p>
           </section>
         </ReactModal>
       );
@@ -173,7 +184,7 @@ class Login extends Component {
             <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton onClose={this.onClose} />
             <Form {...this.props} type='button' />
-            <Link to={`/${currentLocale}/register`}>Register</Link>
+            <p style={styles.subText}>New user?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/register`}>Create an Account</Link></p>
           </section>
         </div>
       </div>

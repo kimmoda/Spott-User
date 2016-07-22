@@ -84,7 +84,9 @@
     "email": "Your Email",
     "password": "Your Password",
     "logInWithFacebookButton": "Log in with Facebook",
-    "submitButton": "Log in"
+    "submitButton": "Log in",
+    "newUser": "New user",
+    "createAccount": "Create an account"
   },
   "register": {
     "title": "Create Account",
@@ -94,7 +96,9 @@
     "lastname": "Your last name",
     "email": "Your email",
     "password": "Choose a password",
-    "passwordRepeat": "Retype password"
+    "passwordRepeat": "Retype password",
+    "existingUser": "Already have account",
+    "logIn": "Log in"
   },
   "productDetail": {
     "buyNow": "Buy Now",

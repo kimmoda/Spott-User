@@ -84,7 +84,21 @@
     "email": "Votre email",
     "password": "Votre mot de passe",
     "logInWithFacebookButton": "Se connecter avec Facebook",
-    "submitButton": "Connectez-vous"
+    "submitButton": "Connectez-vous",
+    "newUser": "New user",
+    "createAccount": "Create an account"
+  },
+  "register": {
+    "title": "Créer un compte",
+    "registerWithFacebookButton": "S’enregistrer avec Facebook",
+    "submitButton": "Créer",
+    "firstname": "Prénom",
+    "lastname": "Nom de famille",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "passwordRepeat": "Confirmation mot de passe",
+    "existingUser": "Already have account",
+    "logIn": "Log in"
   },
   "productDetail": {
     "buyNow": "Achetez maintenant",
