@@ -1,3 +1,4 @@
+/* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
@@ -218,8 +219,11 @@ class Form extends Component {
             type='checkbox'
             value='terms'
             onChange={this.onCheckedChange.bind(this, 'terms')} />
-          <label htmlFor='termsCheckbox' style={[ styles.terms.text, submitted && errors.terms && styles.terms.error ]}>I’ve read and agree the&nbsp;
-            <RadiumLink style={[ styles.terms.link, submitted && errors.terms && styles.terms.error ]} target='_blank' to={`/${currentLocale}/terms`}>terms and conditions</RadiumLink></label>
+          <label htmlFor='termsCheckbox' style={[ styles.terms.text, submitted && errors.terms && styles.terms.error ]}>
+          {t('register.agree', {}, (contents, key) => (
+            <RadiumLink key={key} style={[ styles.terms.link, submitted && errors.terms && styles.terms.error ]} target='_blank' to={`/${currentLocale}/terms`}>{t('register.terms')}</RadiumLink>
+          ))}
+          </label>
         </div>
         {error && error._error && <div style={styles.error}>{t(error._error)}</div>}
         <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>

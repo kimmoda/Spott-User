@@ -80,26 +80,28 @@
     "redirecting": "Redirectioner..."
   },
   "login": {
-    "title": "Connectez-vous",
+    "title": "Je m'inscris",
     "email": "Votre email",
     "password": "Votre mot de passe",
-    "logInWithFacebookButton": "Se connecter avec Facebook",
+    "logInWithFacebookButton": "Je m'inscris avec Facebook",
     "submitButton": "Connectez-vous",
-    "newUser": "New user",
-    "createAccount": "Create an account"
+    "newUser": "Nouveau utilisateur?",
+    "createAccount": "Je me connecte"
   },
   "register": {
     "title": "Créer un compte",
-    "registerWithFacebookButton": "S’enregistrer avec Facebook",
-    "submitButton": "Créer",
+    "registerWithFacebookButton": "Je me connecte avec Facebook",
+    "submitButton": "Continuer",
     "firstname": "Prénom",
     "lastname": "Nom de famille",
     "email": "E-mail",
     "password": "Mot de passe",
-    "passwordRepeat": "Confirmation mot de passe",
-    "existingUser": "Already have account",
+    "passwordRepeat": "Confirmation du mot de passe",
+    "existingUser": "Vous avez déjà un compte",
     "logIn": "Log in",
-    "userAlreadyExist": "Il existe déjà un utilisateur Spott enregistré avec cet e-mail ."
+    "userAlreadyExist": "Il existe déjà un utilisateur Spott avec cet e-mail.",
+    "agree": "J'ai lu et accepte [[]]",
+    "terms": "les termes et conditions"
   },
   "productDetail": {
     "buyNow": "Achetez maintenant",

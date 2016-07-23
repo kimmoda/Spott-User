@@ -80,26 +80,28 @@
     "redirecting": "Omleiden..."
   },
   "login": {
-    "title": "Aanmelden",
-    "email": "Votre email",
-    "password": "Votre mot de passe",
-    "logInWithFacebookButton": "Se connecter avec Facebook",
-    "submitButton": "Connectez-vous",
-    "newUser": "New user",
-    "createAccount": "Create an account"
+    "title": "Log in",
+    "email": "Je e-mail",
+    "password": "Je wachtwoord",
+    "logInWithFacebookButton": "Log in met Facebook",
+    "submitButton": "Aanmelden",
+    "newUser": "Nieuwe gebruiker?",
+    "createAccount": "Meld je aan"
   },
   "register": {
-    "title": "Créer un compte",
-    "registerWithFacebookButton": "S’enregistrer avec Facebook",
-    "submitButton": "Créer",
-    "firstname": "Prénom",
-    "lastname": "Nom de famille",
-    "email": "E-mail",
-    "password": "Mot de passe",
-    "passwordRepeat": "Confirmation mot de passe",
-    "existingUser": "Already have account",
+    "title": "Meld je aan",
+    "registerWithFacebookButton": "Meld je aan met Facebook",
+    "submitButton": "Verzend",
+    "firstname": "Je voornaam",
+    "lastname": "Je achternaam",
+    "email": "Je e-mail",
+    "password": "Je wachtwoord",
+    "passwordRepeat": "Bevestig je wachtwoord",
+    "existingUser": "Je hebt reeeds een account",
     "logIn": "Log in",
-    "userAlreadyExist": "Er is reeds een Spott-gebruiker geregistreerd onder dit e-mailadres."
+    "userAlreadyExist": "Er is reeds een Spott gebruiker met dit e-mailadres.",
+    "agree": "Ik heb [[]] gelezen en goedgekeurd, ",
+    "terms": "de voorwaarden"
   },
   "productDetail": {
     "buyNow": "Koop nu",

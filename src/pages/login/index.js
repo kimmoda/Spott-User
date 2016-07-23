@@ -170,9 +170,9 @@ class Login extends Component {
             <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton onClose={this.onClose} />
             <Form {...this.props} onClose={this.onClose} />
-            <p style={styles.subText}>New user?&nbsp;<Link style={styles.subTextLink} to={{
+            <p style={styles.subText}>{t('login.newUser')}&nbsp;<Link style={styles.subTextLink} to={{
               pathname: `/${currentLocale}/register`,
-              state: { modal: true, returnTo: this.props.location.state.returnTo } }}>Create an Account</Link></p>
+              state: { modal: true, returnTo: this.props.location.state.returnTo } }}>{t('login.createAccount')}</Link></p>
           </section>
         </ReactModal>
       );
@@ -184,7 +184,7 @@ class Login extends Component {
             <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton onClose={this.onClose} />
             <Form {...this.props} type='button' />
-            <p style={styles.subText}>New user?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/register`}>Create an Account</Link></p>
+            <p style={styles.subText}>{t('login.newUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/register`}>{t('login.createAccount')}</Link></p>
           </section>
         </div>
       </div>

@@ -85,7 +85,7 @@
     "password": "Your Password",
     "logInWithFacebookButton": "Log in with Facebook",
     "submitButton": "Log in",
-    "newUser": "New user",
+    "newUser": "New user?",
     "createAccount": "Create an account"
   },
   "register": {
@@ -97,9 +97,11 @@
     "email": "Your Email",
     "password": "Choose a Password",
     "passwordRepeat": "Retype Password",
-    "existingUser": "Already have account",
+    "existingUser": "Already have an account",
     "logIn": "Log in",
-    "userAlreadyExist": "There is already a Spott user registered with this email."
+    "userAlreadyExist": "There is already a Spott user registered with this email.",
+    "agree": "I’ve read and agree the [[]]",
+    "terms": "terms and conditions"
   },
   "productDetail": {
     "buyNow": "Buy Now",
