@@ -62,7 +62,11 @@ export default class App extends Component {
       pageView(nextLocation.pathname);
     }
     // if we changed routes and we now have a "modal route", save the old children
-    if (nextLocation.key !== oldLocation.key && nextLocation.state && nextLocation.state.modal) {
+    if (nextLocation.key !== oldLocation.key && // This is another route
+        // The next state is a modal
+        nextLocation.state && nextLocation.state.modal &&
+        // The previous state was NOT a modal (otherwise we keep the previous children from the most top modal)
+        (!oldLocation.state || !(oldLocation.state && oldLocation.state.modal))) {
       this.previousChildren = this.props.children;
     }
   }
