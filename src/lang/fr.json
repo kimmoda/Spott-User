@@ -98,7 +98,8 @@
     "password": "Mot de passe",
     "passwordRepeat": "Confirmation mot de passe",
     "existingUser": "Already have account",
-    "logIn": "Log in"
+    "logIn": "Log in",
+    "userAlreadyExist": "Il existe déjà un utilisateur Spott enregistré avec cet e-mail ."
   },
   "productDetail": {
     "buyNow": "Achetez maintenant",

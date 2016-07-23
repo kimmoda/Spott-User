@@ -22,6 +22,7 @@ export function doLogin ({ email, password }) {
       if (localStorage) {
         localStorage.setItem('session', JSON.stringify(data));
       }
+      return data;
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });
       throw error;

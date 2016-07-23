@@ -6,7 +6,7 @@ import ChangePassword from './pages/changePassword';
 import Error404 from './pages/error404';
 import Home from './pages/home/view';
 import Login from './pages/login';
-import Register from './pages/register';
+import Register from './pages/register/view';
 import Privacy from './pages/privacy';
 import ProductDetail from './pages/productDetail/view';
 import Profile from './pages/profile/view';

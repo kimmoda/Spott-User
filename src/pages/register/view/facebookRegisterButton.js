@@ -2,10 +2,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fontWeights, makeTextStyle } from '../_common/buildingBlocks';
-import * as actions from '../app/actions';
-import { facebookAppIdSelector } from '../app/selector';
-import localized from '../_common/localized';
+import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import * as actions from '../../app/actions';
+import { facebookAppIdSelector } from '../../app/selector';
+import localized from '../../_common/localized';
 
 @localized
 @connect((state) => ({

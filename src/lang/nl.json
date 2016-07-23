@@ -80,7 +80,7 @@
     "redirecting": "Omleiden..."
   },
   "login": {
-    "title": "Connectez-vous",
+    "title": "Aanmelden",
     "email": "Votre email",
     "password": "Votre mot de passe",
     "logInWithFacebookButton": "Se connecter avec Facebook",
@@ -98,7 +98,8 @@
     "password": "Mot de passe",
     "passwordRepeat": "Confirmation mot de passe",
     "existingUser": "Already have account",
-    "logIn": "Log in"
+    "logIn": "Log in",
+    "userAlreadyExist": "Er is reeds een Spott-gebruiker geregistreerd onder dit e-mailadres."
   },
   "productDetail": {
     "buyNow": "Koop nu",

@@ -5,9 +5,10 @@ import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
 import radium from 'radium';
-import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../_common/buildingBlocks';
-import localized from '../_common/localized';
-import FacebookRegisterButton from './facebookRegisterButton';
+import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../../_common/buildingBlocks';
+import localized from '../../_common/localized';
+import { submit } from '../actions';
+// import FacebookRegisterButton from './facebookRegisterButton';
 
 const RadiumLink = radium(Link);
 const dialogStyle = {
@@ -39,22 +40,24 @@ class Form extends Component {
     currentLocale: PropTypes.string,
     error: PropTypes.any,
     isLoading: PropTypes.bool,
-    submit: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired
   }
 
   constructor (props) {
     super(props);
     this.onSubmit = ::this.onSubmit;
     this.onFieldChange = ::this.onFieldChange;
-    this.state = { firstname: '',
-                    lastname: '',
-                    email: '',
-                    password: '',
-                    passwordRepeat: '',
-                    terms: true,
-                    submitted: false };
+    this.state = {
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: '',
+      passwordRepeat: '',
+      terms: true,
+      submitted: false
+    };
   }
 
   validate (values) {
@@ -64,16 +67,21 @@ class Form extends Component {
       email: !values.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
       password: !values.password.match(/^.{6,}$/),
       passwordRepeat: !(values.passwordRepeat.match(/^.{6,}$/) && values.password === values.passwordRepeat),
-      terms: this.state.terms
+      terms: !this.state.terms
     });
   }
 
   async onSubmit (e) {
     e.preventDefault();
+    this.setState({ isLoading: true });
     this.setState({ submitted: true });
-    // const { firstname, lastname, email, password } = this.state;
-    // await this.props.submit({ firstname, lastname, email, password });
-    // this.props.onClose();
+    const { firstname, lastname, email, password } = this.state;
+    const { error } = await this.props.onSubmit({ firstname, lastname, email, password });
+    if (error) {
+      this.setState({ ...this.state, error });
+    } else {
+      this.props.onClose();
+    }
   }
 
   onFieldChange (field, e) {
@@ -146,26 +154,61 @@ class Form extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { currentLocale, error, isLoading, t } = this.props;
-    const { firstname, lastname, email, password, passwordRepeat, terms, submitted } = this.state;
+    const { currentLocale, isLoading, t } = this.props;
+    const { error, firstname, lastname, email, password, passwordRepeat, terms, submitted } = this.state;
     const errors = this.validate(this.state);
+    console.warn('local errors', errors);
+    console.warn('errror form', error);
     return (
       <form onSubmit={this.onSubmit}>
-        <div style={styles.line}>&nbsp;</div>
+        {/* <div style={styles.line}>&nbsp;</div> */}
         <div style={styles.left}>
-          <input autoFocus disabled={isLoading} name='firstname' placeholder={t('register.firstname')}
-            style={[ styles.textInput, submitted && errors.firstname && styles.textInputError ]} type='text' value={firstname} onChange={this.onFieldChange.bind(this, 'firstname')}/>
+          <input
+            autoFocus
+            disabled={isLoading}
+            name='firstname'
+            placeholder={t('register.firstname')}
+            style={[ styles.textInput, submitted && errors.firstname && styles.textInputError ]}
+            type='text'
+            value={firstname}
+            onChange={this.onFieldChange.bind(this, 'firstname')} />
         </div>
         <div style={styles.right}>
-          <input autoFocus disabled={isLoading} name='lastname' placeholder={t('register.lastname')}
-            style={[ styles.textInput, submitted && errors.lastname && styles.textInputError ]} type='text' value={lastname} onChange={this.onFieldChange.bind(this, 'lastname')}/>
+          <input
+            autoFocus
+            disabled={isLoading}
+            name='lastname'
+            placeholder={t('register.lastname')}
+            style={[ styles.textInput, submitted && errors.lastname && styles.textInputError ]}
+            type='text'
+            value={lastname}
+            onChange={this.onFieldChange.bind(this, 'lastname')} />
         </div>
-        <input autoFocus disabled={isLoading} name='email' placeholder={t('register.email')}
-          style={[ styles.textInput, submitted && errors.email && styles.textInputError ]} type='text' value={email} onChange={this.onFieldChange.bind(this, 'email')}/>
-        <input disabled={isLoading} name='password' placeholder={t('register.password')}
-          style={[ styles.textInput, submitted && errors.password && styles.textInputError ]} type='password' value={password} onChange={this.onFieldChange.bind(this, 'password')}/>
-        <input disabled={isLoading} name='passwordRepeat' placeholder={t('register.passwordRepeat')}
-          style={[ styles.textInput, submitted && errors.passwordRepeat && styles.textInputError ]} type='password' value={passwordRepeat} onChange={this.onFieldChange.bind(this, 'passwordRepeat')}/>
+        <input
+          autoFocus
+          disabled={isLoading}
+          name='email'
+          placeholder={t('register.email')}
+          style={[ styles.textInput, submitted && errors.email && styles.textInputError ]}
+          type='text'
+          value={email}
+          onChange={this.onFieldChange.bind(this, 'email')} />
+        <input
+          disabled={isLoading}
+          name='password'
+          placeholder={t('register.password')}
+          style={[ styles.textInput, submitted && errors.password && styles.textInputError ]}
+          type='password'
+          value={password}
+          onChange={this.onFieldChange.bind(this, 'password')} />
+        <input
+          disabled={isLoading}
+          name='passwordRepeat'
+          placeholder={t('register.passwordRepeat')}
+          style={[ styles.textInput, submitted && errors.passwordRepeat && styles.textInputError ]}
+          type='password'
+          value={passwordRepeat}
+          onChange={this.onFieldChange.bind(this, 'passwordRepeat')} />
         <div style={styles.terms.wrapper}>
           <input
             checked={terms}
@@ -178,7 +221,7 @@ class Form extends Component {
           <label htmlFor='termsCheckbox' style={[ styles.terms.text, submitted && errors.terms && styles.terms.error ]}>I’ve read and agree the&nbsp;
             <RadiumLink style={[ styles.terms.link, submitted && errors.terms && styles.terms.error ]} target='_blank' to={`/${currentLocale}/terms`}>terms and conditions</RadiumLink></label>
         </div>
-        {error && <div style={styles.error}>{error}</div>}
+        {error && error._error && <div style={styles.error}>{t(error._error)}</div>}
         <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
       </form>
     );
@@ -198,8 +241,8 @@ class Register extends Component {
       })
     }).isRequired,
     routerPush: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -219,7 +262,8 @@ class Register extends Component {
     },
     title: {
       ...makeTextStyle(fontWeights.light, '30px'),
-      color: colors.dark
+      color: colors.dark,
+      marginBottom: '0.5em' // TODO: Remove after adding facebook and line
     },
     subText: {
       ...makeTextStyle(fontWeights.regular, '14px'),
@@ -238,7 +282,6 @@ class Register extends Component {
     const { styles } = this.constructor;
     const { currentLocale, t } = this.props;
     if (this.props.location.state && this.props.location.state.modal) {
-      console.log('in modal');
       return (
         <ReactModal
           isOpen
@@ -246,7 +289,7 @@ class Register extends Component {
           onRequestClose={this.onClose}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('register.title')}</h2>
-            <FacebookRegisterButton onClose={this.onClose}/>
+            {/* <FacebookRegisterButton onClose={this.onClose}/> */}
             <Form {...this.props} onClose={this.onClose} />
             <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={{
               pathname: `/${currentLocale}/login`,
@@ -260,8 +303,8 @@ class Register extends Component {
         <div currentPathname={this.props.location.pathname}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('register.title')}</h2>
-            <FacebookRegisterButton onClose={this.onClose}/>
-            <Form {...this.props} type='button' />
+            {/* <FacebookRegisterButton onClose={this.onClose}/> */}
+            <Form {...this.props} type='button' onClose={this.onClose} />
             <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/login`}>{t('register.logIn')}</Link></p>
           </section>
         </div>
@@ -271,6 +314,8 @@ class Register extends Component {
 }
 
 export default connect((state, ownProps) => ({
+
 }), (dispatch) => ({
-  routerPush: bindActionCreators(routerPush, dispatch)
+  routerPush: bindActionCreators(routerPush, dispatch),
+  onSubmit: bindActionCreators(submit, dispatch)
 }))(Register);
