@@ -158,8 +158,6 @@ class Form extends Component {
     const { currentLocale, isLoading, t } = this.props;
     const { error, firstname, lastname, email, password, passwordRepeat, terms, submitted } = this.state;
     const errors = this.validate(this.state);
-    console.warn('local errors', errors);
-    console.warn('errror form', error);
     return (
       <form onSubmit={this.onSubmit}>
         {/* <div style={styles.line}>&nbsp;</div> */}

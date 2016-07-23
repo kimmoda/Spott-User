@@ -22,7 +22,6 @@ export function loadUser (userId) {
       // Dispatch success
       return dispatch({ type: LOAD_USER_SUCCESS, userId, data });
     } catch (error) {
-      console.warn(error.stack);
       return dispatch({ type: LOAD_USER_ERROR, userId, error });
     }
   };
