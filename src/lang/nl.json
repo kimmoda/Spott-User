@@ -80,11 +80,28 @@
     "redirecting": "Omleiden..."
   },
   "login": {
-    "title": "Aanmelden",
-    "email": "Uw E-mail",
-    "password": "Uw wachtwoord",
-    "logInWithFacebookButton": "Meld u aan met Facebook",
-    "submitButton": "Aanmelden"
+    "title": "Log in",
+    "email": "Je e-mail",
+    "password": "Je wachtwoord",
+    "logInWithFacebookButton": "Log in met Facebook",
+    "submitButton": "Aanmelden",
+    "newUser": "Nieuwe gebruiker?",
+    "createAccount": "Meld je aan"
+  },
+  "register": {
+    "title": "Meld je aan",
+    "registerWithFacebookButton": "Meld je aan met Facebook",
+    "submitButton": "Verzend",
+    "firstname": "Je voornaam",
+    "lastname": "Je achternaam",
+    "email": "Je e-mail",
+    "password": "Je wachtwoord",
+    "passwordRepeat": "Bevestig je wachtwoord",
+    "existingUser": "Je hebt reeeds een account",
+    "logIn": "Log in",
+    "userAlreadyExist": "Er is reeds een Spott gebruiker met dit e-mailadres.",
+    "agree": "Ik heb [[]] gelezen en goedgekeurd, ",
+    "terms": "de voorwaarden"
   },
   "productDetail": {
     "buyNow": "Koop nu",

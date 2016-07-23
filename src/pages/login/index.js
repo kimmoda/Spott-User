@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../_common/buildingBlocks';
 import FacebookLoginButton from './facebookLoginButton';
@@ -111,6 +112,7 @@ class Form extends Component {
 class Login extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -141,12 +143,23 @@ class Login extends Component {
     title: {
       ...makeTextStyle(fontWeights.light, '30px'),
       color: colors.dark
+    },
+    subText: {
+      ...makeTextStyle(fontWeights.regular, '14px'),
+      textAlign: 'center',
+      color: colors.coolGray,
+      paddingTop: '28px'
+    },
+    subTextLink: {
+      ...makeTextStyle(fontWeights.bold, '14px'),
+      color: colors.slateGray,
+      textDecoration: 'none'
     }
   };
 
   render () {
     const { styles } = this.constructor;
-    const { t } = this.props;
+    const { currentLocale, t } = this.props;
     if (this.props.location.state && this.props.location.state.modal) {
       return (
         <ReactModal
@@ -157,6 +170,9 @@ class Login extends Component {
             <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton onClose={this.onClose} />
             <Form {...this.props} onClose={this.onClose} />
+            <p style={styles.subText}>{t('login.newUser')}&nbsp;<Link style={styles.subTextLink} to={{
+              pathname: `/${currentLocale}/register`,
+              state: { modal: true, returnTo: this.props.location.state.returnTo } }}>{t('login.createAccount')}</Link></p>
           </section>
         </ReactModal>
       );
@@ -168,6 +184,7 @@ class Login extends Component {
             <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton onClose={this.onClose} />
             <Form {...this.props} type='button' />
+            <p style={styles.subText}>{t('login.newUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/register`}>{t('login.createAccount')}</Link></p>
           </section>
         </div>
       </div>
