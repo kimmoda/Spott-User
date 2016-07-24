@@ -86,11 +86,11 @@
     "logInWithFacebookButton": "Log in met Facebook",
     "submitButton": "Aanmelden",
     "newUser": "Nieuwe gebruiker?",
-    "createAccount": "Meld je aan"
+    "createAccount": "Registreer je"
   },
   "register": {
-    "title": "Meld je aan",
-    "registerWithFacebookButton": "Meld je aan met Facebook",
+    "title": "Registratie",
+    "registerWithFacebookButton": "Registreer je met Facebook",
     "submitButton": "Verzend",
     "firstname": "Je voornaam",
     "lastname": "Je achternaam",
