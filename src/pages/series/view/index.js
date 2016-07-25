@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import Hero from './_hero';
 
 export default class Series extends Component {
@@ -7,15 +8,20 @@ export default class Series extends Component {
     children: PropTypes.node,
     params: PropTypes.shape({
       seriesId: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    series: ImmutablePropTypes.map.isRequired
   };
 
+  componentDidMount () {
+    this.props.loadSeries(this.props.params.seriesId);
+  }
+
   render () {
-    const { params: { seriesId } } = this.props;
+    const { params: { seriesId }, series } = this.props;
     return (
       <div>
         <Hero seriesId={seriesId} />
-        {this.props.children}
+        {/*{this.props.children}*/}
       </div>
     );
   }

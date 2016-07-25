@@ -162,20 +162,27 @@ export default class Hero extends Component {
         <ScalableContainer style={styles.tabs}>
           <div>
             <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/overview`}>Overview</Link>
+            {/*
             <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/products`}>Products</Link>
             <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/season/3`}>Scenes</Link>
+            */}
           </div>
+          {/*
           <div>
             <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/3`}>Season 3</Link>
             <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/2`}>Season 2</Link>
             <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/1`}>Season 1</Link>
           </div>
+          */}
         </ScalableContainer>
+
+        {/*
         <div style={styles.smallEpisodes}>
           <FadedTiles>
-            <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} />
+            <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} seriesId={seriesId} />
           </FadedTiles>
         </div>
+        */}
       </div>
     );
   }

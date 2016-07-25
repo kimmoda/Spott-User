@@ -13,8 +13,8 @@ import Profile from './pages/profile/view';
 import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
 import Redirect from './pages/redirect';
-// import Series from './pages/series/view';
-// import SeriesOverview from './pages/series/view/overview';
+import Series from './pages/series/view';
+import SeriesOverview from './pages/series/view/overview';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
@@ -51,16 +51,14 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Redirect} noNavigation path='app'/>
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
-        {/*
         <Route component={Series} path='series/:seriesId'>
-          <IndexRedirect to='series/:seriesId/overview' />
-          <Route component={SeriesOverview} path='series/:seriesId/overview' />
-          <Route component={SeriesProducts} path='series/:seriesId/products' />
+          <IndexRedirect to='overview' />
+          <Route component={SeriesOverview} path='overview' />
+          {/*<Route component={SeriesProducts} path='series/:seriesId/products' />
           <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
             <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
-          </Route>
+          </Route>*/}
         </Route>
-        */}
 
         <Route component={ProductDetail} path='product/:productSlug/:productId' />
 
