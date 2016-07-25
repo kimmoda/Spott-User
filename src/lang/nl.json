@@ -132,7 +132,8 @@
       "unnamedWishlist": "Verlanglijst"
     },
     "wishlistProducts": {
-      "empty": "Deze verlanglijst is leeg."
+      "empty": "Deze verlanglijst is leeg.",
+      "private": "Deze verlanglijst is privé, de eigenaar moet deze publiek maken om deze zichtbaar te maken."
     }
   }
 }

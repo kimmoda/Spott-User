@@ -129,10 +129,12 @@
     },
     "wishlists": {
       "empty": "Vous n'avez pas encore des listes de souhaits.",
+
       "unnamedWishlist": "Liste de souhaits"
     },
     "wishlistProducts": {
-      "empty": "Cette liste de souhaits est vide."
+      "empty": "Cette liste de souhaits est vide.",
+      "private": "This wishlist is set to private, the owner must set it to public to make it visible."
     }
   }
 }
