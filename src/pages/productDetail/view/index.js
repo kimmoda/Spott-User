@@ -110,8 +110,7 @@ export default class ProductDetail extends Component {
         bottom: 0,
         maxWidth: '100%',
         maxHeight: '100%',
-        margin: 'auto',
-        zoom: '8'
+        margin: 'auto'
       },
       small: {
         wrapper: {
