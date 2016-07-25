@@ -8,7 +8,7 @@ import { productsOfWishlistSelector } from '../../selector';
 import { fetchProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
-import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
+import { ERROR, FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import Spinner from '../../../_common/spinner';
 import localized from '../../../_common/localized';
 import { slugify } from '../../../../utils';
@@ -125,6 +125,7 @@ export default class WishlistProducts extends Component {
 
   render () {
     const { productsOfWishlist, t } = this.props;
+
     if (productsOfWishlist.get('_status') === FETCHING) {
       return (<Spinner />);
     }
@@ -143,6 +144,7 @@ export default class WishlistProducts extends Component {
           </div>
         );
       }
+
       return (
         <div>
           <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
@@ -150,6 +152,16 @@ export default class WishlistProducts extends Component {
         </div>
       );
     }
+
+    if (productsOfWishlist.get('_status') === ERROR && productsOfWishlist.get('_error').name === 'UnauthorizedError') {
+      return (
+        <div>
+          <h1 style={styles.title}>{t('profile.wishlists.unnamedWishlist')}</h1>
+          <p style={styles.emptyText}>{t('profile.wishlistProducts.private')}</p>
+        </div>
+      );
+    }
+
     return (<div></div>);
   }
 }
