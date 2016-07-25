@@ -6,7 +6,7 @@ import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries, Mo
 import Tiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
-import { FETCHING, LOADED, UPDATING } from '../../../data/statusTypes';
+import { FETCHING, LAZY, LOADED, UPDATING } from '../../../data/statusTypes';
 import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Spinner from '../../_common/spinner';
@@ -37,6 +37,7 @@ export default class ProductDetail extends Component {
       ),
       id: PropTypes.string
     }),
+    selectedImageId: PropTypes.string,
     t: PropTypes.func.isRequired,
     onChangeImageSelection: PropTypes.func.isRequired
   };
@@ -47,14 +48,14 @@ export default class ProductDetail extends Component {
     this.product = this.props.params.productId;
   }
 
-  componentWillMount () {
+  async componentWillMount () {
     // (Re)fetch the product.
-    this.props.loadProduct(this.props.params.productId);
+    await this.props.loadProduct(this.props.params.productId);
   }
 
-  componentWillReceiveProps (nextProps) {
+  async componentWillReceiveProps (nextProps) {
     if (this.props.params.productId !== nextProps.params.productId) {
-      this.props.loadProduct(nextProps.params.productId);
+      await this.props.loadProduct(nextProps.params.productId);
     }
   }
 
@@ -225,27 +226,32 @@ export default class ProductDetail extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { onChangeImageSelection, product, t } = this.props;
-    if (!product.get('_status') || product.get('_status') === FETCHING) {
+    const { onChangeImageSelection, product, selectedImageId, t } = this.props;
+
+    if (!product.get('_status') || product.get('_status') === FETCHING || product.get('_status') === LAZY) {
       return (<Spinner />);
-    } else if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
+    }
+
+    if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
       const notAvailable = !product.getIn([ 'offerings', '0', 'url' ]);
+      const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
       return (
         <div>
           <div style={styles.productInfo}>
             <Container>
               <div style={styles.left}>
                 <div style={styles.images.wrapper}>
-                  <img src={product.get('selectedImage')} style={styles.images.big} />
+                  {selectedImage &&
+                    <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big} />}
                 </div>
                 <div>
                   {product.get('images') && product.get('images').map((image) =>
                     <div
                       key={image.get('id')}
-                      style={[ styles.images.small.wrapper, image.get('url') === product.get('selectedImage') && styles.images.selected ]}
-                      onClick={onChangeImageSelection.bind(null, image.get('url'))}>
+                      style={[ styles.images.small.wrapper, image.get('id') === selectedImageId && styles.images.selected ]}
+                      onClick={onChangeImageSelection.bind(null, image.get('id'))}>
                       <img
-                        src={image.get('url')}
+                        src={`${image.get('url')}?height=160&width=160`}
                         style={styles.images.small.image}/>
                     </div>)}
                 </div>
@@ -253,11 +259,13 @@ export default class ProductDetail extends Component {
               <div style={styles.right}>
                 <div>
                   <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
-                  <p style={styles.details.brand.label}>{t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) })}</p>
+                  <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
                   {product.get('description') &&
                     <p style={styles.details.productDescription}>{product.get('description')}</p>}
                   <h2 style={styles.details.price}>
-                    <Money amount={product.getIn([ 'offerings', '0', 'price', 'amount' ])} currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} />
+                    <Money
+                      amount={product.getIn([ 'offerings', '0', 'price', 'amount' ])}
+                      currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} />
                   </h2>
                   <div style={styles.details.buttons.wrapper}>
                     <Button disabled={notAvailable} href={product.getIn([ 'offerings', '0', 'url' ])} key='buyButton' style={pinkButtonStyle} target='_blank'>
@@ -279,14 +287,20 @@ export default class ProductDetail extends Component {
               </div>
               <div style={styles.clear} />
               {/* TODO: Didier will provide title, description and maybe images for sharing */}
-              <FacebookShareData description={product.get('description') || ''} imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()} title={product.get('shortName')} url={window.location.href}/>
+              <FacebookShareData
+                description={product.get('description') || ''}
+                imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()}
+                title={product.get('shortName')} url={window.location.href} />
             </Container>
           </div>
           <div style={styles.similarProducts}>
             <Container>
               <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
-              {product.get('similarProducts') && product.get('similarProducts').size > 0 && <Tiles items={product.get('similarProducts')} />}
-              {product.get('similarProducts') && product.get('similarProducts').size === 0 && <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
+              {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
+                <Tiles items={product.get('similarProducts')} />}
+              {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
+                <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
+              {!product.get('similarProducts') && <Spinner />}
             </Container>
           </div>
         </div>

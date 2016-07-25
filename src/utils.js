@@ -44,6 +44,66 @@ export function fetchError (state, path, error) {
 // //////////////
 
 /**
+ * Utility selector factory for accessing related id's.
+ *
+ * Creates a selector for selecting id's for the entry specified by relationEntryKey within the given relation.
+ * @param {function} relationSelector
+ * @param {function} relationEntryKeySelector
+ * @return {Map} An immutable map with a '_status' and 'data':
+ *   The field _status can contain any of the predefined status types (see /constants/statusTypes.js),
+ *   the field data is an immutable list containing the entity ids.
+ *   Both elements are always present.
+ */
+export function createEntityIdsByRelationSelector (relationSelector, relationEntryKeySelector) {
+  return createSelector(relationSelector, relationEntryKeySelector, (relation, relationEntryKey) => {
+    // Get the entry in the relation, being a Map({ <relationEntryKey>: Map({ _status, _error, data }) })
+    const relationEntry = relation.get(relationEntryKey);
+    // If we did not found such an entry, no fetching has started yet.
+    if (!relationEntry) {
+      return Map({ _status: LAZY, data: List() });
+    }
+    // Good, we have a relation. Get its data (a list of id's, if already there)
+    return relationEntry.set('data', relationEntry.get('data') || List()); // Ensure we always have a list in 'data'.
+  });
+}
+
+/**
+ * Utility selector factory for accessing related entities.
+ *
+ * Creates a selector for selecting entities for the entry specified by relationEntryKey within the given relation.
+ * @param {function} relationSelector
+ * @param {function} relationEntryKeySelector
+ * @param {function} entitiesByIdSelector
+ * @return {Map} An immutable map with a '_status' and 'data':
+ *   The field _status can contain any of the predefined status types (see /constants/statusTypes.js),
+ *   the field data is an immutable list containing the entities.
+ *   Both elements are always present.
+ */
+export function createEntitiesByRelationSelector (relationSelector, relationEntryKeySelector, entitiesByIdSelector) {
+  return createSelector(entitiesByIdSelector, createEntityIdsByRelationSelector(relationSelector, relationEntryKeySelector), (entitiesById, relation) => {
+    // Good, we have a relation. Map over its data (a list of id's, if already there) and substitute by the entities.
+    return relation.set('data', relation.get('data').map((id) => entitiesById.get(id)));
+  });
+}
+
+export function createEntitiesByListSelector (listSelector, entitiesByIdSelector) {
+  return createSelector(entitiesByIdSelector, listSelector, (entitiesById, list) => {
+    // If we did not have a list container, no fetching has started yet.
+    if (!list) {
+      return Map({ _status: LAZY, data: List() });
+    }
+    // Good, we have a list container. Ensure we always have a list in 'data', then
+    // resolve each item in the underlying 'data' list.
+    return list.set('data', (list.get('data') || List()).map((id) => {
+      return entitiesById.get(id);
+    }));
+  });
+}
+
+
+
+
+/**
  * Utility selector factory for accessing an entity by id.
  *
  * Creates a selector for the entity with given id's within the given entities.

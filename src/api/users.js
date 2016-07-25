@@ -6,8 +6,8 @@ import { transformUser } from './transformers';
  * @throws NotFoundError
  * @throws UnexpectedError
  */
-export async function getUser (baseUrl, authenticationToken, locale, id) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${id}`);
+export async function getUser (baseUrl, authenticationToken, locale, { userId }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}`);
   return transformUser(body);
 }
 
