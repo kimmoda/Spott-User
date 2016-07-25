@@ -146,7 +146,7 @@ class Header extends Component {
       <header style={[ styles.wrapper.base, floating && styles.wrapper.floating ]}>
         <Container style={styles.container}>
           <div style={styles.logoSection.container}>
-            <Link to='/'>
+            <Link to={`/${currentLocale}`}>
               <img alt={t('_common.header.home')} src={floating ? spottWhiteImage : spottBlackImage} style={styles.logoSection.logo} />
             </Link>
           </div>
