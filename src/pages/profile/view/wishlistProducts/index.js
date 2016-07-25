@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle, Money } from '../../../_common/buildingBlocks';
 import VerticalTiles from '../../../_common/verticalTiles';
 import { productsOfWishlistSelector } from '../../selector';
-import { fetchProductsOfWishlist } from '../../actions';
+import { loadProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { ERROR, FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
@@ -56,14 +56,16 @@ class WishlistProduct extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     item: ImmutablePropTypes.mapContains({
-      buyUrl: PropTypes.string.isRequired,
+      _status: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
       image: ImmutablePropTypes.mapContains({
         url: PropTypes.string.isRequired
       }),
-      priceAmount: PropTypes.number.isRequired,
-      priceCurrency: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
+      price: ImmutablePropTypes.mapContains({
+        amount: PropTypes.number,
+        currency: PropTypes.string
+      }),
+      shortName: PropTypes.string.isRequired
     }),
     style: PropTypes.object,
     t: PropTypes.func.isRequired
@@ -71,15 +73,18 @@ class WishlistProduct extends Component {
 
   render () {
     const { currentLocale, item, style } = this.props;
-    return (
-      <BaseTile style={style}>
-        <RadiumLink style={itemStyles.container} to={`/${currentLocale}/product/${slugify(item.get('name'))}/${item.get('id')}`}>
-          <div style={{ ...itemStyles.image, backgroundImage: `url(${item.get('image') === null ? 'none' : item.getIn([ 'image', 'url' ]) })` }}></div>
-          <p style={itemStyles.name}>{item.get('name') || '\u00a0'}</p>
-          <p style={itemStyles.price}><Money amount={item.get('priceAmount')} currency={item.get('priceCurrency')} /></p>
-        </RadiumLink>
-      </BaseTile>
-    );
+    if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
+      return (
+        <BaseTile style={style}>
+          <RadiumLink style={itemStyles.container} to={`/${currentLocale}/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
+            <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }}></div>
+            <p style={itemStyles.name}>{item.get('shortName') || '\u00a0'}</p>
+            <p style={itemStyles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])} /></p>
+          </RadiumLink>
+        </BaseTile>
+      );
+    }
+    return <div></div>;
   }
 }
 
@@ -96,36 +101,37 @@ const styles = {
 };
 @localized
 @connect(productsOfWishlistSelector, (dispatch) => ({
-  fetchProductsOfWishlist: bindActionCreators(fetchProductsOfWishlist, dispatch)
+  loadProductsOfWishlist: bindActionCreators(loadProductsOfWishlist, dispatch)
 }))
 export default class WishlistProducts extends Component {
   static propTypes = {
-    fetchProductsOfWishlist: PropTypes.func.isRequired,
+    loadProductsOfWishlist: PropTypes.func.isRequired,
     params: PropTypes.shape({
       wishlistId: PropTypes.string.isRequired
     }),
     productsOfWishlist: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
-      data: ImmutablePropTypes.list,
-      name: PropTypes.string
+      data: ImmutablePropTypes.list
     }),
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    wishlist: ImmutablePropTypes.mapContains({
+      name: PropTypes.string
+    })
   };
 
   componentWillMount () {
     // (Re)fetch the wishlist.
-    this.props.fetchProductsOfWishlist(this.props.params.wishlistId);
+    this.props.loadProductsOfWishlist(this.props.params.wishlistId);
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.props.params.wishlistId !== nextProps.params.wishlistId) {
-      this.props.fetchProductsOfWishlist(nextProps.params.wishlistId);
+      this.props.loadProductsOfWishlist(nextProps.params.wishlistId);
     }
   }
 
   render () {
-    const { productsOfWishlist, t } = this.props;
-
+    const { productsOfWishlist, t, wishlist } = this.props;
     if (productsOfWishlist.get('_status') === FETCHING) {
       return (<Spinner />);
     }
@@ -133,7 +139,7 @@ export default class WishlistProducts extends Component {
       if (productsOfWishlist.get('data').size > 0) {
         return (
           <div style={styles.content}>
-            <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
+            <h1 style={styles.title}>{wishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
             <VerticalTiles
               aspectRatio={1.38876}
               horizontalSpacing={30}
@@ -147,7 +153,7 @@ export default class WishlistProducts extends Component {
 
       return (
         <div>
-          <h1 style={styles.title}>{productsOfWishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
+          <h1 style={styles.title}>{wishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
           <p style={styles.emptyText}>{t('profile.wishlistProducts.empty')}</p>
         </div>
       );

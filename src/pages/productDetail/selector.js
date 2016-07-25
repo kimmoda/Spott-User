@@ -1,8 +1,18 @@
-import { createStructuredSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
+import { productsEntitiesSelector } from '../../data/selector';
+import { createEntityByIdSelector } from '../../utils';
 
-export const currentProductIdSelector = (state) => state.getIn([ 'productDetail', 'currentProduct' ]);
+export const currentProductIdSelector = (state) => state.getIn([ 'productDetail', 'currentProduct', 'id' ]);
+const currentProductSelector = createEntityByIdSelector(productsEntitiesSelector, currentProductIdSelector);
+const _selectedImageIdSelector = (state) => state.getIn([ 'productDetail', 'currentProduct', 'selectedImageId' ]);
+export const selectedImageIdSelector = createSelector(
+  currentProductSelector,
+  _selectedImageIdSelector,
+  (product, selectedImageId) => selectedImageId || (product.get('images') && product.getIn([ 'images', '0', 'id' ]))
+);
 
-// View selector fro user profile
+// View selector for product detail page.
 export const productSelector = createStructuredSelector({
-  product: currentProductIdSelector
+  product: currentProductSelector,
+  selectedImageId: selectedImageIdSelector
 });

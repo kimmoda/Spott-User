@@ -12,16 +12,16 @@ function fetchStart (state, path) {
   // When the data is already present, set it's status to 'updating'.
   // This way we now if there is already data, but it's updating.
   if (loaded) {
-    return state.mergeIn(path, { _status: UPDATING });
+    return state.mergeIn(path, { _error: null, _status: UPDATING });
   }
   // If the data do not exist, set the status to 'fetching'.
-  return state.mergeIn(path, { _status: FETCHING });
+  return state.mergeIn(path, { _error: null, _status: FETCHING });
 }
-/* TODO: not used yet.
+
 function fetchSuccess (state, path, data) {
-  return state.setIn(path, fromJS({ ...data, _status: LOADED }));
+  return state.mergeIn(path, fromJS({ ...data, _error: null, _status: LOADED }));
 }
-*/
+
 function fetchError (state, path, error) {
   return state.setIn(path, Map({ _error: error, _status: ERROR }));
 }
@@ -30,9 +30,11 @@ function fetchListStart (state, listKey) {
   return fetchStart(state, [ 'lists', listKey ]);
 }
 function fetchListSuccess (state, listKey, entitiesKey, data) {
-  data.forEach((item) => item._status = LOADED); // Add _status 'loaded' to each fetched entity.
+  // data.forEach((item) => item._status = LOADED); // Add _status 'loaded' to each fetched entity.
   return state
-    .mergeIn([ 'entities', entitiesKey ], fromJS(data.reduce((accumulator, next) => {
+    .mergeDeepIn([ 'entities', entitiesKey ], fromJS(data.reduce((accumulator, next) => {
+      next._status = LOADED;
+      next._error = null;
       accumulator[next.id] = next;
       return accumulator;
     }, {})))
@@ -43,23 +45,34 @@ function fetchListError (state, listKey, error) {
   return fetchError(state, [ 'lists', listKey ], error);
 }
 
-/**
-  * data
-  * -> entities
-  *    -> media
-  *    -> products
-  * -> relations
-  *    -> empty
-  * -> lists
-  *    -> recentlyAddedMedia
-  *    -> recentlyAddedToWishlistProducts
-  */
+function fetchRelationsStart (state, relationsKey, relationEntryKey) {
+  return fetchStart(state, [ 'relations', relationsKey, relationEntryKey ]);
+}
+function fetchRelationsSuccess (state, relationsKey, relationEntryKey, entitiesKey, data) {
+  return state
+    .mergeDeepIn([ 'entities', entitiesKey ], fromJS(data.reduce((accumulator, next) => {
+      next._status = LOADED; // Add _status 'loaded' to each fetched entity.
+      next._error = null;
+      accumulator[next.id] = next;
+      return accumulator;
+    }, {})))
+    .setIn([ 'relations', relationsKey, relationEntryKey ],
+      Map({ _status: LOADED, data: List(data.map((item) => item.id)) }));
+}
+function fetchRelationsError (state, relationsKey, relationEntryKey, error) {
+  return fetchError(state, [ 'relations', relationsKey, relationEntryKey ], error);
+}
+
 export default (state = fromJS({
   entities: {
     media: {},
-    products: {}
+    products: {},
+    users: {},
+    wishlists: {}
   },
   relations: {
+    userHasWishlists: {},
+    wishlistHasProducts: {}
   },
   lists: {
     popularProducts: {},
@@ -82,6 +95,13 @@ export default (state = fromJS({
     // Products
     // ////////
 
+    case actions.PRODUCT_FETCH_START:
+      return fetchStart(state, [ 'entities', 'products', action.productId ]);
+    case actions.PRODUCT_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'products', action.productId ], action.data);
+    case actions.PRODUCT_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'products', action.productId ], action.error);
+
     case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_START:
       return fetchListStart(state, 'recentlyAddedToWishlistProducts');
     case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_SUCCESS:
@@ -95,6 +115,35 @@ export default (state = fromJS({
       return fetchListSuccess(state, 'popularProducts', 'products', action.data);
     case actions.POPULAR_PRODUCTS_FETCH_ERROR:
       return fetchListError(state, 'popularProducts', action.error);
+
+    case actions.WISHLIST_PRODUCTS_FETCH_START:
+      return fetchRelationsStart(state, 'wishlistHasProducts', action.wishlistId);
+    case actions.WISHLIST_PRODUCTS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'wishlistHasProducts', action.wishlistId, 'products', action.data.data);
+    case actions.WISHLIST_PRODUCTS_FETCH_ERROR:
+      return fetchRelationsError(state, 'wishlistHasProducts', action.wishlistId, action.error);
+
+    // Users
+    // /////
+
+    case actions.USER_FETCH_START:
+      return fetchStart(state, [ 'entities', 'users', action.userId ]);
+    case actions.USER_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'users', action.userId ], action.data);
+    case actions.USER_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'users', action.userId ], action.error);
+
+    // Wishlists
+    // /////////
+
+    case actions.WISHLISTS_OF_USER_FETCH_START:
+      return fetchRelationsStart(state, 'userHasWishlists', action.userId);
+    case actions.WISHLISTS_OF_USER_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'userHasWishlists', action.userId, 'wishlists', action.data.data);
+    case actions.WISHLISTS_OF_USER_FETCH_ERROR:
+      return fetchRelationsError(state, 'userHasWishlists', action.userId, action.error);
 
     // Uninteresting actions
     // ---------------------
