@@ -50,15 +50,12 @@ export default class ProductDetail extends Component {
 
   async componentWillMount () {
     // (Re)fetch the product.
-    const { images } = await this.props.loadProduct(this.props.params.productId);
-    this.props.onChangeImageSelection(images && images[0] && images[0].id);
+    await this.props.loadProduct(this.props.params.productId);
   }
 
   async componentWillReceiveProps (nextProps) {
     if (this.props.params.productId !== nextProps.params.productId) {
-      console.warn('LOAD');
-      const { images } = await this.props.loadProduct(nextProps.params.productId);
-      this.props.onChangeImageSelection(images && images[0] && images[0].id);
+      await this.props.loadProduct(nextProps.params.productId);
     }
   }
 
@@ -234,7 +231,9 @@ export default class ProductDetail extends Component {
 
     if (!product.get('_status') || product.get('_status') === FETCHING || product.get('_status') === LAZY) {
       return (<Spinner />);
-    } else if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
+    }
+
+    if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
       const notAvailable = !product.getIn([ 'offerings', '0', 'url' ]);
       const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
       return (
@@ -261,8 +260,8 @@ export default class ProductDetail extends Component {
               <div style={styles.right}>
                 <div>
                   <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
-                  {/*{product.getIn([ 'brand', 'name' ]) && <p style={styles.details.brand.label}>{t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) })}</p>}
-                  */}{product.get('description') &&
+                  <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
+                  {product.get('description') &&
                     <p style={styles.details.productDescription}>{product.get('description')}</p>}
                   <h2 style={styles.details.price}>
                     <Money
@@ -298,8 +297,11 @@ export default class ProductDetail extends Component {
           <div style={styles.similarProducts}>
             <Container>
               <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
-              {product.get('similarProducts') && product.get('similarProducts').size > 0 && <Tiles items={product.get('similarProducts')} />}
-              {product.get('similarProducts') && product.get('similarProducts').size === 0 && <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
+              {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
+                <Tiles items={product.get('similarProducts')} />}
+              {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
+                <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
+              {!product.get('similarProducts') && <Spinner />}
             </Container>
           </div>
         </div>

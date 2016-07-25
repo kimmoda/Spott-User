@@ -10,12 +10,7 @@ export async function getProduct (baseUrl, authenticationToken, locale, { produc
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}`);
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}/similar`);
   const product = transformDetailedProduct(body);
-  transformDetailedProduct.similarProducts = data.map((p) => ({
-    shortName: p.shortName,
-    image: p.image ? p.image.url : null,
-    price: { currency: p.price.currency, amount: p.price.amount },
-    id: p.uuid }
-  ));
+  product.similarProducts = data.map(transformListProduct);
   return product;
 }
 

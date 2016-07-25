@@ -12,14 +12,14 @@ function fetchStart (state, path) {
   // When the data is already present, set it's status to 'updating'.
   // This way we now if there is already data, but it's updating.
   if (loaded) {
-    return state.mergeIn(path, { _status: UPDATING });
+    return state.mergeIn(path, { _error: null, _status: UPDATING });
   }
   // If the data do not exist, set the status to 'fetching'.
-  return state.mergeIn(path, { _status: FETCHING });
+  return state.mergeIn(path, { _error: null, _status: FETCHING });
 }
 
 function fetchSuccess (state, path, data) {
-  return state.setIn(path, fromJS({ ...data, _status: LOADED }));
+  return state.mergeIn(path, fromJS({ ...data, _error: null, _status: LOADED }));
 }
 
 function fetchError (state, path, error) {
@@ -30,9 +30,11 @@ function fetchListStart (state, listKey) {
   return fetchStart(state, [ 'lists', listKey ]);
 }
 function fetchListSuccess (state, listKey, entitiesKey, data) {
-  data.forEach((item) => item._status = LOADED); // Add _status 'loaded' to each fetched entity.
+  // data.forEach((item) => item._status = LOADED); // Add _status 'loaded' to each fetched entity.
   return state
-    .mergeIn([ 'entities', entitiesKey ], fromJS(data.reduce((accumulator, next) => {
+    .mergeDeepIn([ 'entities', entitiesKey ], fromJS(data.reduce((accumulator, next) => {
+      next._status = LOADED;
+      next._error = null;
       accumulator[next.id] = next;
       return accumulator;
     }, {})))
@@ -47,9 +49,10 @@ function fetchRelationsStart (state, relationsKey, relationEntryKey) {
   return fetchStart(state, [ 'relations', relationsKey, relationEntryKey ]);
 }
 function fetchRelationsSuccess (state, relationsKey, relationEntryKey, entitiesKey, data) {
-  data.forEach((item) => item._status = LOADED); // Add _status 'loaded' to each fetched entity.
   return state
-    .mergeIn([ 'entities', entitiesKey ], fromJS(data.reduce((accumulator, next) => {
+    .mergeDeepIn([ 'entities', entitiesKey ], fromJS(data.reduce((accumulator, next) => {
+      next._status = LOADED; // Add _status 'loaded' to each fetched entity.
+      next._error = null;
       accumulator[next.id] = next;
       return accumulator;
     }, {})))

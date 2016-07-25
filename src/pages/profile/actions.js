@@ -1,8 +1,5 @@
-import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../app/selector';
 import { currentUserIdSelector } from './selector';
 import { fetchUser, fetchWishlistOfUser, fetchWishlistsOfUser, fetchWishlistProducts } from '../../data/actions';
-import * as productsApi from '../../api/products';
-
 
 export const LOAD_USER = 'LOAD_USER';
 export const LOAD_USER_ERROR = 'LOAD_USER_ERROR';
