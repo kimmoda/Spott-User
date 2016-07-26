@@ -58,7 +58,7 @@ export class TopLevelMediumTile extends Component {
       <BaseTile style={style}>
         <div style={styles.container}>
           <div
-            style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]}
+            style={[ styles.image, { backgroundImage: `url("${item.get('image')}?height=360&width=640")` } ]}
             title={item.get('name')} />
           <div style={styles.layer}></div>
           <span style={styles.title}>{item.get('name')}</span>

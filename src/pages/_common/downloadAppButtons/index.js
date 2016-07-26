@@ -44,7 +44,7 @@ export const isAndroid = () => (
 export const androidImage = require('./googlePlay.svg');
 export const androidUrl = 'https://play.google.com/store/apps/details?id=mobi.appiness.spott';
 export const DownloadAndroidAppButton = Radium((props) => (
-  <a href={androidUrl}><img src={androidImage} {...props} style={[ styles.buttonImage.base, props.style ]} /></a>
+  <a href={androidUrl} style={styles.button}><img src={androidImage} {...props} style={[ styles.buttonImage.base, props.style ]} /></a>
 ));
 
 // Component showing buttons for iOS and Android

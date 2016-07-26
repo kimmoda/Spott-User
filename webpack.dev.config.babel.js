@@ -28,7 +28,7 @@ const configuration = {
     ]
   },
   devServer: {
-    // host: '192.168.1.47',
+    // host: '192.168.1.127',
     historyApiFallback: true
   },
   output: {

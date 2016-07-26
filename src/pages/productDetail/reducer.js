@@ -1,19 +1,16 @@
-import { fromJS } from 'immutable';
+import { Map } from 'immutable';
 import * as actions from './actions';
-import { fetchStart, fetchSuccess, fetchError } from '../../utils';
 
-export default function productReducer (state = fromJS({
-  currentProduct: {}
+export default function productReducer (state = Map({
+  currentProduct: null
 }), action) {
   switch (action.type) {
-    case actions.LOAD_PRODUCT_START:
-      return fetchStart(state, [ 'currentProduct' ]);
-    case actions.LOAD_PRODUCT_SUCCESS:
-      return fetchSuccess(state, [ 'currentProduct' ], action.data);
+    case actions.LOAD_PRODUCT:
+      return state.set('currentProduct', Map({ id: action.productId }));
     case actions.LOAD_PRODUCT_ERROR:
-      return fetchError(state, [ 'currentProduct' ], action.error);
+      return state.mergeIn([ 'currentProduct' ], Map({ _error: action.error }));
     case actions.CHANGE_IMAGE_SELECTION:
-      return state.setIn([ 'currentProduct', 'selectedImage' ], action.imageUrl);
+      return state.setIn([ 'currentProduct', 'selectedImageId' ], action.imageId);
     default:
       return state;
   }
