@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
-import * as actions from '../../app/actions';
+import { registerWithFacebook } from '../actions';
 import { facebookAppIdSelector } from '../../app/selector';
 import localized from '../../_common/localized';
 
@@ -11,13 +11,13 @@ import localized from '../../_common/localized';
 @connect((state) => ({
   facebookAppId: facebookAppIdSelector(state)
 }))
-class FacebookRegisterButton extends Component {
+class FacebookLoginButton extends Component {
 
   static propTypes = {
     facebookAppId: PropTypes.string.isRequired,
-    loginFacebook: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    onRegisterWithFacebook: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -45,9 +45,24 @@ class FacebookRegisterButton extends Component {
     /* eslint-enable */
   }
 
+  fetchUser (facebookAccessToken) {
+    FB.api('/me', { fields: 'email,first_name,last_name,locale,birthday,gender' }, async (response) => {
+      const { email, first_name: firstname, last_name: lastname, id: facebookId } = response;
+      await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId });
+      this.props.onClose();
+    });
+  }
+
   // handle fb button click
   handleClick (e) {
-    // TODO
+    FB.login((response) => {
+      if (response.authResponse) {
+        // user authorized
+        // get user data
+        this.fetchUser(response.authResponse.accessToken);
+      }
+    }, { scope: 'email,user_birthday', return_scopes: true }); // eslint-disable-line
+    e.preventDefault();
   }
 
   static styles = {
@@ -86,5 +101,5 @@ class FacebookRegisterButton extends Component {
 }
 
 export default connect(null, (dispatch) => ({
-  loginFacebook: bindActionCreators(actions.doLoginFacebook, dispatch)
-}))(FacebookRegisterButton);
+  onRegisterWithFacebook: bindActionCreators(registerWithFacebook, dispatch)
+}))(FacebookLoginButton);

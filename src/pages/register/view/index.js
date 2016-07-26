@@ -9,7 +9,7 @@ import radium from 'radium';
 import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../../_common/buildingBlocks';
 import localized from '../../_common/localized';
 import { submit } from '../actions';
-// import FacebookRegisterButton from './facebookRegisterButton';
+import FacebookRegisterButton from './facebookRegisterButton';
 
 const RadiumLink = radium(Link);
 const dialogStyle = {
@@ -291,7 +291,7 @@ class Register extends Component {
           onRequestClose={this.onClose}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('register.title')}</h2>
-            {/* <FacebookRegisterButton onClose={this.onClose}/> */}
+             <FacebookRegisterButton registerFacebook={this.registerFacebook} onClose={this.onClose}/>
             <Form {...this.props} onClose={this.onClose} />
             <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={{
               pathname: `/${currentLocale}/login`,
@@ -305,7 +305,7 @@ class Register extends Component {
         <div currentPathname={this.props.location.pathname}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('register.title')}</h2>
-            {/* <FacebookRegisterButton onClose={this.onClose}/> */}
+            <FacebookRegisterButton onClose={this.onClose}/>
             <Form {...this.props} type='button' onClose={this.onClose} />
             <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/login`}>{t('register.logIn')}</Link></p>
           </section>
