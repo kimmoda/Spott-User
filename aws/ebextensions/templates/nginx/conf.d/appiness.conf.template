@@ -15,8 +15,7 @@ server {
 
         # force HTTPS
         if ($http_x_forwarded_proto != "https") {
-            rewrite ^(.*)$ https://$server_name$1 permanent;
-            break;
+            return 301 https://$host$request_uri;
         }
 
         # error handling
