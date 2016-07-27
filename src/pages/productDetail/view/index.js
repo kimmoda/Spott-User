@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import Radium from 'radium';
 import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries, Money, pinkButtonStyle } from '../../_common/buildingBlocks';
 import Tiles from '../../_common/tiles/productTiles';
@@ -21,6 +22,7 @@ import localized from '../../_common/localized';
 export default class ProductDetail extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     loadProduct: PropTypes.func.isRequired,
     params: PropTypes.shape({
       productId: PropTypes.string.isRequired
@@ -221,12 +223,22 @@ export default class ProductDetail extends Component {
       ...makeTextStyle(fontWeights.regular, '0.938em'),
       paddingBottom: '0.6565em',
       color: colors.slateGray
+    },
+    emptyText: {
+      paddingTop: '3em',
+      ...makeTextStyle(fontWeights.medium, '0.875em'),
+      color: colors.slateGray
+    },
+    return: {
+      ...makeTextStyle(fontWeights.bold),
+      color: colors.dark,
+      textDecoration: 'none'
     }
   }
 
   render () {
     const { styles } = this.constructor;
-    const { onChangeImageSelection, product, selectedImageId, t } = this.props;
+    const { currentLocale, onChangeImageSelection, product, selectedImageId, t } = this.props;
 
     if (!product.get('_status') || product.get('_status') === FETCHING || product.get('_status') === LAZY) {
       return (<Spinner />);
@@ -306,6 +318,10 @@ export default class ProductDetail extends Component {
         </div>
       );
     }
-    return (<div></div>);
+    return (
+      <Container>
+        <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('return')}</Link></p>
+      </Container>
+    );
   }
 }

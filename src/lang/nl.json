@@ -109,7 +109,8 @@
     "noSimilar": "Geen gelijkaardige producten gevonden.",
     "similarProducts": "Gelijkaardige producten",
     "share": "Delen",
-    "unavailable": "Dit product is niet beschikbaar."
+    "unavailable": "Dit product is niet beschikbaar.",
+    "notExist": "This product doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
   },
   "profile": {
     "header": {
@@ -133,7 +134,10 @@
     },
     "wishlistProducts": {
       "empty": "Deze verlanglijst is leeg.",
-      "private": "Deze verlanglijst is privé, de eigenaar moet deze publiek maken om deze zichtbaar te maken."
-    }
-  }
+      "private": "Deze verlanglijst is privé, de eigenaar moet deze publiek maken om deze zichtbaar te maken.",
+      "notExist": "This wishlist doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+    },
+    "notExist": "This user profile doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+  },
+  "return": "Return to home"
 }
