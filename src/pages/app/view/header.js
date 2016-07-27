@@ -37,10 +37,7 @@ const styles = {
   },
   logoSection: {
     container: {
-      display: 'none',
-      '@media (min-width: 340px)': {
-        display: 'block'
-      }
+      display: 'block'
     },
     logo: {
       display: 'block',
