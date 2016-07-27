@@ -137,6 +137,8 @@
     }
   },
   "medium": {
+    "follow": "Volgen",
+    "unfollow": "Ontvolgen",
     "followers": {
       "zero":  "[[0]] volgers",
       "one":   "[[1]] volger",

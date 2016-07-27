@@ -138,6 +138,8 @@
     }
   },
   "medium": {
+    "follow": "Follow",
+    "unfollow": "Unfollow",
     "followers": {
       "zero":  "[[0]] abonné(e)s",
       "one":   "[[1]] abonné(e)",

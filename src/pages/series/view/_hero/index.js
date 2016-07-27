@@ -26,6 +26,7 @@ export default class Hero extends Component {
       data: ImmutablePropTypes.list
     }),
     currentLocale: PropTypes.string.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
     loadCharacters: PropTypes.func.isRequired,
     series: ImmutablePropTypes.mapContains({
       _error: PropTypes.object,
@@ -41,6 +42,11 @@ export default class Hero extends Component {
     toggleFollow: PropTypes.func.isRequired
   };
 
+  constructor (props) {
+    super(props);
+    this.toggleFollow = ::this.toggleFollow;
+  }
+
   componentWillMount () {
     this.props.loadCharacters(this.props.seriesId);
   }
@@ -49,6 +55,11 @@ export default class Hero extends Component {
     if (this.props.seriesId !== nextProps.seriesId) {
       this.props.loadCharacters(nextProps.seriesId);
     }
+  }
+
+  toggleFollow (e) {
+    e.preventDefault();
+    this.props.toggleFollow();
   }
 
   static styles = {
@@ -164,7 +175,7 @@ export default class Hero extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { characters, currentLocale, series, seriesId, t, toggleFollow } = this.props;
+    const { characters, currentLocale, isAuthenticated, series, seriesId, t, toggleFollow } = this.props;
 
     if (series.get('_status') === FETCHING || series.get('_status') === LAZY) {
       return (<Spinner />);
@@ -182,7 +193,9 @@ export default class Hero extends Component {
                 return <span key={key} style={styles.emph}>{contents}</span>;
               })}
             </SectionTitle>
-            <Button style={[ pinkButtonStyle, styles.followButton.base, !series.get('subscribed') && styles.followButton.unactive ]} onClick={toggleFollow}>Follow</Button>
+            <Button style={[ pinkButtonStyle, styles.followButton.base, !series.get('subscribed') && styles.followButton.unactive, !isAuthenticated && { visibility: 'hidden' } ]} onClick={toggleFollow}>
+              {series.get('subscribed') ? t('medium.unfollow') : t('medium.follow')}
+            </Button>
           </Container>
           <Container>
             {(characters.get('_status') === FETCHING || characters.get('_status') === LAZY) &&

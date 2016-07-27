@@ -146,6 +146,14 @@ export default (state = fromJS({
     case actions.SERIES_FETCH_ERROR:
       return fetchError(state, [ 'entities', 'series', action.seriesId ], action.error);
 
+    case actions.MEDIUM_SUBSCRIBER_ADD_SUCCESS:
+      // TODO support for other media types.
+      return state.setIn([ 'entities', 'series', action.mediumId, 'subscribed' ], true);
+
+    case actions.MEDIUM_SUBSCRIBER_REMOVE_SUCCESS:
+      // TODO support for other media types.
+      return state.setIn([ 'entities', 'series', action.mediumId, 'subscribed' ], false);
+
     // Users
     // /////
 

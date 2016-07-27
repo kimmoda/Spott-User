@@ -137,6 +137,8 @@
     }
   },
   "medium": {
+    "follow": "Follow",
+    "unfollow": "Unfollow",
     "followers": {
       "zero":  "Followers [[0]]",
       "one":   "Followers [[1]]",

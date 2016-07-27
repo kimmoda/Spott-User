@@ -1,4 +1,4 @@
-import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
+import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
 import { transformSeries /* , transformSeason, transformEpisode */ } from './transformers';
 import recentlyAddedMediaMock from './mock/recentlyAddedMedia';
 
@@ -27,6 +27,34 @@ export async function getSeries (baseUrl, authenticationToken, locale, { seriesI
   try {
     const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${seriesId}`);
     return transformSeries(body);
+  } catch (error) {
+    switch (error.statusCode) {
+      case 403:
+        throw new UnauthorizedError();
+      case 404:
+        throw new NotFoundError('series', error);
+    }
+    throw new UnexpectedError(error);
+  }
+}
+
+export async function addSubscriber (baseUrl, authenticationToken, locale, { mediumId, userId }) {
+  try {
+    await post(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/subscribers`, { uuid: userId });
+  } catch (error) {
+    switch (error.statusCode) {
+      case 403:
+        throw new UnauthorizedError();
+      case 404:
+        throw new NotFoundError('series', error);
+    }
+    throw new UnexpectedError(error);
+  }
+}
+
+export async function removeSubscriber (baseUrl, authenticationToken, locale, { mediumId, userId }) {
+  try {
+    await del(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/subscribers`, { uuid: userId });
   } catch (error) {
     switch (error.statusCode) {
       case 403:
