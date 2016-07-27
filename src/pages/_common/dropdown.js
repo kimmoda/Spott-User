@@ -8,7 +8,8 @@ export const ourDropdownStyles = {
   container: {
     position: 'relative',
     userSelect: 'none',
-    zIndex: 10
+    zIndex: 10,
+    display: 'inline-flex'
   },
   trigger: {
     display: 'inline-block',
