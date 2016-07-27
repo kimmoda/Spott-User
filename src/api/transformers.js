@@ -65,7 +65,7 @@ export function transformDetailedProduct ({ available, brand, description, longN
 }
 
 export function transformCharacter ({ avatar, name, uuid: id }) {
-  return { characterImage: avatar && avatar.url, id, name };
+  return { image: avatar && avatar.url, id, name };
 }
 
 export function transformWishlist (wishlist) {

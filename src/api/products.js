@@ -64,7 +64,6 @@ export async function getPopularProducts (baseUrl, authenticationToken, locale) 
   }
 }
 
-/* TODO: out of scope
 /**
  * GET /media/media/:mediumId/products
  * Get medium products.
@@ -75,11 +74,11 @@ export async function getPopularProducts (baseUrl, authenticationToken, locale) 
  * @throws NotFoundError
  * @throws UnauthorizedError
  * @throws UnexpectedError
- *
+ */
 export async function getMediumProducts (baseUrl, authenticationToken, locale, { mediumId, page = 0 }) {
   try {
     const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/products?pageSize=50&page=${page}`);
-    return data.map(transformProduct);
+    return { data: data.map(transformListProduct) };
   } catch (error) {
     switch (error.statusCode) {
       case 403:
@@ -90,7 +89,6 @@ export async function getMediumProducts (baseUrl, authenticationToken, locale, {
     throw new UnexpectedError(error);
   }
 }
-*/
 
 /**
  * @throws NetworkError

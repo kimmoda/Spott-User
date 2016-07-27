@@ -135,5 +135,13 @@
       "empty": "This wishlist is empty.",
       "private": "This wishlist is set to private, the owner must set it to public to make it visible."
     }
+  },
+  "medium": {
+    "followers": {
+      "zero":  "Followers [[0]]",
+      "one":   "Followers [[1]]",
+      "other": "Followers [[%(count)s]]"
+    },
+    "topProducts": "Top %(title)s Products"
   }
 }

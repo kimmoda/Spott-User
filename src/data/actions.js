@@ -1,3 +1,4 @@
+import * as charactersApi from '../api/characters';
 import * as mediaApi from '../api/media';
 import * as productsApi from '../api/products';
 import * as usersApi from '../api/users';
@@ -59,6 +60,18 @@ export const WISHLIST_PRODUCTS_FETCH_START = 'WISHLIST_PRODUCTS_FETCH_START';
 export const WISHLIST_PRODUCTS_FETCH_SUCCESS = 'WISHLIST_PRODUCTS_FETCH_SUCCESS';
 export const WISHLIST_PRODUCTS_FETCH_ERROR = 'WISHLIST_PRODUCTS_FETCH_ERROR';
 
+export const SERIES_FETCH_START = 'DATA/SERIES_FETCH_START';
+export const SERIES_FETCH_SUCCESS = 'DATA/SERIES_FETCH_SUCCESS';
+export const SERIES_FETCH_ERROR = 'DATA/SERIES_FETCH_ERROR';
+
+export const MEDIUM_CHARACTERS_FETCH_START = 'DATA/MEDIUM_CHARACTERS_FETCH_START';
+export const MEDIUM_CHARACTERS_FETCH_SUCCESS = 'DATA/MEDIUM_CHARACTERS_FETCH_SUCCESS';
+export const MEDIUM_CHARACTERS_FETCH_ERROR = 'DATA/MEDIUM_CHARACTERS_FETCH_ERROR';
+
+export const MEDIUM_PRODUCTS_FETCH_START = 'DATA/MEDIUM_PRODUCTS_FETCH_START';
+export const MEDIUM_PRODUCTS_FETCH_SUCCESS = 'DATA/MEDIUM_PRODUCTS_FETCH_SUCCESS';
+export const MEDIUM_PRODUCTS_FETCH_ERROR = 'DATA/MEDIUM_PRODUCTS_FETCH_ERROR';
+
 // Actions creators
 // ////////////////
 
@@ -77,3 +90,9 @@ export const fetchWishlistOfUser = makeApiActionCreator(wishlistsApi.getWishlist
 export const fetchWishlistsOfUser = makeApiActionCreator(wishlistsApi.getWishlistsOfUser, WISHLISTS_OF_USER_FETCH_START, WISHLISTS_OF_USER_FETCH_SUCCESS, WISHLISTS_OF_USER_FETCH_ERROR);
 
 export const fetchWishlistProducts = makeApiActionCreator(productsApi.getWishlistProducts, WISHLIST_PRODUCTS_FETCH_START, WISHLIST_PRODUCTS_FETCH_SUCCESS, WISHLIST_PRODUCTS_FETCH_ERROR);
+
+export const fetchSeries = makeApiActionCreator(mediaApi.getSeries, SERIES_FETCH_START, SERIES_FETCH_SUCCESS, SERIES_FETCH_ERROR);
+
+export const fetchMediumCharacters = makeApiActionCreator(charactersApi.getMediumCharacters, MEDIUM_CHARACTERS_FETCH_START, MEDIUM_CHARACTERS_FETCH_SUCCESS, MEDIUM_CHARACTERS_FETCH_ERROR);
+
+export const fetchMediumProducts = makeApiActionCreator(productsApi.getMediumProducts, MEDIUM_PRODUCTS_FETCH_START, MEDIUM_PRODUCTS_FETCH_SUCCESS, MEDIUM_PRODUCTS_FETCH_ERROR);

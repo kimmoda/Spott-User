@@ -135,5 +135,13 @@
       "empty": "Deze verlanglijst is leeg.",
       "private": "Deze verlanglijst is privé, de eigenaar moet deze publiek maken om deze zichtbaar te maken."
     }
+  },
+  "medium": {
+    "followers": {
+      "zero":  "[[0]] volgers",
+      "one":   "[[1]] volger",
+      "other": "[[%(count)s]] volgers"
+    },
+    "topProducts": "Top %(title)s producten"
   }
 }

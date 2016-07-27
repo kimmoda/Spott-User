@@ -1,7 +1,17 @@
 // import { getSeries, getSeasons, getEpisodes, getEpisodeProducts } from '../../api/series';
 // import { getRecentlyAddedToWishlist, getPopularProducts } from '../../api/products';
+import { fetchMediumCharacters, fetchMediumProducts, fetchSeries } from '../../data/actions';
 // import { getMediumCharacters, getMediumProducts } from '../../api/medium';
 // import { apiBaseUrlSelector, authenticationTokenSelector, currentUserIdSelector } from '../app/selector';
+
+export const LOAD_SERIES = 'SERIES/LOAD_SERIES';
+export const LOAD_SERIES_ERROR = 'SERIES/LOAD_SERIES_ERROR';
+
+export const LOAD_MEDIUM_CHARACTERS = 'SERIES/LOAD_MEDIUM_CHARACTERS';
+export const LOAD_MEDIUM_CHARACTERS_ERROR = 'SERIES/LOAD_MEDIUM_CHARACTERS_ERROR';
+
+export const LOAD_MEDIUM_TOP_PRODUCTS = 'SERIES/LOAD_MEDIUM_TOP_PRODUCTS';
+export const LOAD_MEDIUM_TOP_PRODUCTS_ERROR = 'SERIES/LOAD_MEDIUM_TOP_PRODUCTS_ERROR';
 
 // 4adb58ee-0801-45fa-b6f6-e1dc628e5d48 userId
 export function toggleFollow () {
@@ -19,5 +29,34 @@ export function toggleFollow () {
 }
 
 export function loadSeries (seriesId) {
-  
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ seriesId, type: LOAD_SERIES });
+      return await dispatch(fetchSeries({ seriesId }));
+    } catch (error) {
+      return dispatch({ error, seriesId, type: LOAD_SERIES_ERROR });
+    }
+  };
+}
+
+export function loadCharacters (mediumId) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ mediumId, type: LOAD_MEDIUM_CHARACTERS });
+      return await dispatch(fetchMediumCharacters({ mediumId }));
+    } catch (error) {
+      return dispatch({ error, mediumId, type: LOAD_MEDIUM_CHARACTERS_ERROR });
+    }
+  };
+}
+
+export function loadTopProducts (mediumId) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ mediumId, type: LOAD_MEDIUM_TOP_PRODUCTS });
+      return await dispatch(fetchMediumProducts({ mediumId }));
+    } catch (error) {
+      return dispatch({ error, mediumId, type: LOAD_MEDIUM_TOP_PRODUCTS_ERROR });
+    }
+  };
 }

@@ -3,32 +3,57 @@ import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
-import { fromJS } from 'immutable';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, ScalableContainer, FadedTiles, SectionTitle, Title, Tiles } from '../../../_common/buildingBlocks';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, SectionTitle, Title } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
-import SmallEpisodeTiles from '../../../_common/tiles/smallEpisodeTiles';
-import dummySmallEpisodes from '../../../../api/mock/smallEpisodes';
-import dummyCharacters from '../../../../api/mock/characters';
-
-const backgroundImage = require('./images/daredevil.jpg');
+import { FETCHING, LAZY, LOADED, UPDATING } from '../../../../data/statusTypes';
+import Spinner from '../../../_common/spinner';
+import { heroSelector } from '../../selector';
+import localized from '../../../_common/localized';
 import * as actions from '../../actions';
 
-/* TODO: add id of the series */
-@connect(null, (dispatch) => ({
+@localized
+@connect(heroSelector, (dispatch) => ({
+  loadCharacters: bindActionCreators(actions.loadCharacters, dispatch),
   toggleFollow: bindActionCreators(actions.toggleFollow, dispatch)
 }))
 @Radium
 export default class Hero extends Component {
 
   static propTypes = {
+    characters: ImmutablePropTypes.mapContains({
+      _status: PropTypes.string.isRequired,
+      data: ImmutablePropTypes.list
+    }),
+    currentLocale: PropTypes.string.isRequired,
+    loadCharacters: PropTypes.func.isRequired,
+    series: ImmutablePropTypes.mapContains({
+      _error: PropTypes.object,
+      _status: PropTypes.string,
+      id: PropTypes.string,
+      posterImage: PropTypes.string,
+      subscribed: PropTypes.bool,
+      subscriberCount: PropTypes.number,
+      title: PropTypes.string
+    }),
     seriesId: PropTypes.string.isRequired,
+    t: PropTypes.func.isRequired,
     toggleFollow: PropTypes.func.isRequired
   };
+
+  componentWillMount () {
+    this.props.loadCharacters(this.props.seriesId);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.seriesId !== nextProps.seriesId) {
+      this.props.loadCharacters(nextProps.seriesId);
+    }
+  }
 
   static styles = {
     background: {
       display: 'block',
-      backgroundImage: `url(${backgroundImage})`,
       backgroundSize: 'cover',
       width: '100%',
       position: 'relative',
@@ -39,11 +64,7 @@ export default class Hero extends Component {
       position: 'relative'
     },
     characters: {
-      marginBottom: '1.7em',
-      marginTop: 0,
-      overflow: 'visible',
-      paddingBottom: 0,
-      paddingTop: 0
+      marginBottom: '1.7em'
     },
     mediaType: {
       ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
@@ -59,7 +80,7 @@ export default class Hero extends Component {
       bottom: 0,
       right: 0,
       opacity: 0.5,
-      backgroundImage: 'linear-gradient(to bottom, #000000, rgba(0, 0, 0, 0))',
+      backgroundImage: 'linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     title: {
@@ -91,7 +112,7 @@ export default class Hero extends Component {
     tab: {
       base: {
         ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
-        backgroundImage: 'linear-gradient(to top, #000000, rgba(0, 0, 0, 0))',
+        backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
         color: 'white',
         opacity: 0.5,
         paddingBottom: '1em',
@@ -143,48 +164,59 @@ export default class Hero extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { seriesId, toggleFollow } = this.props;
+    const { characters, currentLocale, series, seriesId, t, toggleFollow } = this.props;
 
-    const following = true;
+    if (series.get('_status') === FETCHING || series.get('_status') === LAZY) {
+      return (<Spinner />);
+    }
 
-    return (
-      <div style={styles.background}>
-        <div style={styles.overlay} />
-        <ScalableContainer style={styles.container}>
-          <h4 style={styles.mediaType}>Tv show</h4>
-          <Title style={styles.title.large}>Daredevil</Title>
-          <SectionTitle style={styles.title.medium}>Followers <span style={styles.emph}>825</span></SectionTitle>
-          <Button style={[ pinkButtonStyle, styles.followButton.base, !following && styles.followButton.unactive ]} onClick={toggleFollow}>Follow</Button>
-        </ScalableContainer>
-        <FadedTiles>
-          <CharacterTiles items={fromJS(dummyCharacters)} style={styles.characters}/>
-        </FadedTiles>
-        <ScalableContainer style={styles.tabs}>
-          <div>
-            <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/overview`}>Overview</Link>
+    if (series.get('_status') === LOADED || series.get('_status') === UPDATING) {
+      return (
+        <div style={[ styles.background, { backgroundImage: `url(${series.get('profileImage')})` } ]}>
+          <div style={styles.overlay} />
+          <Container style={styles.container}>
+            <h4 style={styles.mediaType}>Tv show</h4>
+            <Title style={styles.title.large}>{series.get('title')}</Title>
+            <SectionTitle style={styles.title.medium}>
+              {t('medium.followers', { count: series.get('subscriberCount') || 0 }, (contents, key) => {
+                return <span key={key} style={styles.emph}>{contents}</span>;
+              })}
+            </SectionTitle>
+            <Button style={[ pinkButtonStyle, styles.followButton.base, !series.get('subscribed') && styles.followButton.unactive ]} onClick={toggleFollow}>Follow</Button>
+          </Container>
+          <Container>
+            {(characters.get('_status') === FETCHING || characters.get('_status') === LAZY) &&
+              <Spinner />}
+            {(characters.get('_status') === LOADED || characters.get('_status') === UPDATING) &&
+              <CharacterTiles items={characters.get('data')} style={styles.characters} />}
+          </Container>
+          <Container style={styles.tabs}>
+            <div>
+              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/${currentLocale}/series/${seriesId}/overview`}>Overview</Link>
+              {/*
+              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/products`}>Products</Link>
+              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/season/3`}>Scenes</Link>
+              */}
+            </div>
             {/*
-            <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/products`}>Products</Link>
-            <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/season/3`}>Scenes</Link>
+            <div>
+              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/3`}>Season 3</Link>
+              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/2`}>Season 2</Link>
+              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/1`}>Season 1</Link>
+            </div>
             */}
-          </div>
+          </Container>
+
           {/*
-          <div>
-            <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/3`}>Season 3</Link>
-            <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/2`}>Season 2</Link>
-            <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/1`}>Season 1</Link>
+          <div style={styles.smallEpisodes}>
+            <FadedTiles>
+              <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} seriesId={seriesId} />
+            </FadedTiles>
           </div>
           */}
-        </ScalableContainer>
-
-        {/*
-        <div style={styles.smallEpisodes}>
-          <FadedTiles>
-            <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} seriesId={seriesId} />
-          </FadedTiles>
         </div>
-        */}
-      </div>
-    );
+      );
+    }
   }
 
 }

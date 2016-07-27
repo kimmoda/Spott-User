@@ -62,7 +62,7 @@ const RadiumTiles = Radium(Tiles);
 export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) {
   return (
     @Radium
-    class TopLevelMediumTiles extends Component {
+    class GenericTiles extends Component {
 
       static propTypes = {
         items: ImmutablePropTypes.list,
@@ -126,8 +126,15 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
         return (
           <div style={[ styles.container, style ]}>
             <div style={styles.header}>
-              {title && <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>}
-              <div style={styles.headerIcons}><div style={styles.headerIconsWrapper} onClick={this.onBackClick}><ArrowLeftImage color={arrowColor} style={styles.headerIcon} /></div><div style={styles.headerIconsWrapper} onClick={this.onMoreClick}><ArrowRightImage color={arrowColor} style={styles.headerIcon} /></div></div>
+              <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>
+              <div style={styles.headerIcons}>
+                <div style={styles.headerIconsWrapper} onClick={this.onBackClick}>
+                  <ArrowLeftImage color={arrowColor} style={styles.headerIcon} />
+                </div>
+                <div style={styles.headerIconsWrapper} onClick={this.onMoreClick}>
+                  <ArrowRightImage color={arrowColor} style={styles.headerIcon} />
+                </div>
+              </div>
             </div>
             <RadiumTiles
               first={this.state.first}

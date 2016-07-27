@@ -136,5 +136,13 @@
       "empty": "Cette liste de souhaits est vide.",
       "private": "This wishlist is set to private, the owner must set it to public to make it visible."
     }
+  },
+  "medium": {
+    "followers": {
+      "zero":  "[[0]] abonné(e)s",
+      "one":   "[[1]] abonné(e)",
+      "other": "[[%(count)s]] abonné(e)s"
+    },
+    "topProducts": "Top %(title)s Products"
   }
 }

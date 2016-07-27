@@ -102,7 +102,7 @@ export const Button = Radium((props) => {
   return <RadiumedLink {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</RadiumedLink>;
 });
 Button.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   href: PropTypes.string,
   style: PropTypes.oneOfType([
     PropTypes.object,
@@ -136,7 +136,7 @@ export const Container = Radium((props) => (
   </div>
 ));
 Container.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -168,7 +168,7 @@ export const ScalableContainer = Radium((props) => (
   </div>
 ));
 ScalableContainer.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -184,7 +184,7 @@ export const Title = Radium((props) => {
   return <h1 {...props} style={[ titleStyle, props.style ]}>{props.children}</h1>;
 });
 Title.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -197,7 +197,7 @@ export const SectionTitle = Radium((props) => {
   return <h2 {...props} style={[ sectionTitleStyle, props.style ]}>{props.children}</h2>;
 });
 SectionTitle.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -211,7 +211,7 @@ export const UpperCaseSubtitle = Radium((props) => {
   return <h3 {...props} style={[ upperCaseSubtitleStyle, props.style ]}>{props.children}</h3>;
 });
 UpperCaseSubtitle.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -296,7 +296,7 @@ export class Tiles extends Component {
 }
 
 const fadeStyle = {
-  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgb(244, 0, 0))',
+  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
   position: 'absolute',
   width: '4em',
   right: 0,
@@ -314,7 +314,7 @@ export const FadedTiles = Radium((props) => (
 ));
 
 FadedTiles.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 };
 
 // Submenu and submenuitem styles
@@ -365,7 +365,7 @@ export const Submenu = Radium(({ children, style }) => (
   </ul>
 ));
 Submenu.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 

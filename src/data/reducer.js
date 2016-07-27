@@ -65,12 +65,16 @@ function fetchRelationsError (state, relationsKey, relationEntryKey, error) {
 
 export default (state = fromJS({
   entities: {
+    characters: {},
     media: {},
     products: {},
+    series: {},
     users: {},
     wishlists: {}
   },
   relations: {
+    mediumHasCharacters: {},
+    mediumHasProducts: {},
     userHasWishlists: {},
     wishlistHasProducts: {}
   },
@@ -124,6 +128,24 @@ export default (state = fromJS({
     case actions.WISHLIST_PRODUCTS_FETCH_ERROR:
       return fetchRelationsError(state, 'wishlistHasProducts', action.wishlistId, action.error);
 
+    case actions.MEDIUM_PRODUCTS_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasProducts', action.mediumId);
+    case actions.MEDIUM_PRODUCTS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasProducts', action.mediumId, 'products', action.data.data);
+    case actions.MEDIUM_PRODUCTS_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasProducts', action.mediumId, action.error);
+
+    // Media
+    // /////
+
+    case actions.SERIES_FETCH_START:
+      return fetchStart(state, [ 'entities', 'series', action.seriesId ]);
+    case actions.SERIES_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'series', action.seriesId ], action.data);
+    case actions.SERIES_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'series', action.seriesId ], action.error);
+
     // Users
     // /////
 
@@ -144,6 +166,17 @@ export default (state = fromJS({
       return fetchRelationsSuccess(state, 'userHasWishlists', action.userId, 'wishlists', action.data.data);
     case actions.WISHLISTS_OF_USER_FETCH_ERROR:
       return fetchRelationsError(state, 'userHasWishlists', action.userId, action.error);
+
+    // Characters
+    // /////////
+
+    case actions.MEDIUM_CHARACTERS_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasCharacters', action.mediumId);
+    case actions.MEDIUM_CHARACTERS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasCharacters', action.mediumId, 'characters', action.data.data);
+    case actions.MEDIUM_CHARACTERS_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasCharacters', action.mediumId, action.error);
 
     // Uninteresting actions
     // ---------------------
