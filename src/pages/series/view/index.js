@@ -14,6 +14,9 @@ export default class Series extends Component {
   static propTypes = {
     children: PropTypes.node,
     loadSeries: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }).isRequired,
     params: PropTypes.shape({
       seriesId: PropTypes.string.isRequired
     }).isRequired,
@@ -31,10 +34,10 @@ export default class Series extends Component {
   }
 
   render () {
-    const { params: { seriesId }, series } = this.props;
+    const { location, params: { seriesId }, series } = this.props;
     return (
       <div>
-        <Hero series={series} seriesId={seriesId} />
+        <Hero currentPathname={location.pathname} series={series} seriesId={seriesId} />
         {this.props.children}
       </div>
     );

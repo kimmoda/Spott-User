@@ -8,8 +8,8 @@ import { bindActionCreators } from 'redux';
 import { loadUser } from '../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-const dummyProfilePictureImage = require('./dummyProfilePicture.svg');
-const dummyProfileAvatarImage = require('./dummyProfileAvatar.svg');
+const dummyProfilePictureImage = require('./images/dummyProfilePicture.svg');
+const dummyProfileAvatarImage = require('./images/dummyProfileAvatar.svg');
 
 const headerStyles = {
   wrapper: {
@@ -138,11 +138,11 @@ class Header extends Component {
   render () {
     const { menu, user, t } = this.props;
     return (
-      <div style={[ headerStyles.wrapper, { backgroundImage: `url(${user.get('picture') === null ? dummyProfilePictureImage : user.getIn([ 'picture', 'url' ])})` } ]}>
+      <div style={[ headerStyles.wrapper, { backgroundImage: `url(${user.get('picture') ? user.getIn([ 'picture', 'url' ]) : dummyProfilePictureImage}})` } ]}>
         <div style={headerStyles.backgroundOverlay}></div>
         <Container style={headerStyles.container}>
           <div style={headerStyles.innerContainer}>
-            <img src={user.get('avatar') === null ? dummyProfileAvatarImage : user.getIn([ 'avatar', 'url' ])} style={headerStyles.avatar} />
+            <img src={user.get('avatar') ? user.getIn([ 'avatar', 'url' ]) : dummyProfileAvatarImage} style={headerStyles.avatar} />
             <div style={headerStyles.detailsWrapper}>
               <div style={headerStyles.detailsContainer}>
                 <h1 style={headerStyles.title}>User</h1>

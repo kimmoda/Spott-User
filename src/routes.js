@@ -54,10 +54,12 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Series} path='series/:seriesId'>
           <IndexRedirect to='overview' />
           <Route component={SeriesOverview} path='overview' />
-          {/*<Route component={SeriesProducts} path='series/:seriesId/products' />
-          <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
-            <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
-          </Route>*/}
+          {/*
+          <Route component={SeriesProducts} path='series/:seriesId/products' />
+            <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
+              <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
+            </Route>
+          */}
         </Route>
 
         <Route component={ProductDetail} path='product/:productSlug/:productId' />
