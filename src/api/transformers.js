@@ -1,3 +1,7 @@
+function stripDomain (url) {
+  return url.substring(url.indexOf('/', 9));
+}
+
 export function transformUser ({ uuid, userName, profile }) {
   return {
     avatar: profile.avatar ? { id: profile.avatar.uuid, url: profile.avatar.url } : null,
@@ -33,7 +37,7 @@ export function transformListProduct ({ available, buyUrl, image, price, shortNa
     id,
     image: image && { id: image.uuid, url: image.url },
     price,
-    shareUrl,
+    shareUrl: stripDomain(shareUrl),
     shortName
   };
 }
@@ -46,7 +50,7 @@ export function transformDetailedProduct ({ available, brand, description, longN
     id,
     images: images && images.map((image) => ({ id: image.uuid, url: image.url })),
     longName,
-    shareUrl,
+    shareUrl: stripDomain(shareUrl),
     shortName,
     brand: brand && {
       name: brand.name,

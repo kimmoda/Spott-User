@@ -7,11 +7,11 @@ import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries, Mo
 import Tiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
-import { FETCHING, LAZY, LOADED, UPDATING } from '../../../data/statusTypes';
 import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Spinner from '../../_common/spinner';
 import localized from '../../_common/localized';
+import loadItem from '../../_common/loadItem';
 
 @localized
 @connect(productSelector, (dispatch) => ({
@@ -48,6 +48,9 @@ export default class ProductDetail extends Component {
     super(props);
     this.share = ::this.share;
     this.product = this.props.params.productId;
+    this.renderProduct = ::this.renderProduct;
+    this.renderNotFoundError = ::this.renderNotFoundError;
+    this.renderUnexpectedError = ::this.renderUnexpectedError;
   }
 
   async componentWillMount () {
@@ -236,92 +239,99 @@ export default class ProductDetail extends Component {
     }
   }
 
-  render () {
+  renderProduct () {
     const { styles } = this.constructor;
-    const { currentLocale, onChangeImageSelection, product, selectedImageId, t } = this.props;
-
-    if (!product.get('_status') || product.get('_status') === FETCHING || product.get('_status') === LAZY) {
-      return (<Spinner />);
-    }
-
-    if (product.get('_status') === LOADED || product.get('_status') === UPDATING) {
-      const notAvailable = !product.getIn([ 'offerings', '0', 'url' ]);
-      const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
-      return (
-        <div>
-          <div style={styles.productInfo}>
-            <Container>
-              <div style={styles.left}>
-                <div style={styles.images.wrapper}>
-                  {selectedImage &&
-                    <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big} />}
-                </div>
-                <div>
-                  {product.get('images') && product.get('images').map((image) =>
-                    <div
-                      key={image.get('id')}
-                      style={[ styles.images.small.wrapper, image.get('id') === selectedImageId && styles.images.selected ]}
-                      onClick={onChangeImageSelection.bind(null, image.get('id'))}>
-                      <img
-                        src={`${image.get('url')}?height=160&width=160`}
-                        style={styles.images.small.image}/>
-                    </div>)}
-                </div>
+    const { onChangeImageSelection, product, selectedImageId, t } = this.props;
+    const notAvailable = !product.getIn([ 'offerings', '0', 'url' ]);
+    const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
+    return (
+      <div>
+        <div style={styles.productInfo}>
+          <Container>
+            <div style={styles.left}>
+              <div style={styles.images.wrapper}>
+                {selectedImage &&
+                  <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big} />}
               </div>
-              <div style={styles.right}>
-                <div>
-                  <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
-                  <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
-                  {product.get('description') &&
-                    <p style={styles.details.productDescription}>{product.get('description')}</p>}
-                  <h2 style={styles.details.price}>
-                    <Money
-                      amount={product.getIn([ 'offerings', '0', 'price', 'amount' ])}
-                      currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} />
-                  </h2>
-                  <div style={styles.details.buttons.wrapper}>
-                    <Button disabled={notAvailable} href={product.getIn([ 'offerings', '0', 'url' ])} key='buyButton' style={pinkButtonStyle} target='_blank'>
-                      <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
-                    </Button>
-                    <a
-                      href='#'
-                      style={styles.details.buttons.shareButton}
-                      onClick={this.share}>
-                      <svg style={styles.details.buttons.shareIcon} viewBox='0 0 481.6 481.6' xmlns='http://www.w3.org/2000/svg'>
-                        <path d='M381.6 309.4c-27.7 0-52.4 13.2-68.2 33.6l-132.3-73.9c3.1-8.9 4.8-18.5 4.8-28.4 0-10-1.7-19.5-4.9-28.5l132.2-73.8c15.7 20.5 40.5 33.8 68.3 33.8 47.4 0 86.1-38.6 86.1-86.1S429 0 381.5 0s-86.1 38.6-86.1 86.1c0 10 1.7 19.6 4.9 28.5l-132.1 73.8c-15.7-20.6-40.5-33.8-68.3-33.8-47.4 0-86.1 38.6-86.1 86.1s38.7 86.1 86.2 86.1c27.8 0 52.6-13.3 68.4-33.9l132.2 73.9c-3.2 9-5 18.7-5 28.7 0 47.4 38.6 86.1 86.1 86.1s86.1-38.6 86.1-86.1-38.7-86.1-86.2-86.1zm0-282.3c32.6 0 59.1 26.5 59.1 59.1s-26.5 59.1-59.1 59.1-59.1-26.5-59.1-59.1 26.6-59.1 59.1-59.1zM100 299.8c-32.6 0-59.1-26.5-59.1-59.1s26.5-59.1 59.1-59.1 59.1 26.5 59.1 59.1-26.6 59.1-59.1 59.1zm281.6 154.7c-32.6 0-59.1-26.5-59.1-59.1s26.5-59.1 59.1-59.1 59.1 26.5 59.1 59.1-26.5 59.1-59.1 59.1z'/>
-                      </svg>
-                      <span style={styles.details.buttons.shareText}>&nbsp;{t('productDetail.share')}</span>
-                    </a>
-                  </div>
-                  {notAvailable &&
-                    <div style={styles.details.notAvailable}>{t('productDetail.unavailable')}</div>}
-                </div>
+              <div>
+                {product.get('images') && product.get('images').map((image) =>
+                  <div
+                    key={image.get('id')}
+                    style={[ styles.images.small.wrapper, image.get('id') === selectedImageId && styles.images.selected ]}
+                    onClick={onChangeImageSelection.bind(null, image.get('id'))}>
+                    <img
+                      src={`${image.get('url')}?height=160&width=160`}
+                      style={styles.images.small.image}/>
+                  </div>)}
               </div>
-              <div style={styles.clear} />
-              {/* TODO: Didier will provide title, description and maybe images for sharing */}
-              <FacebookShareData
-                description={product.get('description') || ''}
-                imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()}
-                title={product.get('shortName')} url={window.location.href} />
-            </Container>
-          </div>
-          <div style={styles.similarProducts}>
-            <Container>
-              <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
-              {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
-                <Tiles items={product.get('similarProducts')} />}
-              {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
-                <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
-              {!product.get('similarProducts') && <Spinner />}
-            </Container>
-          </div>
+            </div>
+            <div style={styles.right}>
+              <div>
+                <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
+                <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
+                {product.get('description') &&
+                  <p style={styles.details.productDescription}>{product.get('description')}</p>}
+                <h2 style={styles.details.price}>
+                  <Money
+                    amount={product.getIn([ 'offerings', '0', 'price', 'amount' ])}
+                    currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} />
+                </h2>
+                <div style={styles.details.buttons.wrapper}>
+                  <Button disabled={notAvailable} href={product.getIn([ 'offerings', '0', 'url' ])} key='buyButton' style={pinkButtonStyle} target='_blank'>
+                    <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
+                  </Button>
+                  <a
+                    href='#'
+                    style={styles.details.buttons.shareButton}
+                    onClick={this.share}>
+                    <svg style={styles.details.buttons.shareIcon} viewBox='0 0 481.6 481.6' xmlns='http://www.w3.org/2000/svg'>
+                      <path d='M381.6 309.4c-27.7 0-52.4 13.2-68.2 33.6l-132.3-73.9c3.1-8.9 4.8-18.5 4.8-28.4 0-10-1.7-19.5-4.9-28.5l132.2-73.8c15.7 20.5 40.5 33.8 68.3 33.8 47.4 0 86.1-38.6 86.1-86.1S429 0 381.5 0s-86.1 38.6-86.1 86.1c0 10 1.7 19.6 4.9 28.5l-132.1 73.8c-15.7-20.6-40.5-33.8-68.3-33.8-47.4 0-86.1 38.6-86.1 86.1s38.7 86.1 86.2 86.1c27.8 0 52.6-13.3 68.4-33.9l132.2 73.9c-3.2 9-5 18.7-5 28.7 0 47.4 38.6 86.1 86.1 86.1s86.1-38.6 86.1-86.1-38.7-86.1-86.2-86.1zm0-282.3c32.6 0 59.1 26.5 59.1 59.1s-26.5 59.1-59.1 59.1-59.1-26.5-59.1-59.1 26.6-59.1 59.1-59.1zM100 299.8c-32.6 0-59.1-26.5-59.1-59.1s26.5-59.1 59.1-59.1 59.1 26.5 59.1 59.1-26.6 59.1-59.1 59.1zm281.6 154.7c-32.6 0-59.1-26.5-59.1-59.1s26.5-59.1 59.1-59.1 59.1 26.5 59.1 59.1-26.5 59.1-59.1 59.1z'/>
+                    </svg>
+                    <span style={styles.details.buttons.shareText}>&nbsp;{t('productDetail.share')}</span>
+                  </a>
+                </div>
+                {notAvailable &&
+                  <div style={styles.details.notAvailable}>{t('productDetail.unavailable')}</div>}
+              </div>
+            </div>
+            <div style={styles.clear} />
+            {/* TODO: Didier will provide title, description and maybe images for sharing */}
+            <FacebookShareData
+              description={product.get('description') || ''}
+              imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()}
+              title={product.get('shortName')} url={window.location.href} />
+          </Container>
         </div>
-      );
-    }
+        <div style={styles.similarProducts}>
+          <Container>
+            <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
+            {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
+              <Tiles items={product.get('similarProducts')} />}
+            {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
+              <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
+            {!product.get('similarProducts') && <Spinner />}
+          </Container>
+        </div>
+      </div>
+    );
+  }
+
+  renderNotFoundError () {
+    const { styles } = this.constructor;
+    const { currentLocale, t } = this.props;
     return (
       <Container>
         <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('return')}</Link></p>
       </Container>
     );
   }
+
+  renderUnexpectedError () {
+    return <div></div>;
+  }
+
+  render () {
+    return loadItem(this.props.product, this.renderProduct, null, this.renderNotFoundError, this.renderUnexpectedError);
+  }
+
 }

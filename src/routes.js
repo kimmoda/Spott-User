@@ -62,7 +62,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         </Route>
         */}
 
-        <Route component={ProductDetail} path='product/:productSlug/:productId' />
+        <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />
+        <Route component={ProductDetail} path='product/:productSlug/:productId' /> {/* Backwards compatible with old url. */}
 
         <Route component={Login} path='login' />
         <Route component={Register} path='register' />
