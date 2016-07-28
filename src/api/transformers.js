@@ -104,6 +104,8 @@ export function transformSeries ({ posterImage, profileImage, subscribed, subscr
   };
 }
 
+export const transformMovie = transformSeries;
+
 export function transformSeason ({ title, uuid: id }) {
   return {
     id,

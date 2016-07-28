@@ -1,7 +1,7 @@
 import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
-import { transformSeries /* , transformSeason, transformEpisode */ } from './transformers';
+import { transformMovie, transformSeries /* , transformSeason, transformEpisode */ } from './transformers';
 import recentlyAddedMediaMock from './mock/recentlyAddedMedia';
-import { SERIES } from '../data/mediumTypes';
+import { MOVIE, SERIES } from '../data/mediumTypes';
 
 export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
   return await Promise.resolve(recentlyAddedMediaMock);
@@ -26,11 +26,18 @@ export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
  */
 export async function getMedium (baseUrl, authenticationToken, locale, { mediumId, mediumType }) {
   try {
-    if (mediumType === SERIES) {
-      const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}`);
-      return transformSeries(body);
+    switch (mediumType) {
+      case MOVIE: {
+        const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/movies/${mediumId}`);
+        return transformMovie(body);
+      }
+      case SERIES: {
+        const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}`);
+        return transformSeries(body);
+      }
+      default:
+        throw { statusCode: 404 };
     }
-    throw { statusCode: 404 };
   } catch (error) {
     switch (error.statusCode) {
       case 403:
