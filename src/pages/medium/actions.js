@@ -5,8 +5,8 @@ import { addSubscriber, fetchMediumCharacters, fetchMediumProducts, fetchSeries,
 import { currentUserIdSelector } from '../app/selector';
 import { currentSeriesSelector } from './selector';
 
-export const LOAD_SERIES = 'SERIES/LOAD_SERIES';
-export const LOAD_SERIES_ERROR = 'SERIES/LOAD_SERIES_ERROR';
+export const LOAD_MEDIUM = 'SERIES/LOAD_MEDIUM';
+export const LOAD_MEDIUM_ERROR = 'SERIES/LOAD_MEDIUM_ERROR';
 
 export const LOAD_MEDIUM_CHARACTERS = 'SERIES/LOAD_MEDIUM_CHARACTERS';
 export const LOAD_MEDIUM_CHARACTERS_ERROR = 'SERIES/LOAD_MEDIUM_CHARACTERS_ERROR';
@@ -36,13 +36,13 @@ export function toggleFollow () {
   };
 }
 
-export function loadSeries (seriesId) {
+export function loadMedium (mediumType, mediumId) {
   return async (dispatch, getState) => {
     try {
-      dispatch({ seriesId, type: LOAD_SERIES });
-      return await dispatch(fetchSeries({ seriesId }));
+      dispatch({ mediumId, mediumType, type: LOAD_MEDIUM });
+      return await dispatch(fetchMedium({ seriesId }));
     } catch (error) {
-      return dispatch({ error, seriesId, type: LOAD_SERIES_ERROR });
+      return dispatch({ error, seriesId, type: LOAD_MEDIUM_ERROR });
     }
   };
 }

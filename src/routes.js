@@ -13,12 +13,13 @@ import Profile from './pages/profile/view';
 import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
 import Redirect from './pages/redirect';
-import Series from './pages/series/view';
-import SeriesOverview from './pages/series/view/overview';
+import Medium from './pages/series/view';
+import MediumOverview from './pages/series/view/overview';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
 import { changeLocale } from './pages/app/actions';
+import { MOVIE, SERIES } from './data/mediumTypes';
 
 /**
  * The application routes
@@ -51,9 +52,19 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Redirect} noNavigation path='app'/>
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
-        <Route component={Series} path='series/:seriesId'>
+        <Route component={Medium} path='movie/:mediumSlug/:mediumId'>
           <IndexRedirect to='overview' />
-          <Route component={SeriesOverview} path='overview' />
+          <Route component={MediumOverview} mediumType={MOVIE} path='overview' />
+          {/*
+          <Route component={SeriesProducts} path='series/:seriesId/products' />
+            <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
+              <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
+            </Route>
+          */}
+        </Route>
+        <Route component={Medium} path='series/:mediumSlug/:mediumId'>
+          <IndexRedirect to='overview' />
+          <Route component={MediumOverview} mediumType={SERIES} path='overview' />
           {/*
           <Route component={SeriesProducts} path='series/:seriesId/products' />
             <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
