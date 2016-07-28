@@ -76,7 +76,7 @@ class WishlistProduct extends Component {
     if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
       return (
         <BaseTile style={style}>
-          <RadiumLink style={itemStyles.container} to={`/${currentLocale}/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
+          <RadiumLink style={itemStyles.container} to={item.get('shareUrl')}>
             <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }}></div>
             <p style={itemStyles.name}>{item.get('shortName') || '\u00a0'}</p>
             <p style={itemStyles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])} /></p>

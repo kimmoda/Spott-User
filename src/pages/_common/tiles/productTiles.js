@@ -111,7 +111,7 @@ export class ProductTile extends Component {
 
     return (
       <BaseTile style={style}>
-        <RadiumLink style={styles.container} title={title} to={`/${currentLocale}/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
+        <RadiumLink style={styles.container} title={title} to={item.get('shareUrl')}>
           <div style={styles.imageContainer}>
             {item.get('image') && <img alt={item.get('shortName')} src={`${item.getIn([ 'image', 'url' ])}?height=375&width=375`} style={styles.image} />}
           </div>
