@@ -1,6 +1,7 @@
 import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
 import { transformSeries /* , transformSeason, transformEpisode */ } from './transformers';
 import recentlyAddedMediaMock from './mock/recentlyAddedMedia';
+import { SERIES } from '../data/mediumTypes';
 
 export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
   return await Promise.resolve(recentlyAddedMediaMock);
@@ -23,16 +24,19 @@ export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
  * @throws UnauthorizedError
  * @throws UnexpectedError
  */
-export async function getSeries (baseUrl, authenticationToken, locale, { seriesId }) {
+export async function getMedium (baseUrl, authenticationToken, locale, { mediumId, mediumType }) {
   try {
-    const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${seriesId}`);
-    return transformSeries(body);
+    if (mediumType === SERIES) {
+      const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}`);
+      return transformSeries(body);
+    }
+    throw { statusCode: 404 };
   } catch (error) {
     switch (error.statusCode) {
       case 403:
         throw new UnauthorizedError();
       case 404:
-        throw new NotFoundError('series', error);
+        throw new NotFoundError('medium', error);
     }
     throw new UnexpectedError(error);
   }

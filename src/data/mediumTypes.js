@@ -1,2 +1,2 @@
 export const MOVIE = 'MOVIE';
-export const SERIES = 'SERIES';
+export const SERIES = 'TV_SERIE';

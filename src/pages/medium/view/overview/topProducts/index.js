@@ -20,26 +20,26 @@ export default class TopProducts extends Component {
 
   static propTypes = {
     loadTopProducts: PropTypes.func.isRequired,
-    products: ImmutablePropTypes.mapContains({
-      _status: PropTypes.string.isRequired,
-      data: ImmutablePropTypes.list
-    }),
-    series: ImmutablePropTypes.mapContains({
+    medium: ImmutablePropTypes.mapContains({
       _error: PropTypes.object,
       _status: PropTypes.string,
       title: PropTypes.string
     }),
-    seriesId: PropTypes.string.isRequired,
+    mediumId: PropTypes.string.isRequired,
+    products: ImmutablePropTypes.mapContains({
+      _status: PropTypes.string.isRequired,
+      data: ImmutablePropTypes.list
+    }),
     t: PropTypes.func.isRequired
   };
 
   componentWillMount () {
-    this.props.loadTopProducts(this.props.seriesId);
+    this.props.loadTopProducts(this.props.mediumId);
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.seriesId !== nextProps.seriesId) {
-      this.props.loadTopProducts(nextProps.seriesId);
+    if (this.props.mediumId !== nextProps.mediumId) {
+      this.props.loadTopProducts(nextProps.mediumId);
     }
   }
 
@@ -56,17 +56,17 @@ export default class TopProducts extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { products, series, t } = this.props;
+    const { medium, products, t } = this.props;
 
     return (
       <div style={styles.wrapper}>
         <Container>
-          {(series.get('_status') === FETCHING || series.get('_status') === LAZY ||
+          {(medium.get('_status') === FETCHING || medium.get('_status') === LAZY ||
             products.get('_status') === FETCHING || products.get('_status') === LAZY) &&
             <Spinner />}
-          {(series.get('_status') === LOADED || series.get('_status') === UPDATING) &&
+          {(medium.get('_status') === LOADED || medium.get('_status') === UPDATING) &&
             (products.get('_status') === LOADED || products.get('_status') === UPDATING) &&
-            <ProductTiles items={products.get('data')} title={t('medium.topProducts', { title: series.get('title') })} />}
+            <ProductTiles items={products.get('data')} title={t('medium.topProducts', { title: medium.get('title') })} />}
         </Container>
       </div>
     );

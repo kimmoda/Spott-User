@@ -29,7 +29,7 @@ export default class Hero extends Component {
     currentPathname: PropTypes.string.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     loadCharacters: PropTypes.func.isRequired,
-    series: ImmutablePropTypes.mapContains({
+    medium: ImmutablePropTypes.mapContains({
       _error: PropTypes.object,
       _status: PropTypes.string,
       id: PropTypes.string,
@@ -38,7 +38,7 @@ export default class Hero extends Component {
       subscriberCount: PropTypes.number,
       title: PropTypes.string
     }),
-    seriesId: PropTypes.string.isRequired,
+    mediumId: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
     toggleFollow: PropTypes.func.isRequired
   };
@@ -49,12 +49,12 @@ export default class Hero extends Component {
   }
 
   componentWillMount () {
-    this.props.loadCharacters(this.props.seriesId);
+    this.props.loadCharacters(this.props.mediumId);
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.seriesId !== nextProps.seriesId) {
-      this.props.loadCharacters(nextProps.seriesId);
+    if (this.props.mediumId !== nextProps.mediumId) {
+      this.props.loadCharacters(nextProps.mediumId);
     }
   }
 
@@ -176,29 +176,29 @@ export default class Hero extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { characters, currentLocale, currentPathname, isAuthenticated, series, seriesId, t, toggleFollow } = this.props;
+    const { characters, currentLocale, currentPathname, isAuthenticated, medium, mediumId, t, toggleFollow } = this.props;
 
-    if (series.get('_status') === FETCHING || series.get('_status') === LAZY) {
+    if (medium.get('_status') === FETCHING || medium.get('_status') === LAZY) {
       return (<Spinner />);
     }
 
-    if (series.get('_status') === LOADED || series.get('_status') === UPDATING) {
+    if (medium.get('_status') === LOADED || medium.get('_status') === UPDATING) {
       return (
-        <div style={[ styles.background, { backgroundImage: `url(${series.get('profileImage')})` } ]}>
+        <div style={[ styles.background, { backgroundImage: `url(${medium.get('profileImage')})` } ]}>
           <div style={styles.overlay} />
           <Container style={styles.container}>
             <h4 style={styles.mediaType}>Tv show</h4>
-            <Title style={styles.title.large}>{series.get('title')}</Title>
+            <Title style={styles.title.large}>{medium.get('title')}</Title>
             <SectionTitle style={styles.title.medium}>
-              {t('medium.followers', { count: series.get('subscriberCount') || 0 }, (contents, key) => {
+              {t('medium.followers', { count: medium.get('subscriberCount') || 0 }, (contents, key) => {
                 return <span key={key} style={styles.emph}>{contents}</span>;
               })}
             </SectionTitle>
             {isAuthenticated
-              ? <Button style={[ pinkButtonStyle, styles.followButton.base, !series.get('subscribed') && styles.followButton.unactive ]} onClick={toggleFollow}>
-                  {series.get('subscribed') ? t('medium.unfollow') : t('medium.follow')}
+              ? <Button style={[ pinkButtonStyle, styles.followButton.base, !medium.get('subscribed') && styles.followButton.unactive ]} onClick={toggleFollow}>
+                  {medium.get('subscribed') ? t('medium.unfollow') : t('medium.follow')}
                 </Button>
-              : <Button style={[ pinkButtonStyle, styles.followButton.base, !series.get('subscribed') && styles.followButton.unactive ]} to={{
+              : <Button style={[ pinkButtonStyle, styles.followButton.base, !medium.get('subscribed') && styles.followButton.unactive ]} to={{
                 pathname: `/${currentLocale}/login`,
                 state: { modal: true, returnTo: currentPathname }
               }}>
@@ -213,17 +213,17 @@ export default class Hero extends Component {
           </Container>
           <Container style={styles.tabs}>
             <div>
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/${currentLocale}/series/${seriesId}/overview`}>Overview</Link>
+              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/${currentLocale}/series/${mediumId}/overview`}>Overview</Link>
               {/*
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/products`}>Products</Link>
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${seriesId}/season/3`}>Scenes</Link>
+              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/products`}>Products</Link>
+              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/season/3`}>Scenes</Link>
               */}
             </div>
             {/*
             <div>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/3`}>Season 3</Link>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/2`}>Season 2</Link>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${seriesId}/season/1`}>Season 1</Link>
+              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${mediumId}/season/3`}>Season 3</Link>
+              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${mediumId}/season/2`}>Season 2</Link>
+              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${mediumId}/season/1`}>Season 1</Link>
             </div>
             */}
           </Container>
@@ -231,7 +231,7 @@ export default class Hero extends Component {
           {/*
           <div style={styles.smallEpisodes}>
             <FadedTiles>
-              <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} seriesId={seriesId} />
+              <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} mediumId={mediumId} />
             </FadedTiles>
           </div>
           */}

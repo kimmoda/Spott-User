@@ -2,7 +2,6 @@
 export const charactersEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'characters' ]);
 export const mediaEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'media' ]);
 export const productsEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'products' ]);
-export const seriesEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'series' ]);
 export const usersEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'users' ]);
 export const wishlistsEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'wishlists' ]);
 

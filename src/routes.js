@@ -62,7 +62,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
             </Route>
           */}
         </Route>
-        <Route component={Medium} path='series/:mediumSlug/:mediumId'>
+        <Route component={Medium} mediumType={SERIES} path='series/:mediumSlug/:mediumId'>
           <IndexRedirect to='overview' />
           <Route component={MediumOverview} mediumType={SERIES} path='overview' />
           {/*

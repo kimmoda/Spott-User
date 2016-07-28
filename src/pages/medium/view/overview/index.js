@@ -9,12 +9,12 @@ export default class Overview extends Component {
 
   static propTypes = {
     params: PropTypes.shape({
-      seriesId: PropTypes.string.isRequired
+      mediumId: PropTypes.string.isRequired
     }).isRequired
   };
 
   render () {
-    const { params: { seriesId } } = this.props;
+    const { params: { mediumId } } = this.props;
     return (
       <div>
         {/*
@@ -22,7 +22,7 @@ export default class Overview extends Component {
         <PickedForYou />
         <RecentEpisodes />
         */}
-        <TopProducts seriesId={seriesId} />
+        <TopProducts mediumId={mediumId} />
         {/*
         <PeopleAlsoWatch />
         */}

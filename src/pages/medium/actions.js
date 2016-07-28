@@ -1,9 +1,9 @@
 // import { getSeries, getSeasons, getEpisodes, getEpisodeProducts } from '../../api/series';
 // import { getRecentlyAddedToWishlist, getPopularProducts } from '../../api/products';
-import { addSubscriber, fetchMediumCharacters, fetchMediumProducts, fetchSeries, removeSubscriber } from '../../data/actions';
+import { addSubscriber, fetchMediumCharacters, fetchMediumProducts, fetchMedium, removeSubscriber } from '../../data/actions';
 // import { getMediumCharacters, getMediumProducts } from '../../api/medium';
 import { currentUserIdSelector } from '../app/selector';
-import { currentSeriesSelector } from './selector';
+import { currentMediumSelector } from './selector';
 
 export const LOAD_MEDIUM = 'SERIES/LOAD_MEDIUM';
 export const LOAD_MEDIUM_ERROR = 'SERIES/LOAD_MEDIUM_ERROR';
@@ -19,12 +19,12 @@ export function toggleFollow () {
   return async (dispatch, getState) => {
     const state = getState();
     const userId = currentUserIdSelector(state);
-    const series = currentSeriesSelector(state);
+    const medium = currentMediumSelector(state);
 
-    if (series.get('subscribed')) {
-      dispatch(removeSubscriber({ mediumId: series.get('id'), userId }));
+    if (medium.get('subscribed')) {
+      dispatch(removeSubscriber({ mediumId: medium.get('id'), userId }));
     } else {
-      dispatch(addSubscriber({ mediumId: series.get('id'), userId }));
+      dispatch(addSubscriber({ mediumId: medium.get('id'), userId }));
     }
     //  // seasonId: '05f90d72-cf44-4686-82be-d0df3ea5a4ed'
     // const episodes = await getEpisodes(apiBaseUrlSelector(state), authenticationTokenSelector(state), { seasonId: '05f90d72-cf44-4686-82be-d0df3ea5a4ed' });
@@ -40,9 +40,9 @@ export function loadMedium (mediumType, mediumId) {
   return async (dispatch, getState) => {
     try {
       dispatch({ mediumId, mediumType, type: LOAD_MEDIUM });
-      return await dispatch(fetchMedium({ seriesId }));
+      return await dispatch(fetchMedium({ mediumId, mediumType }));
     } catch (error) {
-      return dispatch({ error, seriesId, type: LOAD_MEDIUM_ERROR });
+      return dispatch({ error, mediumId, mediumType, type: LOAD_MEDIUM_ERROR });
     }
   };
 }

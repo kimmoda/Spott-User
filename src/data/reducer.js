@@ -68,7 +68,6 @@ export default (state = fromJS({
     characters: {},
     media: {},
     products: {},
-    series: {},
     users: {},
     wishlists: {}
   },
@@ -139,20 +138,18 @@ export default (state = fromJS({
     // Media
     // /////
 
-    case actions.SERIES_FETCH_START:
-      return fetchStart(state, [ 'entities', 'series', action.seriesId ]);
-    case actions.SERIES_FETCH_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'series', action.seriesId ], action.data);
-    case actions.SERIES_FETCH_ERROR:
-      return fetchError(state, [ 'entities', 'series', action.seriesId ], action.error);
+    case actions.MEDIUM_FETCH_START:
+      return fetchStart(state, [ 'entities', 'media', action.mediumId ]);
+    case actions.MEDIUM_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'media', action.mediumId ], action.data);
+    case actions.MEDIUM_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'media', action.mediumId ], action.error);
 
     case actions.MEDIUM_SUBSCRIBER_ADD_SUCCESS:
-      // TODO support for other media types.
-      return state.setIn([ 'entities', 'series', action.mediumId, 'subscribed' ], true);
+      return state.setIn([ 'entities', 'media', action.mediumId, 'subscribed' ], true);
 
     case actions.MEDIUM_SUBSCRIBER_REMOVE_SUCCESS:
-      // TODO support for other media types.
-      return state.setIn([ 'entities', 'series', action.mediumId, 'subscribed' ], false);
+      return state.setIn([ 'entities', 'media', action.mediumId, 'subscribed' ], false);
 
     // Users
     // /////

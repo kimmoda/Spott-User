@@ -92,14 +92,15 @@ export function transformWishlist (wishlist) {
   *   subscriberCount: 111
   * }
   */
-export function transformSeries ({ posterImage, profileImage, subscribed, subscriberCount, title, uuid: id }) {
+export function transformSeries ({ posterImage, profileImage, subscribed, subscriberCount, title, type, uuid: id }) {
   return {
     id,
     posterImage: posterImage && posterImage.url,
     profileImage: profileImage && profileImage.url,
     subscribed,
     subscriberCount,
-    title
+    title,
+    type
   };
 }
 

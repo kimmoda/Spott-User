@@ -32,10 +32,10 @@ const rootReducer = combineReducers({
   app,
   data,
   home,
+  medium,
   productDetail,
   profile,
-  routing: routerReducer,
-  series: medium // TODO
+  routing: routerReducer
 });
 
 /**
