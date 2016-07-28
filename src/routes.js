@@ -13,8 +13,8 @@ import Profile from './pages/profile/view';
 import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
 import Redirect from './pages/redirect';
-import Medium from './pages/series/view';
-import MediumOverview from './pages/series/view/overview';
+import Medium from './pages/medium/view';
+import MediumOverview from './pages/medium/view/overview';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
@@ -73,7 +73,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           */}
         </Route>
 
-        <Route component={ProductDetail} path='product/:productSlug/:productId' />
+        <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />
+        <Route component={ProductDetail} path='product/:productSlug/:productId' /> {/* Backwards compatible with old url. */}
 
         <Route component={Login} path='login' />
         <Route component={Register} path='register' />

@@ -1,5 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { colors, Container, SubmenuItem, Submenu, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
 import localized from '../../_common/localized';
@@ -144,19 +145,21 @@ class Header extends Component {
           <div style={headerStyles.innerContainer}>
             <img src={user.get('avatar') ? user.getIn([ 'avatar', 'url' ]) : dummyProfileAvatarImage} style={headerStyles.avatar} />
             <div style={headerStyles.detailsWrapper}>
-              <div style={headerStyles.detailsContainer}>
-                <h1 style={headerStyles.title}>User</h1>
-                <h1 style={headerStyles.name}>{user.get('firstname')} {user.get('lastname')}</h1>
-                <p style={headerStyles.followers}>
-                  {t('profile.header.followers', { count: user.get('followerCount') || 0 }, (contents, key) => {
-                    return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
-                  })}
-                  &nbsp;—&nbsp;
-                  {t('profile.header.following', { count: user.get('followingCount') || 0 }, (contents, key) => {
-                    return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
-                  })}
-                </p>
-              </div>
+              {user.get('firstname') &&
+                <div style={headerStyles.detailsContainer}>
+                  <h1 style={headerStyles.title}>User</h1>
+                  <h1 style={headerStyles.name}>{user.get('firstname')} {user.get('lastname')}</h1>
+                  <p style={headerStyles.followers}>
+                    {t('profile.header.followers', { count: user.get('followerCount') || 0 }, (contents, key) => {
+                      return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
+                    })}
+                    &nbsp;—&nbsp;
+                    {t('profile.header.following', { count: user.get('followingCount') || 0 }, (contents, key) => {
+                      return <span key={key} style={headerStyles.followersCount}>{contents}</span>;
+                    })}
+                  </p>
+                </div>
+              }
             </div>
           </div>
           {menu}
@@ -170,6 +173,15 @@ const styles = {
   content: {
     marginBottom: '3em', // We contain only tiles with shadow, so we overcompensate a bit for the shadow.
     marginTop: '2.5em'
+  },
+  emptyText: {
+    ...makeTextStyle(fontWeights.medium, '0.875em'),
+    color: colors.slateGray
+  },
+  return: {
+    ...makeTextStyle(fontWeights.bold),
+    color: colors.dark,
+    textDecoration: 'none'
   }
 };
 
@@ -216,7 +228,11 @@ export default class Profile extends Component {
           }
           user={user} />
         <Container style={styles.content}>
-          {children}
+          {user.get('firstname') && children}
+          {!user.get('firstname') &&
+            <div>
+              <p style={styles.emptyText}>{t('profile.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('return')}</Link></p>
+            </div>}
         </Container>
       </div>
     );

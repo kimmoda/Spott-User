@@ -17,7 +17,7 @@ import data from './data/reducer';
 import home from './pages/home/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
-import series from './pages/series/reducer';
+import medium from './pages/medium/reducer';
 import { applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -35,7 +35,7 @@ const rootReducer = combineReducers({
   productDetail,
   profile,
   routing: routerReducer,
-  series
+  series: medium // TODO
 });
 
 /**

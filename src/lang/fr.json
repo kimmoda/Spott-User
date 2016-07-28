@@ -4,7 +4,7 @@
       "episode": "Saison %(season)i – Épisode %(episode)i"
     },
     "footer": {
-      "copyright": "Copyright © 2015–2016 Spott nv",
+      "copyright": "Copyright © 2015–2016 Appiness nv",
       "privacy": "Protection des données",
       "terms": "Conditions Générales",
       "language": "Utiliser Spott en [[]]"
@@ -109,7 +109,8 @@
     "noSimilar": "Aucun produit similaire a été trouvé.",
     "similarProducts": "Produits similaires",
     "share": "Partager",
-    "unavailable": "Ce produit n’est pas disponible."
+    "unavailable": "Ce produit n’est pas disponible.",
+    "notExist": "This product doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
   },
   "profile": {
     "header": {
@@ -134,8 +135,10 @@
     },
     "wishlistProducts": {
       "empty": "Cette liste de souhaits est vide.",
-      "private": "This wishlist is set to private, the owner must set it to public to make it visible."
-    }
+      "private": "This wishlist is set to private, the owner must set it to public to make it visible.",
+      "notExist": "This wishlist doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+    },
+    "notExist": "This user profile doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
   },
   "medium": {
     "follow": "Follow",
@@ -146,5 +149,6 @@
       "other": "[[%(count)s]] abonné(e)s"
     },
     "topProducts": "Top %(title)s Products"
-  }
+  },
+  "return": "Return to home."
 }

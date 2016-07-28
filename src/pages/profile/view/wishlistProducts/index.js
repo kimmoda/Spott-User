@@ -76,7 +76,7 @@ class WishlistProduct extends Component {
     if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
       return (
         <BaseTile style={style}>
-          <RadiumLink style={itemStyles.container} to={`/${currentLocale}/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
+          <RadiumLink style={itemStyles.container} to={item.get('shareUrl')}>
             <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }}></div>
             <p style={itemStyles.name}>{item.get('shortName') || '\u00a0'}</p>
             <p style={itemStyles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])} /></p>
@@ -93,6 +93,11 @@ const styles = {
     ...makeTextStyle(fontWeights.medium, '0.875em'),
     color: colors.slateGray
   },
+  return: {
+    ...makeTextStyle(fontWeights.bold),
+    color: colors.dark,
+    textDecoration: 'none'
+  },
   title: {
     ...makeTextStyle(fontWeights.light, '1.4375em', '0.02174em'),
     color: colors.dark,
@@ -105,6 +110,7 @@ const styles = {
 }))
 export default class WishlistProducts extends Component {
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     loadProductsOfWishlist: PropTypes.func.isRequired,
     params: PropTypes.shape({
       wishlistId: PropTypes.string.isRequired
@@ -131,7 +137,7 @@ export default class WishlistProducts extends Component {
   }
 
   render () {
-    const { productsOfWishlist, t, wishlist } = this.props;
+    const { currentLocale, productsOfWishlist, t, wishlist } = this.props;
     if (productsOfWishlist.get('_status') === FETCHING) {
       return (<Spinner />);
     }
@@ -168,6 +174,11 @@ export default class WishlistProducts extends Component {
       );
     }
 
-    return (<div></div>);
+    return (
+      <div>
+        <h1 style={styles.title}>{t('profile.wishlists.unnamedWishlist')}</h1>
+        <p style={styles.emptyText}>{t('profile.wishlistProducts.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('return')}</Link></p>
+      </div>
+    );
   }
 }
