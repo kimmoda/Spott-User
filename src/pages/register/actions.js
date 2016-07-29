@@ -28,14 +28,12 @@ export function submit ({ email, firstname, lastname, password }) {
 
 export function registerWithFacebook ({ email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender }) {
   return async (dispatch, getState) => {
-    console.log(arguments);
     try {
       dispatch({ email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender, type: REGISTER_USER_START });
       const state = getState();
       const apiBaseUrl = apiBaseUrlSelector(state);
 
       await usersApi.registerWithFacebook(apiBaseUrl, { email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender });
-      console.log('registered, logging in');
       await dispatch(doLoginFacebook({ facebookAccessToken }));
       // Dispatch success
       return dispatch({ email, firstname, lastname, type: REGISTER_USER_SUCCESS });
@@ -44,7 +42,7 @@ export function registerWithFacebook ({ email, firstname, lastname, facebookAcce
         await dispatch(doLoginFacebook({ facebookAccessToken }));
         return dispatch({ email, firstname, lastname, type: REGISTER_USER_SUCCESS });
       }
-      return dispatch({ error: 'Not enough information, please provide your email adres through Facebook or register without facebook', email, firstname, lastname, birthday, gender, type: REGISTER_USER_ERROR });
+      return dispatch({ error: 'register.facebookError', email, firstname, lastname, birthday, gender, type: REGISTER_USER_ERROR });
     }
   };
 }

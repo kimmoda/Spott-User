@@ -226,7 +226,7 @@ class Form extends Component {
           </label>
         </div>
         {error && error._error && <div style={styles.error}>{t(error._error)}</div>}
-        {serverError && <div style={styles.error}>{serverError}</div>}
+        {serverError && <div style={styles.error}>{t(serverError)}</div>}
         <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
       </form>
     );
