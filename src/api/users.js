@@ -14,3 +14,7 @@ export async function getUser (baseUrl, authenticationToken, locale, { userId })
 export function register (baseUrl, { email, firstname, lastname, password }) {
   return post(null, null, `${baseUrl}/v003/user/users/register/username`, { email, firstName: firstname, lastName: lastname, password });
 }
+
+export function registerWithFacebook (baseUrl, { email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender }) {
+  return post(null, null, `${baseUrl}/v003/user/users/register/facebook`, { email, firstName: firstname, lastName: lastname, facebookAccessToken, facebookId, dateOfBirth: birthday, facebookGender: gender });
+}
