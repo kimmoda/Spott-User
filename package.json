@@ -38,6 +38,7 @@
     "html-webpack-plugin": "^2.17.0",
     "httpinvoke": "^1.4.0",
     "json-loader": "^0.5.4",
+    "moment": "^2.14.1",
     "node-sass": "^3.7.0",
     "piping": "^1.0.0-rc.2",
     "pluralizers": "^0.1.3",

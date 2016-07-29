@@ -1,9 +1,10 @@
 /* global FB */
 import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
-import * as actions from '../../app/actions';
+import { registerWithFacebook } from '../actions';
 import { facebookAppIdSelector } from '../../app/selector';
 import localized from '../../_common/localized';
 
@@ -11,13 +12,13 @@ import localized from '../../_common/localized';
 @connect((state) => ({
   facebookAppId: facebookAppIdSelector(state)
 }))
-class FacebookRegisterButton extends Component {
+class FacebookLoginButton extends Component {
 
   static propTypes = {
     facebookAppId: PropTypes.string.isRequired,
-    loginFacebook: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    onRegisterWithFacebook: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -45,9 +46,36 @@ class FacebookRegisterButton extends Component {
     /* eslint-enable */
   }
 
+  fetchUser (facebookAccessToken) {
+    FB.api('/me', { fields: 'email,first_name,last_name,locale,birthday,gender' }, async (response) => {
+      const { email, first_name: firstname, last_name: lastname, id: facebookId, birthday, gender } = response;
+      let res;
+      if (email && birthday && birthday.length === 10) {
+        const formattedBirthday = moment(birthday, 'MM/DD/YYYY').toISOString();
+        res = await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId, birthday: formattedBirthday, gender });
+      } else {
+        res = await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId, gender });
+      }
+      console.log(res);
+      if (res.error) {
+        const { error } = res;
+        this.setState({ ...this.state, error });
+      } else {
+        this.props.onClose();
+      }
+    });
+  }
+
   // handle fb button click
   handleClick (e) {
-    // TODO
+    FB.login((response) => {
+      if (response.authResponse) {
+        // user authorized
+        // get user data
+        this.fetchUser(response.authResponse.accessToken);
+      }
+    }, { scope: 'email,user_birthday', return_scopes: true, auth_type: 'rerequest' }); // eslint-disable-line
+    e.preventDefault();
   }
 
   static styles = {
@@ -86,5 +114,5 @@ class FacebookRegisterButton extends Component {
 }
 
 export default connect(null, (dispatch) => ({
-  loginFacebook: bindActionCreators(actions.doLoginFacebook, dispatch)
-}))(FacebookRegisterButton);
+  onRegisterWithFacebook: bindActionCreators(registerWithFacebook, dispatch)
+}))(FacebookLoginButton);
