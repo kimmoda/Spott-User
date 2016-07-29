@@ -26,26 +26,25 @@ export function submit ({ email, firstname, lastname, password }) {
   };
 }
 
-export const REGISTER_USER_FACEBOOK_START = 'REGISTER_USER_FACEBOOK_START';
-export const REGISTER_USER_FACEBOOK_SUCCESS = 'REGISTER_USER_FACEBOOK_SUCCESS';
-export const REGISTER_USER_FACEBOOK_ERROR = 'REGISTER_USER_FACEBOOK_ERROR';
-export function registerWithFacebook ({ email, firstname, lastname, facebookAccessToken, facebookId }) {
+export function registerWithFacebook ({ email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender }) {
   return async (dispatch, getState) => {
+    console.log(arguments);
     try {
-      dispatch({ email, firstname, lastname, facebookAccessToken, facebookId, type: REGISTER_USER_FACEBOOK_START });
+      dispatch({ email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender, type: REGISTER_USER_START });
       const state = getState();
       const apiBaseUrl = apiBaseUrlSelector(state);
 
-      await usersApi.registerWithFacebook(apiBaseUrl, { email, firstname, lastname, facebookAccessToken, facebookId });
+      await usersApi.registerWithFacebook(apiBaseUrl, { email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender });
       console.log('registered, logging in');
       await dispatch(doLoginFacebook({ facebookAccessToken }));
       // Dispatch success
-      return dispatch({ email, firstname, lastname, type: REGISTER_USER_FACEBOOK_SUCCESS });
+      return dispatch({ email, firstname, lastname, type: REGISTER_USER_SUCCESS });
     } catch (error) {
       if (error.body.message === 'user already exists') {
-        return dispatch({ error: { _error: 'register.userAlreadyExist' }, email, firstname, lastname, type: REGISTER_USER_ERROR });
+        await dispatch(doLoginFacebook({ facebookAccessToken }));
+        return dispatch({ email, firstname, lastname, type: REGISTER_USER_SUCCESS });
       }
-      return dispatch({ error, email, firstname, lastname, type: REGISTER_USER_ERROR });
+      return dispatch({ error: 'Not enough information, please provide your email adres through Facebook or register without facebook', email, firstname, lastname, birthday, gender, type: REGISTER_USER_ERROR });
     }
   };
 }

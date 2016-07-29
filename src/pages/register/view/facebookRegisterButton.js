@@ -1,5 +1,6 @@
 /* global FB */
 import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
@@ -47,9 +48,21 @@ class FacebookLoginButton extends Component {
 
   fetchUser (facebookAccessToken) {
     FB.api('/me', { fields: 'email,first_name,last_name,locale,birthday,gender' }, async (response) => {
-      const { email, first_name: firstname, last_name: lastname, id: facebookId } = response;
-      await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId });
-      this.props.onClose();
+      const { email, first_name: firstname, last_name: lastname, id: facebookId, birthday, gender } = response;
+      let res;
+      if (email && birthday && birthday.length === 10) {
+        const formattedBirthday = moment(birthday, 'MM/DD/YYYY').toISOString();
+        res = await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId, birthday: formattedBirthday, gender });
+      } else {
+        res = await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId, gender });
+      }
+      console.log(res);
+      if (res.error) {
+        const { error } = res;
+        this.setState({ ...this.state, error });
+      } else {
+        this.props.onClose();
+      }
     });
   }
 
@@ -61,7 +74,7 @@ class FacebookLoginButton extends Component {
         // get user data
         this.fetchUser(response.authResponse.accessToken);
       }
-    }, { scope: 'email,user_birthday', return_scopes: true }); // eslint-disable-line
+    }, { scope: 'email,user_birthday', return_scopes: true, auth_type: 'rerequest' }); // eslint-disable-line
     e.preventDefault();
   }
 

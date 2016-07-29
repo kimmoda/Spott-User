@@ -6,6 +6,8 @@ import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
 import radium from 'radium';
+import { registrationErrorSelector, registrationIsLoadingSelector }
+  from '../../app/selector';
 import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../../_common/buildingBlocks';
 import localized from '../../_common/localized';
 import { submit } from '../actions';
@@ -155,12 +157,12 @@ class Form extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { currentLocale, isLoading, t } = this.props;
+    const { error: serverError, currentLocale, isLoading, t } = this.props;
     const { error, firstname, lastname, email, password, passwordRepeat, terms, submitted } = this.state;
     const errors = this.validate(this.state);
     return (
       <form onSubmit={this.onSubmit}>
-        {/* <div style={styles.line}>&nbsp;</div> */}
+        <div style={styles.line}>&nbsp;</div>
         <div style={styles.left}>
           <input
             autoFocus
@@ -224,6 +226,7 @@ class Form extends Component {
           </label>
         </div>
         {error && error._error && <div style={styles.error}>{t(error._error)}</div>}
+        {serverError && <div style={styles.error}>{serverError}</div>}
         <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
       </form>
     );
@@ -316,7 +319,8 @@ class Register extends Component {
 }
 
 export default connect((state, ownProps) => ({
-
+  error: registrationErrorSelector(state),
+  isLoading: registrationIsLoadingSelector(state)
 }), (dispatch) => ({
   routerPush: bindActionCreators(routerPush, dispatch),
   onSubmit: bindActionCreators(submit, dispatch)
