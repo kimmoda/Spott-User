@@ -140,6 +140,8 @@
     "notExist": "Deze profielpagina bestaat niet meer. Onze excuses hiervoor.​"
   },
   "medium": {
+    "MOVIE": "Film",
+    "TV_SERIE": "Tv show",
     "follow": "Volgen",
     "unfollow": "Ontvolgen",
     "followers": {

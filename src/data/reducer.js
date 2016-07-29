@@ -91,7 +91,8 @@ export default (state = fromJS({
     case actions.MEDIA_RECENTLY_ADDED_FETCH_START:
       return fetchListStart(state, 'recentlyAddedMedia');
     case actions.MEDIA_RECENTLY_ADDED_FETCH_SUCCESS:
-      return fetchListSuccess(state, 'recentlyAddedMedia', 'media', action.data);
+      // TODO: add pagination
+      return fetchListSuccess(state, 'recentlyAddedMedia', 'media', action.data.data);
     case actions.MEDIA_RECENTLY_ADDED_FETCH_ERROR:
       return fetchListError(state, 'recentlyAddedMedia', action.error);
 

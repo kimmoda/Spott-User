@@ -90,12 +90,14 @@ export default class RecentlyAdded extends Component {
   render () {
     const { styles } = this.constructor;
     const { recentlyAddedMedia, t } = this.props;
+    const firstMedia = recentlyAddedMedia.getIn([ 'data', '0' ]);
+
     return (
-      <div style={{ ...styles.wrapper, backgroundImage: `url("${bigbangImage}")` }}>
+      <div style={[ styles.wrapper, firstMedia && firstMedia.get('profileImage') && { backgroundImage: `url("${firstMedia.getIn([ 'profileImage', 'url' ])}")` } ]}>
         <Container>
           <div style={styles.overlay}></div>
           <div style={styles.innerWrapper}>
-            <Title style={styles.title}>The Big Bang Theory</Title>
+            <Title style={styles.title}>{(firstMedia && firstMedia.get('title'))}</Title>
             <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
             {/* TODO: temporarily removed
                 <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.recentlyAdded.browseButton')}</Button> */}

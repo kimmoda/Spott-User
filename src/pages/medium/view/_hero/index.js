@@ -33,7 +33,10 @@ export default class Hero extends Component {
       _error: PropTypes.object,
       _status: PropTypes.string,
       id: PropTypes.string,
-      posterImage: PropTypes.string,
+      profileImage: ImmutablePropTypes.mapContains({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      }),
       subscribed: PropTypes.bool,
       subscriberCount: PropTypes.number,
       title: PropTypes.string
@@ -110,9 +113,6 @@ export default class Hero extends Component {
     followButton: {
       base: {
         marginBottom: '2.222em'
-      },
-      unactive: {
-        backgroundColor: 'transparent'
       }
     },
     tiles: {
@@ -184,10 +184,10 @@ export default class Hero extends Component {
 
     if (medium.get('_status') === LOADED || medium.get('_status') === UPDATING) {
       return (
-        <div style={[ styles.background, { backgroundImage: `url(${medium.get('profileImage')})` } ]}>
+        <div style={[ styles.background, medium.get('profileImage') && { backgroundImage: `url(${medium.getIn([ 'profileImage', 'url' ])})` } ]}>
           <div style={styles.overlay} />
           <Container style={styles.container}>
-            <h4 style={styles.mediaType}>Tv show</h4>
+            <h4 style={styles.mediaType}>{t(`medium.${medium.get('type')}`)}</h4>
             <Title style={styles.title.large}>{medium.get('title')}</Title>
             <SectionTitle style={styles.title.medium}>
               {t('medium.followers', { count: medium.get('subscriberCount') || 0 }, (contents, key) => {
@@ -195,10 +195,10 @@ export default class Hero extends Component {
               })}
             </SectionTitle>
             {isAuthenticated
-              ? <Button style={[ pinkButtonStyle, styles.followButton.base, !medium.get('subscribed') && styles.followButton.unactive ]} onClick={toggleFollow}>
+              ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={toggleFollow}>
                   {medium.get('subscribed') ? t('medium.unfollow') : t('medium.follow')}
                 </Button>
-              : <Button style={[ pinkButtonStyle, styles.followButton.base, !medium.get('subscribed') && styles.followButton.unactive ]} to={{
+              : <Button style={[ pinkButtonStyle, styles.followButton.base ]} to={{
                 pathname: `/${currentLocale}/login`,
                 state: { modal: true, returnTo: currentPathname }
               }}>
@@ -213,7 +213,7 @@ export default class Hero extends Component {
           </Container>
           <Container style={styles.tabs}>
             <div>
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/${currentLocale}/series/${mediumId}/overview`}>Overview</Link>
+              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/overview`}>Overview</Link>
               {/*
               <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/products`}>Products</Link>
               <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/season/3`}>Scenes</Link>

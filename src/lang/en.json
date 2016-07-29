@@ -140,6 +140,8 @@
     "notExist": "This user profile doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
   },
   "medium": {
+    "MOVIE": "Movie",
+    "TV_SERIE": "Tv show",
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": {

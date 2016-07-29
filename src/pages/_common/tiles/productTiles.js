@@ -1,12 +1,9 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
-import { colors, fontWeights, makeTextStyle, Money } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, Money, RadiumLink } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
-
-const RadiumLink = Radium(Link);
 
 const currencies = {
   EUR: '€',

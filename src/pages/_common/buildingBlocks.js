@@ -3,7 +3,8 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 import { List } from 'immutable';
-const RadiumedLink = Radium(Link);
+
+export const RadiumLink = Radium(Link);
 
 // Constants
 // /////////
@@ -99,7 +100,7 @@ export const Button = Radium((props) => {
   } else if (props.href) {
     return <a {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</a>;
   }
-  return <RadiumedLink {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</RadiumedLink>;
+  return <RadiumLink {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</RadiumLink>;
 });
 Button.propTypes = {
   children: PropTypes.node,
@@ -343,9 +344,9 @@ const submenuItemStyles = {
 };
 export const SubmenuItem = Radium(({ name, pathname }) => (
   <li style={submenuItemStyles.container}>
-    <RadiumedLink activeStyle={submenuItemStyles.active} key={pathname} style={submenuItemStyles.base} to={pathname}>
+    <RadiumLink activeStyle={submenuItemStyles.active} key={pathname} style={submenuItemStyles.base} to={pathname}>
       {name}
-    </RadiumedLink>
+    </RadiumLink>
   </li>
 ));
 SubmenuItem.propTypes = {

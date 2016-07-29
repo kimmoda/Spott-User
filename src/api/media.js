@@ -1,10 +1,21 @@
 import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
-import { transformMovie, transformSeries /* , transformSeason, transformEpisode */ } from './transformers';
-import recentlyAddedMediaMock from './mock/recentlyAddedMedia';
+import { transformMedium /* , transformSeason, transformEpisode */ } from './transformers';
 import { MOVIE, SERIES } from '../data/mediumTypes';
+import { slugify } from '../utils';
+
+const mapMediumTypeToUrlParts = {
+  [MOVIE]: 'movie',
+  [SERIES]: 'series'
+};
 
 export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
-  return await Promise.resolve(recentlyAddedMediaMock);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/searches/recent?pageSize=100`);
+  const data = body.data.map(transformMedium);
+  // TODO: temp server fix
+  for (const medium of data) {
+    medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
+  }
+  return { data };
 }
 
 /**
@@ -29,11 +40,16 @@ export async function getMedium (baseUrl, authenticationToken, locale, { mediumI
     switch (mediumType) {
       case MOVIE: {
         const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/movies/${mediumId}`);
-        return transformMovie(body);
+        // TODO: temp server fix
+        const medium = transformMedium(body);
+        medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
+        return medium;
       }
       case SERIES: {
         const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}`);
-        return transformSeries(body);
+        const medium = transformMedium(body);
+        medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
+        return medium;
       }
       default:
         throw { statusCode: 404 };
