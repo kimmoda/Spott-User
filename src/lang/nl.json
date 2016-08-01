@@ -110,7 +110,7 @@
     "similarProducts": "Gelijkaardige producten",
     "share": "Delen",
     "unavailable": "Dit product is niet beschikbaar.",
-    "notExist": "This product doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+    "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​"
   },
   "profile": {
     "header": {
@@ -153,7 +153,7 @@
     "topUserProducts": "Gekozen voor jou"
   },
   "common": {
-    "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",
+    "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
     "overview": "Overzicht",
     "return": "Keer terug naar home pagina."
   }
