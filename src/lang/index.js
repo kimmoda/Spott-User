@@ -7,13 +7,13 @@ export default {
   localizedResources: {
     terms: {
       en: require('./en.terms.html'),
-      fr: require('./en.terms.html'),
-      nl: require('./en.terms.html')
+      fr: require('./fr.terms.html'),
+      nl: require('./nl.terms.html')
     },
     privacy: {
       en: require('./en.privacy.html'),
-      fr: require('./en.privacy.html'),
-      nl: require('./en.privacy.html')
+      fr: require('./fr.privacy.html'),
+      nl: require('./nl.privacy.html')
     }
   }
 };
