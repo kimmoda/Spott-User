@@ -1,6 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle, RadiumLink } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
@@ -10,7 +10,11 @@ export class TopLevelMediumTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
-      name: PropTypes.string.isRequired
+      profileImage: ImmutablePropTypes.mapContains({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      }),
+      title: PropTypes.string.isRequired
     }).isRequired,
     style: PropTypes.object
   };
@@ -56,13 +60,14 @@ export class TopLevelMediumTile extends Component {
     const { item, style } = this.props;
     return (
       <BaseTile style={style}>
-        <div style={styles.container}>
-          <div
-            style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]}
-            title={item.get('name')} />
-          <div style={styles.layer}></div>
-          <span style={styles.title}>{item.get('name')}</span>
-        </div>
+        <RadiumLink style={styles.container} title={item.get('title')} to={item.get('shareUrl')}>
+          <div style={styles.container}>
+            <div
+              style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}?height=360&width=640")` } ]} />
+            <div style={styles.layer}></div>
+            <span style={styles.title}>{item.get('title')}</span>
+          </div>
+        </RadiumLink>
       </BaseTile>
     );
   }

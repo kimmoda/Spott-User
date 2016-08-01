@@ -4,7 +4,7 @@
       "episode": "Saison %(season)i – Épisode %(episode)i"
     },
     "footer": {
-      "copyright": "Copyright © 2015–2016 Spott nv",
+      "copyright": "Copyright © 2015–2016 Appiness nv",
       "privacy": "Protection des données",
       "terms": "Conditions Générales",
       "language": "Utiliser Spott en [[]]"
@@ -109,7 +109,8 @@
     "noSimilar": "Aucun produit similaire a été trouvé.",
     "similarProducts": "Produits similaires",
     "share": "Partager",
-    "unavailable": "Ce produit n’est pas disponible."
+    "unavailable": "Ce produit n’est pas disponible.",
+    "notExist": "Ce produit n’existe plus. Nous sommes désolés pour les inconvénients occasionnés.​"
   },
   "profile": {
     "header": {
@@ -129,10 +130,32 @@
     },
     "wishlists": {
       "empty": "Vous n'avez pas encore des listes de souhaits.",
+
       "unnamedWishlist": "Liste de souhaits"
     },
     "wishlistProducts": {
-      "empty": "Cette liste de souhaits est vide."
-    }
+      "empty": "Cette liste de souhaits est vide.",
+      "private": "Cette liste de souhaits est privé, le propriétaire doit la rendre visible.",
+      "notExist": "Cette liste de souhaits n’existe plus. Nous sommes désolés pour les inconvénients occasionnés.​"
+    },
+    "notExist": "Ce profil d'utilisateur n’existe plus. Nous sommes désolés pour les inconvénients occasionnés.​"
+  },
+  "medium": {
+    "MOVIE": "Film",
+    "TV_SERIE": "Emission de télévision",
+    "follow": "Suivre",
+    "unfollow": "Quitter",
+    "followers": {
+      "zero":  "[[0]] abonné(e)s",
+      "one":   "[[1]] abonné(e)",
+      "other": "[[%(count)s]] abonné(e)s"
+    },
+    "topProducts": "Meilleurs %(title)s produits",
+    "topUserProducts": "Spécialement pour toi"
+  },
+  "common": {
+    "notExist": "Cette ressource n’existe plus. Nous sommes désolés pour les inconvénients occasionnés.",
+    "overview": "Aperçu",
+    "return": "Retour à la page d'accueil."
   }
 }

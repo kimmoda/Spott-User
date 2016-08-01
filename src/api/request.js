@@ -205,8 +205,9 @@ export function put (authenticationToken, locale, url, body) {
  * @param {string} [authenticationToken] The authentication token to send in the header.
  * @param {string} [locale] The Accept-Language to send in the header.
  * @param {string} url The URL of the resource to delete.
+ * @param {object} body The body of the DELETE request.
  * @return {Promise<Response, Object}>} The server response or resulting error.
  */
-export function del (authenticationToken, locale, url) {
-  return wrappedFetch(url, optionsWithoutBody('DELETE', authenticationToken, locale));
+export function del (authenticationToken, locale, url, body) {
+  return wrappedFetch(url, optionsWithBody('DELETE', authenticationToken, locale, body));
 }

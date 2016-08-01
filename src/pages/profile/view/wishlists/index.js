@@ -1,15 +1,14 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, Spinner } from '../../../_common/buildingBlocks';
 import Tiles from '../../../_common/verticalTiles';
 import { wishlistsOfCurrentUserSelector } from '../../selector';
-import { fetchWishlistsOfUser } from '../../actions';
+import { loadWishlistsOfUser } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 import { slugify } from '../../../../utils';
 import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
-import Spinner from '../../../_common/spinner';
 import { bindActionCreators } from 'redux';
 import localized from '../../../_common/localized';
 import BaseTile from '../../../_common/tiles/_baseTile';
@@ -84,12 +83,12 @@ const styles = {
 };
 @localized
 @connect(wishlistsOfCurrentUserSelector, (dispatch) => ({
-  fetchWishlistsOfUser: bindActionCreators(fetchWishlistsOfUser, dispatch)
+  loadWishlistsOfUser: bindActionCreators(loadWishlistsOfUser, dispatch)
 }))
 export default class Wishlists extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
-    fetchWishlistsOfUser: PropTypes.func.isRequired,
+    loadWishlistsOfUser: PropTypes.func.isRequired,
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired,
       userSlug: PropTypes.string.isRequired
@@ -103,12 +102,12 @@ export default class Wishlists extends Component {
 
   componentWillMount () {
     // (Re)fetch the wishlists.
-    this.props.fetchWishlistsOfUser(this.props.params.userId);
+    this.props.loadWishlistsOfUser(this.props.params.userId);
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.props.params.userId !== nextProps.params.userId) {
-      this.props.fetchWishlistsOfUser(nextProps.params.userId);
+      this.props.loadWishlistsOfUser(nextProps.params.userId);
     }
   }
 

@@ -3,7 +3,10 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 import { List } from 'immutable';
-const RadiumedLink = Radium(Link);
+import { ERROR, FETCHING, LAZY, LOADED, UPDATING } from '../../data/statusTypes';
+
+export const RadiumLink = Radium(Link);
+
 
 // Constants
 // /////////
@@ -36,6 +39,51 @@ export const mediaQueries = {
   large: '@media only screen and (min-width: 992px)',
   extraLarge: '@media only screen and (min-width: 1200px)'
 };
+
+@Radium
+export class Spinner extends Component {
+
+  static styles = {
+    container: {
+      width: '40px',
+      height: '40px',
+      margin: '40px auto',
+      backgroundColor: colors.coolGray,
+      borderRadius: '100%',
+      animation: 'x 1s ease-in-out infinite',
+      animationName: Radium.keyframes({
+        '0%': {
+          transform: 'scale(0)',
+          opacity: 0.5
+        },
+        '100%': {
+          transform: 'scale(1.0)',
+          opacity: 0
+        }
+      }, 'spinner')
+    }
+  };
+
+  render () {
+    return (
+      <div style={this.constructor.styles.container}></div>
+    );
+  }
+}
+
+// Load an item or a list.
+export function load (item, renderItem, renderSpinner, renderNotFound, renderUnexpectedComponent) {
+  if (!item.get('_status') || item.get('_status') === FETCHING || item.get('_status') === LAZY) {
+    return (renderSpinner && renderSpinner()) || <Spinner />;
+  }
+  if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
+    return renderItem(item);
+  }
+  if (item.get('_status') === ERROR && item.get('_error').name === 'NotFoundError') {
+    return renderNotFound();
+  }
+  return renderUnexpectedComponent();
+}
 
 // Utilities
 // /////////
@@ -99,10 +147,10 @@ export const Button = Radium((props) => {
   } else if (props.href) {
     return <a {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</a>;
   }
-  return <RadiumedLink {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</RadiumedLink>;
+  return <RadiumLink {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</RadiumLink>;
 });
 Button.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   href: PropTypes.string,
   style: PropTypes.oneOfType([
     PropTypes.object,
@@ -136,7 +184,7 @@ export const Container = Radium((props) => (
   </div>
 ));
 Container.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -168,7 +216,7 @@ export const ScalableContainer = Radium((props) => (
   </div>
 ));
 ScalableContainer.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -184,7 +232,7 @@ export const Title = Radium((props) => {
   return <h1 {...props} style={[ titleStyle, props.style ]}>{props.children}</h1>;
 });
 Title.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -197,7 +245,7 @@ export const SectionTitle = Radium((props) => {
   return <h2 {...props} style={[ sectionTitleStyle, props.style ]}>{props.children}</h2>;
 });
 SectionTitle.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -211,7 +259,7 @@ export const UpperCaseSubtitle = Radium((props) => {
   return <h3 {...props} style={[ upperCaseSubtitleStyle, props.style ]}>{props.children}</h3>;
 });
 UpperCaseSubtitle.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 
@@ -224,9 +272,10 @@ export class Tiles extends Component {
   static propTypes = {
     first: PropTypes.number,
     horizontalSpacing: PropTypes.number.isRequired,
-    items: ImmutablePropTypes.listOf(
-      PropTypes.any
-    ).isRequired,
+    items: ImmutablePropTypes.mapContains({
+      _status: PropTypes.string,
+      data: PropTypes.list
+    }).isRequired,
     numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
     // The component for rendering the tile. Is cloned with an additional
     // 'value' prop.
@@ -288,7 +337,13 @@ export class Tiles extends Component {
     // Return render result
     return (
       <div style={[ containerStyle, tilesStyle ]}>
-        {this.rotateList(items || List(), first).map((item, i) => tileRenderer({ style, key: i, item }))}
+        {load(
+          items,
+          () => (this.rotateList(items.get('data') || List(), first).map((item, i) => tileRenderer({ style, key: i, item }))),
+          null,
+          () => <div></div>,
+          () => <div></div>
+        )}
       </div>
     );
   }
@@ -296,7 +351,7 @@ export class Tiles extends Component {
 }
 
 const fadeStyle = {
-  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgb(244, 0, 0))',
+  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
   position: 'absolute',
   width: '4em',
   right: 0,
@@ -314,7 +369,7 @@ export const FadedTiles = Radium((props) => (
 ));
 
 FadedTiles.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 };
 
 // Submenu and submenuitem styles
@@ -343,9 +398,9 @@ const submenuItemStyles = {
 };
 export const SubmenuItem = Radium(({ name, pathname }) => (
   <li style={submenuItemStyles.container}>
-    <RadiumedLink activeStyle={submenuItemStyles.active} key={pathname} style={submenuItemStyles.base} to={pathname}>
+    <RadiumLink activeStyle={submenuItemStyles.active} key={pathname} style={submenuItemStyles.base} to={pathname}>
       {name}
-    </RadiumedLink>
+    </RadiumLink>
   </li>
 ));
 SubmenuItem.propTypes = {
@@ -365,7 +420,7 @@ export const Submenu = Radium(({ children, style }) => (
   </ul>
 ));
 Submenu.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: PropTypes.object
 };
 

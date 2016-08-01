@@ -1,12 +1,22 @@
-// import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
-// import { transformSeries, transformSeason, transformEpisode } from './transformers';
-import recentlyAddedMediaMock from './mock/recentlyAddedMedia';
+import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
+import { transformMedium /* , transformSeason, transformEpisode */ } from './transformers';
+import { MOVIE, SERIES } from '../data/mediumTypes';
+import { slugify } from '../utils';
+
+const mapMediumTypeToUrlParts = {
+  [MOVIE]: 'movie',
+  [SERIES]: 'series'
+};
 
 export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
-  return await Promise.resolve(recentlyAddedMediaMock);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/searches/recent?pageSize=100`);
+  const data = body.data.map(transformMedium);
+  // TODO: temp server fix
+  for (const medium of data) {
+    medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
+  }
+  return { data };
 }
-
-/*
 
 /**
  * GET /media/series/:seriesId
@@ -24,11 +34,40 @@ export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
  * @throws NotFoundError
  * @throws UnauthorizedError
  * @throws UnexpectedError
- *
-export async function getSeries (baseUrl, authenticationToken, locale, { seriesId }) {
+ */
+export async function getMedium (baseUrl, authenticationToken, locale, { mediumId, mediumType }) {
   try {
-    const { body } = await get(authenticationToken, `${baseUrl}/v003/media/series/${seriesId}`);
-    return transformSeries(body);
+    switch (mediumType) {
+      case MOVIE: {
+        const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/movies/${mediumId}`);
+        // TODO: temp server fix
+        const medium = transformMedium(body);
+        medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
+        return medium;
+      }
+      case SERIES: {
+        const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}`);
+        const medium = transformMedium(body);
+        medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
+        return medium;
+      }
+      default:
+        throw { statusCode: 404 };
+    }
+  } catch (error) {
+    switch (error.statusCode) {
+      case 403:
+        throw new UnauthorizedError();
+      case 404:
+        throw new NotFoundError('medium', error);
+    }
+    throw new UnexpectedError(error);
+  }
+}
+
+export async function addSubscriber (baseUrl, authenticationToken, locale, { mediumId, userId }) {
+  try {
+    await post(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/subscribers`, { uuid: userId });
   } catch (error) {
     switch (error.statusCode) {
       case 403:
@@ -39,6 +78,22 @@ export async function getSeries (baseUrl, authenticationToken, locale, { seriesI
     throw new UnexpectedError(error);
   }
 }
+
+export async function removeSubscriber (baseUrl, authenticationToken, locale, { mediumId, userId }) {
+  try {
+    await del(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/subscribers`, { uuid: userId });
+  } catch (error) {
+    switch (error.statusCode) {
+      case 403:
+        throw new UnauthorizedError();
+      case 404:
+        throw new NotFoundError('series', error);
+    }
+    throw new UnexpectedError(error);
+  }
+}
+
+/*
 
 export async function getSeasons (baseUrl, authenticationToken, locale, { seriesId }) {
   try {

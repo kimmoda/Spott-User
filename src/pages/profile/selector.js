@@ -1,20 +1,21 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { currentUserIdSelector as currentLoggedInUserIdSelector } from '../app/selector';
-import { createEntityByIdSelector, createEntitiesByIdSelector } from '../../utils';
+import { usersEntitiesSelector, userHasWishlistsRelationsSelector, wishlistsEntitiesSelector, wishlistHasProductsRelationsSelector, productsEntitiesSelector } from '../../data/selector';
+import { createEntityByIdSelector, createEntitiesByRelationSelector } from '../../utils';
 
-export const currentUserIdSelector = (state) => state.getIn([ 'profile', 'currentUser' ]);
-export const currentWishlistIdSelector = (state) => state.getIn([ 'profile', 'currentWishlist' ]);
+export const currentUserIdSelector = (state) => state.getIn([ 'profile', 'currentUser', 'id' ]);
+export const currentWishlistIdSelector = (state) => state.getIn([ 'profile', 'currentWishlist', 'id' ]);
 
 // View selector fro user profile
 export const userSelector = createStructuredSelector({
-  user: createEntityByIdSelector((state) => state.getIn([ 'profile', 'users' ]), currentUserIdSelector)
+  user: createEntityByIdSelector(usersEntitiesSelector, currentUserIdSelector)
 });
 
 // View selector for wishlists
 export const wishlistsOfCurrentUserSelector = createSelector(
   currentLoggedInUserIdSelector,
   currentUserIdSelector,
-  createEntitiesByIdSelector((state) => state.getIn([ 'profile', 'wishlistsOfUser' ]), currentUserIdSelector),
+  createEntitiesByRelationSelector(userHasWishlistsRelationsSelector, currentUserIdSelector, wishlistsEntitiesSelector),
   (currentLoggedInUserId, currentUserId, wishlists) => {
     const showPrivateWishlists = currentLoggedInUserId === currentUserId;
     return {
@@ -25,5 +26,6 @@ export const wishlistsOfCurrentUserSelector = createSelector(
 
 // View selector for wishlist products
 export const productsOfWishlistSelector = createStructuredSelector({
-  productsOfWishlist: createEntitiesByIdSelector((state) => state.getIn([ 'profile', 'productsOfWishlist' ]), currentWishlistIdSelector)
+  productsOfWishlist: createEntitiesByRelationSelector(wishlistHasProductsRelationsSelector, currentWishlistIdSelector, productsEntitiesSelector),
+  wishlist: createEntityByIdSelector(wishlistsEntitiesSelector, currentWishlistIdSelector)
 });

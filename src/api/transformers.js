@@ -1,3 +1,7 @@
+function stripDomain (url) {
+  return url.substring(url.indexOf('/', 9));
+}
+
 export function transformUser ({ uuid, userName, profile }) {
   return {
     avatar: profile.avatar ? { id: profile.avatar.uuid, url: profile.avatar.url } : null,
@@ -26,27 +30,57 @@ export function transformUser ({ uuid, userName, profile }) {
   *   shortName
   * }
   */
-export function transformProduct ({ available, buyUrl, image, price, shortName, shareUrl, uuid: id }) {
+export function transformListProduct ({ available, buyUrl, image, price, shortName, shareUrl, uuid: id }) {
   return {
     available,
     buyUrl,
     id,
-    image: image && image.url,
+    image: image && { id: image.uuid, url: image.url },
     price,
-    shareUrl,
+    shareUrl: stripDomain(shareUrl),
     shortName
   };
 }
 
+// no buyUrl, image
+export function transformDetailedProduct ({ available, brand, description, longName, images, offerings, price, shortName, shareUrl, uuid: id }) {
+  return {
+    available,
+    description,
+    id,
+    images: images && images.map((image) => ({ id: image.uuid, url: image.url })),
+    longName,
+    shareUrl: stripDomain(shareUrl),
+    shortName,
+    brand: brand && {
+      name: brand.name,
+      id: brand.uuid,
+      logo: brand.logo && {
+        url: brand.logo.url,
+        id: brand.logo.uuid
+      }
+    },
+    offerings: offerings && offerings.map((offer) => ({
+      url: offer.buyUrl,
+      price: offer.price,
+      shop: offer.shop.name
+    }))
+  };
+}
+
 export function transformCharacter ({ avatar, name, uuid: id }) {
-  return { characterImage: avatar && avatar.url, id, name };
+  return {
+    id,
+    image: avatar && { id: avatar.uuid, url: avatar.url },
+    name
+  };
 }
 
 export function transformWishlist (wishlist) {
   return {
     fixed: wishlist.fixed,
     id: wishlist.uuid,
-    image: wishlist.image ? { id: wishlist.image.uuid, url: wishlist.image.url } : null,
+    image: wishlist.image && { id: wishlist.image.uuid, url: wishlist.image.url },
     name: wishlist.name,
     publicWishlist: wishlist.public
   };
@@ -62,14 +96,15 @@ export function transformWishlist (wishlist) {
   *   subscriberCount: 111
   * }
   */
-export function transformSeries ({ posterImage, profileImage, subscribed, subscriberCount, title, uuid: id }) {
+export function transformMedium ({ posterImage, profileImage, subscribed, subscriberCount, title, type, uuid: id }) {
   return {
     id,
-    posterImage: posterImage && posterImage.url,
-    profileImage: profileImage && profileImage.url,
+    posterImage: posterImage && { id: posterImage.uuid, url: posterImage.url },
+    profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url },
     subscribed,
     subscriberCount,
-    title
+    title,
+    type
   };
 }
 

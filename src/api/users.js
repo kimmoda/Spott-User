@@ -6,11 +6,15 @@ import { transformUser } from './transformers';
  * @throws NotFoundError
  * @throws UnexpectedError
  */
-export async function getUser (baseUrl, authenticationToken, locale, id) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${id}`);
+export async function getUser (baseUrl, authenticationToken, locale, { userId }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}`);
   return transformUser(body);
 }
 
 export function register (baseUrl, { email, firstname, lastname, password }) {
   return post(null, null, `${baseUrl}/v003/user/users/register/username`, { email, firstName: firstname, lastName: lastname, password });
+}
+
+export function registerWithFacebook (baseUrl, { email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender }) {
+  return post(null, null, `${baseUrl}/v003/user/users/register/facebook`, { email, firstName: firstname, lastName: lastname, facebookAccessToken, facebookId, dateOfBirth: birthday, facebookGender: gender });
 }

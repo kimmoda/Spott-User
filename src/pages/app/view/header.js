@@ -37,10 +37,7 @@ const styles = {
   },
   logoSection: {
     container: {
-      display: 'none',
-      '@media (min-width: 340px)': {
-        display: 'block'
-      }
+      display: 'block'
     },
     logo: {
       display: 'block',
@@ -58,7 +55,9 @@ const styles = {
     },
     trigger: {
       lineHeight: '2.125em',
-      verticalAlign: 'middle'
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end'
     },
     triggerAvatar: {
       borderRadius: '100%',
@@ -70,7 +69,6 @@ const styles = {
     },
     triggerArrow: {
       base: {
-        display: 'inline-block',
         float: 'right',
         textDecoration: 'none',
         color: colors.coolGray
@@ -80,6 +78,7 @@ const styles = {
       }
     },
     menu: {
+      top: '30px',
       marginTop: '0.625em',
       borderRadius: '0.25em',
       backgroundColor: colors.white,
@@ -146,22 +145,24 @@ class Header extends Component {
       <header style={[ styles.wrapper.base, floating && styles.wrapper.floating ]}>
         <Container style={styles.container}>
           <div style={styles.logoSection.container}>
-            <Link to='/'>
+            <Link to={`/${currentLocale}`}>
               <img alt={t('_common.header.home')} src={floating ? spottWhiteImage : spottBlackImage} style={styles.logoSection.logo} />
             </Link>
           </div>
           <div style={styles.userSection.container}>
             {isAuthenticated &&
               <div>
-                <Dropdown button={
                   <div style={styles.userSection.trigger}>
-                    <img src={currentUserAvatar ? currentUserAvatar.get('url') : dummyAvatarImage} style={styles.userSection.triggerAvatar} />
-                    <span style={[ styles.userSection.triggerArrow.base, floating && styles.userSection.triggerArrow.floating ]}>▾</span>
-                  </div>
-                } contentStyle={styles.userSection.menu}>
-                  <Button style={[ styles.userSection.menuItem, styles.userSection.profileMenuItem ]} to={`/${currentLocale}/profile/${slugify(currentUsername)}/${currentUserId}`}>{currentUsername}</Button>
-                  <Button style={styles.userSection.menuItem} onClick={this.onLogoutClick}>{t('_common.header.logout')}</Button>
-                </Dropdown>
+                    <Link style={styles.userSection.profileLink} to={`/${currentLocale}/profile/${slugify(currentUsername)}/${currentUserId}`}>
+                      <img src={currentUserAvatar ? currentUserAvatar.get('url') : dummyAvatarImage} style={styles.userSection.triggerAvatar} />
+                    </Link>
+                    <Dropdown
+                      button={<span style={[ styles.userSection.triggerArrow.base, floating && styles.userSection.triggerArrow.floating ]}>▾</span>}
+                      contentStyle={styles.userSection.menu}>
+                      <Button style={[ styles.userSection.menuItem, styles.userSection.profileMenuItem ]} to={`/${currentLocale}/profile/${slugify(currentUsername)}/${currentUserId}`}>{currentUsername}</Button>
+                      <Button style={styles.userSection.menuItem} onClick={this.onLogoutClick}>{t('_common.header.logout')}</Button>
+                    </Dropdown>
+                </div>
               </div>}
             {!isAuthenticated &&
               <Button style={{ ...pinkButtonStyle, ...styles.userSection.signInButton }} to={{

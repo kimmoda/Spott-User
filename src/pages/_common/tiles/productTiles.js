@@ -1,14 +1,9 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
-import { colors, fontWeights, makeTextStyle, Money } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, Money, RadiumLink } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import localized from '../localized';
-import { slugify } from '../../../utils';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
-
-const RadiumLink = Radium(Link);
 
 const currencies = {
   EUR: '€',
@@ -35,14 +30,16 @@ function formatTitle (name, price) {
   return name;
 }
 
-@localized
 @Radium
 export class ProductTile extends Component {
 
   static propTypes = {
-    currentLocale: PropTypes.string.isRequired,
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
+      image: ImmutablePropTypes.mapContains({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      }),
       price: ImmutablePropTypes.mapContains({
         amount: PropTypes.number.isRequired,
         currency: PropTypes.string.isRequired
@@ -102,14 +99,14 @@ export class ProductTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { currentLocale, item, style } = this.props;
+    const { item, style } = this.props;
     const title = formatTitle(item.get('shortName'), item.get('price'));
 
     return (
       <BaseTile style={style}>
-        <RadiumLink style={styles.container} title={title} to={`/${currentLocale}/product/${slugify(item.get('shortName'))}/${item.get('id')}`}>
+        <RadiumLink style={styles.container} title={title} to={item.get('shareUrl')}>
           <div style={styles.imageContainer}>
-            <img alt={item.get('shortName')} src={item.get('image')} style={styles.image} />
+            {item.get('image') && <img alt={item.get('shortName')} src={`${item.getIn([ 'image', 'url' ])}?height=375&width=375`} style={styles.image} />}
           </div>
           <div style={styles.detailsContainer}>
             <div style={styles.shortName}>{item.get('shortName')}</div>

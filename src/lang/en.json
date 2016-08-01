@@ -4,7 +4,7 @@
       "episode": "Season %(season)i – Episode %(episode)i"
     },
     "footer": {
-      "copyright": "Copyright © 2015–2016 Spott nv",
+      "copyright": "Copyright © 2015–2016 Appiness nv",
       "privacy": "Privacy",
       "terms": "Terms",
       "language": "Use Spott in [[]]"
@@ -109,7 +109,8 @@
     "noSimilar": "No similar items found.",
     "similarProducts": "Similar Items",
     "share": "Share",
-    "unavailable": "This product is unavailable."
+    "unavailable": "This product is unavailable.",
+    "notExist": "This product doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
   },
   "profile": {
     "header": {
@@ -132,7 +133,29 @@
       "unnamedWishlist": "Wishlist"
     },
     "wishlistProducts": {
-      "empty": "This wishlist is empty."
-    }
+      "empty": "This wishlist is empty.",
+      "private": "This wishlist is set to private, the owner must set it to public to make it visible.",
+      "notExist": "This wishlist doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+    },
+    "notExist": "This user profile doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+  },
+  "medium": {
+    "MOVIE": "Movie",
+    "TV_SERIE": "Tv show",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": {
+      "zero":  "Followers [[0]]",
+      "one":   "Followers [[1]]",
+      "other": "Followers [[%(count)s]]"
+    },
+    "topProducts": "Top %(title)s Products",
+    "topUserProducts": "Picked For You"
+  },
+  "common": {
+    "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",
+    "overview": "Overview",
+    "return": "Return to home."
   }
+
 }
