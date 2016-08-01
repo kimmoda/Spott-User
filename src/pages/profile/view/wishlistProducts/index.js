@@ -52,7 +52,6 @@ const itemStyles = {
 @localized
 class WishlistProduct extends Component {
   static propTypes = {
-    currentLocale: PropTypes.string.isRequired,
     item: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
@@ -70,7 +69,7 @@ class WishlistProduct extends Component {
   }
 
   render () {
-    const { currentLocale, item, style } = this.props;
+    const { item, style } = this.props;
     return load(item, () => (
       <BaseTile style={style}>
         <RadiumLink style={itemStyles.container} to={item.get('shareUrl')}>
@@ -105,7 +104,6 @@ const styles = {
 }))
 export default class WishlistProducts extends Component {
   static propTypes = {
-    currentLocale: PropTypes.string.isRequired,
     loadProductsOfWishlist: PropTypes.func.isRequired,
     params: PropTypes.shape({
       wishlistId: PropTypes.string.isRequired
@@ -132,7 +130,7 @@ export default class WishlistProducts extends Component {
   }
 
   render () {
-    const { currentLocale, productsOfWishlist, t, wishlist } = this.props;
+    const { productsOfWishlist, t, wishlist } = this.props;
 
     if (productsOfWishlist.get('_status') === ERROR && productsOfWishlist.get('_error').name === 'UnauthorizedError') {
       return (
@@ -162,12 +160,12 @@ export default class WishlistProducts extends Component {
       //     <p style={styles.emptyText}>{t('profile.wishlistProducts.empty')}</p>
       //   </div>
       // );
-    }
+      // return (
+      //   <div>
+      //     <h1 style={styles.title}>{t('profile.wishlists.unnamedWishlist')}</h1>
+      //     <p style={styles.emptyText}>{t('profile.wishlistProducts.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
+      //   </div>
+      // );
+  }
 
-    // return (
-    //   <div>
-    //     <h1 style={styles.title}>{t('profile.wishlists.unnamedWishlist')}</h1>
-    //     <p style={styles.emptyText}>{t('profile.wishlistProducts.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
-    //   </div>
-    // );
 }

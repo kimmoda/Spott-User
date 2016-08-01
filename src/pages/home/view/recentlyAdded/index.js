@@ -10,8 +10,6 @@ import localized from '../../../_common/localized';
 import { recentlyAddedSelector } from '../../selectors';
 import { loadRecentlyAdded } from '../../actions';
 
-const bigbangImage = require('./images/bigBang.jpg');
-
 @localized
 @connect(recentlyAddedSelector, (dispatch) => ({
   loadRecentlyAdded: bindActionCreators(loadRecentlyAdded, dispatch)

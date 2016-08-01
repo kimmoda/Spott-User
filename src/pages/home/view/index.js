@@ -5,9 +5,9 @@ import RecentlyAdded from './recentlyAdded';
 // import NewEpisodes from './newEpisodes';
 // import NewScenesForYou from './newScenesForYou';
 // import TopSellingProducts from './topSellingProducts';
-import PopularProducts from './popularProducts';
+// import PopularProducts from './popularProducts';
 import DownloadApp from './downloadApp';
-import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
+// import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
 // import PopularNearYou from './popularNearYou';
 import { homeSelector } from '../selectors';
 
@@ -19,17 +19,17 @@ export default class Home extends Component {
   };
 
   render () {
-    const { isAuthenticated } = this.props;
+    // const { isAuthenticated } = this.props;
     return (
       <div style={{ fontSize: '16px', backgroundColor: 'white' }}>
         {/* <Search /> */}
         <RecentlyAdded />
         {/* <NewScenesForYou /> */}
         {/* <NewEpisodes /> */}
-        {/*<PopularProducts />*/}
+        {/* <PopularProducts /> */}
         {/* <TopSellingProducts /> */}
         <DownloadApp />
-        {/*{isAuthenticated && <RecentlyAddedToWishlist />}*/}
+        {/* {isAuthenticated && <RecentlyAddedToWishlist />} */}
         {/* <PopularNearYou /> */}
       </div>
     );

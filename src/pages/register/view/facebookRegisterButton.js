@@ -1,3 +1,4 @@
+/* eslint-disable react/no-set-state */
 /* global FB */
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
@@ -56,7 +57,6 @@ class FacebookLoginButton extends Component {
       } else {
         res = await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId, gender });
       }
-      console.log(res);
       if (res.error) {
         const { error } = res;
         this.setState({ ...this.state, error });
