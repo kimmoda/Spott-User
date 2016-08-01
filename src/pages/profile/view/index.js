@@ -231,7 +231,7 @@ export default class Profile extends Component {
           {user.get('firstname') && children}
           {!user.get('firstname') &&
             <div>
-              <p style={styles.emptyText}>{t('profile.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('return')}</Link></p>
+              <p style={styles.emptyText}>{t('profile.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
             </div>}
         </Container>
       </div>

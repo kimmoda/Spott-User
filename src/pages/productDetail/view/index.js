@@ -3,15 +3,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Radium from 'radium';
-import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries, Money, pinkButtonStyle } from '../../_common/buildingBlocks';
+import { Map } from 'immutable';
+import { colors, fontWeights, load, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, Money, Spinner } from '../../_common/buildingBlocks';
 import Tiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
 import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Spinner from '../../_common/spinner';
 import localized from '../../_common/localized';
-import loadItem from '../../_common/loadItem';
+import { LOADED } from '../../../data/statusTypes';
 
 @localized
 @connect(productSelector, (dispatch) => ({
@@ -306,7 +306,7 @@ export default class ProductDetail extends Component {
           <Container>
             <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
             {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
-              <Tiles items={product.get('similarProducts')} />}
+              <Tiles items={Map({ _status: LOADED, data: product.get('similarProducts') })} />}
             {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
               <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
             {!product.get('similarProducts') && <Spinner />}
@@ -321,7 +321,7 @@ export default class ProductDetail extends Component {
     const { currentLocale, t } = this.props;
     return (
       <Container>
-        <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('return')}</Link></p>
+        <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
       </Container>
     );
   }
@@ -331,7 +331,7 @@ export default class ProductDetail extends Component {
   }
 
   render () {
-    return loadItem(this.props.product, this.renderProduct, null, this.renderNotFoundError, this.renderUnexpectedError);
+    return load(this.props.product, this.renderProduct, null, this.renderNotFoundError, this.renderUnexpectedError);
   }
 
 }

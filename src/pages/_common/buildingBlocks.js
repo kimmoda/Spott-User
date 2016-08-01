@@ -3,8 +3,10 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 import { List } from 'immutable';
+import { ERROR, FETCHING, LAZY, LOADED, UPDATING } from '../../data/statusTypes';
 
 export const RadiumLink = Radium(Link);
+
 
 // Constants
 // /////////
@@ -37,6 +39,51 @@ export const mediaQueries = {
   large: '@media only screen and (min-width: 992px)',
   extraLarge: '@media only screen and (min-width: 1200px)'
 };
+
+@Radium
+export class Spinner extends Component {
+
+  static styles = {
+    container: {
+      width: '40px',
+      height: '40px',
+      margin: '40px auto',
+      backgroundColor: colors.coolGray,
+      borderRadius: '100%',
+      animation: 'x 1s ease-in-out infinite',
+      animationName: Radium.keyframes({
+        '0%': {
+          transform: 'scale(0)',
+          opacity: 0.5
+        },
+        '100%': {
+          transform: 'scale(1.0)',
+          opacity: 0
+        }
+      }, 'spinner')
+    }
+  };
+
+  render () {
+    return (
+      <div style={this.constructor.styles.container}></div>
+    );
+  }
+}
+
+// Load an item or a list.
+export function load (item, renderItem, renderSpinner, renderNotFound, renderUnexpectedComponent) {
+  if (!item.get('_status') || item.get('_status') === FETCHING || item.get('_status') === LAZY) {
+    return (renderSpinner && renderSpinner()) || <Spinner />;
+  }
+  if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
+    return renderItem(item);
+  }
+  if (item.get('_status') === ERROR && item.get('_error').name === 'NotFoundError') {
+    return renderNotFound();
+  }
+  return renderUnexpectedComponent();
+}
 
 // Utilities
 // /////////
@@ -225,9 +272,10 @@ export class Tiles extends Component {
   static propTypes = {
     first: PropTypes.number,
     horizontalSpacing: PropTypes.number.isRequired,
-    items: ImmutablePropTypes.listOf(
-      PropTypes.any
-    ).isRequired,
+    items: ImmutablePropTypes.mapContains({
+      _status: PropTypes.string,
+      data: PropTypes.list
+    }).isRequired,
     numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
     // The component for rendering the tile. Is cloned with an additional
     // 'value' prop.
@@ -289,7 +337,13 @@ export class Tiles extends Component {
     // Return render result
     return (
       <div style={[ containerStyle, tilesStyle ]}>
-        {this.rotateList(items || List(), first).map((item, i) => tileRenderer({ style, key: i, item }))}
+        {load(
+          items,
+          () => (this.rotateList(items.get('data') || List(), first).map((item, i) => tileRenderer({ style, key: i, item }))),
+          null,
+          () => <div></div>,
+          () => <div></div>
+        )}
       </div>
     );
   }

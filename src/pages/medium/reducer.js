@@ -6,7 +6,7 @@ export default function mediumReducer (state = Map({
 }), action) {
   switch (action.type) {
     case actions.LOAD_MEDIUM:
-      return state.set('currentMedium', Map({ id: action.mediumId }));
+      return state.set('currentMedium', Map({ id: action.mediumId, type: action.mediumType }));
     case actions.LOAD_MEDIUM_ERROR:
       return state.mergeIn([ 'currentMedium' ], Map({ _error: action.error }));
     default:

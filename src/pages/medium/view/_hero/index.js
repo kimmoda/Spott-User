@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, SectionTitle, Title } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
 import { FETCHING, LAZY, LOADED, UPDATING } from '../../../../data/statusTypes';
-import Spinner from '../../../_common/spinner';
 import { heroSelector } from '../../selector';
 import localized from '../../../_common/localized';
 import * as actions from '../../actions';
@@ -206,14 +205,11 @@ export default class Hero extends Component {
               </Button>}
           </Container>
           <Container>
-            {(characters.get('_status') === FETCHING || characters.get('_status') === LAZY) &&
-              <Spinner />}
-            {(characters.get('_status') === LOADED || characters.get('_status') === UPDATING) &&
-              <CharacterTiles items={characters.get('data')} style={styles.characters} />}
+            <CharacterTiles items={characters} style={styles.characters} />
           </Container>
           <Container style={styles.tabs}>
             <div>
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/overview`}>Overview</Link>
+              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/overview`}>{t('common.overview')}</Link>
               {/*
               <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/products`}>Products</Link>
               <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/season/3`}>Scenes</Link>

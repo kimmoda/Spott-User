@@ -22,9 +22,9 @@ export function toggleFollow () {
     const medium = currentMediumSelector(state);
 
     if (medium.get('subscribed')) {
-      dispatch(removeSubscriber({ mediumId: medium.get('id'), userId }));
+      await dispatch(removeSubscriber({ mediumId: medium.get('id'), userId }));
     } else {
-      dispatch(addSubscriber({ mediumId: medium.get('id'), userId }));
+      await dispatch(addSubscriber({ mediumId: medium.get('id'), userId }));
     }
     //  // seasonId: '05f90d72-cf44-4686-82be-d0df3ea5a4ed'
     // const episodes = await getEpisodes(apiBaseUrlSelector(state), authenticationTokenSelector(state), { seasonId: '05f90d72-cf44-4686-82be-d0df3ea5a4ed' });
@@ -33,6 +33,7 @@ export function toggleFollow () {
     // const products = await getPopularProducts(apiBaseUrlSelector(state), authenticationTokenSelector(state));
     // const products = await getMediumProducts(apiBaseUrlSelector(state), authenticationTokenSelector(state), { mediumId: '618dd390-4f5a-4f4e-a482-c3c1a73caee7' });
     // const products = await getMediumCharacters(apiBaseUrlSelector(state), authenticationTokenSelector(state), { mediumId: '618dd390-4f5a-4f4e-a482-c3c1a73caee7' });
+    return await dispatch(fetchMedium({ mediumId: medium.get('id'), mediumType: medium.get('type') }));
   };
 }
 

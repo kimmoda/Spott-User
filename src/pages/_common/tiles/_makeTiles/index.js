@@ -2,7 +2,8 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Radium from 'radium';
-import { colors, SectionTitle, Tiles } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, SectionTitle, Tiles } from '../../../_common/buildingBlocks';
+import localized from '../../localized';
 
 const ArrowLeftImage = (props) => (
   <svg {...props} version='1.1' viewBox='0 0 8 13'>
@@ -61,13 +62,19 @@ const RadiumTiles = Radium(Tiles);
  */
 export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) {
   return (
+    @localized
     @Radium
     class GenericTiles extends Component {
 
       static propTypes = {
-        items: ImmutablePropTypes.list,
+        currentLocale: PropTypes.string.isRequired,
+        items: ImmutablePropTypes.mapContains({
+          _status: PropTypes.string,
+          data: ImmutablePropTypes.list
+        }),
         listStyle: PropTypes.object,
         style: PropTypes.object,
+        t: PropTypes.func.isRequired,
         title: PropTypes.string,
         titleStyle: PropTypes.object
       };
@@ -87,12 +94,12 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
 
       onBackClick (e) {
         e.preventDefault();
-        this.setState({ first: this.state.first === 0 ? this.props.items.size - 1 : this.state.first - 1 });
+        this.setState({ first: this.state.first === 0 ? this.props.items.get('data').size - 1 : this.state.first - 1 });
       }
 
       onMoreClick (e) {
         e.preventDefault();
-        this.setState({ first: this.state.first === this.props.items.size - 1 ? 0 : this.state.first + 1 });
+        this.setState({ first: this.state.first === this.props.items.get('data').size - 1 ? 0 : this.state.first + 1 });
       }
 
       static styles = {
@@ -117,24 +124,37 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           cursor: 'pointer',
           width: '8px',
           height: '12px'
+        },
+        return: {
+          ...makeTextStyle(fontWeights.bold),
+          color: colors.dark,
+          textDecoration: 'none'
+        },
+        emptyText: {
+          paddingTop: '3em',
+          ...makeTextStyle(fontWeights.medium, '0.875em'),
+          color: colors.slateGray
         }
-      }
+      };
+
       render () {
         const { styles } = this.constructor;
         const { items, listStyle, style, titleStyle, title } = this.props;
         const arrowColor = (titleStyle && titleStyle.color) || colors.dark;
+
         return (
           <div style={[ styles.container, style ]}>
             <div style={styles.header}>
               <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>
-              <div style={styles.headerIcons}>
-                <div style={styles.headerIconsWrapper} onClick={this.onBackClick}>
-                  <ArrowLeftImage color={arrowColor} style={styles.headerIcon} />
-                </div>
-                <div style={styles.headerIconsWrapper} onClick={this.onMoreClick}>
-                  <ArrowRightImage color={arrowColor} style={styles.headerIcon} />
-                </div>
-              </div>
+              {items.get('data').size > 1 &&
+                <div style={styles.headerIcons}>
+                  <div style={styles.headerIconsWrapper} onClick={this.onBackClick}>
+                    <ArrowLeftImage color={arrowColor} style={styles.headerIcon} />
+                  </div>
+                  <div style={styles.headerIconsWrapper} onClick={this.onMoreClick}>
+                    <ArrowRightImage color={arrowColor} style={styles.headerIcon} />
+                  </div>
+                </div>}
             </div>
             <RadiumTiles
               first={this.state.first}

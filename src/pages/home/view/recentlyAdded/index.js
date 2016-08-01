@@ -102,7 +102,7 @@ export default class RecentlyAdded extends Component {
             {/* TODO: temporarily removed
                 <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.recentlyAdded.browseButton')}</Button> */}
           </div>
-          <TopLevelMediumTiles items={recentlyAddedMedia.get('data')} style={styles.tiles} title={t('home.recentlyAdded.title')} titleStyle={styles.tilesTitle} />
+          <TopLevelMediumTiles items={recentlyAddedMedia} style={styles.tiles} title={t('home.recentlyAdded.title')} titleStyle={styles.tilesTitle} />
         </Container>
       </div>
     );

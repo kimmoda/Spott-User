@@ -151,5 +151,9 @@
     },
     "topProducts": "Top %(title)s producten"
   },
-  "return": "Keer terug naar home pagina."
+  "common": {
+    "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",
+    "overview": "Overzicht",
+    "return": "Keer terug naar home pagina."
+  }
 }

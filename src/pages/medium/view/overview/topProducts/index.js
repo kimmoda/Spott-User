@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { colors, Container } from '../../../../_common/buildingBlocks';
-import Spinner from '../../../../_common/spinner';
-import { FETCHING, LAZY, LOADED, UPDATING } from '../../../../../data/statusTypes';
 import localized from '../../../../_common/localized';
 import ProductTiles from '../../../../_common/tiles/productTiles';
 import { topProductsSelector } from '../../../selector';
@@ -61,12 +59,7 @@ export default class TopProducts extends Component {
     return (
       <div style={styles.wrapper}>
         <Container>
-          {(medium.get('_status') === FETCHING || medium.get('_status') === LAZY ||
-            products.get('_status') === FETCHING || products.get('_status') === LAZY) &&
-            <Spinner />}
-          {(medium.get('_status') === LOADED || medium.get('_status') === UPDATING) &&
-            (products.get('_status') === LOADED || products.get('_status') === UPDATING) &&
-            <ProductTiles items={products.get('data')} title={t('medium.topProducts', { title: medium.get('title') })} />}
+            <ProductTiles items={products} title={t('medium.topProducts', { title: medium.get('title') || '' })} />
         </Container>
       </div>
     );

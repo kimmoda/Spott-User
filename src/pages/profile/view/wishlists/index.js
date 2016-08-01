@@ -1,7 +1,7 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { colors, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, Spinner } from '../../../_common/buildingBlocks';
 import Tiles from '../../../_common/verticalTiles';
 import { wishlistsOfCurrentUserSelector } from '../../selector';
 import { loadWishlistsOfUser } from '../../actions';
@@ -9,7 +9,6 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
 import { slugify } from '../../../../utils';
 import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
-import Spinner from '../../../_common/spinner';
 import { bindActionCreators } from 'redux';
 import localized from '../../../_common/localized';
 import BaseTile from '../../../_common/tiles/_baseTile';

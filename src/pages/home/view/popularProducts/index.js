@@ -40,16 +40,13 @@ export default class RecentlyAddedToWishlist extends Component {
   render () {
     const { styles } = this.constructor;
     const { popularProducts, t } = this.props;
-    if (popularProducts.get('data').size > 0) {
-      return (
-        <div style={styles.wrapper}>
-          <Container>
-            <ProductTiles items={popularProducts.get('data')} title={t('home.popularProducts.title')} />
-          </Container>
-        </div>
-      );
-    }
-    return <div></div>;
+    return (
+      <div style={styles.wrapper}>
+        <Container>
+          <ProductTiles items={popularProducts} title={t('home.popularProducts.title')} />
+        </Container>
+      </div>
+    );
   }
 
 }
