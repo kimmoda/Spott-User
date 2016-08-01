@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
 import radium from 'radium';
+import { reduxForm, Field } from 'redux-form/immutable';
 import { registrationErrorSelector, registrationIsLoadingSelector }
   from '../../app/selector';
 import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../../_common/buildingBlocks';
@@ -35,6 +36,88 @@ const dialogStyle = {
   }
 };
 
+const styles = {
+  fieldStyle: {
+    error: {
+      color: '#ff0000',
+      fontSize: '16px',
+      margin: '5px 0'
+    },
+    textInput: {
+      padding: '0.494em 0.642em',
+      fontSize: '1.125em',
+      width: '100%',
+      borderRadius: 2,
+      border: '0.056em #d7d7d7 solid',
+      boxShadow: 'transparent 0 0 0',
+      margin: '0.278em 0'
+    },
+    textInputError: {
+      border: '0.056em #ff0000 solid'
+    }
+  },
+  checkbox: {
+    container: {
+      display: 'flex',
+      alignItems: 'center'
+    },
+    padTop: {
+      paddingTop: '0.889em'
+
+    },
+    input: {
+      position: 'absolute',
+      opacity: 0
+    },
+    checkbox: {
+      base: {
+        border: `1px solid ${colors.darkGray}`,
+        borderRadius: 3,
+        color: 'rgb(32, 142, 59)',
+        cursor: 'pointer',
+        display: 'inline-block',
+        fontSize: '16px',
+        height: 20,
+        lineHeight: '20px',
+        textShadow: '1px 1px 1px rgba(0, 0, 0, .2)',
+        width: 20
+      },
+      disabled: {
+        backgroundColor: colors.lightGray,
+        color: colors.darkerGray
+      }
+    },
+    label: {
+      cursor: 'pointer',
+      fontWeight: 'normal',
+      paddingLeft: '10px',
+      paddingBottom: 0,
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center'
+    }
+  }
+};
+
+const renderCheckbox = radium((props) => (
+  <div style={styles.checkbox.container}>
+    <input
+      {...props.input}
+      style={styles.checkbox.input}
+      type='checkbox' />
+    <span style={styles.checkbox.checkbox.base}>
+      &nbsp;{'✓'}</span>
+    <label htmlFor={props.input.name} style={styles.checkbox.label} text={props.input.text}/>
+  </div>
+));
+
+const renderField = radium((props) => (
+  <input {...props.input} style={[ styles.fieldStyle.textInput, props.touched && props.error && styles.fieldStyle.textInputError ]} />
+));
+
+@reduxForm({
+  form: 'register'
+})
 @localized
 @radium
 class Form extends Component {
@@ -42,7 +125,7 @@ class Form extends Component {
   static propTypes = {
     currentLocale: PropTypes.string,
     error: PropTypes.any,
-    isLoading: PropTypes.bool,
+    submitting: PropTypes.bool,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func,
     onSubmit: PropTypes.func.isRequired
@@ -76,7 +159,7 @@ class Form extends Component {
 
   async onSubmit (e) {
     e.preventDefault();
-    this.setState({ isLoading: true });
+    this.setState({ submitting: true });
     this.setState({ submitted: true });
     const { firstname, lastname, email, password } = this.state;
     const { error } = await this.props.onSubmit({ firstname, lastname, email, password });
@@ -157,60 +240,69 @@ class Form extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { error: serverError, currentLocale, isLoading, t } = this.props;
+    // const { error: serverError, currentLocale, submitting, t } = this.props;
     const { error, firstname, lastname, email, password, passwordRepeat, terms, submitted } = this.state;
-    const errors = this.validate(this.state);
+    // const errors = this.validate(this.state);
+    const errors = {};
+    const { currentLocale, handleSubmit, submitting, t } = this.props;
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={handleSubmit}>
         <div style={styles.line}>&nbsp;</div>
         <div style={styles.left}>
-          <input
+          <Field autoFocus component={renderField} name='firstname' placeholder={t('register.firstname')} type='text' />
+          {/* <input
             autoFocus
-            disabled={isLoading}
+            disabled={submitting}
             name='firstname'
             placeholder={t('register.firstname')}
             style={[ styles.textInput, submitted && errors.firstname && styles.textInputError ]}
             type='text'
             value={firstname}
-            onChange={this.onFieldChange.bind(this, 'firstname')} />
+            onChange={this.onFieldChange.bind(this, 'firstname')} /> */}
         </div>
         <div style={styles.right}>
-          <input
+          <Field autoFocus component={renderField} name='lastname' placeholder={t('register.lastname')} type='text' />
+          {/* <input
             autoFocus
-            disabled={isLoading}
+            disabled={submitting}
             name='lastname'
             placeholder={t('register.lastname')}
-            style={[ styles.textInput, submitted && errors.lastname && styles.textInputError ]}
+            style={[ styles.textInput, submitting && errors.lastname && styles.textInputError ]}
             type='text'
             value={lastname}
-            onChange={this.onFieldChange.bind(this, 'lastname')} />
+            onChange={this.onFieldChange.bind(this, 'lastname')} /> */}
         </div>
-        <input
+        <Field autoFocus component={renderField} name='email' placeholder={t('register.email')} type='text' />
+        {/* <input
           autoFocus
-          disabled={isLoading}
+          disabled={submitting}
           name='email'
           placeholder={t('register.email')}
-          style={[ styles.textInput, submitted && errors.email && styles.textInputError ]}
+          style={[ styles.textInput, submitting && errors.email && styles.textInputError ]}
           type='text'
           value={email}
-          onChange={this.onFieldChange.bind(this, 'email')} />
-        <input
-          disabled={isLoading}
+          onChange={this.onFieldChange.bind(this, 'email')} /> */}
+        <Field autoFocus component={renderField} name='password' placeholder={t('register.password')} type='password' />
+        {/* <input
+          disabled={submitting}
           name='password'
           placeholder={t('register.password')}
-          style={[ styles.textInput, submitted && errors.password && styles.textInputError ]}
+          style={[ styles.textInput, submitting && errors.password && styles.textInputError ]}
           type='password'
           value={password}
-          onChange={this.onFieldChange.bind(this, 'password')} />
-        <input
-          disabled={isLoading}
+          onChange={this.onFieldChange.bind(this, 'password')} /> */}
+        <Field autoFocus component={renderField} name='passwordRepeat' placeholder={t('register.passwordRepeat')} type='password' />
+        {/* <input
+          disabled={submitting}
           name='passwordRepeat'
           placeholder={t('register.passwordRepeat')}
-          style={[ styles.textInput, submitted && errors.passwordRepeat && styles.textInputError ]}
+          style={[ styles.textInput, submitting && errors.passwordRepeat && styles.textInputError ]}
           type='password'
           value={passwordRepeat}
-          onChange={this.onFieldChange.bind(this, 'passwordRepeat')} />
-        <div style={styles.terms.wrapper}>
+          onChange={this.onFieldChange.bind(this, 'passwordRepeat')} /> */}
+
+        <Field autoFocus component={renderCheckbox} name='terms' text={t('register.agree')} />
+        {/* <div style={styles.terms.wrapper}>
           <input
             checked={terms}
             id='termsCheckbox'
@@ -219,15 +311,15 @@ class Form extends Component {
             type='checkbox'
             value='terms'
             onChange={this.onCheckedChange.bind(this, 'terms')} />
-          <label htmlFor='termsCheckbox' style={[ styles.terms.text, submitted && errors.terms && styles.terms.error ]}>
+          <label htmlFor='termsCheckbox' style={[ styles.terms.text, submitting && errors.terms && styles.terms.error ]}>
           {t('register.agree', {}, (contents, key) => (
-            <RadiumLink key={key} style={[ styles.terms.link, submitted && errors.terms && styles.terms.error ]} target='_blank' to={`/${currentLocale}/terms`}>{t('register.terms')}</RadiumLink>
+            <RadiumLink key={key} style={[ styles.terms.link, submitting && errors.terms && styles.terms.error ]} target='_blank' to={`/${currentLocale}/terms`}>{t('register.terms')}</RadiumLink>
           ))}
           </label>
-        </div>
+        </div> */}
         {error && error._error && <div style={styles.error}>{t(error._error)}</div>}
-        {serverError && <div style={styles.error}>{t(serverError)}</div>}
-        <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
+        {/* {serverError && <div style={styles.error}>{t(serverError)}</div>} */}
+        <input disabled={submitting} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
       </form>
     );
   }
@@ -320,7 +412,7 @@ class Register extends Component {
 
 export default connect((state, ownProps) => ({
   error: registrationErrorSelector(state),
-  isLoading: registrationIsLoadingSelector(state)
+  submitting: registrationIsLoadingSelector(state)
 }), (dispatch) => ({
   routerPush: bindActionCreators(routerPush, dispatch),
   onSubmit: bindActionCreators(submit, dispatch)
