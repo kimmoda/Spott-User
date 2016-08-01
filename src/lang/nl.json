@@ -149,7 +149,8 @@
       "one":   "[[1]] volger",
       "other": "[[%(count)s]] volgers"
     },
-    "topProducts": "Top %(title)s producten"
+    "topProducts": "Top %(title)s producten",
+    "topUserProducts": "Gekozen voor jou"
   },
   "common": {
     "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",

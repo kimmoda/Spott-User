@@ -175,7 +175,7 @@ export default class Hero extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { characters, currentLocale, currentPathname, isAuthenticated, medium, mediumId, t, toggleFollow } = this.props;
+    const { characters, currentLocale, currentPathname, isAuthenticated, medium, t, toggleFollow } = this.props;
 
     if (medium.get('_status') === FETCHING || medium.get('_status') === LAZY) {
       return (<Spinner />);

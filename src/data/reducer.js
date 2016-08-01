@@ -3,6 +3,7 @@
 import { fromJS, List, Map } from 'immutable';
 import * as actions from './actions';
 import { FETCHING, UPDATING, ERROR, LOADED } from './statusTypes';
+import { LOGOUT_SUCCESS } from '../pages/app/actions';
 
 function fetchStart (state, path) {
   // Get the data (entity/relations) from the state, which can be undefined.
@@ -74,6 +75,7 @@ export default (state = fromJS({
   relations: {
     mediumHasCharacters: {},
     mediumHasProducts: {},
+    mediumHasTopUserProducts: {},
     userHasWishlists: {},
     wishlistHasProducts: {}
   },
@@ -84,6 +86,10 @@ export default (state = fromJS({
   }
 }), action) => {
   switch (action.type) {
+
+    // Clear all user dependent data.
+    case LOGOUT_SUCCESS:
+      return state.setIn([ 'relations', 'mediumHasTopUserProducts' ], Map());
 
     // Media
     // /////
@@ -135,6 +141,14 @@ export default (state = fromJS({
       return fetchRelationsSuccess(state, 'mediumHasProducts', action.mediumId, 'products', action.data.data);
     case actions.MEDIUM_PRODUCTS_FETCH_ERROR:
       return fetchRelationsError(state, 'mediumHasProducts', action.mediumId, action.error);
+
+    case actions.MEDIUM_TOP_USER_PRODUCTS_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasTopUserProducts', action.mediumId);
+    case actions.MEDIUM_TOP_USER_PRODUCTS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasTopUserProducts', action.mediumId, 'products', action.data.data);
+    case actions.MEDIUM_TOP_USER_PRODUCTS_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasTopUserProducts', action.mediumId, action.error);
 
     // Media
     // /////

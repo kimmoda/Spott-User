@@ -1,6 +1,6 @@
 import { createStructuredSelector } from 'reselect';
 import { isAuthenticatedSelector } from '../app/selector';
-import { charactersEntitiesSelector, mediaEntitiesSelector, mediumHasCharactersSelector, mediumHasProductsSelector, productsEntitiesSelector } from '../../data/selector';
+import { charactersEntitiesSelector, mediaEntitiesSelector, mediumHasCharactersSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector } from '../../data/selector';
 import { createEntityByIdSelector, createEntitiesByRelationSelector } from '../../utils';
 
 export const currentMediumIdSelector = (state) => state.getIn([ 'medium', 'currentMedium', 'id' ]);
@@ -17,6 +17,10 @@ export const mediumSelector = createStructuredSelector({
 });
 
 // Overview
+export const pickedForYouSelector = createStructuredSelector({
+  products: createEntitiesByRelationSelector(mediumHasTopUserProductsSelector, currentMediumIdSelector, productsEntitiesSelector)
+});
+
 export const topProductsSelector = createStructuredSelector({
   medium: currentMediumSelector,
   products: createEntitiesByRelationSelector(mediumHasProductsSelector, currentMediumIdSelector, productsEntitiesSelector)

@@ -149,7 +149,8 @@
       "one":   "Followers [[1]]",
       "other": "Followers [[%(count)s]]"
     },
-    "topProducts": "Top %(title)s Products"
+    "topProducts": "Top %(title)s Products",
+    "topUserProducts": "Picked For You"
   },
   "common": {
     "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",

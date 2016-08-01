@@ -1,6 +1,6 @@
 // import { getSeries, getSeasons, getEpisodes, getEpisodeProducts } from '../../api/series';
 // import { getRecentlyAddedToWishlist, getPopularProducts } from '../../api/products';
-import { addSubscriber, fetchMediumCharacters, fetchMediumProducts, fetchMedium, removeSubscriber } from '../../data/actions';
+import { addSubscriber, fetchMediumCharacters, fetchMediumProducts, fetchMediumTopUserProducts, fetchMedium, removeSubscriber } from '../../data/actions';
 // import { getMediumCharacters, getMediumProducts } from '../../api/medium';
 import { currentUserIdSelector } from '../app/selector';
 import { currentMediumSelector } from './selector';
@@ -13,6 +13,9 @@ export const LOAD_MEDIUM_CHARACTERS_ERROR = 'SERIES/LOAD_MEDIUM_CHARACTERS_ERROR
 
 export const LOAD_MEDIUM_TOP_PRODUCTS = 'SERIES/LOAD_MEDIUM_TOP_PRODUCTS';
 export const LOAD_MEDIUM_TOP_PRODUCTS_ERROR = 'SERIES/LOAD_MEDIUM_TOP_PRODUCTS_ERROR';
+
+export const LOAD_MEDIUM_TOP_USER_PRODUCTS = 'SERIES/LOAD_MEDIUM_TOP_USER_PRODUCTS';
+export const LOAD_MEDIUM_TOP_USER_PRODUCTS_ERROR = 'SERIES/LOAD_MEDIUM_TOP_USER_PRODUCTS_ERROR';
 
 // 4adb58ee-0801-45fa-b6f6-e1dc628e5d48 userId
 export function toggleFollow () {
@@ -49,7 +52,7 @@ export function loadMedium (mediumType, mediumId) {
 }
 
 export function loadCharacters (mediumId) {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
       dispatch({ mediumId, type: LOAD_MEDIUM_CHARACTERS });
       return await dispatch(fetchMediumCharacters({ mediumId }));
@@ -60,12 +63,23 @@ export function loadCharacters (mediumId) {
 }
 
 export function loadTopProducts (mediumId) {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
       dispatch({ mediumId, type: LOAD_MEDIUM_TOP_PRODUCTS });
       return await dispatch(fetchMediumProducts({ mediumId }));
     } catch (error) {
       return dispatch({ error, mediumId, type: LOAD_MEDIUM_TOP_PRODUCTS_ERROR });
+    }
+  };
+}
+
+export function loadTopUserProducts (mediumId) {
+  return async (dispatch) => {
+    try {
+      dispatch({ mediumId, type: LOAD_MEDIUM_TOP_USER_PRODUCTS });
+      return await dispatch(fetchMediumTopUserProducts({ mediumId }));
+    } catch (error) {
+      return dispatch({ error, mediumId, type: LOAD_MEDIUM_TOP_USER_PRODUCTS_ERROR });
     }
   };
 }

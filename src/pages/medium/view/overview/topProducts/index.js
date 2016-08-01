@@ -59,7 +59,7 @@ export default class TopProducts extends Component {
     return (
       <div style={styles.wrapper}>
         <Container>
-            <ProductTiles items={products} title={t('medium.topProducts', { title: medium.get('title') || '' })} />
+          <ProductTiles items={products} title={t('medium.topProducts', { title: medium.get('title') || '' })} />
         </Container>
       </div>
     );
