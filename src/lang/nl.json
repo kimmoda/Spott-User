@@ -135,9 +135,26 @@
     "wishlistProducts": {
       "empty": "Deze verlanglijst is leeg.",
       "private": "Deze verlanglijst is privé, de eigenaar moet deze publiek maken om deze zichtbaar te maken.",
-      "notExist": "This wishlist doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+      "notExist": "Deze verlanglijst bestaat niet meer. Onze excuses hiervoor.​"
     },
-    "notExist": "This user profile doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+    "notExist": "Deze profielpagina bestaat niet meer. Onze excuses hiervoor.​"
   },
-  "return": "Return to home"
+  "medium": {
+    "MOVIE": "Film",
+    "TV_SERIE": "Tv show",
+    "follow": "Volgen",
+    "unfollow": "Ontvolgen",
+    "followers": {
+      "zero":  "[[0]] volgers",
+      "one":   "[[1]] volger",
+      "other": "[[%(count)s]] volgers"
+    },
+    "topProducts": "Top %(title)s producten",
+    "topUserProducts": "Gekozen voor jou"
+  },
+  "common": {
+    "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",
+    "overview": "Overzicht",
+    "return": "Keer terug naar home pagina."
+  }
 }

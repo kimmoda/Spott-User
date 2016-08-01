@@ -69,7 +69,11 @@ export function transformDetailedProduct ({ available, brand, description, longN
 }
 
 export function transformCharacter ({ avatar, name, uuid: id }) {
-  return { characterImage: avatar && avatar.url, id, name };
+  return {
+    id,
+    image: avatar && { id: avatar.uuid, url: avatar.url },
+    name
+  };
 }
 
 export function transformWishlist (wishlist) {
@@ -92,14 +96,15 @@ export function transformWishlist (wishlist) {
   *   subscriberCount: 111
   * }
   */
-export function transformSeries ({ posterImage, profileImage, subscribed, subscriberCount, title, uuid: id }) {
+export function transformMedium ({ posterImage, profileImage, subscribed, subscriberCount, title, type, uuid: id }) {
   return {
     id,
-    posterImage: posterImage && posterImage.url,
-    profileImage: profileImage && profileImage.url,
+    posterImage: posterImage && { id: posterImage.uuid, url: posterImage.url },
+    profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url },
     subscribed,
     subscriberCount,
-    title
+    title,
+    type
   };
 }
 

@@ -2,16 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Radium from 'radium';
 import { Link } from 'react-router';
-import { colors, fontWeights, makeTextStyle, Money } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, load, makeTextStyle, Money } from '../../../_common/buildingBlocks';
 import VerticalTiles from '../../../_common/verticalTiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { loadProductsOfWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
-import { ERROR, FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
-import Spinner from '../../../_common/spinner';
+import { ERROR } from '../../../../data/statusTypes';
 import localized from '../../../_common/localized';
-import { slugify } from '../../../../utils';
 import BaseTile from '../../../_common/tiles/_baseTile';
 
 const RadiumLink = Radium(Link);
@@ -73,18 +71,15 @@ class WishlistProduct extends Component {
 
   render () {
     const { currentLocale, item, style } = this.props;
-    if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
-      return (
-        <BaseTile style={style}>
-          <RadiumLink style={itemStyles.container} to={item.get('shareUrl')}>
-            <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }}></div>
-            <p style={itemStyles.name}>{item.get('shortName') || '\u00a0'}</p>
-            <p style={itemStyles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])} /></p>
-          </RadiumLink>
-        </BaseTile>
-      );
-    }
-    return <div></div>;
+    return load(item, () => (
+      <BaseTile style={style}>
+        <RadiumLink style={itemStyles.container} to={item.get('shareUrl')}>
+          <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }}></div>
+          <p style={itemStyles.name}>{item.get('shortName') || '\u00a0'}</p>
+          <p style={itemStyles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])} /></p>
+        </RadiumLink>
+      </BaseTile>
+    ), null, () => <div>Not found</div>, () => <div>Not found</div>);
   }
 }
 
@@ -138,32 +133,6 @@ export default class WishlistProducts extends Component {
 
   render () {
     const { currentLocale, productsOfWishlist, t, wishlist } = this.props;
-    if (productsOfWishlist.get('_status') === FETCHING) {
-      return (<Spinner />);
-    }
-    if (productsOfWishlist.get('_status') === LOADED || productsOfWishlist.get('_status') === UPDATING) {
-      if (productsOfWishlist.get('data').size > 0) {
-        return (
-          <div style={styles.content}>
-            <h1 style={styles.title}>{wishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
-            <VerticalTiles
-              aspectRatio={1.38876}
-              horizontalSpacing={30}
-              items={productsOfWishlist.get('data')}
-              numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
-              tile={<WishlistProduct />}
-              verticalSpacing={30} />
-          </div>
-        );
-      }
-
-      return (
-        <div>
-          <h1 style={styles.title}>{wishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
-          <p style={styles.emptyText}>{t('profile.wishlistProducts.empty')}</p>
-        </div>
-      );
-    }
 
     if (productsOfWishlist.get('_status') === ERROR && productsOfWishlist.get('_error').name === 'UnauthorizedError') {
       return (
@@ -175,10 +144,30 @@ export default class WishlistProducts extends Component {
     }
 
     return (
-      <div>
-        <h1 style={styles.title}>{t('profile.wishlists.unnamedWishlist')}</h1>
-        <p style={styles.emptyText}>{t('profile.wishlistProducts.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('return')}</Link></p>
+      <div style={styles.content}>
+        <h1 style={styles.title}>{wishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
+        <VerticalTiles
+          aspectRatio={1.38876}
+          horizontalSpacing={30}
+          items={productsOfWishlist}
+          numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
+          tile={<WishlistProduct />}
+          verticalSpacing={30} />
       </div>
     );
-  }
+
+      // return (
+      //   <div>
+      //     <h1 style={styles.title}>{wishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
+      //     <p style={styles.emptyText}>{t('profile.wishlistProducts.empty')}</p>
+      //   </div>
+      // );
+    }
+
+    // return (
+    //   <div>
+    //     <h1 style={styles.title}>{t('profile.wishlists.unnamedWishlist')}</h1>
+    //     <p style={styles.emptyText}>{t('profile.wishlistProducts.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
+    //   </div>
+    // );
 }

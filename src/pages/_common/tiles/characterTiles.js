@@ -13,6 +13,9 @@ export class CharacterTile extends Component {
   static propTypes = {
     hovered: PropTypes.bool.isRequired,
     item: ImmutablePropTypes.mapContains({
+      image: ImmutablePropTypes.mapContains({
+        url: PropTypes.string.isRequired
+      }),
       name: PropTypes.string.isRequired
     }).isRequired,
     style: PropTypes.object
@@ -72,7 +75,7 @@ export class CharacterTile extends Component {
       <BaseTile style={style}>
         <div style={styles.container}>
           <div
-            style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]}
+            style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?height=250&width=250")` } ]}
             title={item.get('name')} />
           <div style={styles.layer}></div>
           <span style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</span>

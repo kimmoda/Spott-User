@@ -13,12 +13,13 @@ import Profile from './pages/profile/view';
 import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
 import Redirect from './pages/redirect';
-// import Series from './pages/series/view';
-// import SeriesOverview from './pages/series/view/overview';
+import Medium from './pages/medium/view';
+import MediumOverview from './pages/medium/view/overview';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
 import { changeLocale } from './pages/app/actions';
+import { MOVIE, SERIES } from './data/mediumTypes';
 
 /**
  * The application routes
@@ -35,6 +36,20 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     }
   }
 */
+  function renderMediumRoute (mediumType, mediumTypeParam) {
+    return (
+      <Route component={Medium} mediumType={mediumType} path={`${mediumTypeParam}/:mediumSlug/:mediumId`}>
+        <IndexRedirect to='overview' />
+        <Route component={MediumOverview} path='overview' />
+        {/*
+        <Route component={SeriesProducts} path='series/:seriesId/products' />
+          <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
+            <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
+          </Route>
+        */}
+      </Route>
+    );
+  }
 
   // When entering a page, the locale is dispatched.
   return (
@@ -51,16 +66,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Redirect} noNavigation path='app'/>
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
-        {/*
-        <Route component={Series} path='series/:seriesId'>
-          <IndexRedirect to='series/:seriesId/overview' />
-          <Route component={SeriesOverview} path='series/:seriesId/overview' />
-          <Route component={SeriesProducts} path='series/:seriesId/products' />
-          <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
-            <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
-          </Route>
-        </Route>
-        */}
+
+        {renderMediumRoute(SERIES, 'series')}
+        {renderMediumRoute(MOVIE, 'movie')}
 
         <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />
         <Route component={ProductDetail} path='product/:productSlug/:productId' /> {/* Backwards compatible with old url. */}

@@ -100,9 +100,6 @@ export function createEntitiesByListSelector (listSelector, entitiesByIdSelector
   });
 }
 
-
-
-
 /**
  * Utility selector factory for accessing an entity by id.
  *

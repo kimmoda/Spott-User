@@ -40,16 +40,13 @@ export default class RecentlyAddedToWishlist extends Component {
   render () {
     const { styles } = this.constructor;
     const { recentlyAddedToWishlistProducts, t } = this.props;
-    if (recentlyAddedToWishlistProducts.get('data').size > 0) {
-      return (
-        <div style={styles.wrapper}>
-          <Container>
-            <ProductTiles items={recentlyAddedToWishlistProducts.get('data')} title={t('home.recentlyAddedToWishlist.title')} />
-          </Container>
-        </div>
-      );
-    }
-    return <div></div>;
+    return (
+      <div style={styles.wrapper}>
+        <Container>
+          <ProductTiles items={recentlyAddedToWishlistProducts} title={t('home.recentlyAddedToWishlist.title')} />
+        </Container>
+      </div>
+    );
   }
 
 }

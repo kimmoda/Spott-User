@@ -13,10 +13,11 @@ import { fromJS } from 'immutable';
 import { AsyncRouterContext } from 'redux-async-props';
 import { combineReducers } from 'redux-immutablejs';
 import app from './pages/app/reducer';
+import data from './data/reducer';
+import home from './pages/home/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
-import home from './pages/home/reducer';
-import data from './data/reducer';
+import medium from './pages/medium/reducer';
 import { applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   app,
   data,
   home,
+  medium,
   productDetail,
   profile,
   routing: routerReducer

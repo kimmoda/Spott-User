@@ -26,10 +26,10 @@ export default class Home extends Component {
         <RecentlyAdded />
         {/* <NewScenesForYou /> */}
         {/* <NewEpisodes /> */}
-        <PopularProducts />
+        {/*<PopularProducts />*/}
         {/* <TopSellingProducts /> */}
         <DownloadApp />
-        {isAuthenticated && <RecentlyAddedToWishlist />}
+        {/*{isAuthenticated && <RecentlyAddedToWishlist />}*/}
         {/* <PopularNearYou /> */}
       </div>
     );

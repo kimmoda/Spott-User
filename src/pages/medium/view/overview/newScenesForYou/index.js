@@ -5,8 +5,7 @@ import { colors, ScalableContainer, SectionTitle } from '../../../../_common/bui
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
 import SceneTiles from '../../../../_common/tiles/sceneTiles';
-import { fromJS } from 'immutable';
-import scenes from '../../../../api/mock/scenes';
+import scenes from '../../../../../api/mock/scenes';
 
 @Radium
 export default class NewScenesForYou extends Component {

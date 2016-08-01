@@ -9,8 +9,8 @@ import { bindActionCreators } from 'redux';
 import { loadUser } from '../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-const dummyProfilePictureImage = require('./dummyProfilePicture.svg');
-const dummyProfileAvatarImage = require('./dummyProfileAvatar.svg');
+const dummyProfilePictureImage = require('./images/dummyProfilePicture.svg');
+const dummyProfileAvatarImage = require('./images/dummyProfileAvatar.svg');
 
 const headerStyles = {
   wrapper: {
@@ -139,11 +139,11 @@ class Header extends Component {
   render () {
     const { menu, user, t } = this.props;
     return (
-      <div style={[ headerStyles.wrapper, { backgroundImage: `url(${user.hasIn([ 'picture', 'url' ]) ? user.getIn([ 'picture', 'url' ]) : dummyProfilePictureImage})` } ]}>
+      <div style={[ headerStyles.wrapper, { backgroundImage: `url(${user.get('picture') ? user.getIn([ 'picture', 'url' ]) : dummyProfilePictureImage}})` } ]}>
         <div style={headerStyles.backgroundOverlay}></div>
         <Container style={headerStyles.container}>
           <div style={headerStyles.innerContainer}>
-            <img src={(user.hasIn([ 'avatar', 'url' ])) ? user.getIn([ 'avatar', 'url' ]) : dummyProfileAvatarImage} style={headerStyles.avatar} />
+            <img src={user.get('avatar') ? user.getIn([ 'avatar', 'url' ]) : dummyProfileAvatarImage} style={headerStyles.avatar} />
             <div style={headerStyles.detailsWrapper}>
               {user.get('firstname') &&
                 <div style={headerStyles.detailsContainer}>
@@ -231,7 +231,7 @@ export default class Profile extends Component {
           {user.get('firstname') && children}
           {!user.get('firstname') &&
             <div>
-              <p style={styles.emptyText}>{t('profile.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('return')}</Link></p>
+              <p style={styles.emptyText}>{t('profile.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
             </div>}
         </Container>
       </div>

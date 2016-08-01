@@ -3,6 +3,7 @@
 import { fromJS, List, Map } from 'immutable';
 import * as actions from './actions';
 import { FETCHING, UPDATING, ERROR, LOADED } from './statusTypes';
+import { LOGOUT_SUCCESS } from '../pages/app/actions';
 
 function fetchStart (state, path) {
   // Get the data (entity/relations) from the state, which can be undefined.
@@ -65,12 +66,16 @@ function fetchRelationsError (state, relationsKey, relationEntryKey, error) {
 
 export default (state = fromJS({
   entities: {
+    characters: {},
     media: {},
     products: {},
     users: {},
     wishlists: {}
   },
   relations: {
+    mediumHasCharacters: {},
+    mediumHasProducts: {},
+    mediumHasTopUserProducts: {},
     userHasWishlists: {},
     wishlistHasProducts: {}
   },
@@ -82,13 +87,18 @@ export default (state = fromJS({
 }), action) => {
   switch (action.type) {
 
+    // Clear all user dependent data.
+    case LOGOUT_SUCCESS:
+      return state.setIn([ 'relations', 'mediumHasTopUserProducts' ], Map());
+
     // Media
     // /////
 
     case actions.MEDIA_RECENTLY_ADDED_FETCH_START:
       return fetchListStart(state, 'recentlyAddedMedia');
     case actions.MEDIA_RECENTLY_ADDED_FETCH_SUCCESS:
-      return fetchListSuccess(state, 'recentlyAddedMedia', 'media', action.data);
+      // TODO: add pagination
+      return fetchListSuccess(state, 'recentlyAddedMedia', 'media', action.data.data);
     case actions.MEDIA_RECENTLY_ADDED_FETCH_ERROR:
       return fetchListError(state, 'recentlyAddedMedia', action.error);
 
@@ -124,6 +134,38 @@ export default (state = fromJS({
     case actions.WISHLIST_PRODUCTS_FETCH_ERROR:
       return fetchRelationsError(state, 'wishlistHasProducts', action.wishlistId, action.error);
 
+    case actions.MEDIUM_PRODUCTS_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasProducts', action.mediumId);
+    case actions.MEDIUM_PRODUCTS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasProducts', action.mediumId, 'products', action.data.data);
+    case actions.MEDIUM_PRODUCTS_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasProducts', action.mediumId, action.error);
+
+    case actions.MEDIUM_TOP_USER_PRODUCTS_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasTopUserProducts', action.mediumId);
+    case actions.MEDIUM_TOP_USER_PRODUCTS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasTopUserProducts', action.mediumId, 'products', action.data.data);
+    case actions.MEDIUM_TOP_USER_PRODUCTS_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasTopUserProducts', action.mediumId, action.error);
+
+    // Media
+    // /////
+
+    case actions.MEDIUM_FETCH_START:
+      return fetchStart(state, [ 'entities', 'media', action.mediumId ]);
+    case actions.MEDIUM_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'media', action.mediumId ], action.data);
+    case actions.MEDIUM_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'media', action.mediumId ], action.error);
+
+    case actions.MEDIUM_SUBSCRIBER_ADD_SUCCESS:
+      return state.setIn([ 'entities', 'media', action.mediumId, 'subscribed' ], true);
+
+    case actions.MEDIUM_SUBSCRIBER_REMOVE_SUCCESS:
+      return state.setIn([ 'entities', 'media', action.mediumId, 'subscribed' ], false);
+
     // Users
     // /////
 
@@ -144,6 +186,17 @@ export default (state = fromJS({
       return fetchRelationsSuccess(state, 'userHasWishlists', action.userId, 'wishlists', action.data.data);
     case actions.WISHLISTS_OF_USER_FETCH_ERROR:
       return fetchRelationsError(state, 'userHasWishlists', action.userId, action.error);
+
+    // Characters
+    // /////////
+
+    case actions.MEDIUM_CHARACTERS_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasCharacters', action.mediumId);
+    case actions.MEDIUM_CHARACTERS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasCharacters', action.mediumId, 'characters', action.data.data);
+    case actions.MEDIUM_CHARACTERS_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasCharacters', action.mediumId, action.error);
 
     // Uninteresting actions
     // ---------------------
