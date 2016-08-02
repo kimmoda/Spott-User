@@ -149,12 +149,22 @@
       "one":   "[[1]] volger",
       "other": "[[%(count)s]] volgers"
     },
-    "topProducts": "Top %(title)s producten",
-    "topUserProducts": "Gekozen voor jou"
+    "characters": {
+      "empty": "Er zijn momenteel geen karakters om te tonen."
+    },
+    "topProducts": {
+      "empty": "Momenteel zijn er geen top producten om te tonen.",
+      "title": "Top %(title)s producten"
+    },
+    "topUserProducts": {
+      "empty": "Er zijn geen producten voor jou gekozen.",
+      "title": "Gekozen voor jou"
+    }
   },
   "common": {
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
     "overview": "Overzicht",
-    "return": "Keer terug naar home pagina."
+    "return": "Keer terug naar home pagina.",
+    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience."
   }
 }

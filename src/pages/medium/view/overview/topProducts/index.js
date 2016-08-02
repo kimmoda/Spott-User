@@ -3,7 +3,7 @@ import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, Container } from '../../../../_common/buildingBlocks';
+import { colors, Container, Message } from '../../../../_common/buildingBlocks';
 import localized from '../../../../_common/localized';
 import ProductTiles from '../../../../_common/tiles/productTiles';
 import { topProductsSelector } from '../../../selector';
@@ -59,7 +59,12 @@ export default class TopProducts extends Component {
     return (
       <div style={styles.wrapper}>
         <Container>
-          <ProductTiles items={products} title={t('medium.topProducts', { title: medium.get('title') || '' })} />
+          <ProductTiles
+            items={products}
+            renderEmptyComponent={() => <Message>{t('medium.topProducts.empty')}</Message>}
+            renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
+            renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
+            title={t('medium.topProducts.title', { title: medium.get('title') || '' })} />
         </Container>
       </div>
     );

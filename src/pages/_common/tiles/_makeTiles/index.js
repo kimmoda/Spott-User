@@ -73,6 +73,9 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           data: ImmutablePropTypes.list
         }),
         listStyle: PropTypes.object,
+        renderEmptyComponent: PropTypes.func,
+        renderNotFoundComponent: PropTypes.func,
+        renderUnexpectedComponent: PropTypes.func,
         style: PropTypes.object,
         t: PropTypes.func.isRequired,
         title: PropTypes.string,
@@ -139,7 +142,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
 
       render () {
         const { styles } = this.constructor;
-        const { items, listStyle, style, titleStyle, title } = this.props;
+        const { items, listStyle, renderEmptyComponent, renderNotFoundComponent, renderUnexpectedComponent, style, titleStyle, title } = this.props;
         const arrowColor = (titleStyle && titleStyle.color) || colors.dark;
 
         return (
@@ -161,6 +164,9 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
               horizontalSpacing={horizontalSpacing}
               items={items}
               numColumns={numColumns}
+              renderEmptyComponent={renderEmptyComponent}
+              renderNotFoundComponent={renderNotFoundComponent}
+              renderUnexpectedComponent={renderUnexpectedComponent}
               style={listStyle}
               tileRenderer={tileRenderer} />
           </div>

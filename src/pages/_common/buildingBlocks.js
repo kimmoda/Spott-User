@@ -72,17 +72,20 @@ export class Spinner extends Component {
 }
 
 // Load an item or a list.
-export function load (item, renderItem, renderSpinner, renderNotFound, renderUnexpectedComponent) {
+export function load (item, renderItem, renderSpinner, renderNotFound, renderUnexpectedComponent, renderEmptyComponent) {
   if (!item.get('_status') || item.get('_status') === FETCHING || item.get('_status') === LAZY) {
     return (renderSpinner && renderSpinner()) || <Spinner />;
   }
   if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
+    if (item.get('data') && item.get('data').size === 0) {
+      return (renderEmptyComponent && renderEmptyComponent()) || <div></div>;
+    }
     return renderItem(item);
   }
   if (item.get('_status') === ERROR && item.get('_error').name === 'NotFoundError') {
-    return renderNotFound();
+    return (renderNotFound && renderNotFound()) || <div></div>;
   }
-  return renderUnexpectedComponent();
+  return (renderUnexpectedComponent && renderUnexpectedComponent()) || <div></div>;
 }
 
 // Utilities
@@ -263,6 +266,20 @@ UpperCaseSubtitle.propTypes = {
   style: PropTypes.object
 };
 
+const messageStyle = {
+  ...makeTextStyle(fontWeights.light, '0.9em', '0.0168em'),
+  color: colors.dark,
+  paddingTop: '1.5em',
+  paddingBottom: '1.5em'
+};
+export const Message = Radium((props) => {
+  return <div {...props} style={[ messageStyle, props.style ]}>{props.children}</div>;
+});
+Message.propTypes = {
+  children: PropTypes.node,
+  style: PropTypes.object
+};
+
 // Tiles Component
 // ///////////////
 
@@ -277,6 +294,9 @@ export class Tiles extends Component {
       data: PropTypes.list
     }).isRequired,
     numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
+    renderEmptyComponent: PropTypes.func,
+    renderNotFoundComponent: PropTypes.func,
+    renderUnexpectedComponent: PropTypes.func,
     // The component for rendering the tile. Is cloned with an additional
     // 'value' prop.
     style: PropTypes.object,
@@ -295,7 +315,7 @@ export class Tiles extends Component {
   }
 
   render () {
-    const { first, horizontalSpacing, items, numColumns, style: tilesStyle, tileRenderer } = this.props;
+    const { first, horizontalSpacing, items, numColumns, renderEmptyComponent, renderNotFoundComponent, renderUnexpectedComponent, style: tilesStyle, tileRenderer } = this.props;
     const style = {
       display: 'inline-block',
       width: `${100 / numColumns.extraSmall}%`,
@@ -335,16 +355,17 @@ export class Tiles extends Component {
     };
 
     // Return render result
-    return (
-      <div style={[ containerStyle, tilesStyle ]}>
-        {load(
-          items,
-          () => (this.rotateList(items.get('data') || List(), first).map((item, i) => tileRenderer({ style, key: i, item }))),
-          null,
-          () => <div></div>,
-          () => <div></div>
-        )}
-      </div>
+    return load(
+      items,
+      () => (
+        <div style={[ containerStyle, tilesStyle ]}>
+          {(this.rotateList(items.get('data') || List(), first).map((item, i) => tileRenderer({ style, key: i, item })))}
+        </div>
+      ),
+      null,
+      renderNotFoundComponent,
+      renderUnexpectedComponent,
+      renderEmptyComponent
     );
   }
 

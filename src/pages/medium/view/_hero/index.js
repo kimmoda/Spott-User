@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
 import { FETCHING, LAZY, LOADED, UPDATING } from '../../../../data/statusTypes';
 import { heroSelector } from '../../selector';
@@ -205,7 +205,12 @@ export default class Hero extends Component {
               </Button>}
           </Container>
           <Container>
-            <CharacterTiles items={characters} style={styles.characters} />
+            <CharacterTiles
+              items={characters}
+              renderEmptyComponent={() => <Message>{t('medium.characters.empty')}</Message>}
+              renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
+              renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
+              style={styles.characters} />
           </Container>
           <Container style={styles.tabs}>
             <div>

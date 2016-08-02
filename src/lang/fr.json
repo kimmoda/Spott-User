@@ -150,12 +150,22 @@
       "one":   "[[1]] abonné(e)",
       "other": "[[%(count)s]] abonné(e)s"
     },
-    "topProducts": "Meilleurs %(title)s produits",
-    "topUserProducts": "Spécialement pour toi"
+    "characters": {
+      "empty": "There are no characters to show right now."
+    },
+    "topProducts": {
+      "empty": "There are no top products to show right now.",
+      "title": "Meilleurs %(title)s produits"
+    },
+    "topUserProducts": {
+      "empty": "There are no top products for you right now.",
+      "title": "Spécialement pour toi"
+    }
   },
   "common": {
     "notExist": "Cette ressource n’existe plus. Nous sommes désolés pour les inconvénients occasionnés.",
     "overview": "Aperçu",
-    "return": "Retour à la page d'accueil."
+    "return": "Retour à la page d'accueil.",
+    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience."
   }
 }
