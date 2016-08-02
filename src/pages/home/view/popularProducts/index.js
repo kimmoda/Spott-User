@@ -40,6 +40,7 @@ export default class RecentlyAddedToWishlist extends Component {
   render () {
     const { styles } = this.constructor;
     const { popularProducts, t } = this.props;
+
     return (
       <div style={styles.wrapper}>
         <Container>
