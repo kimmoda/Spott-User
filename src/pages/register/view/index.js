@@ -81,7 +81,6 @@ const fieldStyles = {
   }
 };
 const renderCheckbox = radium((props) => {
-  console.log(props);
   return (
     <div style={fieldStyles.checkbox.container}>
       <input
@@ -93,31 +92,34 @@ const renderCheckbox = radium((props) => {
       <span style={fieldStyles.checkbox.marker}>
         {props.input.value && <span style={fieldStyles.checkbox.markerText}>✓</span>}
       </span>
-      <label htmlFor={props.input.name} style={[ fieldStyles.checkbox.label.base, props.touched && props.error && fieldStyles.checkbox.label.error ]}>
+      <label htmlFor={props.input.name} style={[ fieldStyles.checkbox.label.base, props.input.submitFailed && props.touched && props.error && fieldStyles.checkbox.label.error ]}>
         {props.input.text}
       </label>
     </div>
   );
 });
-const renderField = radium((props) => (
-  <input {...props.input} style={[ fieldStyles.fieldStyle.textInput, props.touched && props.error && fieldStyles.fieldStyle.textInputError ]} />
-));
+const renderField = radium((props) => {
+  return (
+    <input {...props.input} style={[ fieldStyles.fieldStyle.textInput, props.input.submitFailed && props.touched && props.error && fieldStyles.fieldStyle.textInputError ]} />
+  );
+});
 
 function validate (values) {
   const validationErrors = {};
   // Validate
   const firstnameError = !values.get('firstname').trim().match(/^.+$/);
-  if (firstnameError) { validationErrors.firstname = firstnameError; }
+  if (firstnameError) { validationErrors.firstname = 'invalid'; }
   const lastnameError = !values.get('lastname').trim().match(/^.+$/);
-  if (lastnameError) { validationErrors.lastname = lastnameError; }
+  if (lastnameError) { validationErrors.lastname = 'invalid'; }
   const emailError = !values.get('email').match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-  if (emailError) { validationErrors.email = emailError; }
+  if (emailError) { validationErrors.email = 'invalid'; }
   const passwordError = !values.get('password').match(/^.{6,}$/);
-  if (passwordError) { validationErrors.password = passwordError; }
+  if (passwordError) { validationErrors.password = 'invalid'; }
   const passwordRepeatError = !(values.get('passwordRepeat').match(/^.{6,}$/) && values.get('password') === values.get('passwordRepeat'));
-  if (passwordRepeatError) { validationErrors.passwordRepeat = passwordRepeatError; }
+  if (passwordRepeatError) { validationErrors.passwordRepeat = 'invalid'; }
   const termsError = !values.get('terms');
-  if (termsError) { validationErrors.terms = termsError; }
+  if (termsError) { validationErrors.terms = 'invalid'; }
+  console.warn('VALIDATE', validationErrors);
   // Done
   return validationErrors;
 }
@@ -136,6 +138,7 @@ class Form extends Component {
     facebookError: PropTypes.any,
     facebookIsLoading: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    submitFailed: PropTypes.bool,
     submitting: PropTypes.bool,
     t: PropTypes.func.isRequired,
     valid: PropTypes.bool.isRequired
@@ -182,31 +185,32 @@ class Form extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { currentLocale, error, facebookIsLoading, facebookError, handleSubmit, submitting, t, valid } = this.props;
+    const { currentLocale, error, facebookIsLoading, handleSubmit, submitFailed, submitting, t } = this.props;
+    console.log(this.props);
     return (
       <form onSubmit={handleSubmit}>
         <div style={styles.line}>&nbsp;</div>
         <div style={styles.left}>
           <Field component={renderField} disabled={submitting} name='firstname'
-            placeholder={t('register.firstname')} type='text' />
+            placeholder={t('register.firstname')} submitFailed={submitFailed} type='text' />
         </div>
         <div style={styles.right}>
           <Field component={renderField} disabled={submitting} name='lastname'
-            placeholder={t('register.lastname')} type='text' />
+            placeholder={t('register.lastname')} submitFailed={submitFailed} type='text' />
         </div>
         <Field component={renderField} disabled={submitting} name='email'
-          placeholder={t('register.email')} type='text' />
+          placeholder={t('register.email')} submitFailed={submitFailed} type='text' />
         <Field component={renderField} disabled={submitting} name='password'
-          placeholder={t('register.password')} type='password' />
+          placeholder={t('register.password')} submitFailed={submitFailed} type='password' />
         <Field component={renderField} disabled={submitting} name='passwordRepeat'
-          placeholder={t('register.passwordRepeat')} type='password' />
+          placeholder={t('register.passwordRepeat')} submitFailed={submitFailed} type='password' />
         <Field component={renderCheckbox} disabled={submitting} name='terms'
+          submitFailed={submitFailed}
           text={t('register.agree', {}, (contents, key) => (
           <RadiumLink key={key} style={styles.terms.link} target='_blank' to={`/${currentLocale}/terms`}>{t('register.terms')}</RadiumLink>
         ))} />
-        {facebookError && typeof facebookError === 'string' && <div style={styles.error}>{t(facebookError)}</div>}
         {error && typeof error === 'string' && <div style={styles.error}>{t(error)}</div>}
-        <input disabled={!valid || facebookIsLoading || submitting} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
+        <input disabled={facebookIsLoading || submitting} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
       </form>
     );
   }
@@ -235,11 +239,16 @@ class Register extends Component {
   constructor (props) {
     super(props);
     this.onClose = ::this.onClose;
+    this.onFacebookProcessStart = ::this.onFacebookProcessStart;
     this.onSubmit = ::this.onSubmit;
   }
 
   onClose () {
     this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || '/');
+  }
+
+  onFacebookProcessStart () {
+    this.form.reset();
   }
 
   async onSubmit () {
@@ -273,6 +282,11 @@ class Register extends Component {
       ...makeTextStyle(fontWeights.bold, '14px'),
       color: colors.slateGray,
       textDecoration: 'none'
+    },
+    facebookError: {
+      color: '#ff0000',
+      fontSize: '16px',
+      paddingTop: '0.889em'
     }
   };
 
@@ -287,9 +301,9 @@ class Register extends Component {
           onRequestClose={this.onClose}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('register.title')}</h2>
-             <FacebookRegisterButton disabled={facebookIsLoading} registerFacebook={this.registerFacebook} onClose={this.onClose}/>
+            <FacebookRegisterButton disabled={facebookIsLoading} registerFacebook={this.registerFacebook} onClose={this.onClose} onProcessStart={this.onFacebookProcessStart} />
+            {facebookError && typeof facebookError === 'string' && <div style={styles.facebookError}>{t(facebookError)}</div>}
             <Form {...this.props}
-              facebookError={facebookError}
               facebookIsLoading={facebookIsLoading}
               initialValues={{
                 firstname: '',
@@ -299,6 +313,7 @@ class Register extends Component {
                 passwordRepeat: '',
                 terms: false
               }}
+              ref={(x) => { this.form = x; }}
               onSubmit={this.onSubmit} />
             <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={{
               pathname: `/${currentLocale}/login`,
@@ -312,10 +327,10 @@ class Register extends Component {
         <div currentPathname={this.props.location.pathname}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('register.title')}</h2>
-            <FacebookRegisterButton disabled={facebookIsLoading} onClose={this.onClose}/>
+            <FacebookRegisterButton disabled={facebookIsLoading} onClose={this.onClose} onProcessStart={this.onFacebookProcessStart} />
+            {facebookError && typeof facebookError === 'string' && <div style={styles.facebookError}>{t(facebookError)}</div>}
             <Form
               {...this.props}
-              facebookError={facebookError}
               facebookIsLoading={facebookIsLoading}
               initialValues={{
                 dateOfBirth: '',
@@ -327,6 +342,7 @@ class Register extends Component {
                 passwordRepeat: '',
                 terms: false
               }}
+              ref={(x) => { this.form = x; }}
               onSubmit={this.onSubmit} />
             <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/login`}>{t('register.logIn')}</Link></p>
           </section>

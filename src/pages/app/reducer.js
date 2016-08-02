@@ -50,7 +50,7 @@ function registration (state = fromJS({ isLoading: false }), action) {
       return state
         .set('error', action.error)
         .set('isLoading', false);
-    case REGISTER_USER_START:
+    case REGISTER_USER_START: // Remove facebook error on standard register
       return state
         .set('error', null);
     default:

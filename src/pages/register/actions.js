@@ -1,11 +1,10 @@
 import { apiBaseUrlSelector } from '../app/selector';
 import * as usersApi from '../../api/users';
-import { doLogin, doLoginFacebook } from '../app/actions';
+import { doLogin, doTryLoginFacebook } from '../app/actions';
 import { SubmissionError } from 'redux-form/immutable';
 
 export const REGISTER_USER_START = 'REGISTER_USER_START';
 export function submit (values) {
-  console.log('xxx', arguments);
   return async (dispatch, getState) => {
     try {
       const { dateOfBirth, firstname, gender, lastname, email, password } = values.toJS();
@@ -34,17 +33,21 @@ export function registerWithFacebook ({ email, firstname, lastname, facebookAcce
       dispatch({ email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender, type: REGISTER_FACEBOOK_USER_START });
       const state = getState();
       const apiBaseUrl = apiBaseUrlSelector(state);
-
       await usersApi.registerWithFacebook(apiBaseUrl, { email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender });
-      await dispatch(doLoginFacebook({ facebookAccessToken }));
-      // Dispatch success
+      await dispatch(doTryLoginFacebook({ facebookAccessToken }));
       return dispatch({ email, firstname, lastname, type: REGISTER_FACEBOOK_USER_SUCCESS });
     } catch (error) {
       if (error.body.message === 'user already exists') {
-        await dispatch(doLoginFacebook({ facebookAccessToken }));
-        return dispatch({ email, firstname, lastname, type: REGISTER_FACEBOOK_USER_ERROR });
+        try {
+          await dispatch(doTryLoginFacebook({ facebookAccessToken }));
+          return dispatch({ email, firstname, lastname, type: REGISTER_FACEBOOK_USER_SUCCESS });
+        } catch (e) {
+          dispatch({ error: 'register.facebookError', email, firstname, lastname, type: REGISTER_FACEBOOK_USER_ERROR });
+          throw e;
+        }
       }
-      return dispatch({ error: 'register.facebookError', email, firstname, lastname, birthday, gender, type: REGISTER_FACEBOOK_USER_ERROR });
+      dispatch({ error: 'register.facebookErrorUnknown', email, firstname, lastname, birthday, gender, type: REGISTER_FACEBOOK_USER_ERROR });
+      throw error;
     }
   };
 }

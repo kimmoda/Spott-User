@@ -40,6 +40,7 @@ export default class RecentlyAdded extends Component {
     wrapper: {
       backgroundColor: colors.white,
       backgroundSize: 'cover',
+      backgroundPosition: 'center center',
       position: 'relative',
       paddingTop: '3em',
       paddingBottom: 0,

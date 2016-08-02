@@ -19,6 +19,7 @@ class FacebookLoginButton extends Component {
     facebookAppId: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    onProcessStart: PropTypes.func,
     onRegisterWithFacebook: PropTypes.func.isRequired
   }
 
@@ -68,6 +69,9 @@ class FacebookLoginButton extends Component {
 
   // handle fb button click
   handleClick (e) {
+    if (this.props.onProcessStart) {
+      this.props.onProcessStart();
+    }
     FB.login((response) => {
       if (response.authResponse) {
         // user authorized
