@@ -46,6 +46,17 @@ export function doLoginFacebook ({ facebookAccessToken }) {
   };
 }
 
+export function doTryLoginFacebook ({ facebookAccessToken }) {
+  return async (dispatch, getState) => {
+    const baseUrl = apiBaseUrlSelector(getState());
+    const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
+    dispatch({ data, type: LOGIN_SUCCESS });
+    if (localStorage) {
+      localStorage.setItem('session', JSON.stringify(data));
+    }
+  };
+}
+
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';

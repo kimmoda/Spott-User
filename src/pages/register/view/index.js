@@ -6,112 +6,21 @@ import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
 import radium from 'radium';
-import { registrationErrorSelector, registrationIsLoadingSelector }
-  from '../../app/selector';
-import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../../_common/buildingBlocks';
+import { reduxForm, Field } from 'redux-form/immutable';
+import { buttonStyle, colors, dialogStyle, fontWeights, makeTextStyle, pinkButtonStyle } from '../../_common/buildingBlocks';
 import localized from '../../_common/localized';
 import { submit } from '../actions';
 import FacebookRegisterButton from './facebookRegisterButton';
-
+import { registrationFacebookErrorSelector, registrationFacebookIsLoadingSelector }
+  from '../../app/selector';
 const RadiumLink = radium(Link);
-const dialogStyle = {
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.45)',
-    zIndex: 1
-  },
-  content: {
-    // Set width and center horizontally
-    margin: 'auto',
-    maxWidth: 420,
-    width: '90%',
-    left: 10,
-    right: 10,
-    // Internal padding
-    padding: 0,
-    // Fit height to content, centering vertically
-    bottom: 'auto',
-    top: '50%',
-    transform: 'translateY(-50%)'
-  }
-};
 
-@localized
-@radium
-class Form extends Component {
-
-  static propTypes = {
-    currentLocale: PropTypes.string,
-    error: PropTypes.any,
-    isLoading: PropTypes.bool,
-    t: PropTypes.func.isRequired,
-    onClose: PropTypes.func,
-    onSubmit: PropTypes.func.isRequired
-  }
-
-  constructor (props) {
-    super(props);
-    this.onSubmit = ::this.onSubmit;
-    this.onFieldChange = ::this.onFieldChange;
-    this.state = {
-      firstname: '',
-      lastname: '',
-      email: '',
-      password: '',
-      passwordRepeat: '',
-      terms: true,
-      submitted: false
-    };
-  }
-
-  validate (values) {
-    return ({
-      firstname: !values.firstname.trim().match(/^.+$/),
-      lastname: !values.lastname.trim().match(/^.+$/),
-      email: !values.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
-      password: !values.password.match(/^.{6,}$/),
-      passwordRepeat: !(values.passwordRepeat.match(/^.{6,}$/) && values.password === values.passwordRepeat),
-      terms: !this.state.terms
-    });
-  }
-
-  async onSubmit (e) {
-    e.preventDefault();
-    this.setState({ isLoading: true });
-    this.setState({ submitted: true });
-    const { firstname, lastname, email, password } = this.state;
-    const { error } = await this.props.onSubmit({ firstname, lastname, email, password });
-    if (error) {
-      this.setState({ ...this.state, error });
-    } else {
-      this.props.onClose();
-    }
-  }
-
-  onFieldChange (field, e) {
-    e.preventDefault();
-    this.setState({ [field]: e.target.value });
-  }
-
-  onCheckedChange (field, e) {
-    this.setState({ [field]: !this.state.terms });
-  }
-
-  static styles = {
-    button: {
-      marginTop: '2.588em',
-      width: '100%',
-      padding: '1.1em'
-    },
+const fieldStyles = {
+  fieldStyle: {
     error: {
       color: '#ff0000',
       fontSize: '16px',
       margin: '5px 0'
-    },
-    line: {
-      height: 1,
-      width: '100%',
-      backgroundColor: '#e9e9e9',
-      margin: '1.25em 0'
     },
     textInput: {
       padding: '0.494em 0.642em',
@@ -124,6 +33,133 @@ class Form extends Component {
     },
     textInputError: {
       border: '0.056em #ff0000 solid'
+    }
+  },
+  checkbox: {
+    container: {
+      display: 'flex',
+      alignItems: 'center',
+      margin: '0.278em 0'
+    },
+    input: {
+      position: 'absolute',
+      opacity: 0,
+      pointerEvents: 'none'
+    },
+    marker: {
+      backgroundColor: colors.cool,
+      border: `1px solid ${colors.cool}`,
+      borderRadius: 3,
+      cursor: 'pointer',
+      display: 'flex',
+      height: 20,
+      width: 20,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    markerText: {
+      display: 'block',
+      color: colors.whiteGray,
+      fontSize: '16px',
+      height: '18px',
+      transform: 'scaleX(1.3)',
+      pointerEvents: 'none'
+    },
+    label: {
+      base: {
+        cursor: 'pointer',
+        fontWeight: 'normal',
+        paddingLeft: '10px',
+        paddingBottom: 0,
+        position: 'relative',
+        alignItems: 'center'
+      },
+      error: {
+        color: '#ff0000'
+      }
+    }
+  }
+};
+const renderCheckbox = radium((props) => {
+  return (
+    <div style={fieldStyles.checkbox.container}>
+      <input
+        checked={props.input.value}
+        id={props.input.name}
+        style={fieldStyles.checkbox.input}
+        type='checkbox'
+        {...props.input} />
+      <span style={fieldStyles.checkbox.marker}>
+        {props.input.value && <span style={fieldStyles.checkbox.markerText}>✓</span>}
+      </span>
+      <label htmlFor={props.input.name} style={[ fieldStyles.checkbox.label.base, props.input.submitFailed && props.touched && props.error && fieldStyles.checkbox.label.error ]}>
+        {props.input.text}
+      </label>
+    </div>
+  );
+});
+const renderField = radium((props) => {
+  return (
+    <input {...props.input} style={[ fieldStyles.fieldStyle.textInput, props.input.submitFailed && props.touched && props.error && fieldStyles.fieldStyle.textInputError ]} />
+  );
+});
+
+function validate (values) {
+  const validationErrors = {};
+  // Validate
+  const firstnameError = !values.get('firstname').trim().match(/^.+$/);
+  if (firstnameError) { validationErrors.firstname = 'invalid'; }
+  const lastnameError = !values.get('lastname').trim().match(/^.+$/);
+  if (lastnameError) { validationErrors.lastname = 'invalid'; }
+  const emailError = !values.get('email').match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  if (emailError) { validationErrors.email = 'invalid'; }
+  const passwordError = !values.get('password').match(/^.{6,}$/);
+  if (passwordError) { validationErrors.password = 'invalid'; }
+  const passwordRepeatError = !(values.get('passwordRepeat').match(/^.{6,}$/) && values.get('password') === values.get('passwordRepeat'));
+  if (passwordRepeatError) { validationErrors.passwordRepeat = 'invalid'; }
+  const termsError = !values.get('terms');
+  if (termsError) { validationErrors.terms = 'invalid'; }
+  console.warn('VALIDATE', validationErrors);
+  // Done
+  return validationErrors;
+}
+
+@reduxForm({
+  form: 'register',
+  validate
+})
+@localized
+@radium
+class Form extends Component {
+
+  static propTypes = {
+    currentLocale: PropTypes.string,
+    error: PropTypes.any,
+    facebookError: PropTypes.any,
+    facebookIsLoading: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    submitFailed: PropTypes.bool,
+    submitting: PropTypes.bool,
+    t: PropTypes.func.isRequired,
+    valid: PropTypes.bool.isRequired
+  }
+
+  static styles = {
+    button: {
+      marginTop: '2.588em',
+      width: '100%',
+      padding: '1.1em'
+    },
+    error: {
+      color: '#ff0000',
+      fontSize: '16px',
+      paddingTop: '0.889em'
+    },
+    line: {
+      height: 1,
+      width: '100%',
+      backgroundColor: '#e9e9e9',
+      margin: '1.25em 0'
     },
     left: {
       width: '50%',
@@ -136,101 +172,49 @@ class Form extends Component {
       paddingLeft: '0.31275em'
     },
     terms: {
-      wrapper: {
-        paddingTop: '0.889em'
-      },
       text: {
         ...makeTextStyle(fontWeights.normal, '14px'),
-        color: colors.coolGray,
-        paddingLeft: '10px'
+        color: 'inherit'
       },
       link: {
-        ...makeTextStyle(fontWeights.normal, '14px'),
-        color: colors.coolGray,
+        color: 'inherit',
         textDecoration: 'underline'
-      },
-      error: {
-        color: '#ff0000'
       }
     }
   }
 
   render () {
     const styles = this.constructor.styles;
-    const { error: serverError, currentLocale, isLoading, t } = this.props;
-    const { error, firstname, lastname, email, password, passwordRepeat, terms, submitted } = this.state;
-    const errors = this.validate(this.state);
+    const { currentLocale, error, facebookIsLoading, handleSubmit, submitFailed, submitting, t } = this.props;
+    console.log(this.props);
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={handleSubmit}>
         <div style={styles.line}>&nbsp;</div>
         <div style={styles.left}>
-          <input
-            autoFocus
-            disabled={isLoading}
-            name='firstname'
-            placeholder={t('register.firstname')}
-            style={[ styles.textInput, submitted && errors.firstname && styles.textInputError ]}
-            type='text'
-            value={firstname}
-            onChange={this.onFieldChange.bind(this, 'firstname')} />
+          <Field component={renderField} disabled={submitting} name='firstname'
+            placeholder={t('register.firstname')} submitFailed={submitFailed} type='text' />
         </div>
         <div style={styles.right}>
-          <input
-            autoFocus
-            disabled={isLoading}
-            name='lastname'
-            placeholder={t('register.lastname')}
-            style={[ styles.textInput, submitted && errors.lastname && styles.textInputError ]}
-            type='text'
-            value={lastname}
-            onChange={this.onFieldChange.bind(this, 'lastname')} />
+          <Field component={renderField} disabled={submitting} name='lastname'
+            placeholder={t('register.lastname')} submitFailed={submitFailed} type='text' />
         </div>
-        <input
-          autoFocus
-          disabled={isLoading}
-          name='email'
-          placeholder={t('register.email')}
-          style={[ styles.textInput, submitted && errors.email && styles.textInputError ]}
-          type='text'
-          value={email}
-          onChange={this.onFieldChange.bind(this, 'email')} />
-        <input
-          disabled={isLoading}
-          name='password'
-          placeholder={t('register.password')}
-          style={[ styles.textInput, submitted && errors.password && styles.textInputError ]}
-          type='password'
-          value={password}
-          onChange={this.onFieldChange.bind(this, 'password')} />
-        <input
-          disabled={isLoading}
-          name='passwordRepeat'
-          placeholder={t('register.passwordRepeat')}
-          style={[ styles.textInput, submitted && errors.passwordRepeat && styles.textInputError ]}
-          type='password'
-          value={passwordRepeat}
-          onChange={this.onFieldChange.bind(this, 'passwordRepeat')} />
-        <div style={styles.terms.wrapper}>
-          <input
-            checked={terms}
-            id='termsCheckbox'
-            name='terms'
-            style={styles.checkboxInput}
-            type='checkbox'
-            value='terms'
-            onChange={this.onCheckedChange.bind(this, 'terms')} />
-          <label htmlFor='termsCheckbox' style={[ styles.terms.text, submitted && errors.terms && styles.terms.error ]}>
-          {t('register.agree', {}, (contents, key) => (
-            <RadiumLink key={key} style={[ styles.terms.link, submitted && errors.terms && styles.terms.error ]} target='_blank' to={`/${currentLocale}/terms`}>{t('register.terms')}</RadiumLink>
-          ))}
-          </label>
-        </div>
-        {error && error._error && <div style={styles.error}>{t(error._error)}</div>}
-        {serverError && <div style={styles.error}>{serverError}</div>}
-        <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
+        <Field component={renderField} disabled={submitting} name='email'
+          placeholder={t('register.email')} submitFailed={submitFailed} type='text' />
+        <Field component={renderField} disabled={submitting} name='password'
+          placeholder={t('register.password')} submitFailed={submitFailed} type='password' />
+        <Field component={renderField} disabled={submitting} name='passwordRepeat'
+          placeholder={t('register.passwordRepeat')} submitFailed={submitFailed} type='password' />
+        <Field component={renderCheckbox} disabled={submitting} name='terms'
+          submitFailed={submitFailed}
+          text={t('register.agree', {}, (contents, key) => (
+          <RadiumLink key={key} style={styles.terms.link} target='_blank' to={`/${currentLocale}/terms`}>{t('register.terms')}</RadiumLink>
+        ))} />
+        {error && typeof error === 'string' && <div style={styles.error}>{t(error)}</div>}
+        <input disabled={facebookIsLoading || submitting} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
       </form>
     );
   }
+
 }
 
 @localized
@@ -238,6 +222,8 @@ class Register extends Component {
 
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
+    facebookError: PropTypes.any,
+    facebookIsLoading: PropTypes.bool.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -253,10 +239,26 @@ class Register extends Component {
   constructor (props) {
     super(props);
     this.onClose = ::this.onClose;
+    this.onFacebookProcessStart = ::this.onFacebookProcessStart;
+    this.onSubmit = ::this.onSubmit;
   }
 
   onClose () {
     this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || '/');
+  }
+
+  onFacebookProcessStart () {
+    this.form.reset();
+  }
+
+  async onSubmit () {
+    try {
+      await Reflect.apply(this.props.onSubmit, this, arguments);
+      this.onClose();
+    } catch (e) {
+      console.error('Could not submit registration form.', e);
+      throw e;
+    }
   }
 
   static styles = {
@@ -280,12 +282,17 @@ class Register extends Component {
       ...makeTextStyle(fontWeights.bold, '14px'),
       color: colors.slateGray,
       textDecoration: 'none'
+    },
+    facebookError: {
+      color: '#ff0000',
+      fontSize: '16px',
+      paddingTop: '0.889em'
     }
   };
 
   render () {
     const { styles } = this.constructor;
-    const { currentLocale, t } = this.props;
+    const { currentLocale, facebookError, facebookIsLoading, t } = this.props;
     if (this.props.location.state && this.props.location.state.modal) {
       return (
         <ReactModal
@@ -294,8 +301,20 @@ class Register extends Component {
           onRequestClose={this.onClose}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('register.title')}</h2>
-             <FacebookRegisterButton registerFacebook={this.registerFacebook} onClose={this.onClose}/>
-            <Form {...this.props} onClose={this.onClose} />
+            <FacebookRegisterButton disabled={facebookIsLoading} registerFacebook={this.registerFacebook} onClose={this.onClose} onProcessStart={this.onFacebookProcessStart} />
+            {facebookError && typeof facebookError === 'string' && <div style={styles.facebookError}>{t(facebookError)}</div>}
+            <Form {...this.props}
+              facebookIsLoading={facebookIsLoading}
+              initialValues={{
+                firstname: '',
+                lastname: '',
+                email: '',
+                password: '',
+                passwordRepeat: '',
+                terms: false
+              }}
+              ref={(x) => { this.form = x; }}
+              onSubmit={this.onSubmit} />
             <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={{
               pathname: `/${currentLocale}/login`,
               state: { modal: true, returnTo: this.props.location.state.returnTo } }}>{t('register.logIn')}</Link></p>
@@ -308,8 +327,23 @@ class Register extends Component {
         <div currentPathname={this.props.location.pathname}>
           <section style={styles.container}>
             <h2 style={styles.title}>{t('register.title')}</h2>
-            <FacebookRegisterButton onClose={this.onClose}/>
-            <Form {...this.props} type='button' onClose={this.onClose} />
+            <FacebookRegisterButton disabled={facebookIsLoading} onClose={this.onClose} onProcessStart={this.onFacebookProcessStart} />
+            {facebookError && typeof facebookError === 'string' && <div style={styles.facebookError}>{t(facebookError)}</div>}
+            <Form
+              {...this.props}
+              facebookIsLoading={facebookIsLoading}
+              initialValues={{
+                dateOfBirth: '',
+                firstname: '',
+                gender: 'MALE',
+                lastname: '',
+                email: '',
+                password: '',
+                passwordRepeat: '',
+                terms: false
+              }}
+              ref={(x) => { this.form = x; }}
+              onSubmit={this.onSubmit} />
             <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/login`}>{t('register.logIn')}</Link></p>
           </section>
         </div>
@@ -318,9 +352,9 @@ class Register extends Component {
   }
 }
 
-export default connect((state, ownProps) => ({
-  error: registrationErrorSelector(state),
-  isLoading: registrationIsLoadingSelector(state)
+export default connect((state) => ({
+  facebookError: registrationFacebookErrorSelector(state),
+  facebookIsLoading: registrationFacebookIsLoadingSelector(state)
 }), (dispatch) => ({
   routerPush: bindActionCreators(routerPush, dispatch),
   onSubmit: bindActionCreators(submit, dispatch)

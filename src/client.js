@@ -12,6 +12,7 @@ import { getRoutes } from './routes';
 import { fromJS } from 'immutable';
 import { AsyncRouterContext } from 'redux-async-props';
 import { combineReducers } from 'redux-immutablejs';
+import { reducer as form } from 'redux-form/immutable';
 import app from './pages/app/reducer';
 import data from './data/reducer';
 import home from './pages/home/reducer';
@@ -31,6 +32,7 @@ if (process.env.NODE_ENV !== 'production') {
 const rootReducer = combineReducers({
   app,
   data,
+  form,
   home,
   medium,
   productDetail,
