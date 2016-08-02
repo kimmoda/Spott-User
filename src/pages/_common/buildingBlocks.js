@@ -49,6 +49,30 @@ export function makeTextStyle (fontWeight = fontWeights.regular, fontSize = '1em
   };
 }
 
+// Dialog styles
+// /////////////
+
+export const dialogStyle = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    zIndex: 1
+  },
+  content: {
+    // Set width and center horizontally
+    margin: 'auto',
+    maxWidth: 420,
+    width: '90%',
+    left: 10,
+    right: 10,
+    // Internal padding
+    padding: 0,
+    // Fit height to content, centering vertically
+    bottom: 'auto',
+    top: '50%',
+    transform: 'translateY(-50%)'
+  }
+};
+
 // Button component
 // ////////////////
 

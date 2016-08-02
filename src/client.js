@@ -12,7 +12,7 @@ import { getRoutes } from './routes';
 import { fromJS } from 'immutable';
 import { AsyncRouterContext } from 'redux-async-props';
 import { combineReducers } from 'redux-immutablejs';
-import { reducer as form } from 'redux-form';
+import { reducer as form } from 'redux-form/immutable';
 import app from './pages/app/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';

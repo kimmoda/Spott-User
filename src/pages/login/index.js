@@ -4,34 +4,13 @@ import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle } from '../_common/buildingBlocks';
+import { buttonStyle, colors, dialogStyle, fontWeights, makeTextStyle, pinkButtonStyle } from '../_common/buildingBlocks';
 import FacebookLoginButton from './facebookLoginButton';
 import * as actions from '../app/actions';
 import { authenticationErrorSelector, authenticationIsLoadingSelector }
   from '../app/selector';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
-
-const dialogStyle = {
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.45)',
-    zIndex: 1
-  },
-  content: {
-    // Set width and center horizontally
-    margin: 'auto',
-    maxWidth: 420,
-    width: '90%',
-    left: 10,
-    right: 10,
-    // Internal padding
-    padding: 0,
-    // Fit height to content, centering vertically
-    bottom: 'auto',
-    top: '50%',
-    transform: 'translateY(-50%)'
-  }
-};
 
 @localized
 class Form extends Component {

@@ -1,7 +1,12 @@
 import { Map, fromJS } from 'immutable';
 import * as actions from './actions';
 import { combineReducers } from 'redux-immutablejs';
-import { REGISTER_USER_START, REGISTER_USER_SUCCESS, REGISTER_USER_ERROR } from '../register/actions';
+import {
+  REGISTER_USER_START,
+  REGISTER_FACEBOOK_USER_START,
+  REGISTER_FACEBOOK_USER_SUCCESS,
+  REGISTER_FACEBOOK_USER_ERROR
+} from '../register/actions';
 
 function authentication (state = fromJS({
   isLoading: false,
@@ -33,18 +38,21 @@ function authentication (state = fromJS({
 
 function registration (state = fromJS({ isLoading: false }), action) {
   switch (action.type) {
-    case REGISTER_USER_START:
+    case REGISTER_FACEBOOK_USER_START:
       return state
         .set('error', null)
         .set('isLoading', true);
-    case REGISTER_USER_SUCCESS:
+    case REGISTER_FACEBOOK_USER_SUCCESS:
       return state
         .set('error', null)
         .set('isLoading', false);
-    case REGISTER_USER_ERROR:
+    case REGISTER_FACEBOOK_USER_ERROR:
       return state
         .set('error', action.error)
         .set('isLoading', false);
+    case REGISTER_USER_START:
+      return state
+        .set('error', null);
     default:
       return state;
   }
