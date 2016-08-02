@@ -42,9 +42,8 @@ export default class RecentlyAddedToWishlist extends Component {
     const { recentlyAddedToWishlistProducts, t } = this.props;
 
     // TODO: quick fix by vid for empty lists
-    console.log('recentlyAddedToWishlistProducts', recentlyAddedToWishlistProducts.get('data').size);
     if (recentlyAddedToWishlistProducts.get('data').size === 0) {
-      return <div></div>;
+      return (<div></div>);
     }
 
     return (

@@ -53,7 +53,7 @@ export default class PickedForYou extends Component {
 
     // TODO: quick fix by vid for empty lists
     if (products.get('data').size === 0) {
-      return <div></div>;
+      return (<div></div>);
     }
 
     return (
