@@ -16,9 +16,11 @@ import localized from '../../_common/localized';
 class FacebookLoginButton extends Component {
 
   static propTypes = {
+    disabled: PropTypes.bool,
     facebookAppId: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    onProcessStart: PropTypes.func,
     onRegisterWithFacebook: PropTypes.func.isRequired
   }
 
@@ -59,7 +61,7 @@ class FacebookLoginButton extends Component {
       }
       if (res.error) {
         const { error } = res;
-        this.setState({ ...this.state, error });
+        this.setState({ ...this.state, error }); // eslint-disable-line
       } else {
         this.props.onClose();
       }
@@ -68,6 +70,9 @@ class FacebookLoginButton extends Component {
 
   // handle fb button click
   handleClick (e) {
+    if (this.props.onProcessStart) {
+      this.props.onProcessStart();
+    }
     FB.login((response) => {
       if (response.authResponse) {
         // user authorized
@@ -100,12 +105,12 @@ class FacebookLoginButton extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { t } = this.props;
+    const { disabled, t } = this.props;
     return (
-      <button style={styles.facebookButton} type='button' onClick={::this.handleClick}>
-      <svg height='22' style={styles.facebookIcon} viewBox='0 0 22 22' width='22' xmlns='http://www.w3.org/2000/svg' >
-        <path d='M20.51 0H1.404C.63 0 0 .63 0 1.405V20.51c0 .775.63 1.404 1.405 1.404h10.267v-8.476h-2.86v-3.324h2.834s.05-1.16.05-2.962c0-1.804 1.34-3.04 1.96-3.35.618-.308 1.57-.54 2.55-.49.98.053 2.24.182 2.24.182L18.5 6.38s-1.573.025-2.165.05c-.593.026-1.237.335-1.237 1.417v2.242h3.324l-.464 3.322h-2.834v8.502h5.385c.775 0 1.404-.63 1.404-1.405V1.404C21.914.63 21.284 0 20.51 0' fill='#FFF' fill-rule='evenodd' />
-      </svg>
+      <button disabled={disabled} style={styles.facebookButton} type='button' onClick={::this.handleClick}>
+        <svg height='22' style={styles.facebookIcon} viewBox='0 0 22 22' width='22' xmlns='http://www.w3.org/2000/svg' >
+          <path d='M20.51 0H1.404C.63 0 0 .63 0 1.405V20.51c0 .775.63 1.404 1.405 1.404h10.267v-8.476h-2.86v-3.324h2.834s.05-1.16.05-2.962c0-1.804 1.34-3.04 1.96-3.35.618-.308 1.57-.54 2.55-.49.98.053 2.24.182 2.24.182L18.5 6.38s-1.573.025-2.165.05c-.593.026-1.237.335-1.237 1.417v2.242h3.324l-.464 3.322h-2.834v8.502h5.385c.775 0 1.404-.63 1.404-1.405V1.404C21.914.63 21.284 0 20.51 0' fill='#FFF' fill-rule='evenodd' />
+        </svg>
         {t('register.registerWithFacebookButton')}
       </button>
     );
