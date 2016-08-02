@@ -102,7 +102,7 @@
     "userAlreadyExist": "There is already a Spott user registered with this email.",
     "agree": "I’ve read and agree the [[]]",
     "terms": "terms and conditions",
-    "facebookError": "Not enough information, please provide your email adres through Facebook or register without facebook",
+    "facebookError": "Not enough information, please provide your email address through Facebook or register without facebook",
     "facebookErrorUnknown": "An unknown error occurred."
   },
   "productDetail": {
@@ -159,5 +159,4 @@
     "overview": "Overview",
     "return": "Return to home."
   }
-
 }

@@ -102,7 +102,8 @@
     "userAlreadyExist": "Il existe déjà un utilisateur Spott avec cet e-mail.",
     "agree": "J'ai lu et accepte [[]]",
     "terms": "les termes et conditions",
-    "facebookError": "Not enough information, please provide your email adres through Facebook or register without facebook"
+    "facebookError": "L’information ne suffit pas, fournit votre adresse email par Facebook ou inscrit sans Facebook",
+    "facebookErrorUnknown": "Une erreur inconnue s’est passée."
   },
   "productDetail": {
     "buyNow": "Achetez maintenant",
@@ -111,7 +112,7 @@
     "similarProducts": "Produits similaires",
     "share": "Partager",
     "unavailable": "Ce produit n’est pas disponible.",
-    "notExist": "Ce produit n’existe plus. Nous sommes désolés pour les inconvénients occasionnés.​"
+    "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​"
   },
   "profile": {
     "header": {
@@ -131,32 +132,31 @@
     },
     "wishlists": {
       "empty": "Vous n'avez pas encore des listes de souhaits.",
-
       "unnamedWishlist": "Liste de souhaits"
     },
     "wishlistProducts": {
       "empty": "Cette liste de souhaits est vide.",
-      "private": "Cette liste de souhaits est privé, le propriétaire doit la rendre visible.",
-      "notExist": "Cette liste de souhaits n’existe plus. Nous sommes désolés pour les inconvénients occasionnés.​"
+      "private": "Cette liste de souhaits est privée, le propriétaire est obligé de publier la liste de souhaits.",
+      "notExist": "Cette liste de souhaits n’existe plus, nous nous excusons pour le désagrément."
     },
-    "notExist": "Ce profil d'utilisateur n’existe plus. Nous sommes désolés pour les inconvénients occasionnés.​"
+    "notExist": "Ce profil de la personne n’existe plus, nous nous excusons pour le désagrément.​"
   },
   "medium": {
     "MOVIE": "Film",
-    "TV_SERIE": "Emission de télévision",
-    "follow": "Suivre",
-    "unfollow": "Quitter",
+    "TV_SERIE": "Show télévisé",
+    "follow": "Suis",
+    "unfollow": "Désabonne",
     "followers": {
-      "zero":  "[[0]] abonné(e)s",
-      "one":   "[[1]] abonné(e)",
-      "other": "[[%(count)s]] abonné(e)s"
+      "zero":  "Abonnés [[0]]",
+      "one":   "Abonnés [[1]]",
+      "other": "Abonnés [[%(count)s]]"
     },
-    "topProducts": "Meilleurs %(title)s produits",
-    "topUserProducts": "Spécialement pour toi"
+    "topProducts": "Top %(title)s Products",
+    "topUserProducts": "Choisi pour toi"
   },
   "common": {
-    "notExist": "Cette ressource n’existe plus. Nous sommes désolés pour les inconvénients occasionnés.",
-    "overview": "Aperçu",
-    "return": "Retour à la page d'accueil."
+    "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
+    "overview": "La vue générale",
+    "return": "Retourne à la page d’accueil."
   }
 }
