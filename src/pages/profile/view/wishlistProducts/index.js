@@ -104,6 +104,7 @@ const styles = {
 }))
 export default class WishlistProducts extends Component {
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     loadProductsOfWishlist: PropTypes.func.isRequired,
     params: PropTypes.shape({
       wishlistId: PropTypes.string.isRequired
@@ -130,7 +131,7 @@ export default class WishlistProducts extends Component {
   }
 
   render () {
-    const { productsOfWishlist, t, wishlist } = this.props;
+    const { currentLocale, productsOfWishlist, t, wishlist } = this.props;
 
     if (productsOfWishlist.get('_status') === ERROR && productsOfWishlist.get('_error').name === 'UnauthorizedError') {
       return (
@@ -141,31 +142,36 @@ export default class WishlistProducts extends Component {
       );
     }
 
+    if (productsOfWishlist.get('_status') === ERROR && productsOfWishlist.get('_error').name === 'NotFoundError') {
+      return (
+        <div>
+          <h1 style={styles.title}>{t('profile.wishlists.unnamedWishlist')}</h1>
+          <p style={styles.emptyText}>{t('profile.wishlistProducts.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
+        </div>
+      );
+    }
+
+    if (productsOfWishlist.get('data').size === 0) {
+      return (
+        <div>
+          <h1 style={styles.title}>{wishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
+          <p style={styles.emptyText}>{t('profile.wishlistProducts.empty')}</p>
+        </div>
+      );
+    }
+
     return (
       <div style={styles.content}>
         <h1 style={styles.title}>{wishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
         <VerticalTiles
           aspectRatio={1.38876}
           horizontalSpacing={30}
-          items={productsOfWishlist}
+          items={productsOfWishlist.get('data')}
           numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
           tile={<WishlistProduct />}
           verticalSpacing={30} />
       </div>
     );
-
-      // return (
-      //   <div>
-      //     <h1 style={styles.title}>{wishlist.get('name') || t('profile.wishlists.unnamedWishlist')}</h1>
-      //     <p style={styles.emptyText}>{t('profile.wishlistProducts.empty')}</p>
-      //   </div>
-      // );
-      // return (
-      //   <div>
-      //     <h1 style={styles.title}>{t('profile.wishlists.unnamedWishlist')}</h1>
-      //     <p style={styles.emptyText}>{t('profile.wishlistProducts.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
-      //   </div>
-      // );
   }
 
 }
