@@ -30,11 +30,18 @@ export const fontWeights = {
   bold: 'Roboto-Bold'
 };
 
+export const mediaQueryThresholds = {
+  extraSmall: 0,
+  small: 480,
+  medium: 768,
+  large: 992,
+  extraLarge: 1200
+};
 export const mediaQueries = {
-  small: '@media only screen and (min-width: 480px)',
-  medium: '@media only screen and (min-width: 768px)',
-  large: '@media only screen and (min-width: 992px)',
-  extraLarge: '@media only screen and (min-width: 1200px)'
+  small: `@media only screen and (min-width: ${mediaQueryThresholds.small}px)`,
+  medium: `@media only screen and (min-width: ${mediaQueryThresholds.medium}px)`,
+  large: `@media only screen and (min-width: ${mediaQueryThresholds.large}px)`,
+  extraLarge: `@media only screen and (min-width: ${mediaQueryThresholds.extraLarge}px)`
 };
 
 @Radium

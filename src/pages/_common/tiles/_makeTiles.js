@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Radium from 'radium';
-import { colors, fontWeights, makeTextStyle, SectionTitle } from '../buildingBlocks';
+import { colors, mediaQueryThresholds, fontWeights, makeTextStyle, SectionTitle } from '../buildingBlocks';
 import localized from '../localized';
 import { Tiles } from './_tiles';
 import { LOADED, UPDATING } from '../../../data/statusTypes';
@@ -89,9 +89,40 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
         super(props);
         this.onBackClick = ::this.onBackClick;
         this.onMoreClick = ::this.onMoreClick;
+        this.onPatchWidth = ::this.onPatchWidth;
+        this._patchWidth = ::this._patchWidth;
         this.state = {
-          first: 0
+          first: 0,
+          screenWidth: -1
         };
+      }
+
+      componentDidMount () {
+        // Create global 'on resize' hook
+        window.addEventListener('resize', this.onPatchWidth);
+        this.onPatchWidth();
+      }
+
+      componentWillUnmount () {
+        // Create global 'on resize' hook
+        window.removeEventListener('resize', this.onPatchWidth);
+      }
+
+      _patchWidth () {
+        // Read width from DOM
+        const screenWidth = window.innerWidth;
+        // Save width
+        this.setState({ screenWidth });
+      }
+
+      onPatchWidth () {
+        // We have to read the width from the DOM. We try to do this in a performant
+        // way using window.requestAnimationFrame.
+        if (window.requestAnimationFrame) {
+          return window.requestAnimationFrame(this._patchWidth);
+        }
+        // The performant method failed, fall back to setTimeout(). :(
+        setTimeout(this._patchWidth, 66);
       }
 
       componentWillReceiveProps (nextProps) {
@@ -165,14 +196,44 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
 
       render () {
         const { styles } = this.constructor;
-        const { items, listStyle, renderEmptyComponent, renderLoadingComponent, renderNotFoundComponent, renderUnexpectedComponent, style, titleStyle, title } = this.props;
+        const {
+          items, listStyle, renderEmptyComponent, renderLoadingComponent,
+          renderNotFoundComponent, renderUnexpectedComponent, style, titleStyle, title
+        } = this.props;
+        const { screenWidth } = this.state;
         const arrowColor = (titleStyle && titleStyle.color) || colors.dark;
 
+        // If we have no known container width (first render), there is no reason to proceed
+        if (screenWidth === -1) {
+          return (
+            <div ref={(x) => { this.container = x; }} style={{ minHeight: 1 }}>
+            </div>
+          );
+        }
+
+
+        // Determine number of items currently visible
+        const currentNumColumns = Object.keys(mediaQueryThresholds).reduce((best, mediaQuery) => {
+          const mediaQueryThreshold = mediaQueryThresholds[mediaQuery];
+          // If the screen width is smaller than the currently visited media query's threshold,
+          // the current media query does not match.
+          if (screenWidth < mediaQueryThreshold) {
+            return best;
+          }
+          // Ok, the media query matches. Is it a better match than the
+          // best match until now? If not, continue...
+          if (best.mediaQueryThreshold > mediaQueryThreshold) {
+            return best;
+          }
+          // Ok we have a new best match!
+          return { numColumns: numColumns[mediaQuery], mediaQueryThreshold };
+        }, { numColumns: -1, mediaQueryThreshold: -1 }).numColumns;
+
         return (
-          <div style={[ styles.container, style ]}>
+          <div ref={(x) => { this.container = x; }} style={[ styles.container, style ]}>
             <div style={styles.header}>
               <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>
-              {items.get('data').size > 1 &&
+              {items.get('data').size > currentNumColumns && 
                 <div style={styles.headerIcons}>
                   <div style={styles.leftArrowWrapper} onClick={this.onBackClick}>
                     <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
