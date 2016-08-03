@@ -119,7 +119,6 @@ function validate (values) {
   if (passwordRepeatError) { validationErrors.passwordRepeat = 'invalid'; }
   const termsError = !values.get('terms');
   if (termsError) { validationErrors.terms = 'invalid'; }
-  console.warn('VALIDATE', validationErrors);
   // Done
   return validationErrors;
 }
@@ -186,7 +185,6 @@ class Form extends Component {
   render () {
     const styles = this.constructor.styles;
     const { currentLocale, error, facebookIsLoading, handleSubmit, submitFailed, submitting, t } = this.props;
-    console.log(this.props);
     return (
       <form onSubmit={handleSubmit}>
         <div style={styles.line}>&nbsp;</div>

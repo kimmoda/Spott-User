@@ -91,7 +91,6 @@ export default class RecentlyAdded extends Component {
   render () {
     const { styles } = this.constructor;
     const { firstMedium, otherRecentlyAddedMedia, t } = this.props;
-    console.log(this.props);
     return (
       <div style={[ styles.wrapper, firstMedium && firstMedium.get('profileImage') && { backgroundImage: `url("${firstMedium.getIn([ 'profileImage', 'url' ])}")` } ]}>
         <Container>

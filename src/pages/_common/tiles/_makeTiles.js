@@ -123,13 +123,11 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           alignItems: 'center'
         },
         leftArrowWrapper: {
-          padding: 0,
           cursor: 'pointer',
           paddingRight: '0.25em',
           marginRight: '0.5em'
         },
         rightArrowWrapper: {
-          padding: 0,
           cursor: 'pointer',
           paddingLeft: '0.25em'
         },
