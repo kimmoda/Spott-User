@@ -122,10 +122,18 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           justifyContent: 'flex-end',
           alignItems: 'center'
         },
-        headerIconsWrapper: {
-          padding: '0 0.5em'
+        leftArrowWrapper: {
+          padding: 0,
+          cursor: 'pointer',
+          paddingRight: '0.25em',
+          marginRight: '0.5em'
         },
-        headerIcon: {
+        rightArrowWrapper: {
+          padding: 0,
+          cursor: 'pointer',
+          paddingLeft: '0.25em'
+        },
+        arrowIcon: {
           cursor: 'pointer',
           width: '8px',
           height: '12px'
@@ -153,11 +161,11 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
               <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>
               {items.get('data').size > 1 &&
                 <div style={styles.headerIcons}>
-                  <div style={styles.headerIconsWrapper} onClick={this.onBackClick}>
-                    <ArrowLeftImage color={arrowColor} style={styles.headerIcon} />
+                  <div style={styles.leftArrowWrapper} onClick={this.onBackClick}>
+                    <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
                   </div>
-                  <div style={styles.headerIconsWrapper} onClick={this.onMoreClick}>
-                    <ArrowRightImage color={arrowColor} style={styles.headerIcon} />
+                  <div style={styles.rightArrowWrapper} onClick={this.onMoreClick}>
+                    <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
                   </div>
                 </div>}
             </div>
