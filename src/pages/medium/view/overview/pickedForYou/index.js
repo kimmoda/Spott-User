@@ -51,11 +51,6 @@ export default class PickedForYou extends Component {
     const styles = this.constructor.styles;
     const { products, t } = this.props;
 
-    // TODO: quick fix by vid for empty lists
-    if (products.get('data').size === 0) {
-      return <div></div>;
-    }
-
     return (
       <div style={styles.wrapper}>
         <Container>

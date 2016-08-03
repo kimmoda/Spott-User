@@ -2,7 +2,7 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { List } from 'immutable';
-import { mediaQueries, ScalableContainer, load } from '../buildingBlocks';
+import { mediaQueries, load } from '../buildingBlocks';
 
 @Radium
 export class Tiles extends Component {
@@ -16,6 +16,7 @@ export class Tiles extends Component {
     }).isRequired,
     numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
     renderEmptyComponent: PropTypes.func,
+    renderLoadingComponent: PropTypes.func,
     renderNotFoundComponent: PropTypes.func,
     renderUnexpectedComponent: PropTypes.func,
     // The component for rendering the tile. Is cloned with an additional
@@ -36,7 +37,11 @@ export class Tiles extends Component {
   }
 
   render () {
-    const { first, horizontalSpacing, items, numColumns, renderEmptyComponent, renderNotFoundComponent, renderUnexpectedComponent, style: tilesStyle, tileRenderer } = this.props;
+    const {
+      first, horizontalSpacing, items, numColumns, renderEmptyComponent,
+      renderLoadingComponent, renderNotFoundComponent, renderUnexpectedComponent,
+      style: tilesStyle, tileRenderer
+    } = this.props;
     const style = {
       display: 'inline-block',
       width: `${100 / numColumns.extraSmall}%`,
@@ -83,7 +88,7 @@ export class Tiles extends Component {
           {(this.rotateList(items.get('data') || List(), first).map((item, i) => tileRenderer({ style, key: i, item })))}
         </div>
       ),
-      null, // Spinner
+      renderLoadingComponent,
       renderNotFoundComponent,
       renderUnexpectedComponent,
       renderEmptyComponent

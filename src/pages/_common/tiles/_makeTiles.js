@@ -75,6 +75,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
         }),
         listStyle: PropTypes.object,
         renderEmptyComponent: PropTypes.func,
+        renderLoadingComponent: PropTypes.func,
         renderNotFoundComponent: PropTypes.func,
         renderUnexpectedComponent: PropTypes.func,
         style: PropTypes.object,
@@ -166,6 +167,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
               items={items}
               numColumns={numColumns}
               renderEmptyComponent={renderEmptyComponent}
+              renderLoadingComponent={renderLoadingComponent}
               renderNotFoundComponent={renderNotFoundComponent}
               renderUnexpectedComponent={renderUnexpectedComponent}
               style={listStyle}
