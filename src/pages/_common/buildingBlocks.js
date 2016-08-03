@@ -100,6 +100,30 @@ export function makeTextStyle (fontWeight = fontWeights.regular, fontSize = '1em
   };
 }
 
+// Dialog styles
+// /////////////
+
+export const dialogStyle = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    zIndex: 1
+  },
+  content: {
+    // Set width and center horizontally
+    margin: 'auto',
+    maxWidth: 420,
+    width: '90%',
+    left: 10,
+    right: 10,
+    // Internal padding
+    padding: 0,
+    // Fit height to content, centering vertically
+    bottom: 'auto',
+    top: '50%',
+    transform: 'translateY(-50%)'
+  }
+};
+
 // Button component
 // ////////////////
 
@@ -143,14 +167,19 @@ export const pinkButtonStyle = {
 const disabledButtonStyle = {
   opacity: 0.3
 };
+const disabledLinkButtonStyle = {
+  opacity: 0.3,
+  pointerEvents: 'none',
+  cursor: 'default'
+};
 export const Button = Radium((props) => {
   const disabled = Boolean(props.disabled);
   if (!props.href && !props.to) {
     return <button {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</button>;
   } else if (props.href) {
-    return <a {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</a>;
+    return <a {...props} style={[ buttonStyle, props.style, disabled && disabledLinkButtonStyle ]}>{props.children}</a>;
   }
-  return <RadiumLink {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</RadiumLink>;
+  return <RadiumLink {...props} style={[ buttonStyle, props.style, disabled && disabledLinkButtonStyle ]}>{props.children}</RadiumLink>;
 });
 Button.propTypes = {
   children: PropTypes.node,

@@ -101,7 +101,9 @@
     "logIn": "Log in",
     "userAlreadyExist": "Er is reeds een Spott gebruiker met dit e-mailadres.",
     "agree": "Ik heb [[]] gelezen en goedgekeurd, ",
-    "terms": "de voorwaarden"
+    "terms": "de voorwaarden",
+    "facebookError": "Niet genoeg informatie, ot enough information, bezorg je email adres via Facebook of registreer met je e-mailadres.",
+    "facebookErrorUnknown": "Een onbekende fout trad op."
   },
   "productDetail": {
     "buyNow": "Koop nu",

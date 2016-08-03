@@ -25,23 +25,25 @@ import { MOVIE, SERIES } from './data/mediumTypes';
  * The application routes
  */
 export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line react/prop-types
-/*
-  function requireAuth (nextState, replace) {
-    // Not authenticated.. replace current location with /login
-    if (!authenticationTokenSelector(getState())) {
-      replace({
-        pathname: '/login',
-        state: { returnTo: nextState.location.pathname }
-      });
+  /* TODO: not used yet
+    function requireAuth (nextState, replace) {
+      // Not authenticated.. replace current location with /login
+      if (!authenticationTokenSelector(getState())) {
+        replace({
+          pathname: '/login',
+          state: { returnTo: nextState.location.pathname }
+        });
+      }
     }
-  }
-*/
+  */
+
+  // Factory for medium-page routes.
   function renderMediumRoute (mediumType, mediumTypeParam) {
     return (
       <Route component={Medium} mediumType={mediumType} path={`${mediumTypeParam}/:mediumSlug/:mediumId`}>
         <IndexRedirect to='overview' />
         <Route component={MediumOverview} path='overview' />
-        {/*
+        {/* TODO: NOT DONE YET
         <Route component={SeriesProducts} path='series/:seriesId/products' />
           <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
             <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
@@ -52,17 +54,24 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
   }
 
   // When entering a page, the locale is dispatched.
+  function onRootEnter (state, replace) {
+    // EVERY hash url will be replaced by a url without a hash!
+    // The language is set instead.
+    if (state.location.hash) {
+      replace(state.location.hash.replace('#', 'nl'));
+    }
+  }
+
+  function onLocaleEnter (state) {
+    dispatch(changeLocale(state.params.currentLocale));
+  }
+
   return (
-    <Route component={App} path='/' onEnter={(state, replace) => {
-      // EVERY hash url will be replaced by a url without a hash!
-      // The language is set instead.
-      if (state.location.hash) {
-        replace(state.location.hash.replace('#', 'nl'));
-      }
-    }}>
+    <Route component={App} path='/' onEnter={onRootEnter}>
       <IndexRedirect to='/en' />
-      <Route path=':currentLocale' onEnter={(state) => dispatch(changeLocale(state.params.currentLocale))}>
+      <Route path=':currentLocale' onEnter={onLocaleEnter}>
         <IndexRoute component={Home} />
+
         <Route component={Redirect} noNavigation path='app'/>
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />

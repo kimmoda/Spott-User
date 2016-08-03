@@ -69,6 +69,7 @@ export default class Hero extends Component {
     background: {
       display: 'block',
       backgroundSize: 'cover',
+      backgroundPosition: 'center center',
       width: '100%',
       position: 'relative',
       top: 0
