@@ -232,9 +232,9 @@ export default class Hero extends Component {
 
           {/*
           <div style={styles.smallEpisodes}>
-            <FadedTiles>
+            <FadeOutScalableContainer>
               <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} mediumId={mediumId} />
-            </FadedTiles>
+            </FadeOutScalableContainer>
           </div>
           */}
         </div>

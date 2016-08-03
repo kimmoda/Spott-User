@@ -1,12 +1,11 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { Tiles } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import makeTiles from './_makeTiles';
 import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import BaseTile from './_baseTile';
 import hoverable from '../hoverable';
+// import makeTiles from './_makeTiles';
 
 @hoverable
 @Radium
@@ -107,38 +106,12 @@ export class SmallEpisodeTile extends Component {
   }
 }
 
-@Radium
-export default class SmallEpisodeTiles extends Component {
-
-  static propTypes = {
-    items: ImmutablePropTypes.list,
-    seriesId: PropTypes.string.isRequired,
-    style: PropTypes.object
-  };
-
-  static styles = {
-    tiles: {
-      overflow: 'visible',
-      paddingTop: 0,
-      paddingBottom: 0,
-      marginBottom: 0,
-      marginTop: 0
-    }
-  }
-  render () {
-    const { styles } = this.constructor;
-    const { items, seriesId, style } = this.props;
-
-    return (
-      <Tiles
-        horizontalSpacing={0.833}
-        items={items}
-        numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 }}
-        style={[ styles.tiles, style ]}
-        tileRenderer={({ item, key, style: tileStyle }) => (
-          <SmallEpisodeTile item={item} key={key} linkTo={`/series/${seriesId}/season/3/episode/${key}/scenes`} style={tileStyle} />
-        )}
-        verticalSpacing={0} />
-    );
-  }
-}
+/* TODO: we need a way to inject seriesId
+export default makeTiles(
+  0.833,
+  { extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 },
+  ({ item, key, style: tileStyle }) => (
+    <SmallEpisodeTile item={item} key={key} linkTo={`/series/${seriesId}/season/3/episode/${key}/scenes`} style={tileStyle} />
+  )
+);
+*/
