@@ -119,7 +119,6 @@ function validate (values) {
   if (passwordRepeatError) { validationErrors.passwordRepeat = 'invalid'; }
   const termsError = !values.get('terms');
   if (termsError) { validationErrors.terms = 'invalid'; }
-  console.warn('VALIDATE', validationErrors);
   // Done
   return validationErrors;
 }

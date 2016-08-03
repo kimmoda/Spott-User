@@ -344,7 +344,6 @@ Submenu.propTypes = {
 // Fade out
 // ////////
 
-
 const fadeOutStyle = {
   backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
   position: 'absolute',
@@ -366,7 +365,6 @@ export const FadeOutScalableContainer = Radium((props) => (
 FadeOutScalableContainer.propTypes = {
   children: PropTypes.node
 };
-
 
 // Money
 // /////
