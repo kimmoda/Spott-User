@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { colors, mediaQueries, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
+import { colors, Button, pinkButtonStyle, mediaQueries, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
 // import { dummy } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
@@ -18,11 +18,14 @@ import { loadRecentlyAdded } from '../../actions';
 export default class RecentlyAdded extends Component {
 
   static propTypes = {
+    firstMedium: ImmutablePropTypes.mapContains({
+      profileImage: ImmutablePropTypes.mapContains({
+        url: PropTypes.string.isRequired
+      }).isRequired,
+      title: PropTypes.string.isRequired
+    }),
     loadRecentlyAdded: PropTypes.func.isRequired,
-    recentlyAddedMedia: ImmutablePropTypes.mapContains({
-      _status: PropTypes.string,
-      data: PropTypes.list
-    }).isRequired,
+    otherRecentlyAddedMedia: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired
   }
 
@@ -32,8 +35,10 @@ export default class RecentlyAdded extends Component {
 
   static styles = {
     button: {
-      marginBottom: '5.45em',
-      position: 'relative'
+      marginBottom: '0.75em',
+      [mediaQueries.medium]: {
+        marginBottom: '1.5em'
+      }
     },
     wrapper: {
       backgroundColor: colors.white,
@@ -66,10 +71,7 @@ export default class RecentlyAdded extends Component {
     },
     upperCaseSubtitle: {
       color: colors.white,
-      marginBottom: '1.5em',
-      [mediaQueries.medium]: {
-        marginBottom: '7.813em'
-      }
+      marginBottom: '3.2em'
     },
     tiles: {
       transform: 'translateY(3.8em)'
@@ -88,20 +90,18 @@ export default class RecentlyAdded extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { recentlyAddedMedia, t } = this.props;
-    const firstMedia = recentlyAddedMedia.getIn([ 'data', '0' ]);
-
+    const { firstMedium, otherRecentlyAddedMedia, t } = this.props;
+    console.log(this.props);
     return (
-      <div style={[ styles.wrapper, firstMedia && firstMedia.get('profileImage') && { backgroundImage: `url("${firstMedia.getIn([ 'profileImage', 'url' ])}")` } ]}>
+      <div style={[ styles.wrapper, firstMedium && firstMedium.get('profileImage') && { backgroundImage: `url("${firstMedium.getIn([ 'profileImage', 'url' ])}")` } ]}>
         <Container>
           <div style={styles.overlay}></div>
           <div style={styles.innerWrapper}>
-            <Title style={styles.title}>{(firstMedia && firstMedia.get('title'))}</Title>
+            <Title style={styles.title}>{(firstMedium && firstMedium.get('title')) || '\u00A0'}</Title>
             <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
-            {/* TODO: temporarily removed
-                <Button style={{ ...pinkButtonStyle, ...styles.button }}>{t('home.recentlyAdded.browseButton')}</Button> */}
+            <Button disabled={!firstMedium} style={{ ...pinkButtonStyle, ...styles.button }} to={firstMedium && firstMedium.get('shareUrl')}>{t('home.recentlyAdded.browseButton')}</Button>
           </div>
-          <TopLevelMediumTiles items={recentlyAddedMedia} style={styles.tiles} title={t('home.recentlyAdded.title')} titleStyle={styles.tilesTitle} />
+          <TopLevelMediumTiles items={otherRecentlyAddedMedia} style={styles.tiles} title={t('home.recentlyAdded.title')} titleStyle={styles.tilesTitle} />
         </Container>
       </div>
     );

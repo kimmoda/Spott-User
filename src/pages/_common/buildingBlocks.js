@@ -164,14 +164,19 @@ export const pinkButtonStyle = {
 const disabledButtonStyle = {
   opacity: 0.3
 };
+const disabledLinkButtonStyle = {
+  opacity: 0.3,
+  pointerEvents: 'none',
+  cursor: 'default'
+};
 export const Button = Radium((props) => {
   const disabled = Boolean(props.disabled);
   if (!props.href && !props.to) {
     return <button {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</button>;
   } else if (props.href) {
-    return <a {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</a>;
+    return <a {...props} style={[ buttonStyle, props.style, disabled && disabledLinkButtonStyle ]}>{props.children}</a>;
   }
-  return <RadiumLink {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</RadiumLink>;
+  return <RadiumLink {...props} style={[ buttonStyle, props.style, disabled && disabledLinkButtonStyle ]}>{props.children}</RadiumLink>;
 });
 Button.propTypes = {
   children: PropTypes.node,
