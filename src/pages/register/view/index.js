@@ -186,7 +186,6 @@ class Form extends Component {
   render () {
     const styles = this.constructor.styles;
     const { currentLocale, error, facebookIsLoading, handleSubmit, submitFailed, submitting, t } = this.props;
-    console.log(this.props);
     return (
       <form onSubmit={handleSubmit}>
         <div style={styles.line}>&nbsp;</div>

@@ -8,7 +8,6 @@ import { isAuthenticatedSelector } from '../app/selector';
 
 const recentlyAddedMediaSelector = createEntitiesByListSelector(recentlyAddedMediaListSelector, mediaEntitiesSelector);
 export const recentlyAddedSelector = createSelector(recentlyAddedMediaSelector, (recentlyAddedMedia) => {
-  console.log('SELECTING', recentlyAddedMedia.toJS());
   return {
     firstMedium: recentlyAddedMedia.getIn([ 'data', '0' ]),
     otherRecentlyAddedMedia: recentlyAddedMedia.set('data', recentlyAddedMedia.get('data').shift())
