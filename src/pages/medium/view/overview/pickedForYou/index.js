@@ -3,7 +3,7 @@ import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, Container } from '../../../../_common/buildingBlocks';
+import { colors, Container, Message } from '../../../../_common/buildingBlocks';
 import localized from '../../../../_common/localized';
 import ProductTiles from '../../../../_common/tiles/productTiles';
 import { pickedForYouSelector } from '../../../selector';
@@ -51,15 +51,15 @@ export default class PickedForYou extends Component {
     const styles = this.constructor.styles;
     const { products, t } = this.props;
 
-    // TODO: quick fix by vid for empty lists
-    if (products.get('data').size === 0) {
-      return <div></div>;
-    }
-
     return (
       <div style={styles.wrapper}>
         <Container>
-          <ProductTiles items={products} title={t('medium.topUserProducts')} />
+          <ProductTiles
+            items={products}
+            renderEmptyComponent= {() => <Message>{t('medium.topUserProducts.empty')}</Message>}
+            renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
+            renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
+            title={t('medium.topUserProducts.title')} />
         </Container>
       </div>
     );

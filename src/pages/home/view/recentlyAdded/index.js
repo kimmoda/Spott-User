@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { colors, Button, pinkButtonStyle, mediaQueries, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
+import { colors, Button, pinkButtonStyle, mediaQueries, Message, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
 // import { dummy } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
@@ -91,7 +91,6 @@ export default class RecentlyAdded extends Component {
   render () {
     const { styles } = this.constructor;
     const { firstMedium, otherRecentlyAddedMedia, t } = this.props;
-    console.log(this.props);
     return (
       <div style={[ styles.wrapper, firstMedium && firstMedium.get('profileImage') && { backgroundImage: `url("${firstMedium.getIn([ 'profileImage', 'url' ])}")` } ]}>
         <Container>
@@ -101,7 +100,8 @@ export default class RecentlyAdded extends Component {
             <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
             <Button disabled={!firstMedium} style={{ ...pinkButtonStyle, ...styles.button }} to={firstMedium && firstMedium.get('shareUrl')}>{t('home.recentlyAdded.browseButton')}</Button>
           </div>
-          <TopLevelMediumTiles items={otherRecentlyAddedMedia} style={styles.tiles} title={t('home.recentlyAdded.title')} titleStyle={styles.tilesTitle} />
+          <TopLevelMediumTiles items={otherRecentlyAddedMedia}
+            style={styles.tiles} title={t('home.recentlyAdded.title')} titleStyle={styles.tilesTitle} />
         </Container>
       </div>
     );
