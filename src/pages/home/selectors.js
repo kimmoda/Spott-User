@@ -1,9 +1,9 @@
 import { createStructuredSelector } from 'reselect';
 import {
   mediaEntitiesSelector, productsEntitiesSelector,
-  popularProductsListSelector, recentlyAddedMediaListSelector, recentlyAddedToWishlistProductsListSelector
+  popularProductsListSelector, recentlyAddedMediaListSelector, recentlyAddedToWishlistProductsListSelector,
+  createEntitiesByListSelector
 } from '../../data/selector';
-import { createEntitiesByListSelector } from '../../utils';
 import { isAuthenticatedSelector } from '../app/selector';
 
 export const recentlyAddedSelector = createStructuredSelector({
