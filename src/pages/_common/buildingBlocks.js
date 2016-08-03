@@ -1,12 +1,9 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
-import { List } from 'immutable';
 import { ERROR, FETCHING, LAZY, LOADED, UPDATING } from '../../data/statusTypes';
 
 export const RadiumLink = Radium(Link);
-
 
 // Constants
 // /////////
@@ -33,11 +30,18 @@ export const fontWeights = {
   bold: 'Roboto-Bold'
 };
 
+export const mediaQueryThresholds = {
+  extraSmall: 0,
+  small: 480,
+  medium: 768,
+  large: 992,
+  extraLarge: 1200
+};
 export const mediaQueries = {
-  small: '@media only screen and (min-width: 480px)',
-  medium: '@media only screen and (min-width: 768px)',
-  large: '@media only screen and (min-width: 992px)',
-  extraLarge: '@media only screen and (min-width: 1200px)'
+  small: `@media only screen and (min-width: ${mediaQueryThresholds.small}px)`,
+  medium: `@media only screen and (min-width: ${mediaQueryThresholds.medium}px)`,
+  large: `@media only screen and (min-width: ${mediaQueryThresholds.large}px)`,
+  extraLarge: `@media only screen and (min-width: ${mediaQueryThresholds.extraLarge}px)`
 };
 
 @Radium
@@ -69,20 +73,6 @@ export class Spinner extends Component {
       <div style={this.constructor.styles.container}></div>
     );
   }
-}
-
-// Load an item or a list.
-export function load (item, renderItem, renderSpinner, renderNotFound, renderUnexpectedComponent) {
-  if (!item.get('_status') || item.get('_status') === FETCHING || item.get('_status') === LAZY) {
-    return (renderSpinner && renderSpinner()) || <Spinner />;
-  }
-  if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
-    return renderItem(item);
-  }
-  if (item.get('_status') === ERROR && item.get('_error').name === 'NotFoundError') {
-    return renderNotFound();
-  }
-  return renderUnexpectedComponent();
 }
 
 // Utilities
@@ -164,14 +154,19 @@ export const pinkButtonStyle = {
 const disabledButtonStyle = {
   opacity: 0.3
 };
+const disabledLinkButtonStyle = {
+  opacity: 0.3,
+  pointerEvents: 'none',
+  cursor: 'default'
+};
 export const Button = Radium((props) => {
   const disabled = Boolean(props.disabled);
   if (!props.href && !props.to) {
     return <button {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</button>;
   } else if (props.href) {
-    return <a {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</a>;
+    return <a {...props} style={[ buttonStyle, props.style, disabled && disabledLinkButtonStyle ]}>{props.children}</a>;
   }
-  return <RadiumLink {...props} style={[ buttonStyle, props.style, disabled && disabledButtonStyle ]}>{props.children}</RadiumLink>;
+  return <RadiumLink {...props} style={[ buttonStyle, props.style, disabled && disabledLinkButtonStyle ]}>{props.children}</RadiumLink>;
 });
 Button.propTypes = {
   children: PropTypes.node,
@@ -287,113 +282,18 @@ UpperCaseSubtitle.propTypes = {
   style: PropTypes.object
 };
 
-// Tiles Component
-// ///////////////
-
-@Radium
-export class Tiles extends Component {
-
-  static propTypes = {
-    first: PropTypes.number,
-    horizontalSpacing: PropTypes.number.isRequired,
-    items: ImmutablePropTypes.mapContains({
-      _status: PropTypes.string,
-      data: PropTypes.list
-    }).isRequired,
-    numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
-    // The component for rendering the tile. Is cloned with an additional
-    // 'value' prop.
-    style: PropTypes.object,
-    tileRenderer: PropTypes.func.isRequired
-  };
-
-  rotateList (l, count) {
-    let result = l;
-    if (l.size === 0) { return l; }
-    for (let i = 0; i < count; i++) {
-      const first = result.first();
-      result = result.push(first);
-      result = result.shift();
-    }
-    return result;
-  }
-
-  render () {
-    const { first, horizontalSpacing, items, numColumns, style: tilesStyle, tileRenderer } = this.props;
-    const style = {
-      display: 'inline-block',
-      width: `${100 / numColumns.extraSmall}%`,
-      paddingLeft: `${horizontalSpacing / 2}em`,
-      paddingRight: `${horizontalSpacing / 2}em`,
-      [mediaQueries.small]: {
-        width: `${100 / numColumns.small}%`
-      },
-      [mediaQueries.medium]: {
-        width: `${100 / numColumns.medium}%`,
-        paddingLeft: `${horizontalSpacing}em`,
-        paddingRight: `${horizontalSpacing}em`
-      },
-      [mediaQueries.large]: {
-        width: `${100 / numColumns.large}%`
-      },
-      [mediaQueries.extraLarge]: {
-        width: `${100 / numColumns.extraLarge}%`
-      }
-    };
-
-    // Determine container style
-    const containerStyle = {
-      whiteSpace: 'nowrap',
-      position: 'relative',
-      marginBottom: '-1em',
-      marginLeft: `-${horizontalSpacing / 2}em`,
-      marginRight: `-${horizontalSpacing / 2}em`,
-      marginTop: '-1em',
-      paddingBottom: '1em',
-      paddingTop: '1em',
-      overflow: 'hidden',
-      [mediaQueries.medium]: {
-        marginLeft: `-${horizontalSpacing}em`,
-        marginRight: `-${horizontalSpacing}em`
-      }
-    };
-
-    // Return render result
-    return (
-      <div style={[ containerStyle, tilesStyle ]}>
-        {load(
-          items,
-          () => (this.rotateList(items.get('data') || List(), first).map((item, i) => tileRenderer({ style, key: i, item }))),
-          null,
-          () => <div></div>,
-          () => <div></div>
-        )}
-      </div>
-    );
-  }
-
-}
-
-const fadeStyle = {
-  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
-  position: 'absolute',
-  width: '4em',
-  right: 0,
-  top: 0,
-  bottom: 5
+const messageStyle = {
+  ...makeTextStyle(fontWeights.light, '0.9em', '0.0168em'),
+  color: colors.dark,
+  paddingTop: '1.5em',
+  paddingBottom: '1.5em'
 };
-
-export const FadedTiles = Radium((props) => (
-  <div style={{ position: 'relative' }}>
-    <ScalableContainer>
-      {props.children}
-    </ScalableContainer>
-    <div style={fadeStyle}></div>
-  </div>
-));
-
-FadedTiles.propTypes = {
-  children: PropTypes.node
+export const Message = Radium((props) => {
+  return <div {...props} style={[ messageStyle, props.style ]}>{props.children}</div>;
+});
+Message.propTypes = {
+  children: PropTypes.node,
+  style: PropTypes.object
 };
 
 // Submenu and submenuitem styles
@@ -448,6 +348,34 @@ Submenu.propTypes = {
   style: PropTypes.object
 };
 
+// Fade out
+// ////////
+
+const fadeOutStyle = {
+  backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
+  position: 'absolute',
+  width: '4em',
+  right: 0,
+  top: 0,
+  bottom: 5
+};
+
+export const FadeOutScalableContainer = Radium((props) => (
+  <div style={{ position: 'relative' }}>
+    <ScalableContainer>
+      {props.children}
+    </ScalableContainer>
+    <div style={fadeOutStyle}></div>
+  </div>
+));
+
+FadeOutScalableContainer.propTypes = {
+  children: PropTypes.node
+};
+
+// Money
+// /////
+
 export class Money extends Component {
   static propTypes = {
     amount: PropTypes.number,
@@ -468,4 +396,24 @@ export class Money extends Component {
         return (<span>{amount} {currency}</span>);
     }
   }
+}
+
+// Load an item or a list.
+export function load (item, renderItem, renderSpinner, renderNotFound, renderUnexpectedComponent, renderEmptyComponent) {
+  // Render spinner when FETCHING or LAZY
+  if (!item.get('_status') || item.get('_status') === FETCHING || item.get('_status') === LAZY) {
+    return (renderSpinner && renderSpinner()) || <Spinner />;
+  }
+  // When loaded, render items, or empty if there are none.
+  if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
+    if (item.get('data') && item.get('data').size === 0) {
+      return (renderEmptyComponent && renderEmptyComponent()) || <div></div>;
+    }
+    return renderItem(item);
+  }
+  // In case of an error, render not found or unexpected, depending on the error.
+  if (item.get('_status') === ERROR && item.get('_error').name === 'NotFoundError') {
+    return (renderNotFound && renderNotFound()) || <div></div>;
+  }
+  return (renderUnexpectedComponent && renderUnexpectedComponent()) || <div></div>;
 }

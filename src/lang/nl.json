@@ -57,7 +57,8 @@
       "title": "Populair rondom u"
     },
     "popularProducts": {
-      "title": "Populaire producten"
+      "title": "Populaire producten",
+      "empty": "Right now, this list is empty."
     },
     "recentlyAdded": {
       "browseButton": "Surf",
@@ -65,7 +66,8 @@
       "title": "Recent toegevoegd"
     },
     "recentlyAddedToWishlist": {
-      "title": "Recent toegevoegd aan de verlanglijst"
+      "title": "Recent toegevoegd aan de verlanglijst",
+      "empty": "You have not yet added items to your wishlists."
     },
     "search": {
       "info": "Spott staat u toe om producten te vinden in de zaken die u bekijkt",
@@ -151,12 +153,19 @@
       "one":   "[[1]] volger",
       "other": "[[%(count)s]] volgers"
     },
-    "topProducts": "Top %(title)s producten",
-    "topUserProducts": "Gekozen voor jou"
+    "topProducts": {
+      "empty": "Momenteel zijn er geen top producten om te tonen.",
+      "title": "Top %(title)s producten"
+    },
+    "topUserProducts": {
+      "empty": "Er zijn geen producten voor jou gekozen.",
+      "title": "Gekozen voor jou"
+    }
   },
   "common": {
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
     "overview": "Overzicht",
-    "return": "Keer terug naar home pagina."
+    "return": "Keer terug naar home pagina.",
+    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience."
   }
 }

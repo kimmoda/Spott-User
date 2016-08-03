@@ -1,6 +1,6 @@
 import React, { Component /* , PropTypes */ } from 'react';
 import Radium from 'radium';
-import { colors, ScalableContainer, SectionTitle } from '../../../../_common/buildingBlocks';
+import { colors, ScalableContainer } from '../../../../_common/buildingBlocks';
 // import { dummySelector } from '../../selectors';
 // import { dummy } from '../../actions';
 // import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -22,6 +22,7 @@ export default class NewScenesForYou extends Component {
     }
   };
 
+  // TODO: add renderXxxComponent to SceneTiles
   render () {
     const styles = this.constructor.styles;
     return (

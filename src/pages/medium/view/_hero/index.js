@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
 import { FETCHING, LAZY, LOADED, UPDATING } from '../../../../data/statusTypes';
 import { heroSelector } from '../../selector';
@@ -95,7 +95,7 @@ export default class Hero extends Component {
       bottom: 0,
       right: 0,
       opacity: 0.5,
-      backgroundImage: 'linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0))',
+      backgroundImage: 'linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25), rgb(0, 0, 0))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     title: {
@@ -124,7 +124,6 @@ export default class Hero extends Component {
     tab: {
       base: {
         ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
-        backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
         color: 'white',
         opacity: 0.5,
         paddingBottom: '1em',
@@ -206,7 +205,12 @@ export default class Hero extends Component {
               </Button>}
           </Container>
           <Container>
-            <CharacterTiles items={characters} style={styles.characters} />
+            <CharacterTiles
+              items={characters}
+              renderEmptyComponent={() => <div></div>}
+              renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
+              renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
+              style={styles.characters} />
           </Container>
           <Container style={styles.tabs}>
             <div>
@@ -227,9 +231,9 @@ export default class Hero extends Component {
 
           {/*
           <div style={styles.smallEpisodes}>
-            <FadedTiles>
+            <FadeOutScalableContainer>
               <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} mediumId={mediumId} />
-            </FadedTiles>
+            </FadeOutScalableContainer>
           </div>
           */}
         </div>

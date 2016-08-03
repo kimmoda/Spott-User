@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Radium from 'radium';
 import { Map } from 'immutable';
-import { colors, fontWeights, load, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, Money, Spinner } from '../../_common/buildingBlocks';
-import Tiles from '../../_common/tiles/productTiles';
+import { colors, load, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, Money, Spinner } from '../../_common/buildingBlocks';
+import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
 import { productSelector } from '../selector';
@@ -306,7 +306,7 @@ export default class ProductDetail extends Component {
           <Container>
             <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
             {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
-              <Tiles items={Map({ _status: LOADED, data: product.get('similarProducts') })} />}
+              <ProductTiles items={Map({ _status: LOADED, data: product.get('similarProducts') })} />}
             {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
               <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
             {!product.get('similarProducts') && <Spinner />}

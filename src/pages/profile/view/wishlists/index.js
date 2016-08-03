@@ -2,7 +2,7 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { colors, fontWeights, makeTextStyle, Spinner } from '../../../_common/buildingBlocks';
-import Tiles from '../../../_common/verticalTiles';
+import VerticalTiles from '../../../_common/verticalTiles';
 import { wishlistsOfCurrentUserSelector } from '../../selector';
 import { loadWishlistsOfUser } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -118,7 +118,7 @@ export default class Wishlists extends Component {
     } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
       if (wishlists.get('data').size > 0) {
         return (
-          <Tiles
+          <VerticalTiles
             aspectRatio={1.1333866}
             horizontalSpacing={30}
             items={wishlists.get('data')}

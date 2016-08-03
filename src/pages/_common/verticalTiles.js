@@ -99,7 +99,7 @@ export default class VerticalTiles extends Component {
     // We have to read the width from the DOM. We try to do this in a performant
     // way using window.requestAnimationFrame.
     if (window.requestAnimationFrame) {
-      window.requestAnimationFrame(this._patch);
+      return window.requestAnimationFrame(this._patch);
     }
     // The performant method failed, fall back to setTimeout(). :(
     setTimeout(this._patch, 66);
