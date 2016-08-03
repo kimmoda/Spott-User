@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { colors, Button, pinkButtonStyle, mediaQueries, Message, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
+import { colors, Button, pinkButtonStyle, mediaQueries, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
 // import { dummy } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
