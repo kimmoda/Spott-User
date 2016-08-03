@@ -56,7 +56,7 @@ export default class PickedForYou extends Component {
         <Container>
           <ProductTiles
             items={products}
-            renderEmptyComponent={() => <Message>{t('medium.topUserProducts.empty')}</Message>}
+            renderEmptyComponent= {() => <Message>{t('medium.topUserProducts.empty')}</Message>}
             renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
             title={t('medium.topUserProducts.title')} />

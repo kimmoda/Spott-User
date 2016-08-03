@@ -57,7 +57,8 @@
       "title": "Populaire près de chez vous"
     },
     "popularProducts": {
-      "title": "Produits populaires"
+      "title": "Produits populaires",
+      "empty": "Right now, this list is empty."
     },
     "recentlyAdded": {
       "browseButton": "Feuilletez",
@@ -65,7 +66,8 @@
       "title": "Ajouté récemment"
     },
     "recentlyAddedToWishlist": {
-      "title": "Ajouté récemment à liste de souhaits"
+      "title": "Ajouté récemment à liste de souhaits",
+      "empty": "You have not yet added items to your wishlists."
     },
     "search": {
       "info": "Spott vous permettez de trouver des produits dans les choses que vous regardez",
@@ -150,9 +152,6 @@
       "zero":  "Abonnés [[0]]",
       "one":   "Abonnés [[1]]",
       "other": "Abonnés [[%(count)s]]"
-    },
-    "characters": {
-      "empty": "There are no characters to show right now."
     },
     "topProducts": {
       "empty": "There are no top products to show right now.",

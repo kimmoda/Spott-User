@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { colors, Container } from '../../../_common/buildingBlocks';
+import { colors, Container, Message } from '../../../_common/buildingBlocks';
 import { recentlyAddedToWishlistSelector } from '../../selectors';
 import { loadRecentlyAddedToWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -44,7 +44,11 @@ export default class RecentlyAddedToWishlist extends Component {
     return (
       <div style={styles.wrapper}>
         <Container>
-          <ProductTiles items={recentlyAddedToWishlistProducts} title={t('home.recentlyAddedToWishlist.title')} />
+          <ProductTiles items={recentlyAddedToWishlistProducts}
+            renderEmptyComponent={() => <Message>{t('home.recentlyAddedToWishlist.empty')}</Message>}
+            renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
+            renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
+            title={t('home.recentlyAddedToWishlist.title')} />
         </Container>
       </div>
     );

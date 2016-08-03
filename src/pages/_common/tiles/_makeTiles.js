@@ -144,7 +144,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
 
       render () {
         const { styles } = this.constructor;
-        const { items, listStyle, renderEmptyComponent, renderNotFoundComponent, renderUnexpectedComponent, style, titleStyle, title } = this.props;
+        const { items, listStyle, renderEmptyComponent, renderLoadingComponent, renderNotFoundComponent, renderUnexpectedComponent, style, titleStyle, title } = this.props;
         const arrowColor = (titleStyle && titleStyle.color) || colors.dark;
 
         return (

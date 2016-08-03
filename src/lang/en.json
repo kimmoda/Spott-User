@@ -57,7 +57,8 @@
       "title": "Popular Near You"
     },
     "popularProducts": {
-      "title": "Popular Products"
+      "title": "Popular Products",
+      "empty": "Right now, this list is empty."
     },
     "recentlyAdded": {
       "browseButton": "Browse",
@@ -65,7 +66,8 @@
       "title": "Recently Added"
     },
     "recentlyAddedToWishlist": {
-      "title": "Recently Added to Wishlist"
+      "title": "Recently Added to Wishlist",
+      "empty": "You have not yet added items to your wishlists."
     },
     "search": {
       "info": "Spott allows you to find products in the things you watch",
@@ -150,9 +152,6 @@
       "zero":  "Followers [[0]]",
       "one":   "Followers [[1]]",
       "other": "Followers [[%(count)s]]"
-    },
-    "characters": {
-      "empty": "There are no characters to show right now."
     },
     "topProducts": {
       "empty": "There are no top products to show right now.",
