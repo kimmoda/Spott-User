@@ -95,7 +95,7 @@ export default class Hero extends Component {
       bottom: 0,
       right: 0,
       opacity: 0.5,
-      backgroundImage: 'linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0))',
+      backgroundImage: 'linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25), rgb(0, 0, 0))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     title: {
@@ -124,7 +124,6 @@ export default class Hero extends Component {
     tab: {
       base: {
         ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
-        backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
         color: 'white',
         opacity: 0.5,
         paddingBottom: '1em',
