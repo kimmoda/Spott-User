@@ -39,16 +39,21 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
   */
 
   function onRootEnter (state, replace) {
-    const { location: { pathname, hash } } = state;
+    const { location } = state;
     // Hash url for terms and privacy will be replaced by a url without a hash!
     // The language is also set to 'en'.
-    if (pathname === '' || pathname === '/') {
-      if (hash === '#terms' || hash === '#/terms' || hash === '#/terms/') {
-        replace('/en/terms');
+    if (location.pathname === '' || location.pathname === '/') {
+      if (location.hash === '#terms' || location.hash === '#/terms' || location.hash === '#/terms/') {
+        return replace('/en/terms');
       }
-      if (hash === '#privacy' || hash === '#/privacy' || hash === '#/privacy/') {
-        replace('/en/privacy');
+      if (location.hash === '#privacy' || location.hash === '#/privacy' || location.hash === '#/privacy/') {
+        return replace('/en/privacy');
       }
+    }
+    // Replace full regionalized locales by simple ones.
+    if (/^\/[a-z]{2}\-[a-zA-Z]{2}($|\/)/.test(location.pathname)) {
+      location.pathname = location.pathname.substring(0, 3) + location.pathname.substring(6); // Cut away region
+      return replace(location);
     }
   }
 
