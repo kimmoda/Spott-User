@@ -20,6 +20,7 @@ import MediumOverview from './pages/medium/view/overview';
 import Terms from './pages/terms';
 import { changeLocale } from './pages/app/actions';
 import { MOVIE, SERIES } from './data/mediumTypes';
+import { locales } from './locales';
 
 /**
  * The application routes
@@ -37,8 +38,22 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     }
   */
 
+  function onRootEnter (state, replace) {
+    const { location: { pathname, hash } } = state;
+    // Hash url for terms and privacy will be replaced by a url without a hash!
+    // The language is also set to 'en'.
+    if (pathname === '' || pathname === '/') {
+      if (hash === '#terms' || hash === '#/terms' || hash === '#/terms/') {
+        replace('/en/terms');
+      }
+      if (hash === '#privacy' || hash === '#/privacy' || hash === '#/privacy/') {
+        replace('/en/privacy');
+      }
+    }
+  }
+
   // Factory for medium-page routes.
-  function renderMediumRoute (mediumType, mediumTypeParam) {
+  function makeMediumRoutes (mediumType, mediumTypeParam) {
     return (
       <Route component={Medium} mediumType={mediumType} path={`${mediumTypeParam}/:mediumSlug/:mediumId`}>
         <IndexRedirect to='overview' />
@@ -53,31 +68,23 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     );
   }
 
-  // When entering a page, the locale is dispatched.
-  function onRootEnter (state, replace) {
-    // EVERY hash url will be replaced by a url without a hash!
-    // The language is set instead.
-    if (state.location.hash) {
-      replace(state.location.hash.replace('#', 'nl'));
+  // Factory for localized routes
+  function makeLocalizedRoutes (locale) {
+    // When entering a page, the locale is dispatched.
+    function onLocaleEnter (state) {
+      dispatch(changeLocale(locale));
     }
-  }
 
-  function onLocaleEnter (state) {
-    dispatch(changeLocale(state.params.currentLocale));
-  }
-
-  return (
-    <Route component={App} path='/' onEnter={onRootEnter}>
-      <IndexRedirect to='/en' />
-      <Route path=':currentLocale' onEnter={onLocaleEnter}>
+    return (
+      <Route key={locale} path={locale} onEnter={onLocaleEnter}>
         <IndexRoute component={Home} />
 
         <Route component={Redirect} noSignInButtonInHeader path='app'/>
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
 
-        {renderMediumRoute(SERIES, 'series')}
-        {renderMediumRoute(MOVIE, 'movie')}
+        {makeMediumRoutes(SERIES, 'series')}
+        {makeMediumRoutes(MOVIE, 'movie')}
 
         <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />
         <Route component={ProductDetail} path='product/:productSlug/:productId' /> {/* Backwards compatible with old url. */}
@@ -94,6 +101,13 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           </Route>
         </Route>
       </Route>
+    );
+  }
+
+  return (
+    <Route component={App} path='/' onEnter={onRootEnter}>
+      <IndexRedirect to='/en' />
+      {locales.map((locale) => makeLocalizedRoutes(locale))}
 
       <Route component={Error404} path='*' />
     </Route>
