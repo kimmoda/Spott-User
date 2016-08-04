@@ -124,6 +124,7 @@ class Header extends Component {
     floating: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
     logout: PropTypes.func.isRequired,
+    noSignInButtonInHeader: PropTypes.bool,
     routerPush: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired
   };
@@ -140,7 +141,7 @@ class Header extends Component {
   }
 
   render () {
-    const { currentLocale, currentUsername, currentUserAvatar, currentUserId, floating, isAuthenticated, t } = this.props;
+    const { currentLocale, currentUsername, currentUserAvatar, currentUserId, floating, isAuthenticated, noSignInButtonInHeader, t } = this.props;
     return (
       <header style={[ styles.wrapper.base, floating && styles.wrapper.floating ]}>
         <Container style={styles.container}>
@@ -150,7 +151,7 @@ class Header extends Component {
             </Link>
           </div>
           <div style={styles.userSection.container}>
-            {isAuthenticated &&
+            {!noSignInButtonInHeader && isAuthenticated &&
               <div>
                   <div style={styles.userSection.trigger}>
                     <Link style={styles.userSection.profileLink} to={`/${currentLocale}/profile/${slugify(currentUsername)}/${currentUserId}`}>
@@ -164,7 +165,7 @@ class Header extends Component {
                     </Dropdown>
                 </div>
               </div>}
-            {!isAuthenticated &&
+            {!noSignInButtonInHeader && !isAuthenticated &&
               <Button style={{ ...pinkButtonStyle, ...styles.userSection.signInButton }} to={{
                 pathname: `/${currentLocale}/login`,
                 state: { modal: true, returnTo: this.props.currentPathname }
