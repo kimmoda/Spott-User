@@ -75,6 +75,13 @@ async function boot () {
   const store = createOurStore(browserHistory, rootReducer, initialState);
   // Create an enhanced history that syncs navigation events with the store.
   const ourHistory = syncHistoryWithStore(browserHistory, store, { selectLocationState: (state) => state.get('routing') });
+  // Clear state on start
+  ourHistory.replace(ourHistory.createLocation({
+    pathname: window.location.pathname,
+    search: window.location.search,
+    hash: window.location.hash,
+    state: null // Remove state
+  }));
   // Initialize the app.
   await store.dispatch(doInit());
   // Load session from local storage.
