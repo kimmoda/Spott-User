@@ -4,15 +4,9 @@ import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries } f
 import Dropdown from '../../_common/dropdown';
 import localized from '../../_common/localized';
 import Radium from 'radium';
+import { localesHash, locales } from '../../../locales';
 
 const RadiumLink = Radium(Link);
-
-const localesHash = {
-  en: 'English',
-  fr: 'Français',
-  nl: 'Nederlands'
-};
-const locales = [ 'en', 'fr', 'nl' ];
 
 const styles = {
   wrapper: {
