@@ -211,7 +211,6 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           );
         }
 
-
         // Determine number of items currently visible
         const currentNumColumns = Object.keys(mediaQueryThresholds).reduce((best, mediaQuery) => {
           const mediaQueryThreshold = mediaQueryThresholds[mediaQuery];
@@ -233,7 +232,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           <div ref={(x) => { this.container = x; }} style={[ styles.container, style ]}>
             <div style={styles.header}>
               <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>
-              {items.get('data').size > currentNumColumns && 
+              {items.get('data').size > currentNumColumns &&
                 <div style={styles.headerIcons}>
                   <div style={styles.leftArrowWrapper} onClick={this.onBackClick}>
                     <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
