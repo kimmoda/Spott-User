@@ -39,10 +39,16 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
   */
 
   function onRootEnter (state, replace) {
-    // EVERY hash url will be replaced by a url without a hash!
-    // The language is set instead.
-    if (state.location.hash) {
-      replace(state.location.hash.replace('#', 'nl'));
+    const { location: { pathname, hash } } = state;
+    // Hash url for terms and privacy will be replaced by a url without a hash!
+    // The language is also set to 'en'.
+    if (pathname === '' || pathname === '/') {
+      if (hash === '#terms' || hash === '#/terms' || hash === '#/terms/') {
+        replace('/en/terms');
+      }
+      if (hash === '#privacy' || hash === '#/privacy' || hash === '#/privacy/') {
+        replace('/en/privacy');
+      }
     }
   }
 
@@ -70,7 +76,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     }
 
     return (
-      <Route path={locale} onEnter={onLocaleEnter}>
+      <Route key={locale} path={locale} onEnter={onLocaleEnter}>
         <IndexRoute component={Home} />
 
         <Route component={Redirect} noSignInButtonInHeader path='app'/>
