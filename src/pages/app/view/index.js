@@ -1,12 +1,10 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import Helmet from 'react-helmet';
-import { connect } from 'react-redux';
 import { mediaQueries } from '../../_common/buildingBlocks';
 import Footer from './footer';
 import { init, pageView } from './googleAnalytics';
 import Header from './header';
-import { currentLocaleSelector } from '../selector';
 import { locales } from '../../../locales';
 
 require('./reset.css');
@@ -17,12 +15,8 @@ require('./slick.css');
 // HrefLang Component
 // //////////////////
 
-@connect((state) => ({
-  currentLocale: currentLocaleSelector(state)
-}))
 class HrefLang extends Component {
   static propTypes = {
-    currentLocale: PropTypes.string.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -32,7 +26,7 @@ class HrefLang extends Component {
   }
 
   render () {
-    const { currentLocale, location: { pathname, search } } = this.props;
+    const { location: { pathname, search } } = this.props;
     const { origin } = window.location;
     // Split pathname in pathnameLocale and pathnameRest
     let pathnameLocale;
