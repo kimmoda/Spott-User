@@ -72,7 +72,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <Route path=':currentLocale' onEnter={onLocaleEnter}>
         <IndexRoute component={Home} />
 
-        <Route component={Redirect} noNavigation path='app'/>
+        <Route component={Redirect} noSignInButtonInHeader path='app'/>
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
 
@@ -82,9 +82,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />
         <Route component={ProductDetail} path='product/:productSlug/:productId' /> {/* Backwards compatible with old url. */}
 
-        <Route component={Login} path='login' />
-        <Route component={Register} path='register' />
-        <Route component={ChangePassword} noNavigation path='user/changepwd'/>
+        <Route component={Login} noSignInButtonInHeader path='login' />
+        <Route component={Register} noSignInButtonInHeader path='register' />
+        <Route component={ChangePassword} noSignInButtonInHeader path='user/changepwd'/>
 
         <Route component={Profile} floating path='profile/:userSlug/:userId' >
           <IndexRedirect to='wishlists' />
