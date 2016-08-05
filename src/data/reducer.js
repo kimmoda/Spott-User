@@ -69,6 +69,7 @@ export default (state = fromJS({
     characters: {},
     media: {},
     products: {},
+    scenes: {},
     users: {},
     wishlists: {}
   },
@@ -82,7 +83,8 @@ export default (state = fromJS({
   lists: {
     popularProducts: {},
     recentlyAddedMedia: {},
-    recentlyAddedToWishlistProducts: {}
+    recentlyAddedToWishlistProducts: {},
+    scenesForYou: {}
   }
 }), action) => {
   switch (action.type) {
@@ -187,8 +189,19 @@ export default (state = fromJS({
     case actions.WISHLISTS_OF_USER_FETCH_ERROR:
       return fetchRelationsError(state, 'userHasWishlists', action.userId, action.error);
 
+    // Scenes
+    // //////
+
+    case actions.SCENES_FOR_YOU_FETCH_START:
+      return fetchListStart(state, 'scenesForYou');
+    case actions.SCENES_FOR_YOU_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchListSuccess(state, 'scenesForYou', 'scenes', action.data);
+    case actions.SCENES_FOR_YOU_FETCH_ERROR:
+      return fetchListError(state, 'scenesForYou', action.error);
+
     // Characters
-    // /////////
+    // //////////
 
     case actions.MEDIUM_CHARACTERS_FETCH_START:
       return fetchRelationsStart(state, 'mediumHasCharacters', action.mediumId);

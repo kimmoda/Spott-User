@@ -51,7 +51,8 @@
       "title": "Nieuwe afleveringen"
     },
     "newScenesForYou": {
-      "title": "Nieuwe scenes voor u"
+      "title": "Nieuwe scenes voor u",
+      "empty": "We have no scene suggestions for you."
     },
     "popularNearYou": {
       "title": "Populair rondom u"

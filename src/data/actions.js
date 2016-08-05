@@ -1,6 +1,7 @@
 import * as charactersApi from '../api/characters';
 import * as mediaApi from '../api/media';
 import * as productsApi from '../api/products';
+import * as scenesApi from '../api/scenes';
 import * as usersApi from '../api/users';
 import * as wishlistsApi from '../api/wishlists';
 import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../pages/app/selector';
@@ -27,6 +28,10 @@ export function makeApiActionCreator (_apiCall, startActionType, successActionTy
 
 // Action types
 // ////////////
+
+export const SCENES_FOR_YOU_FETCH_START = 'DATA/SCENES_FOR_YOU_FETCH_START';
+export const SCENES_FOR_YOU_FETCH_SUCCESS = 'DATA/SCENES_FOR_YOU_FETCH_SUCCESS';
+export const SCENES_FOR_YOU_FETCH_ERROR = 'DATA/SCENES_FOR_YOU_FETCH_ERROR';
 
 export const MEDIA_RECENTLY_ADDED_FETCH_START = 'DATA/MEDIA_RECENTLY_ADDED_FETCH_START';
 export const MEDIA_RECENTLY_ADDED_FETCH_SUCCESS = 'DATA/MEDIA_RECENTLY_ADDED_FETCH_SUCCESS';
@@ -114,3 +119,5 @@ export const fetchMediumTopUserProducts = makeApiActionCreator(productsApi.getMe
 export const addSubscriber = makeApiActionCreator(mediaApi.addSubscriber, MEDIUM_SUBSCRIBER_ADD_START, MEDIUM_SUBSCRIBER_ADD_SUCCESS, MEDIUM_SUBSCRIBER_ADD_ERROR);
 
 export const removeSubscriber = makeApiActionCreator(mediaApi.removeSubscriber, MEDIUM_SUBSCRIBER_REMOVE_START, MEDIUM_SUBSCRIBER_REMOVE_SUCCESS, MEDIUM_SUBSCRIBER_REMOVE_ERROR);
+
+export const fetchScenesForYou = makeApiActionCreator(scenesApi.getScenesForYou, SCENES_FOR_YOU_FETCH_START, SCENES_FOR_YOU_FETCH_SUCCESS, SCENES_FOR_YOU_FETCH_ERROR);
