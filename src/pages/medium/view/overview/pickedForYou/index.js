@@ -41,7 +41,7 @@ export default class PickedForYou extends Component {
       marginBottom: '1.304em'
     },
     wrapper: {
-      backgroundColor: colors.whiteGray,
+      backgroundColor: colors.white,
       paddingTop: '2.5em',
       paddingBottom: '3.25em'
     }

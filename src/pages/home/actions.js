@@ -1,4 +1,4 @@
-import { fetchMediaRecentlyAdded, fetchPopularProducts, fetchScenesForYou, fetchProductsRecentlyAddedToWishlist } from '../../data/actions';
+import { fetchMediaRecentlyAdded, fetchPopularProducts, fetchNewScenesForYou, fetchProductsRecentlyAddedToWishlist } from '../../data/actions';
 import { currentUserIdSelector } from '../app/selector';
 
 // Action types
@@ -10,8 +10,8 @@ export const LOAD_RECENTLY_ADDED_TO_WISHLIST = 'HOME/LOAD_RECENTLY_ADDED_TO_WISH
 export const LOAD_RECENTLY_ADDED_TO_WISHLIST_ERROR = 'HOME/LOAD_RECENTLY_ADDED_TO_WISHLIST_ERROR';
 export const LOAD_POPULAR_PRODUCTS = 'HOME/LOAD_POPULAR_PRODUCTS';
 export const LOAD_POPULAR_PRODUCTS_ERROR = 'HOME/LOAD_POPULAR_PRODUCTS_ERROR';
-export const LOAD_SCENES_FOR_YOU = 'HOME/LOAD_SCENES_FOR_YOU';
-export const LOAD_SCENES_FOR_YOU_ERROR = 'HOME/LOAD_SCENES_FOR_YOU_ERROR';
+export const LOAD_NEW_SCENES_FOR_YOU = 'HOME/LOAD_NEW_SCENES_FOR_YOU';
+export const LOAD_NEW_SCENES_FOR_YOU_ERROR = 'HOME/LOAD_NEW_SCENES_FOR_YOU_ERROR';
 
 // Actions creators
 // ////////////////
@@ -51,15 +51,15 @@ export function loadPopularProducts () {
   };
 }
 
-export function loadScenesForYou () {
+export function loadNewScenesForYou () {
   return async (dispatch, getState) => {
     try {
-      dispatch({ type: LOAD_SCENES_FOR_YOU });
+      dispatch({ type: LOAD_NEW_SCENES_FOR_YOU });
       const state = getState();
       const userId = currentUserIdSelector(state);
-      return await dispatch(fetchScenesForYou({ userId }));
+      return await dispatch(fetchNewScenesForYou({ userId }));
     } catch (error) {
-      dispatch({ error, type: LOAD_SCENES_FOR_YOU_ERROR });
+      dispatch({ error, type: LOAD_NEW_SCENES_FOR_YOU_ERROR });
     }
   };
 }

@@ -5,20 +5,20 @@ import { connect } from 'react-redux';
 import { colors, Container, Message } from '../../../_common/buildingBlocks';
 import SceneTiles from '../../../_common/tiles/sceneTiles';
 import { scenesForYouSelector } from '../../selectors';
-import { loadScenesForYou } from '../../actions';
+import { loadNewScenesForYou } from '../../actions';
 import localized from '../../../_common/localized';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 @localized
 @connect(scenesForYouSelector, (dispatch) => ({
-  loadScenesForYou: bindActionCreators(loadScenesForYou, dispatch)
+  loadNewScenesForYou: bindActionCreators(loadNewScenesForYou, dispatch)
 }))
 @Radium
 export default class NewScenesForYou extends Component {
 
   static propTypes = {
-    loadScenesForYou: PropTypes.func.isRequired,
-    scenesForYou: ImmutablePropTypes.mapContains({
+    loadNewScenesForYou: PropTypes.func.isRequired,
+    scenes: ImmutablePropTypes.mapContains({
       _status: PropTypes.string,
       data: PropTypes.list
     }).isRequired,
@@ -26,7 +26,7 @@ export default class NewScenesForYou extends Component {
   }
 
   componentWillMount () {
-    this.props.loadScenesForYou();
+    this.props.loadNewScenesForYou();
   }
 
   static styles = {
@@ -39,12 +39,12 @@ export default class NewScenesForYou extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { scenesForYou, t } = this.props;
+    const { scenes, t } = this.props;
 
     return (
       <div style={styles.wrapper}>
         <Container>
-          <SceneTiles items={scenesForYou}
+          <SceneTiles items={scenes}
             renderEmptyComponent={() => <Message>{t('home.newScenesForYou.empty')}</Message>}
             renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}

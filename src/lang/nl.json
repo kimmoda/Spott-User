@@ -158,6 +158,10 @@
       "empty": "Momenteel zijn er geen top producten om te tonen.",
       "title": "Top %(title)s producten"
     },
+    "newScenesForYou": {
+      "title": "New Scenes for You",
+      "empty": "We have no scene suggestions for you."
+    },
     "topUserProducts": {
       "empty": "Er zijn geen producten voor jou gekozen.",
       "title": "Gekozen voor jou"
