@@ -51,7 +51,8 @@
       "title": "Nieuwe afleveringen"
     },
     "newScenesForYou": {
-      "title": "Nieuwe scenes voor u"
+      "title": "Nieuwe scenes voor u",
+      "empty": "We have no scene suggestions for you."
     },
     "popularNearYou": {
       "title": "Populair rondom u"
@@ -156,6 +157,10 @@
     "topProducts": {
       "empty": "Momenteel zijn er geen top producten om te tonen.",
       "title": "Top %(title)s producten"
+    },
+    "newScenesForYou": {
+      "title": "New Scenes for You",
+      "empty": "We have no scene suggestions for you."
     },
     "topUserProducts": {
       "empty": "Er zijn geen producten voor jou gekozen.",

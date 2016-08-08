@@ -17,9 +17,7 @@ export default class Overview extends Component {
     const { params: { mediumId } } = this.props;
     return (
       <div>
-        {/*
-        <NewScenesForYou />
-        */}
+        {/* TODO: further impl of API, <NewScenesForYou mediumId={mediumId} /> */}
         <PickedForYou mediumId={mediumId} />
         {/*
         <RecentEpisodes />

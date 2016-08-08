@@ -69,11 +69,13 @@ export default (state = fromJS({
     characters: {},
     media: {},
     products: {},
+    scenes: {},
     users: {},
     wishlists: {}
   },
   relations: {
     mediumHasCharacters: {},
+    mediumHasNewScenesForYou: {},
     mediumHasProducts: {},
     mediumHasTopUserProducts: {},
     userHasWishlists: {},
@@ -82,7 +84,8 @@ export default (state = fromJS({
   lists: {
     popularProducts: {},
     recentlyAddedMedia: {},
-    recentlyAddedToWishlistProducts: {}
+    recentlyAddedToWishlistProducts: {},
+    newScenesForYou: {}
   }
 }), action) => {
   switch (action.type) {
@@ -187,8 +190,27 @@ export default (state = fromJS({
     case actions.WISHLISTS_OF_USER_FETCH_ERROR:
       return fetchRelationsError(state, 'userHasWishlists', action.userId, action.error);
 
+    // Scenes
+    // //////
+
+    case actions.NEW_SCENES_FOR_YOU_FETCH_START:
+      return fetchListStart(state, 'newScenesForYou');
+    case actions.NEW_SCENES_FOR_YOU_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchListSuccess(state, 'newScenesForYou', 'scenes', action.data);
+    case actions.NEW_SCENES_FOR_YOU_FETCH_ERROR:
+      return fetchListError(state, 'newScenesForYou', action.error);
+
+    case actions.MEDIUM_NEW_SCENES_FOR_YOU_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasNewScenesForYou', action.mediumId);
+    case actions.MEDIUM_NEW_SCENES_FOR_YOU_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasNewScenesForYou', action.mediumId, 'scenes', action.data);
+    case actions.MEDIUM_NEW_SCENES_FOR_YOU_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasNewScenesForYou', action.mediumId, action.error);
+
     // Characters
-    // /////////
+    // //////////
 
     case actions.MEDIUM_CHARACTERS_FETCH_START:
       return fetchRelationsStart(state, 'mediumHasCharacters', action.mediumId);

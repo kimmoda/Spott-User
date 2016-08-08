@@ -51,7 +51,8 @@
       "title": "Nouveaux épisodes"
     },
     "newScenesForYou": {
-      "title": "Nouvelles Scènes pour Vous"
+      "title": "Nouvelles Scènes pour Vous",
+      "empty": "We have no scene suggestions for you."
     },
     "popularNearYou": {
       "title": "Populaire près de chez vous"
@@ -156,6 +157,10 @@
     "topProducts": {
       "empty": "There are no top products to show right now.",
       "title": "Top %(title)s Products"
+    },
+    "newScenesForYou": {
+      "title": "New Scenes for You",
+      "empty": "We have no scene suggestions for you."
     },
     "topUserProducts": {
       "empty": "There are no top products for you right now.",

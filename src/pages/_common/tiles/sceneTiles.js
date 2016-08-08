@@ -1,9 +1,9 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle, mediaQueries, RadiumLink } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
-import Marker from './_marker';
+// import Marker from './_marker';
 import localized from '../localized';
 import makeTiles from './_makeTiles';
 
@@ -14,7 +14,11 @@ export class SceneTile extends Component {
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
+      image: ImmutablePropTypes.mapContains({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      })
+      /* TODO: add ;)
       seriesLogo: PropTypes.string,
       season: PropTypes.number.isRequired,
       episode: PropTypes.number.isRequired,
@@ -37,16 +41,30 @@ export class SceneTile extends Component {
           relativeTop: PropTypes.number.isRequired
         })
       )
+      */
     }).isRequired,
     style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
 
   static styles = {
+    wrapper: {
+      textDecoration: 'none',
+      ':hover': {
+        textDecoration: 'none'
+      },
+      ':active': {
+        textDecoration: 'none'
+      },
+      ':visited': {
+        textDecoration: 'none'
+      }
+    },
     container: {
       position: 'relative',
       paddingTop: '56%',
-      height: 0
+      height: 0,
+      width: '100%'
     },
     layer: {
       position: 'absolute',
@@ -164,35 +182,39 @@ export class SceneTile extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { item, style, t } = this.props;
+    const { item, style /* , t */ } = this.props;
     return (
       <BaseTile style={style}>
-        <div style={styles.container}>
-          <div style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]} />
-          <div style={styles.layer}></div>
-          <div>
-            <div>{item.get('markers').map((marker) =>
-              <Marker key={marker.get('id')} relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}
+        <RadiumLink key={item.get('id')} style={styles.wrapper} to={item.get('shareUrl')}>
+          <div style={styles.container}>
+            <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
+            <div style={styles.layer}></div>
+            {/* TODO: add
+             <div>
+              <div>{item.get('markers').map((marker) =>
+                <Marker key={marker.get('id')} relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}
+              </div>
+              <div style={styles.faces}>{item.get('faces').take(4).map((face) =>
+                <div key={face.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}>
+                  <img alt={face.get('name')} key={face.get('id')} src={face.get('image')} style={styles.subtileImage} title={face.get('name')}/>
+                </div>)}
+              </div>
+              <div style={styles.line} />
+              <div style={styles.products}>{item.get('products').take(8).map((product) =>
+                <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
+                  <img alt={product.get('name')} key={product.get('id')} src={product.get('image')} style={styles.subtileImage} title={product.get('name')}/>
+                </div>)}
+              </div>
+              <p style={styles.text}>
+                {t('_common.sceneTiles.sceneFrom', { episode: item.get('episode'), season: item.get('season') }, (contents, key) => {
+                  return <span key={key} style={styles.textHighlight}>{contents}</span>;
+                })}
+              </p>
+              {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
             </div>
-            <div style={styles.faces}>{item.get('faces').take(4).map((face) =>
-              <div key={face.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}>
-                <img alt={face.get('name')} key={face.get('id')} src={face.get('image')} style={styles.subtileImage} title={face.get('name')}/>
-              </div>)}
-            </div>
-            <div style={styles.line} />
-            <div style={styles.products}>{item.get('products').take(8).map((product) =>
-              <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
-                <img alt={product.get('name')} key={product.get('id')} src={product.get('image')} style={styles.subtileImage} title={product.get('name')}/>
-              </div>)}
-            </div>
-            <p style={styles.text}>
-              {t('_common.sceneTiles.sceneFrom', { episode: item.get('episode'), season: item.get('season') }, (contents, key) => {
-                return <span key={key} style={styles.textHighlight}>{contents}</span>;
-              })}
-            </p>
-            {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
+            */}
           </div>
-        </div>
+        </RadiumLink>
       </BaseTile>
     );
   }
@@ -200,6 +222,6 @@ export class SceneTile extends Component {
 
 export default makeTiles(
   0.938,
-  { small: 1, medium: 2, large: 2, extraLarge: 2 },
+  { extraSmall: 1, small: 1, medium: 2, large: 2, extraLarge: 2 },
   (instanceProps) => <SceneTile {...instanceProps} />
 );
