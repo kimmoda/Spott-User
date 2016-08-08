@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
-import Marker from './_marker';
+// import Marker from './_marker';
 import localized from '../localized';
 import makeTiles from './_makeTiles';
 
@@ -14,7 +14,8 @@ export class SceneTile extends Component {
   static propTypes = {
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired
+      /* TODO: add ;)
       seriesLogo: PropTypes.string,
       season: PropTypes.number.isRequired,
       episode: PropTypes.number.isRequired,
@@ -37,6 +38,7 @@ export class SceneTile extends Component {
           relativeTop: PropTypes.number.isRequired
         })
       )
+      */
     }).isRequired,
     style: PropTypes.object,
     t: PropTypes.func.isRequired
@@ -164,13 +166,14 @@ export class SceneTile extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { item, style, t } = this.props;
+    const { item, style /* , t */ } = this.props;
     return (
       <BaseTile style={style}>
         <div style={styles.container}>
-          <div style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]} />
+          <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}")` } ]} />
           <div style={styles.layer}></div>
-          <div>
+          {{/* TODO: add
+           <div>
             <div>{item.get('markers').map((marker) =>
               <Marker key={marker.get('id')} relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}
             </div>
@@ -192,6 +195,7 @@ export class SceneTile extends Component {
             </p>
             {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
           </div>
+          */}}
         </div>
       </BaseTile>
     );

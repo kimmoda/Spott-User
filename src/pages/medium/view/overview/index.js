@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import NewScenesForYou from './newScenesForYou';
+// import NewScenesForYou from './newScenesForYou';
 import PickedForYou from './pickedForYou';
 import TopProducts from './topProducts';
 // import RecentEpisodes from './recentEpisodes';
@@ -17,7 +17,7 @@ export default class Overview extends Component {
     const { params: { mediumId } } = this.props;
     return (
       <div>
-        <NewScenesForYou mediumId={mediumId} />
+        {/* TODO: further impl of API, <NewScenesForYou mediumId={mediumId} /> */}
         <PickedForYou mediumId={mediumId} />
         {/*
         <RecentEpisodes />
