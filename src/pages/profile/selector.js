@@ -1,6 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { currentUserIdSelector as currentLoggedInUserIdSelector } from '../app/selector';
-import { createEntityByIdSelector, createEntitiesByRelationSelector, usersEntitiesSelector, userHasWishlistsRelationsSelector, wishlistsEntitiesSelector, wishlistHasProductsRelationsSelector, productsEntitiesSelector } from '../../data/selector';
+import { createEntityByIdSelector, userHasSavedScenesRelationsSelector, createEntitiesByRelationSelector, scenesEntitiesSelector, usersEntitiesSelector, userHasWishlistsRelationsSelector, wishlistsEntitiesSelector, wishlistHasProductsRelationsSelector, productsEntitiesSelector } from '../../data/selector';
 
 export const currentUserIdSelector = (state) => state.getIn([ 'profile', 'currentUser', 'id' ]);
 export const currentWishlistIdSelector = (state) => state.getIn([ 'profile', 'currentWishlist', 'id' ]);
@@ -8,6 +8,11 @@ export const currentWishlistIdSelector = (state) => state.getIn([ 'profile', 'cu
 // View selector fro user profile
 export const userSelector = createStructuredSelector({
   user: createEntityByIdSelector(usersEntitiesSelector, currentUserIdSelector)
+});
+
+// View selector for saved scenes
+export const savedScenesOfCurrentUserSelector = createStructuredSelector({
+  savedScenes: createEntitiesByRelationSelector(userHasSavedScenesRelationsSelector, currentUserIdSelector, scenesEntitiesSelector)
 });
 
 // View selector for wishlists
