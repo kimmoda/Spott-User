@@ -14,6 +14,10 @@ export async function getNewScenesForYou (baseUrl, authenticationToken, locale, 
   }
 }
 
+export async function getSavedScenesOfUser (baseUrl, authenticationToken, locale, { userId }) {
+  return await Promise.resolve({ data: [] });
+}
+
 export function getMediumNewScenesForYou () {
   return []; // TODO: implement this
 }

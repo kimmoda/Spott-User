@@ -10,6 +10,10 @@ export default function profileReducer (state = fromJS({
       return state.set('currentUser', Map({ id: action.userId }));
     case actions.LOAD_USER_ERROR:
       return state.mergeIn([ 'currentUser' ], Map({ _error: action.error }));
+    case actions.LOAD_SAVED_SCENES_OF_USER:
+      return state.set('savedScenesOfUser', Map({ id: action.userId }));
+    case actions.LOAD_SAVED_SCENES_OF_USER_ERROR:
+      return state.set('savedScenesOfUser', Map({ _error: action.error }));
     case actions.LOAD_WISHLISTS_OF_USER:
       return state.set('wishlistsOfUser', Map({ id: action.userId }));
     case actions.LOAD_WISHLISTS_OF_USER_ERROR:
