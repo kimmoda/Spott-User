@@ -62,7 +62,7 @@ export default class TopProducts extends Component {
           <ProductTiles
             items={products}
             renderEmptyComponent={() => <Message>{t('medium.topProducts.empty')}</Message>}
-            renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
+            renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
             title={t('medium.topProducts.title', { title: medium.get('title') || '' })} />
         </Container>

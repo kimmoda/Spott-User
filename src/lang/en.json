@@ -51,15 +51,13 @@
       "title": "New Episodes"
     },
     "newScenesForYou": {
-      "title": "New Scenes for You",
-      "empty": "We have no scene suggestions for you."
+      "title": "New Scenes for You"
     },
     "popularNearYou": {
       "title": "Popular Near You"
     },
     "popularProducts": {
-      "title": "Popular Products",
-      "empty": "Right now, this list is empty."
+      "title": "Popular Products"
     },
     "recentlyAdded": {
       "browseButton": "Browse",
@@ -67,8 +65,7 @@
       "title": "Recently Added"
     },
     "recentlyAddedToWishlist": {
-      "title": "Recently Added to Wishlist",
-      "empty": "You have not yet added items to your wishlists."
+      "title": "Recently Added to Wishlist"
     },
     "search": {
       "info": "Spott allows you to find products in the things you watch",
@@ -131,11 +128,7 @@
       }
     },
     "menu": {
-      "savedScenes": "Saved scenes",
       "wishlists": "Wishlists"
-    },
-    "savedScenes": {
-      "empty": "This list is empty."
     },
     "wishlists": {
       "empty": "You have no wishlists yet.",
@@ -158,23 +151,12 @@
       "one":   "Followers [[1]]",
       "other": "Followers [[%(count)s]]"
     },
-    "topProducts": {
-      "empty": "There are no top products to show right now.",
-      "title": "Top %(title)s Products"
-    },
-    "newScenesForYou": {
-      "title": "New Scenes for You",
-      "empty": "We have no scene suggestions for you."
-    },
-    "topUserProducts": {
-      "empty": "There are no top products for you right now.",
-      "title": "Picked For You"
-    }
+    "topProducts": "Top %(title)s Products",
+    "topUserProducts": "Picked For You"
   },
   "common": {
     "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",
     "overview": "Overview",
-    "return": "Return to home.",
-    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience."
+    "return": "Return to home."
   }
 }

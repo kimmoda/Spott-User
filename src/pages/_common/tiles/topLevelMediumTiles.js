@@ -64,7 +64,7 @@ export class TopLevelMediumTile extends Component {
           <div style={styles.container}>
             <div
               style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}?height=360&width=640")` } ]} />
-            <div style={styles.layer}></div>
+            <div style={styles.layer} />
             <span style={styles.title}>{item.get('title')}</span>
           </div>
         </RadiumLink>

@@ -1,6 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { colors, fontWeights, makeTextStyle, mediaQueries, Tiles } from '../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import localized from '../localized';
@@ -134,7 +134,7 @@ export class EpisodeTile extends Component {
       <BaseTile style={style}>
         <div style={styles.container}>
           <div style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]} />
-          <div style={styles.layer}></div>
+          <div style={styles.layer} />
           <div>
             <div style={styles.contents}>
               {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}

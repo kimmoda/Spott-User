@@ -70,7 +70,7 @@ class WishlistProduct extends Component {
     return load(item, () => (
       <BaseTile style={style}>
         <RadiumLink style={itemStyles.container} to={item.get('shareUrl')}>
-          <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }}></div>
+          <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }} />
           <p style={itemStyles.name}>{item.get('shortName') || '\u00a0'}</p>
           <p style={itemStyles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])} /></p>
         </RadiumLink>

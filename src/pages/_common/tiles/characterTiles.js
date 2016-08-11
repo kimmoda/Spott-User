@@ -77,7 +77,7 @@ export class CharacterTile extends Component {
           <div
             style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?height=250&width=250")` } ]}
             title={item.get('name')} />
-          <div style={styles.layer}></div>
+          <div style={styles.layer} />
           <span style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</span>
         </div>
       </BaseTile>

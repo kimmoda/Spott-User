@@ -28,6 +28,8 @@ class Form extends Component {
     this.onSubmit = ::this.onSubmit;
   }
 
+  // The autofocus attribute will only work when the page loads initially.
+  // When a popup opens we still need to manually focus the field.
   componentDidMount () {
     setTimeout(() => {
       ReactDOM.findDOMNode(this._email).focus();
@@ -76,9 +78,18 @@ class Form extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <div style={styles.line}>&nbsp;</div>
-        <input autoFocus disabled={isLoading} name='email' placeholder={t('login.email')} ref={(c) => { this._email = c; }}
-          style={styles.textInput} type='text' />
-        <input disabled={isLoading} name='password' placeholder={t('login.password')} ref={(c) => { this._password = c; }}
+        <input
+          autoFocus
+          disabled={isLoading}
+          name='email'
+          placeholder={t('login.email')}
+          ref={(c) => { this._email = c; }}
+          style={styles.textInput} type='email' />
+        <input
+          disabled={isLoading}
+          name='password'
+          placeholder={t('login.password')}
+          ref={(c) => { this._password = c; }}
           style={styles.textInput} type='password' />
         {error && <div style={styles.error}>{error}</div>}
         <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('login.submitButton')}/>
@@ -149,23 +160,32 @@ class Login extends Component {
             <h2 style={styles.title}>{t('login.title')}</h2>
             <FacebookLoginButton onClose={this.onClose} />
             <Form {...this.props} onClose={this.onClose} />
-            <p style={styles.subText}>{t('login.newUser')}&nbsp;<Link style={styles.subTextLink} to={{
-              pathname: `/${currentLocale}/register`,
-              state: { modal: true, returnTo: this.props.location.state.returnTo } }}>{t('login.createAccount')}</Link></p>
+            <p style={styles.subText}>
+              {t('login.newUser')}&nbsp;
+              <Link
+                style={styles.subTextLink} to={{
+                  pathname: `/${currentLocale}/register`,
+                  state: { modal: true, returnTo: this.props.location.state.returnTo } }}>
+                  {t('login.createAccount')}
+              </Link>
+            </p>
           </section>
         </ReactModal>
       );
     }
     return (
       <div>
-        <div currentPathname={this.props.location.pathname}>
-          <section style={styles.container}>
-            <h2 style={styles.title}>{t('login.title')}</h2>
-            <FacebookLoginButton onClose={this.onClose} />
-            <Form {...this.props} type='button' />
-            <p style={styles.subText}>{t('login.newUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/register`}>{t('login.createAccount')}</Link></p>
-          </section>
-        </div>
+        <section style={styles.container}>
+          <h2 style={styles.title}>{t('login.title')}</h2>
+          <FacebookLoginButton onClose={this.onClose} />
+          <Form {...this.props} type='button' onClose={this.onClose} />
+          <p style={styles.subText}>
+            {t('login.newUser')}?&nbsp;
+            <Link style={styles.subTextLink} to={`/${currentLocale}/register`}>
+              {t('login.createAccount')}
+            </Link>
+          </p>
+        </section>
       </div>
     );
   }

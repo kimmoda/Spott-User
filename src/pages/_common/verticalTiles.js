@@ -110,10 +110,7 @@ export default class VerticalTiles extends Component {
     const { from, screenWidth, to, width } = this.state;
     // If we have no known container width (first render), there is no reason to proced
     if (width === -1 || items.size === 0) {
-      return (
-        <div ref={(x) => { this.container = x; }} style={{ minHeight: 1 }}>
-        </div>
-      );
+      return <div ref={(x) => { this.container = x; }} style={{ minHeight: 1 }} />;
     }
     // Determine number of columbs
     const resolvedNumColumns = Object.keys(numColumns).reduce(({ bestFit, bestNumColumns }, aFit) => {

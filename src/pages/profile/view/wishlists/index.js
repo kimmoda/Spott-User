@@ -63,7 +63,7 @@ class Wishlist extends Component {
       <BaseTile style={style}>
         <RadiumLink style={itemStyles.container} title={item.get('name') || t('profile.wishlists.unnamedWishlist')} to={`${baseUrl}/${slugify(item.get('name')) || 'wishlist'}/${item.get('id')}`}>
           <p style={itemStyles.name}>{item.get('name') || t('profile.wishlists.unnamedWishlist')}</p>
-          <div style={{ ...itemStyles.image, backgroundImage: `url(${item.hasIn([ 'image', 'url' ]) ? item.getIn([ 'image', 'url' ]) : placeholderLargeImage })` }}></div>
+          <div style={{ ...itemStyles.image, backgroundImage: `url(${item.hasIn([ 'image', 'url' ]) ? item.getIn([ 'image', 'url' ]) : placeholderLargeImage })` }} />
         </RadiumLink>
       </BaseTile>
     );
@@ -122,7 +122,7 @@ export default class Wishlists extends Component {
 
   renderEmpty () {
     const { t } = this.props;
-    return (<Message>{t('profile.wishlists.empty')}</Message>);
+    return <Message>{t('profile.wishlists.empty')}</Message>;
   }
 
   render () {
