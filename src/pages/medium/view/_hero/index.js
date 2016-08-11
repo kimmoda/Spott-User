@@ -208,7 +208,7 @@ export default class Hero extends Component {
             <CharacterTiles
               items={characters}
               renderEmptyComponent={() => <div></div>}
-              renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
+              renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}
               renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
               style={styles.characters} />
           </Container>
