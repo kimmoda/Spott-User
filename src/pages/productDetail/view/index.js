@@ -47,7 +47,6 @@ export default class ProductDetail extends Component {
   constructor (props) {
     super(props);
     this.share = ::this.share;
-    this.product = this.props.params.productId;
     this.renderProduct = ::this.renderProduct;
     this.renderNotFoundError = ::this.renderNotFoundError;
     this.renderUnexpectedError = ::this.renderUnexpectedError;

@@ -209,6 +209,13 @@ export default (state = fromJS({
     case actions.MEDIUM_NEW_SCENES_FOR_YOU_FETCH_ERROR:
       return fetchRelationsError(state, 'mediumHasNewScenesForYou', action.mediumId, action.error);
 
+    case actions.SCENE_FETCH_START:
+      return fetchStart(state, [ 'entities', 'scenes', action.sceneId ]);
+    case actions.SCENE_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'scenes', action.sceneId ], action.data);
+    case actions.SCENE_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'scenes', action.sceneId ], action.error);
+
     // Characters
     // //////////
 
