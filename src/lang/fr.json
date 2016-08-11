@@ -57,8 +57,7 @@
       "title": "Populaire près de chez vous"
     },
     "popularProducts": {
-      "title": "Produits populaires",
-      "empty": "Right now, this list is empty."
+      "title": "Produits populaires"
     },
     "recentlyAdded": {
       "browseButton": "Feuilletez",
@@ -66,8 +65,7 @@
       "title": "Ajouté récemment"
     },
     "recentlyAddedToWishlist": {
-      "title": "Ajouté récemment à liste de souhaits",
-      "empty": "You have not yet added items to your wishlists."
+      "title": "Ajouté récemment à liste de souhaits"
     },
     "search": {
       "info": "Spott vous permettez de trouver des produits dans les choses que vous regardez",
@@ -153,19 +151,12 @@
       "one":   "Abonnés [[1]]",
       "other": "Abonnés [[%(count)s]]"
     },
-    "topProducts": {
-      "empty": "There are no top products to show right now.",
-      "title": "Top %(title)s Products"
-    },
-    "topUserProducts": {
-      "empty": "There are no top products for you right now.",
-      "title": "Choisi pour toi"
-    }
+    "topProducts": "Top %(title)s Products",
+    "topUserProducts": "Choisi pour toi"
   },
   "common": {
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
     "overview": "La vue générale",
-    "return": "Retourne à la page d’accueil.",
-    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience."
+    "return": "Retourne à la page d’accueil."
   }
 }
