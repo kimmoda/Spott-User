@@ -20,6 +20,7 @@ function authentication (state = fromJS({
         .set('isLoading', true);
     case actions.LOGIN_SUCCESS:
       return state
+        .set('error', null)
         .set('isLoginModalOpen', false)
         .set('isLoading', false)
         .merge(fromJS(action.data));

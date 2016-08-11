@@ -9,14 +9,14 @@ import { LOADED, UPDATING } from '../../../data/statusTypes';
 
 const ArrowLeftImage = (props) => (
   <svg {...props} version='1.1' viewBox='0 0 8 13'>
-    <g fill='none' fill-rule='evenodd' id='UI' stroke='none' strokeWidth='1'>
-      <g transform='translate(-1259.000000, -1067.000000)'>
-        <g transform='translate(0.000000, 1017.000000)'>
-          <g transform='translate(137.000000, 40.000000)'>
-            <g transform='translate(1010.000000, 4.000000)'>
-              <g transform='translate(116.000000, 12.500000) scale(-1, 1) translate(-116.000000, -12.500000) translate(104.000000, 0.000000)'>
-                <polygon points='0 0.75 24 0.75 24 24.75 0 24.75'></polygon>
-                <polygon fill={props.color} points='8.59 17.34 13.17 12.75 8.59 8.16 10 6.75 16 12.75 10 18.75'></polygon>
+    <g fill='none' fillRule='evenodd' id='UI' stroke='none' strokeWidth='1'>
+      <g id='Large-Desktop-Homepage' transform='translate(-1259.000000, -1067.000000)'>
+        <g id='Section-New-Scenes-For-You' transform='translate(0.000000, 1017.000000)'>
+          <g id='Heading' transform='translate(137.000000, 40.000000)'>
+            <g id='Navigation' transform='translate(1010.000000, 4.000000)'>
+              <g id='Icon-Arrow-Left' transform='translate(116.000000, 12.500000) scale(-1, 1) translate(-116.000000, -12.500000) translate(104.000000, 0.000000)'>
+                <polygon id='Bounds' points='0 0.75 24 0.75 24 24.75 0 24.75' />
+                <polygon fill={props.color} id='Shape' points='8.59 17.34 13.17 12.75 8.59 8.16 10 6.75 16 12.75 10 18.75' />
               </g>
             </g>
           </g>
@@ -31,14 +31,14 @@ ArrowLeftImage.propTypes = {
 };
 const ArrowRightImage = (props) => (
   <svg {...props} version='1.1' viewBox='0 0 8 13'>
-    <g fill='none' fill-rule='evenodd' id='UI' stroke='none' strokeWidth='1'>
-      <g transform='translate(-1289.000000, -1067.000000)'>
-        <g transform='translate(0.000000, 1017.000000)'>
-          <g transform='translate(137.000000, 40.000000)'>
-            <g transform='translate(1010.000000, 4.000000)'>
-              <g transform='translate(134.000000, 0.000000)'>
-                <polygon points='0 0.75 24 0.75 24 24.75 0 24.75'></polygon>
-                <polygon fill={props.color} points='8.59 17.34 13.17 12.75 8.59 8.16 10 6.75 16 12.75 10 18.75'></polygon>
+    <g fill='none' fillRule='evenodd' id='UI' stroke='none' strokeWidth='1'>
+      <g id='Large-Desktop-Homepage' transform='translate(-1289.000000, -1067.000000)'>
+        <g id='Section-New-Scenes-For-You' transform='translate(0.000000, 1017.000000)'>
+          <g id='Heading' transform='translate(137.000000, 40.000000)'>
+            <g id='Navigation' transform='translate(1010.000000, 4.000000)'>
+              <g id='Icon-Arrow-Right' transform='translate(134.000000, 0.000000)'>
+                <polygon id='Bounds' points='0 0.75 24 0.75 24 24.75 0 24.75' />
+                <polygon fill={props.color} id='Shape' points='8.59 17.34 13.17 12.75 8.59 8.16 10 6.75 16 12.75 10 18.75' />
               </g>
             </g>
           </g>
@@ -205,10 +205,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
 
         // If we have no known container width (first render), there is no reason to proceed
         if (screenWidth === -1) {
-          return (
-            <div ref={(x) => { this.container = x; }} style={{ minHeight: 1 }}>
-            </div>
-          );
+          return <div ref={(x) => { this.container = x; }} style={{ minHeight: 1 }} />;
         }
 
         // Determine number of items currently visible

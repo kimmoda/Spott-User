@@ -70,7 +70,7 @@ export class Spinner extends Component {
 
   render () {
     return (
-      <div style={this.constructor.styles.container}></div>
+      <div style={this.constructor.styles.container} />
     );
   }
 }
@@ -365,7 +365,7 @@ export const FadeOutScalableContainer = Radium((props) => (
     <ScalableContainer>
       {props.children}
     </ScalableContainer>
-    <div style={fadeOutStyle}></div>
+    <div style={fadeOutStyle} />
   </div>
 ));
 
@@ -407,13 +407,13 @@ export function load (item, renderItem, renderSpinner, renderNotFound, renderUne
   // When loaded, render items, or empty if there are none.
   if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
     if (item.get('data') && item.get('data').size === 0) {
-      return (renderEmptyComponent && renderEmptyComponent()) || <div></div>;
+      return (renderEmptyComponent && renderEmptyComponent()) || <div />;
     }
     return renderItem(item);
   }
   // In case of an error, render not found or unexpected, depending on the error.
   if (item.get('_status') === ERROR && item.get('_error').name === 'NotFoundError') {
-    return (renderNotFound && renderNotFound()) || <div></div>;
+    return (renderNotFound && renderNotFound()) || <div />;
   }
-  return (renderUnexpectedComponent && renderUnexpectedComponent()) || <div></div>;
+  return (renderUnexpectedComponent && renderUnexpectedComponent()) || <div />;
 }

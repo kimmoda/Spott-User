@@ -1,5 +1,6 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -81,6 +82,16 @@ const fieldStyles = {
   }
 };
 const renderCheckbox = radium((props) => {
+  function onClick (e) {
+    // Cancel if disabled
+    if (props.disabled) {
+      return;
+    }
+    // Trigger change
+    const newValue = !props.input.value;
+    props.input.onChange(newValue);
+  }
+
   return (
     <div style={fieldStyles.checkbox.container}>
       <input
@@ -89,18 +100,25 @@ const renderCheckbox = radium((props) => {
         style={fieldStyles.checkbox.input}
         type='checkbox'
         {...props.input} />
-      <span style={fieldStyles.checkbox.marker}>
+      <span style={fieldStyles.checkbox.marker} onClick={onClick}>
         {props.input.value && <span style={fieldStyles.checkbox.markerText}>✓</span>}
       </span>
-      <label htmlFor={props.input.name} style={[ fieldStyles.checkbox.label.base, props.input.submitFailed && props.touched && props.error && fieldStyles.checkbox.label.error ]}>
-        {props.input.text}
+      <label
+        htmlFor={props.input.name}
+        style={[ fieldStyles.checkbox.label.base, props.submitFailed && props.meta.touched && props.meta.error && fieldStyles.checkbox.label.error ]}>
+        {props.text}
       </label>
     </div>
   );
 });
 const renderField = radium((props) => {
   return (
-    <input {...props.input} style={[ fieldStyles.fieldStyle.textInput, props.input.submitFailed && props.touched && props.error && fieldStyles.fieldStyle.textInputError ]} />
+    <input
+      autoFocus={props.autoFocus}
+      placeholder={props.placeholder}
+      style={[ fieldStyles.fieldStyle.textInput, props.submitFailed && props.meta.touched && props.meta.error && fieldStyles.fieldStyle.textInputError ]}
+      type={props.type}
+      {...props.input} />
   );
 });
 
@@ -141,6 +159,14 @@ class Form extends Component {
     submitting: PropTypes.bool,
     t: PropTypes.func.isRequired,
     valid: PropTypes.bool.isRequired
+  }
+
+  // The autofocus attribute will only work when the page loads initially.
+  // When a popup opens we still need to manually focus the field.
+  componentDidMount () {
+    setTimeout(() => {
+      ReactDOM.findDOMNode(this._firstname).focus();
+    }, 0);
   }
 
   static styles = {
@@ -189,26 +215,58 @@ class Form extends Component {
       <form onSubmit={handleSubmit}>
         <div style={styles.line}>&nbsp;</div>
         <div style={styles.left}>
-          <Field component={renderField} disabled={submitting} name='firstname'
-            placeholder={t('register.firstname')} submitFailed={submitFailed} type='text' />
+          <Field
+            autoFocus
+            component={renderField}
+            disabled={submitting}
+            name='firstname'
+            placeholder={t('register.firstname')}
+            ref={(c) => { this._firstname = c; }}
+            submitFailed={submitFailed} />
         </div>
         <div style={styles.right}>
-          <Field component={renderField} disabled={submitting} name='lastname'
-            placeholder={t('register.lastname')} submitFailed={submitFailed} type='text' />
+          <Field
+            component={renderField}
+            disabled={submitting}
+            name='lastname'
+            placeholder={t('register.lastname')}
+            submitFailed={submitFailed} />
         </div>
-        <Field component={renderField} disabled={submitting} name='email'
-          placeholder={t('register.email')} submitFailed={submitFailed} type='text' />
-        <Field component={renderField} disabled={submitting} name='password'
-          placeholder={t('register.password')} submitFailed={submitFailed} type='password' />
-        <Field component={renderField} disabled={submitting} name='passwordRepeat'
-          placeholder={t('register.passwordRepeat')} submitFailed={submitFailed} type='password' />
-        <Field component={renderCheckbox} disabled={submitting} name='terms'
+        <Field
+          component={renderField}
+          disabled={submitting}
+          name='email'
+          placeholder={t('register.email')}
+          submitFailed={submitFailed}
+          type='email' />
+        <Field
+          component={renderField}
+          disabled={submitting}
+          name='password'
+          placeholder={t('register.password')}
+          submitFailed={submitFailed}
+          type='password' />
+        <Field
+          component={renderField}
+          disabled={submitting}
+          name='passwordRepeat'
+          placeholder={t('register.passwordRepeat')}
+          submitFailed={submitFailed}
+          type='password' />
+        <Field
+          component={renderCheckbox}
+          disabled={submitting}
+          name='terms'
           submitFailed={submitFailed}
           text={t('register.agree', {}, (contents, key) => (
-          <RadiumLink key={key} style={styles.terms.link} target='_blank' to={`/${currentLocale}/terms`}>{t('register.terms')}</RadiumLink>
-        ))} />
+            <RadiumLink key={key} style={styles.terms.link} target='_blank' to={`/${currentLocale}/terms`}>{t('register.terms')}</RadiumLink>
+          ))} />
         {error && typeof error === 'string' && <div style={styles.error}>{t(error)}</div>}
-        <input disabled={facebookIsLoading || submitting} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('register.submitButton')}/>
+        <input
+          disabled={facebookIsLoading || submitting}
+          style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }}
+          type='submit'
+          value={t('register.submitButton')}/>
       </form>
     );
   }
@@ -322,29 +380,27 @@ class Register extends Component {
     }
     return (
       <div>
-        <div currentPathname={this.props.location.pathname}>
-          <section style={styles.container}>
-            <h2 style={styles.title}>{t('register.title')}</h2>
-            <FacebookRegisterButton disabled={facebookIsLoading} onClose={this.onClose} onProcessStart={this.onFacebookProcessStart} />
-            {facebookError && typeof facebookError === 'string' && <div style={styles.facebookError}>{t(facebookError)}</div>}
-            <Form
-              {...this.props}
-              facebookIsLoading={facebookIsLoading}
-              initialValues={{
-                dateOfBirth: '',
-                firstname: '',
-                gender: 'MALE',
-                lastname: '',
-                email: '',
-                password: '',
-                passwordRepeat: '',
-                terms: false
-              }}
-              ref={(x) => { this.form = x; }}
-              onSubmit={this.onSubmit} />
-            <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/login`}>{t('register.logIn')}</Link></p>
-          </section>
-        </div>
+        <section style={styles.container}>
+          <h2 style={styles.title}>{t('register.title')}</h2>
+          <FacebookRegisterButton disabled={facebookIsLoading} onClose={this.onClose} onProcessStart={this.onFacebookProcessStart} />
+          {facebookError && typeof facebookError === 'string' && <div style={styles.facebookError}>{t(facebookError)}</div>}
+          <Form
+            {...this.props}
+            facebookIsLoading={facebookIsLoading}
+            initialValues={{
+              dateOfBirth: '',
+              firstname: '',
+              gender: 'MALE',
+              lastname: '',
+              email: '',
+              password: '',
+              passwordRepeat: '',
+              terms: false
+            }}
+            ref={(x) => { this.form = x; }}
+            onSubmit={this.onSubmit} />
+          <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/login`}>{t('register.logIn')}</Link></p>
+        </section>
       </div>
     );
   }

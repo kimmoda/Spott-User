@@ -78,6 +78,7 @@ export default (state = fromJS({
     mediumHasNewScenesForYou: {},
     mediumHasProducts: {},
     mediumHasTopUserProducts: {},
+    userHasSavedScenes: {},
     userHasWishlists: {},
     wishlistHasProducts: {}
   },
@@ -215,6 +216,14 @@ export default (state = fromJS({
       return fetchSuccess(state, [ 'entities', 'scenes', action.sceneId ], action.data);
     case actions.SCENE_FETCH_ERROR:
       return fetchError(state, [ 'entities', 'scenes', action.sceneId ], action.error);
+
+    case actions.SAVED_SCENES_OF_USER_FETCH_START:
+      return fetchRelationsStart(state, 'userHasSavedScenes', action.userId);
+    case actions.SAVED_SCENES_OF_USER_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'userHasSavedScenes', action.userId, 'scenes', action.data.data);
+    case actions.SAVED_SCENES_OF_USER_FETCH_ERROR:
+      return fetchRelationsError(state, 'userHasSavedScenes', action.userId, action.error);
 
     // Characters
     // //////////
