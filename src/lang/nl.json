@@ -15,7 +15,7 @@
       "home": "Home"
     },
     "sceneTiles": {
-      "sceneFrom": "Scene van seizoen [[%(season)i]] – Aflevering [[%(episode)i]]"
+      "sceneFrom": "Scène van seizoen [[%(season)i]] – Aflevering [[%(episode)i]]"
     }
   },
   "changePassword": {
@@ -29,9 +29,9 @@
     "submitButton": "Verander wachtwoord"
   },
   "confirmedNewsletter": {
-    "enjoy": "Geniet van het gebruik van Spott,",
+    "enjoy": "Geniet van Spott,",
     "spottTeam": "Het Spott team",
-    "thankYou": "Dank u voor uw registratie op de Spott nieuwsbrief! [[klik hier]] om te starten, en Spott te downloaden op uw mobiele telefoon.",
+    "thankYou": "Dank u voor uw registratie op de Spott nieuwsbrief! [[klik hier]] om te starten en Spott te downloaden op uw mobiele telefoon.",
     "title": "Hoera!"
   },
   "error404": {
@@ -51,24 +51,26 @@
       "title": "Nieuwe afleveringen"
     },
     "newScenesForYou": {
-      "title": "Nieuwe scenes voor u"
+      "title": "Nieuwe scènes voor u"
     },
     "popularNearYou": {
       "title": "Populair rondom u"
     },
     "popularProducts": {
-      "title": "Populaire producten"
+      "title": "Populaire producten",
+      "empty": "Deze lijst is momenteel leeg ."
     },
     "recentlyAdded": {
-      "browseButton": "Surf",
+      "browseButton": "Blader",
       "highlight": "Nu beschikbaar op Spott",
       "title": "Recent toegevoegd"
     },
     "recentlyAddedToWishlist": {
-      "title": "Recent toegevoegd aan de verlanglijst"
+      "title": "Recent toegevoegd aan de verlanglijst",
+      "empty": "U heeft nog geen items toegevoegd aan uw verlanglijst."
     },
     "search": {
-      "info": "Spott staat u toe om producten te vinden in de zaken die u bekijkt",
+      "info": "Spott staat u toe om producten te vinden in de dingen die u bekijkt",
       "placeholder": "Zoek naar films, series, personages of merken",
       "title": "Televisie is nu uw favoriete winkel"
     },
@@ -97,12 +99,12 @@
     "email": "Je e-mail",
     "password": "Je wachtwoord",
     "passwordRepeat": "Bevestig je wachtwoord",
-    "existingUser": "Je hebt reeeds een account",
+    "existingUser": "Je hebt reeds een account",
     "logIn": "Log in",
     "userAlreadyExist": "Er is reeds een Spott gebruiker met dit e-mailadres.",
     "agree": "Ik heb [[]] gelezen en goedgekeurd, ",
     "terms": "de voorwaarden",
-    "facebookError": "Niet genoeg informatie, ot enough information, bezorg je email adres via Facebook of registreer met je e-mailadres.",
+    "facebookError": "Niet genoeg informatie, bezorg je e-mailadres via Facebook of registreer je met je e-mailadres.",
     "facebookErrorUnknown": "Een onbekende fout trad op."
   },
   "productDetail": {
@@ -136,7 +138,7 @@
     },
     "wishlistProducts": {
       "empty": "Deze verlanglijst is leeg.",
-      "private": "Deze verlanglijst is privé, de eigenaar moet deze publiek maken om deze zichtbaar te maken.",
+      "private": "Deze verlanglijst is privé, de eigenaar moet hem publiek maken om hem zichtbaar te maken.",
       "notExist": "Deze verlanglijst bestaat niet meer. Onze excuses hiervoor.​"
     },
     "notExist": "Deze profielpagina bestaat niet meer. Onze excuses hiervoor.​"
@@ -151,12 +153,19 @@
       "one":   "[[1]] volger",
       "other": "[[%(count)s]] volgers"
     },
-    "topProducts": "Top %(title)s producten",
-    "topUserProducts": "Gekozen voor jou"
+    "topProducts": {
+      "empty": "Momenteel zijn er geen top producten om te tonen.",
+      "title": "Top %(title)s producten"
+    },
+    "topUserProducts": {
+      "empty": "Er zijn geen producten voor jou gekozen.",
+      "title": "Gekozen voor jou"
+    }
   },
   "common": {
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
     "overview": "Overzicht",
-    "return": "Keer terug naar home pagina."
+    "return": "Keer terug naar de homepagina.",
+    "unexpected": "Een onverwachts probleem doet zich voor. Onze excuses voor het ongemak."
   }
 }
