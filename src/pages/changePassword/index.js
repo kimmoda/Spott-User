@@ -127,12 +127,11 @@ class ChangePassword extends Component {
                   <input name='submit' type='submit' value={t('changePassword.submitButton')}/>
                 </p>
                 <div style={{ clear: 'both' }}/>
-                <div className='password__form__errors'>
-                </div>
+                <div className='password__form__errors' />
               </form>
             </div>
           </section>
-          <div className='push'></div>
+          <div className='push' />
         </div>
       </div>
     );

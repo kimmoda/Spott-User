@@ -68,7 +68,7 @@ class Wishlist extends Component {
       <BaseTile style={style}>
         <RadiumLink style={itemStyles.container} title={item.get('name') || t('profile.wishlists.unnamedWishlist')} to={`${baseUrl}/${slugify(item.get('name')) || 'wishlist'}/${item.get('id')}`}>
           <p style={itemStyles.name}>{item.get('name') || t('profile.wishlists.unnamedWishlist')}</p>
-          <div style={{ ...itemStyles.image, backgroundImage: `url(${item.hasIn([ 'image', 'url' ]) ? item.getIn([ 'image', 'url' ]) : placeholderLargeImage })` }}></div>
+          <div style={{ ...itemStyles.image, backgroundImage: `url(${item.hasIn([ 'image', 'url' ]) ? item.getIn([ 'image', 'url' ]) : placeholderLargeImage })` }} />
         </RadiumLink>
       </BaseTile>
     );
@@ -114,7 +114,7 @@ export default class Wishlists extends Component {
   render () {
     const { currentLocale, params: { userId, userSlug }, t, wishlists } = this.props;
     if (wishlists.get('_status') === FETCHING) {
-      return (<Spinner />);
+      return <Spinner />;
     } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
       if (wishlists.get('data').size > 0) {
         return (
@@ -127,8 +127,8 @@ export default class Wishlists extends Component {
             verticalSpacing={30} />
         );
       }
-      return (<p style={styles.emptyText}>{t('profile.wishlists.empty')}}</p>);
+      return <p style={styles.emptyText}>{t('profile.wishlists.empty')}}</p>;
     }
-    return (<div></div>);
+    return <div />;
   }
 }
