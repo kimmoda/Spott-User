@@ -111,7 +111,7 @@ export default class DownloadApp extends Component {
     return (
       <div style={{ ...styles.wrapper, backgroundImage: `url("${spottImage}")` }}>
         <Container>
-          <div style={styles.overlay}></div>
+          <div style={styles.overlay} />
           <div style={styles.innerWrapper}>
             <div style={styles.fontWrapper}>
               <Title style={styles.title}>{t('home.downloadApp.title')}</Title>

@@ -46,7 +46,7 @@ export default class RecentlyAddedToWishlist extends Component {
         <Container>
           <ProductTiles items={recentlyAddedToWishlistProducts}
             renderEmptyComponent={() => <Message>{t('home.recentlyAddedToWishlist.empty')}</Message>}
-            renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
+            renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
             title={t('home.recentlyAddedToWishlist.title')} />
         </Container>

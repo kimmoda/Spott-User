@@ -94,7 +94,7 @@ export default class RecentlyAdded extends Component {
     return (
       <div style={[ styles.wrapper, firstMedium && firstMedium.get('profileImage') && { backgroundImage: `url("${firstMedium.getIn([ 'profileImage', 'url' ])}")` } ]}>
         <Container>
-          <div style={styles.overlay}></div>
+          <div style={styles.overlay} />
           <div style={styles.innerWrapper}>
             <Title style={styles.title}>{(firstMedium && firstMedium.get('title')) || '\u00A0'}</Title>
             <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>

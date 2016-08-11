@@ -140,7 +140,7 @@ class Header extends Component {
     const { menu, user, t } = this.props;
     return (
       <div style={[ headerStyles.wrapper, { backgroundImage: `url(${user.get('picture') ? user.getIn([ 'picture', 'url' ]) : dummyProfilePictureImage})` } ]}>
-        <div style={headerStyles.backgroundOverlay}></div>
+        <div style={headerStyles.backgroundOverlay} />
         <Container style={headerStyles.container}>
           <div style={headerStyles.innerContainer}>
             <img src={user.get('avatar') ? user.getIn([ 'avatar', 'url' ]) : dummyProfileAvatarImage} style={headerStyles.avatar} />

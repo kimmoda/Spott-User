@@ -25,7 +25,7 @@ export default class Error404 extends Component {
               <a href='/'>{t('error404.returnToSpott')}</a>
             </div>
           </section>
-          <div className='push'></div>
+          <div className='push' />
         </div>
       </div>
     );

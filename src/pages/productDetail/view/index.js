@@ -327,7 +327,7 @@ export default class ProductDetail extends Component {
   }
 
   renderUnexpectedError () {
-    return (<div></div>);
+    return <div />;
   }
 
   render () {
