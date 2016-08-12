@@ -101,6 +101,14 @@ export const MEDIUM_SUBSCRIBER_REMOVE_START = 'DATA/MEDIUM_SUBSCRIBER_REMOVE_STA
 export const MEDIUM_SUBSCRIBER_REMOVE_SUCCESS = 'DATA/MEDIUM_SUBSCRIBER_REMOVE_SUCCESS';
 export const MEDIUM_SUBSCRIBER_REMOVE_ERROR = 'DATA/MEDIUM_SUBSCRIBER_REMOVE_ERROR';
 
+export const SAVE_SCENE_START = 'DATA/SAVE_SCENE_START';
+export const SAVE_SCENE_SUCCESS = 'DATA/SAVE_SCENE_SUCCESS';
+export const SAVE_SCENE_ERROR = 'DATA/SAVE_SCENE_ERROR';
+
+export const REMOVE_SAVED_SCENE_START = 'DATA/REMOVE_SAVED_SCENE_START';
+export const REMOVE_SAVED_SCENE_SUCCESS = 'DATA/REMOVE_SAVED_SCENE_SUCCESS';
+export const REMOVE_SAVED_SCENE_ERROR = 'DATA/REMOVE_SAVED_SCENE_ERROR';
+
 // Actions creators
 // ////////////////
 
@@ -139,3 +147,7 @@ export const fetchNewScenesForYou = makeApiActionCreator(scenesApi.getNewScenesF
 export const fetchMediumNewScenesForYou = makeApiActionCreator(scenesApi.getMediumNewScenesForYou, MEDIUM_NEW_SCENES_FOR_YOU_FETCH_START, MEDIUM_NEW_SCENES_FOR_YOU_FETCH_SUCCESS, MEDIUM_NEW_SCENES_FOR_YOU_FETCH_ERROR);
 
 export const fetchScene = makeApiActionCreator(scenesApi.getScene, SCENE_FETCH_START, SCENE_FETCH_SUCCESS, SCENE_FETCH_ERROR);
+
+export const saveScene = makeApiActionCreator(scenesApi.saveScene, SAVE_SCENE_START, SAVE_SCENE_SUCCESS, SAVE_SCENE_ERROR);
+
+export const removeSavedScene = makeApiActionCreator(scenesApi.removeSavedScene, REMOVE_SAVED_SCENE_START, REMOVE_SAVED_SCENE_SUCCESS, REMOVE_SAVED_SCENE_ERROR);

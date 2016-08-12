@@ -154,6 +154,11 @@
     "topProducts": "Top %(title)s producten",
     "topUserProducts": "Gekozen voor jou"
   },
+  "scene": {
+    "sceneFrom": "Scene uit",
+    "save": "Save",
+    "unsave": "Unsave"
+  },
   "common": {
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
     "overview": "Overzicht",

@@ -1,4 +1,4 @@
-import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
+import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
 import { transformScene } from './transformers';
 
 export async function getNewScenesForYou (baseUrl, authenticationToken, locale, { userId }) {
@@ -19,7 +19,7 @@ export async function getScene (baseUrl, authenticationToken, locale, { sceneId 
   try {
     const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/video/scenes/${sceneId}`);
     const scene = transformScene(body);
-    console.warn(scene);
+    console.warn('scene', scene);
     return scene;
   } catch (error) {
     switch (error.statusCode) {
@@ -30,4 +30,14 @@ export async function getScene (baseUrl, authenticationToken, locale, { sceneId 
     }
     throw new UnexpectedError(error);
   }
+}
+
+export async function saveScene (baseUrl, authenticationToken, locale, { sceneId, userId }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes`, { uuid: sceneId });
+  console.warn(body);
+}
+
+export async function removeSavedScene (baseUrl, authenticationToken, locale, { sceneId, userId }) {
+  const { body } = await del(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes`, { uuid: sceneId });
+  console.warn(body);
 }

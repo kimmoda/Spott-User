@@ -122,10 +122,21 @@ export function transformEpisode ({ title, uuid: id }) {
   };
 }
 
+function transformSceneProduct ({ image, price, shortName, uuid: id }) {
+  return {
+    id,
+    image: image && { id: image.uuid, url: image.url },
+    price,
+    shortName
+  };
+}
 export function transformScene (scene) {
   return {
+    characters: ((scene.characters && scene.characters.data) || []).map(transformCharacter),
     id: scene.uuid,
     image: scene.image && { id: scene.image.uuid, url: scene.image.url },
+    // TODO: add pagination, probably not needed because there are no more then 100 products on a scene...
+    products: ((scene.products && scene.products.data) || []).map(transformSceneProduct),
     shareUrl: stripDomain(scene.shareUrl)
   };
 }

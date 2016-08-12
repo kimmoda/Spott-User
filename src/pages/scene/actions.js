@@ -1,4 +1,6 @@
-import { fetchProduct, fetchScene } from '../../data/actions';
+import { fetchProduct, fetchScene, removeSavedScene, saveScene } from '../../data/actions';
+import { currentUserIdSelector } from '../app/selector';
+import { currentSceneSelector } from './selector';
 
 export const LOAD_PRODUCT = 'LOAD_PRODUCT';
 export const LOAD_PRODUCT_ERROR = 'LOAD_PRODUCT_ERROR';
@@ -32,4 +34,19 @@ export function loadScene (sceneId) {
 
 export function changeImageSelection (imageId) {
   return { type: CHANGE_IMAGE_SELECTION, imageId };
+}
+
+export function toggleSaveScene () {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const userId = currentUserIdSelector(state);
+    const scene = currentSceneSelector(state);
+
+    if (scene.get('saved')) {
+      await dispatch(removeSavedScene({ sceneId: scene.get('id'), userId }));
+    } else {
+      await dispatch(saveScene({ sceneId: scene.get('id'), userId }));
+    }
+    return await dispatch(fetchScene({ sceneId: scene.get('id') }));
+  };
 }

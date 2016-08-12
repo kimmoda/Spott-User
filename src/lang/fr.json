@@ -154,6 +154,11 @@
     "topProducts": "Top %(title)s Products",
     "topUserProducts": "Choisi pour toi"
   },
+  "scene": {
+    "sceneFrom": "Scene from",
+    "save": "Save",
+    "unsave": "Unsave"
+  },
   "common": {
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
     "overview": "La vue générale",
