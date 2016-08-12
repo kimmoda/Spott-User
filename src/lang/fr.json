@@ -26,12 +26,12 @@
     "title": "Changez votre mot de passe de Spott",
     "passwordLengthError": "Votre mot de passe est trop court!",
     "passwordMatchError": "Les mots de passe ne correspondent pas!",
-    "submitButton": "Changer mot de passe"
+    "submitButton": "Changez le mot de passe"
   },
   "confirmedNewsletter": {
     "enjoy": "Profitez de Spott,",
     "spottTeam": "l'équipe de Spott",
-    "thankYou": "Nous vous remercions de vous inscrire à notre bulletin électronique! [[cliquez ici]] pour commencer, et télécharger Spott sur votre téléphone portable.",
+    "thankYou": "Nous vous remercions de votre inscription à notre bulletin électronique! [[cliquez ici]] pour commencer et télécharger Spott sur votre téléphone portable.",
     "title": "Hourra!"
   },
   "error404": {
@@ -43,7 +43,7 @@
   "home": {
     "downloadApp": {
       "title": "Explorez pendant que vous regardez",
-      "subtitle": "Live sur vos appareils mobiles",
+      "subtitle": "En direct sur vos appareils mobiles",
       "availability": "Disponible pour iOS & Android",
       "downloadButton": "Téléchargez"
     },
@@ -51,13 +51,14 @@
       "title": "Nouveaux épisodes"
     },
     "newScenesForYou": {
-      "title": "Nouvelles Scènes pour Vous"
+      "title": "Nouvelles scènes pour vous"
     },
     "popularNearYou": {
       "title": "Populaire près de chez vous"
     },
     "popularProducts": {
-      "title": "Produits populaires"
+      "title": "Produits populaires",
+      "empty": "Pour l'instant, cette liste est vide."
     },
     "recentlyAdded": {
       "browseButton": "Feuilletez",
@@ -65,10 +66,11 @@
       "title": "Ajouté récemment"
     },
     "recentlyAddedToWishlist": {
-      "title": "Ajouté récemment à liste de souhaits"
+      "title": "Ajouté récemment à la liste de souhaits",
+      "empty": "Vous n'avez pas encore ajouté des articles à votre liste de souhaits."
     },
     "search": {
-      "info": "Spott vous permettez de trouver des produits dans les choses que vous regardez",
+      "info": "Spott vous permet de trouver des produits dans les choses que vous regardez",
       "placeholder": "Recherchez des  films, des séries, des personnages ou des marques",
       "title": "La télévision est maintenant votre magasin préféré"
     },
@@ -77,11 +79,11 @@
     }
   },
   "redirect": {
-    "redirecting": "Redirectioner..."
+    "redirecting": "Redirectionner..."
   },
   "login": {
     "title": "Je m'inscris",
-    "email": "Votre email",
+    "email": "Votre e-mail",
     "password": "Votre mot de passe",
     "logInWithFacebookButton": "Je m'inscris avec Facebook",
     "submitButton": "Connectez-vous",
@@ -98,11 +100,11 @@
     "password": "Mot de passe",
     "passwordRepeat": "Confirmation du mot de passe",
     "existingUser": "Vous avez déjà un compte",
-    "logIn": "Log in",
+    "logIn": "Identifiez-vous",
     "userAlreadyExist": "Il existe déjà un utilisateur Spott avec cet e-mail.",
-    "agree": "J'ai lu et accepte [[]]",
+    "agree": "J'ai lu et accepté [[]]",
     "terms": "les termes et conditions",
-    "facebookError": "L’information ne suffit pas, fournit votre adresse email par Facebook ou inscrit sans Facebook",
+    "facebookError": "L’information ne suffit pas, veuillez donner votre adresse e-mail par Facebook ou inscrivez-vous sans Facebook",
     "facebookErrorUnknown": "Une erreur inconnue s’est passée."
   },
   "productDetail": {
@@ -136,7 +138,7 @@
     },
     "wishlistProducts": {
       "empty": "Cette liste de souhaits est vide.",
-      "private": "Cette liste de souhaits est privée, le propriétaire est obligé de publier la liste de souhaits.",
+      "private": "Cette liste de souhaits est privée, le propriétaire doit rendre publique la liste de souhaits afin de pouvoir visualiser.",
       "notExist": "Cette liste de souhaits n’existe plus, nous nous excusons pour le désagrément."
     },
     "notExist": "Ce profil de la personne n’existe plus, nous nous excusons pour le désagrément.​"
@@ -144,15 +146,21 @@
   "medium": {
     "MOVIE": "Film",
     "TV_SERIE": "Show télévisé",
-    "follow": "Suis",
+    "follow": "Suivez",
     "unfollow": "Désabonne",
     "followers": {
       "zero":  "Abonnés [[0]]",
       "one":   "Abonnés [[1]]",
       "other": "Abonnés [[%(count)s]]"
     },
-    "topProducts": "Top %(title)s Products",
-    "topUserProducts": "Choisi pour toi"
+    "topProducts": {
+      "empty": "Il n'y a pas de produits populaires à visualiser pour l'instant.",
+      "title": "Produits %(title)s populaires"
+    },
+    "topUserProducts": {
+      "empty": "Il n'y a pas de produits populaires pour vous à ce moment.",
+      "title": "Choisi pour vous"
+    }
   },
   "scene": {
     "sceneFrom": "Scene from",
@@ -162,6 +170,7 @@
   "common": {
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
     "overview": "La vue générale",
-    "return": "Retourne à la page d’accueil."
+    "return": "Retournez à la page d’accueil.",
+    "unexpected": "Une erreur inattendue s'est produite. Nous nous excusons pour le désagrément."
   }
 }
