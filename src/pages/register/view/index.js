@@ -16,6 +16,8 @@ import { registrationFacebookErrorSelector, registrationFacebookIsLoadingSelecto
   from '../../app/selector';
 const RadiumLink = radium(Link);
 
+const GENDERS = [ 'MALE', 'FEMALE' ];
+
 const fieldStyles = {
   fieldStyle: {
     error: {
@@ -131,6 +133,10 @@ function validate (values) {
   if (lastnameError) { validationErrors.lastname = 'invalid'; }
   const emailError = !values.get('email').match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
   if (emailError) { validationErrors.email = 'invalid'; }
+  const genderError = GENDERS.indexOf(values.get('gender')) === -1;
+  if (genderError) { validationErrors.gender = 'invalid'; }
+  /* TODO const dateOfBirthError = !values.get('firstname').trim().match(/^.+$/);
+     if (dateOfBirthError) { validationErrors.dateOfBirth = 'invalid'; } */
   const passwordError = !values.get('password').match(/^.{6,}$/);
   if (passwordError) { validationErrors.password = 'invalid'; }
   const passwordRepeatError = !(values.get('passwordRepeat').match(/^.{6,}$/) && values.get('password') === values.get('passwordRepeat'));
@@ -231,6 +237,24 @@ class Form extends Component {
             name='lastname'
             placeholder={t('register.lastname')}
             submitFailed={submitFailed} />
+        </div>
+        <div style={styles.left}>
+          <Field
+            component={renderField}
+            disabled={submitting}
+            name='gender'
+            placeholder={t('register.gender')}
+            submitFailed={submitFailed}
+            type='text' />
+        </div>
+        <div style={styles.right}>
+          <Field
+            component={renderField}
+            disabled={submitting}
+            name='dateOfBirth'
+            placeholder={t('register.dateOfBirth')}
+            submitFailed={submitFailed}
+            type='text' />
         </div>
         <Field
           component={renderField}
@@ -362,7 +386,9 @@ class Register extends Component {
             <Form {...this.props}
               facebookIsLoading={facebookIsLoading}
               initialValues={{
+                dateOfBirth: '',
                 firstname: '',
+                gender: null,
                 lastname: '',
                 email: '',
                 password: '',
@@ -390,7 +416,7 @@ class Register extends Component {
             initialValues={{
               dateOfBirth: '',
               firstname: '',
-              gender: 'MALE',
+              gender: null,
               lastname: '',
               email: '',
               password: '',

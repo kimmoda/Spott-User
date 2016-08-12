@@ -55,7 +55,7 @@ class FacebookLoginButton extends Component {
       let res;
       if (email && birthday && birthday.length === 10) {
         const formattedBirthday = moment(birthday, 'MM/DD/YYYY').toISOString();
-        res = await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId, birthday: formattedBirthday, gender });
+        res = await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId, dateOfBirth: formattedBirthday, gender });
       } else {
         res = await this.props.onRegisterWithFacebook({ email, firstname, lastname, facebookAccessToken, facebookId, gender });
       }

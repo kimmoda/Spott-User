@@ -97,6 +97,8 @@
     "firstname": "Your First Name",
     "lastname": "Your Last Name",
     "email": "Your Email",
+    "dateOfBirth": "Your Birthdate",
+    "gender": "Your Gender",
     "password": "Choose a Password",
     "passwordRepeat": "Retype Password",
     "existingUser": "You already have an account",

@@ -97,6 +97,8 @@
     "firstname": "Prénom",
     "lastname": "Nom de famille",
     "email": "E-mail",
+    "dateOfBirth": "Geboortedatum",
+    "gender": "Geslacht",
     "password": "Mot de passe",
     "passwordRepeat": "Confirmation du mot de passe",
     "existingUser": "Vous avez déjà un compte",
