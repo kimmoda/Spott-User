@@ -12,6 +12,7 @@ import ProductDetail from './pages/productDetail/view';
 import Profile from './pages/profile/view';
 import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
+import ProfileSavedScenes from './pages/profile/view/savedScenes';
 import Redirect from './pages/redirect';
 import Medium from './pages/medium/view';
 import MediumOverview from './pages/medium/view/overview';
@@ -99,11 +100,12 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={ChangePassword} noSignInButtonInHeader path='user/changepwd'/>
 
         <Route component={Profile} floating path='profile/:userSlug/:userId' >
-          <IndexRedirect to='wishlists' />
+          <IndexRedirect to='saved-scenes' />
           <Route path='wishlists'>
             <IndexRoute component={ProfileWishlists} />
             <Route component={ProfileWishlistProducts} path=':wishlistSlug/:wishlistId' />
           </Route>
+          <Route component={ProfileSavedScenes} path='saved-scenes' />
         </Route>
       </Route>
     );

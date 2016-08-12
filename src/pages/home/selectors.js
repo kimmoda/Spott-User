@@ -2,6 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 import {
   mediaEntitiesSelector, productsEntitiesSelector,
   popularProductsListSelector, recentlyAddedMediaListSelector, recentlyAddedToWishlistProductsListSelector,
+  newScenesForYouListSelector, scenesEntitiesSelector,
   createEntitiesByListSelector
 } from '../../data/selector';
 import { isAuthenticatedSelector } from '../app/selector';
@@ -16,6 +17,10 @@ export const recentlyAddedSelector = createSelector(recentlyAddedMediaSelector, 
 
 export const recentlyAddedToWishlistSelector = createStructuredSelector({
   recentlyAddedToWishlistProducts: createEntitiesByListSelector(recentlyAddedToWishlistProductsListSelector, productsEntitiesSelector)
+});
+
+export const scenesForYouSelector = createStructuredSelector({
+  scenes: createEntitiesByListSelector(newScenesForYouListSelector, scenesEntitiesSelector)
 });
 
 export const popularProductsSelector = createStructuredSelector({

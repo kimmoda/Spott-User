@@ -1,19 +1,14 @@
-import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { colors, fontWeights, makeTextStyle, Spinner } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, load, Message, RadiumLink } from '../../../_common/buildingBlocks';
 import VerticalTiles from '../../../_common/verticalTiles';
 import { wishlistsOfCurrentUserSelector } from '../../selector';
 import { loadWishlistsOfUser } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Link } from 'react-router';
 import { slugify } from '../../../../utils';
-import { FETCHING, LOADED, UPDATING } from '../../../../data/statusTypes';
 import { bindActionCreators } from 'redux';
 import localized from '../../../_common/localized';
 import BaseTile from '../../../_common/tiles/_baseTile';
-
-const RadiumLink = Radium(Link);
 
 const placeholderLargeImage = require('./placeholderLarge.png');
 
@@ -75,12 +70,6 @@ class Wishlist extends Component {
   }
 }
 
-const styles = {
-  emptyText: {
-    ...makeTextStyle(fontWeights.medium, '0.875em'),
-    color: colors.slateGray
-  }
-};
 @localized
 @connect(wishlistsOfCurrentUserSelector, (dispatch) => ({
   loadWishlistsOfUser: bindActionCreators(loadWishlistsOfUser, dispatch)
@@ -100,6 +89,11 @@ export default class Wishlists extends Component {
     })
   };
 
+  constructor (props) {
+    super(props);
+    this.renderWishlists = ::this.renderWishlists;
+  }
+
   componentWillMount () {
     // (Re)fetch the wishlists.
     this.props.loadWishlistsOfUser(this.props.params.userId);
@@ -111,24 +105,28 @@ export default class Wishlists extends Component {
     }
   }
 
-  render () {
-    const { currentLocale, params: { userId, userSlug }, t, wishlists } = this.props;
-    if (wishlists.get('_status') === FETCHING) {
-      return <Spinner />;
-    } else if (wishlists.get('_status') === LOADED || wishlists.get('_status') === UPDATING) {
-      if (wishlists.get('data').size > 0) {
-        return (
-          <VerticalTiles
-            aspectRatio={1.1333866}
-            horizontalSpacing={30}
-            items={wishlists.get('data')}
-            numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
-            tile={<Wishlist baseUrl={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`} />}
-            verticalSpacing={30} />
-        );
-      }
-      return <p style={styles.emptyText}>{t('profile.wishlists.empty')}}</p>;
+  renderWishlists () {
+    const { currentLocale, params: { userId, userSlug }, wishlists } = this.props;
+    if (wishlists.get('data').size > 0) {
+      return (
+        <VerticalTiles
+          aspectRatio={1.1333866}
+          horizontalSpacing={30}
+          items={wishlists.get('data')}
+          numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
+          tile={<Wishlist baseUrl={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`} />}
+          verticalSpacing={30} />
+      );
     }
-    return <div />;
+  }
+
+  renderEmpty () {
+    const { t } = this.props;
+    return <Message>{t('profile.wishlists.empty')}</Message>;
+  }
+
+  render () {
+    const { wishlists } = this.props;
+    return load(wishlists, this.renderWishlists, null, null, null, this.renderEmpty);
   }
 }

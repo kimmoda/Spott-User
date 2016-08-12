@@ -121,3 +121,11 @@ export function transformEpisode ({ title, uuid: id }) {
     title
   };
 }
+
+export function transformScene (scene) {
+  return {
+    id: scene.uuid,
+    image: scene.image && { id: scene.image.uuid, url: scene.image.url },
+    shareUrl: stripDomain(scene.shareUrl)
+  };
+}

@@ -223,6 +223,7 @@ export default class Profile extends Component {
         <Header
           menu={
             <Submenu>
+              <SubmenuItem key='savedScenes' name={t('profile.menu.savedScenes')} pathname={`/${currentLocale}/profile/${userSlug}/${userId}/saved-scenes`} />
               <SubmenuItem key='wishlists' name={t('profile.menu.wishlists')} pathname={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`} />
             </Submenu>
           }

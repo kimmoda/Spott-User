@@ -1,34 +1,67 @@
-import React, { Component /* , PropTypes */ } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { colors, ScalableContainer } from '../../../../_common/buildingBlocks';
-// import { dummySelector } from '../../selectors';
-// import { dummy } from '../../actions';
-// import ImmutablePropTypes from 'react-immutable-proptypes';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import { colors, Container, Message } from '../../../../_common/buildingBlocks';
+import localized from '../../../../_common/localized';
 import SceneTiles from '../../../../_common/tiles/sceneTiles';
-import scenes from '../../../../../api/mock/scenes';
+import { newScenesForYouSelector } from '../../../selector';
+import { loadNewScenesForYou } from '../../../actions';
 
+@localized
+@connect(newScenesForYouSelector, (dispatch) => ({
+  loadNewScenesForYou: bindActionCreators(loadNewScenesForYou, dispatch)
+}))
 @Radium
-export default class NewScenesForYou extends Component {
+export default class PickedForYou extends Component {
+
+  static propTypes = {
+    loadNewScenesForYou: PropTypes.func.isRequired,
+    mediumId: PropTypes.string.isRequired,
+    scenes: ImmutablePropTypes.mapContains({
+      _status: PropTypes.string.isRequired,
+      data: ImmutablePropTypes.list
+    }),
+    t: PropTypes.func.isRequired
+  };
+
+  componentWillMount () {
+    this.props.loadNewScenesForYou(this.props.mediumId);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.mediumId !== nextProps.mediumId) {
+      this.props.loadNewScenesForYou(nextProps.mediumId);
+    }
+  }
 
   static styles = {
-    container: {
-      backgroundColor: colors.whiteGray,
-      paddingTop: '6.25em',
-      marginBottom: '1.875em' // Compensate for tiles' transform
+    subtitle: {
+      marginBottom: '1.304em'
     },
-    list: {
-      marginLeft: '-0.938em',
-      marginRight: '-0.938em'
+    wrapper: {
+      backgroundColor: colors.whiteGray,
+      paddingTop: '2.5em',
+      paddingBottom: '3.25em'
     }
   };
 
-  // TODO: add renderXxxComponent to SceneTiles
   render () {
     const styles = this.constructor.styles;
+    const { scenes, t } = this.props;
+
     return (
-      <ScalableContainer style={styles.container}>
-        <SceneTiles items={scenes} listStyle={styles.list} title='New Scenes For You'/>
-      </ScalableContainer>
+      <div style={styles.wrapper}>
+        <Container>
+          <SceneTiles
+            items={scenes}
+            renderEmptyComponent= {() => <Message>{t('medium.newScenesForYou.empty')}</Message>}
+            renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
+            renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
+            title={t('medium.newScenesForYou.title')} />
+        </Container>
+      </div>
     );
   }
 

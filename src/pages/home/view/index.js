@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import Search from './search';
 import RecentlyAdded from './recentlyAdded';
 // import NewEpisodes from './newEpisodes';
-// import NewScenesForYou from './newScenesForYou';
+import NewScenesForYou from './newScenesForYou';
 // import TopSellingProducts from './topSellingProducts';
 import PopularProducts from './popularProducts';
 import DownloadApp from './downloadApp';
@@ -24,7 +24,7 @@ export default class Home extends Component {
       <div style={{ fontSize: '16px', backgroundColor: 'white' }}>
         {/* <Search /> */}
         <RecentlyAdded />
-        {/* <NewScenesForYou /> */}
+        {isAuthenticated && <NewScenesForYou />}
         {/* <NewEpisodes /> */}
         <PopularProducts />
         {/* <TopSellingProducts /> */}

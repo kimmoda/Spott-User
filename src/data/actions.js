@@ -1,6 +1,7 @@
 import * as charactersApi from '../api/characters';
 import * as mediaApi from '../api/media';
 import * as productsApi from '../api/products';
+import * as scenesApi from '../api/scenes';
 import * as usersApi from '../api/users';
 import * as wishlistsApi from '../api/wishlists';
 import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../pages/app/selector';
@@ -28,6 +29,14 @@ export function makeApiActionCreator (_apiCall, startActionType, successActionTy
 // Action types
 // ////////////
 
+export const NEW_SCENES_FOR_YOU_FETCH_START = 'DATA/NEW_SCENES_FOR_YOU_FETCH_START';
+export const NEW_SCENES_FOR_YOU_FETCH_SUCCESS = 'DATA/NEW_SCENES_FOR_YOU_FETCH_SUCCESS';
+export const NEW_SCENES_FOR_YOU_FETCH_ERROR = 'DATA/NEW_SCENES_FOR_YOU_FETCH_ERROR';
+
+export const MEDIUM_NEW_SCENES_FOR_YOU_FETCH_START = 'DATA/MEDIUM_NEW_SCENES_FOR_YOU_FETCH_START';
+export const MEDIUM_NEW_SCENES_FOR_YOU_FETCH_SUCCESS = 'DATA/MEDIUM_NEW_SCENES_FOR_YOU_FETCH_SUCCESS';
+export const MEDIUM_NEW_SCENES_FOR_YOU_FETCH_ERROR = 'DATA/MEDIUM_NEW_SCENES_FOR_YOU_FETCH_ERROR';
+
 export const MEDIA_RECENTLY_ADDED_FETCH_START = 'DATA/MEDIA_RECENTLY_ADDED_FETCH_START';
 export const MEDIA_RECENTLY_ADDED_FETCH_SUCCESS = 'DATA/MEDIA_RECENTLY_ADDED_FETCH_SUCCESS';
 export const MEDIA_RECENTLY_ADDED_FETCH_ERROR = 'DATA/MEDIA_RECENTLY_ADDED_FETCH_ERROR';
@@ -47,6 +56,10 @@ export const PRODUCT_FETCH_ERROR = 'DATA/PRODUCT_FETCH_ERROR';
 export const USER_FETCH_START = 'DATA/USER_FETCH_START';
 export const USER_FETCH_SUCCESS = 'DATA/USER_FETCH_SUCCESS';
 export const USER_FETCH_ERROR = 'DATA/USER_FETCH_ERROR';
+
+export const SAVED_SCENES_OF_USER_FETCH_START = 'SAVED_SCENES_OF_USER_FETCH_START';
+export const SAVED_SCENES_OF_USER_FETCH_SUCCESS = 'SAVED_SCENES_OF_USER_FETCH_SUCCESS';
+export const SAVED_SCENES_OF_USER_FETCH_ERROR = 'SAVED_SCENES_OF_USER_FETCH_ERROR';
 
 export const WISHLIST_OF_USER_FETCH_START = 'WISHLIST_OF_USER_FETCH_START';
 export const WISHLIST_OF_USER_FETCH_SUCCESS = 'WISHLIST_OF_USER_FETCH_SUCCESS';
@@ -97,6 +110,8 @@ export const fetchProduct = makeApiActionCreator(productsApi.getProduct, PRODUCT
 
 export const fetchUser = makeApiActionCreator(usersApi.getUser, USER_FETCH_START, USER_FETCH_SUCCESS, USER_FETCH_ERROR);
 
+export const fetchSavedScenesOfUser = makeApiActionCreator(scenesApi.getSavedScenesOfUser, SAVED_SCENES_OF_USER_FETCH_START, SAVED_SCENES_OF_USER_FETCH_SUCCESS, SAVED_SCENES_OF_USER_FETCH_ERROR);
+
 export const fetchWishlistOfUser = makeApiActionCreator(wishlistsApi.getWishlistOfUser, WISHLIST_OF_USER_FETCH_START, WISHLIST_OF_USER_FETCH_SUCCESS, WISHLIST_OF_USER_FETCH_ERROR);
 
 export const fetchWishlistsOfUser = makeApiActionCreator(wishlistsApi.getWishlistsOfUser, WISHLISTS_OF_USER_FETCH_START, WISHLISTS_OF_USER_FETCH_SUCCESS, WISHLISTS_OF_USER_FETCH_ERROR);
@@ -114,3 +129,7 @@ export const fetchMediumTopUserProducts = makeApiActionCreator(productsApi.getMe
 export const addSubscriber = makeApiActionCreator(mediaApi.addSubscriber, MEDIUM_SUBSCRIBER_ADD_START, MEDIUM_SUBSCRIBER_ADD_SUCCESS, MEDIUM_SUBSCRIBER_ADD_ERROR);
 
 export const removeSubscriber = makeApiActionCreator(mediaApi.removeSubscriber, MEDIUM_SUBSCRIBER_REMOVE_START, MEDIUM_SUBSCRIBER_REMOVE_SUCCESS, MEDIUM_SUBSCRIBER_REMOVE_ERROR);
+
+export const fetchNewScenesForYou = makeApiActionCreator(scenesApi.getNewScenesForYou, NEW_SCENES_FOR_YOU_FETCH_START, NEW_SCENES_FOR_YOU_FETCH_SUCCESS, NEW_SCENES_FOR_YOU_FETCH_ERROR);
+
+export const fetchMediumNewScenesForYou = makeApiActionCreator(scenesApi.getMediumNewScenesForYou, MEDIUM_NEW_SCENES_FOR_YOU_FETCH_START, MEDIUM_NEW_SCENES_FOR_YOU_FETCH_SUCCESS, MEDIUM_NEW_SCENES_FOR_YOU_FETCH_ERROR);
