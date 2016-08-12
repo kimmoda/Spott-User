@@ -99,6 +99,11 @@
     "email": "E-mail",
     "dateOfBirth": "Geboortedatum",
     "gender": "Geslacht",
+    "gender": {
+      "label": "Geslacht",
+      "MALE": "Mannetje",
+      "FEMALE": "Vrouwtje"
+    },
     "password": "Mot de passe",
     "passwordRepeat": "Confirmation du mot de passe",
     "existingUser": "Vous avez déjà un compte",

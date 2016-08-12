@@ -97,7 +97,11 @@
     "firstname": "Je voornaam",
     "lastname": "Je achternaam",
     "dateOfBirth": "Je geboortedatum",
-    "gender": "Je geslacht",
+    "gender": {
+      "label": "Geslacht",
+      "MALE": "Mannetje",
+      "FEMALE": "Vrouwtje"
+    },
     "email": "Je e-mail",
     "password": "Je wachtwoord",
     "passwordRepeat": "Bevestig je wachtwoord",

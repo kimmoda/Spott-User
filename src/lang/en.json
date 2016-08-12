@@ -98,7 +98,11 @@
     "lastname": "Your Last Name",
     "email": "Your Email",
     "dateOfBirth": "Your Birthdate",
-    "gender": "Your Gender",
+    "gender": {
+      "label": "Your Gender",
+      "MALE": "Male",
+      "FEMALE": "Female"
+    },
     "password": "Choose a Password",
     "passwordRepeat": "Retype Password",
     "existingUser": "You already have an account",

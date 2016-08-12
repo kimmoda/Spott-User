@@ -14,72 +14,56 @@ import { submit } from '../actions';
 import FacebookRegisterButton from './facebookRegisterButton';
 import { registrationFacebookErrorSelector, registrationFacebookIsLoadingSelector }
   from '../../app/selector';
+import Select from 'react-select';
+import 'react-select/dist/react-select.min.css';
+
 const RadiumLink = radium(Link);
 
 const GENDERS = [ 'MALE', 'FEMALE' ];
 
-const fieldStyles = {
-  fieldStyle: {
-    error: {
-      color: '#ff0000',
-      fontSize: '16px',
-      margin: '5px 0'
-    },
-    textInput: {
-      padding: '0.494em 0.642em',
-      fontSize: '1.125em',
-      width: '100%',
-      borderRadius: 2,
-      border: '0.056em #d7d7d7 solid',
-      boxShadow: 'transparent 0 0 0',
-      margin: '0.278em 0'
-    },
-    textInputError: {
-      border: '0.056em #ff0000 solid'
-    }
+// Checkbox Input
+
+const checkboxStyles = {
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0.278em 0'
   },
-  checkbox: {
-    container: {
-      display: 'flex',
-      alignItems: 'center',
-      margin: '0.278em 0'
-    },
-    input: {
-      position: 'absolute',
-      opacity: 0,
-      pointerEvents: 'none'
-    },
-    marker: {
-      backgroundColor: colors.cool,
-      border: `1px solid ${colors.cool}`,
-      borderRadius: 3,
+  input: {
+    position: 'absolute',
+    opacity: 0,
+    pointerEvents: 'none'
+  },
+  marker: {
+    backgroundColor: colors.cool,
+    border: `1px solid ${colors.cool}`,
+    borderRadius: 3,
+    cursor: 'pointer',
+    display: 'flex',
+    height: 20,
+    width: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  markerText: {
+    display: 'block',
+    color: colors.whiteGray,
+    fontSize: '16px',
+    height: '18px',
+    transform: 'scaleX(1.3)',
+    pointerEvents: 'none'
+  },
+  label: {
+    base: {
       cursor: 'pointer',
-      display: 'flex',
-      height: 20,
-      width: 20,
-      alignItems: 'center',
-      justifyContent: 'center'
+      fontWeight: 'normal',
+      paddingLeft: '10px',
+      paddingBottom: 0,
+      position: 'relative',
+      alignItems: 'center'
     },
-    markerText: {
-      display: 'block',
-      color: colors.whiteGray,
-      fontSize: '16px',
-      height: '18px',
-      transform: 'scaleX(1.3)',
-      pointerEvents: 'none'
-    },
-    label: {
-      base: {
-        cursor: 'pointer',
-        fontWeight: 'normal',
-        paddingLeft: '10px',
-        paddingBottom: 0,
-        position: 'relative',
-        alignItems: 'center'
-      },
-      error: {
-        color: '#ff0000'
-      }
+    error: {
+      color: '#ff0000'
     }
   }
 };
@@ -95,34 +79,96 @@ const renderCheckbox = radium((props) => {
   }
 
   return (
-    <div style={fieldStyles.checkbox.container}>
+    <div style={checkboxStyles.container}>
       <input
         checked={props.input.value}
         id={props.input.name}
-        style={fieldStyles.checkbox.input}
+        style={checkboxStyles.input}
         type='checkbox'
         {...props.input} />
-      <span style={fieldStyles.checkbox.marker} onClick={onClick}>
-        {props.input.value && <span style={fieldStyles.checkbox.markerText}>✓</span>}
+      <span style={checkboxStyles.marker} onClick={onClick}>
+        {props.input.value && <span style={checkboxStyles.markerText}>✓</span>}
       </span>
       <label
         htmlFor={props.input.name}
-        style={[ fieldStyles.checkbox.label.base, props.submitFailed && props.meta.touched && props.meta.error && fieldStyles.checkbox.label.error ]}>
+        style={[ checkboxStyles.label.base, props.submitFailed && props.meta.touched && props.meta.error && checkboxStyles.label.error ]}>
         {props.text}
       </label>
     </div>
   );
 });
+
+// Text box input
+
+const textBoxStyle = {
+  error: {
+    color: '#ff0000',
+    fontSize: '16px',
+    margin: '5px 0'
+  },
+  textInput: {
+    padding: '0.494em 0.642em',
+    fontSize: '1.125em',
+    width: '100%',
+    borderRadius: 2,
+    border: '0.056em #d7d7d7 solid',
+    boxShadow: 'transparent 0 0 0',
+    margin: '0.278em 0'
+  },
+  textInputError: {
+    border: '0.056em #ff0000 solid'
+  }
+};
 const renderField = radium((props) => {
   return (
     <input
       autoFocus={props.autoFocus}
       placeholder={props.placeholder}
-      style={[ fieldStyles.fieldStyle.textInput, props.submitFailed && props.meta.touched && props.meta.error && fieldStyles.fieldStyle.textInputError ]}
+      style={[ textBoxStyle.textInput, props.submitFailed && props.meta.touched && props.meta.error && textBoxStyle.textInputError ]}
       type={props.type}
       {...props.input} />
   );
 });
+
+// Select input
+
+const WrappedSelect = radium(Select);
+
+/**
+ * Reusable component for selecting one or more items from a list, using items autocompleted.
+ */
+const selectInputStyles = {
+  error: {
+    border: '0.056em #ff0000 solid'
+  },
+  base: {
+  //  padding: '0.494em 0.642em',
+    fontSize: '1.125em',
+    width: '100%',
+    borderRadius: 2,
+    fontSize: '1.125em',
+    border: '0.056em #d7d7d7 solid',
+    boxShadow: 'transparent 0 0 0',
+    margin: '0.278em 0'
+  }
+};
+const renderSelectField = radium((props) => {
+  console.log(props.input.value);
+  return (
+    <WrappedSelect
+      autoFocus={props.autoFocus}
+      cache={false} clearable={false} filterOption={() => true} isLoading={false} multi={false}
+      options={props.options}
+      placeholder={props.placeholder}
+      style={[ selectInputStyles.base, props.submitFailed && props.meta.touched && props.meta.error && selectInputStyles.error ]}
+      type={props.type}
+      {...props.input}
+      onBlur={() => props.input.onBlur(props.input.value)}
+      onChange={(internalValue) => props.input.onChange(internalValue.value)} />
+  );
+});
+
+// ----------
 
 function validate (values) {
   const validationErrors = {};
@@ -135,8 +181,8 @@ function validate (values) {
   if (emailError) { validationErrors.email = 'invalid'; }
   const genderError = GENDERS.indexOf(values.get('gender')) === -1;
   if (genderError) { validationErrors.gender = 'invalid'; }
-  /* TODO const dateOfBirthError = !values.get('firstname').trim().match(/^.+$/);
-     if (dateOfBirthError) { validationErrors.dateOfBirth = 'invalid'; } */
+  /* const dateOfBirthError = !values.get('dateOfBirth').trim().match(/^.+$/);
+  if (dateOfBirthError) { validationErrors.dateOfBirth = 'invalid'; } */
   const passwordError = !values.get('password').match(/^.{6,}$/);
   if (passwordError) { validationErrors.password = 'invalid'; }
   const passwordRepeatError = !(values.get('passwordRepeat').match(/^.{6,}$/) && values.get('password') === values.get('passwordRepeat'));
@@ -240,10 +286,11 @@ class Form extends Component {
         </div>
         <div style={styles.left}>
           <Field
-            component={renderField}
+            component={renderSelectField}
             disabled={submitting}
             name='gender'
-            placeholder={t('register.gender')}
+            options={GENDERS.map((gender) => ({ value: gender, label: t('register.gender')[gender] }))}
+            placeholder={t('register.gender.label')}
             submitFailed={submitFailed}
             type='text' />
         </div>
