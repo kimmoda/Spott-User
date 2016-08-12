@@ -132,7 +132,11 @@
       }
     },
     "menu": {
+      "savedScenes": "Saved scenes",
       "wishlists": "Listes de souhaits"
+    },
+    "savedScenes": {
+      "empty": "This list is empty."
     },
     "wishlists": {
       "empty": "Vous n'avez pas encore des listes de souhaits.",
