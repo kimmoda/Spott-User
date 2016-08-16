@@ -271,7 +271,6 @@
         'render'
       ]
     }],
-    "react/jsx-wrap-multilines": 2,
 
     "import/no-unresolved": 2,
     "import/named": 2,

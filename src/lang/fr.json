@@ -97,6 +97,13 @@
     "firstname": "Prénom",
     "lastname": "Nom de famille",
     "email": "E-mail",
+    "dateOfBirth": "Geboortedatum",
+    "gender": "Geslacht",
+    "gender": {
+      "label": "Geslacht",
+      "MALE": "Mannetje",
+      "FEMALE": "Vrouwtje"
+    },
     "password": "Mot de passe",
     "passwordRepeat": "Confirmation du mot de passe",
     "existingUser": "Vous avez déjà un compte",
@@ -130,7 +137,11 @@
       }
     },
     "menu": {
+      "savedScenes": "Saved scenes",
       "wishlists": "Listes de souhaits"
+    },
+    "savedScenes": {
+      "empty": "This list is empty."
     },
     "wishlists": {
       "empty": "Vous n'avez pas encore des listes de souhaits.",
