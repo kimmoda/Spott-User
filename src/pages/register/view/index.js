@@ -15,7 +15,7 @@ import FacebookRegisterButton from './facebookRegisterButton';
 import { registrationFacebookErrorSelector, registrationFacebookIsLoadingSelector }
   from '../../app/selector';
 import Select from 'react-select';
-import 'react-select/dist/react-select.min.css';
+import './react-select.css';
 import moment from 'moment';
 
 const RadiumLink = radium(Link);
