@@ -27,13 +27,13 @@ export function submit (values) {
 export const REGISTER_FACEBOOK_USER_START = 'REGISTER_FACEBOOK_USER_START';
 export const REGISTER_FACEBOOK_USER_SUCCESS = 'REGISTER_FACEBOOK_USER_SUCCESS';
 export const REGISTER_FACEBOOK_USER_ERROR = 'REGISTER_FACEBOOK_USER_ERROR';
-export function registerWithFacebook ({ email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender }) {
+export function registerWithFacebook ({ email, firstname, lastname, facebookAccessToken, facebookId, dateOfBirth, gender }) {
   return async (dispatch, getState) => {
     try {
-      dispatch({ email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender, type: REGISTER_FACEBOOK_USER_START });
+      dispatch({ email, firstname, lastname, facebookAccessToken, facebookId, dateOfBirth, gender, type: REGISTER_FACEBOOK_USER_START });
       const state = getState();
       const apiBaseUrl = apiBaseUrlSelector(state);
-      await usersApi.registerWithFacebook(apiBaseUrl, { email, firstname, lastname, facebookAccessToken, facebookId, birthday, gender });
+      await usersApi.registerWithFacebook(apiBaseUrl, { email, firstname, lastname, facebookAccessToken, facebookId, dateOfBirth, facebookGender: gender });
       await dispatch(doTryLoginFacebook({ facebookAccessToken }));
       return dispatch({ email, firstname, lastname, type: REGISTER_FACEBOOK_USER_SUCCESS });
     } catch (error) {
@@ -46,7 +46,7 @@ export function registerWithFacebook ({ email, firstname, lastname, facebookAcce
           throw e;
         }
       }
-      dispatch({ error: 'register.facebookErrorUnknown', email, firstname, lastname, birthday, gender, type: REGISTER_FACEBOOK_USER_ERROR });
+      dispatch({ error: 'register.facebookErrorUnknown', email, firstname, lastname, dateOfBirth, gender, type: REGISTER_FACEBOOK_USER_ERROR });
       throw error;
     }
   };

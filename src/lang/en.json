@@ -97,6 +97,12 @@
     "firstname": "Your First Name",
     "lastname": "Your Last Name",
     "email": "Your Email",
+    "dateOfBirth": "Your Birthdate",
+    "gender": {
+      "label": "Your Gender",
+      "MALE": "Male",
+      "FEMALE": "Female"
+    },
     "password": "Choose a Password",
     "passwordRepeat": "Retype Password",
     "existingUser": "You already have an account",
@@ -129,7 +135,11 @@
       }
     },
     "menu": {
+      "savedScenes": "Saved scenes",
       "wishlists": "Wishlists"
+    },
+    "savedScenes": {
+      "empty": "This list is empty."
     },
     "wishlists": {
       "empty": "You have no wishlists yet.",
