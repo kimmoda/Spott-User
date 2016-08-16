@@ -96,6 +96,12 @@
     "submitButton": "Verzend",
     "firstname": "Je voornaam",
     "lastname": "Je achternaam",
+    "dateOfBirth": "Je geboortedatum",
+    "gender": {
+      "label": "Geslacht",
+      "MALE": "Mannetje",
+      "FEMALE": "Vrouwtje"
+    },
     "email": "Je e-mail",
     "password": "Je wachtwoord",
     "passwordRepeat": "Bevestig je wachtwoord",
@@ -130,7 +136,11 @@
       }
     },
     "menu": {
+      "savedScenes": "Saved scenes",
       "wishlists": "Verlanglijst"
+    },
+    "savedScenes": {
+      "empty": "This list is empty."
     },
     "wishlists": {
       "empty": "U heeft nog geen verlanglijst.",
