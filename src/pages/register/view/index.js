@@ -16,6 +16,7 @@ import { registrationFacebookErrorSelector, registrationFacebookIsLoadingSelecto
   from '../../app/selector';
 import Select from 'react-select';
 import 'react-select/dist/react-select.min.css';
+import moment from 'moment';
 
 const RadiumLink = radium(Link);
 
@@ -119,24 +120,51 @@ const textBoxStyle = {
     border: '0.056em #ff0000 solid'
   }
 };
-const renderField = radium((props) => {
+const renderField = (props) => {
   return (
     <input
       autoFocus={props.autoFocus}
       placeholder={props.placeholder}
-      style={[ textBoxStyle.textInput, props.submitFailed && props.meta.touched && props.meta.error && textBoxStyle.textInputError ]}
+      style={{ ...textBoxStyle.textInput, ...(props.submitFailed && props.meta.touched && props.meta.error && textBoxStyle.textInputError || {}) }}
       type={props.type}
       {...props.input} />
   );
-});
+};
+
+// Date input
+
+const renderDateField = (props) => {
+  // Determine value
+  let value;
+  console.log('HAS', props.input.value, props.input.value instanceof Date);
+  if (props.input.value instanceof Date) {
+    value = moment(props.input.value).format('DD/MM/YYYY');
+  } else {
+    value = props.input.value;
+  }
+  // Patch onChange
+  function onChange (e) {
+    const newValue = e.target.value;
+    if (newValue.length === 10 && moment(newValue, 'DD/MM/YYYY').isValid()) {
+      return props.input.onChange(moment(newValue, 'DD/MM/YYYY').toDate());
+    }
+    return props.input.onChange(newValue);
+  }
+  // Render
+  return renderField({
+    ...props,
+    input: {
+      ...props.input,
+      value,
+      onChange,
+      onBlur: onChange
+    }
+  });
+};
 
 // Select input
 
 const WrappedSelect = radium(Select);
-
-/**
- * Reusable component for selecting one or more items from a list, using items autocompleted.
- */
 const selectInputStyles = {
   error: {
     border: '0.056em #ff0000 solid'
@@ -146,7 +174,6 @@ const selectInputStyles = {
     fontSize: '1.125em',
     width: '100%',
     borderRadius: 2,
-    fontSize: '1.125em',
     border: '0.056em #d7d7d7 solid',
     boxShadow: 'transparent 0 0 0',
     margin: '0.278em 0'
@@ -181,8 +208,8 @@ function validate (values) {
   if (emailError) { validationErrors.email = 'invalid'; }
   const genderError = GENDERS.indexOf(values.get('gender')) === -1;
   if (genderError) { validationErrors.gender = 'invalid'; }
-  /* const dateOfBirthError = !values.get('dateOfBirth').trim().match(/^.+$/);
-  if (dateOfBirthError) { validationErrors.dateOfBirth = 'invalid'; } */
+  const dateOfBirthError = !(values.get('dateOfBirth') instanceof Date) || !moment(values.get('dateOfBirth')).isBetween('1900-01-01', moment(), 'day', '[)');
+  if (dateOfBirthError) { validationErrors.dateOfBirth = 'invalid'; }
   const passwordError = !values.get('password').match(/^.{6,}$/);
   if (passwordError) { validationErrors.password = 'invalid'; }
   const passwordRepeatError = !(values.get('passwordRepeat').match(/^.{6,}$/) && values.get('password') === values.get('passwordRepeat'));
@@ -291,17 +318,15 @@ class Form extends Component {
             name='gender'
             options={GENDERS.map((gender) => ({ value: gender, label: t('register.gender')[gender] }))}
             placeholder={t('register.gender.label')}
-            submitFailed={submitFailed}
-            type='text' />
+            submitFailed={submitFailed} />
         </div>
         <div style={styles.right}>
           <Field
-            component={renderField}
+            component={renderDateField}
             disabled={submitting}
             name='dateOfBirth'
             placeholder={t('register.dateOfBirth')}
-            submitFailed={submitFailed}
-            type='text' />
+            submitFailed={submitFailed} />
         </div>
         <Field
           component={renderField}
