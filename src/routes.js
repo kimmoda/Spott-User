@@ -16,6 +16,7 @@ import ProfileSavedScenes from './pages/profile/view/savedScenes';
 import Redirect from './pages/redirect';
 import Medium from './pages/medium/view';
 import MediumOverview from './pages/medium/view/overview';
+import MediumScenes from './pages/medium/view/scenes';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
@@ -64,11 +65,12 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <Route component={Medium} mediumType={mediumType} path={`${mediumTypeParam}/:mediumSlug/:mediumId`}>
         <IndexRedirect to='overview' />
         <Route component={MediumOverview} path='overview' />
+        <Route component={MediumScenes} path='scenes' />
         {/* TODO: NOT DONE YET
         <Route component={SeriesProducts} path='series/:seriesId/products' />
-          <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
-            <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
-          </Route>
+        <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
+          <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
+        </Route>
         */}
       </Route>
     );

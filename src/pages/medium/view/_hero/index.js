@@ -6,10 +6,14 @@ import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
+import SmallEpisodeTiles from '../../../_common/tiles/smallEpisodeTiles';
 import { FETCHING, LAZY, LOADED, UPDATING } from '../../../../data/statusTypes';
 import { heroSelector } from '../../selector';
 import localized from '../../../_common/localized';
 import * as actions from '../../actions';
+
+import dummySmallEpisodes from '../../../../api/mock/smallEpisodes';
+import { fromJS } from 'immutable';
 
 @localized
 @connect(heroSelector, (dispatch) => ({
@@ -217,25 +221,21 @@ export default class Hero extends Component {
               <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/overview`}>{t('common.overview')}</Link>
               {/*
               <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/products`}>Products</Link>
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/season/3`}>Scenes</Link>
               */}
+              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/scenes`}>Scenes</Link>
             </div>
-            {/*
             <div>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${mediumId}/season/3`}>Season 3</Link>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${mediumId}/season/2`}>Season 2</Link>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${mediumId}/season/1`}>Season 1</Link>
+              <Link activeStyle={styles.season.active} style={styles.season.base} to={`${medium.get('shareUrl')}/season/3`}>Season 3</Link>
+              <Link activeStyle={styles.season.active} style={styles.season.base} to={`${medium.get('shareUrl')}/season/2`}>Season 2</Link>
+              <Link activeStyle={styles.season.active} style={styles.season.base} to={`${medium.get('shareUrl')}/season/1`}>Season 1</Link>
             </div>
-            */}
+            <div style={styles.smallEpisodes}>
+              <Container>
+                <SmallEpisodeTiles items={fromJS({ data: dummySmallEpisodes, _status: 'loaded' })} listStyle={styles.smallEpisodeList} />
+              </Container>
+            </div>
           </Container>
 
-          {/*
-          <div style={styles.smallEpisodes}>
-            <FadeOutScalableContainer>
-              <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} mediumId={mediumId} />
-            </FadeOutScalableContainer>
-          </div>
-          */}
         </div>
       );
     }

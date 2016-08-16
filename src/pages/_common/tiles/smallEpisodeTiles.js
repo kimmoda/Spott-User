@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
 import BaseTile from './_baseTile';
 import hoverable from '../hoverable';
-// import makeTiles from './_makeTiles';
+import makeTiles from './_makeTiles';
 
 @hoverable
 @Radium
@@ -14,9 +14,9 @@ export class SmallEpisodeTile extends Component {
   static propTypes = {
     hovered: PropTypes.bool.isRequired,
     item: ImmutablePropTypes.mapContains({
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
+      shareUrl: PropTypes.string.isRequired
     }).isRequired,
-    linkTo: PropTypes.string,
     style: PropTypes.object
   };
 
@@ -85,12 +85,12 @@ export class SmallEpisodeTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { hovered, item, linkTo, style } = this.props;
+    const { hovered, item, style } = this.props;
 
     const children = (
       <div style={styles.container}>
         <div
-          style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]}
+          style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}")` } ]}
           title={item.get('name')} />
         <div style={styles.layer} />
         <div style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</div>
@@ -98,20 +98,14 @@ export class SmallEpisodeTile extends Component {
     );
     return (
       <BaseTile style={style}>
-        {linkTo
-          ? <Link activeStyle={styles.link.active} style={styles.link.base} to={linkTo}>{children}</Link>
-          : children}
+        <Link activeStyle={styles.link.active} style={styles.link.base} to={item.get('shareUrl')}>{children}</Link>
       </BaseTile>
     );
   }
 }
 
-/* TODO: we need a way to inject seriesId
 export default makeTiles(
-  0.833,
-  { extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 },
-  ({ item, key, style: tileStyle }) => (
-    <SmallEpisodeTile item={item} key={key} linkTo={`/series/${seriesId}/season/3/episode/${key}/scenes`} style={tileStyle} />
-  )
+  0.938,
+  { extraSmall: 4, small: 5, medium: 6, large: 7, extraLarge: 9 },
+  (instanceProps) => <SmallEpisodeTile {...instanceProps} />
 );
-*/
