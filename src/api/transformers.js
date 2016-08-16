@@ -43,15 +43,9 @@ export function transformListProduct ({ available, buyUrl, image, price, shortNa
 }
 
 // no buyUrl, image
-export function transformDetailedProduct ({ available, brand, description, longName, images, offerings, price, shortName, shareUrl, uuid: id }) {
+export function transformDetailedProduct ({ available, brand, description, longName, images, offerings, price, relevance, shortName, shareUrl, uuid: id }) {
   return {
     available,
-    description,
-    id,
-    images: images && images.map((image) => ({ id: image.uuid, url: image.url })),
-    longName,
-    shareUrl: stripDomain(shareUrl),
-    shortName,
     brand: brand && {
       name: brand.name,
       id: brand.uuid,
@@ -60,11 +54,18 @@ export function transformDetailedProduct ({ available, brand, description, longN
         id: brand.logo.uuid
       }
     },
+    description,
+    id,
+    images: images && images.map((image) => ({ id: image.uuid, url: image.url })),
+    longName,
     offerings: offerings && offerings.map((offer) => ({
       url: offer.buyUrl,
       price: offer.price,
       shop: offer.shop.name
-    }))
+    })),
+    relevance,
+    shareUrl: stripDomain(shareUrl),
+    shortName
   };
 }
 
@@ -122,10 +123,11 @@ export function transformEpisode ({ title, uuid: id }) {
   };
 }
 
-function transformSceneProduct ({ image, price, shortName, uuid: id }) {
+function transformSceneProduct ({ image, position, price, shortName, uuid: id }) {
   return {
     id,
     image: image && { id: image.uuid, url: image.url },
+    position,
     price,
     shortName
   };

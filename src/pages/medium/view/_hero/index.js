@@ -160,6 +160,7 @@ export default class Hero extends Component {
     },
     tabs: {
       position: 'relative',
+      textTransform: 'uppercase',
       bottom: 0,
       left: 0,
       right: 0

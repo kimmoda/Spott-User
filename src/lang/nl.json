@@ -112,7 +112,6 @@
     "by": "Van %(brandName)s",
     "noSimilar": "Geen gelijkaardige producten gevonden.",
     "similarProducts": "Gelijkaardige producten",
-    "share": "Delen",
     "unavailable": "Dit product is niet beschikbaar.",
     "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​"
   },
@@ -171,6 +170,7 @@
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
     "overview": "Overzicht",
     "return": "Keer terug naar de homepagina.",
+    "share": "Delen",
     "unexpected": "Een onverwachts probleem doet zich voor. Onze excuses voor het ongemak."
   }
 }

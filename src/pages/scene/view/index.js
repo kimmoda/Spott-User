@@ -12,6 +12,7 @@ import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import { LOADED } from '../../../data/statusTypes';
+import Marker from '../../_common/tiles/_marker';
 
 @localized
 @connect(productSelector, (dispatch) => ({
@@ -24,6 +25,7 @@ export default class Scene extends Component {
   static propTypes = {
     children: PropTypes.node,
     currentLocale: PropTypes.string.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
     loadScene: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
@@ -54,7 +56,8 @@ export default class Scene extends Component {
       ),
       shareUrl: PropTypes.string
     }),
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    toggleSaveScene: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -79,15 +82,18 @@ export default class Scene extends Component {
   static styles = {
     scene: {
       container: {
-        position: 'relative'
+        position: 'relative',
+        paddingTop: '56%',
+        height: 0,
+        width: '100%'
       },
       image: {
         width: '100%'
       }
     },
     characters: {
-      position: 'absolute',
       left: '1.25em',
+      position: 'absolute',
       right: '1.25em',
       textAlign: 'right',
       top: '1.125em'
@@ -95,6 +101,16 @@ export default class Scene extends Component {
     products: {
       position: 'absolute',
       bottom: '2em'
+    },
+    image: {
+      backgroundSize: 'cover',
+      backgroundPosition: 'center center',
+      borderRadius: '0.25em',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0
     },
     images: {
       selected: {
@@ -160,44 +176,65 @@ export default class Scene extends Component {
         filter: 'opacity(70%)'
       }
     },
-    sceneFrom: {
-      ...makeTextStyle(fontWeights.bold, '0.6111em', '0.1346em'),
-      opacity: 0.5,
-      color: colors.dark,
-      textTransform: 'uppercase',
-      paddingTop: '0.8695em'
-    },
-    title: {
-      base: {
-        ...makeTextStyle(fontWeights.regular, '1.2777em', '0.0222em'),
-        color: colors.dark,
-        fontWeight: 400
-      },
-      emph: {
-        opacity: 0.5
-      }
-    },
     header: {
-      paddingBottom: '1.1111em',
-      paddingTop: '1.1111em',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'flex-end'
+      container: {
+        paddingBottom: '1.1111em',
+        paddingTop: '1.1111em',
+        [mediaQueries.medium]: {
+          alignItems: 'flex-end',
+          display: 'flex',
+          justifyContent: 'space-between'
+        }
+      },
+      right: {
+        display: 'flex',
+        marginTop: '0.5em',
+        [mediaQueries.medium]: {
+          marginTop: 0,
+          justifyContent: 'space-between'
+        }
+      },
+      sceneFrom: {
+        ...makeTextStyle(fontWeights.bold, '0.6111em', '0.1346em'),
+        opacity: 0.5,
+        color: colors.dark,
+        textTransform: 'uppercase',
+        paddingTop: '0.8695em'
+      },
+      shareButton: {
+        marginLeft: '0.5em'
+      },
+      title: {
+        base: {
+          ...makeTextStyle(fontWeights.regular, '1.2777em', '0.0222em'),
+          color: colors.dark,
+          fontWeight: 400,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        },
+        emph: {
+          opacity: 0.5
+        }
+      }
     }
   };
 
   renderScene () {
     const styles = this.constructor.styles;
     const { isAuthenticated, children, currentLocale, params: { productId }, scene, t, toggleSaveScene } = this.props;
+
     return (
       <div>
         <Container>
-          <div style={styles.header}>
-            <div style={styles.left}>
-              <div style={styles.sceneFrom}>Scene from</div>
-              <h1 style={styles.title.base}>Daredevil <span style={styles.title.emph}>- SO3E07</span> World on Fire</h1>
+          <div style={styles.header.container}>
+            <div>
+              <div>
+                <div style={styles.header.sceneFrom}>Scene from</div>
+                <h1 style={styles.header.title.base}>Daredevil <span style={styles.header.title.emph}>- SO3E07</span> World on Fire</h1>
+              </div>
             </div>
-            <div style={styles.right}>
+            <div style={styles.header.right}>
               {isAuthenticated
                 ? <Button style={[ pinkButtonStyle ]} onClick={toggleSaveScene}>
                     {scene.get('saved') ? t('scene.unsave') : t('scene.save')}
@@ -208,13 +245,13 @@ export default class Scene extends Component {
                 }}>
                   {t('scene.save')}
                 </Button>}
-              <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover this scene now on Spott`}>
-                share
+              <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover this scene now on Spott`} style={styles.header.shareButton}>
+                {t('common.share')}
               </ShareButton>
             </div>
           </div>
           <div style={styles.scene.container}>
-            {scene.get('image') && <img src={scene.getIn([ 'image', 'url' ])} style={styles.scene.image} />}
+            <div style={[ styles.image, scene.get('image') && { backgroundImage: `url("${scene.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
             <div style={styles.characters}>
               {scene.get('characters').take(8).map((character) =>
                 <div key={character.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}>
@@ -226,6 +263,8 @@ export default class Scene extends Component {
                     title={character.get('name')}/>
                 </div>)}
             </div>
+            {scene.get('products').map((product) =>
+              <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />)}
             <div style={styles.images.wrapper}>
               {scene.get('products').take(6).map((product) =>
                 <Link key={product.get('id')} to={`/${currentLocale}/scene/series/test/${scene.get('id')}/product/${product.get('id')}`}>
