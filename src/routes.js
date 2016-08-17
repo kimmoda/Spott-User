@@ -16,7 +16,10 @@ import ProfileSavedScenes from './pages/profile/view/savedScenes';
 import Redirect from './pages/redirect';
 import Medium from './pages/medium/view';
 import MediumOverview from './pages/medium/view/overview';
+import MediumSeasons from './pages/medium/view/seasons';
+import MediumEpisodes from './pages/medium/view/seasons/episodes';
 import MediumScenes from './pages/medium/view/scenes';
+import MediumTabs from './pages/medium/view/tabs';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
@@ -59,23 +62,6 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     }
   }
 
-  // Factory for medium-page routes.
-  function makeMediumRoutes (mediumType, mediumTypeParam) {
-    return (
-      <Route component={Medium} mediumType={mediumType} path={`${mediumTypeParam}/:mediumSlug/:mediumId`}>
-        <IndexRedirect to='overview' />
-        <Route component={MediumOverview} path='overview' />
-        <Route component={MediumScenes} path='scenes' />
-        {/* TODO: NOT DONE YET
-        <Route component={SeriesProducts} path='series/:seriesId/products' />
-        <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
-          <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
-        </Route>
-        */}
-      </Route>
-    );
-  }
-
   // Factory for localized routes
   function makeLocalizedRoutes (locale) {
     // When entering a page, the locale is dispatched.
@@ -91,8 +77,27 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
 
-        {makeMediumRoutes(SERIES, 'series')}
-        {makeMediumRoutes(MOVIE, 'movie')}
+        <Route component={Medium} mediumType={SERIES} path={'series/:mediumSlug/:mediumId'}>
+          <IndexRedirect to='overview' />
+          <Route component={MediumTabs}>
+            <Route component={MediumOverview} path='overview' />
+            <Route component={MediumSeasons} path='season'>
+              <Route component={MediumEpisodes} path=':seasonSlug/:seasonId'>
+                <Route path='episode/:episodeSlug/:episodeId'>
+                  <IndexRedirect to='scenes' />
+                  <Route component={MediumScenes} path='scenes' />
+                </Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+        <Route component={Medium} mediumType={MOVIE} path={'movie/:mediumSlug/:mediumId'}>
+          <IndexRedirect to='overview' />
+          <Route component={MediumTabs}>
+            <Route component={MediumOverview} path='overview' />
+            <Route component={MediumScenes} path='scenes' />
+          </Route>
+        </Route>
 
         <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />
         <Route component={ProductDetail} path='product/:productSlug/:productId' /> {/* Backwards compatible with old url. */}

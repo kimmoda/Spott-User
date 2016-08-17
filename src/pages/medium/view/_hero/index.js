@@ -2,18 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
 import CharacterTiles from '../../../_common/tiles/characterTiles';
-import SmallEpisodeTiles from '../../../_common/tiles/smallEpisodeTiles';
 import { FETCHING, LAZY, LOADED, UPDATING } from '../../../../data/statusTypes';
 import { heroSelector } from '../../selector';
 import localized from '../../../_common/localized';
 import * as actions from '../../actions';
-
-import dummySmallEpisodes from '../../../../api/mock/smallEpisodes';
-import { fromJS } from 'immutable';
 
 @localized
 @connect(heroSelector, (dispatch) => ({
@@ -121,59 +116,6 @@ export default class Hero extends Component {
     },
     tiles: {
       marginBottom: '1.7em'
-    },
-    smallEpisodes: {
-      paddingBottom: '1.7em'
-    },
-    tab: {
-      base: {
-        ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
-        color: 'white',
-        opacity: 0.5,
-        paddingBottom: '1em',
-        paddingTop: '1em',
-        textDecoration: 'none',
-        textAlign: 'center',
-        minWidth: '12.5em',
-        display: 'inline-block',
-        borderBottomWidth: 4,
-        borderBottomStyle: 'solid',
-        borderBottomColor: colors.dark
-      },
-      active: {
-        borderBottomColor: colors.darkPink,
-        opacity: 1
-      }
-    },
-    season: {
-      base: {
-        ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
-        backgroundImage: 'linear-gradient(to top, #000000, rgba(0, 0, 0, 0))',
-        color: 'white',
-        opacity: 0.5,
-        paddingBottom: '1em',
-        paddingTop: '1em',
-        textDecoration: 'none',
-        textAlign: 'center',
-        minWidth: '12.5em',
-        display: 'inline-block'
-      },
-      active: {
-        opacity: 1
-      }
-    },
-    tabs: {
-      position: 'relative',
-      bottom: 0,
-      left: 0,
-      right: 0
-    },
-    smallEpisodeList: {
-      overflow: 'visible',
-      paddingTop: 0,
-      paddingBottom: 0,
-      marginBottom: 0,
-      marginTop: 0
     }
   };
 
@@ -216,26 +158,6 @@ export default class Hero extends Component {
               renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
               style={styles.characters} />
           </Container>
-          <Container style={styles.tabs}>
-            <div>
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/overview`}>{t('common.overview')}</Link>
-              {/*
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/products`}>Products</Link>
-              */}
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/scenes`}>Scenes</Link>
-            </div>
-            <div>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`${medium.get('shareUrl')}/season/3`}>Season 3</Link>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`${medium.get('shareUrl')}/season/2`}>Season 2</Link>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`${medium.get('shareUrl')}/season/1`}>Season 1</Link>
-            </div>
-            <div style={styles.smallEpisodes}>
-              <Container>
-                <SmallEpisodeTiles items={fromJS({ data: dummySmallEpisodes, _status: 'loaded' })} listStyle={styles.smallEpisodeList} />
-              </Container>
-            </div>
-          </Container>
-
         </div>
       );
     }

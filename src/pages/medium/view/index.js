@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Hero from './_hero';
-import { mediumSelector } from '../selector';
 import { loadMedium } from '../actions';
 
-@connect(mediumSelector, (dispatch) => ({
+@connect(null, (dispatch) => ({
   loadMedium: bindActionCreators(loadMedium, dispatch)
 }))
 export default class Medium extends Component {
@@ -37,10 +36,11 @@ export default class Medium extends Component {
   }
 
   render () {
-    const { location, params: { mediumId }, medium } = this.props;
+    const { location, params: { mediumId } } = this.props;
+    console.info(this.props);
     return (
       <div>
-        <Hero currentPathname={location.pathname} medium={medium} mediumId={mediumId} />
+        <Hero currentPathname={location.pathname} mediumId={mediumId} />
         {this.props.children}
       </div>
     );

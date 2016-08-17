@@ -12,10 +12,7 @@ export const currentMediumSelector = createEntityByIdSelector(mediaEntitiesSelec
 
 export const heroSelector = createStructuredSelector({
   characters: createEntitiesByRelationSelector(mediumHasCharactersSelector, currentMediumIdSelector, charactersEntitiesSelector),
-  isAuthenticated: isAuthenticatedSelector
-});
-
-export const mediumSelector = createStructuredSelector({
+  isAuthenticated: isAuthenticatedSelector,
   medium: currentMediumSelector
 });
 
@@ -31,4 +28,9 @@ export const topProductsSelector = createStructuredSelector({
 
 export const newScenesForYouSelector = createStructuredSelector({
   scenes: createEntitiesByRelationSelector(mediumHasNewScenesForYouSelector, currentMediumIdSelector, scenesEntitiesSelector)
+});
+
+// Tabs
+export const tabsSelector = createStructuredSelector({
+  medium: currentMediumSelector
 });
