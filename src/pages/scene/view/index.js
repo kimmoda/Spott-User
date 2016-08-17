@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { replace as routerReplace } from 'react-router-redux';
 import Radium from 'radium';
 import { Map } from 'immutable';
-import { colors, load, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
+import { colors, load, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, Modal, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
 import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
@@ -17,6 +18,7 @@ import Marker from '../../_common/tiles/_marker';
 @localized
 @connect(productSelector, (dispatch) => ({
   loadScene: bindActionCreators(actions.loadScene, dispatch),
+  routerReplace: bindActionCreators(routerReplace, dispatch),
   toggleSaveScene: bindActionCreators(actions.toggleSaveScene, dispatch)
 }))
 @Radium
@@ -28,12 +30,17 @@ export default class Scene extends Component {
     isAuthenticated: PropTypes.bool.isRequired,
     loadScene: PropTypes.func.isRequired,
     location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired
+      pathname: PropTypes.string.isRequired,
+      state: PropTypes.shape({
+        modal: PropTypes.bool,
+        returnTo: PropTypes.string
+      })
     }).isRequired,
     params: PropTypes.shape({
       productId: PropTypes.string,
       sceneId: PropTypes.string.isRequired
     }).isRequired,
+    routerReplace: PropTypes.func.isRequired,
     scene: ImmutablePropTypes.mapContains({
       image: ImmutablePropTypes.mapContains({
         url: PropTypes.string,
@@ -69,13 +76,25 @@ export default class Scene extends Component {
   }
 
   async componentWillMount () {
+    const { productId, sceneId } = this.props.params;
+    console.warn(this.props);
     // (Re)fetch the scene.
-    await this.props.loadScene(this.props.params.sceneId);
+    const scene = await this.props.loadScene(sceneId);
+    // Update the url, display the first product.
+    if (scene.products.length > 0 && !productId) {
+      this.props.routerReplace({ ...this.props.location, pathname: `${this.props.location.pathname}/product/${scene.products[0].id}` });
+    }
   }
 
   async componentWillReceiveProps (nextProps) {
-    if (this.props.params.sceneId !== nextProps.params.sceneId) {
-      await this.props.loadScene(nextProps.params.sceneId);
+    const { productId, sceneId } = this.props.params;
+    // (Re)fetch the scene.
+    if (sceneId !== nextProps.params.sceneId) {
+      const scene = await this.props.loadScene(nextProps.params.sceneId);
+      // Update the url, display the first product.
+      if (scene.products.length > 0 && !productId) {
+        this.props.routerReplace({ ...this.props.location, pathname: `${this.props.location.pathname}/product/${scene.products[0].id}` });
+      }
     }
   }
 
@@ -224,7 +243,7 @@ export default class Scene extends Component {
     const styles = this.constructor.styles;
     const { isAuthenticated, children, currentLocale, params: { productId }, scene, t, toggleSaveScene } = this.props;
 
-    return (
+    const content =
       <div>
         <Container>
           <div style={styles.header.container}>
@@ -245,7 +264,7 @@ export default class Scene extends Component {
                 }}>
                   {t('scene.save')}
                 </Button>}
-              <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover this scene now on Spott`} style={styles.header.shareButton}>
+              <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(scene.get('shareUrl'))}&title=Discover this scene now on Spott`} style={styles.header.shareButton}>
                 {t('common.share')}
               </ShareButton>
             </div>
@@ -267,7 +286,7 @@ export default class Scene extends Component {
               <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />)}
             <div style={styles.images.wrapper}>
               {scene.get('products').take(6).map((product) =>
-                <Link key={product.get('id')} to={`/${currentLocale}/scene/series/test/${scene.get('id')}/product/${product.get('id')}`}>
+                <Link key={product.get('id')} to={`${scene.get('shareUrl')}/product/${product.get('id')}`}>
                   <div style={[ styles.images.small.wrapper, product.get('id') === productId && styles.images.selected ]}>
                     <img
                       src={`${product.getIn([ 'image', 'url' ])}?height=160&width=160`}
@@ -279,8 +298,18 @@ export default class Scene extends Component {
           <div style={{ clear: 'both' }} />
         </Container>
         {children}
-      </div>
-    );
+      </div>;
+
+    //if (this.props.location.state && this.props.location.state.modal) {
+      return (
+        <Modal
+          isOpen
+          onClose={this.onClose}>
+          {content}
+        </Modal>
+      );
+    // }
+    // return content;
   }
 
   renderNotFoundError () {

@@ -1,9 +1,12 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
+import ReactModal from 'react-modal';
 import { Link } from 'react-router';
 import { ERROR, FETCHING, LAZY, LOADED, UPDATING } from '../../data/statusTypes';
 
 export const RadiumLink = Radium(Link);
+
+const crossImage = require('./cross.svg');
 
 // Constants
 // /////////
@@ -98,7 +101,7 @@ export const dialogStyle = {
   content: {
     // Set width and center horizontally
     margin: 'auto',
-    maxWidth: 420,
+    // maxWidth: 420,
     width: '90%',
     left: 10,
     right: 10,
@@ -107,8 +110,41 @@ export const dialogStyle = {
     // Fit height to content, centering vertically
     bottom: 'auto',
     top: '50%',
-    transform: 'translateY(-50%)'
+    transform: 'translateY(-50%)',
+    overflowY: 'scroll'
   }
+};
+
+// const dialogButtonStyle = {
+//   backgroundColor: '#ffffff',
+//   position: 'absolute',
+//   top: 0,
+//   right: 0,
+//   height: '2.5em',
+//   width: '2.5em'
+// };
+
+export const Modal = Radium((props) => (
+  <ReactModal
+    isOpen={props.isOpen}
+    style={dialogStyle}
+    onRequestClose={props.onClose}>
+    <div style={{ position: 'relative' }}>
+      {/* Although this is a button, we chose a <div> for accessibility.
+          The dialog can be canceled by pressing 'escape', so we remove the
+          cross from tab focus. */}
+      {/* <div style={dialogButtonStyle} onClick={props.onClick}>
+        <img alt='Close' src={crossImage} />
+      </div> */}
+      {props.children}
+    </div>
+  </ReactModal>
+));
+
+Modal.propTypes = {
+  children: PropTypes.node,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 // Button component

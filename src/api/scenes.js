@@ -3,12 +3,22 @@ import { transformScene } from './transformers';
 
 export async function getNewScenesForYou (baseUrl, authenticationToken, locale, { userId }) {
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/scenes?pageSize=30`);
-  return data.map(transformScene);
+  const scenes = data.map(transformScene);
+  // TODO: Important! Remove this if the server returns the new url.
+  for (const scene of scenes) {
+    scenes.shareUrl = `/${locale}/series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/episodeId/scenes/scene/${scene.id}`;
+  }
+  return scenes;
 }
 
 export async function getSavedScenesOfUser (baseUrl, authenticationToken, locale, { userId }) {
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes?pageSize=30`);
-  return { data: data.map(transformScene) };
+  const scenes = data.map(transformScene);
+  // TODO: Important! Remove this if the server returns the new url.
+  for (const scene of scenes) {
+    scenes.shareUrl = `/${locale}/series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/episodeId/scenes/scene/${scene.id}`;
+  }
+  return { data: scenes };
 }
 
 export function getMediumNewScenesForYou () {
@@ -19,6 +29,7 @@ export async function getScene (baseUrl, authenticationToken, locale, { sceneId 
   try {
     const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/video/scenes/${sceneId}`);
     const scene = transformScene(body);
+    scene.shareUrl = `/${locale}/series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/${scene.id}`;
     console.warn('scene', scene);
     return scene;
   } catch (error) {

@@ -93,9 +93,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
         {makeMediumRoutes(SERIES, 'series')}
         {makeMediumRoutes(MOVIE, 'movie')}
-
-        <Route component={Scene} path='scene/series/:sceneSlug/:sceneId'>
-          <IndexRoute component={Scene} />
+        <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
+          <IndexRoute component={() => <div style={{ marginTop: '2.5em' }} />} />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 
