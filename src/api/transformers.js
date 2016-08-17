@@ -14,7 +14,7 @@ export function transformUser ({ uuid, userName, profile }) {
     lastname: profile.lastName,
     picture: profile.picture ? { id: profile.picture.uuid, url: profile.picture.url } : null,
     tagline: profile.tagLine,
-    username: userName
+    username: userName,
   };
 }
 

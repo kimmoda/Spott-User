@@ -37,7 +37,6 @@ export default class Medium extends Component {
 
   render () {
     const { location, params: { mediumId } } = this.props;
-    console.info(this.props);
     return (
       <div>
         <Hero currentPathname={location.pathname} mediumId={mediumId} />

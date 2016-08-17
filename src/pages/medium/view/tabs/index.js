@@ -17,8 +17,8 @@ const styles = {
   tab: {
     base: {
       ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
+      backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
       color: 'white',
-      opacity: 0.5,
       paddingBottom: '1em',
       paddingTop: '1em',
       textDecoration: 'none',
@@ -30,8 +30,7 @@ const styles = {
       borderBottomColor: colors.dark
     },
     active: {
-      borderBottomColor: colors.darkPink,
-      opacity: 1
+      borderBottomColor: colors.darkPink
     }
   }
 };
@@ -44,17 +43,15 @@ export default class Tabs extends Component {
     children: PropTypes.node,
     medium: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
-      shareUrl: PropTypes.string.isRequired
+      shareUrl: PropTypes.string
     }),
     t: PropTypes.func
   }
 
   render () {
     const { children, medium, t } = this.props;
-    console.log(medium.toJS());
     return (
       <Container style={styles.tabs}>
-        <p>Tabs</p>
         <div>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/overview`}>{t('common.overview')}</Link>
           <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/${medium.get('type') === SERIES ? 'season' : 'scenes'}`}>Scenes</Link>

@@ -1,33 +1,78 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { colors, Container, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
+import { seasonsSelector } from '../../selector';
+import { loadSeasons } from '../../actions';
 
 const styles = {
   season: {
     base: {
       ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
-      backgroundImage: 'linear-gradient(to top, #000000, rgba(0, 0, 0, 0))',
+      backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
       color: 'white',
-      opacity: 0.5,
       paddingBottom: '1em',
       paddingTop: '1em',
       textDecoration: 'none',
       textAlign: 'center',
       minWidth: '12.5em',
-      display: 'inline-block'
+      display: 'inline-block',
+      borderBottomWidth: 4,
+      borderBottomStyle: 'solid',
+      borderBottomColor: colors.dark
     },
     active: {
-      opacity: 1
+      borderBottomColor: colors.darkPink
     }
   }
 };
 
-export default (props) => (<div>
-  <p>Seasons</p>
-  <div>
-    <Link activeStyle={styles.season.active} style={styles.season.base} to={`${props.medium.get('shareUrl')}/season/3`}>Season 3</Link>
-    <Link activeStyle={styles.season.active} style={styles.season.base} to={`${props.medium.get('shareUrl')}/season/2`}>Season 2</Link>
-    <Link activeStyle={styles.season.active} style={styles.season.base} to={`${props.medium.get('shareUrl')}/season/1`}>Season 1</Link>
-  </div>
-  {props.children}
-</div>);
+@connect(seasonsSelector, (dispatch) => ({
+  loadSeasons: bindActionCreators(loadSeasons, dispatch)
+}))
+export default class SeasonsTabs extends Component {
+
+  static propTypes = {
+    children: PropTypes.node,
+    loadSeasons: PropTypes.func,
+    params: PropTypes.shape({
+      mediumId: PropTypes.string.isRequired
+    }).isRequired,
+    seasons: ImmutablePropTypes.mapContains({
+      _status: PropTypes.string.isRequired,
+      data: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.mapContains({
+          shareUrl: PropTypes.string.isRequired,
+          title: PropTypes.string.isRequired
+        })
+      )
+    }),
+    t: PropTypes.func
+  }
+
+  componentWillMount () {
+    this.props.loadSeasons(this.props.params.mediumId);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.params.mediumId !== nextProps.params.mediumId) {
+      this.props.loadSeasons(nextProps.params.mediumId);
+    }
+  }
+
+  render () {
+    const { /* children, */ seasons } = this.props;
+    console.info(seasons && seasons.toJS());
+    return (
+      <Container>
+          {seasons.get('data').map((season) => (
+            <Link activeStyle={styles.season.active} style={styles.season.base} to={`${season.get('shareUrl')}`}>{season.get('title')}</Link>
+          ))}
+        {/* props.children */}
+      </Container>
+    );
+  }
+
+}

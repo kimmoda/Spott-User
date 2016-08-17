@@ -1,5 +1,5 @@
 import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
-import { transformMedium /* , transformSeason, transformEpisode */ } from './transformers';
+import { transformMedium, transformSeason /* , transformEpisode */ } from './transformers';
 import { MOVIE, SERIES } from '../data/mediumTypes';
 import { slugify } from '../utils';
 
@@ -93,23 +93,16 @@ export async function removeSubscriber (baseUrl, authenticationToken, locale, { 
   }
 }
 
-/*
-
-export async function getSeasons (baseUrl, authenticationToken, locale, { seriesId }) {
-  try {
-    const { body } = await get(authenticationToken, `${baseUrl}/v003/media/series/${seriesId}/seasons`);
-    return body.data.map(transformSeason);
-  } catch (error) {
-    switch (error.statusCode) {
-      case 403:
-        throw new UnauthorizedError();
-      case 404:
-        throw new NotFoundError('series', error);
-    }
-    throw new UnexpectedError(error);
+export async function getMediumSeasons (baseUrl, authenticationToken, locale, { mediumId }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/seasons`);
+  const data = body.data.map(transformSeason);
+  for (const season of data) {
+    season.shareUrl = `/${locale}/series/medium-title-slug/${mediumId}/season/${slugify(season.title)}/${season.id}`;
   }
+  return data;
 }
 
+/*
 export async function getEpisodes (baseUrl, authenticationToken, locale, { seasonId }) {
   try {
     const { body } = await get(authenticationToken, `${baseUrl}/v003/media/serieSeasons/${seasonId}/episodes?sortField=NUMBER&sortDirection=DESC`);

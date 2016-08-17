@@ -4,11 +4,15 @@ import {
   createEntityByIdSelector, createEntitiesByRelationSelector,
   charactersEntitiesSelector, mediaEntitiesSelector,
   mediumHasNewScenesForYouSelector,
-  scenesEntitiesSelector, mediumHasCharactersSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector } from '../../data/selector';
+  scenesEntitiesSelector, mediumHasCharactersSelector,
+  mediumHasSeasonsSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector
+} from '../../data/selector';
 
 export const currentMediumIdSelector = (state) => state.getIn([ 'medium', 'currentMedium', 'id' ]);
 
 export const currentMediumSelector = createEntityByIdSelector(mediaEntitiesSelector, currentMediumIdSelector);
+
+// Hero
 
 export const heroSelector = createStructuredSelector({
   characters: createEntitiesByRelationSelector(mediumHasCharactersSelector, currentMediumIdSelector, charactersEntitiesSelector),
@@ -17,6 +21,7 @@ export const heroSelector = createStructuredSelector({
 });
 
 // Overview
+
 export const pickedForYouSelector = createStructuredSelector({
   products: createEntitiesByRelationSelector(mediumHasTopUserProductsSelector, currentMediumIdSelector, productsEntitiesSelector)
 });
@@ -31,6 +36,11 @@ export const newScenesForYouSelector = createStructuredSelector({
 });
 
 // Tabs
+
 export const tabsSelector = createStructuredSelector({
   medium: currentMediumSelector
+});
+
+export const seasonsSelector = createStructuredSelector({
+  seasons: createEntitiesByRelationSelector(mediumHasSeasonsSelector, currentMediumIdSelector, mediaEntitiesSelector)
 });
