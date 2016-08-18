@@ -14,8 +14,12 @@ export class SmallEpisodeTile extends Component {
   static propTypes = {
     hovered: PropTypes.bool.isRequired,
     item: ImmutablePropTypes.mapContains({
-      name: PropTypes.string.isRequired,
-      shareUrl: PropTypes.string.isRequired
+      title: PropTypes.string.isRequired,
+      shareUrl: PropTypes.string.isRequired,
+      profileImage: ImmutablePropTypes.mapContains({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      })
     }).isRequired,
     style: PropTypes.object
   };
@@ -57,43 +61,19 @@ export class SmallEpisodeTile extends Component {
         display: 'block',
         padding: 2
       }
-    },
-    title: {
-      base: {
-        ...makeTextStyle(fontWeights.bold, '0.54em', '0.219em'),
-        color: 'white',
-        left: 0,
-        opacity: 0,
-        overflow: 'hidden',
-        paddingLeft: '1em',
-        paddingRight: '1em',
-        position: 'absolute',
-        right: 0,
-        textAlign: 'center',
-        textOverflow: 'ellipsis',
-        textTransform: 'uppercase',
-        top: '45%',
-        transition: 'opacity 0.5s ease-in',
-        whiteSpace: 'nowrap'
-      },
-      hovered: {
-        opacity: 1,
-        transition: 'opacity 0.5s ease-out'
-      }
     }
   };
 
   render () {
     const styles = this.constructor.styles;
-    const { hovered, item, style } = this.props;
+    const { item, style } = this.props;
 
     const children = (
       <div style={styles.container}>
         <div
-          style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}")` } ]}
-          title={item.get('name')} />
+          style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}")` } ]}
+          title={item.get('title')} />
         <div style={styles.layer} />
-        <div style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</div>
       </div>
     );
     return (

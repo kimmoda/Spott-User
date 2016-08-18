@@ -16,7 +16,6 @@ export default class Medium extends Component {
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
     }).isRequired,
-    medium: ImmutablePropTypes.map.isRequired,
     params: PropTypes.shape({
       mediumId: PropTypes.string.isRequired
     }).isRequired,

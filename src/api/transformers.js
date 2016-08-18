@@ -115,10 +115,11 @@ export function transformSeason ({ title, uuid: id }) {
   };
 }
 
-export function transformEpisode ({ title, uuid: id }) {
+export function transformEpisode ({ profileImage, title, uuid: id }) {
   return {
     id,
-    title
+    title,
+    profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url }
   };
 }
 

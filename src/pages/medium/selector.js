@@ -3,13 +3,12 @@ import { isAuthenticatedSelector } from '../app/selector';
 import {
   createEntityByIdSelector, createEntitiesByRelationSelector,
   charactersEntitiesSelector, mediaEntitiesSelector,
-  mediumHasNewScenesForYouSelector,
+  mediumHasNewScenesForYouSelector, mediumHasEpisodesSelector,
   scenesEntitiesSelector, mediumHasCharactersSelector,
   mediumHasSeasonsSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector
 } from '../../data/selector';
 
-export const currentMediumIdSelector = (state) => state.getIn([ 'medium', 'currentMedium', 'id' ]);
-
+const currentMediumIdSelector = (state, props) => (props.params && props.params.mediumId) || props.mediumId;
 export const currentMediumSelector = createEntityByIdSelector(mediaEntitiesSelector, currentMediumIdSelector);
 
 // Hero
@@ -45,6 +44,7 @@ export const seasonsSelector = createStructuredSelector({
   seasons: createEntitiesByRelationSelector(mediumHasSeasonsSelector, currentMediumIdSelector, mediaEntitiesSelector)
 });
 
+const currentSeasonIdSelector = (state, props) => (props.params && props.params.seasonId) || props.seasonId;
 export const episodesSelector = createStructuredSelector({
-  episodes: createEntitiesByRelationSelector(mediumHasEpisodesSelector, xxxxx, mediaEntitiesSelector)
-})
+  episodes: createEntitiesByRelationSelector(mediumHasEpisodesSelector, currentSeasonIdSelector, mediaEntitiesSelector)
+});

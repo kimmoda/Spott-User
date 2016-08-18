@@ -5,27 +5,6 @@ import { addSubscriber, fetchMediumEpisodes, fetchMediumSeasons, fetchMediumChar
 import { currentUserIdSelector } from '../app/selector';
 import { currentMediumSelector } from './selector';
 
-export const LOAD_MEDIUM = 'SERIES/LOAD_MEDIUM';
-export const LOAD_MEDIUM_ERROR = 'SERIES/LOAD_MEDIUM_ERROR';
-
-export const LOAD_SEASONS = 'SERIES/LOAD_SEASONS';
-export const LOAD_SEASONS_ERROR = 'SERIES/LOAD_SEASONS_ERROR';
-
-export const LOAD_EPISODES = 'SERIES/LOAD_EPISODES';
-export const LOAD_EPISODES_ERROR = 'SERIES/LOAD_EPISODES_ERROR';
-
-export const LOAD_MEDIUM_CHARACTERS = 'SERIES/LOAD_MEDIUM_CHARACTERS';
-export const LOAD_MEDIUM_CHARACTERS_ERROR = 'SERIES/LOAD_MEDIUM_CHARACTERS_ERROR';
-
-export const LOAD_MEDIUM_TOP_PRODUCTS = 'SERIES/LOAD_MEDIUM_TOP_PRODUCTS';
-export const LOAD_MEDIUM_TOP_PRODUCTS_ERROR = 'SERIES/LOAD_MEDIUM_TOP_PRODUCTS_ERROR';
-
-export const LOAD_MEDIUM_TOP_USER_PRODUCTS = 'SERIES/LOAD_MEDIUM_TOP_USER_PRODUCTS';
-export const LOAD_MEDIUM_TOP_USER_PRODUCTS_ERROR = 'SERIES/LOAD_MEDIUM_TOP_USER_PRODUCTS_ERROR';
-
-export const LOAD_NEW_SCENES_FOR_YOU = 'SERIES/LOAD_NEW_SCENES_FOR_YOU';
-export const LOAD_NEW_SCENES_FOR_YOU_ERROR = 'SERIES/LOAD_NEW_SCENES_FOR_YOU_ERROR';
-
 // Hero
 // ////
 
@@ -54,23 +33,13 @@ export function toggleFollow () {
 
 export function loadMedium (mediumType, mediumId) {
   return async (dispatch, getState) => {
-    try {
-      dispatch({ mediumId, mediumType, type: LOAD_MEDIUM });
-      return await dispatch(fetchMedium({ mediumId, mediumType }));
-    } catch (error) {
-      return dispatch({ error, mediumId, mediumType, type: LOAD_MEDIUM_ERROR });
-    }
+    return await dispatch(fetchMedium({ mediumId, mediumType }));
   };
 }
 
 export function loadCharacters (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_MEDIUM_CHARACTERS });
-      return await dispatch(fetchMediumCharacters({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_MEDIUM_CHARACTERS_ERROR });
-    }
+    return await dispatch(fetchMediumCharacters({ mediumId }));
   };
 }
 
@@ -79,34 +48,19 @@ export function loadCharacters (mediumId) {
 
 export function loadTopProducts (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_MEDIUM_TOP_PRODUCTS });
-      return await dispatch(fetchMediumProducts({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_MEDIUM_TOP_PRODUCTS_ERROR });
-    }
+    return await dispatch(fetchMediumProducts({ mediumId }));
   };
 }
 
 export function loadTopUserProducts (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_MEDIUM_TOP_USER_PRODUCTS });
-      return await dispatch(fetchMediumTopUserProducts({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_MEDIUM_TOP_USER_PRODUCTS_ERROR });
-    }
+    return await dispatch(fetchMediumTopUserProducts({ mediumId }));
   };
 }
 
 export function loadNewScenesForYou (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_NEW_SCENES_FOR_YOU });
-      return await dispatch(fetchMediumNewScenesForYou({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_NEW_SCENES_FOR_YOU_ERROR });
-    }
+    return await dispatch(fetchMediumNewScenesForYou({ mediumId }));
   };
 }
 
@@ -115,22 +69,12 @@ export function loadNewScenesForYou (mediumId) {
 
 export function loadSeasons (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_SEASONS });
-      return await dispatch(fetchMediumSeasons({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_SEASONS_ERROR });
-    }
+    return await dispatch(fetchMediumSeasons({ mediumId }));
   };
 }
 
 export function loadEpisodes (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_EPISODES });
-      return await dispatch(fetchMediumEpisodes({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_EPISODES_ERROR });
-    }
+    return await dispatch(fetchMediumEpisodes({ mediumId }));
   };
 }
