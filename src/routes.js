@@ -18,6 +18,10 @@ import Scene from './pages/scene/view';
 import SceneProduct from './pages/scene/view/productDetail';
 import Medium from './pages/medium/view';
 import MediumOverview from './pages/medium/view/overview';
+import MediumSeasons from './pages/medium/view/seasons';
+import MediumEpisodes from './pages/medium/view/episodes';
+import MediumScenes from './pages/medium/view/scenes';
+import MediumTabs from './pages/medium/view/tabs';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
@@ -60,22 +64,6 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     }
   }
 
-  // Factory for medium-page routes.
-  function makeMediumRoutes (mediumType, mediumTypeParam) {
-    return (
-      <Route component={Medium} mediumType={mediumType} path={`${mediumTypeParam}/:mediumSlug/:mediumId`}>
-        <IndexRedirect to='overview' />
-        <Route component={MediumOverview} path='overview' />
-        {/* TODO: NOT DONE YET
-        <Route component={SeriesProducts} path='series/:seriesId/products' />
-          <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId'>
-            <Route component={SeriesScenes} path='series/:seriesId/season/:seasonId/episode/:episodeId/scenes' />
-          </Route>
-        */}
-      </Route>
-    );
-  }
-
   // Factory for localized routes
   function makeLocalizedRoutes (locale) {
     // When entering a page, the locale is dispatched.
@@ -91,11 +79,28 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
 
-        {makeMediumRoutes(SERIES, 'series')}
-        {makeMediumRoutes(MOVIE, 'movie')}
+        {/* Scenes */}
         <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
           <IndexRoute component={() => <div style={{ marginTop: '2.5em' }} />} />
           <Route component={SceneProduct} path='product/:productId' />
+        </Route>
+
+        {/* Media */}
+        <Route component={Medium} mediumType={SERIES} path={'series/:mediumSlug/:mediumId'}>
+          <IndexRedirect to='overview' />
+          <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
+          <Route components={{ main: MediumScenes, nav: MediumTabs }}>
+            <Route component={MediumSeasons} path='season'>
+              <Route component={MediumEpisodes} path=':seasonSlug/:seasonId'>
+                <Route component={null} path='episode/:episodeSlug/:episodeId' />
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+        <Route component={Medium} mediumType={MOVIE} path={'movie/:mediumSlug/:mediumId'}>
+          <IndexRedirect to='overview' />
+          <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
+          <Route components={{ main: MediumScenes, nav: MediumTabs }} path='scenes' />
         </Route>
 
         <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />

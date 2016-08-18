@@ -109,17 +109,20 @@ export function transformMedium ({ posterImage, profileImage, subscribed, subscr
   };
 }
 
-export function transformSeason ({ title, uuid: id }) {
+export function transformSeason ({ shareUrl, title, uuid: id }) {
   return {
     id,
+    shareUrl: stripDomain(shareUrl),
     title
   };
 }
 
-export function transformEpisode ({ title, uuid: id }) {
+export function transformEpisode ({ profileImage, shareUrl, title, uuid: id }) {
   return {
     id,
-    title
+    title,
+    shareUrl: stripDomain(shareUrl),
+    profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url }
   };
 }
 

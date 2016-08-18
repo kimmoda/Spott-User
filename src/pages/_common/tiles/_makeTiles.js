@@ -69,7 +69,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
     class GenericTiles extends Component {
 
       static propTypes = {
-        currentLocale: PropTypes.string.isRequired,
+        arrowsType: PropTypes.oneOf([ 'none', 'inline', 'top' ]),
         items: ImmutablePropTypes.mapContains({
           _status: PropTypes.string,
           data: ImmutablePropTypes.list
@@ -84,6 +84,10 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
         title: PropTypes.string,
         titleStyle: PropTypes.object
       };
+
+      static defaultProps = {
+        arrowsType: 'top'
+      }
 
       constructor (props) {
         super(props);
@@ -197,7 +201,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
       render () {
         const { styles } = this.constructor;
         const {
-          items, listStyle, renderEmptyComponent, renderLoadingComponent,
+          arrowsType, items, listStyle, renderEmptyComponent, renderLoadingComponent,
           renderNotFoundComponent, renderUnexpectedComponent, style, titleStyle, title
         } = this.props;
         const { screenWidth } = this.state;
@@ -227,18 +231,19 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
 
         return (
           <div ref={(x) => { this.container = x; }} style={[ styles.container, style ]}>
-            <div style={styles.header}>
-              <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>
-              {items.get('data').size > currentNumColumns &&
-                <div style={styles.headerIcons}>
-                  <div style={styles.leftArrowWrapper} onClick={this.onBackClick}>
-                    <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
-                  </div>
-                  <div style={styles.rightArrowWrapper} onClick={this.onMoreClick}>
-                    <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
-                  </div>
+            {(arrowsType === 'top' || title) &&
+              <div style={styles.header}>
+                {title && <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>}
+                {arrowsType === 'top' && items.get('data').size > currentNumColumns &&
+                  <div style={styles.headerIcons}>
+                    <div style={styles.leftArrowWrapper} onClick={this.onBackClick}>
+                      <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
+                    </div>
+                    <div style={styles.rightArrowWrapper} onClick={this.onMoreClick}>
+                      <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
+                    </div>
+                  </div>}
                 </div>}
-            </div>
             <RadiumTiles
               first={this.state.first}
               horizontalSpacing={horizontalSpacing}

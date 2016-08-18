@@ -3,23 +3,24 @@ import { isAuthenticatedSelector } from '../app/selector';
 import {
   createEntityByIdSelector, createEntitiesByRelationSelector,
   charactersEntitiesSelector, mediaEntitiesSelector,
-  mediumHasNewScenesForYouSelector,
-  scenesEntitiesSelector, mediumHasCharactersSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector } from '../../data/selector';
+  mediumHasNewScenesForYouSelector, mediumHasEpisodesSelector,
+  scenesEntitiesSelector, mediumHasCharactersSelector,
+  mediumHasSeasonsSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector
+} from '../../data/selector';
 
-export const currentMediumIdSelector = (state) => state.getIn([ 'medium', 'currentMedium', 'id' ]);
-
+const currentMediumIdSelector = (state, props) => (props.params && props.params.mediumId) || props.mediumId;
 export const currentMediumSelector = createEntityByIdSelector(mediaEntitiesSelector, currentMediumIdSelector);
+
+// Hero
 
 export const heroSelector = createStructuredSelector({
   characters: createEntitiesByRelationSelector(mediumHasCharactersSelector, currentMediumIdSelector, charactersEntitiesSelector),
-  isAuthenticated: isAuthenticatedSelector
-});
-
-export const mediumSelector = createStructuredSelector({
+  isAuthenticated: isAuthenticatedSelector,
   medium: currentMediumSelector
 });
 
 // Overview
+
 export const pickedForYouSelector = createStructuredSelector({
   products: createEntitiesByRelationSelector(mediumHasTopUserProductsSelector, currentMediumIdSelector, productsEntitiesSelector)
 });
@@ -31,4 +32,19 @@ export const topProductsSelector = createStructuredSelector({
 
 export const newScenesForYouSelector = createStructuredSelector({
   scenes: createEntitiesByRelationSelector(mediumHasNewScenesForYouSelector, currentMediumIdSelector, scenesEntitiesSelector)
+});
+
+// Tabs
+
+export const tabsSelector = createStructuredSelector({
+  medium: currentMediumSelector
+});
+
+export const seasonsSelector = createStructuredSelector({
+  seasons: createEntitiesByRelationSelector(mediumHasSeasonsSelector, currentMediumIdSelector, mediaEntitiesSelector)
+});
+
+const currentSeasonIdSelector = (state, props) => (props.params && props.params.seasonId) || props.seasonId;
+export const episodesSelector = createStructuredSelector({
+  episodes: createEntitiesByRelationSelector(mediumHasEpisodesSelector, currentSeasonIdSelector, mediaEntitiesSelector)
 });

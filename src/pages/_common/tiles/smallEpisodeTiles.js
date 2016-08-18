@@ -2,10 +2,10 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
-import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { colors } from '../../_common/buildingBlocks';
 import BaseTile from './_baseTile';
 import hoverable from '../hoverable';
-// import makeTiles from './_makeTiles';
+import makeTiles from './_makeTiles';
 
 @hoverable
 @Radium
@@ -14,9 +14,13 @@ export class SmallEpisodeTile extends Component {
   static propTypes = {
     hovered: PropTypes.bool.isRequired,
     item: ImmutablePropTypes.mapContains({
-      name: PropTypes.string.isRequired
+      title: PropTypes.string.isRequired,
+      shareUrl: PropTypes.string.isRequired,
+      profileImage: ImmutablePropTypes.mapContains({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      })
     }).isRequired,
-    linkTo: PropTypes.string,
     style: PropTypes.object
   };
 
@@ -57,61 +61,31 @@ export class SmallEpisodeTile extends Component {
         display: 'block',
         padding: 2
       }
-    },
-    title: {
-      base: {
-        ...makeTextStyle(fontWeights.bold, '0.54em', '0.219em'),
-        color: 'white',
-        left: 0,
-        opacity: 0,
-        overflow: 'hidden',
-        paddingLeft: '1em',
-        paddingRight: '1em',
-        position: 'absolute',
-        right: 0,
-        textAlign: 'center',
-        textOverflow: 'ellipsis',
-        textTransform: 'uppercase',
-        top: '45%',
-        transition: 'opacity 0.5s ease-in',
-        whiteSpace: 'nowrap'
-      },
-      hovered: {
-        opacity: 1,
-        transition: 'opacity 0.5s ease-out'
-      }
     }
   };
 
   render () {
     const styles = this.constructor.styles;
-    const { hovered, item, linkTo, style } = this.props;
+    const { item, style } = this.props;
 
     const children = (
       <div style={styles.container}>
         <div
-          style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]}
-          title={item.get('name')} />
+          style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}")` } ]}
+          title={item.get('title')} />
         <div style={styles.layer} />
-        <div style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</div>
       </div>
     );
     return (
       <BaseTile style={style}>
-        {linkTo
-          ? <Link activeStyle={styles.link.active} style={styles.link.base} to={linkTo}>{children}</Link>
-          : children}
+        <Link activeStyle={styles.link.active} style={styles.link.base} to={item.get('shareUrl')}>{children}</Link>
       </BaseTile>
     );
   }
 }
 
-/* TODO: we need a way to inject seriesId
 export default makeTiles(
-  0.833,
-  { extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 },
-  ({ item, key, style: tileStyle }) => (
-    <SmallEpisodeTile item={item} key={key} linkTo={`/series/${seriesId}/season/3/episode/${key}/scenes`} style={tileStyle} />
-  )
+  0.938,
+  { extraSmall: 4, small: 5, medium: 6, large: 7, extraLarge: 9 },
+  (instanceProps) => <SmallEpisodeTile {...instanceProps} />
 );
-*/
