@@ -95,13 +95,13 @@ export function makeTextStyle (fontWeight = fontWeights.regular, fontSize = '1em
 
 export const dialogStyle = {
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.45)',
-    zIndex: 1
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    zIndex: 1000
   },
   content: {
     // Set width and center horizontally
     margin: 'auto',
-    // maxWidth: 420,
+    maxWidth: 420,
     width: '90%',
     left: 10,
     right: 10,
@@ -112,6 +112,27 @@ export const dialogStyle = {
     top: '50%',
     transform: 'translateY(-50%)',
     overflowY: 'scroll'
+  }
+};
+
+export const largeDialogStyle = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    zIndex: 1000,
+    overflow: 'auto'
+  },
+  content: {
+    backgroundColor: 'transparent',
+    border: 'none',
+    // display: 'inline-block',
+    padding: 0,
+    // Fit width to content, centering horizontally
+    left: '50%',
+    right: 'auto',
+    transform: 'translateX(-50%)',
+    top: '5em',
+    bottom: '1em',
+    overflow: 'visible'
   }
 };
 
@@ -127,9 +148,8 @@ export const dialogStyle = {
 export const Modal = Radium((props) => (
   <ReactModal
     isOpen={props.isOpen}
-    style={dialogStyle}
+    style={props.style || dialogStyle}
     onRequestClose={props.onClose}>
-    <div style={{ position: 'relative' }}>
       {/* Although this is a button, we chose a <div> for accessibility.
           The dialog can be canceled by pressing 'escape', so we remove the
           cross from tab focus. */}
@@ -137,7 +157,6 @@ export const Modal = Radium((props) => (
         <img alt='Close' src={crossImage} />
       </div> */}
       {props.children}
-    </div>
   </ReactModal>
 ));
 
@@ -305,6 +324,34 @@ Container.propTypes = {
   style: PropTypes.object
 };
 
+const smallContainerStyles = {
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  width: '100%',
+  paddingLeft: '0.9375em',
+  paddingRight: '0.9375em',
+  [mediaQueries.medium]: {
+    paddingLeft: 0,
+    paddingRight: 0,
+    width: 570
+  },
+  [mediaQueries.large]: {
+    width: 658
+  },
+  [mediaQueries.extraLarge]: {
+    width: 882
+  }
+};
+
+export const SmallContainer = Radium((props) => (
+  <div {...props} style={[ smallContainerStyles, props.style ]}>
+    {props.children}
+  </div>
+));
+SmallContainer.propTypes = {
+  children: PropTypes.node,
+  style: PropTypes.object
+};
 // Container component
 // ///////////////////
 

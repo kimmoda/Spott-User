@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Radium from 'radium';
 import { Map } from 'immutable';
-import { colors, load, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
+import { colors, load, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, SmallContainer, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
 import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
@@ -70,11 +70,12 @@ export default class ProductDetail extends Component {
 
   static styles = {
     productInfo: {
-      fontSize: '16px',
       width: '100%',
       paddingTop: '3.75em',
       paddingBottom: '3.75em',
-      backgroundColor: colors.whiteTwo
+      paddingLeft: '2.5em',
+      paddingRight: '2.5em',
+      backgroundColor: colors.whiteGray
     },
     left: {
       float: 'left',
@@ -126,7 +127,8 @@ export default class ProductDetail extends Component {
           width: '3.75em',
           height: '3.75em',
           margin: '0 0.625em 0.625em 0',
-          borderRadius: '0.25em',
+          borderRadiusTopLeft: '0.25em',
+          borderRadiusTopRight: '0.25em',
           border: `solid 0.15em ${colors.whiteTwo}`,
           cursor: 'pointer'
         },
@@ -178,10 +180,11 @@ export default class ProductDetail extends Component {
       }
     },
     similarProducts: {
-      fontSize: '16px',
       width: '100%',
       paddingTop: '3.75em',
       paddingBottom: '3.75em',
+      paddingLeft: '2.5em',
+      paddingRight: '2.5em',
       backgroundColor: colors.white
     },
     similarProductsTitle: {
@@ -214,7 +217,7 @@ export default class ProductDetail extends Component {
     return (
       <div>
         <div style={styles.productInfo}>
-          <Container>
+          <SmallContainer>
             <div style={styles.left}>
               <div style={styles.images.wrapper}>
                 {selectedImage &&
@@ -261,17 +264,17 @@ export default class ProductDetail extends Component {
               description={product.get('description') || ''}
               imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()}
               title={product.get('shortName')} url={window.location.href} />
-          </Container>
+          </SmallContainer>
         </div>
         <div style={styles.similarProducts}>
-          <Container>
+          <SmallContainer style={styles.smallContainer}>
             <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
             {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
               <ProductTiles items={Map({ _status: LOADED, data: product.get('similarProducts') })} />}
             {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
               <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
             {!product.get('similarProducts') && <Spinner />}
-          </Container>
+          </SmallContainer>
         </div>
       </div>
     );
@@ -281,9 +284,9 @@ export default class ProductDetail extends Component {
     const { styles } = this.constructor;
     const { currentLocale, t } = this.props;
     return (
-      <Container>
+      <SmallContainer>
         <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
-      </Container>
+      </SmallContainer>
     );
   }
 

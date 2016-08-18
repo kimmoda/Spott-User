@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { replace as routerReplace } from 'react-router-redux';
+import { goBack as routerGoBack, replace as routerReplace } from 'react-router-redux';
 import Radium from 'radium';
 import { Map } from 'immutable';
-import { colors, load, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, Modal, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
+import { colors, load, fontWeights, largeDialogStyle, makeTextStyle, mediaQueries, pinkButtonStyle, Button, SmallContainer, Modal, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
 import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
@@ -18,6 +18,7 @@ import Marker from '../../_common/tiles/_marker';
 @localized
 @connect(productSelector, (dispatch) => ({
   loadScene: bindActionCreators(actions.loadScene, dispatch),
+  routerGoBack: bindActionCreators(routerGoBack, dispatch),
   routerReplace: bindActionCreators(routerReplace, dispatch),
   toggleSaveScene: bindActionCreators(actions.toggleSaveScene, dispatch)
 }))
@@ -40,6 +41,7 @@ export default class Scene extends Component {
       productId: PropTypes.string,
       sceneId: PropTypes.string.isRequired
     }).isRequired,
+    routerGoBack: PropTypes.func.isRequired,
     routerReplace: PropTypes.func.isRequired,
     scene: ImmutablePropTypes.mapContains({
       image: ImmutablePropTypes.mapContains({
@@ -73,11 +75,11 @@ export default class Scene extends Component {
     this.renderScene = ::this.renderScene;
     this.renderNotFoundError = ::this.renderNotFoundError;
     this.renderUnexpectedError = ::this.renderUnexpectedError;
+    this.onClose = ::this.onClose;
   }
 
   async componentWillMount () {
     const { productId, sceneId } = this.props.params;
-    console.warn(this.props);
     // (Re)fetch the scene.
     const scene = await this.props.loadScene(sceneId);
     // Update the url, display the first product.
@@ -96,6 +98,10 @@ export default class Scene extends Component {
         this.props.routerReplace({ ...this.props.location, pathname: `${this.props.location.pathname}/product/${scene.products[0].id}` });
       }
     }
+  }
+
+  onClose () {
+    this.props.routerGoBack();
   }
 
   static styles = {
@@ -214,14 +220,38 @@ export default class Scene extends Component {
         }
       },
       sceneFrom: {
-        ...makeTextStyle(fontWeights.bold, '0.6111em', '0.1346em'),
-        opacity: 0.5,
-        color: colors.dark,
-        textTransform: 'uppercase',
-        paddingTop: '0.8695em'
+        base: {
+          ...makeTextStyle(fontWeights.bold, '0.6111em', '0.1346em'),
+          opacity: 0.5,
+          color: colors.dark,
+          textTransform: 'uppercase',
+          paddingTop: '0.8695em'
+        },
+        light: {
+          color: colors.white
+        }
+      },
+      saveButton: {
+        base: {
+          backgroundColor: 'transparent',
+          color: colors.coolGray
+        },
+        light: {
+          color: colors.white
+        }
       },
       shareButton: {
-        marginLeft: '0.5em'
+        base: {
+          marginLeft: '0.5em'
+        },
+        light: {
+          ':hover': {
+            borderColor: colors.white,
+            color: colors.white,
+            fill: colors.white
+          }
+        }
+
       },
       title: {
         base: {
@@ -234,6 +264,9 @@ export default class Scene extends Component {
         },
         emph: {
           opacity: 0.5
+        },
+        light: {
+          color: colors.white
         }
       }
     }
@@ -242,29 +275,31 @@ export default class Scene extends Component {
   renderScene () {
     const styles = this.constructor.styles;
     const { isAuthenticated, children, currentLocale, params: { productId }, scene, t, toggleSaveScene } = this.props;
+    const isPopup = this.props.location.state && this.props.location.state.modal;
+    const ContentContainer = isPopup ? (props) => <div>{props.children}</div> : SmallContainer;
 
     const content =
       <div>
-        <Container>
+        <ContentContainer>
           <div style={styles.header.container}>
-            <div>
-              <div>
-                <div style={styles.header.sceneFrom}>Scene from</div>
-                <h1 style={styles.header.title.base}>Daredevil <span style={styles.header.title.emph}>- SO3E07</span> World on Fire</h1>
-              </div>
+            <div style={styles.header.left}>
+              <div style={[ styles.header.sceneFrom.base, isPopup && styles.header.sceneFrom.light ]}>Scene from</div>
+              <h1 style={[ styles.header.title.base, isPopup && styles.header.title.light ]}>
+                Daredevil <span style={styles.header.title.emph}>- SO3E07</span> World on Fire
+              </h1>
             </div>
             <div style={styles.header.right}>
               {isAuthenticated
-                ? <Button style={[ pinkButtonStyle ]} onClick={toggleSaveScene}>
+                ? <Button style={[ pinkButtonStyle, styles.header.saveButton.base, isPopup && styles.header.saveButton.light ]} onClick={toggleSaveScene}>
                     {scene.get('saved') ? t('scene.unsave') : t('scene.save')}
                   </Button>
-                : <Button style={[ pinkButtonStyle ]} to={{
+                : <Button style={[ pinkButtonStyle, styles.header.saveButton.base, isPopup && styles.header.saveButton.light ]} to={{
                   pathname: `/${currentLocale}/login`,
                   state: { modal: true, returnTo: location.pathname }
                 }}>
                   {t('scene.save')}
                 </Button>}
-              <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(scene.get('shareUrl'))}&title=Discover this scene now on Spott`} style={styles.header.shareButton}>
+              <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(scene.get('shareUrl'))}&title=Discover this scene now on Spott`} style={[ styles.header.shareButton.base, isPopup && styles.header.shareButton.light ]}>
                 {t('common.share')}
               </ShareButton>
             </div>
@@ -296,29 +331,30 @@ export default class Scene extends Component {
             </div>
           </div>
           <div style={{ clear: 'both' }} />
-        </Container>
+        </ContentContainer>
         {children}
       </div>;
 
-    //if (this.props.location.state && this.props.location.state.modal) {
+    if (isPopup) {
       return (
         <Modal
           isOpen
+          style={largeDialogStyle}
           onClose={this.onClose}>
           {content}
         </Modal>
       );
-    // }
-    // return content;
+    }
+    return content;
   }
 
   renderNotFoundError () {
     const { styles } = this.constructor;
     const { currentLocale, t } = this.props;
     return (
-      <Container>
+      <SmallContainer>
         <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
-      </Container>
+      </SmallContainer>
     );
   }
 
