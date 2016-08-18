@@ -47,6 +47,7 @@ export default class ProductDetail extends Component {
   constructor (props) {
     super(props);
     this.share = ::this.share;
+    this.onBuyClick = ::this.onBuyClick;
     this.product = this.props.params.productId;
     this.renderProduct = ::this.renderProduct;
     this.renderNotFoundError = ::this.renderNotFoundError;
@@ -67,6 +68,18 @@ export default class ProductDetail extends Component {
   share (e) {
     e.preventDefault();
     window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
+  }
+
+  onBuyClick () {
+    const postUrl = this.props.product.getIn([ 'offerings', '0', 'url' ]);
+    alert(postUrl);
+    // Create a form using the good ol' DOM API
+    const form = document.createElement('form');
+    form.setAttribute('method', 'POST');
+    form.setAttribute('action', postUrl);
+    document.body.appendChild(form);
+    // Submit form
+    form.submit();
   }
 
   static styles = {
@@ -277,7 +290,7 @@ export default class ProductDetail extends Component {
                     currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} />
                 </h2>
                 <div style={styles.details.buttons.wrapper}>
-                  <Button disabled={notAvailable} href={product.getIn([ 'offerings', '0', 'url' ])} key='buyButton' style={pinkButtonStyle} target='_blank'>
+                  <Button disabled={notAvailable} key='buyButton' style={pinkButtonStyle} target='_blank' onClick={this.onBuyClick}>
                     <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
                   </Button>
                   <a
