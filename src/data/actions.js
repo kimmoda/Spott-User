@@ -101,6 +101,10 @@ export const MEDIUM_SEASONS_FETCH_START = 'DATA/MEDIUM_SEASONS_FETCH_START';
 export const MEDIUM_SEASONS_FETCH_SUCCESS = 'DATA/MEDIUM_SEASONS_FETCH_SUCCESS';
 export const MEDIUM_SEASONS_FETCH_ERROR = 'DATA/MEDIUM_SEASONS_FETCH_ERROR';
 
+export const MEDIUM_EPISODES_FETCH_START = 'DATA/MEDIUM_EPISODES_FETCH_START';
+export const MEDIUM_EPISODES_FETCH_SUCCESS = 'DATA/MEDIUM_EPISODES_FETCH_SUCCESS';
+export const MEDIUM_EPISODES_FETCH_ERROR = 'DATA/MEDIUM_EPISODES_FETCH_ERROR';
+
 // Actions creators
 // ////////////////
 
@@ -131,6 +135,8 @@ export const fetchMediumProducts = makeApiActionCreator(productsApi.getMediumPro
 export const fetchMediumTopUserProducts = makeApiActionCreator(productsApi.getMediumTopUserProducts, MEDIUM_TOP_USER_PRODUCTS_FETCH_START, MEDIUM_TOP_USER_PRODUCTS_FETCH_SUCCESS, MEDIUM_TOP_USER_PRODUCTS_FETCH_ERROR);
 
 export const fetchMediumSeasons = makeApiActionCreator(mediaApi.getMediumSeasons, MEDIUM_SEASONS_FETCH_START, MEDIUM_SEASONS_FETCH_SUCCESS, MEDIUM_SEASONS_FETCH_ERROR);
+
+export const fetchMediumEpisodes = makeApiActionCreator(mediaApi.getMediumEpisodes, MEDIUM_EPISODES_FETCH_START, MEDIUM_EPISODES_FETCH_SUCCESS, MEDIUM_EPISODES_FETCH_ERROR);
 
 export const addSubscriber = makeApiActionCreator(mediaApi.addSubscriber, MEDIUM_SUBSCRIBER_ADD_START, MEDIUM_SUBSCRIBER_ADD_SUCCESS, MEDIUM_SUBSCRIBER_ADD_ERROR);
 

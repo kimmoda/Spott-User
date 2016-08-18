@@ -63,14 +63,13 @@ export default class SeasonsTabs extends Component {
   }
 
   render () {
-    const { /* children, */ seasons } = this.props;
-    console.info(seasons && seasons.toJS());
+    const { children, seasons } = this.props;
     return (
       <Container>
           {seasons.get('data').map((season) => (
             <Link activeStyle={styles.season.active} style={styles.season.base} to={`${season.get('shareUrl')}`}>{season.get('title')}</Link>
           ))}
-        {/* props.children */}
+        {children}
       </Container>
     );
   }

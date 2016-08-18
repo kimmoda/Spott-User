@@ -44,3 +44,7 @@ export const tabsSelector = createStructuredSelector({
 export const seasonsSelector = createStructuredSelector({
   seasons: createEntitiesByRelationSelector(mediumHasSeasonsSelector, currentMediumIdSelector, mediaEntitiesSelector)
 });
+
+export const episodesSelector = createStructuredSelector({
+  episodes: createEntitiesByRelationSelector(mediumHasEpisodesSelector, xxxxx, mediaEntitiesSelector)
+})

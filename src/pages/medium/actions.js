@@ -1,6 +1,6 @@
 // import { getSeries, getSeasons, getEpisodes, getEpisodeProducts } from '../../api/series';
 // import { getRecentlyAddedToWishlist, getPopularProducts } from '../../api/products';
-import { addSubscriber, fetchMediumSeasons, fetchMediumCharacters, fetchMediumNewScenesForYou, fetchMediumProducts, fetchMediumTopUserProducts, fetchMedium, removeSubscriber } from '../../data/actions';
+import { addSubscriber, fetchMediumEpisodes, fetchMediumSeasons, fetchMediumCharacters, fetchMediumNewScenesForYou, fetchMediumProducts, fetchMediumTopUserProducts, fetchMedium, removeSubscriber } from '../../data/actions';
 // import { getMediumCharacters, getMediumProducts } from '../../api/medium';
 import { currentUserIdSelector } from '../app/selector';
 import { currentMediumSelector } from './selector';
@@ -10,6 +10,9 @@ export const LOAD_MEDIUM_ERROR = 'SERIES/LOAD_MEDIUM_ERROR';
 
 export const LOAD_SEASONS = 'SERIES/LOAD_SEASONS';
 export const LOAD_SEASONS_ERROR = 'SERIES/LOAD_SEASONS_ERROR';
+
+export const LOAD_EPISODES = 'SERIES/LOAD_EPISODES';
+export const LOAD_EPISODES_ERROR = 'SERIES/LOAD_EPISODES_ERROR';
 
 export const LOAD_MEDIUM_CHARACTERS = 'SERIES/LOAD_MEDIUM_CHARACTERS';
 export const LOAD_MEDIUM_CHARACTERS_ERROR = 'SERIES/LOAD_MEDIUM_CHARACTERS_ERROR';
@@ -117,6 +120,17 @@ export function loadSeasons (mediumId) {
       return await dispatch(fetchMediumSeasons({ mediumId }));
     } catch (error) {
       return dispatch({ error, mediumId, type: LOAD_SEASONS_ERROR });
+    }
+  };
+}
+
+export function loadEpisodes (mediumId) {
+  return async (dispatch) => {
+    try {
+      dispatch({ mediumId, type: LOAD_EPISODES });
+      return await dispatch(fetchMediumEpisodes({ mediumId }));
+    } catch (error) {
+      return dispatch({ error, mediumId, type: LOAD_EPISODES_ERROR });
     }
   };
 }

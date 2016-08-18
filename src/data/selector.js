@@ -16,6 +16,7 @@ export const scenesEntitiesSelector = (state) => state.getIn([ 'data', 'entities
 // ///////////////////
 
 export const mediumHasCharactersSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasCharacters' ]);
+export const mediumHasEpisodesSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasEpisodes' ]);
 export const mediumHasProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasProducts' ]);
 export const mediumHasSeasonsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasSeasons' ]);
 export const mediumHasTopUserProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasTopUserProducts' ]);
