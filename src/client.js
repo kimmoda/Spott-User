@@ -15,9 +15,10 @@ import { combineReducers } from 'redux-immutablejs';
 import { reducer as form } from 'redux-form/immutable';
 import app from './pages/app/reducer';
 import data from './data/reducer';
+import medium from './pages/medium/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
-import medium from './pages/medium/reducer';
+import scene from './pages/scene/reducer';
 import { applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -35,7 +36,8 @@ const rootReducer = combineReducers({
   medium,
   productDetail,
   profile,
-  routing: routerReducer
+  routing: routerReducer,
+  scene
 });
 
 /**

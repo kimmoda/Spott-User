@@ -185,7 +185,10 @@ export class SceneTile extends Component {
     const { item, style /* , t */ } = this.props;
     return (
       <BaseTile style={style}>
-        <RadiumLink key={item.get('id')} style={styles.wrapper} to={item.get('shareUrl')}>
+        <RadiumLink key={item.get('id')} style={styles.wrapper} to={{
+          pathname: item.get('shareUrl'),
+          state: { modal: true, returnTo: '/' }
+        }}>
           <div style={styles.container}>
             <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
             <div style={styles.layer}></div>

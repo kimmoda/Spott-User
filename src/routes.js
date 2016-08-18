@@ -14,6 +14,8 @@ import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
 import ProfileSavedScenes from './pages/profile/view/savedScenes';
 import Redirect from './pages/redirect';
+import Scene from './pages/scene/view';
+import SceneProduct from './pages/scene/view/productDetail';
 import Medium from './pages/medium/view';
 import MediumOverview from './pages/medium/view/overview';
 // import SeriesProducts from './pages/series/view/products';
@@ -91,6 +93,10 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
         {makeMediumRoutes(SERIES, 'series')}
         {makeMediumRoutes(MOVIE, 'movie')}
+        <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
+          <IndexRoute component={() => <div style={{ marginTop: '2.5em' }} />} />
+          <Route component={SceneProduct} path='product/:productId' />
+        </Route>
 
         <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />
         <Route component={ProductDetail} path='product/:productSlug/:productId' /> {/* Backwards compatible with old url. */}

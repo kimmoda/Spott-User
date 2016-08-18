@@ -43,15 +43,9 @@ export function transformListProduct ({ available, buyUrl, image, price, shortNa
 }
 
 // no buyUrl, image
-export function transformDetailedProduct ({ available, brand, description, longName, images, offerings, price, shortName, shareUrl, uuid: id }) {
+export function transformDetailedProduct ({ available, brand, description, longName, images, offerings, price, relevance, shortName, shareUrl, uuid: id }) {
   return {
     available,
-    description,
-    id,
-    images: images && images.map((image) => ({ id: image.uuid, url: image.url })),
-    longName,
-    shareUrl: stripDomain(shareUrl),
-    shortName,
     brand: brand && {
       name: brand.name,
       id: brand.uuid,
@@ -60,11 +54,18 @@ export function transformDetailedProduct ({ available, brand, description, longN
         id: brand.logo.uuid
       }
     },
+    description,
+    id,
+    images: images && images.map((image) => ({ id: image.uuid, url: image.url })),
+    longName,
     offerings: offerings && offerings.map((offer) => ({
       url: offer.buyUrl,
       price: offer.price,
       shop: offer.shop.name
-    }))
+    })),
+    relevance,
+    shareUrl: stripDomain(shareUrl),
+    shortName
   };
 }
 
@@ -122,10 +123,22 @@ export function transformEpisode ({ title, uuid: id }) {
   };
 }
 
+function transformSceneProduct ({ image, position, price, shortName, uuid: id }) {
+  return {
+    id,
+    image: image && { id: image.uuid, url: image.url },
+    position,
+    price,
+    shortName
+  };
+}
 export function transformScene (scene) {
   return {
+    characters: ((scene.characters && scene.characters.data) || []).map(transformCharacter),
     id: scene.uuid,
     image: scene.image && { id: scene.image.uuid, url: scene.image.url },
+    // TODO: add pagination, probably not needed because there are no more then 100 products on a scene...
+    products: ((scene.products && scene.products.data) || []).map(transformSceneProduct),
     shareUrl: stripDomain(scene.shareUrl)
   };
 }

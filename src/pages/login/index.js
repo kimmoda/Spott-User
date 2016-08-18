@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { buttonStyle, colors, dialogStyle, fontWeights, makeTextStyle, pinkButtonStyle } from '../_common/buildingBlocks';
+import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle, Modal } from '../_common/buildingBlocks';
 import FacebookLoginButton from './facebookLoginButton';
 import * as actions from '../app/actions';
 import { authenticationErrorSelector, authenticationIsLoadingSelector }
@@ -150,44 +149,37 @@ class Login extends Component {
   render () {
     const { styles } = this.constructor;
     const { currentLocale, t } = this.props;
+
+    // Depending on the context (popup/no popup), another link is used.
+    const toLink = this.props.location.state && this.props.location.state.modal
+      ? {
+        pathname: `/${currentLocale}/register`,
+        state: { modal: true, returnTo: this.props.location.state.returnTo }
+      } : `/${currentLocale}/register`;
+
+    const content =
+      <section style={styles.container}>
+        <h2 style={styles.title}>{t('login.title')}</h2>
+        <FacebookLoginButton onClose={this.onClose} />
+        <Form {...this.props} onClose={this.onClose} />
+        <p style={styles.subText}>
+          {t('login.newUser')}&nbsp;
+          <Link style={styles.subTextLink} to={toLink}>
+            {t('login.createAccount')}
+          </Link>
+        </p>
+      </section>;
+
     if (this.props.location.state && this.props.location.state.modal) {
       return (
-        <ReactModal
+        <Modal
           isOpen
-          style={dialogStyle}
-          onRequestClose={this.onClose}>
-          <section style={styles.container}>
-            <h2 style={styles.title}>{t('login.title')}</h2>
-            <FacebookLoginButton onClose={this.onClose} />
-            <Form {...this.props} onClose={this.onClose} />
-            <p style={styles.subText}>
-              {t('login.newUser')}&nbsp;
-              <Link
-                style={styles.subTextLink} to={{
-                  pathname: `/${currentLocale}/register`,
-                  state: { modal: true, returnTo: this.props.location.state.returnTo } }}>
-                  {t('login.createAccount')}
-              </Link>
-            </p>
-          </section>
-        </ReactModal>
+          onClose={this.onClose}>
+          {content}
+        </Modal>
       );
     }
-    return (
-      <div>
-        <section style={styles.container}>
-          <h2 style={styles.title}>{t('login.title')}</h2>
-          <FacebookLoginButton onClose={this.onClose} />
-          <Form {...this.props} type='button' onClose={this.onClose} />
-          <p style={styles.subText}>
-            {t('login.newUser')}?&nbsp;
-            <Link style={styles.subTextLink} to={`/${currentLocale}/register`}>
-              {t('login.createAccount')}
-            </Link>
-          </p>
-        </section>
-      </div>
-    );
+    return content;
   }
 }
 
