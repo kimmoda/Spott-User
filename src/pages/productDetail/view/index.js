@@ -72,11 +72,12 @@ export default class ProductDetail extends Component {
 
   onBuyClick () {
     const postUrl = this.props.product.getIn([ 'offerings', '0', 'url' ]);
-    alert(postUrl);
     // Create a form using the good ol' DOM API
     const form = document.createElement('form');
     form.setAttribute('method', 'POST');
     form.setAttribute('action', postUrl);
+    // Distructive manipulation of the DOM-tree, but this doesn't matter since
+    // we leave the SPA anyway.
     document.body.appendChild(form);
     // Submit form
     form.submit();
