@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import Hero from './_hero';
 import { loadMedium } from '../actions';
 
@@ -11,11 +10,12 @@ import { loadMedium } from '../actions';
 export default class Medium extends Component {
 
   static propTypes = {
-    children: PropTypes.node,
     loadMedium: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
     }).isRequired,
+    main: PropTypes.node,
+    nav: PropTypes.node,
     params: PropTypes.shape({
       mediumId: PropTypes.string.isRequired
     }).isRequired,
@@ -38,8 +38,8 @@ export default class Medium extends Component {
     const { location, params: { mediumId } } = this.props;
     return (
       <div>
-        <Hero currentPathname={location.pathname} mediumId={mediumId} />
-        {this.props.children}
+        <Hero children={this.props.nav} currentPathname={location.pathname} mediumId={mediumId} />
+        {this.props.main}
       </div>
     );
   }

@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SmallEpisodeTiles from '../../../../_common/tiles/smallEpisodeTiles';
-import { Container } from '../../../../_common/buildingBlocks';
-import { episodesSelector } from '../../../selector';
-import { loadEpisodes } from '../../../actions';
+import SmallEpisodeTiles from '../../../_common/tiles/smallEpisodeTiles';
+import { Container } from '../../../_common/buildingBlocks';
+import { episodesSelector } from '../../selector';
+import { loadEpisodes } from '../../actions';
 
 const styles = {
   smallEpisodes: {
@@ -50,7 +50,7 @@ export default class SeasonsTabs extends Component {
       <Container>
         <div style={styles.smallEpisodes}>
           <Container>
-            <SmallEpisodeTiles items={episodes} listStyle={styles.smallEpisodeList} />
+            <SmallEpisodeTiles arrowsType='inline' items={episodes} listStyle={styles.smallEpisodeList} />
           </Container>
         </div>
         {children}

@@ -120,7 +120,7 @@ const textBoxStyle = {
     border: '0.056em #ff0000 solid'
   }
 };
-const renderField = (props) => {
+const renderField = radium((props) => {
   return (
     <input
       autoFocus={props.autoFocus}
@@ -129,14 +129,13 @@ const renderField = (props) => {
       type={props.type}
       {...props.input} />
   );
-};
+});
 
 // Date input
 
-const renderDateField = (props) => {
+const renderDateField = radium((props) => {
   // Determine value
   let value;
-  console.log('HAS', props.input.value, props.input.value instanceof Date);
   if (props.input.value instanceof Date) {
     value = moment(props.input.value).format('DD/MM/YYYY');
   } else {
@@ -151,7 +150,7 @@ const renderDateField = (props) => {
     return props.input.onChange(newValue);
   }
   // Render
-  return renderField({
+  return React.createElement(renderField, {
     ...props,
     input: {
       ...props.input,
@@ -160,7 +159,7 @@ const renderDateField = (props) => {
       onBlur: onChange
     }
   });
-};
+});
 
 // Select input
 
@@ -180,7 +179,6 @@ const selectInputStyles = {
   }
 };
 const renderSelectField = radium((props) => {
-  console.log(props.input.value);
   return (
     <WrappedSelect
       autoFocus={props.autoFocus}

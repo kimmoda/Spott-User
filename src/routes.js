@@ -17,7 +17,7 @@ import Redirect from './pages/redirect';
 import Medium from './pages/medium/view';
 import MediumOverview from './pages/medium/view/overview';
 import MediumSeasons from './pages/medium/view/seasons';
-import MediumEpisodes from './pages/medium/view/seasons/episodes';
+import MediumEpisodes from './pages/medium/view/episodes';
 import MediumScenes from './pages/medium/view/scenes';
 import MediumTabs from './pages/medium/view/tabs';
 // import SeriesProducts from './pages/series/view/products';
@@ -79,24 +79,19 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
         <Route component={Medium} mediumType={SERIES} path={'series/:mediumSlug/:mediumId'}>
           <IndexRedirect to='overview' />
-          <Route component={MediumTabs}>
-            <Route component={MediumOverview} path='overview' />
+          <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
+          <Route components={{ main: MediumScenes, nav: MediumTabs }}>
             <Route component={MediumSeasons} path='season'>
               <Route component={MediumEpisodes} path=':seasonSlug/:seasonId'>
-                <Route path='episode/:episodeSlug/:episodeId'>
-                  <IndexRedirect to='scenes' />
-                  <Route component={MediumScenes} path='scenes' />
-                </Route>
+                <Route component={null} path='episode/:episodeSlug/:episodeId' />
               </Route>
             </Route>
           </Route>
         </Route>
         <Route component={Medium} mediumType={MOVIE} path={'movie/:mediumSlug/:mediumId'}>
           <IndexRedirect to='overview' />
-          <Route component={MediumTabs}>
-            <Route component={MediumOverview} path='overview' />
-            <Route component={MediumScenes} path='scenes' />
-          </Route>
+          <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
+          <Route components={{ main: MediumScenes, nav: MediumTabs }} path='scenes' />
         </Route>
 
         <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />

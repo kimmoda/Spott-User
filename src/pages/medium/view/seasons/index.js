@@ -67,7 +67,7 @@ export default class SeasonsTabs extends Component {
     return (
       <Container>
           {seasons.get('data').map((season) => (
-            <Link activeStyle={styles.season.active} style={styles.season.base} to={`${season.get('shareUrl')}`} key={`${season.get('id')}`}>{season.get('title')}</Link>
+            <Link activeStyle={styles.season.active} key={`${season.get('id')}`} style={styles.season.base} to={`${season.get('shareUrl')}`}>{season.get('title')}</Link>
           ))}
         {children}
       </Container>

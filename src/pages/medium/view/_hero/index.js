@@ -23,6 +23,7 @@ export default class Hero extends Component {
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.list
     }),
+    children: PropTypes.node,
     currentLocale: PropTypes.string.isRequired,
     currentPathname: PropTypes.string.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
@@ -158,6 +159,7 @@ export default class Hero extends Component {
               renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
               style={styles.characters} />
           </Container>
+          {this.props.children}
         </div>
       );
     }

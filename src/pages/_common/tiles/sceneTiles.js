@@ -188,7 +188,7 @@ export class SceneTile extends Component {
         <RadiumLink key={item.get('id')} style={styles.wrapper} to={item.get('shareUrl')}>
           <div style={styles.container}>
             <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
-            <div style={styles.layer}></div>
+            <div style={styles.layer} />
             {/* TODO: add
              <div>
               <div>{item.get('markers').map((marker) =>

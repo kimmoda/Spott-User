@@ -14,7 +14,7 @@ export function transformUser ({ uuid, userName, profile }) {
     lastname: profile.lastName,
     picture: profile.picture ? { id: profile.picture.uuid, url: profile.picture.url } : null,
     tagline: profile.tagLine,
-    username: userName,
+    username: userName
   };
 }
 
@@ -108,17 +108,19 @@ export function transformMedium ({ posterImage, profileImage, subscribed, subscr
   };
 }
 
-export function transformSeason ({ title, uuid: id }) {
+export function transformSeason ({ shareUrl, title, uuid: id }) {
   return {
     id,
+    shareUrl: stripDomain(shareUrl),
     title
   };
 }
 
-export function transformEpisode ({ profileImage, title, uuid: id }) {
+export function transformEpisode ({ profileImage, shareUrl, title, uuid: id }) {
   return {
     id,
     title,
+    shareUrl: stripDomain(shareUrl),
     profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url }
   };
 }

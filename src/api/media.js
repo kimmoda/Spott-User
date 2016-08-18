@@ -95,18 +95,10 @@ export async function removeSubscriber (baseUrl, authenticationToken, locale, { 
 
 export async function getMediumSeasons (baseUrl, authenticationToken, locale, { mediumId }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/seasons`);
-  const data = body.data.map(transformSeason);
-  for (const season of data) {
-    season.shareUrl = `/${locale}/series/medium-title-slug/${mediumId}/season/${slugify(season.title)}/${season.id}`;
-  }
-  return data;
+  return body.data.map(transformSeason);
 }
 
 export async function getMediumEpisodes (baseUrl, authenticationToken, locale, { mediumId }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/serieSeasons/${mediumId}/episodes?sortField=NUMBER&sortDirection=DESC`);
-  const data = body.data.map(transformEpisode);
-  for (const episode of data) {
-    episode.shareUrl = `/${locale}/series/medium-title-slug/${mediumId}/season/season-slug/season-id/${slugify(episode.title)}/${episode.id}`;
-  }
-  return data;
+  return body.data.map(transformEpisode);
 }

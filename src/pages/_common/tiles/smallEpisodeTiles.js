@@ -2,7 +2,7 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
-import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { colors } from '../../_common/buildingBlocks';
 import BaseTile from './_baseTile';
 import hoverable from '../hoverable';
 import makeTiles from './_makeTiles';

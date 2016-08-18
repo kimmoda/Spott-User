@@ -1,4 +1,4 @@
-import { get, UnauthorizedError, UnexpectedError } from './request';
+import { get } from './request';
 import { transformScene } from './transformers';
 
 export async function getNewScenesForYou (baseUrl, authenticationToken, locale, { userId }) {
