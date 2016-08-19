@@ -85,6 +85,11 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 
+        <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
+          <IndexRoute component={() => <div style={{ marginTop: '2.5em' }} />} />
+          <Route component={SceneProduct} path='product/:productId' />
+        </Route>
+
         {/* Media */}
         <Route component={Medium} mediumType={SERIES} path={'series/:mediumSlug/:mediumId'}>
           <IndexRedirect to='overview' />

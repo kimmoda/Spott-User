@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { goBack as routerGoBack, replace as routerReplace } from 'react-router-redux';
+import { push as routerPush, replace as routerReplace } from 'react-router-redux';
 import Radium from 'radium';
 import { Map } from 'immutable';
 import { colors, load, fontWeights, largeDialogStyle, makeTextStyle, mediaQueries, pinkButtonStyle, Button, SmallContainer, Modal, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
@@ -13,12 +13,14 @@ import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import { LOADED } from '../../../data/statusTypes';
-import Marker from '../../_common/tiles/_marker';
+import Marker, { largeMarkerStyle } from '../../_common/tiles/_marker';
+import { MOVIE, SERIES } from '../../../data/mediumTypes';
+import { formatEpisodeNumber } from '../../../utils';
 
 @localized
 @connect(productSelector, (dispatch) => ({
   loadScene: bindActionCreators(actions.loadScene, dispatch),
-  routerGoBack: bindActionCreators(routerGoBack, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch),
   routerReplace: bindActionCreators(routerReplace, dispatch),
   toggleSaveScene: bindActionCreators(actions.toggleSaveScene, dispatch)
 }))
@@ -41,7 +43,7 @@ export default class Scene extends Component {
       productId: PropTypes.string,
       sceneId: PropTypes.string.isRequired
     }).isRequired,
-    routerGoBack: PropTypes.func.isRequired,
+    routerPush: PropTypes.func.isRequired,
     routerReplace: PropTypes.func.isRequired,
     scene: ImmutablePropTypes.mapContains({
       image: ImmutablePropTypes.mapContains({
@@ -101,7 +103,7 @@ export default class Scene extends Component {
   }
 
   onClose () {
-    this.props.routerGoBack();
+    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || '/');
   }
 
   static styles = {
@@ -232,6 +234,10 @@ export default class Scene extends Component {
         }
       },
       saveButton: {
+        active: {
+          backgroundColor: colors.darkPink,
+          color: colors.white
+        },
         base: {
           backgroundColor: 'transparent',
           color: colors.coolGray
@@ -251,7 +257,14 @@ export default class Scene extends Component {
             fill: colors.white
           }
         }
-
+      },
+      link: {
+        base: {
+          color: colors.dark
+        },
+        light: {
+          color: colors.white
+        }
       },
       title: {
         base: {
@@ -278,19 +291,33 @@ export default class Scene extends Component {
     const isPopup = this.props.location.state && this.props.location.state.modal;
     const ContentContainer = isPopup ? (props) => <div>{props.children}</div> : SmallContainer;
 
+    const titleLinkStyle = Object.assign({}, styles.header.link.base, isPopup && styles.header.link.light);
+
     const content =
       <div>
         <ContentContainer>
           <div style={styles.header.container}>
             <div style={styles.header.left}>
-              <div style={[ styles.header.sceneFrom.base, isPopup && styles.header.sceneFrom.light ]}>Scene from</div>
+              <div style={[ styles.header.sceneFrom.base, isPopup && styles.header.sceneFrom.light ]}>{t('scene.sceneFrom')}</div>
               <h1 style={[ styles.header.title.base, isPopup && styles.header.title.light ]}>
-                Daredevil <span style={styles.header.title.emph}>- SO3E07</span> World on Fire
+                {scene.get('type') === SERIES &&
+                  <span>
+                    <Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'series', 'shareUrl' ])}>{scene.getIn([ 'series', 'title' ])}</Link> <span style={styles.header.title.emph}>- {formatEpisodeNumber(scene.getIn([ 'season', 'number' ]), scene.getIn([ 'episode', 'number' ]))}</span> {scene.getIn([ 'episode', 'title' ])}
+                  </span>}
+                {scene.get('type') === MOVIE &&
+                  <Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'movie', 'shareUrl' ])}>{scene.getIn([ 'movie', 'title' ])}</Link>}
               </h1>
             </div>
             <div style={styles.header.right}>
               {isAuthenticated
-                ? <Button style={[ pinkButtonStyle, styles.header.saveButton.base, isPopup && styles.header.saveButton.light ]} onClick={toggleSaveScene}>
+                ? <Button
+                  style={[
+                    pinkButtonStyle,
+                    styles.header.saveButton.base,
+                    isPopup && styles.header.saveButton.light,
+                    scene.get('saved') && styles.header.saveButton.active
+                  ]}
+                  onClick={toggleSaveScene}>
                     {scene.get('saved') ? t('scene.unsave') : t('scene.save')}
                   </Button>
                 : <Button style={[ pinkButtonStyle, styles.header.saveButton.base, isPopup && styles.header.saveButton.light ]} to={{
@@ -299,7 +326,7 @@ export default class Scene extends Component {
                 }}>
                   {t('scene.save')}
                 </Button>}
-              <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(scene.get('shareUrl'))}&title=Discover this scene now on Spott`} style={[ styles.header.shareButton.base, isPopup && styles.header.shareButton.light ]}>
+              <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover this scene now on Spott`} style={[ styles.header.shareButton.base, isPopup && styles.header.shareButton.light ]}>
                 {t('common.share')}
               </ShareButton>
             </div>
@@ -317,15 +344,26 @@ export default class Scene extends Component {
                     title={character.get('name')}/>
                 </div>)}
             </div>
-            {scene.get('products').map((product) =>
-              <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />)}
+            {/* Display product of products with a position. Global products don't have a position. */}
+            {scene.get('products').filter((product) => product.get('position')).map((product) =>
+              <Link alt={product.get('shortName')} key={product.get('id')} title={product.get('shortName')} to={{
+                ...this.props.location,
+                pathname: `${scene.get('shareUrl')}/product/${product.get('id')}`
+              }}>
+                <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} selected={productId === product.get('id')} style={largeMarkerStyle} />
+              </Link>)}
             <div style={styles.images.wrapper}>
               {scene.get('products').take(6).map((product) =>
-                <Link key={product.get('id')} to={`${scene.get('shareUrl')}/product/${product.get('id')}`}>
+                <Link alt={product.get('shortName')} key={product.get('id')} title={product.get('shortName')} to={{
+                  ...this.props.location,
+                  pathname: `${scene.get('shareUrl')}/product/${product.get('id')}`
+                }}>
                   <div style={[ styles.images.small.wrapper, product.get('id') === productId && styles.images.selected ]}>
                     <img
+                      alt={product.get('shortName')}
                       src={`${product.getIn([ 'image', 'url' ])}?height=160&width=160`}
-                      style={styles.images.small.image} />
+                      style={styles.images.small.image}
+                      title={product.get('shortName')} />
                   </div>
                 </Link>)}
             </div>

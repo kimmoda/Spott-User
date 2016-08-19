@@ -19,6 +19,7 @@ export class Tiles extends Component {
     renderLoadingComponent: PropTypes.func,
     renderNotFoundComponent: PropTypes.func,
     renderUnexpectedComponent: PropTypes.func,
+    returnTo: PropTypes.string,
     // The component for rendering the tile. Is cloned with an additional
     // 'value' prop.
     style: PropTypes.object,
@@ -38,7 +39,7 @@ export class Tiles extends Component {
 
   render () {
     const {
-      first, horizontalSpacing, items, numColumns, renderEmptyComponent,
+      first, horizontalSpacing, items, numColumns, returnTo, renderEmptyComponent,
       renderLoadingComponent, renderNotFoundComponent, renderUnexpectedComponent,
       style: tilesStyle, tileRenderer
     } = this.props;
@@ -85,7 +86,7 @@ export class Tiles extends Component {
       items,
       () => (
         <div style={[ containerStyle, tilesStyle ]}>
-          {(this.rotateList(items.get('data') || List(), first).map((item, i) => tileRenderer({ style, key: i, item })))}
+          {(this.rotateList(items.get('data') || List(), first).map((item, i) => tileRenderer({ returnTo, style, key: i, item })))}
         </div>
       ),
       renderLoadingComponent,
