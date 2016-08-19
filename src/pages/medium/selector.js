@@ -7,6 +7,7 @@ import {
   scenesEntitiesSelector, mediumHasCharactersSelector, mediumHasScenesSelector,
   mediumHasSeasonsSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector
 } from '../../data/selector';
+import mostSpecificMedium from './_mostSpecificMedium';
 
 const currentMediumIdSelector = (state, props) => (props.params && props.params.mediumId) || props.mediumId;
 export const currentMediumSelector = createEntityByIdSelector(mediaEntitiesSelector, currentMediumIdSelector);
@@ -49,6 +50,8 @@ export const episodesSelector = createStructuredSelector({
   episodes: createEntitiesByRelationSelector(mediumHasEpisodesSelector, currentSeasonIdSelector, mediaEntitiesSelector)
 });
 
+const currentScenesMediumIdSelector = (state, props) => mostSpecificMedium(props);
 export const scenesSelector = createStructuredSelector({
-  scenes: createEntitiesByRelationSelector(mediumHasScenesSelector, currentMediumIdSelector, scenesEntitiesSelector)
+  currentScenesMediumId: currentScenesMediumIdSelector,
+  scenes: createEntitiesByRelationSelector(mediumHasScenesSelector, currentScenesMediumIdSelector, scenesEntitiesSelector)
 });

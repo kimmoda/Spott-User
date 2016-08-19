@@ -1,24 +1,31 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { load, Message } from '../../../_common/buildingBlocks';
-import VerticalTiles from '../../../_common/verticalTiles';
-import { scenesSelector } from '../../selector';
-import { loadMediumScenes } from '../../actions';
-import { SceneTile } from '../../../_common/tiles/sceneTiles';
+import { load, Message } from '../../_common/buildingBlocks';
+import VerticalTiles from '../../_common/verticalTiles';
+import { scenesSelector } from '../selector';
+import { loadMediumScenes } from '../actions';
+import { SceneTile } from '../../_common/tiles/sceneTiles';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
-import localized from '../../../_common/localized';
+import localized from '../../_common/localized';
+import mostSpecificMedium from '../_mostSpecificMedium';
 
 @localized
 @connect(scenesSelector, (dispatch) => ({
   loadMediumScenes: bindActionCreators(loadMediumScenes, dispatch)
 }))
-export default class Wishlists extends Component {
+export default class MediumScenes extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
+    currentScenesMediumId: PropTypes.string,
     loadMediumScenes: PropTypes.func.isRequired,
     params: PropTypes.shape({
-      mediumId: PropTypes.string.isRequired
+      episodeId: PropTypes.string,
+      mediumId: PropTypes.string.isRequired,
+      seasonId: PropTypes.string
+    }).isRequired,
+    route: PropTypes.shape({
+      mediumType: PropTypes.string.isRequired
     }).isRequired,
     scenes: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
@@ -34,13 +41,19 @@ export default class Wishlists extends Component {
   }
 
   componentWillMount () {
-    // (Re)fetch the savedScenes.
-    this.props.loadMediumScenes(this.props.params.mediumId);
+    const mediumId = mostSpecificMedium(this.props);
+    if (mediumId) {
+      console.log('!!!', mediumId);
+      this.props.loadMediumScenes(mediumId);
+    }
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.params.mediumId !== nextProps.params.mediumId) {
-      this.props.loadMediumScenes(nextProps.params.mediumId);
+    const mediumId = mostSpecificMedium(this.props);
+    const nextMediumId = mostSpecificMedium(nextProps);
+    if (nextMediumId !== undefined && mediumId !== nextMediumId) {
+      console.log('!!!', nextMediumId);
+      this.props.loadMediumScenes(nextMediumId);
     }
   }
 
