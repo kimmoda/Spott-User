@@ -86,6 +86,6 @@ export class SmallEpisodeTile extends Component {
 
 export default makeTiles(
   0.938,
-  { extraSmall: 4, small: 5, medium: 6, large: 7, extraLarge: 9 },
+  { extraSmall: 4, small: 4, medium: 5, large: 5, extraLarge: 6 },
   (instanceProps) => <SmallEpisodeTile {...instanceProps} />
 );

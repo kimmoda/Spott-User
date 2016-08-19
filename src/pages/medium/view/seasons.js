@@ -1,31 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { colors, Container, fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
-import { seasonsSelector } from '../../selector';
-import { loadSeasons } from '../../actions';
+import { Container, Submenu, SubmenuItem } from '../../_common/buildingBlocks';
+import { seasonsSelector } from '../selector';
+import { loadSeasons } from '../actions';
 
 const styles = {
-  season: {
-    base: {
-      ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
-      backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
-      color: 'white',
-      paddingBottom: '1em',
-      paddingTop: '1em',
-      textDecoration: 'none',
-      textAlign: 'center',
-      minWidth: '12.5em',
-      display: 'inline-block',
-      borderBottomWidth: 4,
-      borderBottomStyle: 'solid',
-      borderBottomColor: colors.dark
-    },
-    active: {
-      borderBottomColor: colors.darkPink
-    }
+  submenu: {
+    borderTop: '1px solid rgba(255, 255, 255, 0.25)'
+  },
+  submenuItem: {
+    borderBottom: 0
   }
 };
 
@@ -65,12 +51,16 @@ export default class SeasonsTabs extends Component {
   render () {
     const { children, seasons } = this.props;
     return (
-      <Container>
-          {seasons.get('data').map((season) => (
-            <Link activeStyle={styles.season.active} key={`${season.get('id')}`} style={styles.season.base} to={`${season.get('shareUrl')}`}>{season.get('title')}</Link>
-          ))}
+      <div>
+        <Container>
+          <Submenu style={styles.submenu}>
+            {seasons.get('data').map((season) => (
+              <SubmenuItem key={`${season.get('id')}`} name={season.get('title')} pathname={`${season.get('shareUrl')}`} style={styles.submenuItem} />
+            ))}
+          </Submenu>
+        </Container>
         {children}
-      </Container>
+      </div>
     );
   }
 

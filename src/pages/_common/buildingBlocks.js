@@ -305,24 +305,27 @@ const submenuItemStyles = {
     float: 'left'
   },
   base: {
-    ...makeTextStyle(fontWeights.bold, '0.750em', '0.317em'),
-    color: colors.coolGray,
-    display: 'inline-block',
-    paddingTop: '1.6296em',
-    paddingBottom: '1.6296em',
+    ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
+    paddingBottom: '1em',
+    paddingTop: '1em',
     textDecoration: 'none',
-    textTransform: 'uppercase',
     textAlign: 'center',
-    width: '14.815em'
+    minWidth: '14.5em',
+    display: 'inline-block',
+    borderBottomWidth: 4,
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'rgba(0, 0, 0, 0)',
+    color: colors.coolGray,
+    textTransform: 'uppercase'
   },
   active: {
-    borderBottom: `4px solid ${colors.darkPink}`,
+    borderBottomColor: colors.darkPink,
     color: colors.white
   }
 };
-export const SubmenuItem = Radium(({ name, pathname }) => (
+export const SubmenuItem = Radium(({ name, pathname, style }) => (
   <li style={submenuItemStyles.container}>
-    <RadiumLink activeStyle={submenuItemStyles.active} key={pathname} style={submenuItemStyles.base} to={pathname}>
+    <RadiumLink activeStyle={submenuItemStyles.active} key={pathname} style={{ ...submenuItemStyles.base, ...style }} to={pathname}>
       {name}
     </RadiumLink>
   </li>
@@ -335,7 +338,8 @@ SubmenuItem.propTypes = {
 const submenuStyles = {
   container: {
     display: 'block',
-    listStyleType: 'none'
+    listStyleType: 'none',
+    position: 'relative'
   }
 };
 export const Submenu = Radium(({ children, style }) => (
