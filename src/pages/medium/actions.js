@@ -1,6 +1,10 @@
 // import { getSeries, getSeasons, getEpisodes, getEpisodeProducts } from '../../api/series';
 // import { getRecentlyAddedToWishlist, getPopularProducts } from '../../api/products';
-import { addSubscriber, fetchMediumEpisodes, fetchMediumSeasons, fetchMediumCharacters, fetchMediumNewScenesForYou, fetchMediumProducts, fetchMediumTopUserProducts, fetchMedium, removeSubscriber } from '../../data/actions';
+import {
+  addSubscriber, fetchMediumScenes, fetchMediumEpisodes, fetchMediumSeasons,
+  fetchMediumCharacters, fetchMediumNewScenesForYou, fetchMediumProducts,
+  fetchMediumTopUserProducts, fetchMedium, removeSubscriber
+} from '../../data/actions';
 // import { getMediumCharacters, getMediumProducts } from '../../api/medium';
 import { currentUserIdSelector } from '../app/selector';
 import { currentMediumSelector } from './selector';
@@ -76,5 +80,11 @@ export function loadSeasons (mediumId) {
 export function loadEpisodes (mediumId) {
   return async (dispatch) => {
     return await dispatch(fetchMediumEpisodes({ mediumId }));
+  };
+}
+
+export function loadMediumScenes (mediumId) {
+  return async (dispatch) => {
+    return await dispatch(fetchMediumScenes({ mediumId }));
   };
 }
