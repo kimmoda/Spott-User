@@ -310,13 +310,19 @@ const submenuItemStyles = {
     paddingTop: '1em',
     textDecoration: 'none',
     textAlign: 'center',
-    minWidth: '14.5em',
     display: 'inline-block',
     borderBottomWidth: 4,
     borderBottomStyle: 'solid',
     borderBottomColor: 'rgba(0, 0, 0, 0)',
     color: colors.coolGray,
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    paddingLeft: '1em',
+    paddingRight: '1em',
+    [mediaQueries.medium]: {
+      paddingLeft: 0,
+      paddingRight: 0,
+      minWidth: '14.5em'
+    }
   },
   active: {
     borderBottomColor: colors.darkPink,
