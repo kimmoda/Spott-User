@@ -156,13 +156,6 @@
   "medium": {
     "MOVIE": "Film",
     "TV_SERIE": "Show télévisé",
-    "follow": "Suivez",
-    "unfollow": "Désabonne",
-    "followers": {
-      "zero":  "Abonnés [[0]]",
-      "one":   "Abonnés [[1]]",
-      "other": "Abonnés [[%(count)s]]"
-    },
     "topProducts": {
       "empty": "Il n'y a pas de produits populaires à visualiser pour l'instant.",
       "title": "Produits %(title)s populaires"
@@ -171,6 +164,9 @@
       "empty": "Il n'y a pas de produits populaires pour vous à ce moment.",
       "title": "Choisi pour vous"
     }
+  },
+  "character": {
+    "CHARACTER": "Character"
   },
   "scene": {
     "sceneFrom": "Scene from",
@@ -182,6 +178,13 @@
     "overview": "La vue générale",
     "return": "Retournez à la page d’accueil.",
     "share": "Partager",
-    "unexpected": "Une erreur inattendue s'est produite. Nous nous excusons pour le désagrément."
+    "unexpected": "Une erreur inattendue s'est produite. Nous nous excusons pour le désagrément.",
+    "follow": "Suivez",
+    "unfollow": "Désabonne",
+    "followers": {
+      "zero":  "Abonnés [[0]]",
+      "one":   "Abonnés [[1]]",
+      "other": "Abonnés [[%(count)s]]"
+    }
   }
 }

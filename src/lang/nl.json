@@ -155,13 +155,6 @@
   "medium": {
     "MOVIE": "Film",
     "TV_SERIE": "Tv show",
-    "follow": "Volgen",
-    "unfollow": "Ontvolgen",
-    "followers": {
-      "zero":  "[[0]] volgers",
-      "one":   "[[1]] volger",
-      "other": "[[%(count)s]] volgers"
-    },
     "topProducts": {
       "empty": "Momenteel zijn er geen top producten om te tonen.",
       "title": "Top %(title)s producten"
@@ -170,6 +163,9 @@
       "empty": "Er zijn geen producten voor jou gekozen.",
       "title": "Gekozen voor jou"
     }
+  },
+  "character": {
+    "CHARACTER": "Personage"
   },
   "scene": {
     "sceneFrom": "Scene uit",
@@ -181,6 +177,13 @@
     "overview": "Overzicht",
     "return": "Keer terug naar de homepagina.",
     "share": "Delen",
-    "unexpected": "Een onverwachts probleem doet zich voor. Onze excuses voor het ongemak."
+    "unexpected": "Een onverwachts probleem doet zich voor. Onze excuses voor het ongemak.",
+    "follow": "Volgen",
+    "unfollow": "Ontvolgen",
+    "followers": {
+      "zero":  "[[0]] volgers",
+      "one":   "[[1]] volger",
+      "other": "[[%(count)s]] volgers"
+    }
   }
 }

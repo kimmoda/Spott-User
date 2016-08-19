@@ -155,13 +155,6 @@
   "medium": {
     "MOVIE": "Movie",
     "TV_SERIE": "Tv show",
-    "follow": "Follow",
-    "unfollow": "Unfollow",
-    "followers": {
-      "zero":  "Followers [[0]]",
-      "one":   "Followers [[1]]",
-      "other": "Followers [[%(count)s]]"
-    },
     "topProducts": {
       "empty": "There are no top products to show right now.",
       "title": "Top %(title)s Products"
@@ -170,6 +163,9 @@
       "empty": "There are no top products for you right now.",
       "title": "Picked For You"
     }
+  },
+  "character": {
+    "CHARACTER": "Character"
   },
   "scene": {
     "sceneFrom": "Scene from",
@@ -181,6 +177,13 @@
     "overview": "Overview",
     "return": "Return to home.",
     "share": "Share",
-    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience."
+    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience.",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": {
+      "zero":  "Followers [[0]]",
+      "one":   "Followers [[1]]",
+      "other": "Followers [[%(count)s]]"
+    }
   }
 }
