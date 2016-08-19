@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Submenu, SubmenuItem } from '../../_common/buildingBlocks';
 import { seasonsSelector } from '../selector';
@@ -16,7 +17,8 @@ const styles = {
 };
 
 @connect(seasonsSelector, (dispatch) => ({
-  loadSeasons: bindActionCreators(loadSeasons, dispatch)
+  loadSeasons: bindActionCreators(loadSeasons, dispatch),
+  push: bindActionCreators(push, dispatch)
 }))
 export default class SeasonsTabs extends Component {
 
@@ -24,8 +26,10 @@ export default class SeasonsTabs extends Component {
     children: PropTypes.node,
     loadSeasons: PropTypes.func,
     params: PropTypes.shape({
-      mediumId: PropTypes.string.isRequired
+      mediumId: PropTypes.string.isRequired,
+      seasonId: PropTypes.string
     }).isRequired,
+    push: PropTypes.func.isRequired,
     seasons: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.listOf(
@@ -38,13 +42,21 @@ export default class SeasonsTabs extends Component {
     t: PropTypes.func
   }
 
-  componentWillMount () {
-    this.props.loadSeasons(this.props.params.mediumId);
+  async componentWillMount () {
+    await this.props.loadSeasons(this.props.params.mediumId);
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.params.mediumId !== nextProps.params.mediumId) {
-      this.props.loadSeasons(nextProps.params.mediumId);
+    const { params: { mediumId, seasonId }, seasons } = nextProps;
+
+    // Load seasons of the new medium if necessary.
+    if (this.props.params.mediumId !== mediumId) {
+      this.props.loadSeasons(mediumId);
+    }
+
+    // Select first season if necessary
+    if (!seasonId && seasons.get('data').size > 0) {
+      this.props.push(seasons.getIn([ 'data', 0, 'shareUrl' ]));
     }
   }
 

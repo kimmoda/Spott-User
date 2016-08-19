@@ -79,7 +79,8 @@ export default class Hero extends Component {
       position: 'relative'
     },
     characters: {
-      marginBottom: '1.7em'
+      marginBottom: '1.7em',
+      marginTop: '1em'
     },
     mediaType: {
       ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
@@ -95,7 +96,7 @@ export default class Hero extends Component {
       bottom: 0,
       right: 0,
       opacity: 0.75,
-      backgroundImage: 'linear-gradient(to bottom, rgba(34, 31, 38, 0.16), rgba(34, 31, 38, 0.041), rgba(34, 31, 38, 0.041), rgba(34, 31, 38, 0.083), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.625), rgb(34, 31, 38))',
+      backgroundImage: 'linear-gradient(to bottom, rgba(34, 31, 38, 0.3), rgba(34, 31, 38, 0.041), rgba(34, 31, 38, 0.041), rgba(34, 31, 38, 0.083), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.625), rgb(34, 31, 38))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     title: {
@@ -153,6 +154,7 @@ export default class Hero extends Component {
           </Container>
           <Container>
             <CharacterTiles
+              arrowsType='inline'
               items={characters}
               renderEmptyComponent={() => <div />}
               renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}
