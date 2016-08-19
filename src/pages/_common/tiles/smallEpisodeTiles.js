@@ -65,7 +65,8 @@ export class SmallEpisodeTile extends Component {
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         opacity: 0,
-        transition: 'opacity 0.5s ease-in'
+        transition: 'opacity 0.5s ease-in',
+        zIndex: 1
       },
       hovered: {
         transition: 'opacity 0.5s ease-out',
