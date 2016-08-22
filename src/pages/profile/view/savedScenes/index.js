@@ -13,10 +13,13 @@ import localized from '../../../_common/localized';
 @connect(savedScenesOfCurrentUserSelector, (dispatch) => ({
   loadSavedScenesOfUser: bindActionCreators(loadSavedScenesOfUser, dispatch)
 }))
-export default class Wishlists extends Component {
+export default class SavedScenes extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadSavedScenesOfUser: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired
+    }),
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired
     }).isRequired,
@@ -45,7 +48,7 @@ export default class Wishlists extends Component {
   }
 
   renderSavedScenes () {
-    const { savedScenes } = this.props;
+    const { location, savedScenes } = this.props;
     if (savedScenes.get('data').size > 0) {
       return (
         <VerticalTiles
@@ -53,7 +56,7 @@ export default class Wishlists extends Component {
           horizontalSpacing={30}
           items={savedScenes.get('data')}
           numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
-          tile={<SceneTile />}
+          tile={<SceneTile location={location} />}
           verticalSpacing={30} />
       );
     }
@@ -65,7 +68,6 @@ export default class Wishlists extends Component {
   }
 
   render () {
-    console.log(this.props);
     const { savedScenes } = this.props;
     return load(savedScenes, this.renderSavedScenes, null, null, null, this.renderEmpty);
   }

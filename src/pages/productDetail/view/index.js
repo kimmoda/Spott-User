@@ -205,6 +205,8 @@ export default class ProductDetail extends Component {
     const { onChangeImageSelection, product, selectedImageId, t } = this.props;
     const notAvailable = !product.getIn([ 'offerings', '0', 'url' ]);
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
+    const share = product.get('share');
+
     return (
       <div>
         <div style={styles.productInfo}>
@@ -241,7 +243,7 @@ export default class ProductDetail extends Component {
                   <Button disabled={notAvailable} href={product.getIn([ 'offerings', '0', 'url' ])} key='buyButton' style={pinkButtonStyle} target='_blank'>
                     <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
                   </Button>
-                  <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover ${product.get('shortName')} now on Spott`}>
+                  <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(share.get('url'))}&title=${share.get('title')}`}>
                     {t('common.share')}
                   </ShareButton>
                 </div>
@@ -250,11 +252,12 @@ export default class ProductDetail extends Component {
               </div>
             </div>
             <div style={styles.clear} />
-            {/* TODO: Didier will provide title, description and maybe images for sharing */}
-            <FacebookShareData
-              description={product.get('description') || ''}
-              imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()}
-              title={product.get('shortName')} url={window.location.href} />
+            {share &&
+              <FacebookShareData
+                description={share.get('description')}
+                imageUrl={share.getIn([ 'image', 'url' ])}
+                title={share.get('title')}
+                url={window.location.href} />}
           </Container>
         </div>
         <div style={styles.similarProducts}>

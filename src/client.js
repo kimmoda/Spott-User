@@ -94,7 +94,7 @@ async function boot () {
   ReactDOM.render(
     <StyleRoot>
       <Provider key='provider' store={store}>
-        <Router history={ourHistory} render={(props) => <AsyncRouterContext {...props} asyncProps={initialState.get('asyncProps')} />} onUpdate={() => window.scrollTo(0, 0)}>
+        <Router history={ourHistory} render={(props) => <AsyncRouterContext {...props} asyncProps={initialState.get('asyncProps')} />}>
           {getRoutes(store)}
         </Router>
       </Provider>
