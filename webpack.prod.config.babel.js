@@ -18,8 +18,8 @@ const configuration = {
   },
   module: {
     loaders: [
-      { exclude: /node_modules/, loader: 'strip-loader?strip[]=console.log!babel!eslint?failOnWarning=false&failOnError=false', test: /\.js$/ },
-      { loader: 'style!css', test: /\.css$/ },
+      { exclude: /node_modules/, loader: 'strip-loader?strip[]=console.log!babel-loader!eslint-loader?failOnWarning=false&failOnError=false', test: /\.js$/ },
+      { loader: 'style!raw', test: /\.css$/ },
       { loader: 'json', test: /\.json/ },
       { loader: 'raw', test: /\.html/ },
       { loader: 'style!raw!sass', test: /\.scss/ },
