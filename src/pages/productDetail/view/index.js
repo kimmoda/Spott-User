@@ -46,6 +46,9 @@ export default class ProductDetail extends Component {
 
   constructor (props) {
     super(props);
+    this.share = ::this.share;
+    this.onBuyClick = ::this.onBuyClick;
+    this.product = this.props.params.productId;
     this.renderProduct = ::this.renderProduct;
     this.renderNotFoundError = ::this.renderNotFoundError;
     this.renderUnexpectedError = ::this.renderUnexpectedError;
@@ -60,6 +63,24 @@ export default class ProductDetail extends Component {
     if (this.props.params.productId !== nextProps.params.productId) {
       await this.props.loadProduct(nextProps.params.productId);
     }
+  }
+
+  share (e) {
+    e.preventDefault();
+    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
+  }
+
+  onBuyClick () {
+    const postUrl = this.props.product.getIn([ 'offerings', '0', 'url' ]);
+    // Create a form using the good ol' DOM API
+    const form = document.createElement('form');
+    form.setAttribute('method', 'POST');
+    form.setAttribute('action', postUrl);
+    // Distructive manipulation of the DOM-tree, but this doesn't matter since
+    // we leave the SPA anyway.
+    document.body.appendChild(form);
+    // Submit form
+    form.submit();
   }
 
   static styles = {
@@ -240,7 +261,7 @@ export default class ProductDetail extends Component {
                     currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} />
                 </h2>
                 <div style={styles.details.buttons.wrapper}>
-                  <Button disabled={notAvailable} href={product.getIn([ 'offerings', '0', 'url' ])} key='buyButton' style={pinkButtonStyle} target='_blank'>
+                  <Button disabled={notAvailable} key='buyButton' style={pinkButtonStyle} target='_blank' onClick={this.onBuyClick}>
                     <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
                   </Button>
                   <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(share.get('url'))}&title=${share.get('title')}`}>
