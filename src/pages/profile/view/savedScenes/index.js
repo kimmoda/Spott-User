@@ -56,8 +56,7 @@ export default class SavedScenes extends Component {
           horizontalSpacing={30}
           items={savedScenes.get('data')}
           numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
-          returnTo={location.pathname}
-          tile={<SceneTile />}
+          tile={<SceneTile location={location} />}
           verticalSpacing={30} />
       );
     }
@@ -69,7 +68,6 @@ export default class SavedScenes extends Component {
   }
 
   render () {
-    console.log(this.props);
     const { savedScenes } = this.props;
     return load(savedScenes, this.renderSavedScenes, null, null, null, this.renderEmpty);
   }

@@ -1,5 +1,5 @@
 import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
-import { transformScene } from './transformers';
+import { transformScene, transformShare } from './transformers';
 
 export async function getNewScenesForYou (baseUrl, authenticationToken, locale, { userId }) {
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/scenes?pageSize=30`);
@@ -18,9 +18,12 @@ export function getMediumNewScenesForYou () {
 
 export async function getScene (baseUrl, authenticationToken, locale, { sceneId }) {
   try {
-    const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/video/scenes/${sceneId}?includeMedium=true`);
-    console.warn(body);
-    return transformScene(body);
+    const { body: sceneBody } = await get(authenticationToken, locale, `${baseUrl}/v003/video/scenes/${sceneId}?includeMedium=true`);
+    const scene = transformScene(sceneBody);
+    // Extend the scene with share information (title, description and image).
+    const { body: shareShareBody } = await get(authenticationToken, locale, `${baseUrl}/v003/video/scenes/${sceneId}/share`);
+    scene.share = transformShare(shareShareBody);
+    return scene;
   } catch (error) {
     switch (error.statusCode) {
       case 403:

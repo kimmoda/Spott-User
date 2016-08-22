@@ -43,8 +43,8 @@ export class SceneTile extends Component {
       )
       */
     }).isRequired,
-    // The url to return to if the popup closes.
-    returnTo: PropTypes.string,
+    // The location to return to if the popup closes.
+    location: PropTypes.object,
     style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
@@ -184,12 +184,12 @@ export class SceneTile extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { item, returnTo, style /* , t */ } = this.props;
+    const { item, location, style /* , t */ } = this.props;
     return (
       <BaseTile style={style}>
         <RadiumLink key={item.get('id')} style={styles.wrapper} to={{
           pathname: item.get('shareUrl'),
-          state: { modal: true, returnTo: returnTo || '/' }
+          state: { modal: true, returnTo: (location && location.pathname) || '/' }
         }}>
           <div style={styles.container}>
             <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />

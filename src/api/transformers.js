@@ -104,7 +104,7 @@ export function transformMedium ({ posterImage, profileImage, shareUrl, subscrib
     id,
     posterImage: posterImage && { id: posterImage.uuid, url: posterImage.url },
     profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url },
-    shareUrl,
+    shareUrl: stripDomain(shareUrl),
     subscribed,
     subscriberCount,
     title,
@@ -140,9 +140,9 @@ function transformSceneProduct ({ image, position, price, shortName, uuid: id })
     shortName
   };
 }
+
 export function transformScene (data) {
   const { characters, image, medium, products, saved, shareUrl, uuid: id } = data;
-  console.warn('DATA', data);
   const scene = {
     characters: ((characters && characters.data) || []).map(transformCharacter),
     id,
@@ -167,4 +167,8 @@ export function transformScene (data) {
     }
   }
   return scene;
+}
+
+export function transformShare ({ body, image, title, url }) {
+  return { description: body, image: { id: image.uuid, url: image.url }, title, url };
 }

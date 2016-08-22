@@ -1,6 +1,7 @@
 import React from 'react';
 import { IndexRoute, IndexRedirect, Route } from 'react-router';
 
+import { colors } from './pages/_common/buildingBlocks';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
 import Error404 from './pages/error404';
@@ -81,7 +82,16 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
         {/* Scenes */}
         <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
-          <IndexRoute component={() => <div style={{ marginTop: '2.5em' }} />} />
+          <IndexRoute
+            component={() => <div style={{
+              width: '100%',
+              paddingTop: '7.5em',
+              paddingBottom: '7.5em',
+              paddingLeft: '2.5em',
+              paddingRight: '2.5em',
+              backgroundColor: colors.whiteGray
+            }} />
+          } />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 

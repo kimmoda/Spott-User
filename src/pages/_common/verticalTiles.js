@@ -107,7 +107,7 @@ export default class VerticalTiles extends Component {
   }
 
   render () {
-    const { aspectRatio, horizontalSpacing, items, numColumns, verticalSpacing, returnTo, tile } = this.props;
+    const { aspectRatio, horizontalSpacing, items, numColumns, verticalSpacing, tile } = this.props;
     const { from, screenWidth, to, width } = this.state;
     // If we have no known container width (first render), there is no reason to proced
     if (width === -1 || items.size === 0) {
@@ -156,7 +156,7 @@ export default class VerticalTiles extends Component {
           transform: `translate(${positionX}px, ${positionY}px)`,
           position: 'absolute'
         };
-        renderedItems.push(React.cloneElement(tile, { ...tile.props, returnTo, style, key: index, item: items.get(index) }));
+        renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: index, item: items.get(index) }));
       }
     }
     // Determine container style

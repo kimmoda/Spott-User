@@ -5,8 +5,7 @@ import { Link } from 'react-router';
 import { push as routerPush, replace as routerReplace } from 'react-router-redux';
 import Radium from 'radium';
 import { Map } from 'immutable';
-import { colors, load, fontWeights, largeDialogStyle, makeTextStyle, mediaQueries, pinkButtonStyle, Button, SmallContainer, Modal, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
-import ProductTiles from '../../_common/tiles/productTiles';
+import { colors, load, fontWeights, largeDialogStyle, makeTextStyle, mediaQueries, pinkButtonStyle, Button, SmallContainer, Modal, ShareButton } from '../../_common/buildingBlocks';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
 import { productSelector } from '../selector';
@@ -16,6 +15,7 @@ import { LOADED } from '../../../data/statusTypes';
 import Marker, { largeMarkerStyle } from '../../_common/tiles/_marker';
 import { MOVIE, SERIES } from '../../../data/mediumTypes';
 import { formatEpisodeNumber } from '../../../utils';
+import ProductThumbs from '../../_common/tiles/productThumbs';
 
 @localized
 @connect(productSelector, (dispatch) => ({
@@ -132,7 +132,8 @@ export default class Scene extends Component {
     image: {
       backgroundSize: 'cover',
       backgroundPosition: 'center center',
-      borderRadius: '0.25em',
+      borderTopLeftRadius: '0.25em',
+      borderTopRightRadius: '0.25em',
       position: 'absolute',
       top: 0,
       left: 0,
@@ -146,10 +147,12 @@ export default class Scene extends Component {
         boxShadow: '0 0.8888em 1.1111em 0 rgba(0, 0, 0, 0.4)'
       },
       wrapper: {
-        position: 'relative',
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '-2.3em'
+        width: '100%',
+        paddingLeft: '1em',
+        paddingRight: '1em',
+        textAlign: 'center',
+        // Center the images on the bottom-line of the scene.
+        transform: 'translateY(-33.3333%)'
       },
       small: {
         wrapper: {
@@ -287,9 +290,10 @@ export default class Scene extends Component {
 
   renderScene () {
     const styles = this.constructor.styles;
-    const { isAuthenticated, children, currentLocale, params: { productId }, scene, t, toggleSaveScene } = this.props;
-    const isPopup = this.props.location.state && this.props.location.state.modal;
+    const { isAuthenticated, children, currentLocale, location, params: { productId }, scene, t, toggleSaveScene } = this.props;
+    const isPopup = location.state && location.state.modal;
     const ContentContainer = isPopup ? (props) => <div>{props.children}</div> : SmallContainer;
+    const share = scene.get('share');
 
     const titleLinkStyle = Object.assign({}, styles.header.link.base, isPopup && styles.header.link.light);
 
@@ -326,7 +330,7 @@ export default class Scene extends Component {
                 }}>
                   {t('scene.save')}
                 </Button>}
-              <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover this scene now on Spott`} style={[ styles.header.shareButton.base, isPopup && styles.header.shareButton.light ]}>
+              <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=${share.get('title')}`} style={[ styles.header.shareButton.base, isPopup && styles.header.shareButton.light ]}>
                 {t('common.share')}
               </ShareButton>
             </div>
@@ -347,28 +351,26 @@ export default class Scene extends Component {
             {/* Display product of products with a position. Global products don't have a position. */}
             {scene.get('products').filter((product) => product.get('position')).map((product) =>
               <Link alt={product.get('shortName')} key={product.get('id')} title={product.get('shortName')} to={{
-                ...this.props.location,
+                ...location,
                 pathname: `${scene.get('shareUrl')}/product/${product.get('id')}`
               }}>
                 <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} selected={productId === product.get('id')} style={largeMarkerStyle} />
               </Link>)}
             <div style={styles.images.wrapper}>
-              {scene.get('products').take(6).map((product) =>
-                <Link alt={product.get('shortName')} key={product.get('id')} title={product.get('shortName')} to={{
-                  ...this.props.location,
-                  pathname: `${scene.get('shareUrl')}/product/${product.get('id')}`
-                }}>
-                  <div style={[ styles.images.small.wrapper, product.get('id') === productId && styles.images.selected ]}>
-                    <img
-                      alt={product.get('shortName')}
-                      src={`${product.getIn([ 'image', 'url' ])}?height=160&width=160`}
-                      style={styles.images.small.image}
-                      title={product.get('shortName')} />
-                  </div>
-                </Link>)}
+              <ProductThumbs
+                horizontalSpacing={0.555}
+                items={Map({ _status: LOADED, data: scene.get('products') })}
+                numColumns={{ extraSmall: 7, small: 9, medium: 10, large: 11, extraLarge: 12 }}
+                tileProps={{ location, productId, scene }} />
             </div>
           </div>
           <div style={{ clear: 'both' }} />
+          {share &&
+            <FacebookShareData
+              description={share.get('description')}
+              imageUrl={share.getIn([ 'image', 'url' ])}
+              title={share.get('title')}
+              url={window.location.href} />}
         </ContentContainer>
         {children}
       </div>;
@@ -397,7 +399,7 @@ export default class Scene extends Component {
   }
 
   renderUnexpectedError () {
-    return <div></div>;
+    return <div />;
   }
 
   render () {
