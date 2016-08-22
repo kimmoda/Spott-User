@@ -44,7 +44,8 @@ export default class NewScenesForYou extends Component {
     return (
       <div style={styles.wrapper}>
         <Container>
-          <SceneTiles items={scenes}
+          <SceneTiles
+            items={scenes}
             renderEmptyComponent={() => <Message>{t('home.newScenesForYou.empty')}</Message>}
             renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}

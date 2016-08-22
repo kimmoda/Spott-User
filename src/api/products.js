@@ -1,5 +1,5 @@
 import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
-import { transformDetailedProduct, transformListProduct } from './transformers';
+import { transformDetailedProduct, transformListProduct, transformShare } from './transformers';
 
 /**
  * @throws NetworkError
@@ -8,8 +8,10 @@ import { transformDetailedProduct, transformListProduct } from './transformers';
  */
 export async function getProduct (baseUrl, authenticationToken, locale, { productId }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}`);
+  const { body: shareBody } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}/share`);
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}/similar`);
   const product = transformDetailedProduct(body);
+  product.share = transformShare(shareBody);
   product.similarProducts = data.map(transformListProduct);
   return product;
 }

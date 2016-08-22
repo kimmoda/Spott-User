@@ -17,6 +17,7 @@ import app from './pages/app/reducer';
 import data from './data/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
+import scene from './pages/scene/reducer';
 import { applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -33,7 +34,8 @@ const rootReducer = combineReducers({
   form,
   productDetail,
   profile,
-  routing: routerReducer
+  routing: routerReducer,
+  scene
 });
 
 /**
@@ -92,7 +94,7 @@ async function boot () {
   ReactDOM.render(
     <StyleRoot>
       <Provider key='provider' store={store}>
-        <Router history={ourHistory} render={(props) => <AsyncRouterContext {...props} asyncProps={initialState.get('asyncProps')} />} onUpdate={() => window.scrollTo(0, 0)}>
+        <Router history={ourHistory} render={(props) => <AsyncRouterContext {...props} asyncProps={initialState.get('asyncProps')} />}>
           {getRoutes(store)}
         </Router>
       </Provider>

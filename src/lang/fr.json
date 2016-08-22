@@ -119,7 +119,6 @@
     "by": "De %(brandName)s",
     "noSimilar": "Aucun produit similaire a été trouvé.",
     "similarProducts": "Produits similaires",
-    "share": "Partager",
     "unavailable": "Ce produit n’est pas disponible.",
     "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​"
   },
@@ -173,10 +172,16 @@
       "title": "Choisi pour vous"
     }
   },
+  "scene": {
+    "sceneFrom": "Scene from",
+    "save": "Save",
+    "unsave": "Unsave"
+  },
   "common": {
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
     "overview": "La vue générale",
     "return": "Retournez à la page d’accueil.",
+    "share": "Partager",
     "unexpected": "Une erreur inattendue s'est produite. Nous nous excusons pour le désagrément."
   }
 }

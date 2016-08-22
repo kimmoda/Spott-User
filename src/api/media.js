@@ -11,7 +11,7 @@ const mapMediumTypeToUrlParts = {
 export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/searches/recent?pageSize=100`);
   const data = body.data.map(transformMedium);
-  // TODO: temp server fix
+  // TODO: Important! Remove this if the server returns the new url.
   for (const medium of data) {
     medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { IndexRoute, IndexRedirect, Route } from 'react-router';
 
+import { colors } from './pages/_common/buildingBlocks';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
 import Error404 from './pages/error404';
@@ -14,6 +15,8 @@ import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
 import ProfileSavedScenes from './pages/profile/view/savedScenes';
 import Redirect from './pages/redirect';
+import Scene from './pages/scene/view';
+import SceneProduct from './pages/scene/view/productDetail';
 import Medium from './pages/medium/view';
 import MediumOverview from './pages/medium/view/overview';
 import MediumSeasons from './pages/medium/view/seasons';
@@ -77,6 +80,27 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
 
+        {/* Scenes */}
+        <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
+          <IndexRoute
+            component={() => <div style={{
+              width: '100%',
+              paddingTop: '7.5em',
+              paddingBottom: '7.5em',
+              paddingLeft: '2.5em',
+              paddingRight: '2.5em',
+              backgroundColor: colors.whiteGray
+            }} />
+          } />
+          <Route component={SceneProduct} path='product/:productId' />
+        </Route>
+
+        <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
+          <IndexRoute component={() => <div style={{ marginTop: '2.5em' }} />} />
+          <Route component={SceneProduct} path='product/:productId' />
+        </Route>
+
+        {/* Media */}
         <Route component={Medium} mediumType={SERIES} path={'series/:mediumSlug/:mediumId'}>
           <IndexRedirect to='overview' />
           <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
