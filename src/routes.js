@@ -78,9 +78,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <IndexRoute component={Home} />
 
         <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
-        <Route component={Privacy} path='privacy' showCookies={false} />
-        <Route component={Terms} path='terms' showCookies={false} />
-        <Route component={Cookies} path='cookies' showCookies={false} />
+        <Route component={Privacy} path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
         {/* Scenes */}
         <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
@@ -120,8 +120,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={MOVIE} path='scenes' />
         </Route>
 
-        <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />
-        <Route component={ProductDetail} path='product/:productSlug/:productId' /> {/* Backwards compatible with old url. */}
+        <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={ProductDetail} path='product/:productSlug/:productId' onEnter={() => window.scrollTo(0, 0)} /> {/* Backwards compatible with old url. */}
 
         <Route component={Login} noSignInButtonInHeader path='login' />
         <Route component={Register} noSignInButtonInHeader path='register' />
