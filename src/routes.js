@@ -4,6 +4,7 @@ import { IndexRoute, IndexRedirect, Route } from 'react-router';
 import { colors, SmallContainer } from './pages/_common/buildingBlocks';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
+import Cookies from './pages/cookies';
 import Error404 from './pages/error404';
 import Home from './pages/home/view';
 import Login from './pages/login';
@@ -76,9 +77,10 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
         <IndexRoute component={Home} />
 
-        <Route component={Redirect} noSignInButtonInHeader path='app'/>
-        <Route component={Privacy} path='privacy' />
-        <Route component={Terms} path='terms' />
+        <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
+        <Route component={Privacy} path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
         {/* Scenes */}
         <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
@@ -127,8 +129,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={MOVIE} path='scenes' />
         </Route>
 
-        <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' />
-        <Route component={ProductDetail} path='product/:productSlug/:productId' /> {/* Backwards compatible with old url. */}
+        <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={ProductDetail} path='product/:productSlug/:productId' onEnter={() => window.scrollTo(0, 0)} /> {/* Backwards compatible with old url. */}
 
         <Route component={Login} noSignInButtonInHeader path='login' />
         <Route component={Register} noSignInButtonInHeader path='register' />
@@ -151,7 +153,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <IndexRedirect to='/en' />
       {locales.map((locale) => makeLocalizedRoutes(locale))}
 
-      <Route component={Error404} path='*' />
+      <Route component={Error404} path='*' showCookies={false} />
     </Route>
   );
 };
