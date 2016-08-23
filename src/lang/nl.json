@@ -96,13 +96,13 @@
     "submitButton": "Verzend",
     "firstname": "Je voornaam",
     "lastname": "Je achternaam",
+    "email": "E-mail",
     "dateOfBirth": "Je geboortedatum",
     "gender": {
       "label": "Geslacht",
       "MALE": "Mannetje",
       "FEMALE": "Vrouwtje"
     },
-    "email": "Je e-mail",
     "password": "Je wachtwoord",
     "passwordRepeat": "Bevestig je wachtwoord",
     "existingUser": "Je hebt reeds een account",
@@ -162,6 +162,10 @@
     "topUserProducts": {
       "empty": "Er zijn geen producten voor jou gekozen.",
       "title": "Gekozen voor jou"
+    },
+    "scenes": {
+      "tabName": "scenes",
+      "empty": "Er zijn geen scenes."
     }
   },
   "character": {
@@ -171,6 +175,11 @@
     "sceneFrom": "Scene uit",
     "save": "Save",
     "unsave": "Unsave"
+  },
+  "cookies": {
+    "moreInfo": "Deze website maakt gebruik van cookies om uw gebruikservaring te verbeteren. [[Meer info]]",
+    "policy": "Wij hebben onze [[gebruiksvoorwaarden]] en [[privacybeleid]] aangepast.",
+    "continue": "Verdergaan"
   },
   "common": {
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",

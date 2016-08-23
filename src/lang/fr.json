@@ -98,7 +98,6 @@
     "lastname": "Nom de famille",
     "email": "E-mail",
     "dateOfBirth": "Geboortedatum",
-    "gender": "Geslacht",
     "gender": {
       "label": "Geslacht",
       "MALE": "Mannetje",
@@ -163,6 +162,10 @@
     "topUserProducts": {
       "empty": "Il n'y a pas de produits populaires pour vous à ce moment.",
       "title": "Choisi pour vous"
+    },
+    "scenes": {
+      "tabName": "scenes",
+      "empty": "There are no scenes."
     }
   },
   "character": {
@@ -172,6 +175,11 @@
     "sceneFrom": "Scene from",
     "save": "Save",
     "unsave": "Unsave"
+  },
+  "cookies": {
+    "moreInfo": "Ce site utilise des cookies pour améliorer votre expérience d’utilisateur. [[Plus d’info]]",
+    "policy": "Nous avons adaptés nos [[conditions générales]] et notre [[protection des données]].",
+    "continue": "Continuez"
   },
   "common": {
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",

@@ -46,7 +46,7 @@ export default class ProductDetail extends Component {
 
   constructor (props) {
     super(props);
-    this.share = ::this.share;
+    this.onBuyClick = ::this.onBuyClick;
     this.renderProduct = ::this.renderProduct;
     this.renderNotFoundError = ::this.renderNotFoundError;
     this.renderUnexpectedError = ::this.renderUnexpectedError;
@@ -63,9 +63,17 @@ export default class ProductDetail extends Component {
     }
   }
 
-  share (e) {
-    e.preventDefault();
-    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
+  onBuyClick () {
+    const postUrl = this.props.product.getIn([ 'offerings', '0', 'url' ]);
+    // Create a form using the good ol' DOM API
+    const form = document.createElement('form');
+    form.setAttribute('method', 'POST');
+    form.setAttribute('action', postUrl);
+    // Distructive manipulation of the DOM-tree, but this doesn't matter since
+    // we leave the SPA anyway.
+    document.body.appendChild(form);
+    // Submit form
+    form.submit();
   }
 
   static styles = {
@@ -127,8 +135,7 @@ export default class ProductDetail extends Component {
           width: '3.75em',
           height: '3.75em',
           margin: '0 0.625em 0.625em 0',
-          borderRadiusTopLeft: '0.25em',
-          borderRadiusTopRight: '0.25em',
+          borderRadius: '0.25em',
           border: `solid 0.15em ${colors.whiteTwo}`,
           cursor: 'pointer'
         },
@@ -206,6 +213,9 @@ export default class ProductDetail extends Component {
       ...makeTextStyle(fontWeights.bold),
       color: colors.dark,
       textDecoration: 'none'
+    },
+    spinner: {
+      marginTop: '2.5em'
     }
   }
 
@@ -214,6 +224,8 @@ export default class ProductDetail extends Component {
     const { onChangeImageSelection, product, selectedImageId, t } = this.props;
     const notAvailable = !product.getIn([ 'offerings', '0', 'url' ]);
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
+    const share = product.get('share');
+
     return (
       <div>
         <div style={styles.productInfo}>
@@ -247,10 +259,10 @@ export default class ProductDetail extends Component {
                     currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} />
                 </h2>
                 <div style={styles.details.buttons.wrapper}>
-                  <Button disabled={notAvailable} href={product.getIn([ 'offerings', '0', 'url' ])} key='buyButton' style={pinkButtonStyle} target='_blank'>
+                  <Button disabled={notAvailable} key='buyButton' style={pinkButtonStyle} target='_blank' onClick={this.onBuyClick}>
                     <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
                   </Button>
-                  <ShareButton href={`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover ${product.get('shortName')} now on Spott`}>
+                  <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${share.get('url')}`)}&title=${share.get('title')}`}>
                     {t('common.share')}
                   </ShareButton>
                 </div>
@@ -284,9 +296,11 @@ export default class ProductDetail extends Component {
     const { styles } = this.constructor;
     const { currentLocale, t } = this.props;
     return (
-      <SmallContainer>
-        <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
-      </SmallContainer>
+      <div style={styles.productInfo}>
+        <SmallContainer>
+          <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
+        </SmallContainer>
+      </div>
     );
   }
 
@@ -295,7 +309,8 @@ export default class ProductDetail extends Component {
   }
 
   render () {
-    return load(this.props.product, this.renderProduct, null, this.renderNotFoundError, this.renderUnexpectedError);
+    const { styles } = this.constructor;
+    return load(this.props.product, this.renderProduct, () => <div style={styles.productInfo}><SmallContainer style={styles.spinner}><Spinner /></SmallContainer></div>, this.renderNotFoundError, this.renderUnexpectedError);
   }
 
 }

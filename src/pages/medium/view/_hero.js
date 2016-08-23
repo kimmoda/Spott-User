@@ -2,14 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
-import CharacterTiles from '../../../_common/tiles/characterTiles';
-import { FETCHING, LAZY, LOADED, UPDATING } from '../../../../data/statusTypes';
-import { heroSelector } from '../../selector';
-import localized from '../../../_common/localized';
-import * as actions from '../../actions';
+import { fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../_common/buildingBlocks';
+import CharacterTiles from '../../_common/tiles/characterTiles';
+import { FETCHING, LAZY, LOADED, UPDATING } from '../../../data/statusTypes';
+import { heroSelector } from '../selector';
+import localized from '../../_common/localized';
+import * as actions from '../actions';
 
 @localized
 @connect(heroSelector, (dispatch) => ({
@@ -24,6 +23,7 @@ export default class Hero extends Component {
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.list
     }),
+    children: PropTypes.node,
     currentLocale: PropTypes.string.isRequired,
     currentPathname: PropTypes.string.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
@@ -62,7 +62,7 @@ export default class Hero extends Component {
 
   toggleFollow (e) {
     e.preventDefault();
-    this.props.toggleFollow();
+    this.props.toggleFollow(this.props.mediumId);
   }
 
   static styles = {
@@ -79,7 +79,8 @@ export default class Hero extends Component {
       position: 'relative'
     },
     characters: {
-      marginBottom: '1.7em'
+      marginBottom: '1.7em',
+      marginTop: '1em'
     },
     mediaType: {
       ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
@@ -94,8 +95,8 @@ export default class Hero extends Component {
       left: 0,
       bottom: 0,
       right: 0,
-      opacity: 0.5,
-      backgroundImage: 'linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25), rgb(0, 0, 0))',
+      opacity: 0.8,
+      backgroundImage: 'linear-gradient(to bottom, rgba(34, 31, 38, 0.4), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.625), rgb(34, 31, 38))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     title: {
@@ -117,66 +118,12 @@ export default class Hero extends Component {
     },
     tiles: {
       marginBottom: '1.7em'
-    },
-    smallEpisodes: {
-      paddingBottom: '1.7em'
-    },
-    tab: {
-      base: {
-        ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
-        color: 'white',
-        opacity: 0.5,
-        paddingBottom: '1em',
-        paddingTop: '1em',
-        textDecoration: 'none',
-        textAlign: 'center',
-        minWidth: '12.5em',
-        display: 'inline-block',
-        borderBottomWidth: 4,
-        borderBottomStyle: 'solid',
-        borderBottomColor: colors.dark
-      },
-      active: {
-        borderBottomColor: colors.darkPink,
-        opacity: 1
-      }
-    },
-    season: {
-      base: {
-        ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
-        backgroundImage: 'linear-gradient(to top, #000000, rgba(0, 0, 0, 0))',
-        color: 'white',
-        opacity: 0.5,
-        paddingBottom: '1em',
-        paddingTop: '1em',
-        textDecoration: 'none',
-        textAlign: 'center',
-        minWidth: '12.5em',
-        display: 'inline-block'
-      },
-      active: {
-        opacity: 1
-      }
-    },
-    tabs: {
-      position: 'relative',
-      textTransform: 'uppercase',
-      bottom: 0,
-      left: 0,
-      right: 0
-    },
-    smallEpisodeList: {
-      overflow: 'visible',
-      paddingTop: 0,
-      paddingBottom: 0,
-      marginBottom: 0,
-      marginTop: 0
     }
   };
 
   render () {
     const styles = this.constructor.styles;
-    const { characters, currentLocale, currentPathname, isAuthenticated, medium, t, toggleFollow } = this.props;
+    const { characters, currentLocale, currentPathname, isAuthenticated, medium, t } = this.props;
 
     if (medium.get('_status') === FETCHING || medium.get('_status') === LAZY) {
       return (<Spinner />);
@@ -195,7 +142,7 @@ export default class Hero extends Component {
               })}
             </SectionTitle>
             {isAuthenticated
-              ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={toggleFollow}>
+              ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={this.toggleFollow}>
                   {medium.get('subscribed') ? t('medium.unfollow') : t('medium.follow')}
                 </Button>
               : <Button style={[ pinkButtonStyle, styles.followButton.base ]} to={{
@@ -207,36 +154,14 @@ export default class Hero extends Component {
           </Container>
           <Container>
             <CharacterTiles
+              arrowsType='inline'
               items={characters}
               renderEmptyComponent={() => <div />}
               renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}
               renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
               style={styles.characters} />
           </Container>
-          <Container style={styles.tabs}>
-            <div>
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${medium.get('shareUrl')}/overview`}>{t('common.overview')}</Link>
-              {/*
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/products`}>Products</Link>
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`/series/${mediumId}/season/3`}>Scenes</Link>
-              */}
-            </div>
-            {/*
-            <div>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${mediumId}/season/3`}>Season 3</Link>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${mediumId}/season/2`}>Season 2</Link>
-              <Link activeStyle={styles.season.active} style={styles.season.base} to={`/series/${mediumId}/season/1`}>Season 1</Link>
-            </div>
-            */}
-          </Container>
-
-          {/*
-          <div style={styles.smallEpisodes}>
-            <FadeOutScalableContainer>
-              <SmallEpisodeTiles items={fromJS(dummySmallEpisodes)} listStyle={styles.smallEpisodeList} mediumId={mediumId} />
-            </FadeOutScalableContainer>
-          </div>
-          */}
+          {this.props.children}
         </div>
       );
     }

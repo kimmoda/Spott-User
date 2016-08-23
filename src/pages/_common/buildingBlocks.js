@@ -6,7 +6,7 @@ import { ERROR, FETCHING, LAZY, LOADED, UPDATING } from '../../data/statusTypes'
 
 export const RadiumLink = Radium(Link);
 
-const crossImage = require('./cross.svg');
+// const crossImage = require('./cross.svg');
 
 // Constants
 // /////////
@@ -124,14 +124,14 @@ export const largeDialogStyle = {
   content: {
     backgroundColor: 'transparent',
     border: 'none',
-    // display: 'inline-block',
     padding: 0,
+    maxWidth: '90%',
     // Fit width to content, centering horizontally
     left: '50%',
     right: 'auto',
     transform: 'translateX(-50%)',
     top: '5em',
-    bottom: '1em',
+    bottom: '5em',
     overflow: 'visible'
   }
 };
@@ -149,7 +149,13 @@ export const Modal = Radium((props) => (
   <ReactModal
     isOpen={props.isOpen}
     style={props.style || dialogStyle}
-    onRequestClose={props.onClose}>
+    onAfterOpen={() => {
+      document.body.style.overflow = 'hidden';
+    }}
+    onRequestClose={() => {
+      document.body.style.overflow = 'auto';
+      props.onClose();
+    }}>
       {/* Although this is a button, we chose a <div> for accessibility.
           The dialog can be canceled by pressing 'escape', so we remove the
           cross from tab focus. */}
@@ -266,15 +272,18 @@ const shareIconStyle = {
 };
 
 export const ShareButton = Radium((props) => {
+  const disabled = Boolean(props.disabled);
   return (
     <a
       href='#'
-      style={[ shareButtonStyle, props.style ]}
+      style={[ shareButtonStyle, props.style, disabled && disabledButtonStyle ]}
       onClick={(e) => {
         e.preventDefault();
-        const left = (screen.width / 2) - 300;
-        const top = (screen.height / 2) - 200;
-        window.open(props.href, 'name', `width=600,height=400,top=${top},left=${left}`);
+        if (props.href && !disabled) {
+          const left = (screen.width / 2) - 300;
+          const top = (screen.height / 2) - 200;
+          window.open(props.href, 'name', `width=600,height=400,top=${top},left=${left}`);
+        }
       }}>
       <svg style={shareIconStyle} viewBox='0 0 481.6 481.6' xmlns='http://www.w3.org/2000/svg'>
         <path d='M381.6 309.4c-27.7 0-52.4 13.2-68.2 33.6l-132.3-73.9c3.1-8.9 4.8-18.5 4.8-28.4 0-10-1.7-19.5-4.9-28.5l132.2-73.8c15.7 20.5 40.5 33.8 68.3 33.8 47.4 0 86.1-38.6 86.1-86.1S429 0 381.5 0s-86.1 38.6-86.1 86.1c0 10 1.7 19.6 4.9 28.5l-132.1 73.8c-15.7-20.6-40.5-33.8-68.3-33.8-47.4 0-86.1 38.6-86.1 86.1s38.7 86.1 86.2 86.1c27.8 0 52.6-13.3 68.4-33.9l132.2 73.9c-3.2 9-5 18.7-5 28.7 0 47.4 38.6 86.1 86.1 86.1s86.1-38.6 86.1-86.1-38.7-86.1-86.2-86.1zm0-282.3c32.6 0 59.1 26.5 59.1 59.1s-26.5 59.1-59.1 59.1-59.1-26.5-59.1-59.1 26.6-59.1 59.1-59.1zM100 299.8c-32.6 0-59.1-26.5-59.1-59.1s26.5-59.1 59.1-59.1 59.1 26.5 59.1 59.1-26.6 59.1-59.1 59.1zm281.6 154.7c-32.6 0-59.1-26.5-59.1-59.1s26.5-59.1 59.1-59.1 59.1 26.5 59.1 59.1-26.5 59.1-59.1 59.1z'/>
@@ -284,8 +293,9 @@ export const ShareButton = Radium((props) => {
   );
 });
 
-Button.propTypes = {
+ShareButton.propTypes = {
   children: PropTypes.node,
+  disabled: PropTypes.bool,
   href: PropTypes.string,
   style: PropTypes.oneOfType([
     PropTypes.object,
@@ -450,24 +460,33 @@ const submenuItemStyles = {
     float: 'left'
   },
   base: {
-    ...makeTextStyle(fontWeights.bold, '0.750em', '0.317em'),
-    color: colors.coolGray,
-    display: 'inline-block',
-    paddingTop: '1.6296em',
-    paddingBottom: '1.6296em',
+    ...makeTextStyle(fontWeights.bold, '0.75em', '0.237em'),
+    paddingBottom: '1em',
+    paddingTop: '1em',
     textDecoration: 'none',
-    textTransform: 'uppercase',
     textAlign: 'center',
-    width: '14.815em'
+    display: 'inline-block',
+    borderBottomWidth: 4,
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'rgba(0, 0, 0, 0)',
+    color: colors.coolGray,
+    textTransform: 'uppercase',
+    paddingLeft: '1em',
+    paddingRight: '1em',
+    [mediaQueries.medium]: {
+      paddingLeft: 0,
+      paddingRight: 0,
+      minWidth: '14.5em'
+    }
   },
   active: {
-    borderBottom: `4px solid ${colors.darkPink}`,
+    borderBottomColor: colors.darkPink,
     color: colors.white
   }
 };
-export const SubmenuItem = Radium(({ name, pathname }) => (
+export const SubmenuItem = Radium(({ name, pathname, style }) => (
   <li style={submenuItemStyles.container}>
-    <RadiumLink activeStyle={submenuItemStyles.active} key={pathname} style={submenuItemStyles.base} to={pathname}>
+    <RadiumLink activeStyle={submenuItemStyles.active} key={pathname} style={{ ...submenuItemStyles.base, ...style }} to={pathname}>
       {name}
     </RadiumLink>
   </li>
@@ -480,7 +499,8 @@ SubmenuItem.propTypes = {
 const submenuStyles = {
   container: {
     display: 'block',
-    listStyleType: 'none'
+    listStyleType: 'none',
+    position: 'relative'
   }
 };
 export const Submenu = Radium(({ children, style }) => (

@@ -15,7 +15,6 @@ import { combineReducers } from 'redux-immutablejs';
 import { reducer as form } from 'redux-form/immutable';
 import app from './pages/app/reducer';
 import data from './data/reducer';
-import medium from './pages/medium/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
@@ -33,7 +32,6 @@ const rootReducer = combineReducers({
   app,
   data,
   form,
-  medium,
   productDetail,
   profile,
   routing: routerReducer,
@@ -96,7 +94,7 @@ async function boot () {
   ReactDOM.render(
     <StyleRoot>
       <Provider key='provider' store={store}>
-        <Router history={ourHistory} render={(props) => <AsyncRouterContext {...props} asyncProps={initialState.get('asyncProps')} />} onUpdate={() => window.scrollTo(0, 0)}>
+        <Router history={ourHistory} render={(props) => <AsyncRouterContext {...props} asyncProps={initialState.get('asyncProps')} />}>
           {getRoutes(store)}
         </Router>
       </Provider>

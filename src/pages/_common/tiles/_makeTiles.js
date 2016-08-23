@@ -69,7 +69,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
     class GenericTiles extends Component {
 
       static propTypes = {
-        currentLocale: PropTypes.string.isRequired,
+        arrowsType: PropTypes.oneOf([ 'none', 'inline', 'top' ]),
         items: ImmutablePropTypes.mapContains({
           _status: PropTypes.string,
           data: ImmutablePropTypes.list
@@ -81,9 +81,14 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
         renderUnexpectedComponent: PropTypes.func,
         style: PropTypes.object,
         t: PropTypes.func.isRequired,
+        tileProps: PropTypes.object,
         title: PropTypes.string,
         titleStyle: PropTypes.object
       };
+
+      static defaultProps = {
+        arrowsType: 'top'
+      }
 
       constructor (props) {
         super(props);
@@ -106,9 +111,15 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
       componentWillUnmount () {
         // Create global 'on resize' hook
         window.removeEventListener('resize', this.onPatchWidth);
+        // Cancel any pending timeout
+        if (this.patchWidthTimeout) {
+          clearTimeout(this.patchWidthTimeout);
+        }
       }
 
       _patchWidth () {
+        // Timeout was triggered.
+        this.patchWidthTimeout = null;
         // Read width from DOM
         const screenWidth = window.innerWidth;
         // Save width
@@ -122,7 +133,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           return window.requestAnimationFrame(this._patchWidth);
         }
         // The performant method failed, fall back to setTimeout(). :(
-        setTimeout(this._patchWidth, 66);
+        this.patchWidthTimeout = setTimeout(this._patchWidth, 66);
       }
 
       componentWillReceiveProps (nextProps) {
@@ -197,8 +208,8 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
       render () {
         const { styles } = this.constructor;
         const {
-          items, listStyle, renderEmptyComponent, renderLoadingComponent,
-          renderNotFoundComponent, renderUnexpectedComponent, style, titleStyle, title
+          arrowsType, items, listStyle, renderEmptyComponent, renderLoadingComponent,
+          renderNotFoundComponent, renderUnexpectedComponent, style, tileProps, titleStyle, title
         } = this.props;
         const { screenWidth } = this.state;
         const arrowColor = (titleStyle && titleStyle.color) || colors.dark;
@@ -227,18 +238,19 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
 
         return (
           <div ref={(x) => { this.container = x; }} style={[ styles.container, style ]}>
-            <div style={styles.header}>
-              <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>
-              {items.get('data').size > currentNumColumns &&
-                <div style={styles.headerIcons}>
-                  <div style={styles.leftArrowWrapper} onClick={this.onBackClick}>
-                    <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
-                  </div>
-                  <div style={styles.rightArrowWrapper} onClick={this.onMoreClick}>
-                    <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
-                  </div>
+            {(arrowsType === 'top' || title) &&
+              <div style={styles.header}>
+                {title && <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>}
+                {arrowsType === 'top' && items.get('data').size > currentNumColumns &&
+                  <div style={styles.headerIcons}>
+                    <div style={styles.leftArrowWrapper} onClick={this.onBackClick}>
+                      <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
+                    </div>
+                    <div style={styles.rightArrowWrapper} onClick={this.onMoreClick}>
+                      <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
+                    </div>
+                  </div>}
                 </div>}
-            </div>
             <RadiumTiles
               first={this.state.first}
               horizontalSpacing={horizontalSpacing}
@@ -249,6 +261,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
               renderNotFoundComponent={renderNotFoundComponent}
               renderUnexpectedComponent={renderUnexpectedComponent}
               style={listStyle}
+              tileProps={tileProps}
               tileRenderer={tileRenderer} />
           </div>
         );

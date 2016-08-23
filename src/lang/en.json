@@ -162,6 +162,10 @@
     "topUserProducts": {
       "empty": "There are no top products for you right now.",
       "title": "Picked For You"
+    },
+    "scenes": {
+      "tabName": "scenes",
+      "empty": "There are no scenes."
     }
   },
   "character": {
@@ -171,6 +175,11 @@
     "sceneFrom": "Scene from",
     "save": "Save",
     "unsave": "Unsave"
+  },
+  "cookies": {
+    "moreInfo": "This website uses cookies to enhance your user experience. [[More info]]",
+    "policy": "We adapted our [[terms]] and [[privacy regulations]].",
+    "continue": "Continue"
   },
   "common": {
     "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",

@@ -1,36 +1,29 @@
 // import { getSeries, getSeasons, getEpisodes, getEpisodeProducts } from '../../api/series';
 // import { getRecentlyAddedToWishlist, getPopularProducts } from '../../api/products';
-import { addSubscriber, fetchMediumCharacters, fetchMediumNewScenesForYou, fetchMediumProducts, fetchMediumTopUserProducts, fetchMedium, removeSubscriber } from '../../data/actions';
+import {
+  addSubscriber, fetchMediumScenes, fetchMediumEpisodes, fetchMediumSeasons,
+  fetchMediumCharacters, fetchMediumNewScenesForYou, fetchMediumProducts,
+  fetchMediumTopUserProducts, fetchMedium, removeSubscriber
+} from '../../data/actions';
 // import { getMediumCharacters, getMediumProducts } from '../../api/medium';
 import { currentUserIdSelector } from '../app/selector';
 import { currentMediumSelector } from './selector';
 
-export const LOAD_MEDIUM = 'SERIES/LOAD_MEDIUM';
-export const LOAD_MEDIUM_ERROR = 'SERIES/LOAD_MEDIUM_ERROR';
-
-export const LOAD_MEDIUM_CHARACTERS = 'SERIES/LOAD_MEDIUM_CHARACTERS';
-export const LOAD_MEDIUM_CHARACTERS_ERROR = 'SERIES/LOAD_MEDIUM_CHARACTERS_ERROR';
-
-export const LOAD_MEDIUM_TOP_PRODUCTS = 'SERIES/LOAD_MEDIUM_TOP_PRODUCTS';
-export const LOAD_MEDIUM_TOP_PRODUCTS_ERROR = 'SERIES/LOAD_MEDIUM_TOP_PRODUCTS_ERROR';
-
-export const LOAD_MEDIUM_TOP_USER_PRODUCTS = 'SERIES/LOAD_MEDIUM_TOP_USER_PRODUCTS';
-export const LOAD_MEDIUM_TOP_USER_PRODUCTS_ERROR = 'SERIES/LOAD_MEDIUM_TOP_USER_PRODUCTS_ERROR';
-
-export const LOAD_NEW_SCENES_FOR_YOU = 'SERIES/LOAD_NEW_SCENES_FOR_YOU';
-export const LOAD_NEW_SCENES_FOR_YOU_ERROR = 'SERIES/LOAD_NEW_SCENES_FOR_YOU_ERROR';
+// Hero
+// ////
 
 // 4adb58ee-0801-45fa-b6f6-e1dc628e5d48 userId
-export function toggleFollow () {
+export function toggleFollow (mediumId) {
+  console.log(arguments);
   return async (dispatch, getState) => {
     const state = getState();
     const userId = currentUserIdSelector(state);
-    const medium = currentMediumSelector(state);
+    const medium = currentMediumSelector(state, { mediumId });
 
     if (medium.get('subscribed')) {
-      await dispatch(removeSubscriber({ mediumId: medium.get('id'), userId }));
+      await dispatch(removeSubscriber({ mediumId: medium.get('id'), mediumType: medium.get('type'), userId }));
     } else {
-      await dispatch(addSubscriber({ mediumId: medium.get('id'), userId }));
+      await dispatch(addSubscriber({ mediumId: medium.get('id'), mediumType: medium.get('type'), userId }));
     }
     //  // seasonId: '05f90d72-cf44-4686-82be-d0df3ea5a4ed'
     // const episodes = await getEpisodes(apiBaseUrlSelector(state), authenticationTokenSelector(state), { seasonId: '05f90d72-cf44-4686-82be-d0df3ea5a4ed' });
@@ -45,55 +38,54 @@ export function toggleFollow () {
 
 export function loadMedium (mediumType, mediumId) {
   return async (dispatch, getState) => {
-    try {
-      dispatch({ mediumId, mediumType, type: LOAD_MEDIUM });
-      return await dispatch(fetchMedium({ mediumId, mediumType }));
-    } catch (error) {
-      return dispatch({ error, mediumId, mediumType, type: LOAD_MEDIUM_ERROR });
-    }
+    return await dispatch(fetchMedium({ mediumId, mediumType }));
   };
 }
 
 export function loadCharacters (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_MEDIUM_CHARACTERS });
-      return await dispatch(fetchMediumCharacters({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_MEDIUM_CHARACTERS_ERROR });
-    }
+    return await dispatch(fetchMediumCharacters({ mediumId }));
   };
 }
 
+// Overview
+// ////////
+
 export function loadTopProducts (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_MEDIUM_TOP_PRODUCTS });
-      return await dispatch(fetchMediumProducts({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_MEDIUM_TOP_PRODUCTS_ERROR });
-    }
+    return await dispatch(fetchMediumProducts({ mediumId }));
   };
 }
 
 export function loadTopUserProducts (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_MEDIUM_TOP_USER_PRODUCTS });
-      return await dispatch(fetchMediumTopUserProducts({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_MEDIUM_TOP_USER_PRODUCTS_ERROR });
-    }
+    return await dispatch(fetchMediumTopUserProducts({ mediumId }));
   };
 }
 
 export function loadNewScenesForYou (mediumId) {
   return async (dispatch) => {
-    try {
-      dispatch({ mediumId, type: LOAD_NEW_SCENES_FOR_YOU });
-      return await dispatch(fetchMediumNewScenesForYou({ mediumId }));
-    } catch (error) {
-      return dispatch({ error, mediumId, type: LOAD_NEW_SCENES_FOR_YOU_ERROR });
-    }
+    return await dispatch(fetchMediumNewScenesForYou({ mediumId }));
+  };
+}
+
+// Scenes
+// //////
+
+export function loadSeasons (mediumId) {
+  return async (dispatch) => {
+    return await dispatch(fetchMediumSeasons({ mediumId }));
+  };
+}
+
+export function loadEpisodes (mediumId) {
+  return async (dispatch) => {
+    return await dispatch(fetchMediumEpisodes({ mediumId }));
+  };
+}
+
+export function loadMediumScenes (mediumId) {
+  return async (dispatch) => {
+    return await dispatch(fetchMediumScenes({ mediumId }));
   };
 }

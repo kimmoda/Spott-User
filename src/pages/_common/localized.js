@@ -36,6 +36,7 @@ export default function localized (WrappedComponent) {
       }
 
       _getLocalizedResource (resource) {
+        console.warn('res', resource, lang);
         return lang.localizedResources[resource][this.props.currentLocale];
       }
 

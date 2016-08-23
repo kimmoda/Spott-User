@@ -1,3 +1,5 @@
+import { MOVIE, SERIES, SERIES_EPISODE } from '../data/mediumTypes';
+
 function stripDomain (url) {
   return url.substring(url.indexOf('/', 9));
 }
@@ -97,11 +99,12 @@ export function transformWishlist (wishlist) {
   *   subscriberCount: 111
   * }
   */
-export function transformMedium ({ posterImage, profileImage, subscribed, subscriberCount, title, type, uuid: id }) {
+export function transformMedium ({ posterImage, profileImage, shareUrl, subscribed, subscriberCount, title, type, uuid: id }) {
   return {
     id,
     posterImage: posterImage && { id: posterImage.uuid, url: posterImage.url },
     profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url },
+    shareUrl: stripDomain(shareUrl),
     subscribed,
     subscriberCount,
     title,
@@ -109,17 +112,22 @@ export function transformMedium ({ posterImage, profileImage, subscribed, subscr
   };
 }
 
-export function transformSeason ({ title, uuid: id }) {
+export function transformSeason ({ number, shareUrl, title, uuid: id }) {
   return {
     id,
+    number,
+    shareUrl: stripDomain(shareUrl),
     title
   };
 }
 
-export function transformEpisode ({ title, uuid: id }) {
+export function transformEpisode ({ number, profileImage, shareUrl, title, uuid: id }) {
   return {
     id,
-    title
+    number,
+    title,
+    shareUrl: stripDomain(shareUrl),
+    profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url }
   };
 }
 
@@ -132,13 +140,35 @@ function transformSceneProduct ({ image, position, price, shortName, uuid: id })
     shortName
   };
 }
-export function transformScene (scene) {
-  return {
-    characters: ((scene.characters && scene.characters.data) || []).map(transformCharacter),
-    id: scene.uuid,
-    image: scene.image && { id: scene.image.uuid, url: scene.image.url },
+
+export function transformScene (data) {
+  const { characters, image, medium, products, saved, shareUrl, uuid: id } = data;
+  const scene = {
+    characters: ((characters && characters.data) || []).map(transformCharacter),
+    id,
+    image: image && { id: image.uuid, url: image.url },
     // TODO: add pagination, probably not needed because there are no more then 100 products on a scene...
-    products: ((scene.products && scene.products.data) || []).map(transformSceneProduct),
-    shareUrl: stripDomain(scene.shareUrl)
+    products: ((products && products.data) || []).map(transformSceneProduct),
+    saved,
+    shareUrl: stripDomain(shareUrl)
   };
+  if (medium) {
+    switch (medium.type) {
+      case SERIES_EPISODE:
+        scene.episode = transformEpisode(medium);
+        scene.season = medium.season && transformSeason(medium.season);
+        scene.series = medium.season && medium.season.serie && transformMedium(medium.season.serie);
+        scene.type = SERIES;
+        break;
+      case MOVIE:
+        scene.movie = transformMedium(medium);
+        scene.type = MOVIE;
+        break;
+    }
+  }
+  return scene;
+}
+
+export function transformShare ({ body, image, title, url }) {
+  return { description: body, image: { id: image.uuid, url: image.url }, title, url };
 }
