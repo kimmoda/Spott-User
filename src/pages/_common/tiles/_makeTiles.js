@@ -111,9 +111,15 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
       componentWillUnmount () {
         // Create global 'on resize' hook
         window.removeEventListener('resize', this.onPatchWidth);
+        // Cancel any pending timeout
+        if (this.patchWidthTimeout) {
+          clearTimeout(this.patchWidthTimeout);
+        }
       }
 
       _patchWidth () {
+        // Timeout was triggered.
+        this.patchWidthTimeout = null;
         // Read width from DOM
         const screenWidth = window.innerWidth;
         // Save width
@@ -127,7 +133,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           return window.requestAnimationFrame(this._patchWidth);
         }
         // The performant method failed, fall back to setTimeout(). :(
-        setTimeout(this._patchWidth, 66);
+        this.patchWidthTimeout = setTimeout(this._patchWidth, 66);
       }
 
       componentWillReceiveProps (nextProps) {

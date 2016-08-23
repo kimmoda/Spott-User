@@ -96,13 +96,13 @@
     "submitButton": "Verzend",
     "firstname": "Je voornaam",
     "lastname": "Je achternaam",
+    "email": "E-mail",
     "dateOfBirth": "Je geboortedatum",
     "gender": {
       "label": "Geslacht",
       "MALE": "Mannetje",
       "FEMALE": "Vrouwtje"
     },
-    "email": "Je e-mail",
     "password": "Je wachtwoord",
     "passwordRepeat": "Bevestig je wachtwoord",
     "existingUser": "Je hebt reeds een account",
@@ -169,6 +169,10 @@
     "topUserProducts": {
       "empty": "Er zijn geen producten voor jou gekozen.",
       "title": "Gekozen voor jou"
+    },
+    "scenes": {
+      "tabName": "scenes",
+      "empty": "Er zijn geen scenes."
     }
   },
   "scene": {

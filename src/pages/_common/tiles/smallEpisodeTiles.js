@@ -63,6 +63,7 @@ export class SmallEpisodeTile extends Component {
         right: 0,
         padding: '1em 1.25em',
         overflow: 'hidden',
+        textAlign: 'center',
         textOverflow: 'ellipsis',
         opacity: 0,
         transition: 'opacity 0.5s ease-in',
@@ -95,15 +96,14 @@ export class SmallEpisodeTile extends Component {
     const children = (
       <div style={styles.container}>
         <div
-          style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}")` } ]}
-          title={item.get('title')} />
+          style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}")` } ]} />
           <span style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('title')}</span>
         <div style={styles.layer} />
       </div>
     );
     return (
       <BaseTile style={style}>
-        <Link activeStyle={styles.link.active} style={styles.link.base} to={item.get('shareUrl')}>{children}</Link>
+        <Link activeStyle={styles.link.active} style={styles.link.base} title={item.get('title')} to={item.get('shareUrl')} >{children}</Link>
       </BaseTile>
     );
   }

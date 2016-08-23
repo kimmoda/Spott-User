@@ -169,6 +169,10 @@
     "topUserProducts": {
       "empty": "There are no top products for you right now.",
       "title": "Picked For You"
+    },
+    "scenes": {
+      "tabName": "scenes",
+      "empty": "There are no scenes."
     }
   },
   "scene": {

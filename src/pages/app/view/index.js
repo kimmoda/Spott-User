@@ -76,12 +76,9 @@ const styles = {
     position: 'relative'
   },
   footerCompensation: {
-    paddingBottom: '6.3em',
-    [mediaQueries.small]: {
-      paddingBottom: '6em'
-    },
+    paddingBottom: '7.7em',
     [mediaQueries.medium]: {
-      paddingBottom: '3em'
+      paddingBottom: '3.7em'
     }
   },
   footer: {

@@ -62,7 +62,7 @@ export default class Hero extends Component {
 
   toggleFollow (e) {
     e.preventDefault();
-    this.props.toggleFollow();
+    this.props.toggleFollow(this.props.mediumId);
   }
 
   static styles = {
@@ -95,8 +95,8 @@ export default class Hero extends Component {
       left: 0,
       bottom: 0,
       right: 0,
-      opacity: 0.75,
-      backgroundImage: 'linear-gradient(to bottom, rgba(34, 31, 38, 0.3), rgba(34, 31, 38, 0.041), rgba(34, 31, 38, 0.041), rgba(34, 31, 38, 0.083), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.625), rgb(34, 31, 38))',
+      opacity: 0.8,
+      backgroundImage: 'linear-gradient(to bottom, rgba(34, 31, 38, 0.4), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.625), rgb(34, 31, 38))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     title: {
@@ -123,7 +123,7 @@ export default class Hero extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { characters, currentLocale, currentPathname, isAuthenticated, medium, t, toggleFollow } = this.props;
+    const { characters, currentLocale, currentPathname, isAuthenticated, medium, t } = this.props;
 
     if (medium.get('_status') === FETCHING || medium.get('_status') === LAZY) {
       return (<Spinner />);
@@ -142,7 +142,7 @@ export default class Hero extends Component {
               })}
             </SectionTitle>
             {isAuthenticated
-              ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={toggleFollow}>
+              ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={this.toggleFollow}>
                   {medium.get('subscribed') ? t('medium.unfollow') : t('medium.follow')}
                 </Button>
               : <Button style={[ pinkButtonStyle, styles.followButton.base ]} to={{

@@ -13,16 +13,17 @@ import { currentMediumSelector } from './selector';
 // ////
 
 // 4adb58ee-0801-45fa-b6f6-e1dc628e5d48 userId
-export function toggleFollow () {
+export function toggleFollow (mediumId) {
+  console.log(arguments);
   return async (dispatch, getState) => {
     const state = getState();
     const userId = currentUserIdSelector(state);
-    const medium = currentMediumSelector(state);
+    const medium = currentMediumSelector(state, { mediumId });
 
     if (medium.get('subscribed')) {
-      await dispatch(removeSubscriber({ mediumId: medium.get('id'), userId }));
+      await dispatch(removeSubscriber({ mediumId: medium.get('id'), mediumType: medium.get('type'), userId }));
     } else {
-      await dispatch(addSubscriber({ mediumId: medium.get('id'), userId }));
+      await dispatch(addSubscriber({ mediumId: medium.get('id'), mediumType: medium.get('type'), userId }));
     }
     //  // seasonId: '05f90d72-cf44-4686-82be-d0df3ea5a4ed'
     // const episodes = await getEpisodes(apiBaseUrlSelector(state), authenticationTokenSelector(state), { seasonId: '05f90d72-cf44-4686-82be-d0df3ea5a4ed' });

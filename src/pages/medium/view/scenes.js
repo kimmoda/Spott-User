@@ -51,7 +51,6 @@ export default class MediumScenes extends Component {
   componentWillMount () {
     const mediumId = mostSpecificMedium(this.props);
     if (mediumId) {
-      console.log('!!!', mediumId);
       this.props.loadMediumScenes(mediumId);
     }
   }
@@ -81,7 +80,7 @@ export default class MediumScenes extends Component {
 
   renderEmpty () {
     const { t } = this.props;
-    return (<Message>There are no scenes.</Message>);
+    return (<Container><Message>{t('medium.scenes.empty')}</Message></Container>);
   }
 
   render () {

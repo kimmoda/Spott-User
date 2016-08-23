@@ -8,6 +8,11 @@ const mapMediumTypeToUrlParts = {
   [SERIES]: 'series'
 };
 
+const mapMediumTypeToUrlPartsPlural = {
+  [MOVIE]: 'movies',
+  [SERIES]: 'series'
+};
+
 export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/searches/recent?pageSize=100`);
   const data = body.data.map(transformMedium);
@@ -65,9 +70,9 @@ export async function getMedium (baseUrl, authenticationToken, locale, { mediumI
   }
 }
 
-export async function addSubscriber (baseUrl, authenticationToken, locale, { mediumId, userId }) {
+export async function addSubscriber (baseUrl, authenticationToken, locale, { mediumId, mediumType, userId }) {
   try {
-    await post(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/subscribers`, { uuid: userId });
+    await post(authenticationToken, locale, `${baseUrl}/v003/media/${mapMediumTypeToUrlPartsPlural[mediumType]}/${mediumId}/subscribers`, { uuid: userId });
   } catch (error) {
     switch (error.statusCode) {
       case 403:
@@ -79,9 +84,9 @@ export async function addSubscriber (baseUrl, authenticationToken, locale, { med
   }
 }
 
-export async function removeSubscriber (baseUrl, authenticationToken, locale, { mediumId, userId }) {
+export async function removeSubscriber (baseUrl, authenticationToken, locale, { mediumId, mediumType, userId }) {
   try {
-    await del(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/subscribers`, { uuid: userId });
+    await del(authenticationToken, locale, `${baseUrl}/v003/media/${mapMediumTypeToUrlPartsPlural[mediumType]}/${mediumId}/subscribers`, { uuid: userId });
   } catch (error) {
     switch (error.statusCode) {
       case 403:
@@ -95,6 +100,7 @@ export async function removeSubscriber (baseUrl, authenticationToken, locale, { 
 
 export async function getMediumSeasons (baseUrl, authenticationToken, locale, { mediumId }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/seasons`);
+  console.log(body.data);
   return body.data.map(transformSeason);
 }
 

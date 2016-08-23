@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import localized from '../../_common/localized';
-import { colors, Container, fontWeights, makeTextStyle, Submenu, SubmenuItem } from '../../_common/buildingBlocks';
+import { Container, Submenu, SubmenuItem } from '../../_common/buildingBlocks';
 import { tabsSelector } from '../selector';
 import { SERIES } from '../../../data/mediumTypes';
 
@@ -26,7 +26,7 @@ export default class Tabs extends Component {
         <Container>
           <Submenu>
             <SubmenuItem key='overview' name={t('common.overview')} pathname={`${medium.get('shareUrl')}/overview`} />
-            <SubmenuItem key='scenes' name={'scenes'} pathname={`${medium.get('shareUrl')}/${medium.get('type') === SERIES ? 'season' : 'scenes'}`} />
+            <SubmenuItem key='scenes' name={t('medium.scenes.tabName')} pathname={`${medium.get('shareUrl')}/${medium.get('type') === SERIES ? 'season' : 'scenes'}`} />
           </Submenu>
         </Container>
         {children}

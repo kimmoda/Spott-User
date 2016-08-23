@@ -171,7 +171,7 @@ class Header extends Component {
 
 const styles = {
   content: {
-    marginBottom: '3em', // We contain only tiles with shadow, so we overcompensate a bit for the shadow.
+    marginBottom: '2.6em', // We contain only tiles with shadow, so we overcompensate a bit for the shadow.
     marginTop: '2.5em'
   },
   emptyText: {
