@@ -44,7 +44,6 @@ export default class VerticalTiles extends Component {
       PropTypes.any
     ).isRequired,
     numColumns: PropTypes.objectOf(PropTypes.number).isRequired, // Maps screen widths on numColumns
-    returnTo: PropTypes.string,
     // The component for rendering the tile. Is cloned with an additional
     // 'value' prop.
     tile: PropTypes.node.isRequired,
