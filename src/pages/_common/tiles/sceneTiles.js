@@ -185,6 +185,7 @@ export class SceneTile extends Component {
   render () {
     const { styles } = this.constructor;
     const { item, location, style /* , t */ } = this.props;
+
     return (
       <BaseTile style={style}>
         <RadiumLink key={item.get('id')} style={styles.wrapper} to={{

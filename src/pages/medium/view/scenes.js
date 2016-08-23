@@ -15,7 +15,7 @@ const styles = {
     marginBottom: '3em', // We contain only tiles with shadow, so we overcompensate a bit for the shadow.
     marginTop: '2.5em'
   }
-}
+};
 
 @localized
 @connect(scenesSelector, (dispatch) => ({
@@ -26,6 +26,7 @@ export default class MediumScenes extends Component {
     currentLocale: PropTypes.string.isRequired,
     currentScenesMediumId: PropTypes.string,
     loadMediumScenes: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     params: PropTypes.shape({
       episodeId: PropTypes.string,
       mediumId: PropTypes.string.isRequired,
@@ -64,7 +65,7 @@ export default class MediumScenes extends Component {
   }
 
   renderScenes () {
-    const { scenes } = this.props;
+    const { location, scenes } = this.props;
     return (
       <Container style={styles.content}>
         <VerticalTiles
@@ -72,7 +73,7 @@ export default class MediumScenes extends Component {
           horizontalSpacing={30}
           items={scenes.get('data')}
           numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
-          tile={<SceneTile />}
+          tile={<SceneTile location={location} />}
           verticalSpacing={30} />
       </Container>
     );

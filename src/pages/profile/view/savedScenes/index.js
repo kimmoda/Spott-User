@@ -49,17 +49,15 @@ export default class SavedScenes extends Component {
 
   renderSavedScenes () {
     const { location, savedScenes } = this.props;
-    if (savedScenes.get('data').size > 0) {
-      return (
-        <VerticalTiles
-          aspectRatio={0.55994248}
-          horizontalSpacing={30}
-          items={savedScenes.get('data')}
-          numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
-          tile={<SceneTile location={location} />}
-          verticalSpacing={30} />
-      );
-    }
+    return (
+      <VerticalTiles
+        aspectRatio={0.55994248}
+        horizontalSpacing={30}
+        items={savedScenes.get('data')}
+        numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
+        tile={<SceneTile location={location} />}
+        verticalSpacing={30} />
+    );
   }
 
   renderEmpty () {
