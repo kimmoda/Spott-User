@@ -97,11 +97,11 @@
     "firstname": "Prénom",
     "lastname": "Nom de famille",
     "email": "E-mail",
-    "dateOfBirth": "Geboortedatum",
+    "dateOfBirth": "Date de naissance",
     "gender": {
-      "label": "Geslacht",
-      "MALE": "Mannetje",
-      "FEMALE": "Vrouwtje"
+      "label": "Sexe",
+      "MALE": "Masculin",
+      "FEMALE": "Féminin"
     },
     "password": "Mot de passe",
     "passwordRepeat": "Confirmation du mot de passe",
@@ -135,11 +135,11 @@
       }
     },
     "menu": {
-      "savedScenes": "Saved scenes",
+      "savedScenes": "Scènes sauvés",
       "wishlists": "Listes de souhaits"
     },
     "savedScenes": {
-      "empty": "This list is empty."
+      "empty": "Cette liste est vide."
     },
     "wishlists": {
       "empty": "Vous n'avez pas encore des listes de souhaits.",
@@ -171,14 +171,14 @@
       "title": "Choisi pour vous"
     },
     "scenes": {
-      "tabName": "scenes",
-      "empty": "There are no scenes."
+      "tabName": "Scènes",
+      "empty": "Il n'y a pas de scènes."
     }
   },
   "scene": {
-    "sceneFrom": "Scene from",
-    "save": "Save",
-    "unsave": "Unsave"
+    "sceneFrom": "Scène de",
+    "save": "Sauver",
+    "unsave": "Sauvé"
   },
   "common": {
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",

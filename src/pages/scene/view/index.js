@@ -118,6 +118,14 @@ export default class Scene extends Component {
         width: '100%'
       }
     },
+    markers: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflow: 'hidden'
+    },
     characters: {
       left: '1.25em',
       position: 'absolute',
@@ -152,7 +160,11 @@ export default class Scene extends Component {
         paddingRight: '1em',
         textAlign: 'center',
         // Center the images on the bottom-line of the scene.
-        transform: 'translateY(-33.3333%)'
+        transform: 'translateY(-33.3333%)',
+        pointerEvents: 'none'
+      },
+      item: {
+        pointerEvents: 'all'
       },
       small: {
         wrapper: {
@@ -350,20 +362,22 @@ export default class Scene extends Component {
                     title={character.get('name')}/>
                 </div>)}
             </div>
-            {/* Display product of products with a position. Global products don't have a position. */}
-            {scene.get('products').filter((product) => product.get('position')).map((product) =>
-              <Link alt={product.get('shortName')} key={product.get('id')} title={product.get('shortName')} to={{
-                ...location,
-                pathname: `${scene.get('shareUrl')}/product/${product.get('id')}`
-              }}>
-                <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} selected={productId === product.get('id')} style={largeMarkerStyle} />
-              </Link>)}
+            <div style={styles.markers}>
+              {/* Display product of products with a position. Global products don't have a position. */}
+              {scene.get('products').filter((product) => product.get('position')).map((product) =>
+                <Link alt={product.get('shortName')} key={product.get('id')} title={product.get('shortName')} to={{
+                  ...location,
+                  pathname: `${scene.get('shareUrl')}/product/${product.get('id')}`
+                }}>
+                  <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} selected={productId === product.get('id')} style={largeMarkerStyle} />
+                </Link>)}
+            </div>
             <div style={styles.images.wrapper}>
               <ProductThumbs
                 horizontalSpacing={0.555}
                 items={Map({ _status: LOADED, data: scene.get('products') })}
                 numColumns={{ extraSmall: 7, small: 9, medium: 10, large: 11, extraLarge: 12 }}
-                tileProps={{ location, productId, scene }} />
+                tileProps={{ location, productId, scene, innerStyle: styles.images.item }} />
             </div>
           </div>
           <div style={{ clear: 'both' }} />

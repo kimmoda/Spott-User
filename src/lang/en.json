@@ -171,14 +171,14 @@
       "title": "Picked For You"
     },
     "scenes": {
-      "tabName": "scenes",
+      "tabName": "Scenes",
       "empty": "There are no scenes."
     }
   },
   "scene": {
     "sceneFrom": "Scene from",
     "save": "Save",
-    "unsave": "Unsave"
+    "unsave": "Saved"
   },
   "common": {
     "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",
