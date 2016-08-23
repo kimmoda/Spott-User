@@ -1,9 +1,9 @@
 .cookies {
   margin-top: 30px;
+  margin-bottom: 30px;
   padding: 20px 0 5px;
 
   @media (max-width: 768px) {
-    margin-top: 30px;
     padding: 35px 0 15px;
   }
 
@@ -82,39 +82,5 @@
       }
     }
 
-    ol {
-      padding-left: .6em;
-      margin-bottom: 35px;
-
-      @media (max-width: 768px) {
-        padding-left: 1.2em;
-      }
-
-      li {
-        counter-increment: item;
-
-        &:before {
-          content: counter(heading) "." counter(item) " ";
-        }
-      }
-
-      ol {
-        padding-left: 1.2em;
-        counter-reset: alphabet;
-        list-style-type: lower-alpha;
-
-        @media (max-width: 768px) {
-          padding-left: 2.4em;
-        }
-
-        li {
-          counter-increment: alphabet;
-
-          &:before {
-            content: "(" counter(alphabet, lower-alpha) ")";
-          }
-        }
-      }
-    }
   }
 }

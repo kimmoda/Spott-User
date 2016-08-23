@@ -5,6 +5,7 @@ require('./cookies.scss');
 
 @localized
 export default class Cookies extends Component {
+
   static propTypes = {
     getLocalizedResource: PropTypes.func.isRequired
   };
@@ -18,4 +19,5 @@ export default class Cookies extends Component {
       </div>
     );
   }
+
 }

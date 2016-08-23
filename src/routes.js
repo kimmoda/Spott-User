@@ -77,10 +77,10 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
         <IndexRoute component={Home} />
 
-        <Route component={Redirect} noSignInButtonInHeader path='app'/>
-        <Route component={Privacy} path='privacy' />
-        <Route component={Terms} path='terms' />
-        <Route component={Cookies} path='cookies' />
+        <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
+        <Route component={Privacy} path='privacy' showCookies={false} />
+        <Route component={Terms} path='terms' showCookies={false} />
+        <Route component={Cookies} path='cookies' showCookies={false} />
 
         {/* Scenes */}
         <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
@@ -144,7 +144,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <IndexRedirect to='/en' />
       {locales.map((locale) => makeLocalizedRoutes(locale))}
 
-      <Route component={Error404} path='*' />
+      <Route component={Error404} path='*' showCookies={false} />
     </Route>
   );
 };

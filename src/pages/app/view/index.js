@@ -1,5 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { mediaQueries } from '../../_common/buildingBlocks';
 import Footer from './footer';
@@ -7,6 +8,7 @@ import { init, pageView } from './googleAnalytics';
 import Header from './header';
 import Cookies from './cookies';
 import { locales } from '../../../locales';
+import { appSelector } from '../selector';
 
 require('./reset.css');
 require('./fonts/index.css');
@@ -93,9 +95,11 @@ const styles = {
   }
 };
 
+@connect(appSelector)
 @Radium
 export default class App extends Component {
   static propTypes = {
+    acceptCookies: PropTypes.bool,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -133,19 +137,20 @@ export default class App extends Component {
   }
 
   render () {
-    const location = this.props.location;
-    const showCookies = this.props.routes.reduce((acc, curr) => typeof curr.showCookies === 'undefined' ? acc : curr.showCookies, true);
-    const standalone = this.props.routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
-    const floating = this.props.routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
-    const noSignInButtonInHeader = this.props.routes.reduce((acc, curr) => typeof curr.noSignInButtonInHeader === 'undefined' ? acc : curr.noSignInButtonInHeader, false);
+    const { acceptCookies, children, location, routes } = this.props;
+    // Show the cookies note if the user did not accept the cookies policy.
+    const showCookies = !acceptCookies && routes.reduce((acc, curr) => typeof curr.showCookies === 'undefined' ? acc : curr.showCookies, true);
+    const standalone = routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
+    const floating = routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
+    const noSignInButtonInHeader = routes.reduce((acc, curr) => typeof curr.noSignInButtonInHeader === 'undefined' ? acc : curr.noSignInButtonInHeader, false);
     if (location.state && location.state.modal && this.previousChildren) {
       // Render containing page (previousChildren) and modal (children)
       return (
         <div style={styles.container}>
-          <HrefLang location={this.props.location} />
+          <HrefLang location={location} />
           {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
           <div style={standalone ? {} : styles.footerCompensation}>{this.previousChildren}</div>
-          <div>{this.props.children}</div>
+          <div>{children}</div>
           {showCookies && <Cookies />}
           {!standalone && <Footer style={styles.footer} />}
         </div>
@@ -154,9 +159,9 @@ export default class App extends Component {
     // Standard route, nothing special here.
     return (
       <div style={styles.container}>
-        <HrefLang location={this.props.location} />
+        <HrefLang location={location} />
         {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
-        <div style={standalone ? {} : styles.footerCompensation}>{this.props.children}</div>
+        <div style={standalone ? {} : styles.footerCompensation}>{children}</div>
         {showCookies && <Cookies />}
         {!standalone && <Footer style={styles.footer} />}
       </div>

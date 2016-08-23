@@ -1,11 +1,12 @@
 
 import React, { Component, PropTypes } from 'react';
-import { buttonStyle, colors, fontWeights, makeTextStyle, mediaQueries, Button, Container, RadiumLink } from '../../_common/buildingBlocks';
-import Dropdown from '../../_common/dropdown';
-import localized from '../../_common/localized';
 import Radium from 'radium';
-import { localesHash, locales } from '../../../locales';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import cookie from 'react-cookie';
+import { buttonStyle, colors, fontWeights, makeTextStyle, mediaQueries, Button, Container, RadiumLink } from '../../_common/buildingBlocks';
+import localized from '../../_common/localized';
+import { acceptCookies } from '../actions';
 
 const styles = {
   link: {
@@ -46,11 +47,15 @@ const styles = {
   }
 };
 
+@connect(null, (dispatch) => ({
+  acceptCookies: bindActionCreators(acceptCookies, dispatch)
+}))
 @localized
 @Radium
 export default class Cookies extends Component {
 
   static propTypes = {
+    acceptCookies: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     style: PropTypes.object,
     t: PropTypes.func.isRequired
@@ -67,6 +72,7 @@ export default class Cookies extends Component {
     nextYear.setFullYear(nextYear.getFullYear() + 1);
     // Accept cookies
     cookie.save('acceptCookies', true, { expires: nextYear, path: '/' });
+    this.props.acceptCookies();
   }
 
   render () {
@@ -76,11 +82,11 @@ export default class Cookies extends Component {
       <section style={[ styles.wrapper, style ]}>
         <Container>
           <div style={styles.left}>
-            <p style={styles.text}>{t('cookies.moreInfo', {}, (content, key) => <RadiumLink style={styles.link} to={`/${currentLocale}/cookies`}>{content}</RadiumLink>)}</p>
+            <p style={styles.text}>{t('cookies.moreInfo', {}, (content, key) => <RadiumLink key={key} style={styles.link} to={`/${currentLocale}/cookies`}>{content}</RadiumLink>)}</p>
             <p style={styles.text}>
               {t('cookies.policy', {}, (content, key) => key === 1
-                ? <RadiumLink key='terms' style={styles.link} to={`/${currentLocale}/terms`}>{content}</RadiumLink>
-                : <RadiumLink key='privacy' style={styles.link} to={`/${currentLocale}/privacy`}>{content}</RadiumLink>
+                ? <RadiumLink key={key} style={styles.link} to={`/${currentLocale}/terms`}>{content}</RadiumLink>
+                : <RadiumLink key={key} style={styles.link} to={`/${currentLocale}/privacy`}>{content}</RadiumLink>
               )}
             </p>
           </div>

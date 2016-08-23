@@ -61,6 +61,8 @@ function registration (state = fromJS({ isLoading: false }), action) {
 
 function configuration (state = Map({ currentLocale: 'en' }), action) {
   switch (action.type) {
+    case actions.ACCEPT_COOKIES:
+      return state.set('acceptCookies', true);
     case actions.CONFIGURE:
       return state.merge(fromJS(action.configuration));
     case actions.CHANGE_LOCALE:
