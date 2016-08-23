@@ -2,7 +2,8 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { Link } from 'react-router';
-import { colors } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+// import { formatEpisodeNumber } from '../../../utils';
 import BaseTile from './_baseTile';
 import hoverable from '../hoverable';
 import makeTiles from './_makeTiles';
@@ -31,6 +32,7 @@ export class SmallEpisodeTile extends Component {
       height: 0
     },
     image: {
+      backgroundColor: colors.dark,
       backgroundPosition: 'center center',
       backgroundSize: 'cover',
       borderRadius: '0.25em',
@@ -49,6 +51,28 @@ export class SmallEpisodeTile extends Component {
       backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
+    title: {
+      base: {
+        ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
+        color: 'white',
+        textTransform: 'uppercase',
+        position: 'absolute',
+        top: '50%',
+        transform: 'translate(0, -50%)',
+        left: 0,
+        right: 0,
+        padding: '1em 1.25em',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        opacity: 0,
+        transition: 'opacity 0.5s ease-in',
+        zIndex: 1
+      },
+      hovered: {
+        transition: 'opacity 0.5s ease-out',
+        opacity: 1
+      }
+    },
     link: {
       active: {
         borderColor: colors.darkPink
@@ -66,13 +90,14 @@ export class SmallEpisodeTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { item, style } = this.props;
+    const { hovered, item, style } = this.props;
 
     const children = (
       <div style={styles.container}>
         <div
           style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}")` } ]}
           title={item.get('title')} />
+          <span style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('title')}</span>
         <div style={styles.layer} />
       </div>
     );
@@ -86,6 +111,6 @@ export class SmallEpisodeTile extends Component {
 
 export default makeTiles(
   0.938,
-  { extraSmall: 4, small: 5, medium: 6, large: 7, extraLarge: 9 },
+  { extraSmall: 3, small: 4, medium: 5, large: 5, extraLarge: 6 },
   (instanceProps) => <SmallEpisodeTile {...instanceProps} />
 );

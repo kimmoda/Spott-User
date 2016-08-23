@@ -4,9 +4,10 @@ import {
   createEntityByIdSelector, createEntitiesByRelationSelector,
   charactersEntitiesSelector, mediaEntitiesSelector,
   mediumHasNewScenesForYouSelector, mediumHasEpisodesSelector,
-  scenesEntitiesSelector, mediumHasCharactersSelector,
+  scenesEntitiesSelector, mediumHasCharactersSelector, mediumHasScenesSelector,
   mediumHasSeasonsSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector
 } from '../../data/selector';
+import mostSpecificMedium from './_mostSpecificMedium';
 
 const currentMediumIdSelector = (state, props) => (props.params && props.params.mediumId) || props.mediumId;
 export const currentMediumSelector = createEntityByIdSelector(mediaEntitiesSelector, currentMediumIdSelector);
@@ -16,6 +17,10 @@ export const currentMediumSelector = createEntityByIdSelector(mediaEntitiesSelec
 export const heroSelector = createStructuredSelector({
   characters: createEntitiesByRelationSelector(mediumHasCharactersSelector, currentMediumIdSelector, charactersEntitiesSelector),
   isAuthenticated: isAuthenticatedSelector,
+  medium: currentMediumSelector
+});
+
+export const tabsSelector = createStructuredSelector({
   medium: currentMediumSelector
 });
 
@@ -34,11 +39,7 @@ export const newScenesForYouSelector = createStructuredSelector({
   scenes: createEntitiesByRelationSelector(mediumHasNewScenesForYouSelector, currentMediumIdSelector, scenesEntitiesSelector)
 });
 
-// Tabs
-
-export const tabsSelector = createStructuredSelector({
-  medium: currentMediumSelector
-});
+// Scenes
 
 export const seasonsSelector = createStructuredSelector({
   seasons: createEntitiesByRelationSelector(mediumHasSeasonsSelector, currentMediumIdSelector, mediaEntitiesSelector)
@@ -47,4 +48,10 @@ export const seasonsSelector = createStructuredSelector({
 const currentSeasonIdSelector = (state, props) => (props.params && props.params.seasonId) || props.seasonId;
 export const episodesSelector = createStructuredSelector({
   episodes: createEntitiesByRelationSelector(mediumHasEpisodesSelector, currentSeasonIdSelector, mediaEntitiesSelector)
+});
+
+const currentScenesMediumIdSelector = (state, props) => mostSpecificMedium(props);
+export const scenesSelector = createStructuredSelector({
+  currentScenesMediumId: currentScenesMediumIdSelector,
+  scenes: createEntitiesByRelationSelector(mediumHasScenesSelector, currentScenesMediumIdSelector, scenesEntitiesSelector)
 });

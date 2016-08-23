@@ -3,12 +3,12 @@ import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../../_common/buildingBlocks';
-import CharacterTiles from '../../../_common/tiles/characterTiles';
-import { FETCHING, LAZY, LOADED, UPDATING } from '../../../../data/statusTypes';
-import { heroSelector } from '../../selector';
-import localized from '../../../_common/localized';
-import * as actions from '../../actions';
+import { fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../_common/buildingBlocks';
+import CharacterTiles from '../../_common/tiles/characterTiles';
+import { FETCHING, LAZY, LOADED, UPDATING } from '../../../data/statusTypes';
+import { heroSelector } from '../selector';
+import localized from '../../_common/localized';
+import * as actions from '../actions';
 
 @localized
 @connect(heroSelector, (dispatch) => ({
@@ -79,7 +79,8 @@ export default class Hero extends Component {
       position: 'relative'
     },
     characters: {
-      marginBottom: '1.7em'
+      marginBottom: '1.7em',
+      marginTop: '1em'
     },
     mediaType: {
       ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
@@ -94,8 +95,8 @@ export default class Hero extends Component {
       left: 0,
       bottom: 0,
       right: 0,
-      opacity: 0.5,
-      backgroundImage: 'linear-gradient(to bottom, rgb(0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25), rgb(0, 0, 0))',
+      opacity: 0.75,
+      backgroundImage: 'linear-gradient(to bottom, rgba(34, 31, 38, 0.3), rgba(34, 31, 38, 0.041), rgba(34, 31, 38, 0.041), rgba(34, 31, 38, 0.083), rgba(34, 31, 38, 0.25), rgba(34, 31, 38, 0.625), rgb(34, 31, 38))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     title: {
@@ -153,6 +154,7 @@ export default class Hero extends Component {
           </Container>
           <Container>
             <CharacterTiles
+              arrowsType='inline'
               items={characters}
               renderEmptyComponent={() => <div />}
               renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}

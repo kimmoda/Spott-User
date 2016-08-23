@@ -16,6 +16,11 @@ export function getMediumNewScenesForYou () {
   return []; // TODO: implement this
 }
 
+export async function getMediumScenes (baseUrl, authenticationToken, locale, { mediumId: mediumUuid }) {
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumUuid}/scenes`);
+  return data.map(transformScene);
+}
+
 export async function getScene (baseUrl, authenticationToken, locale, { sceneId }) {
   try {
     const { body: sceneBody } = await get(authenticationToken, locale, `${baseUrl}/v003/video/scenes/${sceneId}?includeMedium=true`);
