@@ -4,6 +4,7 @@ import { IndexRoute, IndexRedirect, Route } from 'react-router';
 import { colors } from './pages/_common/buildingBlocks';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
+import Cookies from './pages/cookies';
 import Error404 from './pages/error404';
 import Home from './pages/home/view';
 import Login from './pages/login';
@@ -79,6 +80,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Redirect} noSignInButtonInHeader path='app'/>
         <Route component={Privacy} path='privacy' />
         <Route component={Terms} path='terms' />
+        <Route component={Cookies} path='cookies' />
 
         {/* Scenes */}
         <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>

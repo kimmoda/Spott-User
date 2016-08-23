@@ -5,6 +5,7 @@ import { mediaQueries } from '../../_common/buildingBlocks';
 import Footer from './footer';
 import { init, pageView } from './googleAnalytics';
 import Header from './header';
+import Cookies from './cookies';
 import { locales } from '../../../locales';
 
 require('./reset.css');
@@ -133,6 +134,7 @@ export default class App extends Component {
 
   render () {
     const location = this.props.location;
+    const showCookies = this.props.routes.reduce((acc, curr) => typeof curr.showCookies === 'undefined' ? acc : curr.showCookies, true);
     const standalone = this.props.routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
     const floating = this.props.routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
     const noSignInButtonInHeader = this.props.routes.reduce((acc, curr) => typeof curr.noSignInButtonInHeader === 'undefined' ? acc : curr.noSignInButtonInHeader, false);
@@ -144,6 +146,7 @@ export default class App extends Component {
           {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
           <div style={standalone ? {} : styles.footerCompensation}>{this.previousChildren}</div>
           <div>{this.props.children}</div>
+          {showCookies && <Cookies />}
           {!standalone && <Footer style={styles.footer} />}
         </div>
       );
@@ -154,6 +157,7 @@ export default class App extends Component {
         <HrefLang location={this.props.location} />
         {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
         <div style={standalone ? {} : styles.footerCompensation}>{this.props.children}</div>
+        {showCookies && <Cookies />}
         {!standalone && <Footer style={styles.footer} />}
       </div>
     );
