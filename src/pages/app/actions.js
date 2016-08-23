@@ -14,6 +14,11 @@ export function doInit () {
 
 export const ACCEPT_COOKIES = 'ACCEPT_COOKIES';
 export function acceptCookies () {
+  const now = new Date();
+  const nextYear = new Date(now.getTime());
+  nextYear.setFullYear(nextYear.getFullYear() + 1);
+  // Accept cookies and save the Unix timestamp in the cookie.
+  cookie.save('acceptCookies', now.getTime(), { expires: nextYear, path: '/' });
   return { type: ACCEPT_COOKIES };
 }
 

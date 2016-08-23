@@ -3,7 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import cookie from 'react-cookie';
 import { buttonStyle, colors, fontWeights, makeTextStyle, mediaQueries, Button, Container, RadiumLink } from '../../_common/buildingBlocks';
 import localized from '../../_common/localized';
 import { acceptCookies } from '../actions';
@@ -68,10 +67,6 @@ export default class Cookies extends Component {
 
   onAcceptCookies (e) {
     e.preventDefault();
-    const nextYear = new Date();
-    nextYear.setFullYear(nextYear.getFullYear() + 1);
-    // Accept cookies
-    cookie.save('acceptCookies', true, { expires: nextYear, path: '/' });
     this.props.acceptCookies();
   }
 
