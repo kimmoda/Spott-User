@@ -4,10 +4,10 @@ import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Hero from './hero';
 
-import { loadMedium } from '../actions';
+import { loadCharacter } from '../actions';
 
 @connect(null, (dispatch) => ({
-  loadCharacter: bindActionCreators(loadMedium, dispatch)
+  loadCharacter: bindActionCreators(loadCharacter, dispatch)
 }))
 export default class Character extends Component {
 
