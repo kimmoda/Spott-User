@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Radium from 'radium';
 import { Map } from 'immutable';
-import { colors, load, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
+import { colors, load, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, SmallContainer, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
 import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
@@ -46,9 +46,7 @@ export default class ProductDetail extends Component {
 
   constructor (props) {
     super(props);
-    this.share = ::this.share;
     this.onBuyClick = ::this.onBuyClick;
-    this.product = this.props.params.productId;
     this.renderProduct = ::this.renderProduct;
     this.renderNotFoundError = ::this.renderNotFoundError;
     this.renderUnexpectedError = ::this.renderUnexpectedError;
@@ -63,11 +61,6 @@ export default class ProductDetail extends Component {
     if (this.props.params.productId !== nextProps.params.productId) {
       await this.props.loadProduct(nextProps.params.productId);
     }
-  }
-
-  share (e) {
-    e.preventDefault();
-    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
   }
 
   onBuyClick () {
@@ -85,11 +78,12 @@ export default class ProductDetail extends Component {
 
   static styles = {
     productInfo: {
-      fontSize: '16px',
       width: '100%',
       paddingTop: '3.75em',
       paddingBottom: '3.75em',
-      backgroundColor: colors.whiteTwo
+      paddingLeft: '2.5em',
+      paddingRight: '2.5em',
+      backgroundColor: colors.whiteGray
     },
     left: {
       float: 'left',
@@ -193,10 +187,11 @@ export default class ProductDetail extends Component {
       }
     },
     similarProducts: {
-      fontSize: '16px',
       width: '100%',
       paddingTop: '3.75em',
       paddingBottom: '3.75em',
+      paddingLeft: '2.5em',
+      paddingRight: '2.5em',
       backgroundColor: colors.white
     },
     similarProductsTitle: {
@@ -218,6 +213,9 @@ export default class ProductDetail extends Component {
       ...makeTextStyle(fontWeights.bold),
       color: colors.dark,
       textDecoration: 'none'
+    },
+    spinner: {
+      marginTop: '2.5em'
     }
   }
 
@@ -231,7 +229,7 @@ export default class ProductDetail extends Component {
     return (
       <div>
         <div style={styles.productInfo}>
-          <Container>
+          <SmallContainer>
             <div style={styles.left}>
               <div style={styles.images.wrapper}>
                 {selectedImage &&
@@ -264,7 +262,7 @@ export default class ProductDetail extends Component {
                   <Button disabled={notAvailable} key='buyButton' style={pinkButtonStyle} target='_blank' onClick={this.onBuyClick}>
                     <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
                   </Button>
-                  <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(share.get('url'))}&title=${share.get('title')}`}>
+                  <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${share.get('url')}`)}&title=${share.get('title')}`}>
                     {t('common.share')}
                   </ShareButton>
                 </div>
@@ -273,23 +271,22 @@ export default class ProductDetail extends Component {
               </div>
             </div>
             <div style={styles.clear} />
-            {share &&
-              <FacebookShareData
-                description={share.get('description')}
-                imageUrl={share.getIn([ 'image', 'url' ])}
-                title={share.get('title')}
-                url={window.location.href} />}
-          </Container>
+            {/* TODO: Didier will provide title, description and maybe images for sharing */}
+            <FacebookShareData
+              description={product.get('description') || ''}
+              imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()}
+              title={product.get('shortName')} url={window.location.href} />
+          </SmallContainer>
         </div>
         <div style={styles.similarProducts}>
-          <Container>
+          <SmallContainer style={styles.smallContainer}>
             <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
             {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
               <ProductTiles items={Map({ _status: LOADED, data: product.get('similarProducts') })} />}
             {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
               <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
             {!product.get('similarProducts') && <Spinner />}
-          </Container>
+          </SmallContainer>
         </div>
       </div>
     );
@@ -299,9 +296,11 @@ export default class ProductDetail extends Component {
     const { styles } = this.constructor;
     const { currentLocale, t } = this.props;
     return (
-      <Container>
-        <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
-      </Container>
+      <div style={styles.productInfo}>
+        <SmallContainer>
+          <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
+        </SmallContainer>
+      </div>
     );
   }
 
@@ -310,7 +309,8 @@ export default class ProductDetail extends Component {
   }
 
   render () {
-    return load(this.props.product, this.renderProduct, null, this.renderNotFoundError, this.renderUnexpectedError);
+    const { styles } = this.constructor;
+    return load(this.props.product, this.renderProduct, () => <div style={styles.productInfo}><SmallContainer style={styles.spinner}><Spinner /></SmallContainer></div>, this.renderNotFoundError, this.renderUnexpectedError);
   }
 
 }

@@ -27,6 +27,7 @@ export class TopLevelMediumTile extends Component {
     },
     layer: {
       position: 'absolute',
+      borderRadius: '0.25em',
       top: 0,
       left: 0,
       bottom: 0,

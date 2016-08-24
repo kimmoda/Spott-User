@@ -3,23 +3,29 @@ import { isAuthenticatedSelector } from '../app/selector';
 import {
   createEntityByIdSelector, createEntitiesByRelationSelector,
   charactersEntitiesSelector, mediaEntitiesSelector,
-  mediumHasNewScenesForYouSelector,
-  scenesEntitiesSelector, mediumHasCharactersSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector } from '../../data/selector';
+  mediumHasNewScenesForYouSelector, mediumHasEpisodesSelector,
+  scenesEntitiesSelector, mediumHasCharactersSelector, mediumHasScenesSelector,
+  mediumHasSeasonsSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector
+} from '../../data/selector';
+import mostSpecificMedium from './_mostSpecificMedium';
 
-export const currentMediumIdSelector = (state) => state.getIn([ 'medium', 'currentMedium', 'id' ]);
-
+const currentMediumIdSelector = (state, props) => (props.params && props.params.mediumId) || props.mediumId;
 export const currentMediumSelector = createEntityByIdSelector(mediaEntitiesSelector, currentMediumIdSelector);
+
+// Hero
 
 export const heroSelector = createStructuredSelector({
   characters: createEntitiesByRelationSelector(mediumHasCharactersSelector, currentMediumIdSelector, charactersEntitiesSelector),
-  isAuthenticated: isAuthenticatedSelector
+  isAuthenticated: isAuthenticatedSelector,
+  medium: currentMediumSelector
 });
 
-export const mediumSelector = createStructuredSelector({
+export const tabsSelector = createStructuredSelector({
   medium: currentMediumSelector
 });
 
 // Overview
+
 export const pickedForYouSelector = createStructuredSelector({
   products: createEntitiesByRelationSelector(mediumHasTopUserProductsSelector, currentMediumIdSelector, productsEntitiesSelector)
 });
@@ -31,4 +37,21 @@ export const topProductsSelector = createStructuredSelector({
 
 export const newScenesForYouSelector = createStructuredSelector({
   scenes: createEntitiesByRelationSelector(mediumHasNewScenesForYouSelector, currentMediumIdSelector, scenesEntitiesSelector)
+});
+
+// Scenes
+
+export const seasonsSelector = createStructuredSelector({
+  seasons: createEntitiesByRelationSelector(mediumHasSeasonsSelector, currentMediumIdSelector, mediaEntitiesSelector)
+});
+
+const currentSeasonIdSelector = (state, props) => (props.params && props.params.seasonId) || props.seasonId;
+export const episodesSelector = createStructuredSelector({
+  episodes: createEntitiesByRelationSelector(mediumHasEpisodesSelector, currentSeasonIdSelector, mediaEntitiesSelector)
+});
+
+const currentScenesMediumIdSelector = (state, props) => mostSpecificMedium(props);
+export const scenesSelector = createStructuredSelector({
+  currentScenesMediumId: currentScenesMediumIdSelector,
+  scenes: createEntitiesByRelationSelector(mediumHasScenesSelector, currentScenesMediumIdSelector, scenesEntitiesSelector)
 });

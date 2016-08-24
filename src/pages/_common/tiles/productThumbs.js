@@ -1,11 +1,85 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import BaseTile from './_baseTile';
 import { List } from 'immutable';
-import { mediaQueries, load } from '../buildingBlocks';
+import { colors, RadiumLink, mediaQueries, load } from '../buildingBlocks';
 
 @Radium
-export class Tiles extends Component {
+export class ProductThumb extends Component {
+
+  static propTypes = {
+    innerStyle: PropTypes.object,
+    item: ImmutablePropTypes.mapContains({
+      id: PropTypes.string.isRequired,
+      image: ImmutablePropTypes.mapContains({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      }),
+      shortName: PropTypes.string.isRequired
+    }).isRequired,
+    location: PropTypes.object.isRequired,
+    // Current selected product.
+    productId: PropTypes.string,
+    scene: ImmutablePropTypes.mapContains({
+      shareUrl: PropTypes.string.isRequired
+    }).isRequired,
+    style: PropTypes.object
+  };
+
+  static styles = {
+    selected: {
+      border: `solid 0.15em ${colors.darkPink}`,
+      cursor: 'default',
+      boxShadow: '0 0.4444em 0.5555em 0 rgba(0, 0, 0, 0.4)'
+    },
+    image: {
+      bottom: 0,
+      height: 'auto',
+      left: 0,
+      margin: 'auto',
+      maxHeight: '100%',
+      maxWidth: '100%',
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      width: 'auto'
+    },
+    imageContainer: {
+      height: 0,
+      paddingTop: '100%',
+      position: 'relative',
+      width: '100%',
+      borderRadius: '0.25em',
+      border: `solid 0.15em ${colors.whiteTwo}`
+    }
+  };
+
+  render () {
+    const styles = this.constructor.styles;
+    const { item, location, scene, productId, innerStyle, style } = this.props;
+
+    return (
+      <BaseTile innerStyle={innerStyle} style={style}>
+        <RadiumLink alt={item.get('shortName')} key={item.get('id')} title={item.get('shortName')} to={{
+          ...location,
+          pathname: `${scene.get('shareUrl')}/product/${item.get('id')}`
+        }}>
+          <div style={[ styles.imageContainer, item.get('id') === productId && styles.selected ]}>
+            {item.get('image') && <img
+              alt={item.get('shortName')}
+              src={`${item.getIn([ 'image', 'url' ])}?height=160&width=160`}
+              style={styles.image}
+              title={item.get('shortName')} />}
+          </div>
+        </RadiumLink>
+      </BaseTile>
+    );
+  }
+}
+
+@Radium
+export default class ProductThumbs extends Component {
 
   static propTypes = {
     first: PropTypes.number,
@@ -19,12 +93,10 @@ export class Tiles extends Component {
     renderLoadingComponent: PropTypes.func,
     renderNotFoundComponent: PropTypes.func,
     renderUnexpectedComponent: PropTypes.func,
-    returnTo: PropTypes.string,
     // The component for rendering the tile. Is cloned with an additional
     // 'value' prop.
     style: PropTypes.object,
-    tileProps: PropTypes.object,
-    tileRenderer: PropTypes.func.isRequired
+    tileProps: PropTypes.object
   };
 
   rotateList (l, count) {
@@ -42,7 +114,7 @@ export class Tiles extends Component {
     const {
       first, horizontalSpacing, items, numColumns, renderEmptyComponent,
       renderLoadingComponent, renderNotFoundComponent, renderUnexpectedComponent,
-      style: tilesStyle, tileProps, tileRenderer
+      style: tilesStyle, tileProps
     } = this.props;
     const style = {
       display: 'inline-block',
@@ -87,7 +159,7 @@ export class Tiles extends Component {
       items,
       () => (
         <div style={[ containerStyle, tilesStyle ]}>
-          {(this.rotateList(items.get('data') || List(), first).map((item, i) => tileRenderer({ ...(tileProps || {}), style, key: i, item })))}
+          {(this.rotateList(items.get('data') || List(), first).map((item, i) => <ProductThumb {...(tileProps || {})} item={item} key={i} style={style} />))}
         </div>
       ),
       renderLoadingComponent,

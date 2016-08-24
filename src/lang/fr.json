@@ -4,6 +4,7 @@
       "episode": "Saison %(season)i – Épisode %(episode)i"
     },
     "footer": {
+      "cookies": "Politique sur les cookies",
       "copyright": "Copyright © 2015–2016 Appiness nv",
       "privacy": "Protection des données",
       "terms": "Conditions Générales",
@@ -97,12 +98,11 @@
     "firstname": "Prénom",
     "lastname": "Nom de famille",
     "email": "E-mail",
-    "dateOfBirth": "Geboortedatum",
-    "gender": "Geslacht",
+    "dateOfBirth": "Date de naissance",
     "gender": {
-      "label": "Geslacht",
-      "MALE": "Mannetje",
-      "FEMALE": "Vrouwtje"
+      "label": "Sexe",
+      "MALE": "Masculin",
+      "FEMALE": "Féminin"
     },
     "password": "Mot de passe",
     "passwordRepeat": "Confirmation du mot de passe",
@@ -119,7 +119,6 @@
     "by": "De %(brandName)s",
     "noSimilar": "Aucun produit similaire a été trouvé.",
     "similarProducts": "Produits similaires",
-    "share": "Partager",
     "unavailable": "Ce produit n’est pas disponible.",
     "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​"
   },
@@ -137,11 +136,11 @@
       }
     },
     "menu": {
-      "savedScenes": "Saved scenes",
+      "savedScenes": "Scènes sauvés",
       "wishlists": "Listes de souhaits"
     },
     "savedScenes": {
-      "empty": "This list is empty."
+      "empty": "Cette liste est vide."
     },
     "wishlists": {
       "empty": "Vous n'avez pas encore des listes de souhaits.",
@@ -171,12 +170,27 @@
     "topUserProducts": {
       "empty": "Il n'y a pas de produits populaires pour vous à ce moment.",
       "title": "Choisi pour vous"
+    },
+    "scenes": {
+      "tabName": "Scènes",
+      "empty": "Il n'y a pas de scènes."
     }
+  },
+  "scene": {
+    "sceneFrom": "Scène de",
+    "save": "Sauver",
+    "unsave": "Sauvé"
+  },
+  "cookies": {
+    "moreInfo": "Ce site utilise des cookies pour améliorer votre expérience d’utilisateur. [[Plus d’info]]",
+    "policy": "Nous avons adaptés nos [[conditions générales]] et notre [[protection des données]].",
+    "continue": "Continuez"
   },
   "common": {
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
     "overview": "La vue générale",
     "return": "Retournez à la page d’accueil.",
+    "share": "Partager",
     "unexpected": "Une erreur inattendue s'est produite. Nous nous excusons pour le désagrément."
   }
 }

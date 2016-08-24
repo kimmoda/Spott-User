@@ -6,11 +6,14 @@ export default class BaseTile extends Component {
 
   static propTypes = {
     children: PropTypes.node,
+    innerStyle: PropTypes.object,
     style: PropTypes.object
   };
 
   static styles = {
     container: {
+      backgroundColor: '#ffffff',
+      borderRadius: '0.25em',
       boxShadow: '0 3px 6px 0 rgba(0, 0, 0, 0.3)',
       // marginBottom: '15px',
       transition: 'transform 0.25s ease-in-out',
@@ -23,10 +26,10 @@ export default class BaseTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { children, style } = this.props;
+    const { children, innerStyle, style } = this.props;
     return (
       <div style={style}>
-        <div style={styles.container}>
+        <div style={[ styles.container, innerStyle ]}>
           {children}
         </div>
       </div>

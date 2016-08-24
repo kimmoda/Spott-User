@@ -1,12 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
-import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
+import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries, RadiumLink } from '../../_common/buildingBlocks';
 import Dropdown from '../../_common/dropdown';
 import localized from '../../_common/localized';
 import Radium from 'radium';
 import { localesHash, locales } from '../../../locales';
-
-const RadiumLink = Radium(Link);
 
 const styles = {
   wrapper: {
@@ -24,6 +21,7 @@ const styles = {
     flex: '1 1 100%',
     width: '100%',
     textAlign: 'center',
+    alignSelf: 'center',
     [mediaQueries.medium]: {
       width: 'auto',
       flex: '0 0 auto',
@@ -104,6 +102,7 @@ const styles = {
     paddingLeft: '0.25em',
     paddingRight: '0.25em',
     textDecoration: 'none',
+    textAlign: 'center',
     [mediaQueries.medium]: {
       paddingLeft: '1.385em',
       paddingRight: '1.385em'
@@ -126,6 +125,16 @@ const styles = {
       paddingTop: 0,
       paddingBottom: 0
     }
+  },
+  cookies: {
+    color: colors.white,
+    backgroundColor: colors.charcoalGray,
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingTop: '1em',
+    paddingBottom: '1em'
   }
 };
 @localized
@@ -166,6 +175,8 @@ export default class Footer extends Component {
             <RadiumLink style={styles.menuItem} to={`/${currentLocale}/terms`}>{t('_common.footer.terms')}</RadiumLink>
             <span style={styles.menuSeparator}>/</span>
             <RadiumLink style={styles.menuItem} to={`/${currentLocale}/privacy`}>{t('_common.footer.privacy')}</RadiumLink>
+            <span style={styles.menuSeparator}>/</span>
+            <RadiumLink style={styles.menuItem} to={`/${currentLocale}/cookies`}>{t('_common.footer.cookies')}</RadiumLink>
           </div>
           <div style={styles.copyright}>
             {t('_common.footer.copyright')}

@@ -1,14 +1,13 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
 import radium from 'radium';
 import { reduxForm, Field } from 'redux-form/immutable';
-import { buttonStyle, colors, dialogStyle, fontWeights, makeTextStyle, pinkButtonStyle } from '../../_common/buildingBlocks';
+import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle, Modal } from '../../_common/buildingBlocks';
 import localized from '../../_common/localized';
 import { submit } from '../actions';
 import FacebookRegisterButton from './facebookRegisterButton';
@@ -120,7 +119,7 @@ const textBoxStyle = {
     border: '0.056em #ff0000 solid'
   }
 };
-const renderField = (props) => {
+const renderField = radium((props) => {
   return (
     <input
       autoFocus={props.autoFocus}
@@ -129,14 +128,13 @@ const renderField = (props) => {
       type={props.type}
       {...props.input} />
   );
-};
+});
 
 // Date input
 
-const renderDateField = (props) => {
+const renderDateField = radium((props) => {
   // Determine value
   let value;
-  console.log('HAS', props.input.value, props.input.value instanceof Date);
   if (props.input.value instanceof Date) {
     value = moment(props.input.value).format('DD/MM/YYYY');
   } else {
@@ -151,7 +149,7 @@ const renderDateField = (props) => {
     return props.input.onChange(newValue);
   }
   // Render
-  return renderField({
+  return React.createElement(renderField, {
     ...props,
     input: {
       ...props.input,
@@ -160,7 +158,7 @@ const renderDateField = (props) => {
       onBlur: onChange
     }
   });
-};
+});
 
 // Select input
 
@@ -180,7 +178,6 @@ const selectInputStyles = {
   }
 };
 const renderSelectField = radium((props) => {
-  console.log(props.input.value);
   return (
     <WrappedSelect
       autoFocus={props.autoFocus}
@@ -445,62 +442,45 @@ class Register extends Component {
   render () {
     const { styles } = this.constructor;
     const { currentLocale, facebookError, facebookIsLoading, t } = this.props;
+
+    const content =
+      <section style={styles.container}>
+        <h2 style={styles.title}>{t('register.title')}</h2>
+        <FacebookRegisterButton disabled={facebookIsLoading} registerFacebook={this.registerFacebook} onClose={this.onClose} onProcessStart={this.onFacebookProcessStart} />
+        {facebookError && typeof facebookError === 'string' && <div style={styles.facebookError}>{t(facebookError)}</div>}
+        <Form {...this.props}
+          facebookIsLoading={facebookIsLoading}
+          initialValues={{
+            dateOfBirth: '',
+            firstname: '',
+            gender: null,
+            lastname: '',
+            email: '',
+            password: '',
+            passwordRepeat: '',
+            terms: false
+          }}
+          ref={(x) => { this.form = x; }}
+          onSubmit={this.onSubmit} />
+        <p style={styles.subText}>{t('register.existingUser')}?&nbsp;
+          <Link style={styles.subTextLink} to={this.props.location.state && this.props.location.state.modal
+            ? {
+              pathname: `/${currentLocale}/login`,
+              state: { modal: true, returnTo: this.props.location.state.returnTo }
+            } : `/${currentLocale}/login`}>{t('register.logIn')}</Link>
+        </p>
+      </section>;
+
     if (this.props.location.state && this.props.location.state.modal) {
       return (
-        <ReactModal
+        <Modal
           isOpen
-          style={dialogStyle}
-          onRequestClose={this.onClose}>
-          <section style={styles.container}>
-            <h2 style={styles.title}>{t('register.title')}</h2>
-            <FacebookRegisterButton disabled={facebookIsLoading} registerFacebook={this.registerFacebook} onClose={this.onClose} onProcessStart={this.onFacebookProcessStart} />
-            {facebookError && typeof facebookError === 'string' && <div style={styles.facebookError}>{t(facebookError)}</div>}
-            <Form {...this.props}
-              facebookIsLoading={facebookIsLoading}
-              initialValues={{
-                dateOfBirth: '',
-                firstname: '',
-                gender: null,
-                lastname: '',
-                email: '',
-                password: '',
-                passwordRepeat: '',
-                terms: false
-              }}
-              ref={(x) => { this.form = x; }}
-              onSubmit={this.onSubmit} />
-            <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={{
-              pathname: `/${currentLocale}/login`,
-              state: { modal: true, returnTo: this.props.location.state.returnTo } }}>{t('register.logIn')}</Link></p>
-          </section>
-        </ReactModal>
+          onClose={this.onClose}>
+          {content}
+        </Modal>
       );
     }
-    return (
-      <div>
-        <section style={styles.container}>
-          <h2 style={styles.title}>{t('register.title')}</h2>
-          <FacebookRegisterButton disabled={facebookIsLoading} onClose={this.onClose} onProcessStart={this.onFacebookProcessStart} />
-          {facebookError && typeof facebookError === 'string' && <div style={styles.facebookError}>{t(facebookError)}</div>}
-          <Form
-            {...this.props}
-            facebookIsLoading={facebookIsLoading}
-            initialValues={{
-              dateOfBirth: '',
-              firstname: '',
-              gender: null,
-              lastname: '',
-              email: '',
-              password: '',
-              passwordRepeat: '',
-              terms: false
-            }}
-            ref={(x) => { this.form = x; }}
-            onSubmit={this.onSubmit} />
-          <p style={styles.subText}>{t('register.existingUser')}?&nbsp;<Link style={styles.subTextLink} to={`/${currentLocale}/login`}>{t('register.logIn')}</Link></p>
-        </section>
-      </div>
-    );
+    return content;
   }
 }
 

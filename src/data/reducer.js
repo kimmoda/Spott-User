@@ -77,6 +77,9 @@ export default (state = fromJS({
     mediumHasCharacters: {},
     mediumHasNewScenesForYou: {},
     mediumHasProducts: {},
+    mediumHasSeasons: {},
+    mediumHasEpisodes: {},
+    mediumHasScenes: {},
     mediumHasTopUserProducts: {},
     userHasSavedScenes: {},
     userHasWishlists: {},
@@ -146,6 +149,30 @@ export default (state = fromJS({
     case actions.MEDIUM_PRODUCTS_FETCH_ERROR:
       return fetchRelationsError(state, 'mediumHasProducts', action.mediumId, action.error);
 
+    case actions.MEDIUM_SEASONS_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasSeasons', action.mediumId);
+    case actions.MEDIUM_SEASONS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasSeasons', action.mediumId, 'media', action.data);
+    case actions.MEDIUM_SEASONS_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasSeasons', action.mediumId, action.error);
+
+    case actions.MEDIUM_EPISODES_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasEpisodes', action.mediumId);
+    case actions.MEDIUM_EPISODES_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasEpisodes', action.mediumId, 'media', action.data);
+    case actions.MEDIUM_EPISODES_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasEpisodes', action.mediumId, action.error);
+
+    case actions.MEDIUM_SCENES_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasScenes', action.mediumId);
+    case actions.MEDIUM_SCENES_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasScenes', action.mediumId, 'scenes', action.data);
+    case actions.MEDIUM_SCENES_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasScenes', action.mediumId, action.error);
+
     case actions.MEDIUM_TOP_USER_PRODUCTS_FETCH_START:
       return fetchRelationsStart(state, 'mediumHasTopUserProducts', action.mediumId);
     case actions.MEDIUM_TOP_USER_PRODUCTS_FETCH_SUCCESS:
@@ -209,6 +236,13 @@ export default (state = fromJS({
       return fetchRelationsSuccess(state, 'mediumHasNewScenesForYou', action.mediumId, 'scenes', action.data);
     case actions.MEDIUM_NEW_SCENES_FOR_YOU_FETCH_ERROR:
       return fetchRelationsError(state, 'mediumHasNewScenesForYou', action.mediumId, action.error);
+
+    case actions.SCENE_FETCH_START:
+      return fetchStart(state, [ 'entities', 'scenes', action.sceneId ]);
+    case actions.SCENE_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'scenes', action.sceneId ], action.data);
+    case actions.SCENE_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'scenes', action.sceneId ], action.error);
 
     case actions.SAVED_SCENES_OF_USER_FETCH_START:
       return fetchRelationsStart(state, 'userHasSavedScenes', action.userId);

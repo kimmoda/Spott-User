@@ -4,6 +4,7 @@
       "episode": "Seizoen %(season)i – Aflevering %(episode)i"
     },
     "footer": {
+      "cookies": "Cookiebeleid",
       "copyright": "Copyright © 2015–2016 Appiness nv",
       "privacy": "Privacy",
       "terms": "Voorwaarden",
@@ -96,13 +97,13 @@
     "submitButton": "Verzend",
     "firstname": "Je voornaam",
     "lastname": "Je achternaam",
+    "email": "E-mail",
     "dateOfBirth": "Je geboortedatum",
     "gender": {
       "label": "Geslacht",
-      "MALE": "Mannetje",
-      "FEMALE": "Vrouwtje"
+      "MALE": "Man",
+      "FEMALE": "Vrouw"
     },
-    "email": "Je e-mail",
     "password": "Je wachtwoord",
     "passwordRepeat": "Bevestig je wachtwoord",
     "existingUser": "Je hebt reeds een account",
@@ -118,7 +119,6 @@
     "by": "Van %(brandName)s",
     "noSimilar": "Geen gelijkaardige producten gevonden.",
     "similarProducts": "Gelijkaardige producten",
-    "share": "Delen",
     "unavailable": "Dit product is niet beschikbaar.",
     "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​"
   },
@@ -136,11 +136,11 @@
       }
     },
     "menu": {
-      "savedScenes": "Saved scenes",
+      "savedScenes": "Bewaarde Scènes",
       "wishlists": "Verlanglijst"
     },
     "savedScenes": {
-      "empty": "This list is empty."
+      "empty": "Deze lijst is leeg."
     },
     "wishlists": {
       "empty": "U heeft nog geen verlanglijst.",
@@ -170,12 +170,27 @@
     "topUserProducts": {
       "empty": "Er zijn geen producten voor jou gekozen.",
       "title": "Gekozen voor jou"
+    },
+    "scenes": {
+      "tabName": "Scènes",
+      "empty": "Er zijn geen scènes."
     }
+  },
+  "scene": {
+    "sceneFrom": "Scène uit",
+    "save": "Bewaar",
+    "unsave": "Bewaard"
+  },
+  "cookies": {
+    "moreInfo": "Deze website maakt gebruik van cookies om uw gebruikservaring te verbeteren. [[Meer info]]",
+    "policy": "Wij hebben onze [[gebruiksvoorwaarden]] en [[privacybeleid]] aangepast.",
+    "continue": "Verdergaan"
   },
   "common": {
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
     "overview": "Overzicht",
     "return": "Keer terug naar de homepagina.",
+    "share": "Delen",
     "unexpected": "Een onverwachts probleem doet zich voor. Onze excuses voor het ongemak."
   }
 }

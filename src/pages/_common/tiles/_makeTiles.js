@@ -69,7 +69,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
     class GenericTiles extends Component {
 
       static propTypes = {
-        currentLocale: PropTypes.string.isRequired,
+        arrowsType: PropTypes.oneOf([ 'none', 'inline', 'top' ]),
         items: ImmutablePropTypes.mapContains({
           _status: PropTypes.string,
           data: ImmutablePropTypes.list
@@ -81,9 +81,14 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
         renderUnexpectedComponent: PropTypes.func,
         style: PropTypes.object,
         t: PropTypes.func.isRequired,
+        tileProps: PropTypes.object,
         title: PropTypes.string,
         titleStyle: PropTypes.object
       };
+
+      static defaultProps = {
+        arrowsType: 'top'
+      }
 
       constructor (props) {
         super(props);
@@ -106,9 +111,15 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
       componentWillUnmount () {
         // Create global 'on resize' hook
         window.removeEventListener('resize', this.onPatchWidth);
+        // Cancel any pending timeout
+        if (this.patchWidthTimeout) {
+          clearTimeout(this.patchWidthTimeout);
+        }
       }
 
       _patchWidth () {
+        // Timeout was triggered.
+        this.patchWidthTimeout = null;
         // Read width from DOM
         const screenWidth = window.innerWidth;
         // Save width
@@ -122,7 +133,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           return window.requestAnimationFrame(this._patchWidth);
         }
         // The performant method failed, fall back to setTimeout(). :(
-        setTimeout(this._patchWidth, 66);
+        this.patchWidthTimeout = setTimeout(this._patchWidth, 66);
       }
 
       componentWillReceiveProps (nextProps) {
@@ -162,20 +173,43 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           display: 'flex',
           alignItems: 'baseline'
         },
-        headerIcons: {
+        headerArrows: {
           flex: '1 1 auto',
           display: 'flex',
           justifyContent: 'flex-end',
           alignItems: 'center'
         },
-        leftArrowWrapper: {
+        headerArrowLeft: {
           cursor: 'pointer',
           paddingRight: '0.25em',
           marginRight: '0.5em'
         },
-        rightArrowWrapper: {
+        headerArrowRight: {
           cursor: 'pointer',
           paddingLeft: '0.25em'
+        },
+        inlineArrows: {
+          flex: '1 1 auto',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          zIndex: 100,
+          pointerEvents: 'none'
+        },
+        inlineArrowLeft: {
+          cursor: 'pointer',
+          paddingLeft: '0.75em',
+          pointerEvents: 'all'
+        },
+        inlineArrowRight: {
+          cursor: 'pointer',
+          paddingRight: '0.75em',
+          pointerEvents: 'all'
         },
         arrowIcon: {
           cursor: 'pointer',
@@ -197,11 +231,10 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
       render () {
         const { styles } = this.constructor;
         const {
-          items, listStyle, renderEmptyComponent, renderLoadingComponent,
-          renderNotFoundComponent, renderUnexpectedComponent, style, titleStyle, title
+          arrowsType, items, listStyle, renderEmptyComponent, renderLoadingComponent,
+          renderNotFoundComponent, renderUnexpectedComponent, style, tileProps, titleStyle, title
         } = this.props;
         const { screenWidth } = this.state;
-        const arrowColor = (titleStyle && titleStyle.color) || colors.dark;
 
         // If we have no known container width (first render), there is no reason to proceed
         if (screenWidth === -1) {
@@ -225,20 +258,36 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           return { numColumns: numColumns[mediaQuery], mediaQueryThreshold };
         }, { numColumns: -1, mediaQueryThreshold: -1 }).numColumns;
 
+        const renderArrows = (containerStyle, leftStyle, rightStyle, arrowColor) => (
+          <div style={containerStyle}>
+            <div style={leftStyle} onClick={this.onBackClick}>
+              <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
+            </div>
+            <div style={rightStyle} onClick={this.onMoreClick}>
+              <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
+            </div>
+          </div>
+        );
+
         return (
           <div ref={(x) => { this.container = x; }} style={[ styles.container, style ]}>
-            <div style={styles.header}>
-              <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>
-              {items.get('data').size > currentNumColumns &&
-                <div style={styles.headerIcons}>
-                  <div style={styles.leftArrowWrapper} onClick={this.onBackClick}>
-                    <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
-                  </div>
-                  <div style={styles.rightArrowWrapper} onClick={this.onMoreClick}>
-                    <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
-                  </div>
+            {(arrowsType === 'top' || title) &&
+              <div style={styles.header}>
+                {title && <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>}
+                {arrowsType === 'top' && items.get('data').size > currentNumColumns &&
+                  renderArrows(
+                    styles.headerArrows,
+                    styles.headerArrowLeft,
+                    styles.headerArrowRight,
+                    (titleStyle && titleStyle.color) || colors.dark)}
                 </div>}
-            </div>
+            {(arrowsType === 'inline') &&
+              renderArrows(
+                styles.inlineArrows,
+                styles.inlineArrowLeft,
+                styles.inlineArrowRight,
+                colors.white
+              )}
             <RadiumTiles
               first={this.state.first}
               horizontalSpacing={horizontalSpacing}
@@ -249,6 +298,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
               renderNotFoundComponent={renderNotFoundComponent}
               renderUnexpectedComponent={renderUnexpectedComponent}
               style={listStyle}
+              tileProps={tileProps}
               tileRenderer={tileRenderer} />
           </div>
         );

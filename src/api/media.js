@@ -1,5 +1,5 @@
 import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
-import { transformMedium /* , transformSeason, transformEpisode */ } from './transformers';
+import { transformMedium, transformSeason, transformEpisode } from './transformers';
 import { MOVIE, SERIES } from '../data/mediumTypes';
 import { slugify } from '../utils';
 
@@ -8,10 +8,15 @@ const mapMediumTypeToUrlParts = {
   [SERIES]: 'series'
 };
 
+const mapMediumTypeToUrlPartsPlural = {
+  [MOVIE]: 'movies',
+  [SERIES]: 'series'
+};
+
 export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/searches/recent?pageSize=100`);
   const data = body.data.map(transformMedium);
-  // TODO: temp server fix
+  // TODO: Important! Remove this if the server returns the new url.
   for (const medium of data) {
     medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
   }
@@ -65,9 +70,9 @@ export async function getMedium (baseUrl, authenticationToken, locale, { mediumI
   }
 }
 
-export async function addSubscriber (baseUrl, authenticationToken, locale, { mediumId, userId }) {
+export async function addSubscriber (baseUrl, authenticationToken, locale, { mediumId, mediumType, userId }) {
   try {
-    await post(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/subscribers`, { uuid: userId });
+    await post(authenticationToken, locale, `${baseUrl}/v003/media/${mapMediumTypeToUrlPartsPlural[mediumType]}/${mediumId}/subscribers`, { uuid: userId });
   } catch (error) {
     switch (error.statusCode) {
       case 403:
@@ -79,9 +84,9 @@ export async function addSubscriber (baseUrl, authenticationToken, locale, { med
   }
 }
 
-export async function removeSubscriber (baseUrl, authenticationToken, locale, { mediumId, userId }) {
+export async function removeSubscriber (baseUrl, authenticationToken, locale, { mediumId, mediumType, userId }) {
   try {
-    await del(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/subscribers`, { uuid: userId });
+    await del(authenticationToken, locale, `${baseUrl}/v003/media/${mapMediumTypeToUrlPartsPlural[mediumType]}/${mediumId}/subscribers`, { uuid: userId });
   } catch (error) {
     switch (error.statusCode) {
       case 403:
@@ -93,35 +98,13 @@ export async function removeSubscriber (baseUrl, authenticationToken, locale, { 
   }
 }
 
-/*
-
-export async function getSeasons (baseUrl, authenticationToken, locale, { seriesId }) {
-  try {
-    const { body } = await get(authenticationToken, `${baseUrl}/v003/media/series/${seriesId}/seasons`);
-    return body.data.map(transformSeason);
-  } catch (error) {
-    switch (error.statusCode) {
-      case 403:
-        throw new UnauthorizedError();
-      case 404:
-        throw new NotFoundError('series', error);
-    }
-    throw new UnexpectedError(error);
-  }
+export async function getMediumSeasons (baseUrl, authenticationToken, locale, { mediumId }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/seasons`);
+  console.log(body.data);
+  return body.data.map(transformSeason);
 }
 
-export async function getEpisodes (baseUrl, authenticationToken, locale, { seasonId }) {
-  try {
-    const { body } = await get(authenticationToken, `${baseUrl}/v003/media/serieSeasons/${seasonId}/episodes?sortField=NUMBER&sortDirection=DESC`);
-    return body.data.map(transformEpisode);
-  } catch (error) {
-    switch (error.statusCode) {
-      case 403:
-        throw new UnauthorizedError();
-      case 404:
-        throw new NotFoundError('season', error);
-    }
-    throw new UnexpectedError(error);
-  }
+export async function getMediumEpisodes (baseUrl, authenticationToken, locale, { mediumId }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/serieSeasons/${mediumId}/episodes?sortField=NUMBER&sortDirection=DESC`);
+  return body.data.map(transformEpisode);
 }
-*/

@@ -1,3 +1,4 @@
+import cookie from 'react-cookie';
 import * as api from '../../api/configuration';
 import { apiBaseUrlSelector } from './selector';
 
@@ -5,8 +6,20 @@ export const CONFIGURE = 'CONFIGURE';
 export function doInit () {
   return async (dispatch) => {
     const configuration = await api.getConfiguration();
+    // Extend configuration from server with the configuration saved in the cookie.
+    configuration.acceptCookies = cookie.load('acceptCookies');
     dispatch({ type: CONFIGURE, configuration });
   };
+}
+
+export const ACCEPT_COOKIES = 'ACCEPT_COOKIES';
+export function acceptCookies () {
+  const now = new Date();
+  const nextYear = new Date(now.getTime());
+  nextYear.setFullYear(nextYear.getFullYear() + 1);
+  // Accept cookies and save the Unix timestamp in the cookie.
+  cookie.save('acceptCookies', now.getTime(), { expires: nextYear, path: '/' });
+  return { type: ACCEPT_COOKIES };
 }
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
