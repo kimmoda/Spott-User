@@ -1,3 +1,6 @@
+import { createStructuredSelector } from 'reselect';
+
+export const acceptCookiesSelector = (state) => state.getIn([ 'app', 'configuration', 'acceptCookies' ]);
 export const apiBaseUrlSelector = (state) => state.getIn([ 'app', 'configuration', 'urls', 'api' ]);
 export const cmsApiBaseUrlSelector = (state) => state.getIn([ 'app', 'configuration', 'urls', 'cmsApi' ]);
 export const currentLocaleSelector = (state) => state.getIn([ 'app', 'configuration', 'currentLocale' ]);
@@ -16,3 +19,7 @@ export const currentUserIdSelector = (state) => state.getIn([ 'app', 'authentica
 export const isAuthenticatedSelector = (state) => Boolean(state.getIn([ 'app', 'authentication', 'user', 'id' ]));
 
 export const currentUrlSelector = (state) => state.getIn([ 'routing', 'locationBeforeTransitions', 'pathname' ]);
+
+export const appSelector = createStructuredSelector({
+  acceptCookies: acceptCookiesSelector
+});

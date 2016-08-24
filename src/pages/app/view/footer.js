@@ -1,12 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
-import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
+import { Button, colors, Container, fontWeights, makeTextStyle, mediaQueries, RadiumLink } from '../../_common/buildingBlocks';
 import Dropdown from '../../_common/dropdown';
 import localized from '../../_common/localized';
 import Radium from 'radium';
 import { localesHash, locales } from '../../../locales';
-
-const RadiumLink = Radium(Link);
 
 const styles = {
   wrapper: {
@@ -126,6 +123,16 @@ const styles = {
       paddingTop: 0,
       paddingBottom: 0
     }
+  },
+  cookies: {
+    color: colors.white,
+    backgroundColor: colors.charcoalGray,
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingTop: '1em',
+    paddingBottom: '1em'
   }
 };
 @localized

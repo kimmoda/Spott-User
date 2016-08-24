@@ -180,6 +180,11 @@
     "save": "Bewaar",
     "unsave": "Bewaard"
   },
+  "cookies": {
+    "moreInfo": "Deze website maakt gebruik van cookies om uw gebruikservaring te verbeteren. [[Meer info]]",
+    "policy": "Wij hebben onze [[gebruiksvoorwaarden]] en [[privacybeleid]] aangepast.",
+    "continue": "Verdergaan"
+  },
   "common": {
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
     "overview": "Overzicht",
