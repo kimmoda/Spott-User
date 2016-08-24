@@ -15,10 +15,18 @@ export const selectedImageIdSelector = createSelector(
   (product, selectedImageId) => selectedImageId || (product.get('images') && product.getIn([ 'images', '0', 'id' ]))
 );
 
-// View selector for product detail page.
+const _currentSceneDedupedSelector = createSelector(currentSceneSelector, (currentScene) => {
+  // Filter duplicate products if necessary
+  if (!currentScene || !currentScene.get('products')) {
+    return currentScene;
+  }
+  const predicate = (x, index, self) =>
+    (self.findIndex((t) => t.get('id') === x.get('id')) === index);
+  return currentScene.set('products', currentScene.get('products').filter(predicate));
+});
 export const productSelector = createStructuredSelector({
   isAuthenticated: isAuthenticatedSelector,
   product: currentProductSelector,
-  scene: currentSceneSelector,
+  scene: _currentSceneDedupedSelector,
   selectedImageId: selectedImageIdSelector
 });

@@ -60,7 +60,7 @@ export class ProductThumb extends Component {
     const { item, location, scene, productId, innerStyle, style } = this.props;
 
     return (
-      <BaseTile style={style} innerStyle={innerStyle}>
+      <BaseTile innerStyle={innerStyle} style={style}>
         <RadiumLink alt={item.get('shortName')} key={item.get('id')} title={item.get('shortName')} to={{
           ...location,
           pathname: `${scene.get('shareUrl')}/product/${item.get('id')}`

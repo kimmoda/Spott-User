@@ -173,20 +173,43 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           display: 'flex',
           alignItems: 'baseline'
         },
-        headerIcons: {
+        headerArrows: {
           flex: '1 1 auto',
           display: 'flex',
           justifyContent: 'flex-end',
           alignItems: 'center'
         },
-        leftArrowWrapper: {
+        headerArrowLeft: {
           cursor: 'pointer',
           paddingRight: '0.25em',
           marginRight: '0.5em'
         },
-        rightArrowWrapper: {
+        headerArrowRight: {
           cursor: 'pointer',
           paddingLeft: '0.25em'
+        },
+        inlineArrows: {
+          flex: '1 1 auto',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          zIndex: 100,
+          pointerEvents: 'none'
+        },
+        inlineArrowLeft: {
+          cursor: 'pointer',
+          paddingLeft: '0.75em',
+          pointerEvents: 'all'
+        },
+        inlineArrowRight: {
+          cursor: 'pointer',
+          paddingRight: '0.75em',
+          pointerEvents: 'all'
         },
         arrowIcon: {
           cursor: 'pointer',
@@ -212,7 +235,6 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           renderNotFoundComponent, renderUnexpectedComponent, style, tileProps, titleStyle, title
         } = this.props;
         const { screenWidth } = this.state;
-        const arrowColor = (titleStyle && titleStyle.color) || colors.dark;
 
         // If we have no known container width (first render), there is no reason to proceed
         if (screenWidth === -1) {
@@ -236,21 +258,36 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           return { numColumns: numColumns[mediaQuery], mediaQueryThreshold };
         }, { numColumns: -1, mediaQueryThreshold: -1 }).numColumns;
 
+        const renderArrows = (containerStyle, leftStyle, rightStyle, arrowColor) => (
+          <div style={containerStyle}>
+            <div style={leftStyle} onClick={this.onBackClick}>
+              <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
+            </div>
+            <div style={rightStyle} onClick={this.onMoreClick}>
+              <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
+            </div>
+          </div>
+        );
+
         return (
           <div ref={(x) => { this.container = x; }} style={[ styles.container, style ]}>
             {(arrowsType === 'top' || title) &&
               <div style={styles.header}>
                 {title && <RadiumSectionTitle style={titleStyle}>{title}</RadiumSectionTitle>}
                 {arrowsType === 'top' && items.get('data').size > currentNumColumns &&
-                  <div style={styles.headerIcons}>
-                    <div style={styles.leftArrowWrapper} onClick={this.onBackClick}>
-                      <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
-                    </div>
-                    <div style={styles.rightArrowWrapper} onClick={this.onMoreClick}>
-                      <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
-                    </div>
-                  </div>}
+                  renderArrows(
+                    styles.headerArrows,
+                    styles.headerArrowLeft,
+                    styles.headerArrowRight,
+                    (titleStyle && titleStyle.color) || colors.dark)}
                 </div>}
+            {(arrowsType === 'inline') &&
+              renderArrows(
+                styles.inlineArrows,
+                styles.inlineArrowLeft,
+                styles.inlineArrowRight,
+                colors.white
+              )}
             <RadiumTiles
               first={this.state.first}
               horizontalSpacing={horizontalSpacing}
