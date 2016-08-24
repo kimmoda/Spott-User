@@ -144,16 +144,27 @@ export const largeDialogStyle = {
 //   height: '2.5em',
 //   width: '2.5em'
 // };
-
+class RemoveBodyScrollbar extends Component {
+  static propTypes = {
+    children: PropTypes.node
+  }
+  componentDidMount () {
+    document.body.style.overflow = 'hidden';
+  }
+  componentWillUnmount () {
+    document.body.style.overflow = 'auto';
+  }
+  render () {
+    return this.props.children;
+  }
+}
 export const Modal = Radium((props) => (
   <ReactModal
     isOpen={props.isOpen}
     style={props.style || dialogStyle}
     onAfterOpen={() => {
-      document.body.style.overflow = 'hidden';
     }}
     onRequestClose={() => {
-      document.body.style.overflow = 'auto';
       props.onClose();
     }}>
       {/* Although this is a button, we chose a <div> for accessibility.
@@ -162,7 +173,9 @@ export const Modal = Radium((props) => (
       {/* <div style={dialogButtonStyle} onClick={props.onClick}>
         <img alt='Close' src={crossImage} />
       </div> */}
-      {props.children}
+      <RemoveBodyScrollbar>
+        {props.children}
+      </RemoveBodyScrollbar>
   </ReactModal>
 ));
 

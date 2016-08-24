@@ -8,7 +8,6 @@ export async function getNewScenesForYou (baseUrl, authenticationToken, locale, 
 
 export async function getSavedScenesOfUser (baseUrl, authenticationToken, locale, { userId }) {
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes?pageSize=30`);
-  console.warn('NEW', data.map(transformScene));
   return { data: data.map(transformScene) };
 }
 
@@ -41,11 +40,9 @@ export async function getScene (baseUrl, authenticationToken, locale, { sceneId 
 }
 
 export async function saveScene (baseUrl, authenticationToken, locale, { sceneId, userId }) {
-  const { body } = await post(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes`, { uuid: sceneId });
-  console.warn(body);
+  await post(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes`, { uuid: sceneId });
 }
 
 export async function removeSavedScene (baseUrl, authenticationToken, locale, { sceneId, userId }) {
-  const { body } = await del(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes`, { uuid: sceneId });
-  console.warn(body);
+  await del(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes`, { uuid: sceneId });
 }

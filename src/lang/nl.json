@@ -4,6 +4,7 @@
       "episode": "Seizoen %(season)i – Aflevering %(episode)i"
     },
     "footer": {
+      "cookies": "Cookiebeleid",
       "copyright": "Copyright © 2015–2016 Appiness nv",
       "privacy": "Privacy",
       "terms": "Voorwaarden",
@@ -100,8 +101,8 @@
     "dateOfBirth": "Je geboortedatum",
     "gender": {
       "label": "Geslacht",
-      "MALE": "Mannetje",
-      "FEMALE": "Vrouwtje"
+      "MALE": "Man",
+      "FEMALE": "Vrouw"
     },
     "password": "Je wachtwoord",
     "passwordRepeat": "Bevestig je wachtwoord",
@@ -135,11 +136,11 @@
       }
     },
     "menu": {
-      "savedScenes": "Saved scenes",
+      "savedScenes": "Bewaarde Scènes",
       "wishlists": "Verlanglijst"
     },
     "savedScenes": {
-      "empty": "This list is empty."
+      "empty": "Deze lijst is leeg."
     },
     "wishlists": {
       "empty": "U heeft nog geen verlanglijst.",
@@ -164,17 +165,17 @@
       "title": "Gekozen voor jou"
     },
     "scenes": {
-      "tabName": "scenes",
-      "empty": "Er zijn geen scenes."
+      "tabName": "Scènes",
+      "empty": "Er zijn geen scènes."
     }
   },
   "character": {
     "CHARACTER": "Personage"
   },
   "scene": {
-    "sceneFrom": "Scene uit",
-    "save": "Save",
-    "unsave": "Unsave"
+    "sceneFrom": "Scène uit",
+    "save": "Bewaar",
+    "unsave": "Bewaard"
   },
   "cookies": {
     "moreInfo": "Deze website maakt gebruik van cookies om uw gebruikservaring te verbeteren. [[Meer info]]",

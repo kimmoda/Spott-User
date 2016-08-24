@@ -4,6 +4,7 @@
       "episode": "Season %(season)i – Episode %(episode)i"
     },
     "footer": {
+      "cookies": "Cookie policy",
       "copyright": "Copyright © 2015–2016 Appiness nv",
       "privacy": "Privacy",
       "terms": "Terms",
@@ -164,7 +165,7 @@
       "title": "Picked For You"
     },
     "scenes": {
-      "tabName": "scenes",
+      "tabName": "Scenes",
       "empty": "There are no scenes."
     }
   },
@@ -174,7 +175,7 @@
   "scene": {
     "sceneFrom": "Scene from",
     "save": "Save",
-    "unsave": "Unsave"
+    "unsave": "Saved"
   },
   "cookies": {
     "moreInfo": "This website uses cookies to enhance your user experience. [[More info]]",

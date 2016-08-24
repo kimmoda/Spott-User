@@ -9,6 +9,7 @@ import { colors, RadiumLink, mediaQueries, load } from '../buildingBlocks';
 export class ProductThumb extends Component {
 
   static propTypes = {
+    innerStyle: PropTypes.object,
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
       image: ImmutablePropTypes.mapContains({
@@ -56,10 +57,10 @@ export class ProductThumb extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { item, location, scene, productId, style } = this.props;
+    const { item, location, scene, productId, innerStyle, style } = this.props;
 
     return (
-      <BaseTile style={style}>
+      <BaseTile innerStyle={innerStyle} style={style}>
         <RadiumLink alt={item.get('shortName')} key={item.get('id')} title={item.get('shortName')} to={{
           ...location,
           pathname: `${scene.get('shareUrl')}/product/${item.get('id')}`

@@ -96,7 +96,7 @@ const styles = {
 @Radium
 export default class App extends Component {
   static propTypes = {
-    acceptCookies: PropTypes.bool,
+    acceptCookies: PropTypes.number,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({
       key: PropTypes.string.isRequired,

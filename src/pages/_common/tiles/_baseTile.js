@@ -6,6 +6,7 @@ export default class BaseTile extends Component {
 
   static propTypes = {
     children: PropTypes.node,
+    innerStyle: PropTypes.object,
     style: PropTypes.object
   };
 
@@ -25,10 +26,10 @@ export default class BaseTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { children, style } = this.props;
+    const { children, innerStyle, style } = this.props;
     return (
       <div style={style}>
-        <div style={styles.container}>
+        <div style={[ styles.container, innerStyle ]}>
           {children}
         </div>
       </div>
