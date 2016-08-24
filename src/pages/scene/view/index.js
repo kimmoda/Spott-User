@@ -228,10 +228,17 @@ export default class Scene extends Component {
           justifyContent: 'space-between'
         }
       },
+      left: {
+        [mediaQueries.medium]: {
+          flex: '1 1 auto',
+          overflow: 'hidden'
+        }
+      },
       right: {
         display: 'flex',
         marginTop: '0.5em',
         [mediaQueries.medium]: {
+          flex: '0 0',
           marginTop: 0,
           justifyContent: 'space-between'
         }
