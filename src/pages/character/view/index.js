@@ -3,21 +3,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Hero from './hero';
-import { mediumSelector } from '../selector';
+
 import { loadMedium } from '../actions';
 
-@connect(mediumSelector, (dispatch) => ({
+@connect(null, (dispatch) => ({
   loadCharacter: bindActionCreators(loadMedium, dispatch)
 }))
 export default class Character extends Component {
 
   static propTypes = {
+    character: ImmutablePropTypes.map.isRequired,
     children: PropTypes.node,
     loadCharacter: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
     }).isRequired,
-    medium: ImmutablePropTypes.map.isRequired,
     params: PropTypes.shape({
       characterId: PropTypes.string.isRequired
     }).isRequired
@@ -29,7 +29,7 @@ export default class Character extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.props.params.characterId !== nextProps.params.characterId) {
-      this.props.loadMedium(this.props.route.mediumType, nextProps.params.characterId);
+      this.props.loadCharacter(nextProps.params.characterId);
     }
   }
 
@@ -37,7 +37,8 @@ export default class Character extends Component {
     const { character, location: { pathname }, params: { characterId } } = this.props;
     return (
       <div>
-        <Hero character={character} characterId={characterId} currentPathname={pathname} />
+        test
+        {/* <Hero character={character} currentPathname={pathname} /> */}
         {this.props.children}
       </div>
     );

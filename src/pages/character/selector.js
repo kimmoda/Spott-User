@@ -2,33 +2,19 @@ import { createStructuredSelector } from 'reselect';
 import { isAuthenticatedSelector } from '../app/selector';
 import {
   createEntityByIdSelector, createEntitiesByRelationSelector,
-  charactersEntitiesSelector, mediaEntitiesSelector,
-  mediumHasNewScenesForYouSelector,
-  scenesEntitiesSelector, mediumHasCharactersSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector } from '../../data/selector';
+  charactersEntitiesSelector, characterHasProductsSelector, productsEntitiesSelector
+} from '../../data/selector';
 
-export const currentMediumIdSelector = (state) => state.getIn([ 'medium', 'currentMedium', 'id' ]);
+export const currentCharacterIdSelector = (state) => state.getIn([ 'character', 'currentMedium', 'id' ]);
 
-export const currentMediumSelector = createEntityByIdSelector(mediaEntitiesSelector, currentMediumIdSelector);
+export const currentCharacterSelector = createEntityByIdSelector(charactersEntitiesSelector, currentCharacterIdSelector);
 
 export const heroSelector = createStructuredSelector({
-  characters: createEntitiesByRelationSelector(mediumHasCharactersSelector, currentMediumIdSelector, charactersEntitiesSelector),
+  character: currentCharacterSelector,
   isAuthenticated: isAuthenticatedSelector
 });
 
-export const mediumSelector = createStructuredSelector({
-  medium: currentMediumSelector
-});
-
-// Overview
-export const pickedForYouSelector = createStructuredSelector({
-  products: createEntitiesByRelationSelector(mediumHasTopUserProductsSelector, currentMediumIdSelector, productsEntitiesSelector)
-});
-
-export const topProductsSelector = createStructuredSelector({
-  medium: currentMediumSelector,
-  products: createEntitiesByRelationSelector(mediumHasProductsSelector, currentMediumIdSelector, productsEntitiesSelector)
-});
-
-export const newScenesForYouSelector = createStructuredSelector({
-  scenes: createEntitiesByRelationSelector(mediumHasNewScenesForYouSelector, currentMediumIdSelector, scenesEntitiesSelector)
+export const characterProductsSelector = createStructuredSelector({
+  // TODO update mediumHasTopUserProductsSelector.
+  products: createEntitiesByRelationSelector(characterHasProductsSelector, currentCharacterIdSelector, productsEntitiesSelector)
 });
