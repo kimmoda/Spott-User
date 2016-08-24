@@ -4,6 +4,7 @@
       "episode": "Saison %(season)i – Épisode %(episode)i"
     },
     "footer": {
+      "cookies": "Politique sur les cookies",
       "copyright": "Copyright © 2015–2016 Appiness nv",
       "privacy": "Protection des données",
       "terms": "Conditions Générales",

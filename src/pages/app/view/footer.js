@@ -21,6 +21,7 @@ const styles = {
     flex: '1 1 100%',
     width: '100%',
     textAlign: 'center',
+    alignSelf: 'center',
     [mediaQueries.medium]: {
       width: 'auto',
       flex: '0 0 auto',
@@ -101,6 +102,7 @@ const styles = {
     paddingLeft: '0.25em',
     paddingRight: '0.25em',
     textDecoration: 'none',
+    textAlign: 'center',
     [mediaQueries.medium]: {
       paddingLeft: '1.385em',
       paddingRight: '1.385em'
@@ -173,6 +175,8 @@ export default class Footer extends Component {
             <RadiumLink style={styles.menuItem} to={`/${currentLocale}/terms`}>{t('_common.footer.terms')}</RadiumLink>
             <span style={styles.menuSeparator}>/</span>
             <RadiumLink style={styles.menuItem} to={`/${currentLocale}/privacy`}>{t('_common.footer.privacy')}</RadiumLink>
+            <span style={styles.menuSeparator}>/</span>
+            <RadiumLink style={styles.menuItem} to={`/${currentLocale}/cookies`}>{t('_common.footer.cookies')}</RadiumLink>
           </div>
           <div style={styles.copyright}>
             {t('_common.footer.copyright')}

@@ -4,6 +4,7 @@
       "episode": "Seizoen %(season)i – Aflevering %(episode)i"
     },
     "footer": {
+      "cookies": "Cookiebeleid",
       "copyright": "Copyright © 2015–2016 Appiness nv",
       "privacy": "Privacy",
       "terms": "Voorwaarden",
