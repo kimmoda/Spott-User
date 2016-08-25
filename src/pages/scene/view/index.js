@@ -238,7 +238,7 @@ export default class Scene extends Component {
         display: 'flex',
         marginTop: '0.5em',
         [mediaQueries.medium]: {
-          flex: '0 0',
+          flex: '0 0 auto',
           marginTop: 0,
           justifyContent: 'space-between'
         }
