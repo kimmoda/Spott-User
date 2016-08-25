@@ -155,7 +155,9 @@ export default class VerticalTiles extends Component {
           transform: `translate(${positionX}px, ${positionY}px)`,
           position: 'absolute'
         };
-        renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: index, item: items.get(index) }));
+        if (items.get(index)) {
+          renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: index, item: items.get(index) }));
+        }
       }
     }
     // Determine container style

@@ -170,7 +170,11 @@
     }
   },
   "character": {
-    "CHARACTER": "Character"
+    "CHARACTER": "Character",
+    "products": {
+      "empty": "There has no products related to this character right now.",
+      "title": "Produits"
+    }
   },
   "scene": {
     "sceneFrom": "Scène de",

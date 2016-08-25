@@ -170,7 +170,11 @@
     }
   },
   "character": {
-    "CHARACTER": "Personage"
+    "CHARACTER": "Personage",
+    "products": {
+      "empty": "Er zijn momenteel geen producten voor dit personage.",
+      "title": "Producten"
+    }
   },
   "scene": {
     "sceneFrom": "Scène uit",

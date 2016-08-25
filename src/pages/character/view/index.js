@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import Hero from './hero';
 
 import { loadCharacter } from '../actions';
@@ -12,7 +11,6 @@ import { loadCharacter } from '../actions';
 export default class Character extends Component {
 
   static propTypes = {
-    character: ImmutablePropTypes.map.isRequired,
     children: PropTypes.node,
     loadCharacter: PropTypes.func.isRequired,
     location: PropTypes.shape({
@@ -34,11 +32,10 @@ export default class Character extends Component {
   }
 
   render () {
-    const { character, location: { pathname }, params: { characterId } } = this.props;
+    const { location: { pathname } } = this.props;
     return (
       <div>
-        test
-        {/* <Hero character={character} currentPathname={pathname} /> */}
+        <Hero currentPathname={pathname} />
         {this.props.children}
       </div>
     );

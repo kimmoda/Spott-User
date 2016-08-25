@@ -5,7 +5,7 @@ import {
   charactersEntitiesSelector, characterHasProductsSelector, productsEntitiesSelector
 } from '../../data/selector';
 
-export const currentCharacterIdSelector = (state) => state.getIn([ 'character', 'currentMedium', 'id' ]);
+export const currentCharacterIdSelector = (state) => state.getIn([ 'character', 'currentCharacter', 'id' ]);
 
 export const currentCharacterSelector = createEntityByIdSelector(charactersEntitiesSelector, currentCharacterIdSelector);
 

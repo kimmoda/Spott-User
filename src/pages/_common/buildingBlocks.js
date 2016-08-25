@@ -81,6 +81,24 @@ export class Spinner extends Component {
 // Utilities
 // /////////
 
+const currencies = {
+  EUR: '€',
+  GBP: '£',
+  USD: '$'
+};
+
+export function formatPrice (price) {
+  if (price) {
+    // Try to use symbol.
+    const currency = currencies[price.get('currency')];
+    if (currency) {
+      return `${currency} ${price.get('amount')}`;
+    }
+    return `${price.get('amount')} ${price.get('currency')}`;
+  }
+  return '\u00a0';
+}
+
 export function makeTextStyle (fontWeight = fontWeights.regular, fontSize = '1em', letterSpacing = 0, lineHeight = 'normal') {
   return {
     fontFamily: fontWeight,
@@ -553,28 +571,28 @@ FadeOutScalableContainer.propTypes = {
 
 // Money
 // /////
-
-export class Money extends Component {
-  static propTypes = {
-    amount: PropTypes.number,
-    currency: PropTypes.string
-  }
-
-  render () {
-    const { amount, currency } = this.props;
-    if (typeof amount !== 'number' || !currency) {
-      return <span>&nbsp;</span>;
-    }
-    switch (currency) {
-      case 'EUR':
-        return (<span>€ {amount}</span>);
-      case 'USD':
-        return (<span>$ {amount}</span>);
-      default:
-        return (<span>{amount} {currency}</span>);
-    }
-  }
-}
+//
+// export class Money extends Component {
+//   static propTypes = {
+//     amount: PropTypes.number,
+//     currency: PropTypes.string
+//   }
+//
+//   render () {
+//     const { amount, currency } = this.props;
+//     if (typeof amount !== 'number' || !currency) {
+//       return <span>&nbsp;</span>;
+//     }
+//     switch (currency) {
+//       case 'EUR':
+//         return (<span>€ {amount}</span>);
+//       case 'USD':
+//         return (<span>$ {amount}</span>);
+//       default:
+//         return (<span>{amount} {currency}</span>);
+//     }
+//   }
+// }
 
 // Load an item or a list.
 export function load (item, renderItem, renderSpinner, renderNotFound, renderUnexpectedComponent, renderEmptyComponent) {

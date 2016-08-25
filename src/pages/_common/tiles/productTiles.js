@@ -1,26 +1,9 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { colors, fontWeights, makeTextStyle, Money, RadiumLink } from '../../_common/buildingBlocks';
+import { colors, formatPrice, fontWeights, makeTextStyle, RadiumLink } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
-
-const currencies = {
-  EUR: '€',
-  USD: '$'
-};
-
-function formatPrice (price) {
-  if (price) {
-    // Try to use symbol.
-    const currency = currencies[price.get('currency')];
-    if (currency) {
-      return `${currency} ${price.get('amount')}`;
-    }
-    return `${price.get('amount')} ${price.get('currency')}`;
-  }
-  return '';
-}
 
 function formatTitle (name, price) {
   const priceText = formatPrice(price);
@@ -34,6 +17,8 @@ function formatTitle (name, price) {
 export class ProductTile extends Component {
 
   static propTypes = {
+    // Not required! Initially we create a product without an item,
+    // then we clone it with an item (see VerticalTiles).
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
       image: ImmutablePropTypes.mapContains({
@@ -45,7 +30,7 @@ export class ProductTile extends Component {
         currency: PropTypes.string.isRequired
       }),
       shortName: PropTypes.string.isRequired
-    }).isRequired,
+    }),
     style: PropTypes.object
   };
 
@@ -100,6 +85,12 @@ export class ProductTile extends Component {
   render () {
     const styles = this.constructor.styles;
     const { item, style } = this.props;
+
+    // Initially we create a product without an item, then we clone it with an item (see VerticalTiles).
+    if (!item) {
+      return <div />;
+    }
+
     const title = formatTitle(item.get('shortName'), item.get('price'));
 
     return (
@@ -110,7 +101,7 @@ export class ProductTile extends Component {
           </div>
           <div style={styles.detailsContainer}>
             <div style={styles.shortName}>{item.get('shortName')}</div>
-            <div style={styles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])}/></div>
+            <div style={styles.price}>{formatPrice(item.get('price'))}</div>
           </div>
         </RadiumLink>
       </BaseTile>

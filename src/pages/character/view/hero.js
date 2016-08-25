@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../_common/buildingBlocks';
-import CharacterTiles from '../../_common/tiles/characterTiles';
-import { FETCHING, LAZY, LOADED, UPDATING } from '../../../data/statusTypes';
+import { colors, fontWeights, load, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../_common/buildingBlocks';
 import { heroSelector } from '../selector';
 import localized from '../../_common/localized';
 import * as actions from '../actions';
@@ -31,7 +29,6 @@ export default class Hero extends Component {
       subscriberCount: PropTypes.number,
       title: PropTypes.string
     }),
-    characterId: PropTypes.string.isRequired,
     currentLocale: PropTypes.string.isRequired,
     currentPathname: PropTypes.string.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
@@ -42,6 +39,8 @@ export default class Hero extends Component {
   constructor (props) {
     super(props);
     this.toggleFollow = ::this.toggleFollow;
+    this.renderCharacter = ::this.renderCharacter;
+    this.renderEmpty = ::this.renderEmpty;
   }
 
   toggleFollow (e) {
@@ -93,7 +92,7 @@ export default class Hero extends Component {
     },
     followButton: {
       base: {
-        marginBottom: '2.222em'
+        marginBottom: '7.7em'
       }
     },
     tiles: {
@@ -155,45 +154,49 @@ export default class Hero extends Component {
     }
   };
 
-  render () {
+  renderEmpty () {
+    const { t } = this.props;
+    return <Container><Message>{t('character.empty')}</Message></Container>;
+  }
+
+  renderCharacter () {
     const styles = this.constructor.styles;
     const { character, currentLocale, currentPathname, isAuthenticated, t, toggleFollow } = this.props;
+    console.warn('character', character && character.toJS());
 
-    if (character.get('_status') === FETCHING || character.get('_status') === LAZY) {
-      return (<Spinner />);
-    }
+    return (
+      <div style={[ styles.background, character.get('image') && { backgroundImage: `url(${character.getIn([ 'image', 'url' ])})` } ]}>
+        <div style={styles.overlay} />
+        <Container style={styles.container}>
+          <h4 style={styles.type}>{t('character.CHARACTER')}</h4>
+          <Title style={styles.title.large}>{character.get('name')}</Title>
+          <SectionTitle style={styles.title.character}>
+            {t('common.followers', { count: character.get('subscriberCount') || 0 }, (contents, key) => (
+              <span key={key} style={styles.emph}>{contents}</span>
+            ))}
+          </SectionTitle>
+          {isAuthenticated
+            ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={toggleFollow}>
+                {character.get('subscribed') ? t('common.unfollow') : t('common.follow')}
+              </Button>
+            : <Button style={[ pinkButtonStyle, styles.followButton.base ]} to={{
+              pathname: `/${currentLocale}/login`,
+              state: { modal: true, returnTo: currentPathname }
+            }}>
+              {t('common.follow')}
+            </Button>}
+        </Container>
+        <Container style={styles.tabs}>
+          <div>
+            <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${character.get('shareUrl')}/products`}>{t('character.products.title')}</Link>
+          </div>
+        </Container>
+      </div>
+    );
+  }
 
-    if (character.get('_status') === LOADED || character.get('_status') === UPDATING) {
-      return (
-        <div style={[ styles.background, character.get('profileImage') && { backgroundImage: `url(${character.getIn([ 'profileImage', 'url' ])})` } ]}>
-          <div style={styles.overlay} />
-          <Container style={styles.container}>
-            <h4 style={styles.mediaType}>{t('character.CHARACTER')}</h4>
-            <Title style={styles.title.large}>{character.get('title')}</Title>
-            <SectionTitle style={styles.title.character}>
-              {t('common.followers', { count: character.get('subscriberCount') || 0 }, (contents, key) => {
-                return <span key={key} style={styles.emph}>{contents}</span>;
-              })}
-            </SectionTitle>
-            {isAuthenticated
-              ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={toggleFollow}>
-                  {character.get('subscribed') ? t('character.unfollow') : t('character.follow')}
-                </Button>
-              : <Button style={[ pinkButtonStyle, styles.followButton.base ]} to={{
-                pathname: `/${currentLocale}/login`,
-                state: { modal: true, returnTo: currentPathname }
-              }}>
-                {t('common.follow')}
-              </Button>}
-          </Container>
-          <Container style={styles.tabs}>
-            <div>
-              <Link activeStyle={styles.tab.active} style={styles.tab.base} to={`${character.get('shareUrl')}/overview`}>{t('common.overview')}</Link>
-            </div>
-          </Container>
-        </div>
-      );
-    }
+  render () {
+    return load(this.props.character, this.renderCharacter);
   }
 
 }

@@ -52,7 +52,7 @@ export async function getPopularProducts (baseUrl, authenticationToken, locale) 
 export async function getCharacterProducts (baseUrl, authenticationToken, locale, { characterId }) {
   // Add paging
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/characters/${characterId}/products?pageSize=500`);
-  return data.map(transformListProduct);
+  return { data: data.map(transformListProduct) };
 }
 
 /**

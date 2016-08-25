@@ -1,6 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle } from '../buildingBlocks';
+import { fontWeights, makeTextStyle, RadiumLink } from '../buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import hoverable from '../hoverable';
 import BaseTile from './_baseTile';
@@ -73,13 +73,15 @@ export class CharacterTile extends Component {
     const { hovered, item, style } = this.props;
     return (
       <BaseTile style={style}>
-        <div style={styles.container}>
-          <div
-            style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?height=250&width=250")` } ]}
-            title={item.get('name')} />
-          <div style={styles.layer} />
-          <span style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</span>
-        </div>
+        <RadiumLink alt={item.get('name')} key={item.get('id')} title={item.get('name')} to={item.get('shareUrl')}>
+          <div style={styles.container}>
+            <div
+              style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?height=250&width=250")` } ]}
+              title={item.get('name')} />
+            <div style={styles.layer} />
+            <span style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</span>
+          </div>
+        </RadiumLink>
       </BaseTile>
     );
   }

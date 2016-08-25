@@ -75,7 +75,8 @@ export function transformCharacter ({ avatar, name, uuid: id }) {
   return {
     id,
     image: avatar && { id: avatar.uuid, url: avatar.url },
-    name
+    name,
+    shareUrl: `/en/character/slug/${id}`
   };
 }
 
