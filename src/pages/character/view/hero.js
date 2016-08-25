@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, fontWeights, load, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, LoadComponent, SectionTitle, Title } from '../../_common/buildingBlocks';
 import { heroSelector } from '../selector';
 import localized from '../../_common/localized';
 import * as actions from '../actions';
@@ -20,11 +20,11 @@ export default class Hero extends Component {
     character: ImmutablePropTypes.mapContains({
       _error: PropTypes.object,
       _status: PropTypes.string,
-      id: PropTypes.string,
-      profileImage: ImmutablePropTypes.mapContains({
+      coverImage: ImmutablePropTypes.mapContains({
         id: PropTypes.string.isRequired,
         url: PropTypes.string.isRequired
       }),
+      id: PropTypes.string,
       subscribed: PropTypes.bool,
       subscriberCount: PropTypes.number,
       title: PropTypes.string
@@ -40,7 +40,6 @@ export default class Hero extends Component {
     super(props);
     this.toggleFollow = ::this.toggleFollow;
     this.renderCharacter = ::this.renderCharacter;
-    this.renderEmpty = ::this.renderEmpty;
   }
 
   toggleFollow (e) {
@@ -151,21 +150,19 @@ export default class Hero extends Component {
       paddingBottom: 0,
       marginBottom: 0,
       marginTop: 0
+    },
+    messageContainer: {
+      paddingTop: '3.75em',
+      paddingBottom: '3.75em'
     }
   };
-
-  renderEmpty () {
-    const { t } = this.props;
-    return <Container><Message>{t('character.empty')}</Message></Container>;
-  }
 
   renderCharacter () {
     const styles = this.constructor.styles;
     const { character, currentLocale, currentPathname, isAuthenticated, t, toggleFollow } = this.props;
-    console.warn('character', character && character.toJS());
 
     return (
-      <div style={[ styles.background, character.get('image') && { backgroundImage: `url(${character.getIn([ 'image', 'url' ])})` } ]}>
+      <div style={[ styles.background, character.get('coverImage') && { backgroundImage: `url(${character.getIn([ 'coverImage', 'url' ])})` } ]}>
         <div style={styles.overlay} />
         <Container style={styles.container}>
           <h4 style={styles.type}>{t('character.CHARACTER')}</h4>
@@ -196,7 +193,17 @@ export default class Hero extends Component {
   }
 
   render () {
-    return load(this.props.character, this.renderCharacter);
+    const styles = this.constructor.styles;
+    const { character, currentLocale, t } = this.props;
+
+    return (
+      <LoadComponent
+        currentLocale={currentLocale}
+        item={character}
+        renderInContainer={(children) => <Container style={styles.messageContainer}>{children}</Container>}
+        renderItem={this.renderCharacter}
+        t={t} />
+    );
   }
 
 }

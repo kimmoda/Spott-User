@@ -1,4 +1,4 @@
-import { addSubscriber, fetchCharacterProducts, fetchCharacter, removeSubscriber } from '../../data/actions';
+import { addCharacterSubscriber, fetchCharacterProducts, fetchCharacter, removeCharacterSubscriber } from '../../data/actions';
 // import { getMediumCharacters, getMediumProducts } from '../../api/medium';
 import { currentUserIdSelector } from '../app/selector';
 import { currentCharacterSelector } from './selector';
@@ -16,9 +16,9 @@ export function toggleFollow () {
     const character = currentCharacterSelector(state);
 
     if (character.get('subscribed')) {
-      await dispatch(removeSubscriber({ characterId: character.get('id'), userId }));
+      await dispatch(removeCharacterSubscriber({ characterId: character.get('id'), userId }));
     } else {
-      await dispatch(addSubscriber({ characterId: character.get('id'), userId }));
+      await dispatch(addCharacterSubscriber({ characterId: character.get('id'), userId }));
     }
     // Retrieve the character with the new followerscount and subscribed flag.
     // Note that the subscribed flag will be already set in the reducer (less delay),

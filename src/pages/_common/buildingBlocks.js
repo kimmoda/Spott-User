@@ -2,7 +2,9 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import ReactModal from 'react-modal';
 import { Link } from 'react-router';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { ERROR, FETCHING, LAZY, LOADED, UPDATING } from '../../data/statusTypes';
+import localized from './localized';
 
 export const RadiumLink = Radium(Link);
 
@@ -612,4 +614,60 @@ export function load (item, renderItem, renderSpinner, renderNotFound, renderUne
     return (renderNotFound && renderNotFound()) || <div />;
   }
   return (renderUnexpectedComponent && renderUnexpectedComponent()) || <div />;
+}
+
+@localized
+@Radium
+export class LoadComponent extends Component {
+
+  static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
+    item: ImmutablePropTypes.mapContains({
+      _error: PropTypes.object,
+      _status: PropTypes.string,
+      data: ImmutablePropTypes.list
+    }),
+    renderEmpty: PropTypes.func,
+    renderInContainer: PropTypes.func,
+    renderItem: PropTypes.func.isRequired,
+    renderNotFound: PropTypes.func,
+    renderSpinner: PropTypes.func,
+    renderUnexpected: PropTypes.func,
+    t: PropTypes.func.isRequired
+  };
+
+  static styles = {
+    return: {
+      ...makeTextStyle(fontWeights.bold),
+      color: colors.dark,
+      textDecoration: 'none'
+    }
+  };
+
+  renderInContainer (children) {
+    const { renderInContainer } = this.props;
+    return (renderInContainer && renderInContainer(children)) || <div>{children}</div>;
+  }
+
+  render () {
+    const styles = this.constructor.styles;
+    const { currentLocale, item, renderItem, renderEmpty, renderNotFound, renderSpinner, renderUnexpected, t } = this.props;
+    // Render spinner when FETCHING or LAZY
+    if (!item.get('_status') || item.get('_status') === FETCHING || item.get('_status') === LAZY) {
+      return (renderSpinner && this.renderInContainer(renderSpinner())) || this.renderInContainer(<Spinner />);
+    }
+    // When loaded, render items, or empty if there are none.
+    if (item.get('_status') === LOADED || item.get('_status') === UPDATING) {
+      if (item.get('data') && item.get('data').size === 0) {
+        return (renderEmpty && this.renderInContainer(renderEmpty())) || this.renderInContainer(t('common.empty'));
+      }
+      return renderItem(item);
+    }
+    // In case of an error, render not found or unexpected, depending on the error.
+    if (item.get('_status') === ERROR && item.get('_error').name === 'NotFoundError') {
+      return (renderNotFound && this.renderInContainer(renderNotFound())) || this.renderInContainer(<span>{t('common.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></span>);
+    }
+    return (renderUnexpected && this.renderInContainer(renderUnexpected())) || this.renderInContainer(t('common.unexpected'));
+  }
+
 }

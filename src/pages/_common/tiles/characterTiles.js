@@ -13,7 +13,7 @@ export class CharacterTile extends Component {
   static propTypes = {
     hovered: PropTypes.bool.isRequired,
     item: ImmutablePropTypes.mapContains({
-      image: ImmutablePropTypes.mapContains({
+      avatarImage: ImmutablePropTypes.mapContains({
         url: PropTypes.string.isRequired
       }),
       name: PropTypes.string.isRequired
@@ -76,7 +76,7 @@ export class CharacterTile extends Component {
         <RadiumLink alt={item.get('name')} key={item.get('id')} title={item.get('name')} to={item.get('shareUrl')}>
           <div style={styles.container}>
             <div
-              style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?height=250&width=250")` } ]}
+              style={[ styles.image, item.get('avatarImage') && { backgroundImage: `url("${item.getIn([ 'avatarImage', 'url' ])}?height=250&width=250")` } ]}
               title={item.get('name')} />
             <div style={styles.layer} />
             <span style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('name')}</span>

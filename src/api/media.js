@@ -70,37 +70,16 @@ export async function getMedium (baseUrl, authenticationToken, locale, { mediumI
   }
 }
 
-export async function addSubscriber (baseUrl, authenticationToken, locale, { mediumId, mediumType, userId }) {
-  try {
-    await post(authenticationToken, locale, `${baseUrl}/v003/media/${mapMediumTypeToUrlPartsPlural[mediumType]}/${mediumId}/subscribers`, { uuid: userId });
-  } catch (error) {
-    switch (error.statusCode) {
-      case 403:
-        throw new UnauthorizedError();
-      case 404:
-        throw new NotFoundError('series', error);
-    }
-    throw new UnexpectedError(error);
-  }
+export async function addMediumSubscriber (baseUrl, authenticationToken, locale, { mediumId, mediumType, userId }) {
+  await post(authenticationToken, locale, `${baseUrl}/v003/media/${mapMediumTypeToUrlPartsPlural[mediumType]}/${mediumId}/subscribers`, { uuid: userId });
 }
 
-export async function removeSubscriber (baseUrl, authenticationToken, locale, { mediumId, mediumType, userId }) {
-  try {
-    await del(authenticationToken, locale, `${baseUrl}/v003/media/${mapMediumTypeToUrlPartsPlural[mediumType]}/${mediumId}/subscribers`, { uuid: userId });
-  } catch (error) {
-    switch (error.statusCode) {
-      case 403:
-        throw new UnauthorizedError();
-      case 404:
-        throw new NotFoundError('series', error);
-    }
-    throw new UnexpectedError(error);
-  }
+export async function removeMediumSubscriber (baseUrl, authenticationToken, locale, { mediumId, mediumType, userId }) {
+  await del(authenticationToken, locale, `${baseUrl}/v003/media/${mapMediumTypeToUrlPartsPlural[mediumType]}/${mediumId}/subscribers`, { uuid: userId });
 }
 
 export async function getMediumSeasons (baseUrl, authenticationToken, locale, { mediumId }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/seasons`);
-  console.log(body.data);
   return body.data.map(transformSeason);
 }
 

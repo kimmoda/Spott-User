@@ -187,6 +187,7 @@
     "continue": "Continuez"
   },
   "common": {
+    "empty": "There is nothing to display right now.",
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
     "overview": "La vue générale",
     "return": "Retournez à la page d’accueil.",

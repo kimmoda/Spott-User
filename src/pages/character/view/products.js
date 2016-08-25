@@ -5,7 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import VerticalTiles from '../../_common/verticalTiles';
 import { ProductTile } from '../../_common/tiles/productTiles';
-import { load, Message, ScalableContainer } from '../../_common/buildingBlocks';
+import { LoadComponent, ScalableContainer } from '../../_common/buildingBlocks';
 import { characterProductsSelector } from '../selector';
 import * as actions from '../actions';
 
@@ -16,6 +16,7 @@ import * as actions from '../actions';
 export default class Products extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     loadCharacterProducts: PropTypes.func.isRequired,
     params: PropTypes.shape({
       characterId: PropTypes.string.isRequired
@@ -26,12 +27,6 @@ export default class Products extends Component {
     }),
     t: PropTypes.func.isRequired
   };
-
-  constructor (props) {
-    super(props);
-    this.renderProducts = ::this.renderProducts;
-    this.renderEmpty = ::this.renderEmpty;
-  }
 
   componentWillMount () {
     this.props.loadCharacterProducts(this.props.params.characterId);
@@ -48,33 +43,34 @@ export default class Products extends Component {
       backgroundColor: 'white',
       paddingTop: '2.5em',
       paddingBottom: '3.25em'
+    },
+    messageContainer: {
+      paddingTop: '3.75em',
+      paddingBottom: '3.75em'
     }
   };
 
-  renderProducts () {
+  render () {
     const styles = this.constructor.styles;
-    const { products } = this.props;
+    const { products, t } = this.props;
 
     return (
-      <ScalableContainer style={styles.container}>
-        <VerticalTiles
-          aspectRatio={1.309677}
-          horizontalSpacing={30}
-          items={products.get('data')}
-          numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
-          tile={<ProductTile />}
-          verticalSpacing={30} />
-      </ScalableContainer>
+      <LoadComponent
+        item={products}
+        renderEmpty={() => t('character.products.empty')}
+        renderInContainer={(children) => <ScalableContainer style={styles.messageContainer}>{children}</ScalableContainer>}
+        renderItem={() => (
+          <ScalableContainer style={styles.container}>
+            <VerticalTiles
+              aspectRatio={1.309677}
+              horizontalSpacing={30}
+              items={products.get('data')}
+              numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
+              tile={<ProductTile />}
+              verticalSpacing={30} />
+          </ScalableContainer>
+        )} />
     );
-  }
-
-  renderEmpty () {
-    const { t } = this.props;
-    return (<ScalableContainer><Message>{t('character.products.empty')}</Message></ScalableContainer>);
-  }
-
-  render () {
-    return load(this.props.products, this.renderProducts, null, null, null, this.renderEmpty);
   }
 
 }

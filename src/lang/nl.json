@@ -187,6 +187,7 @@
     "continue": "Verdergaan"
   },
   "common": {
+    "empty": "Er is niets om te tonen momenteel.",
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
     "overview": "Overzicht",
     "return": "Keer terug naar de homepagina.",
