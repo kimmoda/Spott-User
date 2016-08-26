@@ -15,13 +15,15 @@ export const scenesEntitiesSelector = (state) => state.getIn([ 'data', 'entities
 // Relations selectors
 // ///////////////////
 
+export const characterHasProductsSelector = (state) => state.getIn([ 'data', 'relations', 'characterHasProducts' ]);
 export const mediumHasCharactersSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasCharacters' ]);
 export const mediumHasEpisodesSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasEpisodes' ]);
-export const mediumHasProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasProducts' ]);
-export const mediumHasSeasonsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasSeasons' ]);
-export const mediumHasScenesSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasScenes' ]);
-export const mediumHasTopUserProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasTopUserProducts' ]);
 export const mediumHasNewScenesForYouSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasNewScenesForYou' ]);
+export const mediumHasProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasProducts' ]);
+export const mediumHasScenesSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasScenes' ]);
+export const mediumHasSeasonsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasSeasons' ]);
+export const mediumHasTopProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasTopProducts' ]);
+export const mediumHasTopUserProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasTopUserProducts' ]);
 export const userHasSavedScenesRelationsSelector = (state) => state.getIn([ 'data', 'relations', 'userHasSavedScenes' ]);
 export const userHasWishlistsRelationsSelector = (state) => state.getIn([ 'data', 'relations', 'userHasWishlists' ]);
 export const wishlistHasProductsRelationsSelector = (state) => state.getIn([ 'data', 'relations', 'wishlistHasProducts' ]);

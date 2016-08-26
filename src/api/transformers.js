@@ -71,11 +71,15 @@ export function transformDetailedProduct ({ available, brand, description, longN
   };
 }
 
-export function transformCharacter ({ avatar, name, uuid: id }) {
+export function transformCharacter ({ avatar, headerImage, name, shareUrl, subscribed, subscriberCount, uuid: id }) {
   return {
+    avatarImage: avatar && { id: avatar.uuid, url: avatar.url },
+    coverImage: headerImage && { id: headerImage.uuid, url: headerImage.url },
     id,
-    image: avatar && { id: avatar.uuid, url: avatar.url },
-    name
+    name,
+    shareUrl: stripDomain(shareUrl),
+    subscribed,
+    subscriberCount
   };
 }
 
@@ -170,5 +174,5 @@ export function transformScene (data) {
 }
 
 export function transformShare ({ body, image, title, url }) {
-  return { description: body, image: { id: image.uuid, url: image.url }, title, url };
+  return { description: body, image: image && { id: image.uuid, url: image.url }, title, url };
 }

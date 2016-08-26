@@ -15,6 +15,7 @@ import { combineReducers } from 'redux-immutablejs';
 import { reducer as form } from 'redux-form/immutable';
 import app from './pages/app/reducer';
 import data from './data/reducer';
+import character from './pages/character/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV !== 'production') {
 // add the router reducer to the store on the 'routing' key
 const rootReducer = combineReducers({
   app,
+  character,
   data,
   form,
   productDetail,

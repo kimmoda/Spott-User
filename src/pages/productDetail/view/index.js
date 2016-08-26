@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Radium from 'radium';
 import { Map } from 'immutable';
-import { colors, load, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, Money, ShareButton, Spinner } from '../../_common/buildingBlocks';
+import { colors, load, fontWeights, formatPrice, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, ShareButton, Spinner } from '../../_common/buildingBlocks';
 import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
@@ -256,9 +256,7 @@ export default class ProductDetail extends Component {
                 {product.get('description') &&
                   <p style={styles.details.productDescription}>{product.get('description')}</p>}
                 <h2 style={styles.details.price}>
-                  <Money
-                    amount={product.getIn([ 'offerings', '0', 'price', 'amount' ])}
-                    currency={product.getIn([ 'offerings', '0', 'price', 'currency' ])} />
+                  {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
                 </h2>
                 <div style={styles.details.buttons.wrapper}>
                   <Button disabled={notAvailable} key='buyButton' style={pinkButtonStyle} target='_blank' onClick={this.onBuyClick}>

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { replace as replaceRoute } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import SmallEpisodeTiles from '../../_common/tiles/smallEpisodeTiles';
 import { Container } from '../../_common/buildingBlocks';
@@ -23,7 +23,7 @@ const styles = {
 
 @connect(episodesSelector, (dispatch) => ({
   loadEpisodes: bindActionCreators(loadEpisodes, dispatch),
-  push: bindActionCreators(push, dispatch)
+  replaceRoute: bindActionCreators(replaceRoute, dispatch)
 }))
 export default class SeasonsTabs extends Component {
 
@@ -35,7 +35,7 @@ export default class SeasonsTabs extends Component {
       episodeId: PropTypes.string,
       seasonId: PropTypes.string.isRequired
     }).isRequired,
-    push: PropTypes.func.isRequired
+    replaceRoute: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -52,7 +52,7 @@ export default class SeasonsTabs extends Component {
 
     // Select first episode if necessary
     if (!episodeId && episodes.get('data').size > 0) {
-      this.props.push(episodes.getIn([ 'data', 0, 'shareUrl' ]));
+      this.props.replaceRoute(episodes.getIn([ 'data', 0, 'shareUrl' ]));
     }
   }
 

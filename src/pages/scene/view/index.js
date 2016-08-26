@@ -46,6 +46,16 @@ export default class Scene extends Component {
     routerPush: PropTypes.func.isRequired,
     routerReplace: PropTypes.func.isRequired,
     scene: ImmutablePropTypes.mapContains({
+      characters: ImmutablePropTypes.listOf(
+        ImmutablePropTypes.mapContains({
+          avatarImage: ImmutablePropTypes.mapContains({
+            url: PropTypes.string.isRequired,
+            id: PropTypes.string.isRequired
+          }),
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired
+        }).isRequired
+      ),
       image: ImmutablePropTypes.mapContains({
         url: PropTypes.string,
         id: PropTypes.string
@@ -131,7 +141,8 @@ export default class Scene extends Component {
       position: 'absolute',
       right: '1.25em',
       textAlign: 'right',
-      top: '1.125em'
+      top: '1.125em',
+      zIndex: 100
     },
     products: {
       position: 'absolute',
@@ -231,7 +242,8 @@ export default class Scene extends Component {
       left: {
         [mediaQueries.medium]: {
           flex: '1 1 auto',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          paddingRight: '0.5em'
         }
       },
       right: {
@@ -360,14 +372,16 @@ export default class Scene extends Component {
             <div style={[ styles.image, scene.get('image') && { backgroundImage: `url("${scene.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
             <div style={styles.characters}>
               {scene.get('characters').take(8).map((character) =>
-                <div key={character.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}>
-                  <img
-                    alt={character.get('name')}
-                    key={character.get('id')}
-                    src={`${character.getIn([ 'image', 'url' ])}?height=90&width=90`}
-                    style={styles.subtileImage}
-                    title={character.get('name')}/>
-                </div>)}
+                <Link alt={character.get('name')} key={character.get('id')} title={character.get('name')} to={character.get('shareUrl')}>
+                  <div style={[ styles.subtile.base, styles.subtile.face ]}>
+                    <img
+                      alt={character.get('name')}
+                      key={character.get('id')}
+                      src={`${character.getIn([ 'avatarImage', 'url' ])}?height=90&width=90`}
+                      style={styles.subtileImage}
+                      title={character.get('name')} />
+                  </div>
+                </Link>)}
             </div>
             <div style={styles.markers}>
               {/* Display product of products with a position. Global products don't have a position. */}
@@ -416,7 +430,7 @@ export default class Scene extends Component {
     const { currentLocale, t } = this.props;
     return (
       <SmallContainer>
-        <p style={styles.emptyText}>{t('productDetail.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
+        <p style={styles.emptyText}>{t('common.notExist')} <Link style={styles.return} to={`/${currentLocale}`}>{t('common.return')}</Link></p>
       </SmallContainer>
     );
   }

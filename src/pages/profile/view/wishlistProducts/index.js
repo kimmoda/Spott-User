@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { colors, fontWeights, load, makeTextStyle, Money, Message, RadiumLink } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, formatPrice, load, makeTextStyle, Message, RadiumLink } from '../../../_common/buildingBlocks';
 import VerticalTiles from '../../../_common/verticalTiles';
 import { productsOfWishlistSelector } from '../../selector';
 import { loadProductsOfWishlist } from '../../actions';
@@ -72,7 +72,7 @@ class WishlistProduct extends Component {
         <RadiumLink style={itemStyles.container} to={item.get('shareUrl')}>
           <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }} />
           <p style={itemStyles.name}>{item.get('shortName') || '\u00a0'}</p>
-          <p style={itemStyles.price}><Money amount={item.getIn([ 'price', 'amount' ])} currency={item.getIn([ 'price', 'currency' ])} /></p>
+          <p style={itemStyles.price}>{formatPrice(item.get('price'))}</p>
         </RadiumLink>
       </BaseTile>
     ), null, () => <div>Not found</div>, () => <div>Not found</div>);

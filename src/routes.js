@@ -5,6 +5,8 @@ import { colors, SmallContainer } from './pages/_common/buildingBlocks';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
 import Cookies from './pages/cookies';
+import Character from './pages/character/view';
+import CharacterProducts from './pages/character/view/products';
 import Error404 from './pages/error404';
 import Home from './pages/home/view';
 import Login from './pages/login';
@@ -20,6 +22,7 @@ import Scene from './pages/scene/view';
 import SceneProduct from './pages/scene/view/productDetail';
 import Medium from './pages/medium/view';
 import MediumOverview from './pages/medium/view/overview';
+import MediumProducts from './pages/medium/view/products';
 import MediumSeasons from './pages/medium/view/seasons';
 import MediumEpisodes from './pages/medium/view/episodes';
 import MediumScenes from './pages/medium/view/scenes';
@@ -82,6 +85,25 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
         <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
+        <Route component={Character} path='character/:characterSlug/:characterId'>
+          <IndexRedirect to='products' />
+          <Route component={CharacterProducts} path='products' />
+        </Route>
+
+        <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
+          <IndexRoute
+            component={() => <div style={{
+              width: '100%',
+              paddingTop: '7.5em',
+              paddingBottom: '7.5em',
+              paddingLeft: '2.5em',
+              paddingRight: '2.5em',
+              backgroundColor: colors.whiteGray
+            }}><SmallContainer /></div>
+          } />
+          <Route component={SceneProduct} path='product/:productId' />
+        </Route>
+
         {/* Scenes */}
         <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
           <IndexRoute
@@ -98,16 +120,16 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         </Route>
 
         <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
-        <IndexRoute
-          component={() => <div style={{
-            width: '100%',
-            paddingTop: '7.5em',
-            paddingBottom: '7.5em',
-            paddingLeft: '2.5em',
-            paddingRight: '2.5em',
-            backgroundColor: colors.whiteGray
-          }}><SmallContainer /></div>
-        } />
+          <IndexRoute
+            component={() => <div style={{
+              width: '100%',
+              paddingTop: '7.5em',
+              paddingBottom: '7.5em',
+              paddingLeft: '2.5em',
+              paddingRight: '2.5em',
+              backgroundColor: colors.whiteGray
+            }}><SmallContainer /></div>
+          } />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 
@@ -115,6 +137,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Medium} mediumType={SERIES} path={'series/:mediumSlug/:mediumId'}>
           <IndexRedirect to='overview' />
           <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
+          <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={SERIES}>
             <Route component={MediumSeasons} path='season'>
               <Route component={MediumEpisodes} path=':seasonSlug/:seasonId'>
@@ -126,6 +149,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Medium} mediumType={MOVIE} path={'movie/:mediumSlug/:mediumId'}>
           <IndexRedirect to='overview' />
           <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
+          <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={MOVIE} path='scenes' />
         </Route>
 
