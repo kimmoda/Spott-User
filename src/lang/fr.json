@@ -167,12 +167,15 @@
     "scenes": {
       "tabName": "Scènes",
       "empty": "Il n'y a pas de scènes."
+    },
+    "products": {
+      "empty": "Il n'y a pas de produits à ce moment."
     }
   },
   "character": {
     "CHARACTER": "Character",
     "products": {
-      "empty": "There are no products related to this character right now.",
+      "empty": "Actuellement il n'y a pas de produits liés à ce personnage.",
       "title": "Produits"
     }
   },
@@ -187,7 +190,7 @@
     "continue": "Continuez"
   },
   "common": {
-    "empty": "There is nothing to display right now.",
+    "empty": "Il n'y rien à afficher pour l'instant.",
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
     "overview": "La vue générale",
     "products": "Produits",

@@ -77,7 +77,7 @@ export function transformCharacter ({ avatar, headerImage, name, shareUrl, subsc
     coverImage: headerImage && { id: headerImage.uuid, url: headerImage.url },
     id,
     name,
-    shareUrl,
+    shareUrl: stripDomain(shareUrl),
     subscribed,
     subscriberCount
   };

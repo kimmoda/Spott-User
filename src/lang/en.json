@@ -167,6 +167,9 @@
     "scenes": {
       "tabName": "Scenes",
       "empty": "There are no scenes."
+    },
+    "products": {
+      "empty": "There are no products for you right now."
     }
   },
   "character": {

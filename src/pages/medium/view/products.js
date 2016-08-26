@@ -57,7 +57,7 @@ export default class Products extends Component {
     return (
       <LoadComponent
         item={products}
-        renderEmpty={() => t('character.products.empty')}
+        renderEmpty={() => t('medium.products.empty')}
         renderInContainer={(children) => <ScalableContainer style={styles.messageContainer}>{children}</ScalableContainer>}
         renderItem={() => (
           <ScalableContainer style={styles.container}>

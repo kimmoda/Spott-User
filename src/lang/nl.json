@@ -167,6 +167,9 @@
     "scenes": {
       "tabName": "Scènes",
       "empty": "Er zijn geen scènes."
+    },
+    "products": {
+      "empty": "Momenteel zijn er geen producten om te tonen."
     }
   },
   "character": {
