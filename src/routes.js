@@ -5,6 +5,8 @@ import { colors, SmallContainer } from './pages/_common/buildingBlocks';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
 import Cookies from './pages/cookies';
+import Character from './pages/character/view';
+import CharacterProducts from './pages/character/view/products';
 import Error404 from './pages/error404';
 import Home from './pages/home/view';
 import Login from './pages/login';
@@ -82,6 +84,25 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
         <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
+        <Route component={Character} path='character/:characterSlug/:characterId'>
+          <IndexRedirect to='products' />
+          <Route component={CharacterProducts} path='products' />
+        </Route>
+
+        <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
+          <IndexRoute
+            component={() => <div style={{
+              width: '100%',
+              paddingTop: '7.5em',
+              paddingBottom: '7.5em',
+              paddingLeft: '2.5em',
+              paddingRight: '2.5em',
+              backgroundColor: colors.whiteGray
+            }}><SmallContainer /></div>
+          } />
+          <Route component={SceneProduct} path='product/:productId' />
+        </Route>
+
         {/* Scenes */}
         <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
           <IndexRoute
@@ -98,16 +119,16 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         </Route>
 
         <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
-        <IndexRoute
-          component={() => <div style={{
-            width: '100%',
-            paddingTop: '7.5em',
-            paddingBottom: '7.5em',
-            paddingLeft: '2.5em',
-            paddingRight: '2.5em',
-            backgroundColor: colors.whiteGray
-          }}><SmallContainer /></div>
-        } />
+          <IndexRoute
+            component={() => <div style={{
+              width: '100%',
+              paddingTop: '7.5em',
+              paddingBottom: '7.5em',
+              paddingLeft: '2.5em',
+              paddingRight: '2.5em',
+              backgroundColor: colors.whiteGray
+            }}><SmallContainer /></div>
+          } />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 

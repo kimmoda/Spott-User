@@ -156,13 +156,6 @@
   "medium": {
     "MOVIE": "Film",
     "TV_SERIE": "Show télévisé",
-    "follow": "Suivez",
-    "unfollow": "Désabonne",
-    "followers": {
-      "zero":  "Abonnés [[0]]",
-      "one":   "Abonnés [[1]]",
-      "other": "Abonnés [[%(count)s]]"
-    },
     "topProducts": {
       "empty": "Il n'y a pas de produits populaires à visualiser pour l'instant.",
       "title": "Produits %(title)s populaires"
@@ -176,6 +169,13 @@
       "empty": "Il n'y a pas de scènes."
     }
   },
+  "character": {
+    "CHARACTER": "Character",
+    "products": {
+      "empty": "There has no products related to this character right now.",
+      "title": "Produits"
+    }
+  },
   "scene": {
     "sceneFrom": "Scène de",
     "save": "Sauver",
@@ -187,10 +187,18 @@
     "continue": "Continuez"
   },
   "common": {
+    "empty": "There is nothing to display right now.",
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
     "overview": "La vue générale",
     "return": "Retournez à la page d’accueil.",
     "share": "Partager",
-    "unexpected": "Une erreur inattendue s'est produite. Nous nous excusons pour le désagrément."
+    "unexpected": "Une erreur inattendue s'est produite. Nous nous excusons pour le désagrément.",
+    "follow": "Suivez",
+    "unfollow": "Désabonne",
+    "followers": {
+      "zero":  "Abonnés [[0]]",
+      "one":   "Abonnés [[1]]",
+      "other": "Abonnés [[%(count)s]]"
+    }
   }
 }

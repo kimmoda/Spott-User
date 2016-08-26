@@ -108,7 +108,7 @@ const wrappedFetch = async function () {
         // window.location.reload();
         throw new UnexpectedError();
       case 404:
-        throw new NotFoundError(responseBody);
+        throw new NotFoundError('entity', responseBody);
       default:
         throw new UnexpectedError(null, responseBody);
     }

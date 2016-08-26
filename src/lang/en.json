@@ -156,13 +156,6 @@
   "medium": {
     "MOVIE": "Movie",
     "TV_SERIE": "Tv show",
-    "follow": "Follow",
-    "unfollow": "Unfollow",
-    "followers": {
-      "zero":  "Followers [[0]]",
-      "one":   "Followers [[1]]",
-      "other": "Followers [[%(count)s]]"
-    },
     "topProducts": {
       "empty": "There are no top products to show right now.",
       "title": "Top %(title)s Products"
@@ -176,6 +169,13 @@
       "empty": "There are no scenes."
     }
   },
+  "character": {
+    "CHARACTER": "Character",
+    "products": {
+      "empty": "There has no products related to this character right now.",
+      "title": "Products"
+    }
+  },
   "scene": {
     "sceneFrom": "Scene from",
     "save": "Save",
@@ -187,10 +187,18 @@
     "continue": "Continue"
   },
   "common": {
+    "empty": "There is nothing to display right now.",
     "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",
     "overview": "Overview",
     "return": "Return to home.",
     "share": "Share",
-    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience."
+    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience.",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": {
+      "zero":  "Followers [[0]]",
+      "one":   "Followers [[1]]",
+      "other": "Followers [[%(count)s]]"
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { get, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
+import { get } from './request';
 import { transformDetailedProduct, transformListProduct, transformShare } from './transformers';
 
 /**
@@ -34,36 +34,25 @@ export async function getProduct (baseUrl, authenticationToken, locale, { produc
  * @throws UnexpectedError
  */
 export async function getRecentlyAddedToWishlist (baseUrl, authenticationToken, locale, { userId }) {
-  try {
-    // TODO: currently 'Get all products that appear in a whishlist' https://appiness.atlassian.net/browse/SPOTBACK-440
-    // TODO: must become 'Recently added to my wish list section' https://appiness.atlassian.net/browse/SWEWBSITE-43
-    const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists/searches/products?pageSize=30`);
-    return data.map(transformListProduct);
-  } catch (error) {
-    switch (error.statusCode) {
-      case 403:
-        throw new UnauthorizedError();
-      case 404:
-        throw new NotFoundError('user', error);
-    }
-    throw new UnexpectedError(error);
-  }
+  // TODO: currently 'Get all products that appear in a whishlist' https://appiness.atlassian.net/browse/SPOTBACK-440
+  // TODO: must become 'Recently added to my wish list section' https://appiness.atlassian.net/browse/SWEWBSITE-43
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists/searches/products?pageSize=30`);
+  return data.map(transformListProduct);
 }
 
 // Returns only first 30 products.
 export async function getPopularProducts (baseUrl, authenticationToken, locale) {
-  try {
-    // TODO: currently 'Get the top products based on the number of times they were tagged' https://appiness.atlassian.net/browse/APPTCORE-253
-    // TODO: must become 'Get the top selling products for a medium' https://appiness.atlassian.net/browse/APPTCORE-252
-    const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/searches/popular?pageSize=30`);
-    return data.map(transformListProduct);
-  } catch (error) {
-    switch (error.statusCode) {
-      case 403:
-        throw new UnauthorizedError();
-    }
-    throw new UnexpectedError(error);
-  }
+  // TODO: currently 'Get the top products based on the number of times they were tagged' https://appiness.atlassian.net/browse/APPTCORE-253
+  // TODO: must become 'Get the top selling products for a medium' https://appiness.atlassian.net/browse/APPTCORE-252
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/searches/popular?pageSize=30`);
+  return data.map(transformListProduct);
+}
+
+// Returns only first 30 products.
+export async function getCharacterProducts (baseUrl, authenticationToken, locale, { characterId }) {
+  // Add paging
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/characters/${characterId}/products?pageSize=500`);
+  return { data: data.map(transformListProduct) };
 }
 
 /**
@@ -78,18 +67,8 @@ export async function getPopularProducts (baseUrl, authenticationToken, locale) 
  * @throws UnexpectedError
  */
 export async function getMediumProducts (baseUrl, authenticationToken, locale, { mediumId, page = 0 }) {
-  try {
-    const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/products?pageSize=50&page=${page}`);
-    return { data: data.map(transformListProduct) };
-  } catch (error) {
-    switch (error.statusCode) {
-      case 403:
-        throw new UnauthorizedError();
-      case 404:
-        throw new NotFoundError('medium', error);
-    }
-    throw new UnexpectedError(error);
-  }
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/products?pageSize=50&page=${page}`);
+  return { data: data.map(transformListProduct) };
 }
 
 /**
@@ -104,18 +83,8 @@ export async function getMediumProducts (baseUrl, authenticationToken, locale, {
  * @throws UnexpectedError
  */
 export async function getMediumTopUserProducts (baseUrl, authenticationToken, locale, { mediumId, page = 0 }) {
-  try {
-    const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/products?pageSize=50&page=${page}&userOnly=true`);
-    return { data: data.map(transformListProduct) };
-  } catch (error) {
-    switch (error.statusCode) {
-      case 403:
-        throw new UnauthorizedError();
-      case 404:
-        throw new NotFoundError('medium', error);
-    }
-    throw new UnexpectedError(error);
-  }
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/products?pageSize=50&page=${page}&userOnly=true`);
+  return { data: data.map(transformListProduct) };
 }
 
 /**

@@ -74,6 +74,7 @@ export default (state = fromJS({
     wishlists: {}
   },
   relations: {
+    characterHasProducts: {},
     mediumHasCharacters: {},
     mediumHasNewScenesForYou: {},
     mediumHasProducts: {},
@@ -140,6 +141,14 @@ export default (state = fromJS({
       return fetchRelationsSuccess(state, 'wishlistHasProducts', action.wishlistId, 'products', action.data.data);
     case actions.WISHLIST_PRODUCTS_FETCH_ERROR:
       return fetchRelationsError(state, 'wishlistHasProducts', action.wishlistId, action.error);
+
+    case actions.CHARACTER_PRODUCTS_FETCH_START:
+      return fetchRelationsStart(state, 'characterHasProducts', action.characterId);
+    case actions.CHARACTER_PRODUCTS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'characterHasProducts', action.characterId, 'products', action.data.data);
+    case actions.CHARACTER_PRODUCTS_FETCH_ERROR:
+      return fetchRelationsError(state, 'characterHasProducts', action.characterId, action.error);
 
     case actions.MEDIUM_PRODUCTS_FETCH_START:
       return fetchRelationsStart(state, 'mediumHasProducts', action.mediumId);
@@ -254,6 +263,13 @@ export default (state = fromJS({
 
     // Characters
     // //////////
+
+    case actions.CHARACTER_FETCH_START:
+      return fetchStart(state, [ 'entities', 'characters', action.characterId ]);
+    case actions.CHARACTER_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'characters', action.characterId ], action.data);
+    case actions.CHARACTER_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'characters', action.characterId ], action.error);
 
     case actions.MEDIUM_CHARACTERS_FETCH_START:
       return fetchRelationsStart(state, 'mediumHasCharacters', action.mediumId);

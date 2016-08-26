@@ -71,11 +71,15 @@ export function transformDetailedProduct ({ available, brand, description, longN
   };
 }
 
-export function transformCharacter ({ avatar, name, uuid: id }) {
+export function transformCharacter ({ avatar, headerImage, name, shareUrl, subscribed, subscriberCount, uuid: id }) {
   return {
+    avatarImage: avatar && { id: avatar.uuid, url: avatar.url },
+    coverImage: headerImage && { id: headerImage.uuid, url: headerImage.url },
     id,
-    image: avatar && { id: avatar.uuid, url: avatar.url },
-    name
+    name,
+    shareUrl,
+    subscribed,
+    subscriberCount
   };
 }
 

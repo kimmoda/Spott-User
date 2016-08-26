@@ -137,19 +137,19 @@ export default class Hero extends Component {
             <h4 style={styles.mediaType}>{t(`medium.${medium.get('type')}`)}</h4>
             <Title style={styles.title.large}>{medium.get('title')}</Title>
             <SectionTitle style={styles.title.medium}>
-              {t('medium.followers', { count: medium.get('subscriberCount') || 0 }, (contents, key) => {
+              {t('common.followers', { count: medium.get('subscriberCount') || 0 }, (contents, key) => {
                 return <span key={key} style={styles.emph}>{contents}</span>;
               })}
             </SectionTitle>
             {isAuthenticated
               ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={this.toggleFollow}>
-                  {medium.get('subscribed') ? t('medium.unfollow') : t('medium.follow')}
+                  {medium.get('subscribed') ? t('common.unfollow') : t('common.follow')}
                 </Button>
               : <Button style={[ pinkButtonStyle, styles.followButton.base ]} to={{
                 pathname: `/${currentLocale}/login`,
                 state: { modal: true, returnTo: currentPathname }
               }}>
-                {t('medium.follow')}
+                {t('common.follow')}
               </Button>}
           </Container>
           <Container>
