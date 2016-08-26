@@ -77,7 +77,7 @@ export function transformCharacter ({ avatar, headerImage, name, shareUrl, subsc
     coverImage: headerImage && { id: headerImage.uuid, url: headerImage.url },
     id,
     name,
-    shareUrl,
+    shareUrl: stripDomain(shareUrl),
     subscribed,
     subscriberCount
   };
@@ -174,5 +174,5 @@ export function transformScene (data) {
 }
 
 export function transformShare ({ body, image, title, url }) {
-  return { description: body, image: { id: image.uuid, url: image.url }, title, url };
+  return { description: body, image: image && { id: image.uuid, url: image.url }, title, url };
 }

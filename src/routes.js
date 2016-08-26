@@ -22,6 +22,7 @@ import Scene from './pages/scene/view';
 import SceneProduct from './pages/scene/view/productDetail';
 import Medium from './pages/medium/view';
 import MediumOverview from './pages/medium/view/overview';
+import MediumProducts from './pages/medium/view/products';
 import MediumSeasons from './pages/medium/view/seasons';
 import MediumEpisodes from './pages/medium/view/episodes';
 import MediumScenes from './pages/medium/view/scenes';
@@ -136,6 +137,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Medium} mediumType={SERIES} path={'series/:mediumSlug/:mediumId'}>
           <IndexRedirect to='overview' />
           <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
+          <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={SERIES}>
             <Route component={MediumSeasons} path='season'>
               <Route component={MediumEpisodes} path=':seasonSlug/:seasonId'>
@@ -147,6 +149,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Medium} mediumType={MOVIE} path={'movie/:mediumSlug/:mediumId'}>
           <IndexRedirect to='overview' />
           <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
+          <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={MOVIE} path='scenes' />
         </Route>
 

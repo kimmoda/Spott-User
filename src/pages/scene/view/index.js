@@ -55,7 +55,7 @@ export default class Scene extends Component {
           id: PropTypes.string.isRequired,
           name: PropTypes.string.isRequired
         }).isRequired
-      ).isRequired,
+      ),
       image: ImmutablePropTypes.mapContains({
         url: PropTypes.string,
         id: PropTypes.string
@@ -74,7 +74,7 @@ export default class Scene extends Component {
           }),
           shortName: PropTypes.string.isRequired
         }).isRequired
-      ).isRequired,
+      ),
       shareUrl: PropTypes.string
     }),
     t: PropTypes.func.isRequired,
@@ -242,7 +242,8 @@ export default class Scene extends Component {
       left: {
         [mediaQueries.medium]: {
           flex: '1 1 auto',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          paddingRight: '0.5em'
         }
       },
       right: {

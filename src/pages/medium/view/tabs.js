@@ -26,6 +26,7 @@ export default class Tabs extends Component {
         <Container>
           <Submenu>
             <SubmenuItem key='overview' name={t('common.overview')} pathname={`${medium.get('shareUrl')}/overview`} />
+            <SubmenuItem key='products' name={t('common.products')} pathname={`${medium.get('shareUrl')}/products`} />
             <SubmenuItem key='scenes' name={t('medium.scenes.tabName')} pathname={`${medium.get('shareUrl')}/${medium.get('type') === SERIES ? 'season' : 'scenes'}`} />
           </Submenu>
         </Container>

@@ -137,9 +137,9 @@ export default class Hero extends Component {
             <h4 style={styles.mediaType}>{t(`medium.${medium.get('type')}`)}</h4>
             <Title style={styles.title.large}>{medium.get('title')}</Title>
             <SectionTitle style={styles.title.medium}>
-              {t('common.followers', { count: medium.get('subscriberCount') || 0 }, (contents, key) => {
-                return <span key={key} style={styles.emph}>{contents}</span>;
-              })}
+              {t('common.followers', { count: medium.get('subscriberCount') || 0 }, (contents, key) => (
+                <span key={key} style={styles.emph}>{contents}</span>
+              ))}
             </SectionTitle>
             {isAuthenticated
               ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={this.toggleFollow}>

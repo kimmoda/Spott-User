@@ -167,12 +167,15 @@
     "scenes": {
       "tabName": "Scenes",
       "empty": "There are no scenes."
+    },
+    "products": {
+      "empty": "There are no products for you right now."
     }
   },
   "character": {
     "CHARACTER": "Character",
     "products": {
-      "empty": "There has no products related to this character right now.",
+      "empty": "There are no products related to this character right now.",
       "title": "Products"
     }
   },
@@ -190,6 +193,7 @@
     "empty": "There is nothing to display right now.",
     "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",
     "overview": "Overview",
+    "products": "Products",
     "return": "Return to home.",
     "share": "Share",
     "unexpected": "An unexpected error occurred. We're sorry for the inconvenience.",
