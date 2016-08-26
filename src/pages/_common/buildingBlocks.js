@@ -169,10 +169,11 @@ class RemoveBodyScrollbar extends Component {
     children: PropTypes.node
   }
   componentDidMount () {
+    this._originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
   }
   componentWillUnmount () {
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = this._originalOverflow;
   }
   render () {
     return this.props.children;

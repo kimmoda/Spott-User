@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { replace as routeReplace } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Submenu, SubmenuItem } from '../../_common/buildingBlocks';
 import { seasonsSelector } from '../selector';
@@ -18,7 +18,7 @@ const styles = {
 
 @connect(seasonsSelector, (dispatch) => ({
   loadSeasons: bindActionCreators(loadSeasons, dispatch),
-  push: bindActionCreators(push, dispatch)
+  routeReplace: bindActionCreators(routeReplace, dispatch)
 }))
 export default class SeasonsTabs extends Component {
 
@@ -29,7 +29,7 @@ export default class SeasonsTabs extends Component {
       mediumId: PropTypes.string.isRequired,
       seasonId: PropTypes.string
     }).isRequired,
-    push: PropTypes.func.isRequired,
+    routeReplace: PropTypes.func.isRequired,
     seasons: ImmutablePropTypes.mapContains({
       _status: PropTypes.string.isRequired,
       data: ImmutablePropTypes.listOf(
@@ -54,9 +54,9 @@ export default class SeasonsTabs extends Component {
       this.props.loadSeasons(mediumId);
     }
 
-    // Select first season if necessary
+    // Replace current route by the first season if necessary.
     if (!seasonId && seasons.get('data').size > 0) {
-      this.props.push(seasons.getIn([ 'data', 0, 'shareUrl' ]));
+      this.props.routeReplace(seasons.getIn([ 'data', 0, 'shareUrl' ]));
     }
   }
 
