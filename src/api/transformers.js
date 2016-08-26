@@ -174,5 +174,5 @@ export function transformScene (data) {
 }
 
 export function transformShare ({ body, image, title, url }) {
-  return { description: body, image: { id: image.uuid, url: image.url }, title, url };
+  return { description: body, image: image && { id: image.uuid, url: image.url }, title, url };
 }

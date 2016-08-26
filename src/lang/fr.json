@@ -172,7 +172,7 @@
   "character": {
     "CHARACTER": "Character",
     "products": {
-      "empty": "There has no products related to this character right now.",
+      "empty": "There are no products related to this character right now.",
       "title": "Produits"
     }
   },
@@ -190,6 +190,7 @@
     "empty": "There is nothing to display right now.",
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
     "overview": "La vue générale",
+    "products": "Produits",
     "return": "Retournez à la page d’accueil.",
     "share": "Partager",
     "unexpected": "Une erreur inattendue s'est produite. Nous nous excusons pour le désagrément.",

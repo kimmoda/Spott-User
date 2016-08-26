@@ -67,6 +67,12 @@ export async function getCharacterProducts (baseUrl, authenticationToken, locale
  * @throws UnexpectedError
  */
 export async function getMediumProducts (baseUrl, authenticationToken, locale, { mediumId, page = 0 }) {
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/products?pageSize=500&page=${page}`);
+  return { data: data.map(transformListProduct) };
+}
+
+// TODO: update API call, currently we fetch the medium products instead of the top medium products.
+export async function getMediumTopProducts (baseUrl, authenticationToken, locale, { mediumId, page = 0 }) {
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/products?pageSize=50&page=${page}`);
   return { data: data.map(transformListProduct) };
 }

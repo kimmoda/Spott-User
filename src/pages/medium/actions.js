@@ -1,7 +1,7 @@
 import {
   addMediumSubscriber, fetchMediumScenes, fetchMediumEpisodes, fetchMediumSeasons,
   fetchMediumCharacters, fetchMediumNewScenesForYou, fetchMediumProducts,
-  fetchMediumTopUserProducts, fetchMedium, removeMediumSubscriber
+  fetchMediumTopUserProducts, fetchMediumTopProducts, fetchMedium, removeMediumSubscriber
 } from '../../data/actions';
 import { currentUserIdSelector } from '../app/selector';
 import { currentMediumSelector } from './selector';
@@ -26,55 +26,46 @@ export function toggleFollow (mediumId) {
 }
 
 export function loadMedium (mediumType, mediumId) {
-  return async (dispatch, getState) => {
-    return await dispatch(fetchMedium({ mediumId, mediumType }));
-  };
+  return fetchMedium({ mediumId, mediumType });
 }
 
 export function loadCharacters (mediumId) {
-  return async (dispatch) => {
-    return await dispatch(fetchMediumCharacters({ mediumId }));
-  };
+  return fetchMediumCharacters({ mediumId });
 }
 
 // Overview
 // ////////
 
 export function loadTopProducts (mediumId) {
-  return async (dispatch) => {
-    return await dispatch(fetchMediumProducts({ mediumId }));
-  };
+  return fetchMediumTopProducts({ mediumId });
 }
 
 export function loadTopUserProducts (mediumId) {
-  return async (dispatch) => {
-    return await dispatch(fetchMediumTopUserProducts({ mediumId }));
-  };
+  return fetchMediumTopUserProducts({ mediumId });
 }
 
 export function loadNewScenesForYou (mediumId) {
-  return async (dispatch) => {
-    return await dispatch(fetchMediumNewScenesForYou({ mediumId }));
-  };
+  return fetchMediumNewScenesForYou({ mediumId });
 }
 
 // Scenes
 // //////
 
 export function loadSeasons (mediumId) {
-  return async (dispatch) => {
-    return await dispatch(fetchMediumSeasons({ mediumId }));
-  };
+  return fetchMediumSeasons({ mediumId });
 }
 
 export function loadEpisodes (mediumId) {
-  return async (dispatch) => {
-    return await dispatch(fetchMediumEpisodes({ mediumId }));
-  };
+  return fetchMediumEpisodes({ mediumId });
 }
 
 export function loadMediumScenes (mediumId) {
-  return async (dispatch) => {
-    return await dispatch(fetchMediumScenes({ mediumId }));
-  };
+  return fetchMediumScenes({ mediumId });
+}
+
+// Products
+// ////////
+
+export function loadMediumProducts (mediumId) {
+  return fetchMediumProducts({ mediumId });
 }

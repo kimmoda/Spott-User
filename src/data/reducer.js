@@ -81,6 +81,7 @@ export default (state = fromJS({
     mediumHasSeasons: {},
     mediumHasEpisodes: {},
     mediumHasScenes: {},
+    mediumHasTopProducts: {},
     mediumHasTopUserProducts: {},
     userHasSavedScenes: {},
     userHasWishlists: {},
@@ -157,6 +158,14 @@ export default (state = fromJS({
       return fetchRelationsSuccess(state, 'mediumHasProducts', action.mediumId, 'products', action.data.data);
     case actions.MEDIUM_PRODUCTS_FETCH_ERROR:
       return fetchRelationsError(state, 'mediumHasProducts', action.mediumId, action.error);
+
+    case actions.MEDIUM_TOP_PRODUCTS_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasTopProducts', action.mediumId);
+    case actions.MEDIUM_TOP_PRODUCTS_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchRelationsSuccess(state, 'mediumHasTopProducts', action.mediumId, 'products', action.data.data);
+    case actions.MEDIUM_TOP_PRODUCTS_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasTopProducts', action.mediumId, action.error);
 
     case actions.MEDIUM_SEASONS_FETCH_START:
       return fetchRelationsStart(state, 'mediumHasSeasons', action.mediumId);
