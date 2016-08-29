@@ -50,6 +50,24 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     }
   */
 
+  function getBrowserLanguage () {
+    // Detect language, fall back to 'en'
+    let detectedLanguage =
+      (navigator.languages && navigator.languages[0]) ||
+      navigator.language ||
+      navigator.userLanguage ||
+      'en';
+    // Remove region of detected locale
+    if (/^[a-z]{2}\-[a-zA-Z]{2}$/.test(detectedLanguage)) {
+      detectedLanguage = detectedLanguage.substring(0, 2).toLowerCase();
+    }
+    // Ensure that we know the detected language, otherwise fall back to 'en'.
+    if (locales.includes(detectedLanguage)) {
+      return detectedLanguage;
+    }
+    return 'en';
+  }
+
   function onRootEnter (state, replace) {
     const { location } = state;
     // Hash url for terms and privacy will be replaced by a url without a hash!
@@ -174,7 +192,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
   return (
     <Route component={App} path='/' onEnter={onRootEnter}>
-      <IndexRedirect to='/en' />
+      <IndexRedirect to={`/${getBrowserLanguage()}`} />
       {locales.map((locale) => makeLocalizedRoutes(locale))}
 
       <Route component={Error404} path='*' showCookies={false} />
