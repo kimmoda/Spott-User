@@ -135,12 +135,13 @@ export function transformEpisode ({ number, profileImage, shareUrl, title, uuid:
   };
 }
 
-function transformSceneProduct ({ image, position, price, shortName, uuid: id }) {
+function transformSceneProduct ({ image, position, price, relevance, shortName, uuid: id }) {
   return {
     id,
     image: image && { id: image.uuid, url: image.url },
     position,
     price,
+    relevance,
     shortName
   };
 }

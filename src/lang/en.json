@@ -189,6 +189,11 @@
     "policy": "We adapted our [[terms]] and [[privacy regulations]].",
     "continue": "Continue"
   },
+  "relevance": {
+    "EXACT": "Exact match",
+    "MEDIUM": "Medium match",
+    "LOW": "Low match"
+  },
   "common": {
     "empty": "There is nothing to display right now.",
     "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",

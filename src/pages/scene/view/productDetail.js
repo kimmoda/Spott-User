@@ -216,7 +216,36 @@ export default class ProductDetail extends Component {
     },
     spinner: {
       marginTop: '2.5em'
+    },
+    relevance: {
+      base: {
+        ...makeTextStyle(fontWeights.bold, '0.625em', '0.125em'),
+        borderRadius: '6.25em',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        padding: '0.25em 0.688em',
+        textTransform: 'uppercase',
+        marginRight: '1em'
+      },
+      EXACT: {
+        borderColor: colors.green,
+        color: colors.green
+      },
+      MEDIUM: {
+        borderColor: colors.yellow,
+        color: colors.yellow
+      },
+      LOW: {
+        borderColor: colors.darkPink,
+        color: colors.darkPink
+      }
     }
+  }
+
+  renderRelevance (relevance) {
+    const styles = this.constructor.styles;
+    const { t } = this.props;
+    return relevance && relevance !== 'NONE' && <span style={[ styles.relevance.base, styles.relevance[relevance] ]}>{t(`relevance.${relevance}`)}</span>;
   }
 
   renderProduct () {
@@ -250,7 +279,7 @@ export default class ProductDetail extends Component {
             <div style={styles.right}>
               <div>
                 <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
-                <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
+                <p style={styles.details.brand.label}>{this.renderRelevance(product.get('relevance'))}{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
                 {product.get('description') &&
                   <p style={styles.details.productDescription}>{product.get('description')}</p>}
                 <h2 style={styles.details.price}>
@@ -308,6 +337,7 @@ export default class ProductDetail extends Component {
 
   render () {
     const { styles } = this.constructor;
+    console.warn('product', this.props.product.toJS());
     return load(this.props.product, this.renderProduct, () => <div style={styles.productInfo}><SmallContainer style={styles.spinner}><Spinner /></SmallContainer></div>, this.renderNotFoundError, this.renderUnexpectedError);
   }
 
