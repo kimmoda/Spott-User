@@ -39,7 +39,7 @@ export default class NewScenesForYou extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { scenes, t } = this.props;
+    const { location, scenes, t } = this.props;
     return (
       <div style={styles.wrapper}>
         <Container>
@@ -48,7 +48,7 @@ export default class NewScenesForYou extends Component {
             renderEmptyComponent={() => <Message>{t('home.newScenesForYou.empty')}</Message>}
             renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
-            tileProps={{ showDetails: true }}
+            tileProps={{ showDetails: true, location }}
             title={t('home.newScenesForYou.title')} />
         </Container>
       </div>

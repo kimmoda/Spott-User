@@ -99,7 +99,7 @@ export class SceneTile extends Component {
       left: 0,
       bottom: 0,
       right: 0,
-      backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
+      backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.498039))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
     },
     details: {
@@ -144,7 +144,7 @@ export class SceneTile extends Component {
       right: '1.818em',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      ...makeTextStyle(fontWeights.regular, '0.6875em', '0.318em'),
+      ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
       color: '#ffffff',
       textTransform: 'uppercase',
       top: '1.125em',
@@ -157,7 +157,7 @@ export class SceneTile extends Component {
       right: '1.818em',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      ...makeTextStyle(fontWeights.regular, '0.6875em', '0.318em'),
+      ...makeTextStyle(fontWeights.regular, '0.6875em', '0.219em'),
       color: '#ffffff',
       textTransform: 'uppercase',
       [mediaQueries.large]: {
@@ -165,7 +165,7 @@ export class SceneTile extends Component {
       }
     },
     textHighlight: {
-      ...makeTextStyle(fontWeights.bold, '1em', '0.318em')
+      ...makeTextStyle(fontWeights.bold, '1em', '0.219em')
     },
     line: {
       position: 'absolute',
@@ -250,7 +250,12 @@ export class SceneTile extends Component {
         <div style={styles.line} />
         <div style={styles.products}>{item.get('products').take(8).filter((p) => p.get('image')).map((product) =>
           <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
-            <img alt={product.get('shortName')} key={product.get('id')} src={product.getIn([ 'image', 'url' ])} style={styles.subtileImage} title={product.get('shortName')}/>
+            <RadiumLink key={product.get('id')} title={product.get('shortName')} to={{
+              pathname: `${item.get('shareUrl')}/product/${product.get('id')}`,
+              state: { modal: true, returnTo: (location && location.pathname) || '/' }
+            }}>
+              <img alt={product.get('shortName')} key={product.get('id')} src={product.getIn([ 'image', 'url' ])} style={styles.subtileImage} />
+            </RadiumLink>
           </div>)}
         </div>
         {(() => {
@@ -282,7 +287,6 @@ export class SceneTile extends Component {
   render () {
     const { styles } = this.constructor;
     const { item, location, style, showDetails } = this.props;
-
     return (
       <BaseTile style={style}>
         <RadiumLink key={item.get('id')} style={styles.wrapper} to={{
