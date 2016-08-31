@@ -3,17 +3,25 @@ import React, { Component, PropTypes } from 'react';
 import { fontWeights, makeTextStyle, mediaQueries, RadiumLink } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
-// import Marker from './_marker';
+import Marker from './_marker';
 import localized from '../localized';
 import hoverable from '../hoverable';
 import makeTiles from './_makeTiles';
+import { fetchScene } from '../../../data/actions';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+@connect(undefined, (dispatch) => ({
+  fetchScene: bindActionCreators(fetchScene, dispatch)
+}))
 @localized
 @hoverable
 @Radium
 export class SceneTile extends Component {
 
   static propTypes = {
+    fetchScene: PropTypes.func,
     hovered: PropTypes.bool.isRequired,
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
@@ -56,6 +64,14 @@ export class SceneTile extends Component {
   constructor (props) {
     super(props);
     this.renderDetails = ::this.renderDetails;
+    this.onHoverChange = ::this.onHoverChange;
+  }
+
+  onHoverChange (hovered) {
+    if (this.props.showDetails && hovered && this.props.item.get('_summary')) {
+      // Fetch all scene data, including appearances
+      this.props.fetchScene({ sceneId: this.props.item.get('id') });
+    }
   }
 
   static styles = {
@@ -174,15 +190,19 @@ export class SceneTile extends Component {
       position: 'absolute',
       left: '1.25em',
       right: '1.25em',
-      bottom: '1.125em'
+      bottom: '1.125em',
+      height: '2em',
+      overflow: 'hidden'
     },
     subtile: {
       base: {
+        backgroundColor: 'white',
         height: '2em',
+        float: 'left',
         position: 'relative',
-        display: 'inline-block',
         opacity: 0.98,
         width: '2em',
+        marginBottom: '3em',
         [mediaQueries.large]: {
           width: '2.5em',
           height: '2.5em'
@@ -219,21 +239,20 @@ export class SceneTile extends Component {
 
     return (
       <div key='details' style={[ styles.details.base, hovered && styles.details.hovered ]}>
-        {/*
-        <div>{item.get('markers').map((marker) =>
-          <Marker key={marker.get('id')} relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}
-        </div>*/}
+        <div>{item.get('products').map((product) =>
+          <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />)}
+        </div>
         {/* <div style={styles.faces}>{item.get('faces').take(4).map((face) =>
           <div key={face.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}>
             <img alt={face.get('name')} key={face.get('id')} src={face.get('image')} style={styles.subtileImage} title={face.get('name')}/>
           </div>)}
         </div>*/}
         <div style={styles.line} />
-        {/* <div style={styles.products}>{item.get('products').take(8).map((product) =>
+        <div style={styles.products}>{item.get('products').take(8).filter((p) => p.get('image')).map((product) =>
           <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
-            <img alt={product.get('name')} key={product.get('id')} src={product.get('image')} style={styles.subtileImage} title={product.get('name')}/>
+            <img alt={product.get('shortName')} key={product.get('id')} src={product.getIn([ 'image', 'url' ])} style={styles.subtileImage} title={product.get('shortName')}/>
           </div>)}
-        </div> */}
+        </div>
         {(() => {
           if (item.get('episode')) { // Scene from an episode
             return (

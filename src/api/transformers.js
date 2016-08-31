@@ -153,6 +153,7 @@ export function transformScene (data) {
     image: image && { id: image.uuid, url: image.url },
     // TODO: add pagination, probably not needed because there are no more then 100 products on a scene...
     products: ((products && products.data) || []).map(transformSceneProduct),
+    _summary: !(products && products.data) || !(characters && characters.data),
     saved,
     shareUrl: stripDomain(shareUrl)
   };
