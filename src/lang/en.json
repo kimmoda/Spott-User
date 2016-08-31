@@ -16,7 +16,8 @@
       "home": "Home"
     },
     "sceneTiles": {
-      "sceneFrom": "Scene from Season [[%(season)i]] – Episode [[%(episode)i]]"
+      "sceneFromEpisode": "Scene from Season [[%(season)i]] – Episode [[%(episode)i]]",
+      "sceneFromMovie": "Scene from [[%(movie)s]]"
     }
   },
   "changePassword": {

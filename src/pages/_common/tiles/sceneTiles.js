@@ -3,15 +3,26 @@ import React, { Component, PropTypes } from 'react';
 import { fontWeights, makeTextStyle, mediaQueries, RadiumLink } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
-// import Marker from './_marker';
+import Marker from './_marker';
 import localized from '../localized';
+import hoverable from '../hoverable';
 import makeTiles from './_makeTiles';
+import { fetchScene } from '../../../data/actions';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+@connect(undefined, (dispatch) => ({
+  fetchScene: bindActionCreators(fetchScene, dispatch)
+}))
 @localized
+@hoverable
 @Radium
 export class SceneTile extends Component {
 
   static propTypes = {
+    fetchScene: PropTypes.func,
+    hovered: PropTypes.bool.isRequired,
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
       image: ImmutablePropTypes.mapContains({
@@ -45,9 +56,23 @@ export class SceneTile extends Component {
     }).isRequired,
     // The location to return to if the popup closes.
     location: PropTypes.object,
+    showDetails: PropTypes.bool,
     style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
+
+  constructor (props) {
+    super(props);
+    this.renderDetails = ::this.renderDetails;
+    this.onHoverChange = ::this.onHoverChange;
+  }
+
+  onHoverChange (hovered) {
+    if (this.props.showDetails && hovered && this.props.item.get('_summary')) {
+      // Fetch all scene data, including appearances
+      this.props.fetchScene({ sceneId: this.props.item.get('id') });
+    }
+  }
 
   static styles = {
     wrapper: {
@@ -74,8 +99,18 @@ export class SceneTile extends Component {
       left: 0,
       bottom: 0,
       right: 0,
-      backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
+      backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.498039))',
       pointerEvents: 'none' // Don't capture pointer events. "Click through..."
+    },
+    details: {
+      base: {
+        opacity: 0,
+        transition: 'opacity 0.5s ease-in'
+      },
+      hovered: {
+        transition: 'opacity 0.5s ease-out',
+        opacity: 1
+      }
     },
     image: {
       backgroundSize: 'cover',
@@ -95,6 +130,7 @@ export class SceneTile extends Component {
       bottom: 0,
       overflow: 'hidden'
     },
+    /* TODO: replaced by text for now
     seriesLogo: {
       position: 'absolute',
       maxWidth: '5.1875em',
@@ -102,6 +138,17 @@ export class SceneTile extends Component {
       filter: 'brightness(0) invert(1)',
       top: '1.125em',
       left: '1.25em'
+    }, */
+    seriesText: {
+      position: 'absolute',
+      right: '1.818em',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      ...makeTextStyle(fontWeights.bold, '0.688em', '0.219em'),
+      color: '#ffffff',
+      textTransform: 'uppercase',
+      top: '1.125em',
+      left: '1.818em'
     },
     text: {
       position: 'absolute',
@@ -110,7 +157,7 @@ export class SceneTile extends Component {
       right: '1.818em',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      ...makeTextStyle(fontWeights.regular, '0.6875em', '0.318em'),
+      ...makeTextStyle(fontWeights.regular, '0.6875em', '0.219em'),
       color: '#ffffff',
       textTransform: 'uppercase',
       [mediaQueries.large]: {
@@ -118,7 +165,7 @@ export class SceneTile extends Component {
       }
     },
     textHighlight: {
-      ...makeTextStyle(fontWeights.bold, '1em', '0.318em')
+      ...makeTextStyle(fontWeights.bold, '1em', '0.219em')
     },
     line: {
       position: 'absolute',
@@ -143,15 +190,19 @@ export class SceneTile extends Component {
       position: 'absolute',
       left: '1.25em',
       right: '1.25em',
-      bottom: '1.125em'
+      bottom: '1.125em',
+      height: '2em',
+      overflow: 'hidden'
     },
     subtile: {
       base: {
+        backgroundColor: 'white',
         height: '2em',
+        float: 'left',
         position: 'relative',
-        display: 'inline-block',
         opacity: 0.98,
         width: '2em',
+        marginBottom: '3em',
         [mediaQueries.large]: {
           width: '2.5em',
           height: '2.5em'
@@ -182,10 +233,60 @@ export class SceneTile extends Component {
     }
   };
 
+  renderDetails () {
+    const { styles } = this.constructor;
+    const { hovered, item, t } = this.props;
+
+    return (
+      <div key='details' style={[ styles.details.base, hovered && styles.details.hovered ]}>
+        <div>{item.get('products').map((product) =>
+          <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />)}
+        </div>
+        {/* <div style={styles.faces}>{item.get('faces').take(4).map((face) =>
+          <div key={face.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}>
+            <img alt={face.get('name')} key={face.get('id')} src={face.get('image')} style={styles.subtileImage} title={face.get('name')}/>
+          </div>)}
+        </div>*/}
+        <div style={styles.line} />
+        <div style={styles.products}>{item.get('products').take(8).filter((p) => p.get('image')).map((product) =>
+          <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
+            <RadiumLink key={product.get('id')} title={product.get('shortName')} to={{
+              pathname: `${item.get('shareUrl')}/product/${product.get('id')}`,
+              state: { modal: true, returnTo: (location && location.pathname) || '/' }
+            }}>
+              <img alt={product.get('shortName')} key={product.get('id')} src={product.getIn([ 'image', 'url' ])} style={styles.subtileImage} />
+            </RadiumLink>
+          </div>)}
+        </div>
+        {(() => {
+          if (item.get('episode')) { // Scene from an episode
+            return (
+              <div>
+                <p style={styles.text}>
+                  {t('_common.sceneTiles.sceneFromEpisode', { episode: item.getIn([ 'episode', 'number' ]), season: item.getIn([ 'season', 'number' ]) }, (contents, key) => {
+                    return <span key={key} style={styles.textHighlight}>{contents}</span>;
+                  })}
+                </p>
+                {<p style={styles.seriesText}>{item.getIn([ 'series', 'title' ])}</p>}
+              </div>
+            );
+          } else if (item.get('movie')) { // Scene from a movie
+            return (
+              <p style={styles.text}>
+                {t('_common.sceneTiles.sceneFromMovie', { movie: item.getIn([ 'movie', 'title' ]) }, (contents, key) => {
+                  return <span key={key} style={styles.textHighlight}>{contents}</span>;
+                })}
+              </p>
+            );
+          }
+        })()}
+      </div>
+    );
+  }
+
   render () {
     const { styles } = this.constructor;
-    const { item, location, style /* , t */ } = this.props;
-
+    const { item, location, style, showDetails } = this.props;
     return (
       <BaseTile style={style}>
         <RadiumLink key={item.get('id')} style={styles.wrapper} to={{
@@ -195,30 +296,7 @@ export class SceneTile extends Component {
           <div style={styles.container}>
             <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
             <div style={styles.layer} />
-            {/* TODO: add
-             <div>
-              <div>{item.get('markers').map((marker) =>
-                <Marker key={marker.get('id')} relativeLeft={marker.get('relativeLeft')} relativeTop={marker.get('relativeTop')} />)}
-              </div>
-              <div style={styles.faces}>{item.get('faces').take(4).map((face) =>
-                <div key={face.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}>
-                  <img alt={face.get('name')} key={face.get('id')} src={face.get('image')} style={styles.subtileImage} title={face.get('name')}/>
-                </div>)}
-              </div>
-              <div style={styles.line} />
-              <div style={styles.products}>{item.get('products').take(8).map((product) =>
-                <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
-                  <img alt={product.get('name')} key={product.get('id')} src={product.get('image')} style={styles.subtileImage} title={product.get('name')}/>
-                </div>)}
-              </div>
-              <p style={styles.text}>
-                {t('_common.sceneTiles.sceneFrom', { episode: item.get('episode'), season: item.get('season') }, (contents, key) => {
-                  return <span key={key} style={styles.textHighlight}>{contents}</span>;
-                })}
-              </p>
-              {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
-            </div>
-            */}
+            {showDetails && this.renderDetails()}
           </div>
         </RadiumLink>
       </BaseTile>

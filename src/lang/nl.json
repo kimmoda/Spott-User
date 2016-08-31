@@ -16,7 +16,8 @@
       "home": "Home"
     },
     "sceneTiles": {
-      "sceneFrom": "Scène van seizoen [[%(season)i]] – Aflevering [[%(episode)i]]"
+      "sceneFromEpisode": "Scène van seizoen [[%(season)i]] – Aflevering [[%(episode)i]]",
+      "sceneFromMovie": "Scène van [[%(movie)s]]"
     }
   },
   "changePassword": {
@@ -137,7 +138,7 @@
     },
     "menu": {
       "savedScenes": "Bewaarde Scènes",
-      "wishlists": "Verlanglijst"
+      "wishlists": "Verlanglijsten"
     },
     "savedScenes": {
       "empty": "Deze lijst is leeg."

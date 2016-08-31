@@ -35,7 +35,7 @@ export class SmallEpisodeTile extends Component {
       backgroundColor: colors.dark,
       backgroundPosition: 'center center',
       backgroundSize: 'cover',
-      borderRadius: '0.25em',
+      borderRadius: '0.325em',
       bottom: 0,
       left: 0,
       position: 'absolute',
@@ -102,7 +102,7 @@ export class SmallEpisodeTile extends Component {
       </div>
     );
     return (
-      <BaseTile style={style}>
+      <BaseTile innerStyle={{ backgroundColor: 'transparent' }} style={style}>
         <Link activeStyle={styles.link.active} style={styles.link.base} title={item.get('title')} to={item.get('shareUrl')} >{children}</Link>
       </BaseTile>
     );
