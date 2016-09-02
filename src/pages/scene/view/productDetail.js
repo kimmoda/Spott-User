@@ -7,7 +7,6 @@ import { Map } from 'immutable';
 import { colors, load, formatPrice, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, Button, SmallContainer, ShareButton, Spinner } from '../../_common/buildingBlocks';
 import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
-import FacebookShareData from '../../_common/facebookShareData';
 import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
@@ -298,11 +297,9 @@ export default class ProductDetail extends Component {
               </div>
             </div>
             <div style={styles.clear} />
-            {/* TODO: Didier will provide title, description and maybe images for sharing */}
-            <FacebookShareData
-              description={product.get('description') || ''}
-              imageUrls={product.get('images') && product.get('images').map((image) => image.get('url')).toJS()}
-              title={product.get('shortName')} url={window.location.href} />
+            {/* We do not update the share information in the headers because
+                this page is used in context of a scene, which is the primary target
+                to share. If a product is shared we use the product page. */}
           </SmallContainer>
         </div>
         <div style={styles.similarProducts}>
