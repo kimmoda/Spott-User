@@ -190,6 +190,11 @@
     "policy": "Nous avons adaptés nos [[conditions générales]] et notre [[protection des données]].",
     "continue": "Continuez"
   },
+  "relevance": {
+    "EXACT": "Exact match",
+    "MEDIUM": "Medium match",
+    "LOW": "Low match"
+  },
   "common": {
     "empty": "Il n'y rien à afficher pour l'instant.",
     "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",

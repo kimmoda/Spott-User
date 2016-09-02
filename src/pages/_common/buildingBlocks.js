@@ -25,7 +25,8 @@ export const colors = {
   slateGray: '#59575c',
   whiteThree: '#e9e9e9',
   whiteTwo: '#fcfcfc',
-  white: '#ffffff'
+  white: '#ffffff',
+  yellow: '#f6bf26'
 };
 
 export const fontWeights = {

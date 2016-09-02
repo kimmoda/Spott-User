@@ -190,6 +190,11 @@
     "policy": "Wij hebben onze [[gebruiksvoorwaarden]] en [[privacybeleid]] aangepast.",
     "continue": "Verdergaan"
   },
+  "relevance": {
+    "EXACT": "Exact match",
+    "MEDIUM": "Medium match",
+    "LOW": "Low match"
+  },
   "common": {
     "empty": "Er is niets om te tonen momenteel.",
     "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
