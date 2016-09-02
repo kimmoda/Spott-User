@@ -16,8 +16,8 @@
       "home": "Home"
     },
     "sceneTiles": {
-      "sceneFromEpisode": "Scène van seizoen [[%(season)i]] – Aflevering [[%(episode)i]]",
-      "sceneFromMovie": "Scène van [[%(movie)s]]"
+      "sceneFromEpisode": "Scène uit seizoen [[%(season)i]] – Aflevering [[%(episode)i]]",
+      "sceneFromMovie": "Scène uit [[%(movie)s]]"
     }
   },
   "changePassword": {
@@ -167,7 +167,9 @@
     },
     "scenes": {
       "tabName": "Scènes",
-      "empty": "Er zijn geen scènes."
+      "empty": "Er zijn geen scènes.",
+      "sceneFrom": "Scène uit [[]]",
+      "sceneFromEpisode": "aflevering %(episode)i – %(title)s"
     },
     "products": {
       "empty": "Momenteel zijn er geen producten om te tonen."

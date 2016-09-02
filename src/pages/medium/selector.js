@@ -50,9 +50,12 @@ export const episodesSelector = createStructuredSelector({
   episodes: createEntitiesByRelationSelector(mediumHasEpisodesSelector, currentSeasonIdSelector, mediaEntitiesSelector)
 });
 
+const currentEpisodeIdSelector = (state, props) => props.params && props.params.episodeId;
 const currentScenesMediumIdSelector = (state, props) => mostSpecificMedium(props);
 export const scenesSelector = createStructuredSelector({
   currentScenesMediumId: currentScenesMediumIdSelector,
+  episode: createEntityByIdSelector(mediaEntitiesSelector, currentEpisodeIdSelector),
+  medium: currentMediumSelector,
   scenes: createEntitiesByRelationSelector(mediumHasScenesSelector, currentScenesMediumIdSelector, scenesEntitiesSelector)
 });
 

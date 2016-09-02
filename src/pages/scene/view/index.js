@@ -319,14 +319,24 @@ export default class Scene extends Component {
     }
   };
 
+  renderSceneTitleContent (scene, isPopup, styles) {
+    const titleLinkStyle = Object.assign({}, styles.header.link.base, isPopup && styles.header.link.light);
+    switch (scene.get('type')) {
+      case SERIES:
+        return <span><Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'series', 'shareUrl' ])}>{scene.getIn([ 'series', 'title' ]) || '\u00A0'}</Link> <span style={styles.header.title.emph}>- {formatEpisodeNumber(scene.getIn([ 'season', 'number' ]), scene.getIn([ 'episode', 'number' ]))}</span> {scene.getIn([ 'episode', 'title' ])}</span>;
+      case MOVIE:
+        return <Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'movie', 'shareUrl' ])}>{scene.getIn([ 'movie', 'title' ]) || '\u00A0'}</Link>;
+      default:
+        return <div style={titleLinkStyle}>{'\u00A0'}</div>;
+    }
+  }
+
   renderScene () {
     const styles = this.constructor.styles;
     const { isAuthenticated, children, currentLocale, location, params: { productId }, scene, t, toggleSaveScene } = this.props;
     const isPopup = location.state && location.state.modal;
     const ContentContainer = isPopup ? (props) => <div>{props.children}</div> : SmallContainer;
     const share = scene.get('share');
-
-    const titleLinkStyle = Object.assign({}, styles.header.link.base, isPopup && styles.header.link.light);
 
     const content =
       <div>
@@ -335,14 +345,7 @@ export default class Scene extends Component {
             <div style={styles.header.left}>
               <div style={[ styles.header.sceneFrom.base, isPopup && styles.header.sceneFrom.light ]}>{t('scene.sceneFrom')}</div>
               <h1 style={[ styles.header.title.base, isPopup && styles.header.title.light ]}>
-                {(() => {
-                  if (scene.get('type') === SERIES) {
-                    return (<span><Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'series', 'shareUrl' ])}>{scene.getIn([ 'series', 'title' ]) || '\u00A0'}</Link> <span style={styles.header.title.emph}>- {formatEpisodeNumber(scene.getIn([ 'season', 'number' ]), scene.getIn([ 'episode', 'number' ]))}</span> {scene.getIn([ 'episode', 'title' ])}</span>);
-                  } else if (scene.get('type') === MOVIE) {
-                    return (<Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'movie', 'shareUrl' ])}>{scene.getIn([ 'movie', 'title' ]) || '\u00A0'}</Link>);
-                  }
-                  return (<div style={titleLinkStyle}>{'\u00A0'}</div>);
-                })()}
+                {this.renderSceneTitleContent(scene, isPopup, styles)}
               </h1>
             </div>
             <div style={styles.header.right}>

@@ -35,7 +35,7 @@ export class SmallEpisodeTile extends Component {
       backgroundColor: colors.dark,
       backgroundPosition: 'center center',
       backgroundSize: 'cover',
-      borderRadius: '0.325em',
+      borderRadius: '0.25em',
       bottom: 0,
       left: 0,
       position: 'absolute',

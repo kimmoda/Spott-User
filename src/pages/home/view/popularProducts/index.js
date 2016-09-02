@@ -44,7 +44,8 @@ export default class RecentlyAddedToWishlist extends Component {
     return (
       <div style={styles.wrapper}>
         <Container>
-          <ProductTiles items={popularProducts}
+          <ProductTiles
+            items={popularProducts}
             renderEmptyComponent={() => <Message>{t('home.popularProducts.empty')}</Message>}
             renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
