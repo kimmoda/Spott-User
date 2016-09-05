@@ -16,7 +16,8 @@
       "home": "Home"
     },
     "sceneTiles": {
-      "sceneFrom": "Scene from Season [[%(season)i]] – Episode [[%(episode)i]]"
+      "sceneFromEpisode": "Scene from Season [[%(season)i]] – Episode [[%(episode)i]]",
+      "sceneFromMovie": "Scene from [[%(movie)s]]"
     }
   },
   "changePassword": {
@@ -166,7 +167,10 @@
     },
     "scenes": {
       "tabName": "Scenes",
-      "empty": "There are no scenes."
+      "empty": "There are no scenes.",
+      "sceneFrom": "Scene from: [[]]",
+      "sceneFromEpisode": "Episode %(episode)i - %(title)s",
+      "sceneFromEpisodeShort": "Episode %(episode)i"
     },
     "products": {
       "empty": "There are no products for you right now."
@@ -188,6 +192,11 @@
     "moreInfo": "This website uses cookies to enhance your user experience. [[More info]]",
     "policy": "We adapted our [[terms]] and [[privacy regulations]].",
     "continue": "Continue"
+  },
+  "relevance": {
+    "EXACT": "Correspondance exacte",
+    "MEDIUM": "Correspondance moyenne",
+    "LOW": "Correspondance basse"
   },
   "common": {
     "empty": "There is nothing to display right now.",

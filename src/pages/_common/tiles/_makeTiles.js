@@ -5,7 +5,6 @@ import Radium from 'radium';
 import { colors, mediaQueryThresholds, fontWeights, makeTextStyle, SectionTitle } from '../buildingBlocks';
 import localized from '../localized';
 import { Tiles } from './_tiles';
-import { LOADED, UPDATING } from '../../../data/statusTypes';
 
 const ArrowLeftImage = (props) => (
   <svg {...props} version='1.1' viewBox='0 0 8 13'>
@@ -123,7 +122,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
         // Read width from DOM
         const screenWidth = window.innerWidth;
         // Save width
-        this.setState({ screenWidth });
+        this.setState({ ...this.state, screenWidth });
       }
 
       onPatchWidth () {
@@ -137,21 +136,12 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
       }
 
       componentWillReceiveProps (nextProps) {
-        if (this.props.items.get('_status') === UPDATING &&
-           nextProps.items.get('_status') === LOADED) {
-          // We've fetched the list earlier, but now we refetched it. Check whether
-          // it is necessary to reset position (we prefer retaining position).
-          // Note that we do this relatively naïve for now. A better check certainly
-          // is possible.
-          if (this.state.first >= nextProps.items.get('data').size) {
-            this.setState({ first: 0 });
-          }
-          // Retain position.
-          return;
+        // Check whether it is necessary to reset position (we prefer retaining position).
+        // Note that we do this relatively naïve for now. A better check certainly
+        // is possible.
+        if (nextProps.items.get('data').size <= this.state.first) {
+          this.setState({ ...this.state, first: 0 }); // Reset "caroussel"
         }
-
-        // Reset position
-        this.setState({ first: 0 }); // Reset "caroussel"
       }
 
       onBackClick (e) {

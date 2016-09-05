@@ -102,7 +102,7 @@ export class SmallEpisodeTile extends Component {
       </div>
     );
     return (
-      <BaseTile style={style}>
+      <BaseTile innerStyle={{ backgroundColor: 'transparent' }} style={style}>
         <Link activeStyle={styles.link.active} style={styles.link.base} title={item.get('title')} to={item.get('shareUrl')} >{children}</Link>
       </BaseTile>
     );

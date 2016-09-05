@@ -16,7 +16,8 @@
       "home": "Page d'accueil"
     },
     "sceneTiles": {
-      "sceneFrom": "Scène de la saison [[%(season)i]] –  Épisode [[%(episode)i]]"
+      "sceneFromEpisode": "Scène de la saison [[%(season)i]] –  Épisode [[%(episode)i]]",
+      "sceneFromMovie": "Scène de [[%(movie)s]]"
     }
   },
   "changePassword": {
@@ -166,7 +167,10 @@
     },
     "scenes": {
       "tabName": "Scènes",
-      "empty": "Il n'y a pas de scènes."
+      "empty": "Il n'y a pas de scènes.",
+      "sceneFrom": "Scène de: [[]]",
+      "sceneFromEpisode": "Épisode %(episode)i – %(title)s",
+      "sceneFromEpisodeShort": "Épisode %(episode)i"
     },
     "products": {
       "empty": "Il n'y a pas de produits à ce moment."
@@ -188,6 +192,11 @@
     "moreInfo": "Ce site utilise des cookies pour améliorer votre expérience d’utilisateur. [[Plus d’info]]",
     "policy": "Nous avons adaptés nos [[conditions générales]] et notre [[protection des données]].",
     "continue": "Continuez"
+  },
+  "relevance": {
+    "EXACT": "Exact match",
+    "MEDIUM": "Medium match",
+    "LOW": "Low match"
   },
   "common": {
     "empty": "Il n'y rien à afficher pour l'instant.",

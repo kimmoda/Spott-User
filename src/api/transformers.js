@@ -125,9 +125,10 @@ export function transformSeason ({ number, shareUrl, title, uuid: id }) {
   };
 }
 
-export function transformEpisode ({ number, profileImage, shareUrl, title, uuid: id }) {
+export function transformEpisode ({ generatedTitle, number, profileImage, shareUrl, title, uuid: id }) {
   return {
     id,
+    generatedTitle,
     number,
     title,
     shareUrl: stripDomain(shareUrl),
@@ -135,12 +136,13 @@ export function transformEpisode ({ number, profileImage, shareUrl, title, uuid:
   };
 }
 
-function transformSceneProduct ({ image, position, price, shortName, uuid: id }) {
+function transformSceneProduct ({ image, position, price, relevance, shortName, uuid: id }) {
   return {
     id,
     image: image && { id: image.uuid, url: image.url },
     position,
     price,
+    relevance,
     shortName
   };
 }
@@ -153,6 +155,7 @@ export function transformScene (data) {
     image: image && { id: image.uuid, url: image.url },
     // TODO: add pagination, probably not needed because there are no more then 100 products on a scene...
     products: ((products && products.data) || []).map(transformSceneProduct),
+    _summary: !(products && products.data) || !(characters && characters.data),
     saved,
     shareUrl: stripDomain(shareUrl)
   };

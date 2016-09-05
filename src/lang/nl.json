@@ -16,7 +16,8 @@
       "home": "Home"
     },
     "sceneTiles": {
-      "sceneFrom": "Scène van seizoen [[%(season)i]] – Aflevering [[%(episode)i]]"
+      "sceneFromEpisode": "Scène uit seizoen [[%(season)i]] – Aflevering [[%(episode)i]]",
+      "sceneFromMovie": "Scène uit [[%(movie)s]]"
     }
   },
   "changePassword": {
@@ -137,7 +138,7 @@
     },
     "menu": {
       "savedScenes": "Bewaarde Scènes",
-      "wishlists": "Verlanglijst"
+      "wishlists": "Verlanglijsten"
     },
     "savedScenes": {
       "empty": "Deze lijst is leeg."
@@ -166,7 +167,10 @@
     },
     "scenes": {
       "tabName": "Scènes",
-      "empty": "Er zijn geen scènes."
+      "empty": "Er zijn geen scènes.",
+      "sceneFrom": "Scène uit: [[]]",
+      "sceneFromEpisode": "Aflevering %(episode)i – %(title)s",
+      "sceneFromEpisode": "Aflevering %(episode)i"
     },
     "products": {
       "empty": "Momenteel zijn er geen producten om te tonen."
@@ -188,6 +192,11 @@
     "moreInfo": "Deze website maakt gebruik van cookies om uw gebruikservaring te verbeteren. [[Meer info]]",
     "policy": "Wij hebben onze [[gebruiksvoorwaarden]] en [[privacybeleid]] aangepast.",
     "continue": "Verdergaan"
+  },
+  "relevance": {
+    "EXACT": "Exacte overeenkomst",
+    "MEDIUM": "Middelmatige overeenkomst",
+    "LOW": "Lage overeenkomst"
   },
   "common": {
     "empty": "Er is niets om te tonen momenteel.",

@@ -20,7 +20,7 @@ export class ProductTile extends Component {
     // Not required! Initially we create a product without an item,
     // then we clone it with an item (see VerticalTiles).
     item: ImmutablePropTypes.mapContains({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.string,
       image: ImmutablePropTypes.mapContains({
         id: PropTypes.string.isRequired,
         url: PropTypes.string.isRequired
@@ -29,7 +29,7 @@ export class ProductTile extends Component {
         amount: PropTypes.number.isRequired,
         currency: PropTypes.string.isRequired
       }),
-      shortName: PropTypes.string.isRequired
+      shortName: PropTypes.string
     }),
     style: PropTypes.object
   };

@@ -16,7 +16,7 @@ export class CharacterTile extends Component {
       avatarImage: ImmutablePropTypes.mapContains({
         url: PropTypes.string.isRequired
       }),
-      name: PropTypes.string.isRequired
+      name: PropTypes.string
     }).isRequired,
     style: PropTypes.object
   };

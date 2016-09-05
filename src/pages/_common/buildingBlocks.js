@@ -25,7 +25,8 @@ export const colors = {
   slateGray: '#59575c',
   whiteThree: '#e9e9e9',
   whiteTwo: '#fcfcfc',
-  white: '#ffffff'
+  white: '#ffffff',
+  yellow: '#f6bf26'
 };
 
 export const fontWeights = {
@@ -94,9 +95,9 @@ export function formatPrice (price) {
     // Try to use symbol.
     const currency = currencies[price.get('currency')];
     if (currency) {
-      return `${currency} ${price.get('amount')}`;
+      return `${currency} ${price.get('amount').toFixed(2)}`;
     }
-    return `${price.get('amount')} ${price.get('currency')}`;
+    return `${price.get('amount').toFixed(2)} ${price.get('currency')}`;
   }
   return '\u00a0';
 }
