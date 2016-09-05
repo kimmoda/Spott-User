@@ -1,6 +1,4 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-import { Map } from 'immutable';
-import { LAZY, LOADED } from '../../data/statusTypes';
 import { createEntityByIdSelector, productsEntitiesSelector, scenesEntitiesSelector } from '../../data/selector';
 import { isAuthenticatedSelector } from '../app/selector';
 
@@ -15,7 +13,6 @@ export const currentProductSelector = createSelector(
   _currentProductSelector,
   (scene, productId, productDetails) => {
     const sceneProduct = scene.get('products') && scene.get('products').find((p) => p.get('id') === productId);
-    console.warn('sceneProduct', sceneProduct && sceneProduct.toJS());
     return sceneProduct ? productDetails.set('relevance', sceneProduct.get('relevance')) : productDetails;
   }
 );

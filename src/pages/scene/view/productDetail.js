@@ -334,7 +334,6 @@ export default class ProductDetail extends Component {
 
   render () {
     const { styles } = this.constructor;
-    console.warn('product', this.props.product.toJS());
     return load(this.props.product, this.renderProduct, () => <div style={styles.productInfo}><SmallContainer style={styles.spinner}><Spinner /></SmallContainer></div>, this.renderNotFoundError, this.renderUnexpectedError);
   }
 
