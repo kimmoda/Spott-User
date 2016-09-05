@@ -168,8 +168,9 @@
     "scenes": {
       "tabName": "Scènes",
       "empty": "Er zijn geen scènes.",
-      "sceneFrom": "Scène uit [[]]",
-      "sceneFromEpisode": "aflevering %(episode)i – %(title)s"
+      "sceneFrom": "Scène uit: [[]]",
+      "sceneFromEpisode": "Aflevering %(episode)i – %(title)s",
+      "sceneFromEpisode": "Aflevering %(episode)i"
     },
     "products": {
       "empty": "Momenteel zijn er geen producten om te tonen."

@@ -168,8 +168,9 @@
     "scenes": {
       "tabName": "Scenes",
       "empty": "There are no scenes.",
-      "sceneFrom": "Scene from [[]]",
-      "sceneFromEpisode": "Episode %(episode)i - %(title)s"
+      "sceneFrom": "Scene from: [[]]",
+      "sceneFromEpisode": "Episode %(episode)i - %(title)s",
+      "sceneFromEpisodeShort": "Episode %(episode)i"
     },
     "products": {
       "empty": "There are no products for you right now."

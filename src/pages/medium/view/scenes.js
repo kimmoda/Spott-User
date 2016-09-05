@@ -88,7 +88,9 @@ export default class MediumScenes extends Component {
         return (
           <SectionTitle>
             {t('medium.scenes.sceneFrom', {}, (contents, key) => (
-              <span key={key} style={styles.title.emph}>{t('medium.scenes.sceneFromEpisode', { episode: episode.get('number') || '\u00A0', title: episode.get('title') || '\u00A0' })}</span>
+              <span key={key} style={styles.title.emph}>
+                {t(episode.get('generatedTitle') ? 'medium.scenes.sceneFromEpisodeShort' : 'medium.scenes.sceneFromEpisode', { episode: episode.get('number'), title: episode.get('title') || '\u00A0' })}
+              </span>
             ))}
           </SectionTitle>
         );
