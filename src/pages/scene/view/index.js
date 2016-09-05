@@ -214,6 +214,7 @@ export default class Scene extends Component {
       }
     },
     subtileImage: {
+      borderRadius: '0.125em',
       bottom: 0,
       height: 'auto',
       left: 0,
@@ -323,7 +324,8 @@ export default class Scene extends Component {
     const titleLinkStyle = Object.assign({}, styles.header.link.base, isPopup && styles.header.link.light);
     switch (scene.get('type')) {
       case SERIES:
-        return <span><Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'series', 'shareUrl' ])}>{scene.getIn([ 'series', 'title' ]) || '\u00A0'}</Link> <span style={styles.header.title.emph}>- {formatEpisodeNumber(scene.getIn([ 'season', 'number' ]), scene.getIn([ 'episode', 'number' ]))}</span> {scene.getIn([ 'episode', 'title' ])}</span>;
+        console.warn('Episode', scene.getIn([ 'episode', 'generatedTitle' ]), scene.get('episode').toJS());
+        return <span><Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'series', 'shareUrl' ])}>{scene.getIn([ 'series', 'title' ]) || '\u00A0'}</Link> <span style={styles.header.title.emph}>- {formatEpisodeNumber(scene.getIn([ 'season', 'number' ]), scene.getIn([ 'episode', 'number' ]))}</span> {!scene.getIn([ 'episode', 'generatedTitle' ]) && scene.getIn([ 'episode', 'title' ])}</span>;
       case MOVIE:
         return <Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'movie', 'shareUrl' ])}>{scene.getIn([ 'movie', 'title' ]) || '\u00A0'}</Link>;
       default:
