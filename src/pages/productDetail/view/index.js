@@ -76,11 +76,12 @@ export default class ProductDetail extends Component {
     const form = document.createElement('form');
     form.setAttribute('method', 'POST');
     form.setAttribute('action', postUrl);
-    // Distructive manipulation of the DOM-tree, but this doesn't matter since
-    // we leave the SPA anyway.
+    form.setAttribute('target', '_blank');
+    // Destructive manipulation of the DOM-tree.
     document.body.appendChild(form);
     // Submit form
     form.submit();
+    form.remove();
   }
 
   static styles = {
@@ -224,7 +225,7 @@ export default class ProductDetail extends Component {
   renderProduct () {
     const { styles } = this.constructor;
     const { onChangeImageSelection, product, selectedImageId, t } = this.props;
-    const notAvailable = !product.getIn([ 'offerings', '0', 'url' ]);
+    const notAvailable = !(product.get('available') && product.getIn([ 'offerings', '0', 'url' ]));
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
     const share = product.get('share');
 

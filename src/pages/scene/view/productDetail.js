@@ -250,7 +250,7 @@ export default class ProductDetail extends Component {
   renderProduct () {
     const { styles } = this.constructor;
     const { onChangeImageSelection, product, selectedImageId, t } = this.props;
-    const notAvailable = !product.getIn([ 'offerings', '0', 'url' ]);
+    const notAvailable = !(product.get('available') && product.getIn([ 'offerings', '0', 'url' ]));
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
     const share = product.get('share');
 

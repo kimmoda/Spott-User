@@ -193,9 +193,9 @@
     "continue": "Continue"
   },
   "relevance": {
-    "EXACT": "Exact match",
-    "MEDIUM": "Medium match",
-    "LOW": "Low match"
+    "EXACT": "Correspondance exacte",
+    "MEDIUM": "Correspondance moyenne",
+    "LOW": "Correspondance basse"
   },
   "common": {
     "empty": "There is nothing to display right now.",

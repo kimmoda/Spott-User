@@ -93,6 +93,13 @@ export class SceneTile extends Component {
       height: 0,
       width: '100%'
     },
+    characters: {
+      left: '1.25em',
+      position: 'absolute',
+      right: '1.25em',
+      textAlign: 'right',
+      top: '1.125em'
+    },
     layer: {
       position: 'absolute',
       top: 0,
@@ -191,18 +198,19 @@ export class SceneTile extends Component {
       left: '1.25em',
       right: '1.25em',
       bottom: '1.125em',
-      height: '2em',
+      // height: '2em',
       overflow: 'hidden'
     },
     subtile: {
       base: {
-        backgroundColor: 'white',
+        borderRadius: '0.125em',
         height: '2em',
-        float: 'left',
+        // float: 'left',
+        display: 'inline-block', // added
         position: 'relative',
         opacity: 0.98,
         width: '2em',
-        marginBottom: '3em',
+        // marginBottom: '3em',
         [mediaQueries.large]: {
           width: '2.5em',
           height: '2.5em'
@@ -212,10 +220,12 @@ export class SceneTile extends Component {
         marginLeft: '0.4em'
       },
       product: {
+        backgroundColor: 'white',
         marginRight: '0.4em'
       }
     },
     subtileImage: {
+      borderRadius: '0.125em',
       bottom: 0,
       height: 'auto',
       left: 0,
@@ -239,14 +249,24 @@ export class SceneTile extends Component {
 
     return (
       <div key='details' style={[ styles.details.base, hovered && styles.details.hovered ]}>
-        <div>{item.get('products').map((product) =>
-          <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />)}
+        <div>
+          {item.get('products').map((product) => (
+            <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />
+          ))}
         </div>
-        {/* <div style={styles.faces}>{item.get('faces').take(4).map((face) =>
-          <div key={face.get('id')} style={[ styles.subtile.base, styles.subtile.face ]}>
-            <img alt={face.get('name')} key={face.get('id')} src={face.get('image')} style={styles.subtileImage} title={face.get('name')}/>
-          </div>)}
-        </div>*/}
+        <div style={styles.characters}>
+          {item.get('characters').take(4).map((character, i) =>
+            <RadiumLink alt={character.get('name')} key={i} title={character.get('name')} to={character.get('shareUrl')}>
+              <div style={[ styles.subtile.base, styles.subtile.face ]}>
+                <img
+                  alt={character.get('name')}
+                  key={character.get('id')}
+                  src={`${character.getIn([ 'avatarImage', 'url' ])}?height=90&width=90`}
+                  style={styles.subtileImage}
+                  title={character.get('name')} />
+              </div>
+            </RadiumLink>)}
+        </div>
         <div style={styles.line} />
         <div style={styles.products}>{item.get('products').take(8).filter((p) => p.get('image')).map((product) =>
           <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
@@ -289,16 +309,17 @@ export class SceneTile extends Component {
     const { item, location, style, showDetails } = this.props;
     return (
       <BaseTile style={style}>
-        <RadiumLink key={item.get('id')} style={styles.wrapper} to={{
-          pathname: item.get('shareUrl'),
-          state: { modal: true, returnTo: (location && location.pathname) || '/' }
-        }}>
-          <div style={styles.container}>
+        <div style={styles.container}>
+          {/* Make sure we don't have nested links. */}
+          <RadiumLink key={item.get('id')} style={styles.wrapper} to={{
+            pathname: item.get('shareUrl'),
+            state: { modal: true, returnTo: (location && location.pathname) || '/' }
+          }}>
             <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
             <div style={styles.layer} />
-            {showDetails && this.renderDetails()}
-          </div>
-        </RadiumLink>
+          </RadiumLink>
+          {showDetails && this.renderDetails()}
+        </div>
       </BaseTile>
     );
   }

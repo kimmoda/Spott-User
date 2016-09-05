@@ -214,6 +214,7 @@ export default class Scene extends Component {
       }
     },
     subtileImage: {
+      borderRadius: '0.125em',
       bottom: 0,
       height: 'auto',
       left: 0,
