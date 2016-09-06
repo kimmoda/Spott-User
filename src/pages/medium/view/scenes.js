@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { load, Message, Container, SectionTitle } from '../../_common/buildingBlocks';
+import { Container, LoadComponent, SectionTitle, Spinner } from '../../_common/buildingBlocks';
 import VerticalTiles from '../../_common/verticalTiles';
 import { scenesSelector } from '../selector';
 import { loadMediumScenes } from '../actions';
@@ -59,12 +59,6 @@ export default class MediumScenes extends Component {
     t: PropTypes.func.isRequired
   };
 
-  constructor (props) {
-    super(props);
-    this.renderScenes = ::this.renderScenes;
-    this.renderEmpty = ::this.renderEmpty;
-  }
-
   componentWillMount () {
     const mediumId = mostSpecificMedium(this.props);
     if (mediumId) {
@@ -107,28 +101,26 @@ export default class MediumScenes extends Component {
     return <SectionTitle>{'\u00A0'}</SectionTitle>;
   }
 
-  renderScenes () {
-    const { location, scenes } = this.props;
-    return (
-      <Container style={styles.content}>
-        {this.renderSceneTitle()}
-        <VerticalTiles
-          aspectRatio={0.55994248}
-          horizontalSpacing={30}
-          items={scenes.get('data')}
-          numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
-          tile={<SceneTile location={location} />}
-          verticalSpacing={30} />
-      </Container>
-    );
-  }
-
-  renderEmpty () {
-    const { t } = this.props;
-    return (<Container><Message>{t('medium.scenes.empty')}</Message></Container>);
-  }
-
   render () {
-    return load(this.props.scenes, this.renderScenes, null, null, null, this.renderEmpty);
+    const { location, scenes, t } = this.props;
+    return (
+      <LoadComponent
+        item={scenes}
+        renderEmpty={() => t('medium.scenes.empty')}
+        renderInContainer={(children) => <Container style={styles.content}>{children}</Container>}
+        renderItem={() => (
+          <Container style={styles.content}>
+            {this.renderSceneTitle()}
+            <VerticalTiles
+              aspectRatio={0.55994248}
+              horizontalSpacing={30}
+              items={scenes.get('data')}
+              numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
+              tile={<SceneTile location={location} />}
+              verticalSpacing={30} />
+          </Container>
+        )}
+        renderSpinner={() => (mostSpecificMedium(this.props) && <Spinner />) || <div />} />
+      );
   }
 }

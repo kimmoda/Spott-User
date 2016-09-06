@@ -165,9 +165,15 @@
       "empty": "There are no top products for you right now.",
       "title": "Picked For You"
     },
+    "episodes": {
+      "empty": "There are no episodes available."
+    },
+    "seasons": {
+      "empty": "There are no seasons available."
+    },
     "scenes": {
       "tabName": "Scenes",
-      "empty": "There are no scenes.",
+      "empty": "There are no scenes available.",
       "sceneFrom": "Scene from: [[]]",
       "sceneFromEpisode": "Episode %(episode)i - %(title)s",
       "sceneFromEpisodeShort": "Episode %(episode)i"

@@ -165,9 +165,15 @@
       "empty": "Er zijn geen producten voor jou gekozen.",
       "title": "Gekozen voor jou"
     },
+    "episodes": {
+      "empty": "Er zijn geen afleveringen beschikbaar."
+    },
+    "seasons": {
+      "empty": "Er zijn geen seizoenen beschikbaar."
+    },
     "scenes": {
       "tabName": "Scènes",
-      "empty": "Er zijn geen scènes.",
+      "empty": "Er zijn geen scènes beschikbaar.",
       "sceneFrom": "Scène uit: [[]]",
       "sceneFromEpisode": "Aflevering %(episode)i – %(title)s",
       "sceneFromEpisode": "Aflevering %(episode)i"
