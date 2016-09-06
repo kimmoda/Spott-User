@@ -3,11 +3,18 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { replace as routeReplace } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Submenu, SubmenuItem } from '../../_common/buildingBlocks';
+import { colors, Container, LoadComponent, Submenu, SubmenuItem } from '../../_common/buildingBlocks';
+import localized from '../../_common/localized';
 import { seasonsSelector } from '../selector';
 import { loadSeasons } from '../actions';
 
 const styles = {
+  content: {
+    color: colors.white,
+    paddingTop: '1.75em',
+    paddingBottom: '1.75em',
+    position: 'relative'
+  },
   submenu: {
     borderTop: '1px solid rgba(255, 255, 255, 0.25)'
   },
@@ -16,6 +23,7 @@ const styles = {
   }
 };
 
+@localized
 @connect(seasonsSelector, (dispatch) => ({
   loadSeasons: bindActionCreators(loadSeasons, dispatch),
   routeReplace: bindActionCreators(routeReplace, dispatch)
@@ -42,8 +50,8 @@ export default class SeasonsTabs extends Component {
     t: PropTypes.func
   }
 
-  async componentWillMount () {
-    await this.props.loadSeasons(this.props.params.mediumId);
+  componentWillMount () {
+    this.props.loadSeasons(this.props.params.mediumId);
   }
 
   componentWillReceiveProps (nextProps) {
@@ -61,18 +69,24 @@ export default class SeasonsTabs extends Component {
   }
 
   render () {
-    const { children, seasons } = this.props;
+    const { children, seasons, t } = this.props;
     return (
-      <div>
-        <Container>
-          <Submenu style={styles.submenu}>
-            {seasons.get('data').map((season) => (
-              <SubmenuItem key={`${season.get('id')}`} name={season.get('title')} pathname={`${season.get('shareUrl')}`} style={styles.submenuItem} />
-            ))}
-          </Submenu>
-        </Container>
-        {children}
-      </div>
+      <LoadComponent
+        item={seasons}
+        renderEmpty={() => t('medium.seasons.empty')}
+        renderInContainer={(kids) => <Container style={styles.content}>{kids}</Container>}
+        renderItem={() => (
+          <div>
+            <Container>
+              <Submenu style={styles.submenu}>
+                {seasons.get('data').map((season) => (
+                  <SubmenuItem key={`${season.get('id')}`} name={season.get('title')} pathname={`${season.get('shareUrl')}`} style={styles.submenuItem} />
+                ))}
+              </Submenu>
+            </Container>
+            {children}
+          </div>
+        )} />
     );
   }
 

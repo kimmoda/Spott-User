@@ -4,11 +4,19 @@ import { connect } from 'react-redux';
 import { replace as replaceRoute } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import SmallEpisodeTiles from '../../_common/tiles/smallEpisodeTiles';
-import { Container } from '../../_common/buildingBlocks';
+import { colors, Container } from '../../_common/buildingBlocks';
+import localized from '../../_common/localized';
 import { episodesSelector } from '../selector';
 import { loadEpisodes } from '../actions';
+import { LOADED, UPDATING } from '../../../data/statusTypes';
 
 const styles = {
+  content: {
+    color: colors.white,
+    paddingTop: '1.75em',
+    paddingBottom: '1.75em',
+    position: 'relative'
+  },
   smallEpisodes: {
     paddingBottom: '1.7em'
   },
@@ -21,6 +29,7 @@ const styles = {
   }
 };
 
+@localized
 @connect(episodesSelector, (dispatch) => ({
   loadEpisodes: bindActionCreators(loadEpisodes, dispatch),
   replaceRoute: bindActionCreators(replaceRoute, dispatch)
@@ -35,7 +44,8 @@ export default class SeasonsTabs extends Component {
       episodeId: PropTypes.string,
       seasonId: PropTypes.string.isRequired
     }).isRequired,
-    replaceRoute: PropTypes.func.isRequired
+    replaceRoute: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -45,7 +55,7 @@ export default class SeasonsTabs extends Component {
   componentWillReceiveProps (nextProps) {
     const { params: { episodeId, seasonId }, episodes } = nextProps;
 
-      // Load episodes of the new seasons if necessary.
+    // Load episodes of the new seasons if necessary.
     if (this.props.params.seasonId !== seasonId) {
       this.props.loadEpisodes(seasonId);
     }
@@ -57,7 +67,12 @@ export default class SeasonsTabs extends Component {
   }
 
   render () {
-    const { children, episodes } = this.props;
+    const { children, episodes, t } = this.props;
+
+    if ((episodes.get('_status') === LOADED || episodes.get('_status') === UPDATING) && episodes.get('data').size === 0) {
+      return <Container style={styles.content}>{t('medium.episodes.empty')}</Container>;
+    }
+
     return (
       <Container>
         <div style={styles.smallEpisodes}>

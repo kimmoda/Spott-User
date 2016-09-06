@@ -165,9 +165,15 @@
       "empty": "Il n'y a pas de produits populaires pour vous à ce moment.",
       "title": "Choisi pour vous"
     },
+    "episodes": {
+      "empty": "Il n'y a pas d'épisodes disponibles."
+    },
+    "seasons": {
+      "empty": "Il n'y a pas de seasons disponibles."
+    },
     "scenes": {
       "tabName": "Scènes",
-      "empty": "Il n'y a pas de scènes.",
+      "empty": "Il n'y a pas de scènes disponibles.",
       "sceneFrom": "Scène de: [[]]",
       "sceneFromEpisode": "Épisode %(episode)i – %(title)s",
       "sceneFromEpisodeShort": "Épisode %(episode)i"
