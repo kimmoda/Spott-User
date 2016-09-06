@@ -68,11 +68,12 @@ export default class ProductDetail extends Component {
     const form = document.createElement('form');
     form.setAttribute('method', 'POST');
     form.setAttribute('action', postUrl);
-    // Distructive manipulation of the DOM-tree, but this doesn't matter since
-    // we leave the SPA anyway.
+    form.setAttribute('target', '_blank');
+    // Destructive manipulation of the DOM-tree.
     document.body.appendChild(form);
     // Submit form
     form.submit();
+    form.remove();
   }
 
   static styles = {
