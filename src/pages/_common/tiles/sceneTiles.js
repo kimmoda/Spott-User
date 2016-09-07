@@ -8,6 +8,7 @@ import localized from '../localized';
 import hoverable from '../hoverable';
 import makeTiles from './_makeTiles';
 import { fetchScene } from '../../../data/actions';
+import { MOVIE, SERIES } from '../../../data/mediumTypes';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -278,28 +279,21 @@ export class SceneTile extends Component {
             </RadiumLink>
           </div>)}
         </div>
-        {(() => {
-          if (item.get('episode')) { // Scene from an episode
-            return (
-              <div>
-                <p style={styles.text}>
-                  {t('_common.sceneTiles.sceneFromEpisode', { episode: item.getIn([ 'episode', 'number' ]), season: item.getIn([ 'season', 'number' ]) }, (contents, key) => {
-                    return <span key={key} style={styles.textHighlight}>{contents}</span>;
-                  })}
-                </p>
-                {<p style={styles.seriesText}>{item.getIn([ 'series', 'title' ])}</p>}
-              </div>
-            );
-          } else if (item.get('movie')) { // Scene from a movie
-            return (
-              <p style={styles.text}>
-                {t('_common.sceneTiles.sceneFromMovie', { movie: item.getIn([ 'movie', 'title' ]) }, (contents, key) => {
-                  return <span key={key} style={styles.textHighlight}>{contents}</span>;
-                })}
-              </p>
-            );
-          }
-        })()}
+        {item.get('type') === SERIES &&
+          <div>
+            <p style={styles.text}>
+              {t('_common.sceneTiles.sceneFromEpisode', { episode: item.getIn([ 'episode', 'number' ]) || 1, season: item.getIn([ 'season', 'number' ]) || 1 }, (contents, key) => {
+                return <span key={key} style={styles.textHighlight}>{contents}</span>;
+              })}
+            </p>
+            {<p style={styles.seriesText}>{item.getIn([ 'series', 'title' ])}</p>}
+          </div>}
+          {item.get('type') === MOVIE &&
+            <p style={styles.text}>
+              {t('_common.sceneTiles.sceneFromMovie', { movie: item.getIn([ 'movie', 'title' ]) }, (contents, key) => {
+                return <span key={key} style={styles.textHighlight}>{contents}</span>;
+              })}
+            </p>}
       </div>
     );
   }
