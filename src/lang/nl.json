@@ -176,7 +176,7 @@
       "empty": "Er zijn geen scènes beschikbaar.",
       "sceneFrom": "Scène uit: [[]]",
       "sceneFromEpisode": "Aflevering %(episode)i – %(title)s",
-      "sceneFromEpisode": "Aflevering %(episode)i"
+      "sceneFromEpisodeShort": "Aflevering %(episode)i"
     },
     "products": {
       "empty": "Momenteel zijn er geen producten om te tonen."
