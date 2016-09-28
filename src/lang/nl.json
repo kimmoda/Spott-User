@@ -20,6 +20,19 @@
       "sceneFromMovie": "Scène uit [[%(movie)s]]"
     }
   },
+  "resetPassword": {
+    "alreadySendMail": "Er is reeds een e-mail verstuurd. Controleer je e-mail voor verdere instructies.",
+    "email": "Je e-mailadres",
+    "emailLabel": "Geef je e-mail in om je wachtwoord te herstellen.",
+    "invalidEmail": "Ongeldig e-mailadres.",
+    "submitButton": "Verzenden",
+    "title": "Wachtwoord herstellen"
+  },
+  "resetPasswordSuccess": {
+    "title": "Gelukt!",
+    "text": "Je wachtwoord is opnieuw ingesteld. Controleer je e-mail voor verdere instructies.",
+    "submitButton": "Klaar"
+  },
   "changePassword": {
     "successMessage": "Uw wachtwoord is veranderd!",
     "errorMessage": "Er is een fout opgetreden tijdens de poging om uw wachtwoord te wijzigen :(",
@@ -85,12 +98,13 @@
   },
   "login": {
     "title": "Log in",
-    "email": "Je e-mail",
+    "email": "Je e-mailadres",
     "password": "Je wachtwoord",
     "logInWithFacebookButton": "Log in met Facebook",
     "submitButton": "Aanmelden",
     "newUser": "Nieuwe gebruiker?",
-    "createAccount": "Registreer je"
+    "createAccount": "Registreer je",
+    "forgotPassword": "Wachtwoord vergeten?"
   },
   "register": {
     "title": "Registratie",
@@ -98,7 +112,7 @@
     "submitButton": "Verzend",
     "firstname": "Je voornaam",
     "lastname": "Je achternaam",
-    "email": "E-mail",
+    "email": "E-mailadres",
     "dateOfBirth": "Je geboortedatum",
     "gender": {
       "label": "Geslacht",

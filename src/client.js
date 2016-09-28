@@ -19,6 +19,7 @@ import character from './pages/character/reducer';
 import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
+import resetPassword from './pages/resetPassword/reducer';
 import { applyMiddleware, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   form,
   productDetail,
   profile,
+  resetPassword,
   routing: routerReducer,
   scene
 });

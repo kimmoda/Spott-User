@@ -20,6 +20,19 @@
       "sceneFromMovie": "Scène de [[%(movie)s]]"
     }
   },
+  "resetPassword": {
+    "alreadySendMail": "E-mail was already send. Please check your e-mail for further instructions.",
+    "email": "Your Email",
+    "emailLabel": "Enter your e-mail to reset your password.",
+    "invalidEmail": "Invalid e-mail.",
+    "submitButton": "Reset",
+    "title": "Reset Password"
+  },
+  "resetPasswordSuccess": {
+    "title": "Success!",
+    "text": "Your password has been successfully reset. Please check your e-mail for further instructions.",
+    "submitButton": "Done"
+  },
   "changePassword": {
     "successMessage": "Votre mot de passe a été modifié!",
     "errorMessage": "Nous avons rencontré une erreur en essayant de changer votre mot de passe :(",
@@ -90,7 +103,8 @@
     "logInWithFacebookButton": "Je m'inscris avec Facebook",
     "submitButton": "Connectez-vous",
     "newUser": "Nouveau utilisateur?",
-    "createAccount": "Je me connecte"
+    "createAccount": "Je me connecte",
+    "forgotPassword": "Mot de passe oublié?"
   },
   "register": {
     "title": "Créer un compte",
