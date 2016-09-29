@@ -27,6 +27,8 @@ import MediumSeasons from './pages/medium/view/seasons';
 import MediumEpisodes from './pages/medium/view/episodes';
 import MediumScenes from './pages/medium/view/scenes';
 import MediumTabs from './pages/medium/view/tabs';
+import ResetPassword from './pages/resetPassword';
+import ResetPasswordSuccess from './pages/resetPassword/success';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
@@ -176,6 +178,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
         <Route component={Login} noSignInButtonInHeader path='login' />
         <Route component={Register} noSignInButtonInHeader path='register' />
+        <Route component={ResetPassword} noSignInButtonInHeader path='resetpassword'/>
+        <Route component={ResetPasswordSuccess} noSignInButtonInHeader path='resetpassword/success'/>
         <Route component={ChangePassword} noSignInButtonInHeader path='user/changepwd'/>
 
         <Route component={Profile} floating path='profile/:userSlug/:userId' >
