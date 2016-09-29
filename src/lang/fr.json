@@ -21,12 +21,12 @@
     }
   },
   "resetPassword": {
-    "alreadySendMail": "E-mail was already send. Please check your e-mail for further instructions.",
-    "email": "Your Email",
-    "emailLabel": "Enter your e-mail to reset your password.",
-    "invalidEmail": "Invalid e-mail.",
-    "submitButton": "Reset",
-    "title": "Reset Password"
+    "alreadySendMail": "Un e-mail a déjà été envoyé. Veuillez vérifier votre e-mail pour de plus amples instructions.",
+    "email": "Votre e-mail",
+    "emailLabel": "Saisissez votre adresse e-mail pour réinitialiser votre mot de passe.",
+    "invalidEmail": "E-mail incorrect.",
+    "submitButton": "Réinitialiser",
+    "title": "Réinitialiser mot de passe"
   },
   "resetPasswordSuccess": {
     "title": "Success!",
@@ -132,7 +132,7 @@
   "productDetail": {
     "buyNow": "Achetez maintenant",
     "by": "De %(brandName)s",
-    "noSimilar": "Aucun produit similaire a été trouvé.",
+    "noSimilar": "Aucun produit similaire n'a été trouvé.",
     "similarProducts": "Produits similaires",
     "unavailable": "Ce produit n’est pas disponible.",
     "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​"
@@ -176,8 +176,8 @@
       "title": "Produits %(title)s populaires"
     },
     "topUserProducts": {
-      "empty": "Il n'y a pas de produits populaires pour vous à ce moment.",
-      "title": "Choisi pour vous"
+      "empty": "Il n'y a pas de produits populaires pour vous en ce moment.",
+      "title": "Selectionné pour vous"
     },
     "episodes": {
       "empty": "Il n'y a pas d'épisodes disponibles."

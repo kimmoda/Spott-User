@@ -23,10 +23,10 @@
   "resetPassword": {
     "alreadySendMail": "Er is reeds een e-mail verstuurd. Controleer je e-mail voor verdere instructies.",
     "email": "Je e-mailadres",
-    "emailLabel": "Geef je e-mail in om je wachtwoord te herstellen.",
+    "emailLabel": "Geef je e-mail in om je wachtwoord opnieuw in te stellen.",
     "invalidEmail": "Ongeldig e-mailadres.",
     "submitButton": "Verzenden",
-    "title": "Wachtwoord herstellen"
+    "title": "Wachtwoord opnieuw instellen"
   },
   "resetPasswordSuccess": {
     "title": "Gelukt!",
