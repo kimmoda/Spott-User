@@ -140,7 +140,14 @@ export default class ResetPassword extends Component {
     const content =
       <section style={styles.container}>
         <h2 style={styles.title}>{t('resetPassword.title')}</h2>
-        <Form {...this.props} onClose={this.onClose} onSuccess={() => this.props.routerPush(`/${currentLocale}/resetpassword/success`)} />
+        <Form {...this.props} onClose={this.onClose} onSuccess={() => {
+          this.props.routerPush(this.props.location.state && this.props.location.state.modal
+            ? {
+              pathname: `/${currentLocale}/resetpassword/success`,
+              state: { modal: true, returnTo: this.props.location.state.returnTo }
+            } : `/${currentLocale}/resetpassword/success`
+          );
+        }} />
       </section>;
 
     if (this.props.location.state && this.props.location.state.modal) {
