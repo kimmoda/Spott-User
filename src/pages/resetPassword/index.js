@@ -1,14 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle, Modal } from '../_common/buildingBlocks';
-import FacebookLoginButton from './facebookLoginButton';
-import * as actions from '../app/actions';
-import { authenticationErrorSelector, authenticationIsLoadingSelector }
-  from '../app/selector';
+import * as actions from './actions';
+import selector from './selector';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
 
@@ -20,7 +16,8 @@ class Form extends Component {
     isLoading: PropTypes.bool,
     submit: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    onSuccess: PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -39,14 +36,14 @@ class Form extends Component {
   async onSubmit (e) {
     e.preventDefault();
     const email = this._email.value;
-    const password = this._password.value;
-    await this.props.submit({ email, password });
-    this.props.onClose();
+    await this.props.submit({ email });
+    this.props.onSuccess();
   }
 
   static styles = {
     button: {
-      marginTop: '0.938em',
+      marginBottom: '0.625em',
+      marginTop: '2.5em',
       width: '100%',
       padding: '1.1em'
     },
@@ -54,12 +51,6 @@ class Form extends Component {
       color: '#ff0000',
       fontSize: '16px',
       margin: '5px 0'
-    },
-    line: {
-      height: 1,
-      width: '100%',
-      backgroundColor: '#e9e9e9',
-      margin: '1.25em 0'
     },
     textInput: {
       padding: '0.556em 1.111em',
@@ -69,6 +60,12 @@ class Form extends Component {
       border: '0.056em #d7d7d7 solid',
       boxShadow: 'transparent 0 0 0',
       margin: '0.278em 0'
+    },
+    label: {
+      ...makeTextStyle(fontWeights.bold, '0.938em'),
+      color: colors.slateGray,
+      display: 'block',
+      paddingBottom: '0.625em'
     }
   }
 
@@ -77,30 +74,28 @@ class Form extends Component {
     const { error, isLoading, t } = this.props;
     return (
       <form onSubmit={this.onSubmit}>
-        <div style={styles.line}>&nbsp;</div>
+        <label htmlFor='email' style={styles.label}>{t('resetPassword.emailLabel')}</label>
         <input
           autoFocus
           disabled={isLoading}
+          id='email'
           name='email'
-          placeholder={t('login.email')}
+          placeholder={t('resetPassword.email')}
           ref={(c) => { this._email = c; }}
           style={styles.textInput} type='email' />
-        <input
-          disabled={isLoading}
-          name='password'
-          placeholder={t('login.password')}
-          ref={(c) => { this._password = c; }}
-          style={styles.textInput} type='password' />
-        {error && <div style={styles.error}>{error}</div>}
-        <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('login.submitButton')}/>
+        {typeof error === 'string' && <div style={styles.error}>{t(error)}</div>}
+        <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('resetPassword.submitButton')}/>
       </form>
     );
   }
 }
 
+@connect(selector, (dispatch) => ({
+  submit: bindActionCreators(actions.resetPassword, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch)
+}))
 @localized
-@Radium
-class Login extends Component {
+export default class ResetPassword extends Component {
 
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
@@ -133,18 +128,8 @@ class Login extends Component {
     },
     title: {
       ...makeTextStyle(fontWeights.light, '1.875em'),
-      color: colors.dark
-    },
-    subText: {
-      ...makeTextStyle(fontWeights.regular, '0.875em'),
-      textAlign: 'center',
-      color: colors.coolGray,
-      paddingTop: '1.75em'
-    },
-    subTextLink: {
-      ...makeTextStyle(fontWeights.bold, '0.875em'),
-      color: colors.slateGray,
-      textDecoration: 'none'
+      color: colors.dark,
+      paddingBottom: '0.9333em'
     }
   };
 
@@ -152,34 +137,17 @@ class Login extends Component {
     const { styles } = this.constructor;
     const { currentLocale, t } = this.props;
 
-    // Depending on the context (popup/no popup), another link is used.
-    const toLinkRegister = this.props.location.state && this.props.location.state.modal
-      ? {
-        pathname: `/${currentLocale}/register`,
-        state: { modal: true, returnTo: this.props.location.state.returnTo }
-      } : `/${currentLocale}/register`;
-    const toLinkForgotPassword = this.props.location.state && this.props.location.state.modal
-      ? {
-        pathname: `/${currentLocale}/resetpassword`,
-        state: { modal: true, returnTo: this.props.location.state.returnTo }
-      } : `/${currentLocale}/resetpassword`;
-
     const content =
       <section style={styles.container}>
-        <h2 style={styles.title}>{t('login.title')}</h2>
-        <FacebookLoginButton onClose={this.onClose} />
-        <Form {...this.props} onClose={this.onClose} />
-        <p style={styles.subText}>
-          {t('login.newUser')}&nbsp;
-          <Link style={styles.subTextLink} to={toLinkRegister}>
-            {t('login.createAccount')}
-          </Link>
-        </p>
-        <p style={[ styles.subText, { paddingTop: '0.5em' } ]}>
-          <Link style={styles.subTextLink} to={toLinkForgotPassword}>
-            {t('login.forgotPassword')}
-          </Link>
-        </p>
+        <h2 style={styles.title}>{t('resetPassword.title')}</h2>
+        <Form {...this.props} onClose={this.onClose} onSuccess={() => {
+          this.props.routerPush(this.props.location.state && this.props.location.state.modal
+            ? {
+              pathname: `/${currentLocale}/resetpassword/success`,
+              state: { modal: true, returnTo: this.props.location.state.returnTo }
+            } : `/${currentLocale}/resetpassword/success`
+          );
+        }} />
       </section>;
 
     if (this.props.location.state && this.props.location.state.modal) {
@@ -194,11 +162,3 @@ class Login extends Component {
     return content;
   }
 }
-
-export default connect((state, ownProps) => ({
-  error: authenticationErrorSelector(state),
-  isLoading: authenticationIsLoadingSelector(state)
-}), (dispatch) => ({
-  submit: bindActionCreators(actions.doLogin, dispatch),
-  routerPush: bindActionCreators(routerPush, dispatch)
-}))(Login);

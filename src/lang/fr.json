@@ -20,6 +20,19 @@
       "sceneFromMovie": "Scène de [[%(movie)s]]"
     }
   },
+  "resetPassword": {
+    "alreadySendMail": "Un e-mail a déjà été envoyé. Veuillez vérifier votre e-mail pour de plus amples instructions.",
+    "email": "Votre e-mail",
+    "emailLabel": "Saisissez votre adresse e-mail pour réinitialiser votre mot de passe.",
+    "invalidEmail": "E-mail incorrect.",
+    "submitButton": "Réinitialiser",
+    "title": "Réinitialiser mot de passe"
+  },
+  "resetPasswordSuccess": {
+    "title": "Success!",
+    "text": "Your password has been successfully reset. Please check your e-mail for further instructions.",
+    "submitButton": "Done"
+  },
   "changePassword": {
     "successMessage": "Votre mot de passe a été modifié!",
     "errorMessage": "Nous avons rencontré une erreur en essayant de changer votre mot de passe :(",
@@ -90,7 +103,8 @@
     "logInWithFacebookButton": "Je m'inscris avec Facebook",
     "submitButton": "Connectez-vous",
     "newUser": "Nouveau utilisateur?",
-    "createAccount": "Je me connecte"
+    "createAccount": "Je me connecte",
+    "forgotPassword": "Mot de passe oublié?"
   },
   "register": {
     "title": "Créer un compte",
@@ -118,7 +132,7 @@
   "productDetail": {
     "buyNow": "Achetez maintenant",
     "by": "De %(brandName)s",
-    "noSimilar": "Aucun produit similaire a été trouvé.",
+    "noSimilar": "Aucun produit similaire n'a été trouvé.",
     "similarProducts": "Produits similaires",
     "unavailable": "Ce produit n’est pas disponible.",
     "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​"
@@ -162,8 +176,8 @@
       "title": "Produits %(title)s populaires"
     },
     "topUserProducts": {
-      "empty": "Il n'y a pas de produits populaires pour vous à ce moment.",
-      "title": "Choisi pour vous"
+      "empty": "Il n'y a pas de produits populaires pour vous en ce moment.",
+      "title": "Selectionné pour vous"
     },
     "episodes": {
       "empty": "Il n'y a pas d'épisodes disponibles."
