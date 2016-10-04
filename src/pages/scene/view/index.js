@@ -13,7 +13,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import { LOADED } from '../../../data/statusTypes';
 import Marker, { largeMarkerStyle } from '../../_common/tiles/_marker';
-import { MOVIE, SERIES } from '../../../data/mediumTypes';
+import { COMMERCIAL, MOVIE, SERIES } from '../../../data/mediumTypes';
 import { formatEpisodeNumber } from '../../../utils';
 import ProductThumbs from '../../_common/tiles/productThumbs';
 
@@ -323,6 +323,8 @@ export default class Scene extends Component {
   renderSceneTitleContent (scene, isPopup, styles) {
     const titleLinkStyle = Object.assign({}, styles.header.link.base, isPopup && styles.header.link.light);
     switch (scene.get('type')) {
+      case COMMERCIAL:
+        return <span>{scene.getIn([ 'commercial', 'brand', 'name' ]) || '\u00A0'} - <Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'commercial', 'shareUrl' ])}>{scene.getIn([ 'commercial', 'title' ]) || '\u00A0'}</Link></span>;
       case SERIES:
         return <span><Link activeStyle={titleLinkStyle} style={titleLinkStyle} to={scene.getIn([ 'series', 'shareUrl' ])}>{scene.getIn([ 'series', 'title' ]) || '\u00A0'}</Link> <span style={styles.header.title.emph}>- {formatEpisodeNumber(scene.getIn([ 'season', 'number' ]), scene.getIn([ 'episode', 'number' ]))}</span> {!scene.getIn([ 'episode', 'generatedTitle' ]) && scene.getIn([ 'episode', 'title' ])}</span>;
       case MOVIE:

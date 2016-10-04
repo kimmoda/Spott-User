@@ -259,6 +259,8 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           </div>
         );
 
+        console.warn('currentNumColumns', items.get('data').size, currentNumColumns);
+
         return (
           <div ref={(x) => { this.container = x; }} style={[ styles.container, style ]}>
             {(arrowsType === 'top' || title) &&
@@ -271,7 +273,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
                     styles.headerArrowRight,
                     (titleStyle && titleStyle.color) || colors.dark)}
                 </div>}
-            {(arrowsType === 'inline') &&
+            {arrowsType === 'inline' && items.get('data').size > 0 &&
               renderArrows(
                 styles.inlineArrows,
                 styles.inlineArrowLeft,

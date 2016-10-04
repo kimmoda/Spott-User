@@ -26,6 +26,10 @@ export const tabsSelector = createStructuredSelector({
 
 // Overview
 
+export const overviewSelector = createStructuredSelector({
+  medium: currentMediumSelector
+});
+
 export const pickedForYouSelector = createStructuredSelector({
   products: createEntitiesByRelationSelector(mediumHasTopUserProductsSelector, currentMediumIdSelector, productsEntitiesSelector)
 });

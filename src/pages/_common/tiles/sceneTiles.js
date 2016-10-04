@@ -248,11 +248,15 @@ export class SceneTile extends Component {
     const { styles } = this.constructor;
     const { hovered, item, t } = this.props;
 
+    item.get('products').map((product) => console.warn(product.toJS()));
+
     return (
       <div key='details' style={[ styles.details.base, hovered && styles.details.hovered ]}>
         <div>
-          {item.get('products').map((product) => (
-            <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />
+          {/* Only show the markers for the products which have a position.
+              Global products and hidden products don't have a position. */}
+          {item.get('products').filter((p) => p.get('position')).map((p) => (
+            <Marker key={p.get('id')} relativeLeft={p.getIn([ 'position', 'x' ])} relativeTop={p.getIn([ 'position', 'y' ])} />
           ))}
         </div>
         <div style={styles.characters}>

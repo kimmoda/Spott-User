@@ -1,4 +1,4 @@
-import { MOVIE, SERIES, SERIES_EPISODE } from '../data/mediumTypes';
+import { COMMERCIAL, MOVIE, SERIES, SERIES_EPISODE } from '../data/mediumTypes';
 
 function stripDomain (url) {
   return url.substring(url.indexOf('/', 9));
@@ -136,6 +136,24 @@ export function transformEpisode ({ generatedTitle, number, profileImage, shareU
   };
 }
 
+export function transformBrand ({ logo, name, uuid: id }) {
+  return {
+    id,
+    logo: logo && { id: logo.uuid, url: logo.url },
+    name
+  };
+}
+
+export function transformCommercial ({ brand, shareUrl, title, type, uuid: id }) {
+  return {
+    brand: brand && transformBrand(brand),
+    id,
+    shareUrl: stripDomain(shareUrl),
+    title,
+    type
+  };
+}
+
 function transformSceneProduct ({ image, position, price, relevance, shortName, uuid: id }) {
   return {
     id,
@@ -161,6 +179,10 @@ export function transformScene (data) {
   };
   if (medium) {
     switch (medium.type) {
+      case COMMERCIAL:
+        scene.commercial = transformCommercial(medium);
+        scene.type = COMMERCIAL;
+        break;
       case SERIES_EPISODE:
         scene.episode = transformEpisode(medium);
         scene.season = medium.season && transformSeason(medium.season);
