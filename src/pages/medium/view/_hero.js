@@ -108,9 +108,6 @@ export default class Hero extends Component {
       medium: {
         color: 'white',
         marginBottom: '0.927em'
-      },
-      moreSpace: {
-        // paddingBottom: '2em'
       }
     },
     emph: {
@@ -144,8 +141,8 @@ export default class Hero extends Component {
           <div style={styles.overlay} />
           <Container style={styles.container}>
             <h4 style={styles.mediaType}>{t(`medium.${medium.get('type')}`)}</h4>
+            <Title style={styles.title.large}>{medium.get('title')}</Title>
             {/* A user can't follow a commercial. */}
-            <Title style={{ ...styles.title.large, ...(!showFollowers && styles.title.moreSpace) }}>{medium.get('title')}</Title>
             {showFollowers &&
               <div>
                 <SectionTitle style={styles.title.medium}>
