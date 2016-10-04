@@ -5,7 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import VerticalTiles from '../../_common/verticalTiles';
 import { ProductTile } from '../../_common/tiles/productTiles';
-import { LoadComponent, ScalableContainer } from '../../_common/buildingBlocks';
+import { LoadComponent, Container } from '../../_common/buildingBlocks';
 import { mediumProductsSelector } from '../selector';
 import * as actions from '../actions';
 
@@ -58,17 +58,19 @@ export default class Products extends Component {
       <LoadComponent
         item={products}
         renderEmpty={() => t('medium.products.empty')}
-        renderInContainer={(children) => <ScalableContainer style={styles.messageContainer}>{children}</ScalableContainer>}
+        renderInContainer={(children) => <div style={styles.container}><Container style={styles.messageContainer}>{children}</Container></div>}
         renderItem={() => (
-          <ScalableContainer style={styles.container}>
-            <VerticalTiles
-              aspectRatio={1.309677}
-              horizontalSpacing={30}
-              items={products.get('data')}
-              numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
-              tile={<ProductTile />}
-              verticalSpacing={30} />
-          </ScalableContainer>
+          <div style={styles.container}>
+            <Container >
+              <VerticalTiles
+                aspectRatio={1.309677}
+                horizontalSpacing={30}
+                items={products.get('data')}
+                numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
+                tile={<ProductTile />}
+                verticalSpacing={30} />
+            </Container>
+          </div>
         )} />
     );
   }

@@ -1,26 +1,16 @@
 import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } from './request';
 import { transformMedium, transformSeason, transformEpisode } from './transformers';
-import { MOVIE, SERIES } from '../data/mediumTypes';
-import { slugify } from '../utils';
+import { COMMERCIAL, MOVIE, SERIES } from '../data/mediumTypes';
 
-const mapMediumTypeToUrlParts = {
-  [MOVIE]: 'movie',
-  [SERIES]: 'series'
-};
-
+// A user can't follow a commercial.
 const mapMediumTypeToUrlPartsPlural = {
   [MOVIE]: 'movies',
   [SERIES]: 'series'
 };
 
 export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/searches/recent?pageSize=100`);
-  const data = body.data.map(transformMedium);
-  // TODO: Important! Remove this if the server returns the new url.
-  for (const medium of data) {
-    medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
-  }
-  return { data };
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/searches/recent?pageSize=100`);
+  return { data: data.map(transformMedium) };
 }
 
 /**
@@ -43,18 +33,17 @@ export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
 export async function getMedium (baseUrl, authenticationToken, locale, { mediumId, mediumType }) {
   try {
     switch (mediumType) {
+      case COMMERCIAL: {
+        const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/commercials/${mediumId}`);
+        return transformMedium(body);
+      }
       case MOVIE: {
         const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/movies/${mediumId}`);
-        // TODO: temp server fix
-        const medium = transformMedium(body);
-        medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
-        return medium;
+        return transformMedium(body);
       }
       case SERIES: {
         const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}`);
-        const medium = transformMedium(body);
-        medium.shareUrl = `/${locale}/${mapMediumTypeToUrlParts[medium.type]}/${slugify(medium.title)}/${medium.id}`;
-        return medium;
+        return transformMedium(body);
       }
       default:
         throw { statusCode: 404 };

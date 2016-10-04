@@ -404,19 +404,22 @@ const scalableContainerStyles = {
   marginLeft: 'auto',
   marginRight: 'auto',
   width: '100%',
-  paddingLeft: '1em',
-  paddingRight: '1em',
+  // paddingLeft: '1em',
+  // paddingRight: '1em',
   [mediaQueries.medium]: {
-    paddingLeft: '3em',
-    paddingRight: '3em'
+    // paddingLeft: '3em',
+    // paddingRight: '3em',
+    maxWidth: 738
   },
   [mediaQueries.large]: {
-    paddingLeft: '4em',
-    paddingRight: '4em'
+    // paddingLeft: '4em',
+    // paddingRight: '4em',
+    maxWidth: 962
   },
   [mediaQueries.extraLarge]: {
-    paddingLeft: '6.5em',
-    paddingRight: '6.5em'
+    // paddingLeft: '6.5em',
+    // paddingRight: '6.5em',
+    maxWidth: 1170
   }
 };
 export const ScalableContainer = Radium((props) => (

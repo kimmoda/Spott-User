@@ -169,6 +169,7 @@
     "notExist": "This user profile doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
   },
   "medium": {
+    "COMMERCIAL": "Commercial",
     "MOVIE": "Movie",
     "TV_SERIE": "Tv show",
     "topProducts": {

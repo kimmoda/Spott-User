@@ -9,7 +9,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import localized from '../../_common/localized';
 import mostSpecificMedium from '../_mostSpecificMedium';
-import { MOVIE, SERIES } from '../../../data/mediumTypes';
+import { COMMERCIAL, MOVIE, SERIES } from '../../../data/mediumTypes';
 
 const styles = {
   content: {
@@ -88,6 +88,7 @@ export default class MediumScenes extends Component {
             ))}
           </SectionTitle>
         );
+      case COMMERCIAL:
       case MOVIE:
         return (
           <SectionTitle>

@@ -33,7 +33,7 @@ import ResetPasswordSuccess from './pages/resetPassword/success';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
 import { changeLocale } from './pages/app/actions';
-import { MOVIE, SERIES } from './data/mediumTypes';
+import { COMMERCIAL, MOVIE, SERIES } from './data/mediumTypes';
 import { locales } from './locales';
 
 /**
@@ -96,6 +96,15 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       dispatch(changeLocale(locale));
     }
 
+    const placeholderStyle = {
+      width: '100%',
+      paddingTop: '7.5em',
+      paddingBottom: '7.5em',
+      paddingLeft: '2.5em',
+      paddingRight: '2.5em',
+      backgroundColor: colors.whiteGray
+    };
+
     return (
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
         <IndexRoute component={Home} />
@@ -111,49 +120,33 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         </Route>
 
         <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
-          <IndexRoute
-            component={() => <div style={{
-              width: '100%',
-              paddingTop: '7.5em',
-              paddingBottom: '7.5em',
-              paddingLeft: '2.5em',
-              paddingRight: '2.5em',
-              backgroundColor: colors.whiteGray
-            }}><SmallContainer /></div>
-          } />
+          <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 
         {/* Scenes */}
         <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
-          <IndexRoute
-            component={() => <div style={{
-              width: '100%',
-              paddingTop: '7.5em',
-              paddingBottom: '7.5em',
-              paddingLeft: '2.5em',
-              paddingRight: '2.5em',
-              backgroundColor: colors.whiteGray
-            }}><SmallContainer /></div>
-          } />
+          <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
+          <Route component={SceneProduct} path='product/:productId' />
+        </Route>
+
+        <Route component={Scene} path='commercial/:commercialSlug/:commercialId/scenes/scene/:sceneId'>
+          <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 
         <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
-          <IndexRoute
-            component={() => <div style={{
-              width: '100%',
-              paddingTop: '7.5em',
-              paddingBottom: '7.5em',
-              paddingLeft: '2.5em',
-              paddingRight: '2.5em',
-              backgroundColor: colors.whiteGray
-            }}><SmallContainer /></div>
-          } />
+          <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 
         {/* Media */}
+        <Route component={Medium} mediumType={COMMERCIAL} path={'commercial/:mediumSlug/:mediumId'}>
+          <IndexRedirect to='overview' />
+          <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
+          <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
+          <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={COMMERCIAL} path='scenes' />
+        </Route>
         <Route component={Medium} mediumType={SERIES} path={'series/:mediumSlug/:mediumId'}>
           <IndexRedirect to='overview' />
           <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />

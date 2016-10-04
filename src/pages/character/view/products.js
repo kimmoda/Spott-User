@@ -58,17 +58,19 @@ export default class Products extends Component {
       <LoadComponent
         item={products}
         renderEmpty={() => t('character.products.empty')}
-        renderInContainer={(children) => <ScalableContainer style={styles.messageContainer}>{children}</ScalableContainer>}
+        renderInContainer={(children) => <div style={styles.container}><ScalableContainer style={styles.messageContainer}>{children}</ScalableContainer></div>}
         renderItem={() => (
-          <ScalableContainer style={styles.container}>
-            <VerticalTiles
-              aspectRatio={1.309677}
-              horizontalSpacing={30}
-              items={products.get('data')}
-              numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
-              tile={<ProductTile />}
-              verticalSpacing={30} />
-          </ScalableContainer>
+          <div style={styles.container}>
+            <ScalableContainer>
+              <VerticalTiles
+                aspectRatio={1.309677}
+                horizontalSpacing={30}
+                items={products.get('data')}
+                numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
+                tile={<ProductTile />}
+                verticalSpacing={30} />
+            </ScalableContainer>
+          </div>
         )} />
     );
   }

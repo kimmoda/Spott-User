@@ -6,6 +6,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../_common/buildingBlocks';
 import CharacterTiles from '../../_common/tiles/characterTiles';
 import { FETCHING, LAZY, LOADED, UPDATING } from '../../../data/statusTypes';
+import { COMMERCIAL } from '../../../data/mediumTypes';
 import { heroSelector } from '../selector';
 import localized from '../../_common/localized';
 import * as actions from '../actions';
@@ -60,6 +61,7 @@ export default class Hero extends Component {
     }
   }
 
+  // A user can't follow a commercial.
   toggleFollow (e) {
     e.preventDefault();
     this.props.toggleFollow(this.props.mediumId);
@@ -118,6 +120,9 @@ export default class Hero extends Component {
     },
     tiles: {
       marginBottom: '1.7em'
+    },
+    noCharacters: {
+      paddingTop: '6.5em'
     }
   };
 
@@ -130,33 +135,38 @@ export default class Hero extends Component {
     }
 
     if (medium.get('_status') === LOADED || medium.get('_status') === UPDATING) {
+      const showFollowers = medium.get('type') !== COMMERCIAL;
       return (
         <div style={[ styles.background, medium.get('profileImage') && { backgroundImage: `url(${medium.getIn([ 'profileImage', 'url' ])})` } ]}>
           <div style={styles.overlay} />
           <Container style={styles.container}>
             <h4 style={styles.mediaType}>{t(`medium.${medium.get('type')}`)}</h4>
             <Title style={styles.title.large}>{medium.get('title')}</Title>
-            <SectionTitle style={styles.title.medium}>
-              {t('common.followers', { count: medium.get('subscriberCount') || 0 }, (contents, key) => (
-                <span key={key} style={styles.emph}>{contents}</span>
-              ))}
-            </SectionTitle>
-            {isAuthenticated
-              ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={this.toggleFollow}>
-                  {medium.get('subscribed') ? t('common.unfollow') : t('common.follow')}
-                </Button>
-              : <Button style={[ pinkButtonStyle, styles.followButton.base ]} to={{
-                pathname: `/${currentLocale}/login`,
-                state: { modal: true, returnTo: currentPathname }
-              }}>
-                {t('common.follow')}
-              </Button>}
+            {/* A user can't follow a commercial. */}
+            {showFollowers &&
+              <div>
+                <SectionTitle style={styles.title.medium}>
+                  {t('common.followers', { count: medium.get('subscriberCount') || 0 }, (contents, key) => (
+                    <span key={key} style={styles.emph}>{contents}</span>
+                  ))}
+                </SectionTitle>
+                {isAuthenticated
+                  ? <Button style={[ pinkButtonStyle, styles.followButton.base ]} onClick={this.toggleFollow}>
+                      {medium.get('subscribed') ? t('common.unfollow') : t('common.follow')}
+                    </Button>
+                  : <Button style={[ pinkButtonStyle, styles.followButton.base ]} to={{
+                    pathname: `/${currentLocale}/login`,
+                    state: { modal: true, returnTo: currentPathname }
+                  }}>
+                    {t('common.follow')}
+                  </Button>}
+            </div>}
           </Container>
           <Container>
             <CharacterTiles
               arrowsType='inline'
               items={characters}
-              renderEmptyComponent={() => <div />}
+              renderEmptyComponent={() => <div style={styles.noCharacters} />}
               renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}
               renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
               style={styles.characters} />
