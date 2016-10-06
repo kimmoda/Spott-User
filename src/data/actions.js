@@ -4,7 +4,9 @@ import * as productsApi from '../api/products';
 import * as scenesApi from '../api/scenes';
 import * as usersApi from '../api/users';
 import * as wishlistsApi from '../api/wishlists';
+import * as eventsApi from '../api/events';
 import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../pages/app/selector';
+import { slowdown } from '../utils';
 
 export function makeApiActionCreator (_apiCall, startActionType, successActionType, errorActionType) {
   return function (params) {
@@ -141,8 +143,40 @@ export const REMOVE_SAVED_SCENE_START = 'DATA/REMOVE_SAVED_SCENE_START';
 export const REMOVE_SAVED_SCENE_SUCCESS = 'DATA/REMOVE_SAVED_SCENE_SUCCESS';
 export const REMOVE_SAVED_SCENE_ERROR = 'DATA/REMOVE_SAVED_SCENE_ERROR';
 
+export const CHARACTER_VIEW_START = 'DATA/CHARACTER_VIEW_START';
+export const CHARACTER_VIEW_SUCCESS = 'DATA/CHARACTER_VIEW_SUCCESS';
+export const CHARACTER_VIEW_ERROR = 'DATA/CHARACTER_VIEW_ERROR';
+
+export const MEDIUM_VIEW_START = 'DATA/MEDIUM_VIEW_START';
+export const MEDIUM_VIEW_SUCCESS = 'DATA/MEDIUM_VIEW_SUCCESS';
+export const MEDIUM_VIEW_ERROR = 'DATA/MEDIUM_VIEW_ERROR';
+
+export const PRODUCT_VIEW_START = 'DATA/PRODUCT_VIEW_START';
+export const PRODUCT_VIEW_SUCCESS = 'DATA/PRODUCT_VIEW_SUCCESS';
+export const PRODUCT_VIEW_ERROR = 'DATA/PRODUCT_VIEW_ERROR';
+
+export const SCENE_VIEW_START = 'DATA/SCENE_VIEW_START';
+export const SCENE_VIEW_SUCCESS = 'DATA/SCENE_VIEW_SUCCESS';
+export const SCENE_VIEW_ERROR = 'DATA/SCENE_VIEW_ERROR';
+
+export const USER_VIEW_START = 'DATA/USER_VIEW_START';
+export const USER_VIEW_SUCCESS = 'DATA/USER_VIEW_SUCCESS';
+export const USER_VIEW_ERROR = 'DATA/USER_VIEW_ERROR';
+
 // Actions creators
 // ////////////////
+
+// Multiple views of an entity are reduced to a single view using the slowdown function.
+
+export const characterView = makeApiActionCreator(slowdown(eventsApi.postCharacterView, 300), CHARACTER_VIEW_START, CHARACTER_VIEW_SUCCESS, CHARACTER_VIEW_ERROR);
+
+export const mediumView = makeApiActionCreator(slowdown(eventsApi.postMediumView, 300), MEDIUM_VIEW_START, MEDIUM_VIEW_SUCCESS, MEDIUM_VIEW_ERROR);
+
+export const productView = makeApiActionCreator(slowdown(eventsApi.postProductView, 300), PRODUCT_VIEW_START, PRODUCT_VIEW_SUCCESS, PRODUCT_VIEW_ERROR);
+
+export const sceneView = makeApiActionCreator(slowdown(eventsApi.postSceneView, 300), SCENE_VIEW_START, SCENE_VIEW_SUCCESS, SCENE_VIEW_ERROR);
+
+export const userView = makeApiActionCreator(slowdown(eventsApi.postUserView, 300), USER_VIEW_START, USER_VIEW_SUCCESS, USER_VIEW_ERROR);
 
 export const fetchCharacter = makeApiActionCreator(charactersApi.getCharacter, CHARACTER_FETCH_START, CHARACTER_FETCH_SUCCESS, CHARACTER_FETCH_ERROR);
 

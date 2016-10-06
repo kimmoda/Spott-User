@@ -7,12 +7,15 @@ import { browserHistory, Router } from 'react-router';
 import ReactDOM from 'react-dom';
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux';
 import { Provider } from 'react-redux';
-import { doInit } from './pages/app/actions';
-import { getRoutes } from './routes';
+import { applyMiddleware, createStore } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import { fromJS } from 'immutable';
 import { AsyncRouterContext } from 'redux-async-props';
 import { combineReducers } from 'redux-immutablejs';
 import { reducer as form } from 'redux-form/immutable';
+
+import { LOGIN_SUCCESS, DOWNLOAD_PAGE_SHOWED, doInit } from './pages/app/actions';
+import { getRoutes } from './routes';
 import app from './pages/app/reducer';
 import data from './data/reducer';
 import character from './pages/character/reducer';
@@ -20,8 +23,6 @@ import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
 import resetPassword from './pages/resetPassword/reducer';
-import { applyMiddleware, createStore } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
@@ -90,7 +91,11 @@ async function boot () {
   if (localStorage) {
     const session = localStorage.getItem('session');
     if (session) {
-      store.dispatch({ data: JSON.parse(session), type: 'LOGIN_SUCCESS' });
+      store.dispatch({ data: JSON.parse(session), type: LOGIN_SUCCESS });
+    }
+    const isDownloadPageShowed = localStorage.getItem('downloadPageShowed');
+    if (isDownloadPageShowed) {
+      store.dispatch({ downloadPageShowed: JSON.parse(isDownloadPageShowed), type: DOWNLOAD_PAGE_SHOWED });
     }
   }
 
