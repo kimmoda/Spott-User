@@ -18,6 +18,8 @@ class Form extends Component {
   static propTypes = {
     error: PropTypes.any,
     isLoading: PropTypes.bool,
+    location: PropTypes.object.isRequired,
+    routerPush: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
@@ -34,6 +36,10 @@ class Form extends Component {
     setTimeout(() => {
       ReactDOM.findDOMNode(this._email).focus();
     }, 0);
+  }
+
+  onClose () {
+    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || '/');
   }
 
   async onSubmit (e) {

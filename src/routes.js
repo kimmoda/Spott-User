@@ -1,7 +1,9 @@
 import React from 'react';
 import { IndexRoute, IndexRedirect, Route } from 'react-router';
+import { push as routerPush } from 'react-router-redux';
 
 import { colors, SmallContainer } from './pages/_common/buildingBlocks';
+import { isIos, isAndroid } from './pages/_common/downloadAppButtons';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
 import Cookies from './pages/cookies';
@@ -10,6 +12,7 @@ import CharacterProducts from './pages/character/view/products';
 import Error404 from './pages/error404';
 import Home from './pages/home/view';
 import Login from './pages/login';
+import Mobile from './pages/mobile';
 import Register from './pages/register/view';
 import Privacy from './pages/privacy';
 import ProductDetail from './pages/productDetail/view';
@@ -32,9 +35,10 @@ import ResetPasswordSuccess from './pages/resetPassword/success';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
-import { changeLocale } from './pages/app/actions';
+import { changeLocale, downloadPageShowed } from './pages/app/actions';
 import { COMMERCIAL, MOVIE, SERIES } from './data/mediumTypes';
 import { locales } from './locales';
+import { currentLocaleSelector, isDownloadPageShowedSelector } from './pages/app/selector';
 
 /**
  * The application routes
@@ -88,11 +92,19 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       return replace(location);
     }
   }
-
   // Factory for localized routes
   function makeLocalizedRoutes (locale) {
+    function goToDownloadPage (state, replace) {
+      const isDownloadPageShowed = isDownloadPageShowedSelector(getState());
+      if ((isAndroid() || isIos()) && (!isDownloadPageShowed)) {
+        dispatch(downloadPageShowed());
+        const lang = currentLocaleSelector(getState());
+        replace({ pathname: `${lang}/mobile/download`, state: { returnTo: state.location.pathname } });
+      }
+    }
+
     // When entering a page, the locale is dispatched.
-    function onLocaleEnter (state) {
+    function onLocaleEnter (state, replace) {
       dispatch(changeLocale(locale));
     }
 
@@ -107,7 +119,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
     return (
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
-        <IndexRoute component={Home} />
+        <IndexRoute component={Home} onEnter={goToDownloadPage}/>
 
         <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
         <Route component={Privacy} path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
@@ -169,6 +181,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' onEnter={() => window.scrollTo(0, 0)} />
         <Route component={ProductDetail} path='product/:productSlug/:productId' onEnter={() => window.scrollTo(0, 0)} /> {/* Backwards compatible with old url. */}
 
+        <Route component={Mobile} path='mobile/download' standalone/>
         <Route component={Login} noSignInButtonInHeader path='login' />
         <Route component={Register} noSignInButtonInHeader path='register' />
         <Route component={ResetPassword} noSignInButtonInHeader path='resetpassword'/>
