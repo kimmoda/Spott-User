@@ -33,6 +33,7 @@ import ResetPasswordSuccess from './pages/resetPassword/success';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
 import { changeLocale } from './pages/app/actions';
+import { characterView, mediumView, productView, sceneView, userView } from './data/actions';
 import { COMMERCIAL, MOVIE, SERIES } from './data/mediumTypes';
 import { locales } from './locales';
 
@@ -114,60 +115,79 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
         <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
-        <Route component={Character} path='character/:characterSlug/:characterId'>
+        <Route component={Character} path='character/:characterSlug/:characterId' onEnter={({ params: { characterId } }) => {
+          characterId && dispatch(characterView({ characterId }));
+        }}>
           <IndexRedirect to='products' />
           <Route component={CharacterProducts} path='products' />
         </Route>
 
-        <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
-          <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
-          <Route component={SceneProduct} path='product/:productId' />
-        </Route>
-
         {/* Scenes */}
-        <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId'>
+        <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId' onEnter={({ params: { sceneId } }) => {
+          sceneId && dispatch(sceneView({ sceneId }));
+        }}>
           <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 
-        <Route component={Scene} path='commercial/:commercialSlug/:commercialId/scenes/scene/:sceneId'>
+        <Route component={Scene} path='commercial/:commercialSlug/:commercialId/scenes/scene/:sceneId' onEnter={({ params: { sceneId } }) => {
+          sceneId && dispatch(sceneView({ sceneId }));
+        }}>
           <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 
-        <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId'>
+        <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId' onEnter={({ params: { sceneId } }) => {
+          sceneId && dispatch(sceneView({ sceneId }));
+        }}>
           <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
           <Route component={SceneProduct} path='product/:productId' />
         </Route>
 
         {/* Media */}
-        <Route component={Medium} mediumType={COMMERCIAL} path={'commercial/:mediumSlug/:mediumId'}>
+        <Route component={Medium} mediumType={COMMERCIAL} path='commercial/:mediumSlug/:mediumId' onEnter={({ params: { mediumId } }) => {
+          mediumId && dispatch(mediumView({ mediumId }));
+        }}>
           <IndexRedirect to='overview' />
           <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
           <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={COMMERCIAL} path='scenes' />
         </Route>
-        <Route component={Medium} mediumType={SERIES} path={'series/:mediumSlug/:mediumId'}>
+        <Route component={Medium} mediumType={SERIES} path='series/:mediumSlug/:mediumId' onEnter={({ params: { mediumId } }) => {
+          mediumId && dispatch(mediumView({ mediumId }));
+        }}>
           <IndexRedirect to='overview' />
           <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
           <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={SERIES}>
             <Route component={MediumSeasons} path='season'>
-              <Route component={MediumEpisodes} path=':seasonSlug/:seasonId'>
-                <Route component={null} path='episode/:episodeSlug/:episodeId' />
+              <Route component={MediumEpisodes} path=':seasonSlug/:seasonId' onEnter={({ params: { seasonId } }) => {
+                seasonId && dispatch(mediumView({ mediumId: seasonId }));
+              }}>
+                <Route component={null} path='episode/:episodeSlug/:episodeId' onEnter={({ params: { episodeId } }) => {
+                  episodeId && dispatch(mediumView({ mediumId: episodeId }));
+                }}/>
               </Route>
             </Route>
           </Route>
         </Route>
-        <Route component={Medium} mediumType={MOVIE} path={'movie/:mediumSlug/:mediumId'}>
+        <Route component={Medium} mediumType={MOVIE} path={'movie/:mediumSlug/:mediumId'} onEnter={({ params: { mediumId } }) => {
+          mediumId && dispatch(mediumView({ mediumId }));
+        }}>
           <IndexRedirect to='overview' />
           <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
           <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={MOVIE} path='scenes' />
         </Route>
 
-        <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' onEnter={() => window.scrollTo(0, 0)} />
-        <Route component={ProductDetail} path='product/:productSlug/:productId' onEnter={() => window.scrollTo(0, 0)} /> {/* Backwards compatible with old url. */}
+        <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' onEnter={({ params: { productId } }) => {
+          window.scrollTo(0, 0);
+          productId && dispatch(productView({ productId }));
+        }} />
+        <Route component={ProductDetail} path='product/:productSlug/:productId' onEnter={({ params: { productId } }) => {
+          window.scrollTo(0, 0);
+          productId && dispatch(productView({ productId }));
+        }} /> {/* Backwards compatible with old url. */}
 
         <Route component={Login} noSignInButtonInHeader path='login' />
         <Route component={Register} noSignInButtonInHeader path='register' />
@@ -175,7 +195,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={ResetPasswordSuccess} noSignInButtonInHeader path='resetpassword/success'/>
         <Route component={ChangePassword} noSignInButtonInHeader path='user/changepwd'/>
 
-        <Route component={Profile} floating path='profile/:userSlug/:userId' >
+        <Route component={Profile} floating path='profile/:userSlug/:userId' onEnter={({ params: { userId } }) => {
+          userId && dispatch(userView({ userId }));
+        }}>
           <IndexRedirect to='saved-scenes' />
           <Route path='wishlists'>
             <IndexRoute component={ProfileWishlists} />
