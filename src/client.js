@@ -14,7 +14,7 @@ import { AsyncRouterContext } from 'redux-async-props';
 import { combineReducers } from 'redux-immutablejs';
 import { reducer as form } from 'redux-form/immutable';
 
-import { doInit } from './pages/app/actions';
+import { LOGIN_SUCCESS, DOWNLOAD_PAGE_SHOWED, doInit } from './pages/app/actions';
 import { getRoutes } from './routes';
 import app from './pages/app/reducer';
 import data from './data/reducer';
@@ -23,7 +23,6 @@ import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
 import resetPassword from './pages/resetPassword/reducer';
-import { LOGIN_SUCCESS, DOWNLOAD_PAGE_SHOWED } from './pages/app/actions';
 
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
