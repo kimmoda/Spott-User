@@ -67,6 +67,8 @@ function configuration (state = Map({ currentLocale: 'en' }), action) {
       return state.merge(fromJS(action.configuration));
     case actions.CHANGE_LOCALE:
       return state.set('currentLocale', action.locale);
+    case actions.DOWNLOAD_PAGE_SHOWED:
+      return state.set('downloadPageShowed', action.downloadPageShowed);
   }
   return state;
 }
