@@ -80,7 +80,7 @@ export default class MobileDownload extends Component {
     },
     desktop: {
       ...makeTextStyle(null, '1em', '0.019em'),
-      paddingTop: '10.314em',
+      paddingTop: '5.314em',
       color: colors.darkPink,
       textDecoration: 'underline'
     }
@@ -91,7 +91,7 @@ export default class MobileDownload extends Component {
     console.log(this.props.location);
     return (
       <div style={styles.container}>
-        <div style={styles.header}><img src={spottLogo} style={styles.logo}/></div>
+        <div style={styles.header}><img src={spottLogo} style={styles.logo} onClick={this.onClose} /></div>
         <div style={styles.content}>
           <div style={styles.title}>Spott is now available on { isIos() && 'the App Store' }{ isAndroid() && 'the Play Store' }</div>
           <div style={styles.downloadPadding}>
