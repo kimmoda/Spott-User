@@ -22,6 +22,17 @@ export function acceptCookies () {
   return { type: ACCEPT_COOKIES };
 }
 
+export const DOWNLOAD_PAGE_SHOWED = 'DOWNLOAD_PAGE_SHOWED';
+export function downloadPageShowed () {
+  return (dispatch, getState) => {
+    if (localStorage) {
+      const date = new Date();
+      localStorage.setItem('downloadPageShowed', JSON.stringify(date));
+      dispatch({ type: DOWNLOAD_PAGE_SHOWED, downloadPageShowed: date });
+    }
+  };
+}
+
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';

@@ -19,6 +19,7 @@ export const currentUserIdSelector = (state) => state.getIn([ 'app', 'authentica
 export const isAuthenticatedSelector = (state) => Boolean(state.getIn([ 'app', 'authentication', 'user', 'id' ]));
 
 export const currentUrlSelector = (state) => state.getIn([ 'routing', 'locationBeforeTransitions', 'pathname' ]);
+export const isDownloadPageShowedSelector = (state) => state.getIn([ 'app', 'configuration', 'downloadPageShowed' ]);
 
 export const appSelector = createStructuredSelector({
   acceptCookies: acceptCookiesSelector
