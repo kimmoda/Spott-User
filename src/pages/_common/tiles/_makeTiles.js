@@ -164,10 +164,16 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           alignItems: 'baseline'
         },
         headerArrows: {
-          flex: '1 1 auto',
+          alignItems: 'center',
           display: 'flex',
+          flex: '1 1 auto',
           justifyContent: 'flex-end',
-          alignItems: 'center'
+          WebkitTouchCallout: 'none', // iOS Safari
+          KhtmlUserSelect: 'none', // Konqueror
+          MozUserSelect: 'none', // Firefox
+          WebkitUserSelect: 'none', // Chrome/Safari/Opera
+          msUserSelect: 'none', // Internet Explorer/Edge
+          userSelect: 'none' // Non-prefixed version, currently not supported by any browser
         },
         headerArrowLeft: {
           cursor: 'pointer',
@@ -179,17 +185,23 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           paddingLeft: '0.25em'
         },
         inlineArrows: {
-          flex: '1 1 auto',
-          display: 'flex',
-          justifyContent: 'space-between',
           alignItems: 'center',
-          position: 'absolute',
-          top: 0,
-          left: 0,
           bottom: 0,
+          display: 'flex',
+          flex: '1 1 auto',
+          justifyContent: 'space-between',
+          left: 0,
+          pointerEvents: 'none',
+          position: 'absolute',
           right: 0,
-          zIndex: 100,
-          pointerEvents: 'none'
+          top: 0,
+          WebkitTouchCallout: 'none', // iOS Safari
+          KhtmlUserSelect: 'none', // Konqueror
+          MozUserSelect: 'none', // Firefox
+          WebkitUserSelect: 'none', // Chrome/Safari/Opera
+          msUserSelect: 'none', // Internet Explorer/Edge
+          userSelect: 'none', // Non-prefixed version, currently not supported by any browser
+          zIndex: 100
         },
         inlineArrowLeft: {
           cursor: 'pointer',

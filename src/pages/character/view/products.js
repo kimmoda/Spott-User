@@ -5,7 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import VerticalTiles from '../../_common/verticalTiles';
 import { ProductTile } from '../../_common/tiles/productTiles';
-import { LoadComponent, ScalableContainer } from '../../_common/buildingBlocks';
+import { LoadComponent, Container } from '../../_common/buildingBlocks';
 import { characterProductsSelector } from '../selector';
 import * as actions from '../actions';
 
@@ -58,10 +58,10 @@ export default class Products extends Component {
       <LoadComponent
         item={products}
         renderEmpty={() => t('character.products.empty')}
-        renderInContainer={(children) => <div style={styles.container}><ScalableContainer style={styles.messageContainer}>{children}</ScalableContainer></div>}
+        renderInContainer={(children) => <div style={styles.container}><Container style={styles.messageContainer}>{children}</Container></div>}
         renderItem={() => (
           <div style={styles.container}>
-            <ScalableContainer>
+            <Container>
               <VerticalTiles
                 aspectRatio={1.309677}
                 horizontalSpacing={30}
@@ -69,7 +69,7 @@ export default class Products extends Component {
                 numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
                 tile={<ProductTile />}
                 verticalSpacing={30} />
-            </ScalableContainer>
+            </Container>
           </div>
         )} />
     );
