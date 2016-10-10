@@ -26,7 +26,7 @@ export default class RecentlyAddedToWishlist extends Component {
   };
 
   componentWillMount () {
-    this.props.loadPopularProducts();
+    setTimeout(() => this.props.loadPopularProducts(), 2000);
   }
 
   static styles = {
