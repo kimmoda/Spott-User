@@ -9,7 +9,7 @@ const mapMediumTypeToUrlPartsPlural = {
 };
 
 export async function getRecentlyAdded (baseUrl, authenticationToken, locale) {
-  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/searches/recent?pageSize=100`);
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/searches/recent?pageSize=20`);
   return { data: data.map(transformMedium) };
 }
 

@@ -26,7 +26,7 @@ export default class NewScenesForYou extends Component {
   }
 
   componentWillMount () {
-    this.props.loadNewScenesForYou();
+    setTimeout(() => this.props.loadNewScenesForYou(), 2000);
   }
 
   static styles = {
