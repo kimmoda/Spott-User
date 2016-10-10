@@ -271,8 +271,6 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           </div>
         );
 
-        console.warn('currentNumColumns', items.get('data').size, currentNumColumns);
-
         return (
           <div ref={(x) => { this.container = x; }} style={[ styles.container, style ]}>
             {(arrowsType === 'top' || title) &&

@@ -9,6 +9,8 @@ import localized from '../../../_common/localized';
 import DownloadAppButtons, { iosUrl, isIos, androidUrl, isAndroid } from '../../../_common/downloadAppButtons';
 
 const spottImage = require('./images/spott.jpg');
+const spottMediumImage = require('./images/spott-medium.jpg');
+const spottSmallImage = require('./images/spott-small.jpg');
 const deviceImage = require('./images/device.png');
 
 @localized
@@ -109,7 +111,16 @@ export default class DownloadApp extends Component {
     const { styles } = this.constructor;
     const { t } = this.props;
     return (
-      <div style={{ ...styles.wrapper, backgroundImage: `url("${spottImage}")` }}>
+      <div style={{
+        ...styles.wrapper,
+        backgroundImage: `url("${spottSmallImage}")`,
+        [mediaQueries.large]: {
+          backgroundImage: `url("${spottMediumImage}")`
+        },
+        [mediaQueries.extraLarge]: {
+          backgroundImage: `url("${spottImage}")`
+        }
+      }}>
         <Container>
           <div style={styles.overlay} />
           <div style={styles.innerWrapper}>

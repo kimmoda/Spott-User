@@ -3,7 +3,7 @@ import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, Message, SectionTitle, Spinner, Title } from '../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle, pinkButtonStyle, responsiveBackgroundImage, Button, Container, Message, SectionTitle, Spinner, Title } from '../../_common/buildingBlocks';
 import CharacterTiles from '../../_common/tiles/characterTiles';
 import { FETCHING, LAZY, LOADED, UPDATING } from '../../../data/statusTypes';
 import { COMMERCIAL } from '../../../data/mediumTypes';
@@ -137,7 +137,7 @@ export default class Hero extends Component {
     if (medium.get('_status') === LOADED || medium.get('_status') === UPDATING) {
       const showFollowers = medium.get('type') !== COMMERCIAL;
       return (
-        <div style={[ styles.background, medium.get('profileImage') && { backgroundImage: `url(${medium.getIn([ 'profileImage', 'url' ])})` } ]}>
+        <div style={[ styles.background, medium.get('profileImage') && responsiveBackgroundImage(medium.getIn([ 'profileImage', 'url' ])) ]}>
           <div style={styles.overlay} />
           <Container style={styles.container}>
             <h4 style={styles.mediaType}>{t(`medium.${medium.get('type')}`)}</h4>
