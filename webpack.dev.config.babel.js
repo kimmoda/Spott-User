@@ -2,6 +2,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// Visualise modules.
+const Visualizer = require('webpack-visualizer-plugin');
 
 /**
  * The webpack configuration for development.
@@ -38,6 +40,8 @@ const configuration = {
     publicPath: '/'
   },
   plugins: [
+    // See localhost:3003/stats.html for the report.
+    new Visualizer(),
     new CopyWebpackPlugin([
       { from: './dev/version.json', to: 'version.json' },
       { from: './dev/config.json', to: 'config.json' }

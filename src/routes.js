@@ -1,7 +1,5 @@
 import React from 'react';
 import { IndexRoute, IndexRedirect, Route } from 'react-router';
-import { push as routerPush } from 'react-router-redux';
-
 import { colors, SmallContainer } from './pages/_common/buildingBlocks';
 import { isIos, isAndroid } from './pages/_common/downloadAppButtons';
 import App from './pages/app/view';

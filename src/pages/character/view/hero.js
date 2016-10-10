@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, Button, Container, LoadComponent, SectionTitle, Title } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, pinkButtonStyle, responsiveBackgroundImage, Button, Container, LoadComponent, SectionTitle, Title } from '../../_common/buildingBlocks';
 import { heroSelector } from '../selector';
 import localized from '../../_common/localized';
 import * as actions from '../actions';
@@ -162,7 +162,7 @@ export default class Hero extends Component {
     const { character, currentLocale, currentPathname, isAuthenticated, t, toggleFollow } = this.props;
 
     return (
-      <div style={[ styles.background, character.get('coverImage') && { backgroundImage: `url(${character.getIn([ 'coverImage', 'url' ])})` } ]}>
+      <div style={[ styles.background, character.get('coverImage') && responsiveBackgroundImage(character.getIn([ 'coverImage', 'url' ])) ]}>
         <div style={styles.overlay} />
         <Container style={styles.container}>
           <h4 style={styles.type}>{t('character.CHARACTER')}</h4>
