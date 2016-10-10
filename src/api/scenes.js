@@ -2,12 +2,12 @@ import { del, get, post, NotFoundError, UnauthorizedError, UnexpectedError } fro
 import { transformScene, transformShare } from './transformers';
 
 export async function getNewScenesForYou (baseUrl, authenticationToken, locale, { userId }) {
-  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/scenes?pageSize=30`);
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/scenes?pageSize=20`);
   return data.map(transformScene);
 }
 
 export async function getSavedScenesOfUser (baseUrl, authenticationToken, locale, { userId }) {
-  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes?pageSize=30`);
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/savedScenes?pageSize=20`);
   return { data: data.map(transformScene) };
 }
 

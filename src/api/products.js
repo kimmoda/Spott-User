@@ -36,15 +36,15 @@ export async function getProduct (baseUrl, authenticationToken, locale, { produc
 export async function getRecentlyAddedToWishlist (baseUrl, authenticationToken, locale, { userId }) {
   // TODO: currently 'Get all products that appear in a whishlist' https://appiness.atlassian.net/browse/SPOTBACK-440
   // TODO: must become 'Recently added to my wish list section' https://appiness.atlassian.net/browse/SWEWBSITE-43
-  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists/searches/products?pageSize=30`);
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists/searches/products?pageSize=20`);
   return data.map(transformListProduct);
 }
 
-// Returns only first 30 products.
+// Returns only first 20 products.
 export async function getPopularProducts (baseUrl, authenticationToken, locale) {
   // TODO: currently 'Get the top products based on the number of times they were tagged' https://appiness.atlassian.net/browse/APPTCORE-253
   // TODO: must become 'Get the top selling products for a medium' https://appiness.atlassian.net/browse/APPTCORE-252
-  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/searches/popular?pageSize=30`);
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/searches/popular?pageSize=20`);
   return data.map(transformListProduct);
 }
 

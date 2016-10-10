@@ -685,7 +685,7 @@ export function responsiveBackgroundImage (url) {
       backgroundImage: `url("${url}?height=699&width=1242")`
     },
     [mediaQueries.extraLarge]: {
-      backgroundImage: `url("${url}")`
+      backgroundImage: `url("${url}?height=985&width=1750")`
     }
   };
 }
