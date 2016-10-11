@@ -29,10 +29,6 @@ export default class RecentlyAdded extends Component {
     t: PropTypes.func.isRequired
   }
 
-  componentWillMount () {
-    this.props.loadRecentlyAdded();
-  }
-
   static styles = {
     button: {
       marginBottom: '0.75em',
