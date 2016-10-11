@@ -1,19 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { colors, Button, pinkButtonStyle, responsiveBackgroundImage, mediaQueries, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
-// import { dummy } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
 import localized from '../../../_common/localized';
 import { recentlyAddedSelector } from '../../selectors';
-import { loadRecentlyAdded } from '../../actions';
 
 @localized
-@connect(recentlyAddedSelector, (dispatch) => ({
-  loadRecentlyAdded: bindActionCreators(loadRecentlyAdded, dispatch)
-}))
+@connect(recentlyAddedSelector)
 @Radium
 export default class RecentlyAdded extends Component {
 
@@ -24,13 +19,8 @@ export default class RecentlyAdded extends Component {
       }).isRequired,
       title: PropTypes.string.isRequired
     }),
-    loadRecentlyAdded: PropTypes.func.isRequired,
     otherRecentlyAddedMedia: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired
-  }
-
-  componentWillMount () {
-    this.props.loadRecentlyAdded();
   }
 
   static styles = {

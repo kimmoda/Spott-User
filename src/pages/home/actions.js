@@ -63,3 +63,19 @@ export function loadNewScenesForYou () {
     }
   };
 }
+
+// Load the data sequentially in the order of the blocks are displayed.
+export function loadUserData () {
+  return async (dispatch, getState) => {
+    await dispatch(loadNewScenesForYou());
+    await dispatch(loadRecentlyAddedToWishlist());
+  };
+}
+
+// Load the data sequentially in the order of the blocks are displayed.
+export function load () {
+  return async (dispatch, getState) => {
+    await dispatch(loadRecentlyAdded());
+    await dispatch(loadPopularProducts());
+  };
+}
