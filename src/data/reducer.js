@@ -91,6 +91,7 @@ export default (state = fromJS({
     popularProducts: {},
     recentlyAddedMedia: {},
     recentlyAddedToWishlistProducts: {},
+    newEpisodes: {},
     newScenesForYou: {}
   }
 }), action) => {
@@ -208,6 +209,14 @@ export default (state = fromJS({
       return fetchSuccess(state, [ 'entities', 'media', action.mediumId ], action.data);
     case actions.MEDIUM_FETCH_ERROR:
       return fetchError(state, [ 'entities', 'media', action.mediumId ], action.error);
+
+    case actions.NEW_EPISODES_FETCH_START:
+      return fetchListStart(state, 'newEpisodes');
+    case actions.NEW_EPISODES_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchListSuccess(state, 'newEpisodes', 'media', action.data);
+    case actions.NEW_EPISODES_FETCH_ERROR:
+      return fetchListError(state, 'newEpisodes', action.error);
 
     case actions.MEDIUM_SUBSCRIBER_ADD_SUCCESS:
       return state.setIn([ 'entities', 'media', action.mediumId, 'subscribed' ], true);

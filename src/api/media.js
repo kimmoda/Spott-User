@@ -76,3 +76,9 @@ export async function getMediumEpisodes (baseUrl, authenticationToken, locale, {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/serieSeasons/${mediumId}/episodes?sortField=NUMBER&sortDirection=DESC`);
   return body.data.map(transformEpisode);
 }
+
+export async function getNewEpisodes (baseUrl, authenticationToken, locale) {
+  // TODO update url!
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/serieSeasons/1291fe54-77ef-45be-aa5a-ccfeff0a54c2/episodes?sortField=NUMBER&sortDirection=DESC`);
+  return body.data.map(transformEpisode);
+}
