@@ -14,16 +14,31 @@ import { homeSelector } from '../selectors';
 import * as actions from '../actions';
 
 @connect(homeSelector, (dispatch) => ({
-  load: bindActionCreators(actions.load, dispatch)
+  load: bindActionCreators(actions.load, dispatch),
+  loadUserData: bindActionCreators(actions.loadUserData, dispatch)
 }))
 export default class Home extends Component {
 
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    load: PropTypes.func.isRequired,
+    loadUserData: PropTypes.func.isRequired
   };
 
-  componentWillMount () {
+  // When loading the home page initially we load the personal data (sequentially) and
+  // general data (sequentially) in parallel.
+  componentDidMount () {
     this.props.load();
+    if (this.props.isAuthenticated) {
+      this.props.loadUserData();
+    }
+  }
+
+  // If authenticated we load the personal data.
+  componentWillReceiveProps ({ isAuthenticated }) {
+    if (isAuthenticated && this.props.isAuthenticated !== isAuthenticated) {
+      this.props.loadUserData();
+    }
   }
 
   render () {

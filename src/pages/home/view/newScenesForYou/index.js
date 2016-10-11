@@ -1,32 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { colors, Container, Message } from '../../../_common/buildingBlocks';
 import SceneTiles from '../../../_common/tiles/sceneTiles';
 import { scenesForYouSelector } from '../../selectors';
-import { loadNewScenesForYou } from '../../actions';
 import localized from '../../../_common/localized';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 @localized
-@connect(scenesForYouSelector, (dispatch) => ({
-  loadNewScenesForYou: bindActionCreators(loadNewScenesForYou, dispatch)
-}))
+@connect(scenesForYouSelector)
 @Radium
 export default class NewScenesForYou extends Component {
 
   static propTypes = {
-    loadNewScenesForYou: PropTypes.func.isRequired,
     scenes: ImmutablePropTypes.mapContains({
       _status: PropTypes.string,
       data: PropTypes.list
     }).isRequired,
     t: PropTypes.func.isRequired
-  }
-
-  componentWillMount () {
-    setTimeout(() => this.props.loadNewScenesForYou(), 2000);
   }
 
   static styles = {
