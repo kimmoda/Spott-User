@@ -25,10 +25,6 @@ export default class RecentlyAddedToWishlist extends Component {
     t: PropTypes.func.isRequired
   };
 
-  componentWillMount () {
-    setTimeout(() => this.props.loadPopularProducts(), 2000);
-  }
-
   static styles = {
     wrapper: {
       backgroundColor: colors.white,
