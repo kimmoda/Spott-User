@@ -1,33 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { colors, Container, Message } from '../../../_common/buildingBlocks';
 import { recentlyAddedToWishlistSelector } from '../../selectors';
-import { loadRecentlyAddedToWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ProductTiles from '../../../_common/tiles/productTiles';
 import localized from '../../../_common/localized';
 
 @localized
-@connect(recentlyAddedToWishlistSelector, (dispatch) => ({
-  loadRecentlyAddedToWishlist: bindActionCreators(loadRecentlyAddedToWishlist, dispatch)
-}))
+@connect(recentlyAddedToWishlistSelector)
 @Radium
 export default class RecentlyAddedToWishlist extends Component {
 
   static propTypes = {
-    loadRecentlyAddedToWishlist: PropTypes.func.isRequired,
     recentlyAddedToWishlistProducts: ImmutablePropTypes.mapContains({
       _status: PropTypes.string,
       data: PropTypes.list
     }).isRequired,
     t: PropTypes.func.isRequired
   };
-
-  componentWillMount () {
-    // this.props.loadRecentlyAddedToWishlist();
-  }
 
   static styles = {
     wrapper: {
