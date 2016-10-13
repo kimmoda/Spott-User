@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import Search from './search';
 import RecentlyAdded from './recentlyAdded';
-// import NewEpisodes from './newEpisodes';
+import NewEpisodes from './newEpisodes';
 import NewScenesForYou from './newScenesForYou';
 // import TopSellingProducts from './topSellingProducts';
 import PopularProducts from './popularProducts';
@@ -48,7 +48,7 @@ export default class Home extends Component {
         {/* <Search /> */}
         <RecentlyAdded />
         {isAuthenticated && <NewScenesForYou />}
-        {/* <NewEpisodes /> */}
+        <NewEpisodes />
         <PopularProducts />
         {/* <TopSellingProducts /> */}
         <DownloadApp />

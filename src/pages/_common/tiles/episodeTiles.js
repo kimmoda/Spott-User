@@ -1,66 +1,64 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle, mediaQueries } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { List } from 'immutable';
+import { fontWeights, makeTextStyle, mediaQueries, RadiumLink } from '../../_common/buildingBlocks';
 import BaseTile from './_baseTile';
 import localized from '../localized';
+import hoverable from '../hoverable';
 import makeTiles from './_makeTiles';
+import { sceneTilesStyle } from './styles';
 
 @localized
+@hoverable
 @Radium
 export class EpisodeTile extends Component {
 
   static propTypes = {
+    fetchMediumTopProducts: PropTypes.func.isRequired,
+    hovered: PropTypes.bool.isRequired,
     item: ImmutablePropTypes.mapContains({
       id: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
+      generatedTitle: PropTypes.bool.isRequired,
+      profileImage: ImmutablePropTypes.mapContains({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      }),
       seriesLogo: PropTypes.string,
-      season: PropTypes.number.isRequired,
-      episode: PropTypes.number.isRequired,
-      episodeTitle: PropTypes.string.isRequired,
-      products: ImmutablePropTypes.listOf(
-        ImmutablePropTypes.mapContains({
-          id: PropTypes.string.isRequired,
-          image: PropTypes.string.isRequired
-        })
-      )
+      season: ImmutablePropTypes.mapContains({
+        number: PropTypes.number.isRequired
+      }).isRequired,
+      title: PropTypes.string.isRequired
     }).isRequired,
+    mediumHasTopProducts: ImmutablePropTypes.map.isRequired,
+    products: ImmutablePropTypes.map.isRequired,
     style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
 
-  static styles = {
-    container: {
-      position: 'relative',
-      paddingTop: '56%',
-      height: 0
-    },
-    layer: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
-      pointerEvents: 'none' // Don't capture pointer events. "Click through..."
-    },
-    image: {
-      backgroundSize: 'cover',
-      backgroundPosition: 'center center',
-      borderRadius: '0.25em',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0
-    },
+  onHoverChange (hovered) {
+    if (hovered) {
+      // Fetch all scene data, including appearances
+      this.props.fetchMediumTopProducts({ mediumId: this.props.item.get('id') });
+    }
+  }
 
+  // Style is based on the scene tile.
+  static styles = {
+    ...sceneTilesStyle,
     contents: {
-      textAlign: 'center',
-      position: 'absolute',
-      top: '2.625em',
-      left: '1.818em',
-      right: '1.818em'
+      base: {
+        textAlign: 'center',
+        position: 'absolute',
+        top: '40%',
+        left: '1.818em',
+        right: '1.818em',
+        transition: 'top 0.5s ease-in'
+      },
+      hovered: {
+        transition: 'top 0.5s ease-out',
+        top: '30%'
+      }
     },
     seriesLogo: {
       maxWidth: '5.1875em',
@@ -69,85 +67,63 @@ export class EpisodeTile extends Component {
     },
     text: {
       overflow: 'hidden',
+      paddingBottom: '0.125em',
       textOverflow: 'ellipsis',
-      ...makeTextStyle(fontWeights.bold, '0.6875em', '0.318em'),
+      ...makeTextStyle(fontWeights.bold, '0.688em', '0.318em'),
       color: '#ffffff',
       textTransform: 'uppercase',
       [mediaQueries.large]: {
         bottom: '7.6em'
       }
     },
-    subtext: {
-      color: '#ffffff',
-      ...makeTextStyle(fontWeights.regular, '0.6875em', '0.318em'),
-      overflow: 'hidden',
-      textOverflow: 'ellipsis'
-    },
-
-    line: {
-      position: 'absolute',
-      left: '0.625em',
-      right: '0.625em',
-      bottom: '2.625em',
-      opacity: 0.3,
-      backgroundColor: '#ffffff',
-      height: '1px'
-    },
-
-    products: {
-      position: 'absolute',
-      left: '0.625em',
-      right: '0.625em',
-      bottom: '0.625em',
-      lineHeight: 0
-    },
-    subtile: {
-      height: '1.5em',
-      marginRight: '0.4em',
-      position: 'relative',
-      display: 'inline-block',
-      opacity: 0.98,
-      width: '1.5em'
-    },
-    subtileImage: {
-      bottom: 0,
-      height: 'auto',
-      left: 0,
-      margin: 'auto',
-      maxHeight: '100%',
-      maxWidth: '100%',
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      width: 'auto',
-      transition: '0.25s ease-in-out',
-      ':hover': {
-        filter: 'opacity(70%)'
-      }
+    seriesText: {
+      fontSize: '1em',
+      paddingBottom: '0.438em'
     }
   };
 
+  renderDetails () {
+    const styles = this.constructor.styles;
+    const { hovered, item, mediumHasTopProducts, products } = this.props;
+    const episodeProducts = (mediumHasTopProducts.getIn([ item.get('id'), 'data' ]) || List()).map((id) => products.get(id));
+
+    return (
+      <div key='details' style={[ styles.details.base, hovered && styles.details.hovered ]}>
+        <div style={styles.line} />
+        <div style={styles.products}>{episodeProducts.filter((p) => p.get('image')).take(8).map((product) =>
+          <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
+            <RadiumLink key={product.get('id')} title={product.get('shortName')} to={product.get('shareUrl')}>
+              <img alt={product.get('shortName')} key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage} />
+            </RadiumLink>
+          </div>)}
+        </div>
+      </div>
+    );
+  }
+
   render () {
     const styles = this.constructor.styles;
-    const { item, style, t } = this.props;
+    const { hovered, item, style, t } = this.props;
+
+    console.warn(!item.get('profileImage') && item.toJS(), 'OEI');
+
     return (
       <BaseTile style={style}>
         <div style={styles.container}>
-          <div style={[ styles.image, { backgroundImage: `url("${item.get('image')}")` } ]} />
-          <div style={styles.layer} />
-          <div>
-            <div style={styles.contents}>
-              {item.get('seriesLogo') && <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>}
-              <p style={styles.text}>{t('_common.episodeTiles.episode', { episode: item.get('episode'), season: item.get('season') })}</p>
-              <p style={styles.subtext}>{item.get('episodeTitle')}</p>
-            </div>
-            <div style={styles.line} />
-            <div style={styles.products}>{item.get('products').take(7).map((product) =>
-              <div key={product.get('id')} style={styles.subtile}>
-                <img alt={product.get('name')} key={product.get('id')} src={product.get('image')} style={styles.subtileImage} title={product.get('name')}/>
-              </div>)}
-            </div>
+          {/* Make sure we don't have nested links. */}
+          <RadiumLink key={item.get('id')} to={item.get('shareUrl')}>
+            <div style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}?height=422&width=750")` } ]} />
+            <div style={styles.layer} />
+          </RadiumLink>
+          <div style={[ styles.contents.base, hovered && styles.contents.hovered ]}>
+            {item.get('seriesLogo')
+              ? <img src={item.get('seriesLogo')} style={styles.seriesLogo}/>
+            : <p style={[ styles.text, styles.seriesText ]}>{item.getIn([ 'series', 'title' ])}</p>}
+            <p style={styles.text}>{t('_common.episodeTiles.episode', { episode: item.get('number'), season: item.getIn([ 'season', 'number' ]) })}</p>
+            {!item.get('generatedTitle') &&
+              <p style={styles.subtext}>{item.get('title')}</p>}
           </div>
+          {this.renderDetails()}
         </div>
       </BaseTile>
     );
@@ -156,6 +132,6 @@ export class EpisodeTile extends Component {
 
 export default makeTiles(
   0.938,
-  { small: 1, medium: 3, large: 3, extraLarge: 3 },
+  { extraSmall: 1, small: 1, medium: 2, large: 2, extraLarge: 2 },
   (instanceProps) => <EpisodeTile {...instanceProps} />
 );

@@ -23,7 +23,7 @@ export default class NewScenesForYou extends Component {
   static styles = {
     wrapper: {
       backgroundColor: colors.white,
-      paddingTop: '6.25em',
+      paddingTop: '2.5em',
       paddingBottom: '3.125em'
     }
   };
