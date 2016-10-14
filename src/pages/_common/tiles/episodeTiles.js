@@ -36,6 +36,10 @@ export class EpisodeTile extends Component {
     t: PropTypes.func.isRequired
   };
 
+  componentDidMount () {
+    console.warn('Episode', this.props.item.get('id'));
+  }
+
   onHoverChange (hovered) {
     if (hovered) {
       // Fetch all scene data, including appearances
@@ -105,10 +109,8 @@ export class EpisodeTile extends Component {
     const styles = this.constructor.styles;
     const { hovered, item, style, t } = this.props;
 
-    console.warn(!item.get('profileImage') && item.toJS(), 'OEI');
-
     return (
-      <BaseTile style={style}>
+      <BaseTile key={item.get('id')} style={style}>
         <div style={styles.container}>
           {/* Make sure we don't have nested links. */}
           <RadiumLink key={item.get('id')} to={item.get('shareUrl')}>

@@ -34,6 +34,7 @@ export const wishlistHasProductsRelationsSelector = (state) => state.getIn([ 'da
 export const newEpisodesListSelector = (state) => state.getIn([ 'data', 'lists', 'newEpisodes' ]);
 export const newScenesForYouListSelector = (state) => state.getIn([ 'data', 'lists', 'newScenesForYou' ]);
 export const popularProductsListSelector = (state) => state.getIn([ 'data', 'lists', 'popularProducts' ]);
+export const popularSeriesListSelector = (state) => state.getIn([ 'data', 'lists', 'popularSeries' ]);
 export const recentlyAddedMediaListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedMedia' ]);
 export const recentlyAddedToWishlistProductsListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedToWishlistProducts' ]);
 

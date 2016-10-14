@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import RecentlyAdded from './recentlyAdded';
 import NewEpisodes from './newEpisodes';
 import NewScenesForYou from './newScenesForYou';
-// import TopSellingProducts from './topSellingProducts';
+import TopSellingProducts from './topSellingProducts';
 import PopularProducts from './popularProducts';
 import DownloadApp from './downloadApp';
 import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
@@ -49,8 +49,8 @@ export default class Home extends Component {
         <RecentlyAdded />
         {isAuthenticated && <NewScenesForYou />}
         <NewEpisodes />
+        <TopSellingProducts />
         <PopularProducts />
-        {/* <TopSellingProducts /> */}
         <DownloadApp />
         {isAuthenticated && <RecentlyAddedToWishlist />}
         {/* <PopularNearYou /> */}

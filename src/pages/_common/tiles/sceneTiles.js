@@ -80,8 +80,6 @@ export class SceneTile extends Component {
     const styles = sceneTilesStyle;
     const { hovered, item, t } = this.props;
 
-    console.warn('item', item.toJS());
-
     return (
       <div key='details' style={[ styles.details.base, hovered && styles.details.hovered ]}>
         <div>

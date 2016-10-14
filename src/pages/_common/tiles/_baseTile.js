@@ -7,6 +7,7 @@ export default class BaseTile extends Component {
   static propTypes = {
     children: PropTypes.node,
     innerStyle: PropTypes.object,
+    load: PropTypes.func,
     style: PropTypes.object
   };
 
@@ -23,6 +24,12 @@ export default class BaseTile extends Component {
       }
     }
   };
+
+  componentDidMount () {
+    if (this.props.load) {
+      this.props.load();
+    }
+  }
 
   render () {
     const styles = this.constructor.styles;
