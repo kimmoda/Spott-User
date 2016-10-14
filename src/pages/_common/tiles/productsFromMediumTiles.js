@@ -45,7 +45,7 @@ export class ProductsFromMediumTile extends Component {
     text: {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      ...makeTextStyle(fontWeights.regular, '0.6875em', '0.219em'),
+      ...makeTextStyle(fontWeights.bold, '0.825em', '0.219em'),
       color: '#ffffff',
       textTransform: 'uppercase',
       position: 'relative',
