@@ -63,7 +63,8 @@
       "downloadButton": "Download"
     },
     "newEpisodes": {
-      "title": "Nieuwe afleveringen"
+      "title": "Nieuwe afleveringen",
+      "empty": "Deze lijst is momenteel leeg."
     },
     "newScenesForYou": {
       "title": "Nieuwe scènes voor u"
@@ -73,7 +74,7 @@
     },
     "popularProducts": {
       "title": "Populaire producten",
-      "empty": "Deze lijst is momenteel leeg ."
+      "empty": "Deze lijst is momenteel leeg."
     },
     "recentlyAdded": {
       "browseButton": "Blader",

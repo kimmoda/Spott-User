@@ -125,11 +125,13 @@ export function transformSeason ({ number, shareUrl, title, uuid: id }) {
   };
 }
 
-export function transformEpisode ({ generatedTitle, number, profileImage, shareUrl, title, uuid: id }) {
+export function transformEpisode ({ generatedTitle, number, profileImage, season, shareUrl, title, uuid: id }) {
   return {
     id,
     generatedTitle,
     number,
+    season: season && transformSeason(season),
+    series: season && season.serie && transformMedium(season.serie),
     title,
     shareUrl: stripDomain(shareUrl),
     profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url }

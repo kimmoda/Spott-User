@@ -1,6 +1,6 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { fontWeights, makeTextStyle, RadiumLink } from '../../_common/buildingBlocks';
+import { fontWeights, makeTextStyle, mediaQueries, RadiumLink } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
@@ -64,7 +64,15 @@ export class TopLevelMediumTile extends Component {
         <RadiumLink style={styles.container} title={item.get('title')} to={item.get('shareUrl')}>
           <div style={styles.container}>
             <div
-              style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}?height=360&width=640")` } ]} />
+              style={[
+                styles.image, item.get('profileImage') && {
+                  // Smaller screens show a larger picture (less tiles).
+                  backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}?height=360&width=640")`,
+                  // Larger screens show a smaller picture (more tiles).
+                  [mediaQueries.small]: {
+                    backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}?height=203&width=360")`
+                  }
+                } ]} />
             <div style={styles.layer} />
             <span style={styles.title}>{item.get('title')}</span>
           </div>
@@ -76,6 +84,6 @@ export class TopLevelMediumTile extends Component {
 
 export default makeTiles(
   0.938,
-  { extraSmall: 1, small: 1, medium: 2, large: 3, extraLarge: 4 },
+  { extraSmall: 1, small: 2, medium: 2, large: 3, extraLarge: 4 },
   (instanceProps) => <TopLevelMediumTile {...instanceProps} />
 );

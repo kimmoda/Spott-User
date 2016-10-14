@@ -11,7 +11,7 @@ const Visualizer = require('webpack-visualizer-plugin');
  * @type {Object}
  */
 const configuration = {
-  devtool: 'cheap-module-eval-source-map', // Enable line-based sourcemaps
+  devtool: 'source-map', // Enable line-based sourcemaps
   entry: {
     main: [
       'babel-polyfill', // Install babel-friendly environment
