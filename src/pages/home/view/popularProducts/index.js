@@ -24,7 +24,7 @@ export default class RecentlyAddedToWishlist extends Component {
     wrapper: {
       backgroundColor: colors.white,
       paddingTop: '2.5em',
-      paddingBottom: '3.25em'
+      paddingBottom: '3.125em'
     }
   };
 

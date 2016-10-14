@@ -63,7 +63,8 @@
       "downloadButton": "Téléchargez"
     },
     "newEpisodes": {
-      "title": "Nouveaux épisodes"
+      "title": "Nouveaux épisodes",
+      "empty": "Pour l'instant, cette liste est vide."
     },
     "newScenesForYou": {
       "title": "Nouvelles scènes pour vous"

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import Search from './search';
 import RecentlyAdded from './recentlyAdded';
-// import NewEpisodes from './newEpisodes';
+import NewEpisodes from './newEpisodes';
 import NewScenesForYou from './newScenesForYou';
-// import TopSellingProducts from './topSellingProducts';
+import TopSellingProducts from './topSellingProducts';
 import PopularProducts from './popularProducts';
 import DownloadApp from './downloadApp';
 import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
@@ -48,9 +48,9 @@ export default class Home extends Component {
         {/* <Search /> */}
         <RecentlyAdded />
         {isAuthenticated && <NewScenesForYou />}
-        {/* <NewEpisodes /> */}
+        <NewEpisodes />
+        <TopSellingProducts />
         <PopularProducts />
-        {/* <TopSellingProducts /> */}
         <DownloadApp />
         {isAuthenticated && <RecentlyAddedToWishlist />}
         {/* <PopularNearYou /> */}

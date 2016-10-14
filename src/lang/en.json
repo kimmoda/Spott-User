@@ -63,7 +63,8 @@
       "downloadButton": "Download"
     },
     "newEpisodes": {
-      "title": "New Episodes"
+      "title": "New Episodes",
+      "empty": "Right now, this list is empty."
     },
     "newScenesForYou": {
       "title": "New Scenes for You"

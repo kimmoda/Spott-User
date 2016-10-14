@@ -131,6 +131,10 @@ export const MEDIUM_EPISODES_FETCH_START = 'DATA/MEDIUM_EPISODES_FETCH_START';
 export const MEDIUM_EPISODES_FETCH_SUCCESS = 'DATA/MEDIUM_EPISODES_FETCH_SUCCESS';
 export const MEDIUM_EPISODES_FETCH_ERROR = 'DATA/MEDIUM_EPISODES_FETCH_ERROR';
 
+export const NEW_EPISODES_FETCH_START = 'DATA/NEW_EPISODES_FETCH_START';
+export const NEW_EPISODES_FETCH_SUCCESS = 'DATA/NEW_EPISODES_FETCH_SUCCESS';
+export const NEW_EPISODES_FETCH_ERROR = 'DATA/NEW_EPISODES_FETCH_ERROR';
+
 export const MEDIUM_SCENES_FETCH_START = 'DATA/MEDIUM_SCENES_FETCH_START';
 export const MEDIUM_SCENES_FETCH_SUCCESS = 'DATA/MEDIUM_SCENES_FETCH_SUCCESS';
 export const MEDIUM_SCENES_FETCH_ERROR = 'DATA/MEDIUM_SCENES_FETCH_ERROR';
@@ -162,6 +166,10 @@ export const SCENE_VIEW_ERROR = 'DATA/SCENE_VIEW_ERROR';
 export const USER_VIEW_START = 'DATA/USER_VIEW_START';
 export const USER_VIEW_SUCCESS = 'DATA/USER_VIEW_SUCCESS';
 export const USER_VIEW_ERROR = 'DATA/USER_VIEW_ERROR';
+
+export const POPULAR_SERIES_FETCH_START = 'DATA/POPULAR_SERIES_FETCH_START';
+export const POPULAR_SERIES_FETCH_SUCCESS = 'DATA/POPULAR_SERIES_FETCH_SUCCESS';
+export const POPULAR_SERIES_FETCH_ERROR = 'DATA/POPULAR_SERIES_FETCH_ERROR';
 
 // Actions creators
 // ////////////////
@@ -218,6 +226,8 @@ export const fetchMediumSeasons = makeApiActionCreator(mediaApi.getMediumSeasons
 
 export const fetchMediumEpisodes = makeApiActionCreator(mediaApi.getMediumEpisodes, MEDIUM_EPISODES_FETCH_START, MEDIUM_EPISODES_FETCH_SUCCESS, MEDIUM_EPISODES_FETCH_ERROR);
 
+export const fetchNewEpisodes = makeApiActionCreator(mediaApi.getNewEpisodes, NEW_EPISODES_FETCH_START, NEW_EPISODES_FETCH_SUCCESS, NEW_EPISODES_FETCH_ERROR);
+
 export const fetchMediumScenes = makeApiActionCreator(scenesApi.getMediumScenes, MEDIUM_SCENES_FETCH_START, MEDIUM_SCENES_FETCH_SUCCESS, MEDIUM_SCENES_FETCH_ERROR);
 
 export const addMediumSubscriber = makeApiActionCreator(mediaApi.addMediumSubscriber, MEDIUM_SUBSCRIBER_ADD_START, MEDIUM_SUBSCRIBER_ADD_SUCCESS, MEDIUM_SUBSCRIBER_ADD_ERROR);
@@ -233,3 +243,5 @@ export const fetchScene = makeApiActionCreator(scenesApi.getScene, SCENE_FETCH_S
 export const saveScene = makeApiActionCreator(scenesApi.saveScene, SAVE_SCENE_START, SAVE_SCENE_SUCCESS, SAVE_SCENE_ERROR);
 
 export const removeSavedScene = makeApiActionCreator(scenesApi.removeSavedScene, REMOVE_SAVED_SCENE_START, REMOVE_SAVED_SCENE_SUCCESS, REMOVE_SAVED_SCENE_ERROR);
+
+export const fetchPopularSeries = makeApiActionCreator(mediaApi.getPopularSeries, POPULAR_SERIES_FETCH_START, POPULAR_SERIES_FETCH_SUCCESS, POPULAR_SERIES_FETCH_ERROR);
