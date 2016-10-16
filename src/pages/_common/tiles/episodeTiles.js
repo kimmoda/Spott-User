@@ -36,10 +36,6 @@ export class EpisodeTile extends Component {
     t: PropTypes.func.isRequired
   };
 
-  componentDidMount () {
-    console.warn('Episode', this.props.item.get('id'));
-  }
-
   onHoverChange (hovered) {
     if (hovered) {
       // Fetch all scene data, including appearances
@@ -52,11 +48,11 @@ export class EpisodeTile extends Component {
     ...sceneTilesStyle,
     contents: {
       base: {
-        textAlign: 'center',
-        position: 'absolute',
-        top: '40%',
         left: '1.818em',
+        position: 'absolute',
         right: '1.818em',
+        textAlign: 'center',
+        top: '40%',
         transition: 'top 0.5s ease-in'
       },
       hovered: {
@@ -70,11 +66,11 @@ export class EpisodeTile extends Component {
       filter: 'brightness(0) invert(1)'
     },
     text: {
+      ...makeTextStyle(fontWeights.bold, '0.688em', '0.318em'),
+      color: '#ffffff',
       overflow: 'hidden',
       paddingBottom: '0.125em',
       textOverflow: 'ellipsis',
-      ...makeTextStyle(fontWeights.bold, '0.688em', '0.318em'),
-      color: '#ffffff',
       textTransform: 'uppercase',
       [mediaQueries.large]: {
         bottom: '7.6em'
@@ -92,9 +88,9 @@ export class EpisodeTile extends Component {
     const episodeProducts = (mediumHasTopProducts.getIn([ item.get('id'), 'data' ]) || List()).map((id) => products.get(id));
 
     return (
-      <div key='details' style={[ styles.details.base, hovered && styles.details.hovered ]}>
-        <div style={styles.line} />
-        <div style={styles.products}>{episodeProducts.filter((p) => p.get('image')).take(8).map((product) =>
+      <div key='details'>
+        <div style={[ styles.line.base, hovered && styles.line.hovered ]} />
+        <div style={[ styles.products.base, hovered && styles.products.hovered ]}>{episodeProducts.filter((p) => p.get('image')).take(8).map((product) =>
           <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
             <RadiumLink key={product.get('id')} title={product.get('shortName')} to={product.get('shareUrl')}>
               <img alt={product.get('shortName')} key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage} />

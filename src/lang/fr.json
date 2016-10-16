@@ -16,6 +16,7 @@
       "home": "Page d'accueil"
     },
     "sceneTiles": {
+      "sceneFromCommercial": "Scène de [[%(commercial)s]]",
       "sceneFromEpisode": "Scène de la saison [[%(season)i]] –  Épisode [[%(episode)i]]",
       "sceneFromMovie": "Scène de [[%(movie)s]]"
     }
