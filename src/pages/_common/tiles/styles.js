@@ -2,9 +2,10 @@ import { fontWeights, makeTextStyle, mediaQueries } from '../../_common/building
 
 export const sceneTilesStyle = {
   container: {
-    position: 'relative',
-    paddingTop: '56%',
     height: 0,
+    overflow: 'hidden',
+    paddingTop: '56%',
+    position: 'relative',
     width: '100%'
   },
   characters: {
@@ -15,13 +16,13 @@ export const sceneTilesStyle = {
     top: '1.125em'
   },
   layer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
     backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.498039))',
-    pointerEvents: 'none' // Don't capture pointer events. "Click through..."
+    bottom: 0,
+    left: 0,
+    pointerEvents: 'none', // Don't capture pointer events. "Click through..."
+    position: 'absolute',
+    right: 0,
+    top: 0
   },
   details: {
     base: {
@@ -34,14 +35,14 @@ export const sceneTilesStyle = {
     }
   },
   image: {
-    backgroundSize: 'cover',
     backgroundPosition: 'center center',
+    backgroundSize: 'cover',
     borderRadius: '0.25em',
-    position: 'absolute',
-    top: 0,
-    left: 0,
     bottom: 0,
-    right: 0
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0
   },
   markers: {
     position: 'absolute',
@@ -72,22 +73,29 @@ export const sceneTilesStyle = {
     left: '1.818em'
   },
   text: {
-    position: 'absolute',
-    bottom: '6.8em',
-    left: '1.818em',
-    right: '1.818em',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    ...makeTextStyle(fontWeights.regular, '0.6875em', '0.219em'),
-    color: '#ffffff',
-    textTransform: 'uppercase',
-    [mediaQueries.large]: {
-      bottom: '7.6em'
+    base: {
+      ...makeTextStyle(fontWeights.regular, '0.6875em', '0.219em'),
+      bottom: '1.125em',
+      color: '#ffffff',
+      left: '1.818em',
+      overflow: 'hidden',
+      position: 'absolute',
+      right: '1.818em',
+      textOverflow: 'ellipsis',
+      textTransform: 'uppercase',
+      transition: 'bottom 0.5s ease-in'
+    },
+    hovered: {
+      bottom: '6.8em',
+      transition: 'bottom 0.5s ease-out',
+      [mediaQueries.large]: {
+        bottom: '7.6em'
+      }
     }
   },
   subtext: {
-    color: '#ffffff',
     ...makeTextStyle(fontWeights.regular, '0.6875em', '0.318em'),
+    color: '#ffffff',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
   },
@@ -95,31 +103,48 @@ export const sceneTilesStyle = {
     ...makeTextStyle(fontWeights.bold, '1em', '0.219em')
   },
   line: {
-    position: 'absolute',
-    left: '1.25em',
-    right: '1.25em',
-    bottom: '4.125em',
-    opacity: 0.3,
-    backgroundColor: '#ffffff',
-    height: '1px',
-    [mediaQueries.large]: {
-      bottom: '4.625em'
+    base: {
+      backgroundColor: '#ffffff',
+      bottom: '-1px',
+      height: '1px',
+      left: '1.25em',
+      opacity: 0,
+      position: 'absolute',
+      right: '1.25em',
+      transition: 'bottom 0.5s ease-in, opacity 0.5s ease-in'
+    },
+    hovered: {
+      bottom: '4.125em',
+      opacity: 0.3,
+      transition: 'bottom 0.5s ease-out, opacity 0.5s ease-out',
+      [mediaQueries.large]: {
+        bottom: '4.625em'
+      }
     }
   },
   faces: {
-    position: 'absolute',
     left: '1.25em',
+    position: 'absolute',
     right: '1.25em',
     textAlign: 'right',
     top: '1.125em'
   },
   products: {
-    position: 'absolute',
-    left: '1.25em',
-    right: '1.25em',
-    bottom: '1.125em',
-    // height: '2em',
-    overflow: 'hidden'
+    base: {
+      position: 'absolute',
+      left: '1.25em',
+      right: '1.25em',
+      bottom: '-4em',
+      opacity: 0,
+      // height: '2em',
+      overflow: 'hidden',
+      transition: 'bottom 0.5s ease-in, opacity 0.5s ease-in'
+    },
+    hovered: {
+      opacity: 1,
+      transition: 'bottom 0.5s ease-out, opacity 0.5s ease-out',
+      bottom: '1.125em'
+    }
   },
   subtile: {
     base: {

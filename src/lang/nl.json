@@ -16,6 +16,7 @@
       "home": "Home"
     },
     "sceneTiles": {
+      "sceneFromCommercial": "Scène uit [[%(commercial)s]]",
       "sceneFromEpisode": "Scène uit seizoen [[%(season)i]] – Aflevering [[%(episode)i]]",
       "sceneFromMovie": "Scène uit [[%(movie)s]]"
     }
