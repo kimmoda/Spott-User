@@ -8,6 +8,7 @@ import NewScenesForYou from './newScenesForYou';
 import TopSellingProducts from './topSellingProducts';
 import PopularProducts from './popularProducts';
 import DownloadApp from './downloadApp';
+import TvGuide from './tvGuide';
 import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
 // import PopularNearYou from './popularNearYou';
 import { homeSelector } from '../selectors';
@@ -48,6 +49,7 @@ export default class Home extends Component {
         {/* <Search /> */}
         <RecentlyAdded />
         {isAuthenticated && <NewScenesForYou />}
+        <TvGuide/>
         <NewEpisodes />
         <TopSellingProducts />
         <PopularProducts />
