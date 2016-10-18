@@ -217,9 +217,9 @@
     "continue": "Continuez"
   },
   "relevance": {
-    "EXACT": "Exact match",
-    "MEDIUM": "Medium match",
-    "LOW": "Low match"
+    "EXACT": "Correspondance exacte",
+    "MEDIUM": "Correspondance moyenne",
+    "LOW": "Correspondance basse"
   },
   "common": {
     "empty": "Il n'y rien à afficher pour l'instant.",
