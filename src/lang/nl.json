@@ -1,5 +1,17 @@
 {
   "_common": {
+    "tvGuideTiles": {
+      "today": "Vandaag",
+      "tomorrow": "Morgen",
+      "monday": "Maandag",
+      "tuesday": "Dinsdag",
+      "wednesday": "Woensdag",
+      "thursday": "Donderdag",
+      "friday": "Vrijdag",
+      "saturday": "Zaterdag",
+      "sunday": "Zondag",
+      "h": "u"
+    },
     "episodeTiles": {
       "episode": "Seizoen %(season)i – Aflevering %(episode)i"
     },
@@ -62,6 +74,10 @@
       "subtitle": "Live op je mobiele toestel",
       "availability": "Beschikbaar voor iOS & Android",
       "downloadButton": "Download"
+    },
+    "tvGuide": {
+      "title": "Kijk TV met Spott",
+      "empty": "Deze lijst is momenteel leeg."
     },
     "newEpisodes": {
       "title": "Nieuwe afleveringen",

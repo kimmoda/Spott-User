@@ -1,18 +1,22 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
-import { colors, fontWeights, makeTextStyle } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, RadiumLink } from '../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
+import moment from 'moment';
+import localized from '../../_common/localized';
 
 const channelImage = require('../../../api/mock/channels/vtm.png');
 
+@localized
 @Radium
 export class TvGuideTile extends Component {
 
   static propTypes = {
     item: ImmutablePropTypes.map.isRequired,
-    style: PropTypes.object
+    style: PropTypes.object,
+    t: PropTypes.func.isRequired
   };
 
   static styles = {
@@ -36,15 +40,16 @@ export class TvGuideTile extends Component {
     },
     posterImage: {
       bottom: 0,
-      height: 'auto',
+      height: '100%',
       left: 0,
+      objectFit: 'cover',
       margin: 'auto',
       maxHeight: '100%',
       maxWidth: '100%',
       position: 'absolute',
       right: 0,
       top: 0,
-      width: 'auto'
+      width: '100%'
     },
     channelImage: {
       marginTop: '0.7em',
@@ -70,21 +75,31 @@ export class TvGuideTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { item, style } = this.props;
-
+    const { item, style, t } = this.props;
+    const start = item.get('start');
+    const day = moment(start);
+    const today = moment();
+    const tomorrow = moment().add(1, 'days');
+    const time = moment(start).format('HH:mm');
+    let title = day.format('dddd');
+    if (day.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
+      title = 'Today';
+    } else if (day.format('DD/MM/YYYY') === tomorrow.format('DD/MM/YYYY')) {
+      title = 'Tomorrow';
+    }
     return (
       <div style={style}>
         <BaseTile>
-          <div>
-            <div style={[ styles.imageContainer ]}>
-              <img src={item.getIn([ 'posterImage', 'url' ])} style={styles.posterImage} />
+          <RadiumLink to={item.getIn([ 'medium', 'shareUrl' ])}>
+            <div style={styles.imageContainer}>
+              <img src={item.getIn([ 'medium', 'posterImage', 'url' ])} style={styles.posterImage} />
             </div>
-          </div>
+          </RadiumLink>
         </BaseTile>
         <div style={styles.container}>
           <img src={channelImage} style={styles.channelImage} />
-          <p style={styles.title}>Tonight</p>
-          <p style={styles.hour}>19.30h</p>
+          <p style={styles.title}>{t('_common.tvGuideTiles.'.concat(title.toLowerCase()))}</p>
+          <p style={styles.hour}>{time}{t('_common.tvGuideTiles.h')}</p>
         </div>
       </div>
 

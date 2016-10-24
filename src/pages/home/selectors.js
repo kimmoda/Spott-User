@@ -3,7 +3,8 @@ import {
   mediaEntitiesSelector, productsEntitiesSelector,
   popularProductsListSelector, recentlyAddedMediaListSelector, recentlyAddedToWishlistProductsListSelector,
   newScenesForYouListSelector, scenesEntitiesSelector,
-  createEntitiesByListSelector, newEpisodesListSelector, mediumHasTopProductsSelector, popularSeriesListSelector
+  createEntitiesByListSelector, newEpisodesListSelector, mediumHasTopProductsSelector, popularSeriesListSelector,
+  tvGuideEntriesEntitiesSelector, tvGuideEntriesListSelector
 } from '../../data/selector';
 import { isAuthenticatedSelector } from '../app/selector';
 
@@ -13,6 +14,10 @@ export const recentlyAddedSelector = createSelector(recentlyAddedMediaSelector, 
     firstMedium: recentlyAddedMedia.getIn([ 'data', '0' ]),
     otherRecentlyAddedMedia: recentlyAddedMedia.set('data', recentlyAddedMedia.get('data').shift())
   };
+});
+
+export const tvGuideEntriesSelector = createStructuredSelector({
+  tvGuideEntries: createEntitiesByListSelector(tvGuideEntriesListSelector, tvGuideEntriesEntitiesSelector)
 });
 
 export const recentlyAddedToWishlistSelector = createStructuredSelector({

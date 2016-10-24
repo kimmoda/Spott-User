@@ -1,5 +1,17 @@
 {
   "_common": {
+    "tvGuideTiles": {
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "h": "h"
+    },
     "episodeTiles": {
       "episode": "Season %(season)i – Episode %(episode)i"
     },
@@ -62,6 +74,10 @@
       "subtitle": "Live on your mobile devices",
       "availability": "Available for iOS & Android",
       "downloadButton": "Download"
+    },
+    "tvGuide": {
+      "title": "Watch TV with Spott",
+      "empty": "Right now, this list is empty."
     },
     "newEpisodes": {
       "title": "New Episodes",

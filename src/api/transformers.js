@@ -204,3 +204,15 @@ export function transformScene (data) {
 export function transformShare ({ body, image, title, url }) {
   return { description: body, image: image && { id: image.uuid, url: image.url }, title, url };
 }
+
+export function transformBroadcastChannel ({ name, uuid: id }) {
+  return { id, name };
+}
+
+export function transformTvGuideEntry ({ uuid: id, start, medium, medium: { season }, channel }) {
+  return {
+    start, id,
+    medium: season && season.serie && transformMedium(season.serie) || transformMedium(medium),
+    channel: transformBroadcastChannel(channel)
+  };
+}

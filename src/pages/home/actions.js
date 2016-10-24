@@ -1,4 +1,4 @@
-import { fetchPopularSeries, fetchNewEpisodes, fetchMediaRecentlyAdded, fetchPopularProducts, fetchNewScenesForYou, fetchProductsRecentlyAddedToWishlist } from '../../data/actions';
+import { fetchPopularSeries, fetchNewEpisodes, fetchMediaRecentlyAdded, fetchPopularProducts, fetchNewScenesForYou, fetchProductsRecentlyAddedToWishlist, fetchTvGuideEntries } from '../../data/actions';
 import { currentUserIdSelector } from '../app/selector';
 
 // Action types
@@ -16,9 +16,20 @@ export const LOAD_NEW_EPISODES = 'HOME/LOAD_NEW_EPISODES';
 export const LOAD_NEW_EPISODES_ERROR = 'HOME/LOAD_NEW_EPISODES_ERROR';
 export const LOAD_POPULAR_SERIES = 'HOME/LOAD_POPULAR_SERIES';
 export const LOAD_POPULAR_SERIES_ERROR = 'HOME/LOAD_POPULAR_SERIES_ERROR';
+export const LOAD_TV_GUIDE_ENTRIES_ERROR = 'HOME/LOAD_TV_GUIDE_FETCH_ERROR';
 
 // Actions creators
 // ////////////////
+
+export function loadTvGuideEntries () {
+  return async (dispatch, getState) => {
+    try {
+      return await dispatch(fetchTvGuideEntries());
+    } catch (error) {
+      dispatch({ error, type: LOAD_TV_GUIDE_ENTRIES_ERROR });
+    }
+  };
+}
 
 export function loadRecentlyAdded () {
   return async (dispatch, getState) => {
@@ -102,6 +113,7 @@ export function loadUserData () {
 export function load () {
   return async (dispatch, getState) => {
     await dispatch(loadRecentlyAdded());
+    await dispatch(loadTvGuideEntries());
     await dispatch(loadNewEpisodes());
     await dispatch(loadPopularProducts());
     // Top selling products exist out of popular series, which have top products.
