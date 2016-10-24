@@ -25,9 +25,9 @@ export async function login (baseUrl, { email: emailIn, password }) {
     };
   } catch (error) {
     if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
-      throw 'Email/password combination is incorrect.';
+      throw 'login.invalid';
     }
-    throw error.body.message;
+    throw '_common.unknown';
   }
 }
 
@@ -41,9 +41,9 @@ export async function loginFacebook (baseUrl, { facebookAccessToken }) {
     };
   } catch (error) {
     if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
-      throw 'Your Facebook account is not linked to a Spott account. You can create an account on Spott by using your Facebook account.';
+      throw 'login.invalidFacebook';
     }
-    throw error.body.message;
+    throw '_common.unknown';
   }
 }
 

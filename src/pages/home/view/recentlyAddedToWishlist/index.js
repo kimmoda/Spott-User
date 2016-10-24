@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
-import { colors, Container, Message } from '../../../_common/buildingBlocks';
+import { Container, Message } from '../../../_common/buildingBlocks';
 import { recentlyAddedToWishlistSelector } from '../../selectors';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ProductTiles from '../../../_common/tiles/productTiles';
@@ -17,12 +17,12 @@ export default class RecentlyAddedToWishlist extends Component {
       _status: PropTypes.string,
       data: PropTypes.list
     }).isRequired,
+    style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
 
   static styles = {
     wrapper: {
-      backgroundColor: colors.white,
       paddingTop: '2.5em',
       paddingBottom: '3.125em'
     }
@@ -30,10 +30,10 @@ export default class RecentlyAddedToWishlist extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { recentlyAddedToWishlistProducts, t } = this.props;
+    const { recentlyAddedToWishlistProducts, style, t } = this.props;
 
     return (
-      <div style={styles.wrapper}>
+      <div style={[ styles.wrapper, style ]}>
         <Container>
           <ProductTiles items={recentlyAddedToWishlistProducts}
             renderEmptyComponent={() => <Message>{t('home.recentlyAddedToWishlist.empty')}</Message>}

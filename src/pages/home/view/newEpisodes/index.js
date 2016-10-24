@@ -29,12 +29,12 @@ export default class NewEpisodes extends Component {
     }).isRequired,
     // Hash of products, productId: productEntity
     products: ImmutablePropTypes.map.isRequired,
+    style: PropTypes.object,
     t: PropTypes.func.isRequired
   }
 
   static styles = {
     wrapper: {
-      backgroundColor: colors.whiteGray,
       paddingTop: '2.5em',
       paddingBottom: '3.125em'
     }
@@ -42,9 +42,9 @@ export default class NewEpisodes extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { episodes, fetchMediumTopProducts, mediumHasTopProducts, products, t } = this.props;
+    const { episodes, fetchMediumTopProducts, mediumHasTopProducts, products, style, t } = this.props;
     return (
-      <div style={styles.wrapper}>
+      <div style={[ styles.wrapper, style ]}>
         <Container>
           <EpisodeTiles
             items={episodes}

@@ -71,6 +71,7 @@ export default (state = fromJS({
     products: {},
     scenes: {},
     users: {},
+    tvGuideEntries: {},
     wishlists: {}
   },
   relations: {
@@ -93,7 +94,8 @@ export default (state = fromJS({
     recentlyAddedMedia: {},
     recentlyAddedToWishlistProducts: {},
     newEpisodes: {},
-    newScenesForYou: {}
+    newScenesForYou: {},
+    tvGuideEntries: {}
   }
 }), action) => {
   switch (action.type) {
@@ -304,6 +306,17 @@ export default (state = fromJS({
       return fetchRelationsSuccess(state, 'mediumHasCharacters', action.mediumId, 'characters', action.data.data);
     case actions.MEDIUM_CHARACTERS_FETCH_ERROR:
       return fetchRelationsError(state, 'mediumHasCharacters', action.mediumId, action.error);
+
+    // Tv Guide Entries
+    // //////
+
+    case actions.TV_GUIDE_ENTRIES_FETCH_START:
+      return fetchListStart(state, 'tvGuideEntries');
+    case actions.TV_GUIDE_ENTRIES_FETCH_SUCCESS:
+      // TODO: add paging!
+      return fetchListSuccess(state, 'tvGuideEntries', 'tvGuideEntries', action.data);
+    case actions.TV_GUIDE_ENTRIES_FETCH_ERROR:
+      return fetchListError(state, 'tvGuideEntries', action.error);
 
     // Uninteresting actions
     // ---------------------

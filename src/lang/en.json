@@ -1,5 +1,18 @@
 {
   "_common": {
+    "unknown": "An unknown error occurred.",
+    "tvGuideTiles": {
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "h": "h"
+    },
     "episodeTiles": {
       "episode": "Season %(season)i – Episode %(episode)i"
     },
@@ -63,6 +76,10 @@
       "availability": "Available for iOS & Android",
       "downloadButton": "Download"
     },
+    "tvGuide": {
+      "title": "Watch TV with Spott",
+      "empty": "Right now, this list is empty."
+    },
     "newEpisodes": {
       "title": "New Episodes",
       "empty": "Right now, this list is empty."
@@ -106,7 +123,9 @@
     "submitButton": "Log in",
     "newUser": "New user?",
     "createAccount": "Create an account",
-    "forgotPassword": "Forgot password?"
+    "forgotPassword": "Forgot password?",
+    "invalid": "Email/password combination is incorrect.",
+    "invalidFacebook": "Your Facebook account is not linked to a Spott account. Register [[here]]."
   },
   "register": {
     "title": "Create Account",
@@ -128,8 +147,8 @@
     "userAlreadyExist": "There is already a Spott user registered with this email.",
     "agree": "I’ve read and agree the [[]]",
     "terms": "terms and conditions",
-    "facebookError": "Not enough information, please provide your email address through Facebook or register without Facebook",
-    "facebookErrorUnknown": "An unknown error occurred."
+    "facebookError": "Not enough information, please provide your email address through Facebook or register without Facebook.",
+    "facebookErrorAlreadyExists": "You are already registered without Facebook. Login with the email address and password of your Spott account."
   },
   "productDetail": {
     "buyNow": "Buy Now",

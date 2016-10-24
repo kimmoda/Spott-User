@@ -20,6 +20,7 @@ export default class RecentlyAdded extends Component {
       title: PropTypes.string.isRequired
     }),
     otherRecentlyAddedMedia: PropTypes.any.isRequired,
+    style: PropTypes.object,
     t: PropTypes.func.isRequired
   }
 
@@ -31,7 +32,6 @@ export default class RecentlyAdded extends Component {
       }
     },
     wrapper: {
-      backgroundColor: colors.white,
       backgroundSize: 'cover',
       backgroundPosition: 'center center',
       position: 'relative',
@@ -80,9 +80,13 @@ export default class RecentlyAdded extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { firstMedium, otherRecentlyAddedMedia, t } = this.props;
+    const { firstMedium, otherRecentlyAddedMedia, style, t } = this.props;
     return (
-      <div style={[ styles.wrapper, firstMedium && firstMedium.get('profileImage') && responsiveBackgroundImage(firstMedium.getIn([ 'profileImage', 'url' ])) ]}>
+      <div style={[
+        styles.wrapper,
+        firstMedium && firstMedium.get('profileImage') && responsiveBackgroundImage(firstMedium.getIn([ 'profileImage', 'url' ])),
+        style
+      ]}>
         <Container>
           <div style={styles.overlay} />
           <div style={styles.innerWrapper}>

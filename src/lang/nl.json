@@ -1,5 +1,18 @@
 {
   "_common": {
+    "unknown": "Een onbekende fout trad op.",
+    "tvGuideTiles": {
+      "today": "Vandaag",
+      "tomorrow": "Morgen",
+      "monday": "Maandag",
+      "tuesday": "Dinsdag",
+      "wednesday": "Woensdag",
+      "thursday": "Donderdag",
+      "friday": "Vrijdag",
+      "saturday": "Zaterdag",
+      "sunday": "Zondag",
+      "h": "u"
+    },
     "episodeTiles": {
       "episode": "Seizoen %(season)i – Aflevering %(episode)i"
     },
@@ -63,6 +76,10 @@
       "availability": "Beschikbaar voor iOS & Android",
       "downloadButton": "Download"
     },
+    "tvGuide": {
+      "title": "Kijk TV met Spott",
+      "empty": "Deze lijst is momenteel leeg."
+    },
     "newEpisodes": {
       "title": "Nieuwe afleveringen",
       "empty": "Deze lijst is momenteel leeg."
@@ -106,7 +123,9 @@
     "submitButton": "Aanmelden",
     "newUser": "Nieuwe gebruiker?",
     "createAccount": "Registreer je",
-    "forgotPassword": "Wachtwoord vergeten?"
+    "forgotPassword": "Wachtwoord vergeten?",
+    "invalid": "E-mail/wachtwoord combinatie is niet correct.",
+    "invalidFacebook": "Je Facebook account is niet gelinkt aan een Spott account. Registreer [[hier]]."
   },
   "register": {
     "title": "Registratie",
@@ -128,8 +147,8 @@
     "userAlreadyExist": "Er is reeds een Spott gebruiker met dit e-mailadres.",
     "agree": "Ik heb [[]] gelezen en goedgekeurd, ",
     "terms": "de voorwaarden",
-    "facebookError": "Niet genoeg informatie, bezorg je e-mailadres via Facebook of registreer je met je e-mailadres.",
-    "facebookErrorUnknown": "Een onbekende fout trad op."
+    "facebookError": "Niet genoeg informatie, geef uw e-mailadres via Facebook of registreer zonder Facebook.",
+    "facebookErrorAlreadyExists": "Je bent al geregistreerd zonder Facebook. Meld je aan met het e-mailadres en wachtwoord van uw Spott account."
   },
   "productDetail": {
     "buyNow": "Koop nu",
