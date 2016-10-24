@@ -2,23 +2,25 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { Container, Message } from '../../../_common/buildingBlocks';
-import SceneTiles from '../../../_common/tiles/sceneTiles';
-import { scenesForYouSelector } from '../../selectors';
+import { tvGuideEntriesSelector } from '../../selectors';
 import localized from '../../../_common/localized';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import TvGuideTiles from '../../../_common/tiles/tvGuideTiles';
 
 @localized
-@connect(scenesForYouSelector)
+@connect(tvGuideEntriesSelector, (dispatch) => ({
+
+}))
 @Radium
-export default class NewScenesForYou extends Component {
+export default class NewEpisodes extends Component {
 
   static propTypes = {
-    scenes: ImmutablePropTypes.mapContains({
+    style: PropTypes.object,
+    t: PropTypes.func.isRequired,
+    tvGuideEntries: ImmutablePropTypes.mapContains({
       _status: PropTypes.string,
       data: PropTypes.list
-    }).isRequired,
-    style: PropTypes.object,
-    t: PropTypes.func.isRequired
+    }).isRequired
   }
 
   static styles = {
@@ -30,17 +32,16 @@ export default class NewScenesForYou extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { scenes, style, t } = this.props;
+    const { style, tvGuideEntries, t } = this.props;
     return (
       <div style={[ styles.wrapper, style ]}>
         <Container>
-          <SceneTiles
-            items={scenes}
-            renderEmptyComponent={() => <Message>{t('home.newScenesForYou.empty')}</Message>}
+          <TvGuideTiles
+            items={tvGuideEntries}
+            renderEmptyComponent={() => <Message>{t('home.tvGuide.empty')}</Message>}
             renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
-            tileProps={{ showDetails: true }}
-            title={t('home.newScenesForYou.title')} />
+            title={t('home.tvGuide.title')} />
         </Container>
       </div>
     );

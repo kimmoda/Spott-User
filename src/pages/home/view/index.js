@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { colors } from '../../_common/buildingBlocks';
 // import Search from './search';
 import RecentlyAdded from './recentlyAdded';
 import NewEpisodes from './newEpisodes';
@@ -8,6 +9,7 @@ import NewScenesForYou from './newScenesForYou';
 import TopSellingProducts from './topSellingProducts';
 import PopularProducts from './popularProducts';
 import DownloadApp from './downloadApp';
+import TvGuide from './tvGuide';
 import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
 // import PopularNearYou from './popularNearYou';
 import { homeSelector } from '../selectors';
@@ -43,17 +45,20 @@ export default class Home extends Component {
 
   render () {
     const { isAuthenticated } = this.props;
+    const backgroundStyle = [ { backgroundColor: colors.whiteGray }, { backgroundColor: colors.white } ];
+    let i = 0;
     return (
       <div style={{ fontSize: '16px', backgroundColor: 'white' }}>
         {/* <Search /> */}
-        <RecentlyAdded />
-        {isAuthenticated && <NewScenesForYou />}
-        <NewEpisodes />
-        <TopSellingProducts />
-        <PopularProducts />
-        <DownloadApp />
-        {isAuthenticated && <RecentlyAddedToWishlist />}
-        {/* <PopularNearYou /> */}
+        <RecentlyAdded style={backgroundStyle[i++ % 2]}/>
+        {isAuthenticated && <NewScenesForYou style={backgroundStyle[i++ % 2]}/>}
+        <TvGuide style={backgroundStyle[i++ % 2]}/>
+        <NewEpisodes style={backgroundStyle[i++ % 2]}/>
+        <TopSellingProducts style={backgroundStyle[i++ % 2]}/>
+        <PopularProducts style={backgroundStyle[i++ % 2]}/>
+        <DownloadApp style={backgroundStyle[i++ % 2]}/>
+        {isAuthenticated && <RecentlyAddedToWishlist style={backgroundStyle[i++ % 2]}/>}
+        {/* <PopularNearYou style={backgroundStyle[i++ % 2]} /> */}
       </div>
     );
   }

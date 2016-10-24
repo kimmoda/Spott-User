@@ -11,6 +11,7 @@ export const productsEntitiesSelector = (state) => state.getIn([ 'data', 'entiti
 export const usersEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'users' ]);
 export const wishlistsEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'wishlists' ]);
 export const scenesEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'scenes' ]);
+export const tvGuideEntriesEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'tvGuideEntries' ]);
 
 // Relations selectors
 // ///////////////////
@@ -37,6 +38,7 @@ export const popularProductsListSelector = (state) => state.getIn([ 'data', 'lis
 export const popularSeriesListSelector = (state) => state.getIn([ 'data', 'lists', 'popularSeries' ]);
 export const recentlyAddedMediaListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedMedia' ]);
 export const recentlyAddedToWishlistProductsListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedToWishlistProducts' ]);
+export const tvGuideEntriesListSelector = (state) => state.getIn([ 'data', 'lists', 'tvGuideEntries' ]);
 
 // Selector utils
 // //////////////

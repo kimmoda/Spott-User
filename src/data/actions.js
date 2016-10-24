@@ -5,6 +5,7 @@ import * as scenesApi from '../api/scenes';
 import * as usersApi from '../api/users';
 import * as wishlistsApi from '../api/wishlists';
 import * as eventsApi from '../api/events';
+import * as tvGuideApi from '../api/tvGuide';
 import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../pages/app/selector';
 import { slowdown } from '../utils';
 
@@ -82,6 +83,10 @@ export const USER_FETCH_ERROR = 'DATA/USER_FETCH_ERROR';
 export const SAVED_SCENES_OF_USER_FETCH_START = 'SAVED_SCENES_OF_USER_FETCH_START';
 export const SAVED_SCENES_OF_USER_FETCH_SUCCESS = 'SAVED_SCENES_OF_USER_FETCH_SUCCESS';
 export const SAVED_SCENES_OF_USER_FETCH_ERROR = 'SAVED_SCENES_OF_USER_FETCH_ERROR';
+
+export const TV_GUIDE_ENTRIES_FETCH_START = 'DATA/TV_GUIDE_ENTRIES_FETCH_START';
+export const TV_GUIDE_ENTRIES_FETCH_SUCCESS = 'DATA/TV_GUIDE_ENTRIES_FETCH_SUCCESS';
+export const TV_GUIDE_ENTRIES_FETCH_ERROR = 'DATA/TV_GUIDE_ENTRIES_FETCH_ERROR';
 
 export const WISHLIST_OF_USER_FETCH_START = 'WISHLIST_OF_USER_FETCH_START';
 export const WISHLIST_OF_USER_FETCH_SUCCESS = 'WISHLIST_OF_USER_FETCH_SUCCESS';
@@ -205,6 +210,8 @@ export const fetchProduct = makeApiActionCreator(productsApi.getProduct, PRODUCT
 export const fetchUser = makeApiActionCreator(usersApi.getUser, USER_FETCH_START, USER_FETCH_SUCCESS, USER_FETCH_ERROR);
 
 export const fetchSavedScenesOfUser = makeApiActionCreator(scenesApi.getSavedScenesOfUser, SAVED_SCENES_OF_USER_FETCH_START, SAVED_SCENES_OF_USER_FETCH_SUCCESS, SAVED_SCENES_OF_USER_FETCH_ERROR);
+
+export const fetchTvGuideEntries = makeApiActionCreator(tvGuideApi.fetchTvGuideEntries, TV_GUIDE_ENTRIES_FETCH_START, TV_GUIDE_ENTRIES_FETCH_SUCCESS, TV_GUIDE_ENTRIES_FETCH_ERROR);
 
 export const fetchWishlistOfUser = makeApiActionCreator(wishlistsApi.getWishlistOfUser, WISHLIST_OF_USER_FETCH_START, WISHLIST_OF_USER_FETCH_SUCCESS, WISHLIST_OF_USER_FETCH_ERROR);
 

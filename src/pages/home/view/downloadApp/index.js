@@ -1,10 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-// import { fromJS } from 'immutable'; // TODO: remove after API is implemented
-import { colors, mediaQueries, Button, UpperCaseSubtitle, SectionTitle, Title, Container, pinkButtonStyle } from '../../../_common/buildingBlocks';
-// import { dummySelector } from '../../selectors';
-// import { dummy } from '../../actions';
-// import ImmutablePropTypes from 'react-immutable-proptypes';
+import { mediaQueries, Button, UpperCaseSubtitle, SectionTitle, Title, Container, pinkButtonStyle } from '../../../_common/buildingBlocks';
 import localized from '../../../_common/localized';
 import DownloadAppButtons, { iosUrl, isIos, androidUrl, isAndroid } from '../../../_common/downloadAppButtons';
 
@@ -18,15 +14,15 @@ const deviceImage = require('./images/device.png');
 export default class DownloadApp extends Component {
 
   static propTypes = {
+    style: PropTypes.object,
     t: PropTypes.func.isRequired
-  }
+  };
 
   static styles = {
     button: {
       position: 'relative'
     },
     wrapper: {
-      backgroundColor: colors.white,
       paddingTop: '6.25em',
       backgroundSize: 'cover',
       backgroundPosition: 'center center',
@@ -109,18 +105,18 @@ export default class DownloadApp extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { t } = this.props;
+    const { style, t } = this.props;
     return (
-      <div style={{
-        ...styles.wrapper,
-        backgroundImage: `url("${spottSmallImage}")`,
-        [mediaQueries.large]: {
-          backgroundImage: `url("${spottMediumImage}")`
-        },
-        [mediaQueries.extraLarge]: {
-          backgroundImage: `url("${spottImage}")`
-        }
-      }}>
+      <div style={[
+        styles.wrapper, {
+          backgroundImage: `url("${spottSmallImage}")`,
+          [mediaQueries.large]: {
+            backgroundImage: `url("${spottMediumImage}")`
+          },
+          [mediaQueries.extraLarge]: {
+            backgroundImage: `url("${spottImage}")`
+          }
+        }, style ]}>
         <Container>
           <div style={styles.overlay} />
           <div style={styles.innerWrapper}>
