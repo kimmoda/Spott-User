@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Radium from 'radium';
 import { bindActionCreators } from 'redux';
-import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle, Modal } from '../_common/buildingBlocks';
+import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle, Modal, RadiumLink } from '../_common/buildingBlocks';
 import FacebookLoginButton from './facebookLoginButton';
 import * as actions from '../app/actions';
 import { authenticationErrorSelector, authenticationIsLoadingSelector }
@@ -16,6 +16,7 @@ import localized from '../_common/localized';
 class Form extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     error: PropTypes.any,
     isLoading: PropTypes.bool,
     location: PropTypes.object.isRequired,
@@ -75,12 +76,15 @@ class Form extends Component {
       border: '0.056em #d7d7d7 solid',
       boxShadow: 'transparent 0 0 0',
       margin: '0.278em 0'
+    },
+    link: {
+      color: '#ff0000'
     }
   }
 
   render () {
     const styles = this.constructor.styles;
-    const { error, isLoading, t } = this.props;
+    const { currentLocale, error, isLoading, t } = this.props;
     return (
       <form onSubmit={this.onSubmit}>
         <div style={styles.line}>&nbsp;</div>
@@ -97,7 +101,20 @@ class Form extends Component {
           placeholder={t('login.password')}
           ref={(c) => { this._password = c; }}
           style={styles.textInput} type='password' />
-        {error && <div style={styles.error}>{error}</div>}
+        {typeof error === 'string' &&
+          <div style={styles.error}>
+            {error === 'login.invalidFacebook'
+              ? t(error, {}, (contents, key) => (
+              <RadiumLink key={key} style={styles.link} to={
+                this.props.location.state && this.props.location.state.modal
+                  ? {
+                    pathname: `/${currentLocale}/register`,
+                    state: { modal: true, returnTo: this.props.location.state.returnTo }
+                  } : `/${currentLocale}/register`}>
+                  {contents}
+              </RadiumLink>
+            )) : t(error)}
+        </div>}
         <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('login.submitButton')}/>
       </form>
     );
