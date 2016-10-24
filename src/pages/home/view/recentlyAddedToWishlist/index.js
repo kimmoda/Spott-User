@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
-import { colors, Container, Message } from '../../../_common/buildingBlocks';
+import { Container, Message } from '../../../_common/buildingBlocks';
 import { recentlyAddedToWishlistSelector } from '../../selectors';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ProductTiles from '../../../_common/tiles/productTiles';

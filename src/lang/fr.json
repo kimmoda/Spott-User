@@ -1,5 +1,6 @@
 {
   "_common": {
+    "unknown": "Une erreur inconnue s’est passée.",
     "tvGuideTiles": {
       "today": "Aujourd'hui",
       "tomorrow": "Demain",
@@ -122,7 +123,9 @@
     "submitButton": "Connectez-vous",
     "newUser": "Nouveau utilisateur?",
     "createAccount": "Je me connecte",
-    "forgotPassword": "Mot de passe oublié?"
+    "forgotPassword": "Mot de passe oublié?",
+    "invalid": "Combinaison e-mail/mot de passe est incorrect.",
+    "invalidFacebook": "Votre compte Facebook n'est pas lié à un compte Spott. Inscrivez-vous [[ici]]."
   },
   "register": {
     "title": "Créer un compte",
@@ -144,8 +147,8 @@
     "userAlreadyExist": "Il existe déjà un utilisateur Spott avec cet e-mail.",
     "agree": "J'ai lu et accepté [[]]",
     "terms": "les termes et conditions",
-    "facebookError": "L’information ne suffit pas, veuillez donner votre adresse e-mail par Facebook ou inscrivez-vous sans Facebook",
-    "facebookErrorUnknown": "Une erreur inconnue s’est passée."
+    "facebookError": "Ne pas assez d'informations, veuillez donner votre adresse e-mail par Facebook ou inscrivez-vous sans Facebook.",
+    "facebookErrorAlreadyExists": "Vous êtes déjà inscrit sans Facebook. Connectez-vous avec l'adresse e-mail et mot de passe de votre compte Spott."
   },
   "productDetail": {
     "buyNow": "Achetez maintenant",
