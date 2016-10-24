@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
-import { colors, Container, Message } from '../../../_common/buildingBlocks';
+import { Container, Message } from '../../../_common/buildingBlocks';
 import { tvGuideEntriesSelector } from '../../selectors';
 import localized from '../../../_common/localized';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -15,6 +15,7 @@ import TvGuideTiles from '../../../_common/tiles/tvGuideTiles';
 export default class NewEpisodes extends Component {
 
   static propTypes = {
+    style: PropTypes.object,
     t: PropTypes.func.isRequired,
     tvGuideEntries: ImmutablePropTypes.mapContains({
       _status: PropTypes.string,
@@ -24,7 +25,6 @@ export default class NewEpisodes extends Component {
 
   static styles = {
     wrapper: {
-      backgroundColor: colors.whiteGray,
       paddingTop: '2.5em',
       paddingBottom: '3.125em'
     }
@@ -32,9 +32,9 @@ export default class NewEpisodes extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { tvGuideEntries, t } = this.props;
+    const { style, tvGuideEntries, t } = this.props;
     return (
-      <div style={styles.wrapper}>
+      <div style={[ styles.wrapper, style ]}>
         <Container>
           <TvGuideTiles
             items={tvGuideEntries}

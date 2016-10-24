@@ -98,7 +98,7 @@ export class TvGuideTile extends Component {
         </BaseTile>
         <div style={styles.container}>
           <img src={channelImage} style={styles.channelImage} />
-          <p style={styles.title}>{t('_common.tvGuideTiles.'.concat(title.toLowerCase()))}</p>
+          <p style={styles.title}>{t(`_common.tvGuideTiles.${title.toLowerCase()}`)}</p>
           <p style={styles.hour}>{time}{t('_common.tvGuideTiles.h')}</p>
         </div>
       </div>
@@ -109,6 +109,6 @@ export class TvGuideTile extends Component {
 
 export default makeTiles(
   0.938,
-  { small: 4, medium: 5, large: 6, extraLarge: 7 },
+  { extraSmall: 3, small: 4, medium: 5, large: 6, extraLarge: 7 },
   (instanceProps) => <TvGuideTile {...instanceProps} />
 );

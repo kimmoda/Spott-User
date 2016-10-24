@@ -17,12 +17,12 @@ export default class RecentlyAddedToWishlist extends Component {
       _status: PropTypes.string,
       data: PropTypes.list
     }).isRequired,
+    style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
 
   static styles = {
     wrapper: {
-      backgroundColor: colors.white,
       paddingTop: '2.5em',
       paddingBottom: '3.125em'
     }
@@ -30,10 +30,10 @@ export default class RecentlyAddedToWishlist extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { recentlyAddedToWishlistProducts, t } = this.props;
+    const { recentlyAddedToWishlistProducts, style, t } = this.props;
 
     return (
-      <div style={styles.wrapper}>
+      <div style={[ styles.wrapper, style ]}>
         <Container>
           <ProductTiles items={recentlyAddedToWishlistProducts}
             renderEmptyComponent={() => <Message>{t('home.recentlyAddedToWishlist.empty')}</Message>}

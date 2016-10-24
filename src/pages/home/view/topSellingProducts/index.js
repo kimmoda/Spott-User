@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { colors, Container, Message } from '../../../_common/buildingBlocks';
+import { Container, Message } from '../../../_common/buildingBlocks';
 import { topSellingProductsSelector } from '../../selectors';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ProductsFromMediumTiles from '../../../_common/tiles/productsFromMediumTiles';
@@ -29,12 +29,12 @@ export default class TopSellingProducts extends Component {
       _status: PropTypes.string,
       data: PropTypes.list
     }).isRequired,
+    style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
 
   static styles = {
     wrapper: {
-      backgroundColor: colors.white,
       paddingTop: '2.5em',
       paddingBottom: '3.125em'
     }
@@ -42,10 +42,10 @@ export default class TopSellingProducts extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { fetchMediumTopProducts, mediumHasTopProducts, products, series, t } = this.props;
+    const { fetchMediumTopProducts, mediumHasTopProducts, products, series, style, t } = this.props;
 
     return (
-      <div style={styles.wrapper}>
+      <div style={[ styles.wrapper, style ]}>
         <Container>
           <ProductsFromMediumTiles
             items={series}
