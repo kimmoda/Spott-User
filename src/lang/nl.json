@@ -2,15 +2,9 @@
   "_common": {
     "unknown": "Een onbekende fout trad op.",
     "tvGuideTiles": {
+      "now": "Nu",
       "today": "Vandaag",
       "tomorrow": "Morgen",
-      "monday": "Maandag",
-      "tuesday": "Dinsdag",
-      "wednesday": "Woensdag",
-      "thursday": "Donderdag",
-      "friday": "Vrijdag",
-      "saturday": "Zaterdag",
-      "sunday": "Zondag",
       "h": "u"
     },
     "episodeTiles": {

@@ -12,10 +12,46 @@ import localized from '../../_common/localized';
 export class TvGuideTile extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     item: ImmutablePropTypes.map.isRequired,
     style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
+
+  constructor (props) {
+    super(props);
+    this.getTitle = ::this.getTitle;
+  }
+
+  getTitle () {
+    const { currentLocale, item, t } = this.props;
+
+    // Set the locale used by moment.
+    moment.locale(currentLocale);
+
+    const now = moment();
+    const tomorrow = moment().add(1, 'days');
+    const start = moment(item.get('start'));
+    const end = moment(item.get('end'));
+
+    // Is currently on tv?
+    if (now.isBetween(start, end)) {
+      return t('_common.tvGuideTiles.now');
+    }
+    // Later today on tv?
+    if (now.format('DD/MM/YYYY') === start.format('DD/MM/YYYY')) {
+      return t('_common.tvGuideTiles.today');
+    }
+    // Tomorrow on tv?
+    if (tomorrow.format('DD/MM/YYYY') === start.format('DD/MM/YYYY')) {
+      return t('_common.tvGuideTiles.tomorrow');
+    }
+
+    // After tomorrow on tv.
+    // Return title starting with a capital.
+    const title = start.format('dddd D MMM');
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
 
   static styles = {
     container: {
@@ -87,17 +123,8 @@ export class TvGuideTile extends Component {
   render () {
     const styles = this.constructor.styles;
     const { item, style, t } = this.props;
-    const start = item.get('start');
-    const day = moment(start);
-    const today = moment();
-    const tomorrow = moment().add(1, 'days');
-    const time = moment(start).format('HH:mm');
-    let title = day.format('dddd');
-    if (day.format('DD/MM/YYYY') === today.format('DD/MM/YYYY')) {
-      title = 'Today';
-    } else if (day.format('DD/MM/YYYY') === tomorrow.format('DD/MM/YYYY')) {
-      title = 'Tomorrow';
-    }
+    const time = moment(item.get('start')).format('HH:mm');
+
     return (
       <div style={style}>
         <BaseTile>
@@ -112,7 +139,7 @@ export class TvGuideTile extends Component {
             {item.getIn([ 'channel', 'logo' ]) &&
               <img src={item.getIn([ 'channel', 'logo', 'url' ])} style={styles.channelImage} title={item.getIn([ 'channel', 'name' ])} />}
           </div>
-          <p style={styles.title}>{t(`_common.tvGuideTiles.${title.toLowerCase()}`)}</p>
+          <p style={styles.title}>{this.getTitle()}</p>
           <p style={styles.hour}>{time}{t('_common.tvGuideTiles.h')}</p>
         </div>
       </div>
