@@ -205,8 +205,8 @@ export function transformShare ({ body, image, title, url }) {
   return { description: body, image: image && { id: image.uuid, url: image.url }, title, url };
 }
 
-export function transformBroadcastChannel ({ name, uuid: id }) {
-  return { id, name };
+export function transformBroadcastChannel ({ logo, name, uuid: id }) {
+  return { id, logo: logo && { id: logo.uuid, url: logo.url }, name };
 }
 
 export function transformTvGuideEntry ({ uuid: id, start, medium, medium: { season }, channel }) {
