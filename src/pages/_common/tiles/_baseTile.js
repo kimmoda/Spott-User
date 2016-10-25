@@ -11,6 +11,12 @@ export default class BaseTile extends Component {
     style: PropTypes.object
   };
 
+  componentDidMount () {
+    if (this.props.load) {
+      this.props.load();
+    }
+  }
+
   static styles = {
     container: {
       backgroundColor: '#ffffff',
@@ -24,12 +30,6 @@ export default class BaseTile extends Component {
       }
     }
   };
-
-  componentDidMount () {
-    if (this.props.load) {
-      this.props.load();
-    }
-  }
 
   render () {
     const styles = this.constructor.styles;
