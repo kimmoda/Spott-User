@@ -7,8 +7,6 @@ import makeTiles from './_makeTiles';
 import moment from 'moment';
 import localized from '../../_common/localized';
 
-const channelImage = require('../../../api/mock/channels/vtm.png');
-
 @localized
 @Radium
 export class TvGuideTile extends Component {
@@ -52,8 +50,21 @@ export class TvGuideTile extends Component {
       width: '100%'
     },
     channelImage: {
+      bottom: 0,
+      height: 'auto',
+      left: 0,
+      margin: 'auto',
+      maxHeight: '100%',
+      maxWidth: '100%',
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      width: 'auto'
+    },
+    channelImageContainer: {
       marginTop: '0.7em',
       height: '4em',
+      position: 'relative',
       width: '4em'
     },
     imageContainer: {
@@ -97,12 +108,14 @@ export class TvGuideTile extends Component {
           </RadiumLink>
         </BaseTile>
         <div style={styles.container}>
-          <img src={channelImage} style={styles.channelImage} />
+          <div style={styles.channelImageContainer}>
+            {item.getIn([ 'channel', 'logo' ]) &&
+              <img src={item.getIn([ 'channel', 'logo', 'url' ])} style={styles.channelImage} title={item.getIn([ 'channel', 'name' ])} />}
+          </div>
           <p style={styles.title}>{t(`_common.tvGuideTiles.${title.toLowerCase()}`)}</p>
           <p style={styles.hour}>{time}{t('_common.tvGuideTiles.h')}</p>
         </div>
       </div>
-
     );
   }
 }

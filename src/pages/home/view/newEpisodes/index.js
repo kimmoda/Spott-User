@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { colors, Container, Message } from '../../../_common/buildingBlocks';
+import { Container, Message } from '../../../_common/buildingBlocks';
 import EpisodeTiles from '../../../_common/tiles/episodeTiles';
 import { newEpisodesSelector } from '../../selectors';
 import * as actions from '../../../../data/actions';

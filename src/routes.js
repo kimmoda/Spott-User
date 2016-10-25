@@ -156,6 +156,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
         {/* Media */}
         <Route component={Medium} mediumType={COMMERCIAL} path='commercial/:mediumSlug/:mediumId' onEnter={({ params: { mediumId } }) => {
+          window.scrollTo(0, 0);
           mediumId && dispatch(mediumView({ mediumId }));
         }}>
           <IndexRedirect to='overview' />
@@ -164,6 +165,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={COMMERCIAL} path='scenes' />
         </Route>
         <Route component={Medium} mediumType={SERIES} path='series/:mediumSlug/:mediumId' onEnter={({ params: { mediumId } }) => {
+          window.scrollTo(0, 0);
           mediumId && dispatch(mediumView({ mediumId }));
         }}>
           <IndexRedirect to='overview' />
@@ -182,6 +184,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           </Route>
         </Route>
         <Route component={Medium} mediumType={MOVIE} path={'movie/:mediumSlug/:mediumId'} onEnter={({ params: { mediumId } }) => {
+          window.scrollTo(0, 0);
           mediumId && dispatch(mediumView({ mediumId }));
         }}>
           <IndexRedirect to='overview' />
