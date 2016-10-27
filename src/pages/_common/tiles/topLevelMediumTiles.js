@@ -19,6 +19,14 @@ export class TopLevelMediumTile extends Component {
     style: PropTypes.object
   };
 
+  // We suppose the data won't change often, so if the status and id is the same,
+  // we don't trigger a rerender.
+  shouldComponentUpdate (nextProps) {
+    const item = this.props.item;
+    return item.get('_status') !== nextProps.item.get('_status') ||
+      item.get('id') !== nextProps.item.get('id');
+  }
+
   static styles = {
     container: {
       position: 'relative',
@@ -59,6 +67,7 @@ export class TopLevelMediumTile extends Component {
   render () {
     const styles = this.constructor.styles;
     const { item, style } = this.props;
+
     return (
       <BaseTile style={style}>
         <RadiumLink style={styles.container} title={item.get('title')} to={item.get('shareUrl')}>

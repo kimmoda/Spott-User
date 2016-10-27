@@ -130,14 +130,15 @@ export class TvGuideTile extends Component {
         <BaseTile>
           <RadiumLink to={item.getIn([ 'medium', 'shareUrl' ])}>
             <div style={styles.imageContainer}>
-              <img src={item.getIn([ 'medium', 'posterImage', 'url' ])} style={styles.posterImage} />
+              {item.getIn([ 'medium', 'posterImage' ]) &&
+                <img src={`${item.getIn([ 'medium', 'posterImage', 'url' ])}?height=279&width=188`} style={styles.posterImage} />}
             </div>
           </RadiumLink>
         </BaseTile>
         <div style={styles.container}>
           <div style={styles.channelImageContainer}>
             {item.getIn([ 'channel', 'logo' ]) &&
-              <img src={item.getIn([ 'channel', 'logo', 'url' ])} style={styles.channelImage} title={item.getIn([ 'channel', 'name' ])} />}
+              <img src={`${item.getIn([ 'channel', 'logo', 'url' ])}?height=160&width=160`} style={styles.channelImage} title={item.getIn([ 'channel', 'name' ])} />}
           </div>
           <p style={styles.title}>{this.getTitle()}</p>
           <p style={styles.hour}>{time}{t('_common.tvGuideTiles.h')}</p>

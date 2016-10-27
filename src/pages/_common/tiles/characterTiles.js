@@ -21,6 +21,15 @@ export class CharacterTile extends Component {
     style: PropTypes.object
   };
 
+  // We suppose the data won't change often, so if the status and id is the same,
+  // we don't trigger a rerender.
+  shouldComponentUpdate (nextProps) {
+    const { hovered, item } = this.props;
+    return item.get('_status') !== nextProps.item.get('_status') ||
+      item.get('id') !== nextProps.item.get('id') ||
+      hovered !== nextProps.hovered;
+  }
+
   static styles = {
     container: {
       position: 'relative',
@@ -71,6 +80,7 @@ export class CharacterTile extends Component {
   render () {
     const styles = this.constructor.styles;
     const { hovered, item, style } = this.props;
+
     return (
       <BaseTile style={style}>
         <RadiumLink alt={item.get('name')} key={item.get('id')} title={item.get('name')} to={item.get('shareUrl')}>
