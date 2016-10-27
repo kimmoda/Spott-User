@@ -41,13 +41,15 @@ export const mediaQueryThresholds = {
   small: 480,
   medium: 768,
   large: 992,
-  extraLarge: 1200
+  extraLarge: 1200,
+  extraExtraLarge: 1700
 };
 export const mediaQueries = {
   small: `@media only screen and (min-width: ${mediaQueryThresholds.small}px)`,
   medium: `@media only screen and (min-width: ${mediaQueryThresholds.medium}px)`,
   large: `@media only screen and (min-width: ${mediaQueryThresholds.large}px)`,
-  extraLarge: `@media only screen and (min-width: ${mediaQueryThresholds.extraLarge}px)`
+  extraLarge: `@media only screen and (min-width: ${mediaQueryThresholds.extraLarge}px)`,
+  extraExtraLarge: `@media only screen and (min-width: ${mediaQueryThresholds.extraExtraLarge}px)`
 };
 
 @Radium
@@ -357,8 +359,12 @@ const containerStyles = {
   },
   [mediaQueries.extraLarge]: {
     width: 1170
+  },
+  [mediaQueries.extraExtraLarge]: {
+    width: 1400
   }
 };
+
 export const Container = Radium((props) => (
   <div {...props} style={[ containerStyles, props.style ]}>
     {props.children}
@@ -385,6 +391,9 @@ const smallContainerStyles = {
   },
   [mediaQueries.extraLarge]: {
     width: 882
+  },
+  [mediaQueries.extraExtraLarge]: {
+    width: 1170
   }
 };
 
@@ -420,6 +429,9 @@ const scalableContainerStyles = {
     // paddingLeft: '6.5em',
     // paddingRight: '6.5em',
     maxWidth: 1170
+  },
+  [mediaQueries.extraExtraLarge]: {
+    maxWidth: 1400
   }
 };
 export const ScalableContainer = Radium((props) => (
@@ -686,6 +698,9 @@ export function responsiveBackgroundImage (url) {
     },
     [mediaQueries.extraLarge]: {
       backgroundImage: `url("${url}?height=985&width=1750")`
+    },
+    [mediaQueries.extraExtraLarge]: {
+      backgroundImage: `url("${url}?height=1125&width=2000")`
     }
   };
 }

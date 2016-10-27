@@ -66,7 +66,7 @@ export default class Products extends Component {
                 aspectRatio={1.309677}
                 horizontalSpacing={30}
                 items={products.get('data')}
-                numColumns={{ 0: 2, 480: 3, 768: 4, 992: 5 }}
+                numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 6, extraExtraLarge: 7 }}
                 tile={<ProductTile />}
                 verticalSpacing={30} />
             </Container>

@@ -4,6 +4,7 @@ import { colors, formatPrice, fontWeights, makeTextStyle, RadiumLink } from '../
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
+import { equals } from '../../../utils';
 
 function formatTitle (name, price) {
   const priceText = formatPrice(price);
@@ -39,7 +40,8 @@ export class ProductTile extends Component {
   shouldComponentUpdate (nextProps) {
     const item = this.props.item;
     return item.get('_status') !== nextProps.item.get('_status') ||
-      item.get('id') !== nextProps.item.get('id');
+      item.get('id') !== nextProps.item.get('id') ||
+      !equals(this.props.style, nextProps.style);
   }
 
   static styles = {
@@ -99,6 +101,8 @@ export class ProductTile extends Component {
       return <div />;
     }
 
+    console.warn('product', item.toJS());
+
     const title = formatTitle(item.get('shortName'), item.get('price'));
 
     return (
@@ -119,6 +123,6 @@ export class ProductTile extends Component {
 
 export default makeTiles(
   0.938,
-  { extraSmall: 2, small: 3, medium: 3, large: 4, extraLarge: 5 },
+  { extraSmall: 2, small: 3, medium: 3, large: 4, extraLarge: 5, extraExtraLarge: 6 },
   (instanceProps) => <ProductTile {...instanceProps} />
 );

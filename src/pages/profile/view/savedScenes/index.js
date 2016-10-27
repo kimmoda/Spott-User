@@ -54,7 +54,7 @@ export default class SavedScenes extends Component {
         aspectRatio={0.55994248}
         horizontalSpacing={30}
         items={savedScenes.get('data')}
-        numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
+        numColumns={{ extraSmall: 1, small: 2, medium: 3, large: 4, extraLarge: 5, extraExtraLarge: 6 }}
         tile={<SceneTile location={location} />}
         verticalSpacing={30} />
     );

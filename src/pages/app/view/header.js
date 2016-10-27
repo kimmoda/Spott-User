@@ -155,7 +155,7 @@ class Header extends Component {
               <div>
                   <div style={styles.userSection.trigger}>
                     <Link style={styles.userSection.profileLink} to={`/${currentLocale}/profile/${slugify(currentUsername)}/${currentUserId}`}>
-                      <img src={currentUserAvatar ? currentUserAvatar.get('url') : dummyAvatarImage} style={styles.userSection.triggerAvatar} />
+                      <img src={currentUserAvatar ? `${currentUserAvatar.get('url')}?height=64&width=64` : dummyAvatarImage} style={styles.userSection.triggerAvatar} />
                     </Link>
                     <Dropdown
                       button={<span style={[ styles.userSection.triggerArrow.base, floating && styles.userSection.triggerArrow.floating ]}>▾</span>}

@@ -170,6 +170,6 @@ export class ProductsFromMediumTile extends Component {
 
 export default makeTiles(
   0.938,
-  { extraSmall: 1, small: 2, medium: 2, large: 3, extraLarge: 3 },
+  { extraSmall: 1, small: 2, medium: 2, large: 3, extraLarge: 3, extraExtraLarge: 3 },
   (instanceProps) => <ProductsFromMediumTile {...instanceProps} />
 );
