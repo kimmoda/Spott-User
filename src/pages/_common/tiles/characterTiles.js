@@ -25,6 +25,7 @@ export class CharacterTile extends Component {
   // we don't trigger a rerender.
   shouldComponentUpdate (nextProps) {
     const { hovered, item } = this.props;
+    // NOTE: we ignore style prop right now, because it remains unchanged.
     return item.get('_status') !== nextProps.item.get('_status') ||
       item.get('id') !== nextProps.item.get('id') ||
       hovered !== nextProps.hovered;
@@ -99,6 +100,6 @@ export class CharacterTile extends Component {
 
 export default makeTiles(
   0.833,
-  { extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7 },
+  { extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 7, extraExtraLarge: 8 },
   (instanceProps) => <CharacterTile {...instanceProps} />
 );

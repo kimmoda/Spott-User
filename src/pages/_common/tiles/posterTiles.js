@@ -19,6 +19,7 @@ export class PosterTile extends Component {
   // we don't trigger a rerender.
   shouldComponentUpdate (nextProps) {
     const item = this.props.item;
+    // NOTE: we ignore style prop right now, because it remains unchanged.
     return item.get('_status') !== nextProps.item.get('_status') ||
       item.get('id') !== nextProps.item.get('id');
   }
@@ -77,6 +78,6 @@ export class PosterTile extends Component {
 
 export default makeTiles(
   0.938,
-  { small: 4, medium: 5, large: 6, extraLarge: 7 },
+  { extraSmall: 3, small: 4, medium: 4, large: 5, extraLarge: 5, extraExtraLarge: 6 },
   (instanceProps) => <PosterTile {...instanceProps} />
 );

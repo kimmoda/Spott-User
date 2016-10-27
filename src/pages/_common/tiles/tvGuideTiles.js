@@ -23,6 +23,15 @@ export class TvGuideTile extends Component {
     this.getTitle = ::this.getTitle;
   }
 
+  // We suppose the data won't change often, so if the status and id is the same,
+  // we don't trigger a rerender.
+  shouldComponentUpdate (nextProps) {
+    const item = this.props.item;
+    // NOTE: we ignore style prop right now, because it remains unchanged.
+    return item.get('_status') !== nextProps.item.get('_status') ||
+      item.get('id') !== nextProps.item.get('id');
+  }
+
   getTitle () {
     const { currentLocale, item, t } = this.props;
 
@@ -150,6 +159,6 @@ export class TvGuideTile extends Component {
 
 export default makeTiles(
   0.938,
-  { extraSmall: 3, small: 4, medium: 5, large: 6, extraLarge: 7 },
+  { extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 6, extraExtraLarge: 7 },
   (instanceProps) => <TvGuideTile {...instanceProps} />
 );

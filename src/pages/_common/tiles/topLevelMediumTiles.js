@@ -93,6 +93,6 @@ export class TopLevelMediumTile extends Component {
 
 export default makeTiles(
   0.938,
-  { extraSmall: 1, small: 2, medium: 2, large: 3, extraLarge: 4 },
+  { extraSmall: 1, small: 2, medium: 2, large: 3, extraLarge: 4, extraExtraLarge: 5 },
   (instanceProps) => <TopLevelMediumTile {...instanceProps} />
 );

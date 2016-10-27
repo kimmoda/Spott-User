@@ -113,7 +113,7 @@ export default class Wishlists extends Component {
           aspectRatio={1.1333866}
           horizontalSpacing={30}
           items={wishlists.get('data')}
-          numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
+          numColumns={{ extraSmall: 1, small: 2, medium: 4, large: 4, extraLarge: 5, extraExtraLarge: 6 }}
           tile={<Wishlist baseUrl={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`} />}
           verticalSpacing={30} />
       );

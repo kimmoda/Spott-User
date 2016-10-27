@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { slowdown } from '../../utils';
+import { mediaQueryThresholds } from './buildingBlocks';
 
 /**
  * Main component, containing and efficiently rendering our tiles.
@@ -83,10 +84,11 @@ export default class VerticalTiles extends Component {
       return <div ref={(x) => { this.container = x; }} style={{ minHeight: 1 }} />;
     }
     // Determine number of columbs
-    const resolvedNumColumns = Object.keys(numColumns).reduce(({ bestFit, bestNumColumns }, aFit) => {
+    const resolvedNumColumns = Object.keys(numColumns).reduce(({ bestFit, bestNumColumns }, screenSize) => {
+      const aFit = mediaQueryThresholds[screenSize];
       // The current one is not a better fit
       if (screenWidth >= aFit && aFit > bestFit) {
-        const aNumColumns = numColumns[aFit];
+        const aNumColumns = numColumns[screenSize];
         return { bestFit: aFit, bestNumColumns: aNumColumns };
       }
       return { bestFit, bestNumColumns };
@@ -126,7 +128,7 @@ export default class VerticalTiles extends Component {
           position: 'absolute'
         };
         if (items.get(index)) {
-          renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: index, item: items.get(index) }));
+          renderedItems.push(React.cloneElement(tile, { ...tile.props, style, key: items.get(index).get('id'), item: items.get(index) }));
         }
       }
     }

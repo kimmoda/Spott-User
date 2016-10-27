@@ -116,7 +116,7 @@ export default class MediumScenes extends Component {
               aspectRatio={0.55994248}
               horizontalSpacing={30}
               items={scenes.get('data')}
-              numColumns={{ 0: 1, 480: 2, 768: 3, 992: 4 }}
+              numColumns={{ extraSmall: 1, small: 2, medium: 3, large: 4, extraLarge: 4, extraExtraLarge: 4 }}
               tile={<SceneTile location={location} />}
               verticalSpacing={30} />
           </Container>

@@ -62,6 +62,9 @@ export class Tiles extends Component {
       },
       [mediaQueries.extraLarge]: {
         width: `${100 / numColumns.extraLarge}%`
+      },
+      [mediaQueries.extraExtraLarge]: {
+        width: `${100 / numColumns.extraExtraLarge}%`
       }
     };
 
@@ -89,7 +92,7 @@ export class Tiles extends Component {
         <div style={[ containerStyle, tilesStyle ]}>
           {/* We take one item more, so it's already there to display.
               We assume that each item in the list has a unique id. */}
-          {(this.rotateList(items.get('data') || List(), first).take(numColumns.extraLarge + 1).map((item, i) => tileRenderer({ ...(tileProps || {}), style, key: item.get('id'), item })))}
+          {(this.rotateList(items.get('data') || List(), first).take(numColumns.extraExtraLarge + 1).map((item, i) => tileRenderer({ ...(tileProps || {}), style, key: item.get('id'), item })))}
         </div>
       ),
       renderLoadingComponent,
