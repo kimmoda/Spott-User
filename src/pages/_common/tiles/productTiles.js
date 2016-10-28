@@ -101,8 +101,6 @@ export class ProductTile extends Component {
       return <div />;
     }
 
-    console.warn('product', item.toJS());
-
     const title = formatTitle(item.get('shortName'), item.get('price'));
 
     return (

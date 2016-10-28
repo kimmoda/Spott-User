@@ -42,7 +42,6 @@ export function registerWithFacebook ({ email, firstname, lastname, facebookAcce
           await dispatch(doTryLoginFacebook({ facebookAccessToken }));
           return dispatch({ email, firstname, lastname, type: REGISTER_FACEBOOK_USER_SUCCESS });
         } catch (e) {
-          console.warn();
           if (e === 'login.invalidFacebook') {
             // User already exists and you can't login => You created an account without using Facebook.
             return dispatch({ error: 'register.facebookErrorAlreadyExists', email, firstname, lastname, type: REGISTER_FACEBOOK_USER_ERROR });
