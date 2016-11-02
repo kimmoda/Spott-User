@@ -3,7 +3,7 @@ import {
   mediaEntitiesSelector, productsEntitiesSelector,
   popularProductsListSelector, recentlyAddedMediaListSelector, recentlyAddedToWishlistProductsListSelector,
   newScenesForYouListSelector, scenesEntitiesSelector,
-  createEntitiesByListSelector, newEpisodesListSelector, mediumHasTopProductsSelector, popularSeriesListSelector,
+  createEntitiesByListSelector, newEpisodesListSelector, mediumHasTopProductsSelector, popularMediaListSelector,
   tvGuideEntriesEntitiesSelector, tvGuideEntriesListSelector
 } from '../../data/selector';
 import { isAuthenticatedSelector } from '../app/selector';
@@ -39,7 +39,7 @@ export const popularProductsSelector = createStructuredSelector({
 });
 
 export const topSellingProductsSelector = createStructuredSelector({
-  series: createEntitiesByListSelector(popularSeriesListSelector, mediaEntitiesSelector),
+  media: createEntitiesByListSelector(popularMediaListSelector, mediaEntitiesSelector),
   mediumHasTopProducts: mediumHasTopProductsSelector,
   products: productsEntitiesSelector
 });
