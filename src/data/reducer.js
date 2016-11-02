@@ -90,7 +90,7 @@ export default (state = fromJS({
   },
   lists: {
     popularProducts: {},
-    popularSeries: {},
+    popularMedia: {},
     recentlyAddedMedia: {},
     recentlyAddedToWishlistProducts: {},
     newEpisodes: {},
@@ -139,12 +139,12 @@ export default (state = fromJS({
     case actions.POPULAR_PRODUCTS_FETCH_ERROR:
       return fetchListError(state, 'popularProducts', action.error);
 
-    case actions.POPULAR_SERIES_FETCH_START:
-      return fetchListStart(state, 'popularSeries');
-    case actions.POPULAR_SERIES_FETCH_SUCCESS:
-      return fetchListSuccess(state, 'popularSeries', 'media', action.data);
-    case actions.POPULAR_SERIES_FETCH_ERROR:
-      return fetchListError(state, 'popularSeries', action.error);
+    case actions.POPULAR_MEDIA_FETCH_START:
+      return fetchListStart(state, 'popularMedia');
+    case actions.POPULAR_MEDIA_FETCH_SUCCESS:
+      return fetchListSuccess(state, 'popularMedia', 'media', action.data);
+    case actions.POPULAR_MEDIA_FETCH_ERROR:
+      return fetchListError(state, 'popularMedia', action.error);
 
     case actions.WISHLIST_PRODUCTS_FETCH_START:
       return fetchRelationsStart(state, 'wishlistHasProducts', action.wishlistId);
