@@ -105,8 +105,11 @@ const wrappedFetch = async function () {
       case 401:
         throw new UnauthorizedError(responseBody);
       case 403:
-        // window.location.reload();
-        throw new UnexpectedError();
+        // We received 403 Forbidden. We are not authorized. This can be due to an invalid
+        // expired authentication token. We do a hard reload of the application, which will
+        // redirect us to login. Ugly, but effective!
+        window.localStorage.removeItem('session');
+        return window.location.reload();
       case 404:
         throw new NotFoundError('entity', responseBody);
       default:
