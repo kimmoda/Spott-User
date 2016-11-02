@@ -203,6 +203,9 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           userSelect: 'none', // Non-prefixed version, currently not supported by any browser
           zIndex: 100
         },
+        arrowDisable: {
+          opacity: 0.4
+        },
         inlineArrowLeft: {
           cursor: 'pointer',
           paddingLeft: '0.75em',
@@ -236,7 +239,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           arrowsType, items, listStyle, renderEmptyComponent, renderLoadingComponent,
           renderNotFoundComponent, renderUnexpectedComponent, style, tileProps, titleStyle, title
         } = this.props;
-        const { screenWidth } = this.state;
+        const { first, screenWidth } = this.state;
 
         // If we have no known container width (first render), there is no reason to proceed
         if (screenWidth === -1) {
@@ -260,16 +263,20 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
           return { numColumns: numColumns[mediaQuery], mediaQueryThreshold };
         }, { numColumns: -1, mediaQueryThreshold: -1 }).numColumns;
 
-        const renderArrows = (containerStyle, leftStyle, rightStyle, arrowColor) => (
-          <div style={containerStyle}>
-            <div style={leftStyle} onClick={this.onBackClick}>
-              <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
+        const renderArrows = (containerStyle, leftStyle, rightStyle, arrowColor) => {
+          const disableLeftArrow = first === 0;
+          const disableRightArrow = first === items.get('data').size - currentNumColumns;
+          return (
+            <div style={containerStyle}>
+              <div style={[ leftStyle, disableLeftArrow && styles.arrowDisable ]} onClick={!disableLeftArrow && this.onBackClick}>
+                <ArrowLeftImage color={arrowColor} style={styles.arrowIcon} />
+              </div>
+              <div style={[ rightStyle, disableRightArrow && styles.arrowDisable ]} onClick={!disableRightArrow && this.onMoreClick}>
+                <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
+              </div>
             </div>
-            <div style={rightStyle} onClick={this.onMoreClick}>
-              <ArrowRightImage color={arrowColor} style={styles.arrowIcon} />
-            </div>
-          </div>
-        );
+          );
+        };
 
         return (
           <div ref={(x) => { this.container = x; }} style={[ styles.container, style ]}>
@@ -286,12 +293,12 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
             {arrowsType === 'inline' && items.get('data').size > 0 &&
               renderArrows(
                 styles.inlineArrows,
-                styles.inlineArrowLeft,
-                styles.inlineArrowRight,
+                [ styles.inlineArrowLeft, first === 0 && styles.arrowDisable ],
+                [ styles.inlineArrowRight, first === items.get('data').size - currentNumColumns && styles.arrowDisable ],
                 colors.white
               )}
             <RadiumTiles
-              first={this.state.first}
+              first={first}
               horizontalSpacing={horizontalSpacing}
               items={items}
               numColumns={numColumns}
