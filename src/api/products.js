@@ -72,7 +72,7 @@ export async function getMediumProducts (baseUrl, authenticationToken, locale, {
 }
 
 export async function getMediumTopProducts (baseUrl, authenticationToken, locale, { mediumId, page = 0 }) {
-  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/products?pageSize=50&page=${page}&sortField=TOP_SELLING`);
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/popularProducts?pageSize=20&page=${page}`);
   return { data: data.map(transformListProduct) };
 }
 
