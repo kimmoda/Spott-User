@@ -3,20 +3,20 @@
 	<parent>
 		<groupId>appiness.mobi</groupId>
 		<artifactId>appiness.root</artifactId>
-		<version>07</version>
+		<version>09</version>
 	</parent>
 	<artifactId>appiness.spott.website</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	<version>01.00.20-SNAPSHOT</version>
+	<version>01.00.25-SNAPSHOT</version>
 	<scm>
 		<connection>scm:git:https://bitbucket.org/appiness/appiness.spott.website</connection>
-		<tag>HEAD</tag>
+		<tag>appiness.spott.website-01.00.21</tag>
 	</scm>
 	<repositories>
 		<repository>
 			<id>appiness</id>
-			<url>https://nexus.appiness.mobi/nexus/content/groups/public</url>
+			<url>https://nexus.appiness.mobi/nexus/repository/maven-public</url>
 		</repository>
 	</repositories>
 	<properties>
