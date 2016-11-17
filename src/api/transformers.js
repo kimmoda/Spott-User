@@ -104,16 +104,22 @@ export function transformWishlist (wishlist) {
   * }
   */
 export function transformMedium ({ posterImage, profileImage, shareUrl, subscribed, subscriberCount, title, type, uuid: id }) {
-  return {
+  const medium = {
     id,
     posterImage: posterImage && { id: posterImage.uuid, url: posterImage.url },
     profileImage: profileImage && { id: profileImage.uuid, url: profileImage.url },
     shareUrl: stripDomain(shareUrl),
-    subscribed,
-    subscriberCount,
     title,
     type
   };
+  // These fields can be undefined, and will be otherwise merged in the existing medium.
+  if (subscribed !== undefined) {
+    medium.subscribed = subscribed;
+  }
+  if (subscriberCount !== undefined) {
+    medium.subscriberCount = subscriberCount;
+  }
+  return medium;
 }
 
 export function transformSeason ({ number, shareUrl, title, uuid: id }) {

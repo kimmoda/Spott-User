@@ -93,7 +93,7 @@ export class EpisodeTile extends Component {
         <div style={[ styles.products.base, hovered && styles.products.hovered ]}>{episodeProducts.filter((p) => p.get('image')).take(8).map((product) =>
           <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
             <RadiumLink key={product.get('id')} title={product.get('shortName')} to={product.get('shareUrl')}>
-              <img alt={product.get('shortName')} key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage} />
+              <img key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage} />
             </RadiumLink>
           </div>)}
         </div>
