@@ -7,7 +7,7 @@ export function doInit () {
   return async (dispatch) => {
     const configuration = await api.getConfiguration();
     // Extend configuration from server with the configuration saved in the cookie.
-    configuration.acceptCookies = cookie.load('acceptCookies');
+    configuration.acceptCookies = parseInt(cookie.load('acceptCookies'), 10);
     dispatch({ type: CONFIGURE, configuration });
   };
 }

@@ -23,6 +23,7 @@ import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
 import resetPassword from './pages/resetPassword/reducer';
+import home from './pages/home/reducer';
 
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
@@ -40,7 +41,8 @@ const rootReducer = combineReducers({
   profile,
   resetPassword,
   routing: routerReducer,
-  scene
+  scene,
+  home
 });
 
 /**
@@ -69,7 +71,11 @@ export function createOurStore (theHistory, reducers, initialState) {
   // Construct our new createStore() function, using given middleware
   const newCreateStore = Reflect.apply(applyMiddleware, null, middleware)(createStore);
   // Create the store
-  return newCreateStore(reducers, initialState);
+  return newCreateStore(
+    reducers,
+    initialState,
+    __DEVELOPMENT__ ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : null
+  );
 }
 
 async function boot () {

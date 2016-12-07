@@ -1,4 +1,5 @@
 import { COMMERCIAL, MOVIE, SERIES, SERIES_EPISODE } from '../data/mediumTypes';
+import * as _ from 'lodash';
 
 function stripDomain (url) {
   return url.substring(url.indexOf('/', 9));
@@ -221,4 +222,41 @@ export function transformTvGuideEntry ({ uuid: id, start, medium, medium: { seas
     medium: season && season.serie && transformMedium(season.serie) || transformMedium(medium),
     channel: transformBroadcastChannel(channel)
   };
+}
+
+export function transformSuggestions (data) {
+  const types = {
+    CHARACTER: 'CHARACTER',
+    TV_SERIE: 'TV_SERIE',
+    MOVIE: 'MOVIE'
+  };
+
+  const typeToTitle = {
+    CHARACTER: 'CHARACTERS',
+    TV_SERIE: 'TV SHOWS',
+    MOVIE: 'MOVIES'
+  };
+
+  return _.chain(data)
+    .groupBy('type')
+    .pickBy((val, key) => {
+      return types.hasOwnProperty(key);
+    })
+    .map((val, key) => {
+      return {
+        title: typeToTitle[key],
+        suggestions: val.map((item) => (
+          {
+            title: item.suggestions[0].value,
+            uuid: item.entity.uuid,
+            imageUrl: key === types.CHARACTER
+              ? item.entity.avatar && item.entity.avatar.url
+              : item.entity.posterImage && item.entity.posterImage.url,
+            shareUrl: stripDomain(item.entity.shareUrl),
+            smallImage: key === types.CHARACTER
+          }
+        ))
+      };
+    })
+    .value();
 }

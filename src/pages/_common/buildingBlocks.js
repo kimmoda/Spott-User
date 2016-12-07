@@ -37,6 +37,7 @@ export const fontWeights = {
 };
 
 export const mediaQueryThresholds = {
+  mobile: 420,
   extraSmall: 0,
   small: 480,
   medium: 768,
@@ -45,6 +46,7 @@ export const mediaQueryThresholds = {
   extraExtraLarge: 1700
 };
 export const mediaQueries = {
+  mobile: `@media only screen and (max-width: ${mediaQueryThresholds.mobile}px)`,
   small: `@media only screen and (min-width: ${mediaQueryThresholds.small}px)`,
   medium: `@media only screen and (min-width: ${mediaQueryThresholds.medium}px)`,
   large: `@media only screen and (min-width: ${mediaQueryThresholds.large}px)`,

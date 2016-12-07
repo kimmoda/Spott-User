@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { colors } from '../../_common/buildingBlocks';
-// import Search from './search';
+import Search from './search';
 import RecentlyAdded from './recentlyAdded';
 import NewEpisodes from './newEpisodes';
 import NewScenesForYou from './newScenesForYou';
@@ -49,7 +49,7 @@ export default class Home extends Component {
     let i = 0;
     return (
       <div style={{ fontSize: '16px', backgroundColor: 'white' }}>
-        {/* <Search /> */}
+        <Search />
         <RecentlyAdded style={backgroundStyle[i++ % 2]}/>
         {isAuthenticated && <NewScenesForYou style={backgroundStyle[i++ % 2]}/>}
         <TvGuide style={backgroundStyle[i++ % 2]}/>
