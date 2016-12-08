@@ -99,6 +99,12 @@ export const sceneTilesStyle = {
     overflow: 'hidden',
     textOverflow: 'ellipsis'
   },
+  smallSubtext: {
+    ...makeTextStyle(fontWeights.regular, '14px', '0.4px'),
+    color: '#ffffff',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  },
   textHighlight: {
     ...makeTextStyle(fontWeights.bold, '1em', '0.219em')
   },
@@ -120,6 +126,11 @@ export const sceneTilesStyle = {
       [mediaQueries.large]: {
         bottom: '4.625em'
       }
+    },
+    smallHovered: {
+      bottom: '55px',
+      opacity: 0.3,
+      transition: 'bottom 0.5s ease-out, opacity 0.5s ease-out'
     }
   },
   faces: {
@@ -136,7 +147,19 @@ export const sceneTilesStyle = {
       right: '1.25em',
       bottom: '-4em',
       opacity: 0,
-      // height: '2em',
+      overflow: 'hidden',
+      transition: 'bottom 0.5s ease-in, opacity 0.5s ease-in'
+    },
+    smallBase: {
+      position: 'absolute',
+      display: 'flex',
+      justifyContent: 'space-around',
+      paddingLeft: '1.25em',
+      paddingRight: '1.25em',
+      boxSizing: 'border-box',
+      width: '100%',
+      bottom: '-4em',
+      opacity: 0,
       overflow: 'hidden',
       transition: 'bottom 0.5s ease-in, opacity 0.5s ease-in'
     },
@@ -144,6 +167,11 @@ export const sceneTilesStyle = {
       opacity: 1,
       transition: 'bottom 0.5s ease-out, opacity 0.5s ease-out',
       bottom: '1.125em'
+    },
+    smallHovered: {
+      opacity: 1,
+      transition: 'bottom 0.5s ease-out, opacity 0.5s ease-out',
+      bottom: '10px'
     }
   },
   subtile: {
@@ -161,12 +189,23 @@ export const sceneTilesStyle = {
         height: '2.5em'
       }
     },
+    smallBase: {
+      borderRadius: '0.125em',
+      height: '1.875em',
+      display: 'inline-block',
+      position: 'relative',
+      opacity: 0.98,
+      width: '1.875em'
+    },
     face: {
       marginLeft: '0.4em'
     },
     product: {
       backgroundColor: 'white',
       marginRight: '0.4em'
+    },
+    smallProduct: {
+      backgroundColor: 'white'
     }
   },
   subtileImage: {

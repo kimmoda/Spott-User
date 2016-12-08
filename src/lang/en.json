@@ -198,6 +198,10 @@
     "episodes": {
       "empty": "There are no episodes available."
     },
+    "recentEpisodes": {
+      "empty": "There are no episodes available.",
+      "title": "Recent Episodes"
+    },
     "seasons": {
       "empty": "There are no seasons available."
     },

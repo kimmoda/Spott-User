@@ -5,7 +5,7 @@ import { COMMERCIAL } from '../../../../data/mediumTypes';
 // import NewScenesForYou from './newScenesForYou';
 import PickedForYou from './pickedForYou';
 import TopProducts from './topProducts';
-// import RecentEpisodes from './recentEpisodes';
+import RecentEpisodes from './recentEpisodes';
 // import PeopleAlsoWatch from './peopleAlsoWatch';
 import { overviewSelector } from '../../selector';
 
@@ -30,9 +30,7 @@ export default class Overview extends Component {
         {/* Products for you is hidden for a commercial. */}
         {medium.get('type') !== COMMERCIAL &&
           <PickedForYou mediumId={mediumId} />}
-        {/*
-        <RecentEpisodes />
-        */}
+        <RecentEpisodes mediumId={mediumId} />
         <TopProducts mediumId={mediumId} />
         {/*
         <PeopleAlsoWatch />

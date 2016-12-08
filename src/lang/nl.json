@@ -198,6 +198,10 @@
     "episodes": {
       "empty": "Er zijn geen afleveringen beschikbaar."
     },
+    "recentEpisodes": {
+      "empty": "Er zijn geen afleveringen beschikbaar.",
+      "title": "Recente Afleveringen"
+    },
     "seasons": {
       "empty": "Er zijn geen seizoenen beschikbaar."
     },

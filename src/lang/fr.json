@@ -198,6 +198,10 @@
     "episodes": {
       "empty": "Il n'y a pas d'épisodes disponibles."
     },
+    "recentEpisodes": {
+      "empty": "Il n'y a pas d'épisodes disponibles.",
+      "title": "Derniers épisodes"
+    },
     "seasons": {
       "empty": "Il n'y a pas de seasons disponibles."
     },
