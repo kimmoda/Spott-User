@@ -39,9 +39,9 @@ export class EpisodeTile extends Component {
   };
 
   onHoverChange (hovered) {
-    if (hovered) {
+    if (hovered && !this.props.mediumHasTopProducts.getIn([ this.props.item.get('id'), 'data' ])) {
       // Fetch all scene data, including appearances
-      this.props.fetchMediumTopProducts({ mediumId: this.props.item.get('id') });
+      this.props.fetchMediumTopProducts({ mediumId: this.props.item.get('id'), pageSize: 10 });
     }
   }
 

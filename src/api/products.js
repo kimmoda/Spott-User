@@ -71,8 +71,8 @@ export async function getMediumProducts (baseUrl, authenticationToken, locale, {
   return { data: data.map(transformListProduct) };
 }
 
-export async function getMediumTopProducts (baseUrl, authenticationToken, locale, { mediumId, page = 0 }) {
-  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/popularProducts?pageSize=20&page=${page}`);
+export async function getMediumTopProducts (baseUrl, authenticationToken, locale, { mediumId, page = 0, pageSize = 20 }) {
+  const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media/${mediumId}/popularProducts?pageSize=${pageSize}&page=${page}`);
   return { data: data.map(transformListProduct) };
 }
 
