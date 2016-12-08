@@ -125,7 +125,7 @@ export class ProductsFromMediumTile extends Component {
     topProducts = topProducts.set('data', (topProducts.get('data') || List()).map((id) => products.get(id)).filter((p) => p.get('image')).take(4));
 
     return (
-      <BaseTile key={item.get('id')} load={() => this.props.fetchMediumTopProducts({ mediumId: item.get('id'), pageSize: 6 })} style={style}>
+      <BaseTile key={item.get('id')} load={() => this.props.fetchMediumTopProducts({ mediumId: item.get('id'), pageSize: 4 })} style={style}>
         <div style={styles.container}>
           <RadiumLink title={item.get('title')} to={item.get('shareUrl')}>
             <div
