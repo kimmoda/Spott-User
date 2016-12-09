@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
 import { equals } from '../../../utils';
+import ProductImpressionSensor from '../productImpressionSensor';
 
 function formatTitle (name, price) {
   const priceText = formatPrice(price);
@@ -104,17 +105,19 @@ export class ProductTile extends Component {
     const title = formatTitle(item.get('shortName'), item.get('price'));
 
     return (
-      <BaseTile style={style}>
-        <RadiumLink style={styles.container} title={title} to={item.get('shareUrl')}>
-          <div style={styles.imageContainer}>
-            {item.get('image') && <img alt={item.get('shortName')} src={`${item.getIn([ 'image', 'url' ])}?height=375&width=375`} style={styles.image} />}
-          </div>
-          <div style={styles.detailsContainer}>
-            <div style={styles.shortName}>{item.get('shortName')}</div>
-            <div style={styles.price}>{formatPrice(item.get('price'))}</div>
-          </div>
-        </RadiumLink>
-      </BaseTile>
+      <ProductImpressionSensor productId={item.get('id')}>
+        <BaseTile style={style}>
+            <RadiumLink style={styles.container} title={title} to={item.get('shareUrl')}>
+              <div style={styles.imageContainer}>
+                {item.get('image') && <img alt={item.get('shortName')} src={`${item.getIn([ 'image', 'url' ])}?height=375&width=375`} style={styles.image} />}
+              </div>
+              <div style={styles.detailsContainer}>
+                <div style={styles.shortName}>{item.get('shortName')}</div>
+                <div style={styles.price}>{formatPrice(item.get('price'))}</div>
+              </div>
+            </RadiumLink>
+        </BaseTile>
+      </ProductImpressionSensor>
     );
   }
 }

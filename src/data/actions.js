@@ -164,6 +164,10 @@ export const PRODUCT_VIEW_START = 'DATA/PRODUCT_VIEW_START';
 export const PRODUCT_VIEW_SUCCESS = 'DATA/PRODUCT_VIEW_SUCCESS';
 export const PRODUCT_VIEW_ERROR = 'DATA/PRODUCT_VIEW_ERROR';
 
+export const PRODUCT_IMPRESSION_START = 'DATA/PRODUCT_IMPRESSION_START';
+export const PRODUCT_IMPRESSION_SUCCESS = 'DATA/PRODUCT_IMPRESSION_SUCCESS';
+export const PRODUCT_IMPRESSION_ERROR = 'DATA/PRODUCT_IMPRESSION_ERROR';
+
 export const SCENE_VIEW_START = 'DATA/SCENE_VIEW_START';
 export const SCENE_VIEW_SUCCESS = 'DATA/SCENE_VIEW_SUCCESS';
 export const SCENE_VIEW_ERROR = 'DATA/SCENE_VIEW_ERROR';
@@ -190,6 +194,8 @@ export const characterView = makeApiActionCreator(slowdown(eventsApi.postCharact
 export const mediumView = makeApiActionCreator(slowdown(eventsApi.postMediumView, 300), MEDIUM_VIEW_START, MEDIUM_VIEW_SUCCESS, MEDIUM_VIEW_ERROR);
 
 export const productView = makeApiActionCreator(slowdown(eventsApi.postProductView, 300), PRODUCT_VIEW_START, PRODUCT_VIEW_SUCCESS, PRODUCT_VIEW_ERROR);
+
+export const productImpression = makeApiActionCreator(eventsApi.postProductImpression, PRODUCT_IMPRESSION_START, PRODUCT_IMPRESSION_SUCCESS, PRODUCT_IMPRESSION_ERROR);
 
 export const sceneView = makeApiActionCreator(slowdown(eventsApi.postSceneView, 300), SCENE_VIEW_START, SCENE_VIEW_SUCCESS, SCENE_VIEW_ERROR);
 
