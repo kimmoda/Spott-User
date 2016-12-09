@@ -9,6 +9,7 @@ import localized from '../localized';
 import hoverable from '../hoverable';
 import makeTiles from './_makeTiles';
 import { sceneTilesStyle } from './styles';
+import ProductImpressionSensor from '../productImpressionSensor';
 
 @localized
 @hoverable
@@ -41,7 +42,7 @@ export class EpisodeTile extends Component {
   onHoverChange (hovered) {
     if (hovered && !this.props.mediumHasTopProducts.getIn([ this.props.item.get('id'), 'data' ])) {
       // Fetch all scene data, including appearances
-      this.props.fetchMediumTopProducts({ mediumId: this.props.item.get('id'), pageSize: 10 });
+      this.props.fetchMediumTopProducts({ mediumId: this.props.item.get('id'), pageSize: 8 });
     }
   }
 
@@ -100,14 +101,16 @@ export class EpisodeTile extends Component {
           hovered && (isInSeriesRender ? styles.products.smallHovered : styles.products.hovered)
         ]}>
           {episodeProducts.filter((p) => p.get('image')).take(8).map((product) =>
-            <div key={product.get('id')} style={[
-              isInSeriesRender ? styles.subtile.smallBase : styles.subtile.base,
-              isInSeriesRender ? styles.subtile.smallProduct : styles.subtile.product
-            ]}>
-              <RadiumLink key={product.get('id')} title={product.get('shortName')} to={product.get('shareUrl')}>
-                <img key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage}/>
-              </RadiumLink>
-            </div>
+            <ProductImpressionSensor active={hovered} key={product.get('id')} productId={product.get('id')}>
+              <div key={product.get('id')} style={[
+                isInSeriesRender ? styles.subtile.smallBase : styles.subtile.base,
+                isInSeriesRender ? styles.subtile.smallProduct : styles.subtile.product
+              ]}>
+                <RadiumLink key={product.get('id')} title={product.get('shortName')} to={product.get('shareUrl')}>
+                  <img key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage}/>
+                </RadiumLink>
+              </div>
+            </ProductImpressionSensor>
           )}
         </div>
       </div>

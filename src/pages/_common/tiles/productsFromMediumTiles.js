@@ -8,6 +8,7 @@ import { LAZY } from '../../../data/statusTypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
 import { sceneTilesStyle } from './styles';
+import ProductImpressionSensor from '../productImpressionSensor';
 
 @localized
 @Radium
@@ -35,6 +36,16 @@ export class ProductsFromMediumTile extends Component {
     style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
+
+  shouldComponentUpdate (nextProps) {
+    const { item, mediumHasTopProducts } = this.props;
+    const topProducts = mediumHasTopProducts.get(item.get('id'));
+
+    const { item: nextItem, mediumHasTopProducts: nextMediumHasTopProducts } = nextProps;
+    const nextTopProducts = nextMediumHasTopProducts.get(nextItem.get('id'));
+
+    return Boolean(topProducts && nextTopProducts && !topProducts.equals(nextTopProducts));
+  }
 
   static styles = {
     container: {
@@ -148,15 +159,17 @@ export class ProductsFromMediumTile extends Component {
             renderItem={() =>
               <div style={styles.productWrapper}>
                 {topProducts.get('data').map((product) => (
-                  <RadiumLink key={product.get('id')} style={styles.productImageWrapper} title={product.get('shortName')} to={product.get('shareUrl')}>
-                    <div style={[
-                      styles.productImage, {
-                        backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=250&width=250")`,
-                        [mediaQueries.medium]: {
-                          backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=214&width=214")`
-                        }
-                      } ]} />
-                  </RadiumLink>
+                  <ProductImpressionSensor key={product.get('id')} productId={product.get('id')}>
+                    <RadiumLink key={product.get('id')} style={styles.productImageWrapper} title={product.get('shortName')} to={product.get('shareUrl')}>
+                      <div style={[
+                        styles.productImage, {
+                          backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=250&width=250")`,
+                          [mediaQueries.medium]: {
+                            backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=214&width=214")`
+                          }
+                        } ]} />
+                    </RadiumLink>
+                  </ProductImpressionSensor>
                 ))}
               </div>}
             renderNotFound={() => <Message style={styles.message}>{t('common.notExist')}</Message>}

@@ -4,6 +4,8 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import { List } from 'immutable';
 import { colors, RadiumLink, mediaQueries, load } from '../buildingBlocks';
+import ProductImpressionSensor from '../productImpressionSensor';
+import { equals } from '../../../utils';
 
 @Radium
 export class ProductThumb extends Component {
@@ -26,6 +28,15 @@ export class ProductThumb extends Component {
     }).isRequired,
     style: PropTypes.object
   };
+
+  shouldComponentUpdate (nextProps) {
+    const { item, productId } = this.props;
+
+    return item.get('_status') !== nextProps.item.get('_status') ||
+      item.get('id') !== nextProps.item.get('id') ||
+      !equals(this.props.style, nextProps.style) ||
+      productId !== nextProps.productId;
+  }
 
   static styles = {
     selected: {
@@ -60,20 +71,22 @@ export class ProductThumb extends Component {
     const { item, location, scene, productId, innerStyle, style } = this.props;
 
     return (
-      <BaseTile innerStyle={innerStyle} style={style}>
-        <RadiumLink alt={item.get('shortName')} key={item.get('id')} title={item.get('shortName')} to={{
-          ...location,
-          pathname: `${scene.get('shareUrl')}/product/${item.get('id')}`
-        }}>
-          <div style={[ styles.imageContainer, item.get('id') === productId && styles.selected ]}>
-            {item.get('image') && <img
-              alt={item.get('shortName')}
-              src={`${item.getIn([ 'image', 'url' ])}?height=160&width=160`}
-              style={styles.image}
-              title={item.get('shortName')} />}
-          </div>
-        </RadiumLink>
-      </BaseTile>
+      <ProductImpressionSensor delay={2000} productId={item.get('id')}>
+        <BaseTile innerStyle={innerStyle} style={style}>
+          <RadiumLink alt={item.get('shortName')} key={item.get('id')} title={item.get('shortName')} to={{
+            ...location,
+            pathname: `${scene.get('shareUrl')}/product/${item.get('id')}`
+          }}>
+            <div style={[ styles.imageContainer, item.get('id') === productId && styles.selected ]}>
+              {item.get('image') && <img
+                alt={item.get('shortName')}
+                src={`${item.getIn([ 'image', 'url' ])}?height=160&width=160`}
+                style={styles.image}
+                title={item.get('shortName')} />}
+            </div>
+          </RadiumLink>
+        </BaseTile>
+      </ProductImpressionSensor>
     );
   }
 }

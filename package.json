@@ -80,6 +80,7 @@
     "react-simple-dropdown": "1.1.4",
     "react-slick": "0.12.3",
     "react-string-replace": "0.3.2",
+    "react-visibility-sensor": "^3.5.0",
     "redux": "3.5.2",
     "redux-async-connect": "1.0.0-rc4",
     "redux-async-props": "0.2.0",
