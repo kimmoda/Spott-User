@@ -13,6 +13,8 @@ import AutocompleteInput from './autocompleteInput';
 
 /* eslint-disable react/no-set-state */
 
+const icon = require('./icon.svg');
+
 @localized
 @connect(searchSelector, (dispatch) => ({
   getSearchSuggestions: bindActionCreators(actions.getSearchSuggestions, dispatch),
@@ -160,6 +162,32 @@ export default class Search extends Component {
       width: '100%',
       boxShadow: '0 0.625em 0.75em 0 rgba(0, 0, 0, 0.3)',
       marginTop: '-3px'
+    },
+    searchField: {
+      borderRadius: '4px',
+      display: 'block',
+      width: '100%',
+      height: '55px',
+      paddingRight: '0.861em',
+      backgroundImage: `url(${icon})`,
+      backgroundRepeat: 'no-repeat',
+      border: 'solid 1px #f9f9f9',
+      color: colors.dark,
+      transition: 'all 0.5s ease',
+      boxShadow: '0 0.625em 0.75em 0 rgba(0, 0, 0, 0.3)',
+      boxSizing: 'border-box',
+      backgroundPosition: '83px',
+      paddingLeft: '112px',
+      ...makeTextStyle(fontWeights.normal, '18px'),
+      focused: {
+        backgroundPosition: '30px',
+        paddingLeft: '64px',
+        boxShadow: '0 0.325em 0.55em 0 rgba(0, 0, 0, 0.3)',
+        [mediaQueries.mobile]: {
+          backgroundPosition: '10px',
+          paddingLeft: '35px'
+        }
+      }
     }
   };
 
@@ -206,7 +234,10 @@ export default class Search extends Component {
       onChange: this.onChange,
       onFocus: this.onFocus,
       onBlur: this.onBlur,
-      placeholder: t('home.search.placeholder')
+      placeholder: t('home.search.placeholder'),
+      style: this.state.isInputFocused
+        ? [ styles.searchField, styles.searchField.focused ]
+        : [ styles.searchField, this.state.searchValue ? styles.searchField.focused : null ]
     };
 
     return (
