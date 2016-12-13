@@ -30,10 +30,11 @@ export function transformUser ({ uuid, userName, profile }) {
   *   image,
   *   price: { amount, currency },
   *   shareUrl,
-  *   shortName
+  *   shortName,
+  *   fullName
   * }
   */
-export function transformListProduct ({ available, buyUrl, image, price, shortName, shareUrl, uuid: id }) {
+export function transformListProduct ({ available, buyUrl, image, price, shortName, shareUrl, uuid: id, fullName }) {
   return {
     available,
     buyUrl,
@@ -41,7 +42,8 @@ export function transformListProduct ({ available, buyUrl, image, price, shortNa
     image: image && { id: image.uuid, url: image.url },
     price,
     shareUrl: stripDomain(shareUrl),
-    shortName
+    shortName,
+    fullName
   };
 }
 

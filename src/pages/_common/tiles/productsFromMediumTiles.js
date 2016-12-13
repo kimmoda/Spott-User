@@ -160,7 +160,10 @@ export class ProductsFromMediumTile extends Component {
               <div style={styles.productWrapper}>
                 {topProducts.get('data').map((product) => (
                   <ProductImpressionSensor key={product.get('id')} productId={product.get('id')}>
-                    <RadiumLink key={product.get('id')} style={styles.productImageWrapper} title={product.get('shortName')} to={product.get('shareUrl')}>
+                    <RadiumLink
+                      key={product.get('id')} style={styles.productImageWrapper}
+                      title={product.get('shortName') || product.get('fullName')}
+                      to={product.get('shareUrl')}>
                       <div style={[
                         styles.productImage, {
                           backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=250&width=250")`,
