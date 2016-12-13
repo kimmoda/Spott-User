@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { colors, fontWeights, makeTextStyle, pinkButtonStyle, responsiveBackgroundImage, Button, Container, LoadComponent, SectionTitle, Title } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, pinkButtonStyle, responsiveBackgroundImage, Button, Container, LoadComponent, SectionTitle, Title, RadiumLink } from '../../_common/buildingBlocks';
 import { heroSelector } from '../selector';
 import localized from '../../_common/localized';
 import * as actions from '../actions';
@@ -87,7 +87,9 @@ export default class Hero extends Component {
       }
     },
     emph: {
-      fontFamily: fontWeights.bold
+      fontFamily: fontWeights.bold,
+      color: colors.white,
+      textDecoration: 'none'
     },
     followButton: {
       base: {
@@ -168,6 +170,17 @@ export default class Hero extends Component {
           <h4 style={styles.type}>{t('character.CHARACTER')}</h4>
           <Title style={styles.title.large}>{character.get('name')}</Title>
           <SectionTitle style={styles.title.character}>
+            {character.get('appearances')
+              ? <span>
+                  {t('common.from')}
+                  <span>&nbsp;</span>
+                  <RadiumLink alt={character.getIn([ 'appearances', 'title' ])} style={styles.emph} title={character.getIn([ 'appearances', 'title' ])} to={character.getIn([ 'appearances', 'shareUrl' ])}>
+                    {character.getIn([ 'appearances', 'title' ])}
+                  </RadiumLink>
+                  <span> — </span>
+                </span>
+              : null
+            }
             {t('common.followers', { count: character.get('subscriberCount') || 0 }, (contents, key) => (
               <span key={key} style={styles.emph}>{contents}</span>
             ))}

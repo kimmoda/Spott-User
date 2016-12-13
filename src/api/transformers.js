@@ -72,7 +72,7 @@ export function transformDetailedProduct ({ available, brand, description, longN
   };
 }
 
-export function transformCharacter ({ avatar, headerImage, name, shareUrl, subscribed, subscriberCount, uuid: id }) {
+export function transformCharacter ({ avatar, headerImage, name, shareUrl, subscribed, subscriberCount, uuid: id, appearances }) {
   return {
     avatarImage: avatar && { id: avatar.uuid, url: avatar.url },
     coverImage: headerImage && { id: headerImage.uuid, url: headerImage.url },
@@ -80,7 +80,11 @@ export function transformCharacter ({ avatar, headerImage, name, shareUrl, subsc
     name,
     shareUrl: stripDomain(shareUrl),
     subscribed,
-    subscriberCount
+    subscriberCount,
+    appearances: appearances && appearances.data && appearances.data.length && {
+      title: appearances.data[0].title,
+      shareUrl: stripDomain(appearances.data[0].shareUrl)
+    }
   };
 }
 

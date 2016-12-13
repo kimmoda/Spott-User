@@ -252,6 +252,7 @@
       "zero":  "Abonnés [[0]]",
       "one":   "Abonnés [[1]]",
       "other": "Abonnés [[%(count)s]]"
-    }
+    },
+    "from": "De"
   }
 }

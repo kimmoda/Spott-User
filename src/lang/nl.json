@@ -252,6 +252,7 @@
       "zero":  "[[0]] volgers",
       "one":   "[[1]] volger",
       "other": "[[%(count)s]] volgers"
-    }
+    },
+    "from": "Uit"
   }
 }
