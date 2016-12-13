@@ -66,7 +66,7 @@ export default class Search extends Component {
 
   onKeyDown (e) {
     if (e.keyCode === 13) {
-      this.setState({ searchValue: this.state.prevSearchValue });
+      this.setState({ searchValue: this.state.searchValue });
     }
   }
 

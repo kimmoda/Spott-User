@@ -153,7 +153,7 @@ export const sceneTilesStyle = {
     smallBase: {
       position: 'absolute',
       display: 'flex',
-      justifyContent: 'space-around',
+      justifyContent: 'flex-start',
       paddingLeft: '1.25em',
       paddingRight: '1.25em',
       boxSizing: 'border-box',
@@ -205,7 +205,8 @@ export const sceneTilesStyle = {
       marginRight: '0.4em'
     },
     smallProduct: {
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      marginRight: '0.4em'
     }
   },
   subtileImage: {
