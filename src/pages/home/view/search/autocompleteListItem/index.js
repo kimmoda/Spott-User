@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import Radium from 'radium';
-import { colors, fontWeights, makeTextStyle, RadiumLink } from '../../../../_common/buildingBlocks';
+import Radium, { Style } from 'radium';
+import { colors, fontWeights, makeTextStyle } from '../../../../_common/buildingBlocks';
 
 @Radium
 class AutocompleteListItem extends Component {
@@ -15,16 +15,12 @@ class AutocompleteListItem extends Component {
       height: '75px',
       borderTop: '1px solid',
       borderTopColor: colors.whiteThree,
-      backgroundColor: colors.white,
       paddingLeft: '30px',
       paddingRight: '30px',
       boxSizing: 'border-box',
       display: 'flex',
       alignItems: 'center',
-      textDecoration: 'none',
-      ':hover': {
-        backgroundColor: colors.whiteGray
-      }
+      textDecoration: 'none'
     },
     suggestionImage: {
       backgroundSize: 'cover',
@@ -53,7 +49,21 @@ class AutocompleteListItem extends Component {
     const { styles } = this.constructor;
 
     return (
-      <RadiumLink style={styles.suggestion} title={suggestion.title} to={suggestion.shareUrl}>
+      <div style={styles.suggestion}>
+        <Style
+          rules={{
+            div: {
+              backgroundColor: colors.white
+            }
+          }}
+          scopeSelector='.react-autosuggest__suggestion'/>
+        <Style
+          rules={{
+            div: {
+              backgroundColor: colors.whiteGray
+            }
+          }}
+          scopeSelector='.react-autosuggest__suggestion--focused'/>
         <div style={[
           styles.suggestionImage,
           suggestion.smallImage ? styles.suggestionImageCharacter : styles.suggestionImageMovie,
@@ -61,7 +71,7 @@ class AutocompleteListItem extends Component {
         <div style={styles.suggestionContent}>
           { suggestion.title }
         </div>
-      </RadiumLink>
+      </div>
     );
   }
 }
