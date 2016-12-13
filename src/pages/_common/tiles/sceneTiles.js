@@ -10,6 +10,7 @@ import makeTiles from './_makeTiles';
 import { fetchScene } from '../../../data/actions';
 import { COMMERCIAL, MOVIE, SERIES } from '../../../data/mediumTypes';
 import { sceneTilesStyle } from './styles';
+import ProductImpressionSensor from '../productImpressionSensor';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -127,14 +128,16 @@ export class SceneTile extends Component {
             </p>}
           <div style={[ styles.line.base, hovered && styles.line.hovered ]} />
           <div style={[ styles.products.base, hovered && styles.products.hovered ]}>{item.get('products').take(8).filter((p) => p.get('image')).map((product) =>
-            <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
-              <RadiumLink key={product.get('id')} title={product.get('shortName')} to={{
-                pathname: `${item.get('shareUrl')}/product/${product.get('id')}`,
-                state: { modal: true, returnTo: (location && location.pathname) || '/' }
-              }}>
-                <img alt={product.get('shortName')} key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage} />
-              </RadiumLink>
-            </div>)}
+            <ProductImpressionSensor active={hovered} key={product.get('id')} productId={product.get('id')}>
+              <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
+                <RadiumLink key={product.get('id')} title={product.get('shortName')} to={{
+                  pathname: `${item.get('shareUrl')}/product/${product.get('id')}`,
+                  state: { modal: true, returnTo: (location && location.pathname) || '/' }
+                }}>
+                  <img alt={product.get('shortName')} key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage} />
+                </RadiumLink>
+              </div>
+            </ProductImpressionSensor>)}
           </div>
       </div>
     );
