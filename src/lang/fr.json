@@ -100,7 +100,9 @@
     "search": {
       "info": "Spott vous permet de trouver des produits dans les choses que vous regardez",
       "placeholder": "Recherchez des show télévisé, des films, des personnages ou des marques",
-      "title": "La télévision est maintenant votre magasin préféré"
+      "title": "La télévision est maintenant votre magasin préféré",
+      "loadingResults": "Chargement des résultats...",
+      "noResults": "Impossible de trouver des correspondances pour [[]]"
     },
     "topSellingProducts": {
       "title": "Top des ventes"

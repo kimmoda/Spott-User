@@ -100,7 +100,9 @@
     "search": {
       "info": "Spott allows you to find products in the things you watch",
       "placeholder": "Search for TV shows, movies, characters or brands",
-      "title": "Television is now your favourite shop"
+      "title": "Television is now your favourite shop",
+      "loadingResults": "Loading results...",
+      "noResults": "Couldn’t find any matches for [[]]"
     },
     "topSellingProducts": {
       "title": "Top Selling Products"

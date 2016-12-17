@@ -36,7 +36,9 @@ export default class Search extends Component {
   constructor (props) {
     super(props);
     this.getSuggestionValue = ::this.getSuggestionValue;
+    this.onBlur = ::this.onBlur;
     this.onChange = ::this.onChange;
+    this.onFocus = ::this.onFocus;
     this.onKeyDown = ::this.onKeyDown;
     this.onSuggestionsClearRequested = ::this.onSuggestionsClearRequested;
     this.onSuggestionsFetchRequested = slowdown(::this.onSuggestionsFetchRequested, 300);
@@ -47,6 +49,7 @@ export default class Search extends Component {
     this.renderSuggestionsContainer = ::this.renderSuggestionsContainer;
 
     this.state = {
+      isInputFocused: false,
       searchValue: '',
       prevSearchValue: ''
     };
@@ -58,6 +61,14 @@ export default class Search extends Component {
 
   getSuggestionValue (suggestion) {
     return this.state.searchValue;
+  }
+
+  onBlur () {
+    this.setState({ isInputFocused: false });
+  }
+
+  onFocus () {
+    this.setState({ isInputFocused: true });
   }
 
   onChange (event, { newValue }) {
@@ -159,6 +170,20 @@ export default class Search extends Component {
       width: '100%',
       boxShadow: '0 0.625em 0.75em 0 rgba(0, 0, 0, 0.3)',
       marginTop: '-3px'
+    },
+    noSuggestions: {
+      cursor: 'pointer',
+      height: '55px',
+      paddingLeft: '30px',
+      paddingRight: '30px',
+      boxSizing: 'border-box',
+      display: 'flex',
+      alignItems: 'center',
+      textDecoration: 'none',
+      justifyContent: 'center',
+      ...makeTextStyle(fontWeights.regular, '14px', '0px'),
+      backgroundColor: colors.whiteGray,
+      color: colors.coolGray
     }
   };
 
@@ -185,11 +210,30 @@ export default class Search extends Component {
   }
 
   renderSuggestionsContainer ({ children, ...rest }) {
+    const { t } = this.props;
     const { styles } = this.constructor;
+    const suggestions = this.props.searchSuggestions.get('items').size;
+    const value = this.state.searchValue;
+    const prevValue = this.state.prevSearchValue;
+    const isInputFocused = this.state.isInputFocused;
+    const isLoading = this.props.searchSuggestions.get('isLoading');
 
     return (
       <div {...rest} style={styles.suggestionsContainer}>
-        {children}
+        { suggestions && value
+          ? children
+          : value && isInputFocused &&
+          <span style={styles.noSuggestions}>
+            { isLoading || value !== prevValue
+              ? <span>{t('home.search.loadingResults')}</span>
+              : <span>
+                  {t('home.search.noResults', {}, (contents, key) => (
+                    <strong key={key}>"{value}"</strong>
+                  ))}
+                </span>
+            }
+          </span>
+        }
       </div>
     );
   }
@@ -202,7 +246,9 @@ export default class Search extends Component {
 
     const inputProps = {
       value: searchValue,
+      onBlur: this.onBlur,
       onChange: this.onChange,
+      onFocus: this.onFocus,
       onKeyDown: this.onKeyDown,
       placeholder: t('home.search.placeholder')
     };
