@@ -155,7 +155,7 @@ export class SceneTile extends Component {
             state: { modal: true, returnTo: (location && location.pathname) || '/' }
           }}>
             <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
-            <div style={styles.layer} />
+            {showDetails && <div style={styles.layer} />}
           </RadiumLink>
           {showDetails && this.renderDetails()}
         </div>
