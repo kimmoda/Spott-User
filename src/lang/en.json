@@ -152,7 +152,10 @@
     "noSimilar": "No similar items found.",
     "similarProducts": "Similar Items",
     "unavailable": "This product is unavailable.",
-    "notExist": "This product doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+    "notExist": "This product doesn’t seem to exist anymore. We’re sorry for the inconvenience.​",
+    "product": "Product",
+    "moreFromBrand": "More [[]] Products",
+    "noMoreFromBrand": "No [[]] Products found."
   },
   "profile": {
     "header": {

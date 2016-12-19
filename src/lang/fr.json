@@ -152,7 +152,8 @@
     "noSimilar": "Aucun produit similaire n'a été trouvé.",
     "similarProducts": "Produits similaires",
     "unavailable": "Ce produit n’est pas disponible.",
-    "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​"
+    "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​",
+    "product": "Produit"
   },
   "profile": {
     "header": {

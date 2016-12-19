@@ -152,7 +152,8 @@
     "noSimilar": "Geen gelijkaardige producten gevonden.",
     "similarProducts": "Gelijkaardige producten",
     "unavailable": "Dit product is niet beschikbaar.",
-    "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​"
+    "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​",
+    "product": "Product"
   },
   "profile": {
     "header": {

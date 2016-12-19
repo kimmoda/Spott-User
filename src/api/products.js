@@ -11,8 +11,12 @@ export async function getProduct (baseUrl, authenticationToken, locale, { produc
   const { body: shareBody } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}/share`);
   const { body: { data } } = await get(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}/similar`);
   const product = transformDetailedProduct(body);
+  const { body: { data: brandProductsData } } = product.brand && product.brand.id && await get(authenticationToken, locale, `${baseUrl}/v003/product/brands/${product.brand.id}/products`);
+
   product.share = transformShare(shareBody);
   product.similarProducts = data.map(transformListProduct);
+  product.brandProducts = brandProductsData.map(transformListProduct);
+
   return product;
 }
 
