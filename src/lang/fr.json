@@ -112,13 +112,13 @@
     "redirecting": "Redirectionner..."
   },
   "login": {
-    "title": "Je m'inscris",
+    "title": "Je me connecte",
     "email": "Votre e-mail",
     "password": "Votre mot de passe",
-    "logInWithFacebookButton": "Je m'inscris avec Facebook",
+    "logInWithFacebookButton": "Je me connecte avec Facebook",
     "submitButton": "Connectez-vous",
     "newUser": "Nouveau utilisateur?",
-    "createAccount": "Je me connecte",
+    "createAccount": "Je m'inscris",
     "forgotPassword": "Mot de passe oublié?",
     "invalid": "Combinaison e-mail/mot de passe est incorrect.",
     "invalidFacebook": "Votre compte Facebook n'est pas lié à un compte Spott. Inscrivez-vous [[ici]]."
