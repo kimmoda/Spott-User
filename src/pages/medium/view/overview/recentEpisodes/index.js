@@ -32,6 +32,7 @@ export default class RecentEpisodes extends Component {
     }).isRequired,
     fetchMediumTopProducts: PropTypes.func.isRequired,
     loadRecentEpisodes: PropTypes.func.isRequired,
+    location: PropTypes.object,
     // Which medium (like an episode) has which top products? mediumId: [ productIds ]
     mediumHasTopProducts: ImmutablePropTypes.mapContains({
       _status: PropTypes.string,
@@ -64,7 +65,7 @@ export default class RecentEpisodes extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { episodes, fetchMediumTopProducts, mediumHasTopProducts, products, t } = this.props;
+    const { episodes, fetchMediumTopProducts, mediumHasTopProducts, products, t, location } = this.props;
 
     return (
       <div style={styles.wrapper}>
@@ -74,7 +75,7 @@ export default class RecentEpisodes extends Component {
             renderEmptyComponent={() => <Message>{t('medium.recentEpisodes.empty')}</Message>}
             renderNotFoundComponent={() => <Message>{t('common.notFound')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
-            tileProps={{ fetchMediumTopProducts, mediumHasTopProducts, products, isInSeriesRender: true }}
+            tileProps={{ fetchMediumTopProducts, mediumHasTopProducts, products, isInSeriesRender: true, location }}
             title={t('medium.recentEpisodes.title')} />
         </Container>
       </div>

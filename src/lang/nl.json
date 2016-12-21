@@ -153,7 +153,9 @@
     "similarProducts": "Gelijkaardige producten",
     "unavailable": "Dit product is niet beschikbaar.",
     "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​",
-    "product": "Product"
+    "product": "Product",
+    "moreFromBrand": "Meer [[]] producten",
+    "noMoreFromBrand": "No [[]] producten gevonden"
   },
   "profile": {
     "header": {

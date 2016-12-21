@@ -18,6 +18,7 @@ export default class Products extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadCharacterProducts: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     params: PropTypes.shape({
       characterId: PropTypes.string.isRequired
     }).isRequired,
@@ -52,7 +53,7 @@ export default class Products extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { products, t } = this.props;
+    const { products, t, location } = this.props;
 
     return (
       <LoadComponent
@@ -67,7 +68,7 @@ export default class Products extends Component {
                 horizontalSpacing={30}
                 items={products.get('data')}
                 numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 6, extraExtraLarge: 7 }}
-                tile={<ProductTile />}
+                tile={<ProductTile location={location} />}
                 verticalSpacing={30} />
             </Container>
           </div>

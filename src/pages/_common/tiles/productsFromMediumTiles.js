@@ -29,6 +29,7 @@ export class ProductsFromMediumTile extends Component {
       ),
       logo: PropTypes.string
     }).isRequired,
+    location: PropTypes.object,
     mediumHasTopProducts: ImmutablePropTypes.mapContains({
       data: PropTypes.list
     }).isRequired,
@@ -131,7 +132,7 @@ export class ProductsFromMediumTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { currentLocale, item, mediumHasTopProducts, products, style, t } = this.props;
+    const { currentLocale, item, mediumHasTopProducts, products, style, t, location } = this.props;
     let topProducts = mediumHasTopProducts.get(item.get('id')) || Map({ _status: LAZY, data: List() });
     topProducts = topProducts.set('data', (topProducts.get('data') || List()).map((id) => products.get(id)).filter((p) => p.get('image')).take(4));
 
@@ -163,7 +164,10 @@ export class ProductsFromMediumTile extends Component {
                     <RadiumLink
                       key={product.get('id')} style={styles.productImageWrapper}
                       title={product.get('shortName') || product.get('fullName')}
-                      to={product.get('shareUrl')}>
+                      to={{
+                        pathname: product.get('shareUrl'),
+                        state: { modal: true, returnTo: (location && location.pathname) || '/' }
+                      }}>
                       <div style={[
                         styles.productImage, {
                           backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=250&width=250")`,

@@ -112,10 +112,13 @@ export default class ProductDetail extends Component {
       paddingBottom: '3.75em',
       paddingLeft: '2.5em',
       paddingRight: '2.5em',
-      backgroundColor: colors.whiteGray
+      backgroundColor: colors.whiteGray,
+      display: 'flex',
+      flexWrap: 'wrap'
     },
     left: {
-      float: 'left',
+      display: 'flex',
+      flexDirection: 'column',
       width: '100%',
       [mediaQueries.medium]: {
         width: '35%',
@@ -123,7 +126,6 @@ export default class ProductDetail extends Component {
       }
     },
     right: {
-      float: 'left',
       width: '100%',
       [mediaQueries.medium]: {
         width: '65%',
@@ -140,29 +142,25 @@ export default class ProductDetail extends Component {
       },
       wrapper: {
         width: '100%',
-        paddingTop: '100%',
+        flexGrow: 1,
         position: 'relative',
-        height: 0,
         marginBottom: '1.25em'
       },
       big: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
         maxWidth: '100%',
-        maxHeight: '100%',
-        margin: 'auto'
+        maxHeight: '100%'
       },
       small: {
         wrapper: {
           display: 'flex',
+          alignItems: 'center'
+        },
+        item: {
+          display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          float: 'left',
-          width: '3.75em',
-          height: '3.75em',
+          width: '42px',
+          height: '42px',
           margin: '0 0.625em 0.625em 0',
           borderRadius: '0.25em',
           border: `solid 0.15em ${colors.whiteTwo}`,
@@ -224,8 +222,8 @@ export default class ProductDetail extends Component {
     similarProducts: {
       fontSize: '16px',
       width: '100%',
-      paddingTop: '3.75em',
-      paddingBottom: '3.75em',
+      paddingTop: '40px',
+      paddingBottom: '50px',
       paddingLeft: '2.5em',
       paddingRight: '2.5em',
       backgroundColor: colors.whiteGray
@@ -233,8 +231,8 @@ export default class ProductDetail extends Component {
     brandProducts: {
       fontSize: '16px',
       width: '100%',
-      paddingTop: '3.75em',
-      paddingBottom: '3.75em',
+      paddingTop: '40px',
+      paddingBottom: '50px',
       paddingLeft: '2.5em',
       paddingRight: '2.5em',
       backgroundColor: colors.white
@@ -358,6 +356,10 @@ export default class ProductDetail extends Component {
     const isPopup = location.state && location.state.modal;
     const ContentContainer = isPopup ? (props) => <div>{props.children}</div> : SmallContainer;
 
+    const locationBack = location.state && location.state.returnTo
+      ? Object.assign({}, location, { pathname: location.state.returnTo })
+      : Object.assign({}, location, { state: { returnTo: location.pathname } });
+
     const content = (
       <div>
         <ContentContainer>
@@ -380,11 +382,11 @@ export default class ProductDetail extends Component {
                 {selectedImage &&
                 <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big}/>}
               </div>
-              <div>
+              <div style={styles.images.small.wrapper}>
                 {product.get('images') && product.get('images').map((image) =>
                   <div
                     key={image.get('id')}
-                    style={[ styles.images.small.wrapper, image.get('id') === selectedImageId && styles.images.selected ]}
+                    style={[ styles.images.small.item, image.get('id') === selectedImageId && styles.images.selected ]}
                     onClick={onChangeImageSelection.bind(null, image.get('id'))}>
                     <img
                       src={`${image.get('url')}?height=160&width=160`}
@@ -429,6 +431,7 @@ export default class ProductDetail extends Component {
               {product.get('brandProducts') && product.get('brandProducts').size > 0 &&
               <ProductTiles
                 items={Map({ _status: LOADED, data: product.get('brandProducts') })}
+                tileProps={{ isDirectPage: !isPopup, location: locationBack }}
                 title={t('productDetail.moreFromBrand', {}, (contents, key) => (
                   product.getIn([ 'brand', 'name' ])
                 ))}/>}
@@ -448,6 +451,7 @@ export default class ProductDetail extends Component {
               {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
                 <ProductTiles
                   items={Map({ _status: LOADED, data: product.get('similarProducts') })}
+                  tileProps={{ isDirectPage: !isPopup, location: locationBack }}
                   title={t('productDetail.similarProducts')}/>}
               {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
                 <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
@@ -487,7 +491,7 @@ export default class ProductDetail extends Component {
   }
 
   render () {
-    return load(this.props.product, this.renderProduct, null, this.renderNotFoundError, this.renderUnexpectedError);
+    return load(this.props.product, this.renderProduct, this.renderProduct, this.renderNotFoundError, this.renderUnexpectedError);
   }
 
 }

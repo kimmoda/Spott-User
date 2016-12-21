@@ -18,6 +18,7 @@ export default class TopProducts extends Component {
 
   static propTypes = {
     loadTopProducts: PropTypes.func.isRequired,
+    location: PropTypes.object,
     medium: ImmutablePropTypes.mapContains({
       _error: PropTypes.object,
       _status: PropTypes.string,
@@ -54,7 +55,7 @@ export default class TopProducts extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { medium, products, t } = this.props;
+    const { medium, products, t, location } = this.props;
 
     return (
       <div style={styles.wrapper}>
@@ -64,6 +65,7 @@ export default class TopProducts extends Component {
             renderEmptyComponent={() => <Message>{t('medium.topProducts.empty')}</Message>}
             renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
+            tileProps={{ location }}
             title={t('medium.topProducts.title', { title: medium.get('title') || '' })} />
         </Container>
       </div>

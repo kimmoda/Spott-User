@@ -33,6 +33,7 @@ export class EpisodeTile extends Component {
       }).isRequired,
       title: PropTypes.string.isRequired
     }).isRequired,
+    location: PropTypes.object,
     mediumHasTopProducts: ImmutablePropTypes.map.isRequired,
     products: ImmutablePropTypes.map.isRequired,
     style: PropTypes.object,
@@ -87,7 +88,7 @@ export class EpisodeTile extends Component {
 
   renderDetails () {
     const styles = this.constructor.styles;
-    const { hovered, item, mediumHasTopProducts, products, isInSeriesRender } = this.props;
+    const { hovered, item, mediumHasTopProducts, products, isInSeriesRender, location } = this.props;
     const episodeProducts = (mediumHasTopProducts.getIn([ item.get('id'), 'data' ]) || List()).map((id) => products.get(id));
 
     return (
@@ -106,7 +107,13 @@ export class EpisodeTile extends Component {
                 isInSeriesRender ? styles.subtile.smallBase : styles.subtile.base,
                 isInSeriesRender ? styles.subtile.smallProduct : styles.subtile.product
               ]}>
-                <RadiumLink key={product.get('id')} title={product.get('shortName')} to={product.get('shareUrl')}>
+                <RadiumLink
+                  key={product.get('id')}
+                  title={product.get('shortName')}
+                  to={{
+                    pathname: product.get('shareUrl'),
+                    state: { modal: true, returnTo: (location && location.pathname) || '/' }
+                  }}>
                   <img key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage}/>
                 </RadiumLink>
               </div>

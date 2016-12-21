@@ -19,6 +19,7 @@ function formatTitle (name, price) {
 export class ProductTile extends Component {
 
   static propTypes = {
+    isDirectPage: PropTypes.bool,
     // Not required! Initially we create a product without an item,
     // then we clone it with an item (see VerticalTiles).
     item: ImmutablePropTypes.mapContains({
@@ -33,13 +34,7 @@ export class ProductTile extends Component {
       }),
       shortName: PropTypes.string
     }),
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      state: PropTypes.shape({
-        modal: PropTypes.bool,
-        returnTo: PropTypes.string
-      })
-    }),
+    location: PropTypes.object,
     style: PropTypes.object
   };
 
@@ -102,7 +97,7 @@ export class ProductTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { item, style, location } = this.props;
+    const { item, style, location, isDirectPage } = this.props;
 
     // Initially we create a product without an item, then we clone it with an item (see VerticalTiles).
     if (!item) {
@@ -116,7 +111,7 @@ export class ProductTile extends Component {
         <BaseTile style={style}>
             <RadiumLink style={styles.container} title={title} to={{
               pathname: item.get('shareUrl'),
-              state: { modal: true, returnTo: (location && location.pathname) || '/' }
+              state: { modal: !isDirectPage, returnTo: (location && location.pathname) || '/' }
             }}>
               <div style={styles.imageContainer}>
                 {item.get('image') && <img alt={item.get('shortName')} src={`${item.getIn([ 'image', 'url' ])}?height=375&width=375`} style={styles.image} />}
