@@ -186,6 +186,12 @@
       "private": "This wishlist is set to private, the owner must set it to public to make it visible.",
       "notExist": "This wishlist doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
     },
+    "wishlistButton": {
+      "alreadyExist": "Wishlist already exists",
+      "addToList": "Add to list",
+      "create": "Create",
+      "createNewList": "Create new list"
+    },
     "notExist": "This user profile doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
   },
   "medium": {

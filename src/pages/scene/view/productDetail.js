@@ -11,6 +11,7 @@ import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import { LOADED } from '../../../data/statusTypes';
+import WishlistButton from '../../profile/view/wishlistButton';
 
 @localized
 @connect(productSelector, (dispatch) => ({
@@ -295,6 +296,7 @@ export default class ProductDetail extends Component {
                   <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${share.get('url')}`)}&title=${share.get('title')}`}>
                     {t('common.share')}
                   </ShareButton>
+                  <WishlistButton productUuid={product.get('id')}/>
                 </div>
                 {notAvailable &&
                   <div style={styles.details.notAvailable}>{t('productDetail.unavailable')}</div>}

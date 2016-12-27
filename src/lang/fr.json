@@ -186,6 +186,12 @@
       "private": "Cette liste de souhaits est privée, le propriétaire doit rendre publique la liste de souhaits afin de pouvoir visualiser.",
       "notExist": "Cette liste de souhaits n’existe plus, nous nous excusons pour le désagrément."
     },
+    "wishlistButton": {
+      "alreadyExist": "Liste de souhaits déjà existante",
+      "addToList": "Ajouter à la liste",
+      "create": "Créer",
+      "createNewList": "Créer une nouvelle liste"
+    },
     "notExist": "Ce profil de la personne n’existe plus, nous nous excusons pour le désagrément.​"
   },
   "medium": {

@@ -22,6 +22,10 @@ export default function profileReducer (state = fromJS({
       return state.set('currentWishlist', Map({ id: action.wishlistId }));
     case actions.LOAD_PRODUCTS_OF_WISHLIST_ERROR:
       return state.mergeIn([ 'currentWishlist' ], Map({ _error: action.error }));
+    case actions.CREATE_WISHLIST_START:
+      return state.set('wishlistButtonError', null);
+    case actions.CREATE_WISHLIST_ERROR:
+      return state.set('wishlistButtonError', action.error);
     default:
       return state;
   }
