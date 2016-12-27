@@ -96,7 +96,8 @@ export function transformWishlist (wishlist) {
     id: wishlist.uuid,
     image: wishlist.image && { id: wishlist.image.uuid, url: wishlist.image.url },
     name: wishlist.name,
-    publicWishlist: wishlist.public
+    publicWishlist: wishlist.public,
+    containsProduct: wishlist.containsProduct
   };
 }
 

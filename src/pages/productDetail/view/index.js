@@ -13,6 +13,7 @@ import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import { LOADED } from '../../../data/statusTypes';
+import WishlistButton from '../../profile/view/wishlistButton';
 
 @localized
 @connect(productSelector, (dispatch) => ({
@@ -407,6 +408,7 @@ export default class ProductDetail extends Component {
                   <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
                     <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
                   </Button>
+                  {product.get('id') && <WishlistButton productUuid={product.get('id')} />}
                 </div>
                 {notAvailable &&
                 <div style={styles.details.notAvailable}>{t('productDetail.unavailable')}</div>}

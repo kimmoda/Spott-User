@@ -186,6 +186,12 @@
       "private": "Deze verlanglijst is privé, de eigenaar moet hem publiek maken om hem zichtbaar te maken.",
       "notExist": "Deze verlanglijst bestaat niet meer. Onze excuses hiervoor.​"
     },
+    "wishlistButton": {
+      "alreadyExist": "Verlanglijst bestaat al",
+      "addToList": "Toevoegen aan lijst",
+      "create": "Creëren",
+      "createNewList": "Maak een nieuwe lijst"
+    },
     "notExist": "Deze profielpagina bestaat niet meer. Onze excuses hiervoor.​"
   },
   "medium": {

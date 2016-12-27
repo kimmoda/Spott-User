@@ -61,15 +61,19 @@ class WishlistProduct extends Component {
       }),
       shortName: PropTypes.string.isRequired
     }),
+    location: PropTypes.object,
     style: PropTypes.object,
     t: PropTypes.func.isRequired
-  }
+  };
 
   render () {
     const { item, style } = this.props;
     return load(item, () => (
       <BaseTile style={style}>
-        <RadiumLink style={itemStyles.container} to={item.get('shareUrl')}>
+        <RadiumLink style={itemStyles.container} to={{
+          pathname: item.get('shareUrl'),
+          state: { modal: true, returnTo: (location && location.pathname) || '/' }
+        }}>
           <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }} />
           <p style={itemStyles.name}>{item.get('shortName') || '\u00a0'}</p>
           <p style={itemStyles.price}>{formatPrice(item.get('price'))}</p>
@@ -99,6 +103,7 @@ export default class WishlistProducts extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadProductsOfWishlist: PropTypes.func.isRequired,
+    location: PropTypes.object,
     params: PropTypes.shape({
       wishlistId: PropTypes.string.isRequired
     }),
@@ -124,7 +129,7 @@ export default class WishlistProducts extends Component {
   }
 
   render () {
-    const { currentLocale, productsOfWishlist, t, wishlist } = this.props;
+    const { currentLocale, productsOfWishlist, t, wishlist, location } = this.props;
 
     if (productsOfWishlist.get('_status') === ERROR && productsOfWishlist.get('_error').name === 'UnauthorizedError') {
       return (
@@ -161,7 +166,7 @@ export default class WishlistProducts extends Component {
           horizontalSpacing={30}
           items={productsOfWishlist.get('data')}
           numColumns={{ extraSmall: 2, small: 3, medium: 4, large: 5, extraLarge: 6, extraExtraLarge: 7 }}
-          tile={<WishlistProduct />}
+          tile={<WishlistProduct location={location} />}
           verticalSpacing={30} />
       </div>
     );
