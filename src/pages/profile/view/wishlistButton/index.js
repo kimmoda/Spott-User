@@ -1,4 +1,5 @@
 /* eslint-disable react/no-set-state */
+/* eslint-disable react/jsx-indent-props*/
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
@@ -80,7 +81,7 @@ export default class WishlistButton extends Component {
 
   onCreateClick () {
     if (this.state.isInputVisible && this.state.inputValue) {
-      this.props.createNewWishlist(this.props.productUuid, this.state.inputValue);
+      this.props.createNewWishlist(this.props.productUuid, this.state.inputValue.trim());
       this.setState({ isInputVisible: false, inputValue: '' });
     } else if (!this.state.isInputVisible) {
       this.setState({ isInputVisible: true });
@@ -89,7 +90,7 @@ export default class WishlistButton extends Component {
   }
 
   onInputChange (e) {
-    this.setState({ inputValue: e.target.value.trim() });
+    this.setState({ inputValue: e.target.value });
   }
 
   static styles = {
@@ -120,8 +121,8 @@ export default class WishlistButton extends Component {
       backgroundColor: colors.white,
       left: '50%',
       marginLeft: '-135px',
-      top: '54px',
-      zIndex: '100',
+      top: '10px',
+      zIndex: '600',
       [mediaQueries.small]: {
         marginLeft: '-190px'
       },
@@ -240,7 +241,7 @@ export default class WishlistButton extends Component {
 
     if (userId) {
       return (
-        <div style={styles.wrapper}>
+        <div>
           <buttton style={[ styles.button, { borderColor: hovered || this.state.isOpened ? colors.dark : colors.darkPink } ]} onClick={this.onButtonClick}>
             <svg height='14' viewBox='0 0 20 14' width='20' xmlns='http://www.w3.org/2000/svg'>
               <g fill='none' fillRule='evenodd'>
@@ -249,45 +250,60 @@ export default class WishlistButton extends Component {
               </g>
             </svg>
           </buttton>
-          <div style={[ styles.box, !this.state.isOpened && styles.box.hidden ]}>
-            <div style={styles.box.header}>{t('profile.wishlistButton.addToList')}</div>
-            <div style={styles.box.listWrapper}>
-              {wishlists.get('data').map((item, i) =>
-                <div key={item.get('id')} style={styles.box.listItem}>
-                  <div style={[
-                    styles.box.listItem.image,
-                    item.getIn([ 'image', 'url' ]) && { backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=30&height=30)` } ]} />
-                  <div style={styles.box.listItem.name}>
-                    {item.get('fixed') ? 'Default Wishlist' : item.get('name')}
+          <div style={styles.wrapper}>
+            <div style={[ styles.box, !this.state.isOpened && styles.box.hidden ]}>
+              <div style={styles.box.header}>{t('profile.wishlistButton.addToList')}</div>
+              <div style={styles.box.listWrapper}>
+                {wishlists.get('data').map((item, i) =>
+                  <div key={item.get('id')} style={styles.box.listItem}>
+                    <div style={[
+                      styles.box.listItem.image,
+                      item.getIn([ 'image', 'url' ]) && { backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=30&height=30)` } ]} />
+                    <div style={styles.box.listItem.name}>
+                      {item.get('fixed') ? 'Default Wishlist' : item.get('name')}
+                    </div>
+                    {wishlists.get('_status') === LOADED
+                      ? <div
+                        style={[ styles.box.listItem.checkbox, item.get('containsProduct') && styles.box.listItem.checkbox.checked ]}
+                        onClick={this.toggleWishlistProduct.bind(this, item.get('containsProduct'), item.get('id'))}>
+                        {item.get('containsProduct') && <span style={styles.box.listItem.checkboxMarker}>✓</span>}
+                      </div>
+                      : <div style={[ styles.box.listItem.checkbox, item.get('containsProduct') && styles.box.listItem.checkbox.checked ]}>
+                        {item.get('containsProduct') && <span style={styles.box.listItem.checkboxMarker}>✓</span>}
+                      </div>
+                    }
                   </div>
-                  {wishlists.get('_status') === LOADED
-                    ? <div
-                      style={[ styles.box.listItem.checkbox, item.get('containsProduct') && styles.box.listItem.checkbox.checked ]}
-                      onClick={this.toggleWishlistProduct.bind(this, item.get('containsProduct'), item.get('id'))}>
-                        {item.get('containsProduct') && <span style={styles.box.listItem.checkboxMarker}>✓</span>}
-                      </div>
-                    : <div style={[ styles.box.listItem.checkbox, item.get('containsProduct') && styles.box.listItem.checkbox.checked ]}>
-                        {item.get('containsProduct') && <span style={styles.box.listItem.checkboxMarker}>✓</span>}
-                      </div>
-                  }
+                )}
+              </div>
+              {typeof error === 'string' &&
+              <div style={styles.box.error}>
+                {t(error)}
+              </div>}
+              <div style={styles.box.footer}>
+                <input
+                  ref={(input) => { this.textInput = input; }}
+                  style={[ styles.box.footer.input, !this.state.isInputVisible && styles.box.footer.input.hidden ]}
+                  type='text' value={this.state.inputValue}
+                  onChange={this.onInputChange}/>
+                <div style={styles.box.footer.create} onClick={this.onCreateClick}>
+                  {this.state.isInputVisible ? t('profile.wishlistButton.create') : t('profile.wishlistButton.createNewList')}
                 </div>
-              )}
-            </div>
-            {typeof error === 'string' &&
-            <div style={styles.box.error}>
-              {t(error)}
-            </div>}
-            <div style={styles.box.footer}>
-              <input
-                ref={(input) => { this.textInput = input; }}
-                style={[ styles.box.footer.input, !this.state.isInputVisible && styles.box.footer.input.hidden ]}
-                type='text' value={this.state.inputValue}
-                onChange={this.onInputChange}/>
-              <div style={styles.box.footer.create} onClick={this.onCreateClick}>
-                {this.state.isInputVisible ? t('profile.wishlistButton.create') : t('profile.wishlistButton.createNewList')}
               </div>
             </div>
           </div>
+          <div
+            style={{
+              position: 'absolute',
+              display: this.state.isOpened ? 'block' : 'none',
+              left: 0,
+              top: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0)',
+              zIndex: 500,
+              overflow: 'auto',
+              width: '100%',
+              height: '100%'
+            }}
+            onClick={this.onButtonClick}/>
         </div>
       );
     }

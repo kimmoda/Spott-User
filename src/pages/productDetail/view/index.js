@@ -103,6 +103,9 @@ export default class ProductDetail extends Component {
   }
 
   static styles = {
+    wrapper: {
+      position: 'relative'
+    },
     pbModal: {
       paddingBottom: '5em'
     },
@@ -362,7 +365,7 @@ export default class ProductDetail extends Component {
       : Object.assign({}, location, { state: { returnTo: location.pathname } });
 
     const content = (
-      <div>
+      <div style={styles.wrapper}>
         <ContentContainer>
           <div style={styles.header.container}>
             <div style={styles.header.left}>
