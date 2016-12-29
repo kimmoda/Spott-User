@@ -26,6 +26,10 @@ export default function profileReducer (state = fromJS({
       return state.set('wishlistButtonError', null);
     case actions.CREATE_WISHLIST_ERROR:
       return state.set('wishlistButtonError', action.error);
+    case actions.UPDATE_WISHLIST_START:
+      return state.set('wishlistButtonError', null);
+    case actions.UPDATE_WISHLIST_ERROR:
+      return state.set('wishlistButtonError', action.error);
     default:
       return state;
   }
