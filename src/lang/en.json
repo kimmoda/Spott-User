@@ -102,7 +102,7 @@
       "placeholder": "Search for TV shows, movies, characters or brands",
       "title": "Television is now your favourite shop",
       "loadingResults": "Loading results...",
-      "noResults": "Couldn’t find any matches for [[]]"
+      "noResults": "Oops! We couldn't find results for your exact search"
     },
     "topSellingProducts": {
       "title": "Top Selling Products"

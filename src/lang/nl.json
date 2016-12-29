@@ -102,7 +102,7 @@
       "placeholder": "Zoek naar TV shows, films, personages of merken",
       "title": "Televisie is nu uw favoriete winkel",
       "loadingResults": "Resultaten laden...",
-      "noResults": "Geen resultaten gevonden voor [[]]"
+      "noResults": "Oeps! We kunnen geen resultaten vinden voor de ingegeven zoekopdracht"
     },
     "topSellingProducts": {
       "title": "Best verkochte producten"

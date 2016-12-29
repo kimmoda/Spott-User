@@ -102,7 +102,7 @@
       "placeholder": "Recherchez des show télévisé, des films, des personnages ou des marques",
       "title": "La télévision est maintenant votre magasin préféré",
       "loadingResults": "Chargement des résultats...",
-      "noResults": "Impossible de trouver des correspondances pour [[]]"
+      "noResults": "Oops! Désolé, aucun résultat ne correspond à votre recherche"
     },
     "topSellingProducts": {
       "title": "Top des ventes"

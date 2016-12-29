@@ -227,9 +227,7 @@ export default class Search extends Component {
             { isLoading || value !== prevValue
               ? <span>{t('home.search.loadingResults')}</span>
               : <span>
-                  {t('home.search.noResults', {}, (contents, key) => (
-                    <strong key={key}>"{value}"</strong>
-                  ))}
+                  {t('home.search.noResults')}
                 </span>
             }
           </span>
