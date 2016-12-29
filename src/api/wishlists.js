@@ -62,3 +62,22 @@ export async function createWishlist (baseUrl, authenticationToken, locale, { us
     throw '_common.unknown';
   }
 }
+
+export async function updateWishlist (baseUrl, authenticationToken, locale, { userId, data }) {
+  try {
+    await request.post(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists`, data);
+  } catch (error) {
+    if (error.body.message === 'list already exists') {
+      throw 'profile.wishlistButton.alreadyExist';
+    }
+    throw '_common.unknown';
+  }
+}
+
+export async function removeWishlist (baseUrl, authenticationToken, locale, { userId, wishlistId }) {
+  try {
+    await request.del(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/wishlists/${wishlistId}`);
+  } catch (error) {
+    throw '_common.unknown';
+  }
+}

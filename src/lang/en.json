@@ -179,7 +179,12 @@
     },
     "wishlists": {
       "empty": "You have no wishlists yet.",
-      "unnamedWishlist": "Wishlist"
+      "unnamedWishlist": "Wishlist",
+      "editWishlist": "Edit Wishlist",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "save": "Save",
+      "privateList": "Private list"
     },
     "wishlistProducts": {
       "empty": "This wishlist is empty.",

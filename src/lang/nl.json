@@ -179,7 +179,12 @@
     },
     "wishlists": {
       "empty": "U heeft nog geen verlanglijst.",
-      "unnamedWishlist": "Verlanglijst"
+      "unnamedWishlist": "Verlanglijst",
+      "editWishlist": "Bewerken verlanglijst",
+      "delete": "Verwijder",
+      "cancel": "Annuleer",
+      "save": "Bewaar",
+      "privateList": "Privé lijst"
     },
     "wishlistProducts": {
       "empty": "Deze verlanglijst is leeg.",

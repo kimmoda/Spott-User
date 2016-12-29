@@ -1,5 +1,5 @@
 import { currentUserIdSelector } from './selector';
-import { fetchUser, fetchWishlistOfUser, fetchSavedScenesOfUser, fetchWishlistsOfUser, fetchWishlistProducts, addWishlistProduct, createWishlist, removeWishlistProduct } from '../../data/actions';
+import { fetchUser, fetchWishlistOfUser, fetchSavedScenesOfUser, fetchWishlistsOfUser, fetchWishlistProducts, addWishlistProduct, createWishlist, updateWishlist, removeWishlist, removeWishlistProduct } from '../../data/actions';
 
 export const LOAD_USER = 'LOAD_USER';
 export const LOAD_USER_ERROR = 'LOAD_USER_ERROR';
@@ -15,6 +15,12 @@ export const LOAD_PRODUCTS_OF_WISHLIST_ERROR = 'LOAD_PRODUCTS_OF_WISHLIST_ERROR'
 
 export const CREATE_WISHLIST_START = 'CREATE_WISHLIST_START';
 export const CREATE_WISHLIST_ERROR = 'CREATE_WISHLIST_ERROR';
+
+export const UPDATE_WISHLIST_START = 'UPDATE_WISHLIST_START';
+export const UPDATE_WISHLIST_ERROR = 'UPDATE_WISHLIST_ERROR';
+
+export const REMOVE_WISHLIST_START = 'REMOVE_WISHLIST_START';
+export const REMOVE_WISHLIST_ERROR = 'REMOVE_WISHLIST_ERROR';
 
 export function loadUser (userId) {
   return async (dispatch, getState) => {
@@ -102,5 +108,33 @@ export function removeProductFromWishlist (wishlistId, productUuid) {
     await dispatch(removeWishlistProduct({ userId, wishlistId, productUuid }));
 
     return await dispatch(fetchWishlistsOfUser({ userId, page: 0, productUuid }));
+  };
+}
+
+export function updateCurrentWishlist (data) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const userId = currentUserIdSelector(state);
+    try {
+      dispatch({ type: UPDATE_WISHLIST_START });
+      await dispatch(updateWishlist({ userId, data }));
+      return await dispatch(fetchWishlistsOfUser({ userId, page: 0 }));
+    } catch (error) {
+      return dispatch({ error, type: UPDATE_WISHLIST_ERROR });
+    }
+  };
+}
+
+export function removeCurrentWishlist (wishlistId) {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const userId = currentUserIdSelector(state);
+    try {
+      dispatch({ type: REMOVE_WISHLIST_START });
+      await dispatch(removeWishlist({ userId, wishlistId }));
+      return await dispatch(fetchWishlistsOfUser({ userId, page: 0 }));
+    } catch (error) {
+      return dispatch({ error, type: REMOVE_WISHLIST_ERROR });
+    }
   };
 }

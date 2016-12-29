@@ -161,6 +161,25 @@ export const largeDialogStyle = {
   }
 };
 
+export const smallDialogStyle = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    zIndex: 1000,
+    overflow: 'auto'
+  },
+  content: {
+    backgroundColor: 'transparent',
+    border: 'none',
+    padding: 0,
+    left: '50%',
+    top: '50%',
+    right: 'auto',
+    transform: 'translateX(-50%) translateY(-50%)',
+    bottom: '5em',
+    overflow: 'visible'
+  }
+};
+
 // const dialogButtonStyle = {
 //   backgroundColor: '#ffffff',
 //   position: 'absolute',
@@ -243,12 +262,35 @@ export const pinkButtonStyle = {
   borderColor: colors.darkPink,
   fontSize: '0.688em',
   letterSpacing: '0.219em',
-  padding: '0.85em 2.45em',
+  padding: '0.85em 1.65em',
   ':hover': {
     backgroundColor: 'rgba(207, 49, 91, 0.6)'
   },
   ':focus': {
     backgroundColor: 'rgba(207, 49, 91, 0.6)'
+  }
+};
+export const darkButtonStyle = {
+  ...makeTextStyle(fontWeights.bold, '0.875em', '0.013em', '1em'),
+  borderStyle: 'solid',
+  borderWidth: ' 1px',
+  borderRadius: '6.25em',
+  textDecoration: 'none',
+  textTransform: 'uppercase',
+  transition: 'background-color 0.5s ease',
+  backgroundColor: 'rgba(255, 255, 255, 0)',
+  borderColor: colors.coolGray,
+  fontSize: '0.688em',
+  letterSpacing: '0.219em',
+  padding: '0.85em 1.65em',
+  color: colors.coolGray,
+  cursor: 'pointer',
+  display: 'inline-block',
+  ':hover': {
+    backgroundColor: 'rgba(255, 255, 255, 1)'
+  },
+  ':focus': {
+    backgroundColor: 'rgba(255, 255, 255, 1)'
   }
 };
 const disabledButtonStyle = {
@@ -706,3 +748,86 @@ export function responsiveBackgroundImage (url) {
     }
   };
 }
+
+// Checkbox Input
+
+export const checkboxStyles = {
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0.278em 0'
+  },
+  input: {
+    position: 'absolute',
+    opacity: 0,
+    pointerEvents: 'none'
+  },
+  marker: {
+    backgroundColor: colors.white,
+    border: `1px solid ${colors.coolGray}`,
+    borderRadius: 3,
+    cursor: 'pointer',
+    display: 'flex',
+    height: 20,
+    width: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    checked: {
+      backgroundColor: colors.dark
+    }
+  },
+  markerText: {
+    display: 'block',
+    backgroundColor: colors.cool,
+    color: colors.whiteGray,
+    fontSize: '16px',
+    height: '18px',
+    transform: 'scaleX(1.3)',
+    pointerEvents: 'none'
+  },
+  label: {
+    base: {
+      fontSize: '14px',
+      color: colors.coolGray,
+      cursor: 'pointer',
+      fontWeight: 'normal',
+      paddingLeft: '10px',
+      paddingBottom: 0,
+      position: 'relative',
+      alignItems: 'center'
+    },
+    error: {
+      color: '#ff0000'
+    }
+  }
+};
+export const checkbox = Radium((props) => {
+  function onClick (e) {
+    // Cancel if disabled
+    if (props.disabled) {
+      return;
+    }
+    // Trigger change
+    const newValue = !props.input.value;
+    props.input.onChange(newValue);
+  }
+
+  return (
+    <div style={checkboxStyles.container}>
+      <input
+        checked={props.input.value}
+        id={props.input.name}
+        style={checkboxStyles.input}
+        type='checkbox'
+        {...props.input} />
+      <span style={[ checkboxStyles.marker, props.input.value && checkboxStyles.marker.checked ]} onClick={onClick}>
+        {props.input.value && <span style={checkboxStyles.markerText}>✓</span>}
+      </span>
+      <label
+        htmlFor={props.input.name}
+        style={[ checkboxStyles.label.base, props.submitFailed && props.meta.touched && props.meta.error && checkboxStyles.label.error ]}>
+        {props.text}
+      </label>
+    </div>
+  );
+});
