@@ -28,9 +28,11 @@ const itemStyles = {
     borderWidth: '1px',
     borderColor: '#d7d7d7',
     marginTop: '28px',
-    marginBottom: '20px',
     fontSize: '14px',
     paddingLeft: '13px'
+  },
+  formCheckbox: {
+    marginTop: '20px'
   },
   formButtons: {
     display: 'flex',
@@ -41,6 +43,10 @@ const itemStyles = {
   },
   formCancelButton: {
     marginRight: '10px'
+  },
+  formError: {
+    marginTop: '5px',
+    color: '#ff0000'
   }
 };
 
@@ -51,6 +57,7 @@ const itemStyles = {
 @Radium
 class WishlistForm extends Component {
   static propTypes = {
+    errorUpdate: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     onCancelClick: PropTypes.func.isRequired,
@@ -59,7 +66,7 @@ class WishlistForm extends Component {
   };
 
   render () {
-    const { t, handleSubmit, onSubmit, onDeleteClick, onCancelClick } = this.props;
+    const { t, handleSubmit, onSubmit, onDeleteClick, onCancelClick, errorUpdate } = this.props;
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <h2 style={itemStyles.formTitle}>{t('profile.wishlists.editWishlist')}</h2>
@@ -68,7 +75,8 @@ class WishlistForm extends Component {
           name='name'
           props={{ required: true }}
           style={itemStyles.formInput}/>
-        <div>
+        {errorUpdate && typeof errorUpdate === 'string' && <div style={itemStyles.formError}>{t(errorUpdate)}</div>}
+        <div style={itemStyles.formCheckbox}>
           <Field
             component={checkbox}
             name='private'
@@ -110,6 +118,9 @@ export default class WishlistSettings extends Component {
     this.onDeleteClick = ::this.onDeleteClick;
     this.onModalClose = ::this.onModalClose;
     this.onSubmit = ::this.onSubmit;
+    this.state = {
+      error: null
+    };
   }
 
   onDeleteClick (e) {
@@ -126,12 +137,16 @@ export default class WishlistSettings extends Component {
     const vals = values.toJS();
     if (vals.name) {
       try {
-        this.props.submit({
+        const res = await this.props.submit({
           name: vals.name,
           public: !vals.private,
           uuid: this.props.wishlist.get('id')
         });
-        this.onModalClose();
+        if (res.error) {
+          this.setState({ error: res.error });
+        } else {
+          this.onModalClose();
+        }
       } catch (e) {
         console.error('Could not submit wishlist settings form.', e);
         throw e;
@@ -148,6 +163,7 @@ export default class WishlistSettings extends Component {
         onClose={this.onModalClose}>
         <div style={itemStyles.settingsBox}>
           <WishlistForm
+            errorUpdate={this.state.error}
             initialValues={{ name: wishlist.get('name'), private: !wishlist.get('publicWishlist') }}
             onCancelClick={this.onModalClose}
             onDeleteClick={this.onDeleteClick}
