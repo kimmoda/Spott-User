@@ -145,7 +145,7 @@ export class SceneTile extends Component {
 
   render () {
     const styles = sceneTilesStyle;
-    const { item, location, style, showDetails } = this.props;
+    const { item, location, style, showDetails, hovered } = this.props;
     return (
       <BaseTile style={style}>
         <div style={styles.container}>
@@ -155,7 +155,12 @@ export class SceneTile extends Component {
             state: { modal: true, returnTo: (location && location.pathname) || '/' }
           }}>
             <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
-            {showDetails && <div style={styles.layer} />}
+            {showDetails &&
+              <div>
+                <div style={[ styles.layer, hovered && styles.layer.hovered ]} />
+                <div style={[ styles.layerSecond, hovered && styles.layerSecond.hovered ]} />
+              </div>
+            }
           </RadiumLink>
           {showDetails && this.renderDetails()}
         </div>
