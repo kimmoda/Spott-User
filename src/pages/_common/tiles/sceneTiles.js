@@ -79,7 +79,7 @@ export class SceneTile extends Component {
 
   renderDetails () {
     const styles = sceneTilesStyle;
-    const { hovered, item, t } = this.props;
+    const { hovered, item, t, location } = this.props;
 
     return (
       <div key='details'>
@@ -87,9 +87,13 @@ export class SceneTile extends Component {
         <div style={[ styles.details.base, hovered && styles.details.hovered ]}>
           {/* Only show the markers for the products which have a position.
               Global products and hidden products don't have a position. */}
-          {item.get('products').filter((p) => p.get('position')).map((p) => (
-            <Marker key={p.get('id')} relativeLeft={p.getIn([ 'position', 'x' ])} relativeTop={p.getIn([ 'position', 'y' ])} />
-          ))}
+          {item.get('products').filter((product) => product.get('position')).map((product) =>
+            <RadiumLink alt={product.get('shortName')} key={product.get('id')} title={product.get('shortName')} to={{
+              pathname: `${item.get('shareUrl')}/product/${product.get('id')}`,
+              state: { modal: true, returnTo: (location && location.pathname) || '/' }
+            }}>
+              <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />
+            </RadiumLink>)}
         </div>
         {/* Characters (top right) */}
         <div style={[ styles.characters, styles.details.base, hovered && styles.details.hovered ]}>
