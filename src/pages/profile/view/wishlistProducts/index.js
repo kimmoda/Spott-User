@@ -115,9 +115,11 @@ class WishlistProduct extends Component {
           pathname: item.get('shareUrl'),
           state: { modal: true, returnTo: (location && location.pathname) || '/' }
         }}>
-          <div style={itemStyles.iconWrapper} title={t('profile.wishlists.delete')}>
-            {hovered && <div onClick={this.onRemoveClick}><img src={iconRemove}/></div>}
-          </div>
+          {hovered &&
+            <div style={itemStyles.iconWrapper} title={t('profile.wishlists.delete')} onClick={this.onRemoveClick}>
+              <div><img src={iconRemove}/></div>
+            </div>
+          }
           <div style={{ ...itemStyles.image, backgroundImage: item.get('image') ? `url(${item.getIn([ 'image', 'url' ])})` : 'none' }} />
           <div style={itemStyles.name}>{item.get('shortName') || '\u00a0'}</div>
           <p style={itemStyles.price}>{formatPrice(item.get('price'))}</p>
