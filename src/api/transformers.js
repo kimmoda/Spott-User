@@ -48,7 +48,7 @@ export function transformListProduct ({ available, buyUrl, image, price, shortNa
 }
 
 // no buyUrl, image
-export function transformDetailedProduct ({ available, brand, description, longName, images, offerings, price, relevance, shortName, shareUrl, uuid: id }) {
+export function transformDetailedProduct ({ available, brand, description, longName, images, offerings, price, relevance, shortName, shareUrl, uuid: id, buyUrl }) {
   return {
     available,
     brand: brand && {
@@ -70,7 +70,8 @@ export function transformDetailedProduct ({ available, brand, description, longN
     })),
     relevance,
     shareUrl: stripDomain(shareUrl),
-    shortName
+    shortName,
+    buyUrl
   };
 }
 

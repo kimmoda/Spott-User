@@ -19,6 +19,7 @@ import WishlistButton from '../../profile/view/wishlistButton';
 @connect(productSelector, (dispatch) => ({
   onChangeImageSelection: bindActionCreators(actions.changeImageSelection, dispatch),
   loadProduct: bindActionCreators(actions.loadProduct, dispatch),
+  loadUbProduct: bindActionCreators(actions.loadUbProduct, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch),
   routerReplace: bindActionCreators(routerReplace, dispatch)
 }))
@@ -28,6 +29,7 @@ export default class ProductDetail extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadProduct: PropTypes.func.isRequired,
+    loadUbProduct: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -71,6 +73,10 @@ export default class ProductDetail extends Component {
   async componentWillMount () {
     // (Re)fetch the product.
     await this.props.loadProduct(this.props.params.productId);
+    if (this.props.params.productId === '9ee5a861-dd43-4911-9ae2-862b6ea9c4bf') {
+      const ubProductData = await this.props.loadUbProduct('https://www.zalando.be/bugatti-kostuum-blauw-bu122m003-k11.html', this.props.params.productId);
+      console.log(ubProductData);
+    }
   }
 
   async componentWillReceiveProps (nextProps) {
@@ -219,7 +225,12 @@ export default class ProductDetail extends Component {
           width: '170px',
           height: '42px',
           fontSize: '12px',
-          letterSpacing: '3.6px'
+          letterSpacing: '3.6px',
+          disabled: {
+            opacity: 1,
+            backgroundColor: colors.coolGray,
+            borderWidth: 0
+          }
         }
       }
     },
@@ -355,6 +366,7 @@ export default class ProductDetail extends Component {
     const { styles } = this.constructor;
     const { onChangeImageSelection, product, selectedImageId, t, location } = this.props;
     const notAvailable = !(product.get('available') && product.getIn([ 'offerings', '0', 'url' ]));
+    const outOfStock = Boolean(!product.getIn([ 'ub', 'outOfStock' ]));
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
     const share = product.get('share');
     const isPopup = location.state && location.state.modal;
@@ -408,8 +420,12 @@ export default class ProductDetail extends Component {
                   {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
                 </h2>
                 <div style={styles.details.buttons.wrapper}>
-                  <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
-                    <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
+                  <Button disabled={notAvailable || outOfStock} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton, outOfStock && styles.details.buttons.buyButton.disabled ]} target='_blank' onClick={this.onBuyClick}>
+                    <span style={styles.details.buttons.buyText}>
+                      {outOfStock
+                        ? 'OUT OF STOCK'
+                        : t('productDetail.buyNow')}
+                    </span>
                   </Button>
                   {product.get('id') && <WishlistButton productUuid={product.get('id')} />}
                 </div>
