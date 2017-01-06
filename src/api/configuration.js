@@ -2,14 +2,14 @@ import * as request from './request';
 import { transformUser } from './transformers';
 
 /**
- * GET /config.json (local)
+ * GET /config/config.json (local)
  * GET /version.json (local)
  * GET /rest/version
  *
  * Get the configuration, like the root url of the API.
  */
 export async function getConfiguration () {
-  const configuration = (await request.get(null, null, '/config.json')).body;
+  const configuration = (await request.get(null, null, '/config/config.json')).body;
   const version = (await request.get(null, null, '/version.json')).body;
   const { body: { apptvateVersion, spottVersion } } = await request.get(null, null, `${configuration.urls.api}/version`);
   return { apptvateVersion, spottVersion, version, ...configuration };
