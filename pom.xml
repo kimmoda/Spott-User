@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>appiness.mobi</groupId>
@@ -9,28 +10,42 @@
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 	<version>01.00.29-SNAPSHOT</version>
-	
+
 	<scm>
 		<connection>scm:git:https://bitbucket.org/appiness/appiness.spott.website</connection>
 	</scm>
-	
+
 	<repositories>
 		<repository>
 			<id>appiness</id>
 			<url>https://nexus.appiness.mobi/nexus/repository/maven-public</url>
 		</repository>
 	</repositories>
-	
+
 	<modules>
-	<module>web-pom.xml</module>
+		<module>web-pom.xml</module>
+		<module>modules/docker</module>
 	</modules>
-	
+
 	<properties>
 		<stage.dir>${project.build.directory}/stage</stage.dir>
 		<stage.website.dir>${stage.dir}/.ebextensions/files/website</stage.website.dir>
 		<website.dist.file>${project.build.directory}/${project.artifactId}-${project.version}.zip</website.dist.file>
 		<node-version>v5.0.0</node-version>
 		<npm-version>3.8.6</npm-version>
+
+		<appiness.docker.nginx.version>01.00.00</appiness.docker.nginx.version>
 	</properties>
-	
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>appiness.docker.nginx</artifactId>
+                <version>${appiness.docker.nginx.version}</version>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 </project>
