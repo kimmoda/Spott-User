@@ -10,8 +10,15 @@ export const selectedImageIdSelector = createSelector(
   (product, selectedImageId) => selectedImageId || (product.get('images') && product.getIn([ 'images', '0', 'id' ]))
 );
 
+export const selectedUbImageIdSelector = createSelector(
+  currentProductSelector,
+  _selectedImageIdSelector,
+  (product, selectedImageId) => selectedImageId || (product.getIn([ 'ub', 'currentVariant', 'child', 'options', '0', 'images' ]) && product.getIn([ 'ub', 'currentVariant', 'child', 'options', '0', 'images', '0' ]))
+);
+
 // View selector for product detail page.
 export const productSelector = createStructuredSelector({
   product: currentProductSelector,
-  selectedImageId: selectedImageIdSelector
+  selectedImageId: selectedImageIdSelector,
+  selectedUbImageId: selectedUbImageIdSelector
 });

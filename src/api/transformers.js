@@ -268,3 +268,12 @@ export function transformSuggestions (data) {
     })
     .value();
 }
+
+export function transformUbProduct (data) {
+  const { body: { product } } = data;
+  const { productUrl } = data;
+
+  product.currentVariant = product.variants.options.filter((item) => item.child && item.child.options[0].url === productUrl)[0];
+
+  return product;
+}
