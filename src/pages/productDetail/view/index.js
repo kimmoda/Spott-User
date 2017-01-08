@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import Radium from 'radium';
 import { Map } from 'immutable';
 import { push as routerPush, replace as routerReplace } from 'react-router-redux';
-import { colors, load, fontWeights, formatPrice, makeTextStyle, mediaQueries, Spinner, pinkButtonStyle, Button, Container, ShareButton, Modal, largeDialogStyle, SmallContainer } from '../../_common/buildingBlocks';
+import { colors, load, fontWeights, formatPrice, makeTextStyle, mediaQueries, Spinner, pinkButtonStyle, Button, Container, ShareButton, Modal, largeDialogStyle, SmallContainer, greenButtonStyle } from '../../_common/buildingBlocks';
 import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
@@ -73,9 +73,9 @@ export default class ProductDetail extends Component {
   async componentWillMount () {
     // (Re)fetch the product.
     await this.props.loadProduct(this.props.params.productId);
-    if (this.props.params.productId === '9ee5a861-dd43-4911-9ae2-862b6ea9c4bf') {
-      const ubProductData = await this.props.loadUbProduct('https://www.zalando.be/bugatti-kostuum-blauw-bu122m003-k11.html', this.props.params.productId);
-      console.log(ubProductData);
+    // hard code just for testing
+    if (this.props.product.getIn([ 'offerings', '0', 'shop' ]) === 'Zalando BE' && this.props.params.productId === '6248032d-8914-4f20-9081-472e3cb7e642') {
+      await this.props.loadUbProduct('https://www.zalando.be/bugatti-kostuum-blauw-bu122m003-k11.html', this.props.params.productId);
     }
   }
 
@@ -366,7 +366,7 @@ export default class ProductDetail extends Component {
     const { styles } = this.constructor;
     const { onChangeImageSelection, product, selectedImageId, t, location } = this.props;
     const notAvailable = !(product.get('available') && product.getIn([ 'offerings', '0', 'url' ]));
-    const outOfStock = Boolean(!product.getIn([ 'ub', 'outOfStock' ]));
+    const outOfStock = Boolean(product.getIn([ 'ub', 'outOfStock' ]));
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
     const share = product.get('share');
     const isPopup = location.state && location.state.modal;
@@ -414,19 +414,21 @@ export default class ProductDetail extends Component {
               <div>
                 <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
                 <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
-                {product.get('description') &&
-                <p style={styles.details.productDescription}>{product.get('description')}</p>}
+                {product.get('description') && <p style={styles.details.productDescription}>{product.get('description')}</p>}
                 <h2 style={styles.details.price}>
                   {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
                 </h2>
                 <div style={styles.details.buttons.wrapper}>
-                  <Button disabled={notAvailable || outOfStock} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton, outOfStock && styles.details.buttons.buyButton.disabled ]} target='_blank' onClick={this.onBuyClick}>
-                    <span style={styles.details.buttons.buyText}>
-                      {outOfStock
-                        ? 'OUT OF STOCK'
-                        : t('productDetail.buyNow')}
-                    </span>
-                  </Button>
+                  {product.get('ub')
+                    ? <button disabled={outOfStock} key='buyButton' style={[ greenButtonStyle, outOfStock && greenButtonStyle.disabled ]} onClick={this.onBuyClick}>
+                        {outOfStock ? 'Out of stock' : 'Add to basket'}
+                      </button>
+                    : <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
+                        <span style={styles.details.buttons.buyText}>
+                          Buy on store
+                        </span>
+                      </Button>
+                  }
                   {product.get('id') && <WishlistButton productUuid={product.get('id')} />}
                 </div>
                 {notAvailable &&
