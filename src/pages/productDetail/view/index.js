@@ -381,7 +381,6 @@ export default class ProductDetail extends Component {
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
     const share = product.get('share');
     const isPopup = location.state && location.state.modal;
-    const ContentContainer = isPopup ? (props) => <div>{props.children}</div> : SmallContainer;
     const ubImages = product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]) && product.getIn([ 'ub', 'currentVariant', 'child', 'options', '0', 'images' ]);
     const ubSelectedImage = ubImages && ubImages.find((imageUrl) => imageUrl === selectedUbImageId);
 
@@ -389,103 +388,109 @@ export default class ProductDetail extends Component {
       ? Object.assign({}, location, { pathname: location.state.returnTo })
       : Object.assign({}, location, { state: { returnTo: location.pathname } });
 
-    const content = (
-      <div style={styles.wrapper}>
-        <ContentContainer>
-          <div style={styles.header.container}>
-            <div style={styles.header.left}>
-              <div style={[ styles.header.sceneFrom.base, isPopup && styles.header.sceneFrom.light ]}>{t('productDetail.product')}</div>
-              <h1 style={[ styles.header.title.base, isPopup && styles.header.title.light ]}>
-                {product.get('shortName')}
-              </h1>
-            </div>
-            <div style={styles.header.right}>
-              <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(share.get('url'))}&title=${share.get('title')}`} style={[ styles.header.shareButton.base, isPopup && styles.header.shareButton.light ]}>
-                {t('common.share')}
-              </ShareButton>
-            </div>
+    const productDetails = (
+      <div>
+        <div style={styles.header.container}>
+          <div style={styles.header.left}>
+            <div style={[ styles.header.sceneFrom.base, isPopup && styles.header.sceneFrom.light ]}>{t('productDetail.product')}</div>
+            <h1 style={[ styles.header.title.base, isPopup && styles.header.title.light ]}>
+              {product.get('shortName')}
+            </h1>
           </div>
-          <div style={styles.productInfo}>
-            {ubImages
-              ? <div style={styles.left}>
-                <div style={styles.images.wrapper}>
-                  {ubSelectedImage &&
-                  <img src={ubSelectedImage} style={styles.images.big}/>}
-                </div>
-                <div style={styles.images.small.wrapper}>
-                  {ubImages && ubImages.map((imageUrl) =>
-                    <div
-                      key={imageUrl}
-                      style={[ styles.images.small.item, imageUrl === selectedUbImageId && styles.images.selected ]}
-                      onClick={onChangeImageSelection.bind(null, imageUrl)}>
-                      <img
-                        src={imageUrl}
-                        style={styles.images.small.image}/>
-                    </div>)}
-                </div>
+          <div style={styles.header.right}>
+            <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(share.get('url'))}&title=${share.get('title')}`} style={[ styles.header.shareButton.base, isPopup && styles.header.shareButton.light ]}>
+              {t('common.share')}
+            </ShareButton>
+          </div>
+        </div>
+        <div style={styles.productInfo}>
+          {ubImages
+            ? <div style={styles.left}>
+              <div style={styles.images.wrapper}>
+                {ubSelectedImage &&
+                <img src={ubSelectedImage} style={styles.images.big}/>}
               </div>
-              : <div style={styles.left}>
-                <div style={styles.images.wrapper}>
-                  {selectedImage &&
-                  <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big}/>}
-                </div>
-                <div style={styles.images.small.wrapper}>
-                  {product.get('images') && product.get('images').map((image) =>
-                    <div
-                      key={image.get('id')}
-                      style={[ styles.images.small.item, image.get('id') === selectedImageId && styles.images.selected ]}
-                      onClick={onChangeImageSelection.bind(null, image.get('id'))}>
-                      <img
-                        src={`${image.get('url')}?height=160&width=160`}
-                        style={styles.images.small.image}/>
-                    </div>)}
-                </div>
+              <div style={styles.images.small.wrapper}>
+                {ubImages && ubImages.map((imageUrl) =>
+                  <div
+                    key={imageUrl}
+                    style={[ styles.images.small.item, imageUrl === selectedUbImageId && styles.images.selected ]}
+                    onClick={onChangeImageSelection.bind(null, imageUrl)}>
+                    <img
+                      src={imageUrl}
+                      style={styles.images.small.image}/>
+                  </div>)}
               </div>
-            }
-            <div style={styles.right}>
+            </div>
+            : <div style={styles.left}>
+              <div style={styles.images.wrapper}>
+                {selectedImage &&
+                <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big}/>}
+              </div>
+              <div style={styles.images.small.wrapper}>
+                {product.get('images') && product.get('images').map((image) =>
+                  <div
+                    key={image.get('id')}
+                    style={[ styles.images.small.item, image.get('id') === selectedImageId && styles.images.selected ]}
+                    onClick={onChangeImageSelection.bind(null, image.get('id'))}>
+                    <img
+                      src={`${image.get('url')}?height=160&width=160`}
+                      style={styles.images.small.image}/>
+                  </div>)}
+              </div>
+            </div>
+          }
+          <div style={styles.right}>
+            <div>
+              <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
+              <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
+              {product.get('description') && <p style={styles.details.productDescription}>{product.get('description')}</p>}
+              {!product.get('description') && product.getIn([ 'ub', 'text' ]) && <p style={styles.details.productDescription}>{product.getIn([ 'ub', 'text' ])}</p>}
+              <h2 style={styles.details.price}>
+                {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
+              </h2>
+              {product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]) &&
               <div>
-                <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
-                <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
-                {product.get('description') && <p style={styles.details.productDescription}>{product.get('description')}</p>}
-                {!product.get('description') && product.getIn([ 'ub', 'text' ]) && <p style={styles.details.productDescription}>{product.getIn([ 'ub', 'text' ])}</p>}
-                <h2 style={styles.details.price}>
-                  {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
-                </h2>
-                {product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]) &&
-                <div>
-                  <select defaultValue={product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])} style={styles.inputSelect}>
-                    <option disabled>{product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])}</option>
-                    {product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]).map((option) =>
-                      option.get('available') && <option key={option.get('value')} value={option.get('value')}>{product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])} - {option.get('text')}</option>
-                    )}
-                  </select>
-                </div>}
-                <div style={styles.details.buttons.wrapper}>
-                  {product.getIn([ 'ub', 'id' ])
-                    ? <button disabled={outOfStock} key='buyButton' style={[ greenButtonStyle, outOfStock && greenButtonStyle.disabled ]} onClick={this.onBuyClick}>
-                      {outOfStock ? 'Out of stock' : 'Add to basket'}
-                    </button>
-                    : <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
+                <select defaultValue={product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])} style={styles.inputSelect}>
+                  <option disabled>{product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])}</option>
+                  {product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]).map((option) =>
+                    option.get('available') && <option key={option.get('value')} value={option.get('value')}>{product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])} - {option.get('text')}</option>
+                  )}
+                </select>
+              </div>}
+              <div style={styles.details.buttons.wrapper}>
+                {product.getIn([ 'ub', 'id' ])
+                  ? <button disabled={outOfStock} key='buyButton' style={[ greenButtonStyle, outOfStock && greenButtonStyle.disabled ]} onClick={this.onBuyClick}>
+                    {outOfStock ? 'Out of stock' : 'Add to basket'}
+                  </button>
+                  : <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
                         <span style={styles.details.buttons.buyText}>
                           Buy on store
                         </span>
-                    </Button>
-                  }
-                  {product.get('id') && <WishlistButton productUuid={product.get('id')} />}
-                </div>
-                {notAvailable &&
-                <div style={styles.details.notAvailable}>{t('productDetail.unavailable')}</div>}
+                  </Button>
+                }
+                {product.get('id') && <WishlistButton productUuid={product.get('id')} />}
               </div>
+              {notAvailable &&
+              <div style={styles.details.notAvailable}>{t('productDetail.unavailable')}</div>}
             </div>
-            <div style={styles.clear}/>
-            {share &&
-            <FacebookShareData
-              description={share.get('description')}
-              imageUrl={share.getIn([ 'image', 'url' ])}
-              title={share.get('title')}
-              url={window.location.href}/>}
           </div>
-        </ContentContainer>
+          <div style={styles.clear}/>
+          {share &&
+          <FacebookShareData
+            description={share.get('description')}
+            imageUrl={share.getIn([ 'image', 'url' ])}
+            title={share.get('title')}
+            url={window.location.href}/>}
+        </div>
+      </div>
+    );
+    const content = (
+      <div style={styles.wrapper}>
+        {isPopup
+          ? productDetails
+          : <SmallContainer>{productDetails}</SmallContainer>
+        }
         <div style={styles.brandProducts}>
           <SmallContainer>
             <div>
