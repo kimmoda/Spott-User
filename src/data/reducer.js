@@ -126,6 +126,13 @@ export default (state = fromJS({
     case actions.PRODUCT_FETCH_ERROR:
       return fetchError(state, [ 'entities', 'products', action.productId ], action.error);
 
+    case actions.UB_PRODUCT_FETCH_START:
+      return fetchStart(state, [ 'entities', 'products', action.productId, 'ub' ]);
+    case actions.UB_PRODUCT_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'products', action.productId, 'ub' ], action.data);
+    case actions.UB_PRODUCT_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'products', action.productId, 'ub' ], action.error);
+
     case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_START:
       return fetchListStart(state, 'recentlyAddedToWishlistProducts');
     case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_SUCCESS:

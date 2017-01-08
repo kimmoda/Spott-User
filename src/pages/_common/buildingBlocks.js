@@ -26,7 +26,8 @@ export const colors = {
   whiteThree: '#e9e9e9',
   whiteTwo: '#fcfcfc',
   white: '#ffffff',
-  yellow: '#f6bf26'
+  yellow: '#f6bf26',
+  coolGreen: '#2ecb70'
 };
 
 export const fontWeights = {
@@ -291,6 +292,32 @@ export const darkButtonStyle = {
   },
   ':focus': {
     backgroundColor: 'rgba(255, 255, 255, 1)'
+  }
+};
+export const greenButtonStyle = {
+  ...makeTextStyle(fontWeights.bold, '0.875em', '0.013em', '1em'),
+  border: '0',
+  borderRadius: '6.25em',
+  textDecoration: 'none',
+  textTransform: 'uppercase',
+  transition: 'background-color 0.5s ease',
+  backgroundColor: colors.coolGreen,
+  fontSize: '0.688em',
+  letterSpacing: '0.219em',
+  padding: '0.85em 34px',
+  color: colors.white,
+  cursor: 'pointer',
+  display: 'inline-block',
+  ':hover': {
+    opacity: 0.8
+  },
+  ':focus': {
+    opacity: 0.9
+  },
+  disabled: {
+    backgroundColor: colors.coolGray,
+    cursor: 'default',
+    pointerEvents: 'none'
   }
 };
 const disabledButtonStyle = {

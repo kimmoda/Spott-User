@@ -6,6 +6,7 @@ import * as usersApi from '../api/users';
 import * as wishlistsApi from '../api/wishlists';
 import * as eventsApi from '../api/events';
 import * as tvGuideApi from '../api/tvGuide';
+import * as ubApi from '../api/ub';
 import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../pages/app/selector';
 import { slowdown } from '../utils';
 
@@ -19,6 +20,24 @@ export function makeApiActionCreator (_apiCall, startActionType, successActionTy
       dispatch({ ...params, type: startActionType });
       try {
         const data = await _apiCall(apiBaseUrl, authenticationToken, locale, params);
+        dispatch({ ...params, data, type: successActionType });
+        return data;
+      } catch (error) {
+        dispatch({ ...params, error, type: errorActionType });
+        throw error;
+      }
+    };
+  };
+}
+
+export function makeUbApiActionCreator (_apiCall, startActionType, successActionType, errorActionType) {
+  return function (params) {
+    return async (dispatch, getState) => {
+      const ubApiBaseUrl = 'https://api.ub.io';
+      const ubAuthenticationToken = null;
+      dispatch({ ...params, type: startActionType });
+      try {
+        const data = await _apiCall(ubApiBaseUrl, ubAuthenticationToken, params);
         dispatch({ ...params, data, type: successActionType });
         return data;
       } catch (error) {
@@ -75,6 +94,10 @@ export const POPULAR_PRODUCTS_FETCH_ERROR = 'DATA/POPULAR_PRODUCTS_FETCH_ERROR';
 export const PRODUCT_FETCH_START = 'DATA/PRODUCT_FETCH_START';
 export const PRODUCT_FETCH_SUCCESS = 'DATA/PRODUCT_FETCH_SUCCESS';
 export const PRODUCT_FETCH_ERROR = 'DATA/PRODUCT_FETCH_ERROR';
+
+export const UB_PRODUCT_FETCH_START = 'DATA/UB_PRODUCT_FETCH_START';
+export const UB_PRODUCT_FETCH_SUCCESS = 'DATA/UB_PRODUCT_FETCH_SUCCESS';
+export const UB_PRODUCT_FETCH_ERROR = 'DATA/UB_PRODUCT_FETCH_ERROR';
 
 export const USER_FETCH_START = 'DATA/USER_FETCH_START';
 export const USER_FETCH_SUCCESS = 'DATA/USER_FETCH_SUCCESS';
@@ -236,6 +259,8 @@ export const fetchProductsRecentlyAddedToWishlist = makeApiActionCreator(product
 export const fetchPopularProducts = makeApiActionCreator(productsApi.getPopularProducts, POPULAR_PRODUCTS_FETCH_START, POPULAR_PRODUCTS_FETCH_SUCCESS, POPULAR_PRODUCTS_FETCH_ERROR);
 
 export const fetchProduct = makeApiActionCreator(productsApi.getProduct, PRODUCT_FETCH_START, PRODUCT_FETCH_SUCCESS, PRODUCT_FETCH_ERROR);
+
+export const fetchUbProduct = makeUbApiActionCreator(ubApi.crawlProduct, UB_PRODUCT_FETCH_START, UB_PRODUCT_FETCH_SUCCESS, UB_PRODUCT_FETCH_ERROR);
 
 export const fetchUser = makeApiActionCreator(usersApi.getUser, USER_FETCH_START, USER_FETCH_SUCCESS, USER_FETCH_ERROR);
 
