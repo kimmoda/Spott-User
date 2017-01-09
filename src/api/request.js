@@ -135,7 +135,8 @@ function optionsWithoutBody (method, authenticationToken, locale = 'en') {
     cache: 'no-cache',
     method,
     headers,
-    mode: 'cors'
+    mode: 'cors',
+    credentials: 'same-origin'
   };
 }
 
@@ -154,7 +155,8 @@ function optionsWithBody (method, authenticationToken, locale = 'en', body) {
     cache: 'no-cache',
     method,
     headers,
-    mode: 'cors'
+    mode: 'cors',
+    credentials: 'same-origin'
   };
 }
 
