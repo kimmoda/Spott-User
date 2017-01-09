@@ -9,7 +9,7 @@
 	<artifactId>appiness.spott.website</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	<version>01.00.29-SNAPSHOT</version>
+	<version>01.01-ub-SNAPSHOT</version>
 
 	<scm>
 		<connection>scm:git:https://bitbucket.org/appiness/appiness.spott.website</connection>
