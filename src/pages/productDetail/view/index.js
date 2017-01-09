@@ -461,11 +461,11 @@ export default class ProductDetail extends Component {
               <div style={styles.details.buttons.wrapper}>
                 {product.getIn([ 'ub', 'id' ])
                   ? <button disabled={outOfStock} key='buyButton' style={[ greenButtonStyle, outOfStock && greenButtonStyle.disabled ]} onClick={this.onBuyClick}>
-                    {outOfStock ? 'Out of stock' : 'Add to basket'}
+                    {outOfStock ? t('productDetail.outOfStock') : t('productDetail.addToBasket')}
                   </button>
                   : <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
                         <span style={styles.details.buttons.buyText}>
-                          Buy on store
+                          {t('productDetail.buyOnStore')}
                         </span>
                   </Button>
                 }

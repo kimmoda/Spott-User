@@ -155,7 +155,10 @@
     "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​",
     "product": "Product",
     "moreFromBrand": "Meer [[]] producten",
-    "noMoreFromBrand": "No [[]] producten gevonden"
+    "noMoreFromBrand": "No [[]] producten gevonden",
+    "outOfStock": "Niet op voorraad",
+    "addToBasket": "Plaats in mandje",
+    "buyOnStore": "Kopen op winkel"
   },
   "profile": {
     "header": {

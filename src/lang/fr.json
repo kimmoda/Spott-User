@@ -155,7 +155,10 @@
     "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​",
     "product": "Produit",
     "moreFromBrand": "Plus de produits [[]]",
-    "noMoreFromBrand": "Aucun [[]] produits trouvés"
+    "noMoreFromBrand": "Aucun [[]] produits trouvés",
+    "outOfStock": "Rupture de stock",
+    "addToBasket": "Ajouter au panier",
+    "buyOnStore": "Acheter en magasin"
   },
   "profile": {
     "header": {
