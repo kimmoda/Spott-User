@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import Radium from 'radium';
 import { Map } from 'immutable';
 import { push as routerPush, replace as routerReplace } from 'react-router-redux';
-import { colors, load, fontWeights, formatPrice, makeTextStyle, mediaQueries, Spinner, pinkButtonStyle, Button, Container, ShareButton, Modal, largeDialogStyle, SmallContainer, greenButtonStyle } from '../../_common/buildingBlocks';
+import { colors, load, fontWeights, formatPrice, makeTextStyle, mediaQueries, Spinner, pinkButtonStyle, Button, Container, ShareButton, Modal, largeDialogStyle, SmallContainer } from '../../_common/buildingBlocks';
 import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
@@ -19,7 +19,6 @@ import WishlistButton from '../../profile/view/wishlistButton';
 @connect(productSelector, (dispatch) => ({
   onChangeImageSelection: bindActionCreators(actions.changeImageSelection, dispatch),
   loadProduct: bindActionCreators(actions.loadProduct, dispatch),
-  loadUbProduct: bindActionCreators(actions.loadUbProduct, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch),
   routerReplace: bindActionCreators(routerReplace, dispatch)
 }))
@@ -29,7 +28,6 @@ export default class ProductDetail extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadProduct: PropTypes.func.isRequired,
-    loadUbProduct: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -69,19 +67,11 @@ export default class ProductDetail extends Component {
     this.renderProduct = ::this.renderProduct;
     this.renderNotFoundError = ::this.renderNotFoundError;
     this.renderUnexpectedError = ::this.renderUnexpectedError;
-
-    // @TODO hard code just for testing
-    this.hardcodedProductUrl = 'https://www.zalando.be/bugatti-kostuum-blauw-bu122m003-k11.html';
   }
 
   async componentWillMount () {
     // (Re)fetch the product.
     await this.props.loadProduct(this.props.params.productId);
-
-    // @TODO hard code just for testing
-    if (this.props.product.getIn([ 'offerings', '0', 'shop' ]) === 'Zalando BE' && this.props.params.productId === '6248032d-8914-4f20-9081-472e3cb7e642') {
-      await this.props.loadUbProduct(this.hardcodedProductUrl, this.props.params.productId);
-    }
   }
 
   async componentWillReceiveProps (nextProps) {
@@ -364,25 +354,16 @@ export default class ProductDetail extends Component {
           color: colors.white
         }
       }
-    },
-    inputSelect: {
-      height: '40px',
-      minWidth: '160px',
-      border: '1px solid #d7d7d7',
-      marginTop: '16px'
     }
   };
 
   renderProduct () {
     const { styles } = this.constructor;
-    const { onChangeImageSelection, product, selectedImageId, selectedUbImageId, t, location } = this.props;
+    const { onChangeImageSelection, product, selectedImageId, t, location } = this.props;
     const notAvailable = !(product.get('available') && product.getIn([ 'offerings', '0', 'url' ]));
-    const outOfStock = Boolean(product.getIn([ 'ub', 'outOfStock' ]));
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
     const share = product.get('share');
     const isPopup = location.state && location.state.modal;
-    const ubImages = product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]) && product.getIn([ 'ub', 'currentVariant', 'child', 'options', '0', 'images' ]);
-    const ubSelectedImage = ubImages && ubImages.find((imageUrl) => imageUrl === selectedUbImageId);
 
     const locationBack = location.state && location.state.returnTo
       ? Object.assign({}, location, { pathname: location.state.returnTo })
@@ -404,71 +385,37 @@ export default class ProductDetail extends Component {
           </div>
         </div>
         <div style={styles.productInfo}>
-          {ubImages
-            ? <div style={styles.left}>
-              <div style={styles.images.wrapper}>
-                {ubSelectedImage &&
-                <img src={ubSelectedImage} style={styles.images.big}/>}
-              </div>
-              <div style={styles.images.small.wrapper}>
-                {ubImages && ubImages.map((imageUrl) =>
-                  <div
-                    key={imageUrl}
-                    style={[ styles.images.small.item, imageUrl === selectedUbImageId && styles.images.selected ]}
-                    onClick={onChangeImageSelection.bind(null, imageUrl)}>
-                    <img
-                      src={imageUrl}
-                      style={styles.images.small.image}/>
-                  </div>)}
-              </div>
+          <div style={styles.left}>
+            <div style={styles.images.wrapper}>
+              {selectedImage &&
+              <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big}/>}
             </div>
-            : <div style={styles.left}>
-              <div style={styles.images.wrapper}>
-                {selectedImage &&
-                <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big}/>}
-              </div>
-              <div style={styles.images.small.wrapper}>
-                {product.get('images') && product.get('images').map((image) =>
-                  <div
-                    key={image.get('id')}
-                    style={[ styles.images.small.item, image.get('id') === selectedImageId && styles.images.selected ]}
-                    onClick={onChangeImageSelection.bind(null, image.get('id'))}>
-                    <img
-                      src={`${image.get('url')}?height=160&width=160`}
-                      style={styles.images.small.image}/>
-                  </div>)}
-              </div>
+            <div style={styles.images.small.wrapper}>
+              {product.get('images') && product.get('images').map((image) =>
+                <div
+                  key={image.get('id')}
+                  style={[ styles.images.small.item, image.get('id') === selectedImageId && styles.images.selected ]}
+                  onClick={onChangeImageSelection.bind(null, image.get('id'))}>
+                  <img
+                    src={`${image.get('url')}?height=160&width=160`}
+                    style={styles.images.small.image}/>
+                </div>)}
             </div>
-          }
+          </div>
           <div style={styles.right}>
             <div>
               <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
               <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
               {product.get('description') && <p style={styles.details.productDescription}>{product.get('description')}</p>}
-              {!product.get('description') && product.getIn([ 'ub', 'text' ]) && <p style={styles.details.productDescription}>{product.getIn([ 'ub', 'text' ])}</p>}
               <h2 style={styles.details.price}>
                 {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
               </h2>
-              {product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]) &&
-              <div>
-                <select defaultValue={product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])} style={styles.inputSelect}>
-                  <option disabled>{product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])}</option>
-                  {product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]).map((option) =>
-                    option.get('available') && <option key={option.get('value')} value={option.get('value')}>{product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])} - {option.get('text')}</option>
-                  )}
-                </select>
-              </div>}
               <div style={styles.details.buttons.wrapper}>
-                {product.getIn([ 'ub', 'id' ])
-                  ? <button disabled={outOfStock} key='buyButton' style={[ greenButtonStyle, outOfStock && greenButtonStyle.disabled ]} onClick={this.onBuyClick}>
-                    {outOfStock ? t('productDetail.outOfStock') : t('productDetail.addToBasket')}
-                  </button>
-                  : <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
-                        <span style={styles.details.buttons.buyText}>
-                          {t('productDetail.buyOnStore')}
-                        </span>
-                  </Button>
-                }
+                <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
+                  <span style={styles.details.buttons.buyText}>
+                    {t('productDetail.buyNow')}
+                  </span>
+                </Button>
                 {product.get('id') && <WishlistButton productUuid={product.get('id')} />}
               </div>
               {notAvailable &&
@@ -485,6 +432,7 @@ export default class ProductDetail extends Component {
         </div>
       </div>
     );
+
     const content = (
       <div style={styles.wrapper}>
         {isPopup
