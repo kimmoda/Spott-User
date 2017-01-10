@@ -53,7 +53,6 @@ export default class ProductDetail extends Component {
     routerPush: PropTypes.func.isRequired,
     routerReplace: PropTypes.func.isRequired,
     selectedImageId: PropTypes.string,
-    selectedUbImageId: PropTypes.string,
     t: PropTypes.func.isRequired,
     onChangeImageSelection: PropTypes.func.isRequired
   };
