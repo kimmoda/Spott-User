@@ -73,18 +73,14 @@ export default class ProductDetail extends Component {
     this.renderProduct = ::this.renderProduct;
     this.renderNotFoundError = ::this.renderNotFoundError;
     this.renderUnexpectedError = ::this.renderUnexpectedError;
-
-    // @TODO hard code just for testing
-    this.hardcodedProductUrl = 'https://www.zalando.be/bugatti-kostuum-blauw-bu122m003-k11.html';
   }
 
   async componentWillMount () {
     // (Re)fetch the product.
     await this.props.loadProduct(this.props.params.productId);
 
-    // @TODO hard code just for testing
-    if (this.props.product.getIn([ 'offerings', '0', 'shop' ]) === 'Zalando BE' && this.props.params.productId === '6248032d-8914-4f20-9081-472e3cb7e642') {
-      await this.props.loadUbProduct(this.hardcodedProductUrl, this.props.params.productId);
+    if (this.props.product.getIn([ 'offerings', '0', 'universalBasketEnabled' ]) && this.props.product.getIn([ 'offerings', '0', 'directBuyUrl' ])) {
+      await this.props.loadUbProduct(this.props.product.getIn([ 'offerings', '0', 'directBuyUrl' ]), this.props.params.productId);
     }
   }
 

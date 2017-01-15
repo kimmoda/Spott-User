@@ -66,7 +66,9 @@ export function transformDetailedProduct ({ available, brand, description, longN
     offerings: offerings && offerings.map((offer) => ({
       url: offer.buyUrl,
       price: offer.price,
-      shop: offer.shop.name
+      shop: offer.shop.name,
+      universalBasketEnabled: offer.shop.universalBasketEnabled,
+      directBuyUrl: offer.directBuyUrl
     })),
     relevance,
     shareUrl: stripDomain(shareUrl),
