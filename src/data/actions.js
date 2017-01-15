@@ -34,7 +34,7 @@ export function makeUbApiActionCreator (_apiCall, startActionType, successAction
   return function (params) {
     return async (dispatch, getState) => {
       const ubApiBaseUrl = 'https://api.ub.io';
-      const ubAuthenticationToken = null;
+      const ubAuthenticationToken = 'f8e358ab40f0bc08e79a284864f0e6097c2501f2fc4f3e8719e8d81cf38484ca153ee32f62ae1e682605d20062629c0cf01d08a8cde8d107a521780cc19acf07';
       dispatch({ ...params, type: startActionType });
       try {
         const data = await _apiCall(ubApiBaseUrl, ubAuthenticationToken, params);

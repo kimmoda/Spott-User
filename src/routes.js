@@ -30,6 +30,7 @@ import MediumScenes from './pages/medium/view/scenes';
 import MediumTabs from './pages/medium/view/tabs';
 import ResetPassword from './pages/resetPassword';
 import ResetPasswordSuccess from './pages/resetPassword/success';
+import Basket from './pages/basket/view';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
@@ -217,6 +218,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           </Route>
           <Route component={ProfileSavedScenes} path='saved-scenes' />
         </Route>
+
+        <Route component={Basket} path='basket' />
+
       </Route>
     );
   }

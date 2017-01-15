@@ -14,9 +14,11 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import { LOADED } from '../../../data/statusTypes';
 import WishlistButton from '../../profile/view/wishlistButton';
+import { addToBasket } from '../../basket/actions';
 
 @localized
 @connect(productSelector, (dispatch) => ({
+  addToBasket: bindActionCreators(addToBasket, dispatch),
   onChangeImageSelection: bindActionCreators(actions.changeImageSelection, dispatch),
   loadProduct: bindActionCreators(actions.loadProduct, dispatch),
   loadUbProduct: bindActionCreators(actions.loadUbProduct, dispatch),
@@ -27,6 +29,7 @@ import WishlistButton from '../../profile/view/wishlistButton';
 export default class ProductDetail extends Component {
 
   static propTypes = {
+    addToBasket: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     loadProduct: PropTypes.func.isRequired,
     loadUbProduct: PropTypes.func.isRequired,
@@ -65,6 +68,7 @@ export default class ProductDetail extends Component {
     this.share = ::this.share;
     this.onClose = ::this.onClose;
     this.onBuyClick = ::this.onBuyClick;
+    this.onUbAddClick = ::this.onUbAddClick;
     this.product = this.props.params.productId;
     this.renderProduct = ::this.renderProduct;
     this.renderNotFoundError = ::this.renderNotFoundError;
@@ -111,6 +115,11 @@ export default class ProductDetail extends Component {
     // Submit form
     form.submit();
     form.remove();
+  }
+
+  async onUbAddClick (e) {
+    e.preventDefault();
+    await this.props.addToBasket({ productId: this.props.product.getIn([ 'ub', 'id' ]) });
   }
 
   static styles = {
@@ -460,9 +469,9 @@ export default class ProductDetail extends Component {
               </div>}
               <div style={styles.details.buttons.wrapper}>
                 {product.getIn([ 'ub', 'id' ])
-                  ? <button disabled={outOfStock} key='buyButton' style={[ greenButtonStyle, outOfStock && greenButtonStyle.disabled ]} onClick={this.onBuyClick}>
-                    {outOfStock ? t('productDetail.outOfStock') : t('productDetail.addToBasket')}
-                  </button>
+                  ? <button disabled={outOfStock} key='addToBasketButton' style={[ greenButtonStyle, outOfStock && greenButtonStyle.disabled ]} onClick={this.onUbAddClick}>
+                      {outOfStock ? t('productDetail.outOfStock') : t('productDetail.addToBasket')}
+                    </button>
                   : <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
                         <span style={styles.details.buttons.buyText}>
                           {t('productDetail.buyOnStore')}

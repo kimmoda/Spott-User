@@ -13,6 +13,7 @@ import localized from '../../../_common/localized';
 export default class RecentlyAddedToWishlist extends Component {
 
   static propTypes = {
+    location: PropTypes.object,
     recentlyAddedToWishlistProducts: ImmutablePropTypes.mapContains({
       _status: PropTypes.string,
       data: PropTypes.list
@@ -30,7 +31,7 @@ export default class RecentlyAddedToWishlist extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { recentlyAddedToWishlistProducts, style, t } = this.props;
+    const { recentlyAddedToWishlistProducts, style, t, location } = this.props;
 
     return (
       <div style={[ styles.wrapper, style ]}>
@@ -39,6 +40,7 @@ export default class RecentlyAddedToWishlist extends Component {
             renderEmptyComponent={() => <Message>{t('home.recentlyAddedToWishlist.empty')}</Message>}
             renderNotFoundComponent={() => <Message>{t('common.notExist')}</Message>}
             renderUnexpectedComponent={() => <Message>{t('common.unexpected')}</Message>}
+            tileProps={{ location }}
             title={t('home.recentlyAddedToWishlist.title')} />
         </Container>
       </div>

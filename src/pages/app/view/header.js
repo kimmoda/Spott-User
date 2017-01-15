@@ -48,9 +48,23 @@ const styles = {
       }
     }
   },
+  basket: {
+    container: {
+      margin: '6px 40px 0 auto',
+      position: 'relative'
+    },
+    dot: {
+      position: 'absolute',
+      width: '6px',
+      height: '6px',
+      borderRadius: '50%',
+      backgroundColor: colors.darkPink,
+      top: '-3px',
+      left: '22px'
+    }
+  },
   userSection: {
     container: {
-      flex: '1',
       textAlign: 'right'
     },
     trigger: {
@@ -113,6 +127,7 @@ const styles = {
 @Radium
 class Header extends Component {
 
+  // noinspection Eslint
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     currentPathname: PropTypes.string.isRequired,
@@ -148,6 +163,24 @@ class Header extends Component {
           <div style={styles.logoSection.container}>
             <Link to={`/${currentLocale}`}>
               <img alt={t('_common.header.home')} src={floating ? spottWhiteImage : spottBlackImage} style={styles.logoSection.logo} />
+            </Link>
+          </div>
+          <div style={styles.basket.container}>
+            <Link to={`/${currentLocale}/basket`}>
+              <div style={styles.basket.dot} />
+              <svg height='23' viewBox='0 0 24 23' width='24' xmlns='http://www.w3.org/2000/svg' >
+                <defs>
+                  <path d='M2.4 19.5c0 .3.3.5.6.5h14c.3 0 .5-.2.6-.5l2.3-11c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.4.5l2.4 11z' id='a'/>
+                  <mask height='15' id='b' width='22.8' x='-1.5' y='-1.5'>
+                    <path d='M-1.4 6.5h22.8v15H-1.4z' fill='#fff'/>
+                    <path d='M2.4 19.5c0 .3.3.5.6.5h14c.3 0 .5-.2.6-.5l2.3-11c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.4.5l2.4 11z' id='a'/>
+                  </mask>
+                </defs>
+                <g fill='none' fillRule='evenodd' stroke={10 ? '#000' : '#A7A6A9'} transform='translate(2 1)'>
+                  <path d='M2.4 19.5c0 .3.3.5.6.5h14c.3 0 .5-.2.6-.5l2.3-11c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.4.5l2.4 11z' id='a' mask='url(#b)' strokeWidth='3'/>
+                  <path d='M19 7l-6-7M1 7l6-7M10 11v6M6 11v6M14 11v6' strokeWidth='1.5'/>
+                </g>
+              </svg>
             </Link>
           </div>
           <div style={styles.userSection.container}>

@@ -24,6 +24,7 @@ import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
 import resetPassword from './pages/resetPassword/reducer';
 import home from './pages/home/reducer';
+import basket from './pages/basket/reducer';
 
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
@@ -42,7 +43,8 @@ const rootReducer = combineReducers({
   resetPassword,
   routing: routerReducer,
   scene,
-  home
+  home,
+  basket
 });
 
 /**

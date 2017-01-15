@@ -27,7 +27,8 @@ export const colors = {
   whiteTwo: '#fcfcfc',
   white: '#ffffff',
   yellow: '#f6bf26',
-  coolGreen: '#2ecb70'
+  coolGreen: '#2ecb70',
+  borderGrey: '#d7d7d7'
 };
 
 export const fontWeights = {
