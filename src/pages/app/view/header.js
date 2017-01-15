@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../app/actions';
 import { authenticationTokenSelector, currentUserAvatarSelector, currentUserFirstnameSelector, currentUserLastnameSelector, currentUserIdSelector } from '../../app/selector';
+import { basketDataSelector } from '../../basket/selectors';
 import { slugify } from '../../../utils';
 
 const spottBlackImage = require('./spott.svg');
@@ -129,6 +130,7 @@ class Header extends Component {
 
   // noinspection Eslint
   static propTypes = {
+    basketData: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
     currentPathname: PropTypes.string.isRequired,
     currentUserAvatar: ImmutablePropTypes.mapContains({
@@ -156,7 +158,7 @@ class Header extends Component {
   }
 
   render () {
-    const { currentLocale, currentUsername, currentUserAvatar, currentUserId, floating, isAuthenticated, noSignInButtonInHeader, t } = this.props;
+    const { currentLocale, currentUsername, currentUserAvatar, currentUserId, floating, isAuthenticated, noSignInButtonInHeader, t, basketData } = this.props;
     return (
       <header style={[ styles.wrapper.base, floating && styles.wrapper.floating ]}>
         <Container style={styles.container}>
@@ -167,7 +169,7 @@ class Header extends Component {
           </div>
           <div style={styles.basket.container}>
             <Link to={`/${currentLocale}/basket`}>
-              <div style={styles.basket.dot} />
+              {basketData.get('transactions') && <div style={styles.basket.dot} />}
               <svg height='23' viewBox='0 0 24 23' width='24' xmlns='http://www.w3.org/2000/svg' >
                 <defs>
                   <path d='M2.4 19.5c0 .3.3.5.6.5h14c.3 0 .5-.2.6-.5l2.3-11c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.4.5l2.4 11z' id='a'/>
@@ -176,7 +178,7 @@ class Header extends Component {
                     <path d='M2.4 19.5c0 .3.3.5.6.5h14c.3 0 .5-.2.6-.5l2.3-11c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.4.5l2.4 11z' id='a'/>
                   </mask>
                 </defs>
-                <g fill='none' fillRule='evenodd' stroke={10 ? '#000' : '#A7A6A9'} transform='translate(2 1)'>
+                <g fill='none' fillRule='evenodd' stroke={basketData.get('transactions') ? '#000' : '#A7A6A9'} transform='translate(2 1)'>
                   <path d='M2.4 19.5c0 .3.3.5.6.5h14c.3 0 .5-.2.6-.5l2.3-11c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.4.5l2.4 11z' id='a' mask='url(#b)' strokeWidth='3'/>
                   <path d='M19 7l-6-7M1 7l6-7M10 11v6M6 11v6M14 11v6' strokeWidth='1.5'/>
                 </g>
@@ -217,7 +219,8 @@ export default connect((state) => ({
   isAuthenticated: Boolean(authenticationTokenSelector(state)),
   currentUserAvatar: currentUserAvatarSelector(state),
   currentUsername: `${currentUserFirstnameSelector(state)} ${currentUserLastnameSelector(state)}`,
-  currentUserId: currentUserIdSelector(state)
+  currentUserId: currentUserIdSelector(state),
+  basketData: basketDataSelector(state)
 }), (dispatch) => ({
   logout: bindActionCreators(actions.doLogout, dispatch)
 }))(Header);
