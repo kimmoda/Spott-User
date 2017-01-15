@@ -20,7 +20,7 @@ function optionsWithoutBody (method, authenticationToken) {
   };
 }
 
-function optionsWithBody (method, authenticationToken, body) {
+function optionsWithBody (method, authenticationToken, body = {}) {
   const headers = new Headers({ // Request headers
     'Content-Type': 'application/json; charset=UTF-8',
     Accept: 'application/json, text/javascript, */*; q=0.01'

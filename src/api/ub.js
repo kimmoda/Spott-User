@@ -29,6 +29,15 @@ export async function addProductToBasket (baseUrl, authenticationToken, { produc
   }
 }
 
+export async function removeProductFromBasket (baseUrl, authenticationToken, { lineId }) {
+  try {
+    const { body } = await request.del(authenticationToken, `${baseUrl}/basket/remove/${lineId}`);
+    return body;
+  } catch (error) {
+    throw '_common.unknown';
+  }
+}
+
 export async function loadBasket (baseUrl, authenticationToken) {
   try {
     const { body } = await request.get(authenticationToken, `${baseUrl}/basket/get`);

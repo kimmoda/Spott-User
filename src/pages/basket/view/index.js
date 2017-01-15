@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { colors, fontWeights, makeTextStyle, Container, Button, pinkButtonStyle, mediaQueries, Modal, smallDialogStyle } from '../../_common/buildingBlocks';
 import { bindActionCreators } from 'redux';
 import localized from '../../_common/localized';
-import hoverable from '../../_common/hoverable';
 import Radium from 'radium';
 import RecentlyAddedToWishlist from '../../home/view/recentlyAddedToWishlist';
 import * as actions from '../actions';
@@ -113,10 +112,12 @@ const st = {
         ...makeTextStyle(fontWeights.regular, '13px'),
         color: colors.coolGray
       },
-      close: {
+      remove: {
         marginLeft: 'auto',
-        ...makeTextStyle(fontWeights.regular, '12px'),
-        color: colors.coolGray
+        ...makeTextStyle(fontWeights.regular, '18px'),
+        color: colors.coolGray,
+        cursor: 'pointer',
+        transform: 'scaleY(0.7)'
       },
       name: {
         ...makeTextStyle(fontWeights.medium, '15px', '-0.2px', '24px'),
@@ -294,10 +295,10 @@ const st = {
 };
 
 @localized
-@hoverable
 @connect(basketSelector, (dispatch) => ({
   loadBasketData: bindActionCreators(actions.loadBasketData, dispatch),
-  loadUserData: bindActionCreators(homeActions.loadUserData, dispatch)
+  loadUserData: bindActionCreators(homeActions.loadUserData, dispatch),
+  removeFromBasket: bindActionCreators(actions.removeFromBasket, dispatch)
 }))
 @Radium
 export default class Basket extends Component {
@@ -307,6 +308,7 @@ export default class Basket extends Component {
     loadBasketData: PropTypes.func.isRequired,
     loadUserData: PropTypes.func.isRequired,
     location: PropTypes.object,
+    removeFromBasket: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired
   };
 
@@ -343,6 +345,10 @@ export default class Basket extends Component {
     this.setState({ isModalDeliveryOpen: false });
   }
 
+  onRemoveProductClick (lineId) {
+    this.props.removeFromBasket({ lineId });
+  }
+
   render () {
     const { basketData } = this.props;
     const basketItems = basketData.get('transactions');
@@ -374,7 +380,7 @@ export default class Basket extends Component {
                         <div style={st.box.item.content}>
                           <div style={st.box.item.header}>
                             <div style={st.box.item.brand}>New Balance</div>
-                            <div style={st.box.item.close}>X</div>
+                            <div style={st.box.item.remove} onClick={this.onRemoveProductClick.bind(this, line.get('id'))}>X</div>
                           </div>
                           <div style={st.box.item.name}>
                             {line.getIn([ 'product', 'title' ])}

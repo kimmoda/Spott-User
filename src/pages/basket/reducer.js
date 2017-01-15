@@ -8,6 +8,8 @@ export default function basketReducer (state = Map({
   switch (action.type) {
     case actions.ADD_PRODUCT_SUCCESS:
       return state.set('basketData', fromJS(action.data.basket));
+    case actions.REMOVE_PRODUCT_SUCCESS:
+      return state.set('basketData', fromJS(action.data.basket));
     case actions.LOAD_BASKET_SUCCESS:
       return state.set('basketData', fromJS(action.data.basket));
     default:
