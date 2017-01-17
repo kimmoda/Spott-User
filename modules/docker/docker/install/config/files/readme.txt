@@ -1,1 +1,0 @@
-Put static configuration files here
