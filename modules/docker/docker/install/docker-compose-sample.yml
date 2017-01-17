@@ -7,21 +7,19 @@ services:
     container_name: spott.website.config
     volumes:
       - configData:/var/lib/appiness
+      
   seoserver:
-    image: docker.appiness.mobi/spott.website.seoserver
-    container_name: spott.website.seoserver
-    ports:
-      - 4000:4000
+    extends:
+      file: ./base/docker-compose-base.yml
+      service: seoserver
     depends_on:
       - config
     volumes_from:
       - config
   web:
-    image: ${appiness.docker.registry}/spott.website:${project.version}
-    container_name: spott.website
-    ports:
-      - 80:80
-      - 443:443
+    extends:
+      file: ./base/docker-compose-base.yml
+      service: web
     depends_on:
       - config
       - seoserver
