@@ -1,9 +1,31 @@
 version: '2'
 
 services:
-  web:
-    extends:
-      file: ./base/docker-compose-base.yml
-      service: web
+
+  config:
+    image: docker.appiness.mobi/spott-${DEPLOY_ENV}-website-config
+    container_name: spott.website.config
     volumes:
-      - ../data/:/var/lib/appiness/   
+      - configData:/var/lib/appiness
+  seoserver:
+    image: docker.appiness.mobi/spott.website.seoserver
+    container_name: spott.website.seoserver
+    ports:
+      - 4000:4000
+    depends_on:
+      - config
+    volumes_from:
+      - config
+  web:
+    image: ${appiness.docker.registry}/spott.website:${project.version}
+    container_name: spott.website
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - config
+      - seoserver
+    volumes_from:
+      - config
+volumes:
+  configData:

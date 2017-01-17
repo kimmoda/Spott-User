@@ -1,9 +1,0 @@
-version: '2'
-
-services:
-  web:
-    image: ${appiness.docker.registry}/spott.website:${project.version}
-    container_name: spott.website
-    ports:
-      - 80:80
-      - 443:443
