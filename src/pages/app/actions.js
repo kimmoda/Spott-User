@@ -1,6 +1,7 @@
 import cookie from 'react-cookie';
 import * as api from '../../api/configuration';
 import { apiBaseUrlSelector } from './selector';
+import { initUbToken, loadBasketData } from '../basket/actions';
 
 export const CONFIGURE = 'CONFIGURE';
 export function doInit () {
@@ -43,9 +44,16 @@ export function doLogin ({ email, password }) {
       const baseUrl = apiBaseUrlSelector(getState());
       const data = await api.login(baseUrl, { email, password });
       dispatch({ data, type: LOGIN_SUCCESS });
+      if (data.user.id) {
+        const ubToken = await dispatch(initUbToken(data.user.id));
+        if (ubToken) {
+          data.ubAuthenticationToken = ubToken;
+        }
+      }
       if (localStorage) {
         localStorage.setItem('session', JSON.stringify(data));
       }
+      await dispatch(loadBasketData());
       return data;
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });

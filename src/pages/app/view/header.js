@@ -168,8 +168,9 @@ class Header extends Component {
             </Link>
           </div>
           <div style={styles.basket.container}>
-            <Link to={`/${currentLocale}/basket`}>
-              {basketData.get('transactions') && <div style={styles.basket.dot} />}
+            {!noSignInButtonInHeader &&
+            <Link to={isAuthenticated ? `/${currentLocale}/basket` : { pathname: `/${currentLocale}/login`, state: { modal: true, returnTo: this.props.currentPathname } }}>
+              {(basketData.get('transactions') && Boolean(basketData.get('transactions').size)) && <div style={styles.basket.dot} />}
               <svg height='23' viewBox='0 0 24 23' width='24' xmlns='http://www.w3.org/2000/svg' >
                 <defs>
                   <path d='M2.4 19.5c0 .3.3.5.6.5h14c.3 0 .5-.2.6-.5l2.3-11c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.4.5l2.4 11z' id='a'/>
@@ -178,12 +179,12 @@ class Header extends Component {
                     <path d='M2.4 19.5c0 .3.3.5.6.5h14c.3 0 .5-.2.6-.5l2.3-11c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.4.5l2.4 11z' id='a'/>
                   </mask>
                 </defs>
-                <g fill='none' fillRule='evenodd' stroke={basketData.get('transactions') ? '#000' : '#A7A6A9'} transform='translate(2 1)'>
+                <g fill='none' fillRule='evenodd' stroke={(basketData.get('transactions') && Boolean(basketData.get('transactions').size)) ? '#000' : '#A7A6A9'} transform='translate(2 1)'>
                   <path d='M2.4 19.5c0 .3.3.5.6.5h14c.3 0 .5-.2.6-.5l2.3-11c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.4.5l2.4 11z' id='a' mask='url(#b)' strokeWidth='3'/>
                   <path d='M19 7l-6-7M1 7l6-7M10 11v6M6 11v6M14 11v6' strokeWidth='1.5'/>
                 </g>
               </svg>
-            </Link>
+            </Link> }
           </div>
           <div style={styles.userSection.container}>
             {!noSignInButtonInHeader && isAuthenticated &&

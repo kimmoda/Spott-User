@@ -1,5 +1,6 @@
 import { Map, fromJS } from 'immutable';
 import * as actions from './actions';
+import * as ubActions from '../basket/actions';
 import { combineReducers } from 'redux-immutablejs';
 import {
   REGISTER_USER_START,
@@ -11,7 +12,8 @@ import {
 function authentication (state = fromJS({
   isLoading: false,
   user: {},
-  authenticationToken: null
+  authenticationToken: null,
+  ubAuthenticationToken: null
 }), action) {
   switch (action.type) {
     case actions.LOGIN_REQUEST:
@@ -31,7 +33,14 @@ function authentication (state = fromJS({
     case actions.LOGOUT_SUCCESS:
       return state
         .set('authenticationToken', null)
+        .set('ubAuthenticationToken', null)
         .set('user', Map({}));
+    case ubActions.LOAD_UB_TOKEN_SUCCESS:
+      return state
+        .set('ubAuthenticationToken', action.data);
+    case ubActions.SET_UB_TOKEN_SUCCESS:
+      return state
+        .set('ubAuthenticationToken', action.data);
     default:
       return state;
   }

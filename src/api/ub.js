@@ -7,35 +7,34 @@ export async function crawlProduct (baseUrl, authenticationToken, { productUrl }
     const { body } = await requestUb.post(null, `${baseUrl}/products/crawl`, { url: productUrl, country: 'BE', wait: true });
     return transformUbProduct({ body, productUrl });
   } catch (error) {
-    throw '_common.unknown';
+    throw error;
   }
 }
 
 export async function getNewUbToken (baseUrl, authenticationToken) {
   try {
-    const { access_token: { token } } = await requestUb.post(authenticationToken, `${baseUrl}/oauth/issue`, null);
+    const { body: { access_token: { token } } } = await requestUb.post(authenticationToken, `${baseUrl}/oauth/issue`);
     return token;
   } catch (error) {
-    throw '_common.unknown';
+    throw error;
   }
 }
 
-export async function geUbToken (baseUrl, authenticationToken, { userId }) {
+export async function geUbToken (baseUrl, authenticationToken, locale, { userId }) {
   try {
-    const { body: { token } } = await request.get(authenticationToken, `${baseUrl}/v003/user/users/${userId}/universalBasketAccessToken`);
+    const { body: { token } } = await request.get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/universalBasketAccessToken`);
     return token;
   } catch (error) {
-    console.log(error);
-    throw '_common.unknown';
+    throw error;
   }
 }
 
-export async function setUbToken (baseUrl, authenticationToken, { userId, ubToken }) {
+export async function setUbToken (baseUrl, authenticationToken, locale, { userId, ubToken }) {
   try {
-    const result = await request.post(authenticationToken, `${baseUrl}/v003/user/users/${userId}/universalBasketAccessToken`, { token: ubToken });
-    return result;
+    const { body: { token } } = await request.post(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/universalBasketAccessToken`, { token: ubToken });
+    return token;
   } catch (error) {
-    throw '_common.unknown';
+    throw error;
   }
 }
 
@@ -44,7 +43,7 @@ export async function addProductToBasket (baseUrl, authenticationToken, { produc
     const { body } = await requestUb.post(authenticationToken, `${baseUrl}/basket/add/${productId}`, { affiliateUrl: 'https://spott.it/' });
     return body;
   } catch (error) {
-    throw '_common.unknown';
+    throw error;
   }
 }
 
@@ -53,7 +52,7 @@ export async function removeProductFromBasket (baseUrl, authenticationToken, { l
     const { body } = await requestUb.del(authenticationToken, `${baseUrl}/basket/remove/${lineId}`);
     return body;
   } catch (error) {
-    throw '_common.unknown';
+    throw error;
   }
 }
 
@@ -62,7 +61,7 @@ export async function loadBasket (baseUrl, authenticationToken) {
     const { body } = await requestUb.get(authenticationToken, `${baseUrl}/basket/get`);
     return body;
   } catch (error) {
-    throw '_common.unknown';
+    throw error;
   }
 }
 

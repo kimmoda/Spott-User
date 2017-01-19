@@ -1,4 +1,4 @@
-import { makeUbApiActionCreator } from '../../data/actions';
+import { makeUbApiActionCreator, makeApiActionCreator } from '../../data/actions';
 import * as ubApi from '../../api/ub';
 
 // Action types
@@ -39,20 +39,23 @@ export const loadBasketData = makeUbApiActionCreator(ubApi.loadBasket, LOAD_BASK
 
 export const loadNewUbToken = makeUbApiActionCreator(ubApi.getNewUbToken, GET_UB_TOKEN_START, GET_UB_TOKEN_SUCCESS, GET_UB_TOKEN_ERROR);
 
-export const loadUbToken = makeUbApiActionCreator(ubApi.geUbToken, LOAD_UB_TOKEN_START, LOAD_UB_TOKEN_SUCCESS, LOAD_UB_TOKEN_ERROR);
+export const loadUbToken = makeApiActionCreator(ubApi.geUbToken, LOAD_UB_TOKEN_START, LOAD_UB_TOKEN_SUCCESS, LOAD_UB_TOKEN_ERROR);
 
-export const setUbToken = makeUbApiActionCreator(ubApi.setUbToken, SET_UB_TOKEN_START, SET_UB_TOKEN_SUCCESS, SET_UB_TOKEN_ERROR);
+export const setUbToken = makeApiActionCreator(ubApi.setUbToken, SET_UB_TOKEN_START, SET_UB_TOKEN_SUCCESS, SET_UB_TOKEN_ERROR);
 
 // @TODO in progress
-export async function initUbToken (userId) {
+export function initUbToken (userId) {
   return async (dispatch, getState) => {
     try {
-      const ubToken = await loadUbToken({ userId });
-      if (!ubToken) {
-        const newUbToken = await dispatch(loadNewUbToken());
-        return await dispatch(setUbToken({ userId, ubToken: newUbToken }));
-      }
+      return await dispatch(loadUbToken({ userId }));
     } catch (error) {
+      if (error.statusCode === 404) {
+        const ubToken = await dispatch(loadNewUbToken());
+        if (ubToken) {
+          return await dispatch(setUbToken({ userId, ubToken }));
+        }
+        return null;
+      }
       throw error;
     }
   };

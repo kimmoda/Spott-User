@@ -325,7 +325,7 @@ export default class Basket extends Component {
     if (this.props.isAuthenticated) {
       this.props.loadUserData();
     }
-    if (!this.props.basketData.size) {
+    if (this.props.isAuthenticated && !this.props.basketData.size) {
       this.props.loadBasketData();
     }
   }
@@ -357,7 +357,7 @@ export default class Basket extends Component {
       <Container style={st.container}>
         <div style={st.title}>My Basket</div>
         <div>
-          {!basketItems &&
+          {(!basketItems || !basketItems.size) &&
           <div style={[ st.box, st.box.empty ]}>
             <div>
               <img src={iconBasketLarge} width='48'/>
@@ -367,7 +367,7 @@ export default class Basket extends Component {
             <Button style={[ pinkButtonStyle, st.box.empty.btn ]}>START SHOPPING</Button>
             <div style={st.box.empty.history}>View Order History</div>
           </div>}
-          {basketItems &&
+          {(basketItems && Boolean(basketItems.size)) &&
           <div style={st.filled}>
             <div style={st.orders}>
               {basketItems.map((item, index) =>
