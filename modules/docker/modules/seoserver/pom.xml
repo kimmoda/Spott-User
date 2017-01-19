@@ -7,30 +7,13 @@
 		<version>01.01-ub-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
-	<artifactId>appiness.spott.website.docker.nginx</artifactId>
+	<artifactId>appiness.spott.website.docker.seoserver</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
 
 	<properties>
-		<image-name>${appiness.docker.registry}/spott.website</image-name>
+		<image-name>${appiness.docker.registry}/spott.website.seoserver</image-name>
 	</properties>
-
-	<dependencies>
-
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>appiness.docker.nginx</artifactId>
-			<type>pom</type>
-		</dependency>
-
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>appiness.spott.website.web</artifactId>
-			<version>${project.version}</version>
-			<type>pom</type>
-		</dependency>
-
-	</dependencies>
 
 	<build>
 
@@ -49,16 +32,6 @@
 				<includes>
 					<include>**/*</include>
 				</includes>
-			</resource>
-			<resource>
-				<directory>${project.basedir}/../../../../dist</directory>
-				<targetPath>${project.build.directory}/classes/files/docroot</targetPath>
-				<includes>
-					<include>**/*</include>
-				</includes>
-                <excludes>
-                    <exclude>config/**</exclude>
-                </excludes>
 			</resource>
 		</resources>
 		<plugins>

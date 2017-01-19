@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>modules/nginx</module>
+		<module>modules/seoserver</module>
 	</modules>
 
 	<properties>
