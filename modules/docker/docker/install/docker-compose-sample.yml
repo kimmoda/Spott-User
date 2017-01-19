@@ -3,7 +3,7 @@ version: '2'
 services:
 
   config:
-    image: docker.appiness.mobi/spott-${DEPLOY_ENV}-website-config
+    image: docker.appiness.mobi/spott-${DEPLOY_ENV}-website-config:${CONFIG_VERSION}
     container_name: spott.website.config
     volumes:
       - configData:/var/lib/appiness
