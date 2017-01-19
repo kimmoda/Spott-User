@@ -12,8 +12,7 @@ if [ ! -f "$SCRIPT_DIR/config_version" ]; then
     . ./configure.sh
 fi
 
-# Restart
-docker-compose pull
-docker-compose up -d
+# Stop
+docker-compose down -v
 
 cd $CWD
