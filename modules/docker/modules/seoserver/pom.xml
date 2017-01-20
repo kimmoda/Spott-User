@@ -56,6 +56,7 @@
 					<serverId>appiness</serverId>
 					<registryUrl>${appiness.docker.registry.url}</registryUrl>
 					<forceTags>true</forceTags>
+					<noCache>true</noCache>
 					<imageTags>
 						<imageTag>${project.version}</imageTag>
 						<imageTag>latest</imageTag>
