@@ -79,8 +79,8 @@ export default class ProductDetail extends Component {
     // (Re)fetch the product.
     await this.props.loadProduct(this.props.params.productId);
 
-    if (this.props.product.getIn([ 'offerings', '0', 'universalBasketEnabled' ]) && this.props.product.getIn([ 'offerings', '0', 'directBuyUrl' ])) {
-      await this.props.loadUbProduct(this.props.product.getIn([ 'offerings', '0', 'directBuyUrl' ]), this.props.params.productId);
+    if (this.props.product.getIn([ 'offerings', '0', 'universalBasketEnabled' ]) && this.props.product.getIn([ 'offerings', '0', 'productUrl' ])) {
+      await this.props.loadUbProduct(this.props.product.getIn([ 'offerings', '0', 'productUrl' ]), this.props.params.productId);
     }
   }
 

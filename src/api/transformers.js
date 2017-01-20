@@ -68,7 +68,8 @@ export function transformDetailedProduct ({ available, brand, description, longN
       price: offer.price,
       shop: offer.shop.name,
       universalBasketEnabled: offer.shop.universalBasketEnabled,
-      directBuyUrl: offer.directBuyUrl
+      directBuyUrl: offer.directBuyUrl,
+      productUrl: offer.productUrl
     })),
     relevance,
     shareUrl: stripDomain(shareUrl),
