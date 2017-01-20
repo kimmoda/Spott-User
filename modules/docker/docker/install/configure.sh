@@ -12,7 +12,7 @@ export CONFIG_VERSION=$(date +"%C%y%m%d-%H%M%S")
 echo $CONFIG_VERSION > config_version
 
 # Create the configuration container
-docker build -t docker.appiness.mobi/spott-$DEPLOY_ENV-website-config:$CONFIG_VERSION $SCRIPT_DIR/config
+docker build --no-cache -t docker.appiness.mobi/spott-$DEPLOY_ENV-website-config:$CONFIG_VERSION $SCRIPT_DIR/config
 docker push docker.appiness.mobi/spott-$DEPLOY_ENV-website-config:$CONFIG_VERSION
 
 cd $CWD
