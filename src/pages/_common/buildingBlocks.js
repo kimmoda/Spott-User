@@ -859,3 +859,14 @@ export const checkbox = Radium((props) => {
     </div>
   );
 });
+
+export const textInputStyle = {
+  width: '100%',
+  height: '40px',
+  borderRadius: '2px',
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  borderColor: colors.borderGrey,
+  fontSize: '14px',
+  paddingLeft: '13px'
+};

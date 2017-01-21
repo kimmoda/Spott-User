@@ -1,7 +1,7 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { colors, fontWeights, makeTextStyle, Container, Button, pinkButtonStyle, mediaQueries, Modal, smallDialogStyle } from '../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, Container, Button, pinkButtonStyle, mediaQueries, Modal, smallDialogStyle, textInputStyle } from '../../_common/buildingBlocks';
 import { bindActionCreators } from 'redux';
 import localized from '../../_common/localized';
 import Radium from 'radium';
@@ -9,6 +9,7 @@ import RecentlyAddedToWishlist from '../../home/view/recentlyAddedToWishlist';
 import * as actions from '../actions';
 import * as homeActions from '../../home/actions';
 import { basketSelector } from '../selectors';
+import { reduxForm, Field } from 'redux-form/immutable';
 
 const iconBasketLarge = require('./iconBasketLarge.svg');
 
@@ -188,7 +189,8 @@ const st = {
         color: colors.black
       },
       add: {
-        color: colors.darkPink
+        color: colors.darkPink,
+        cursor: 'pointer'
       }
     }
   },
@@ -228,26 +230,6 @@ const st = {
     display: 'flex'
   },
   deliveryModal: {
-    width: '430px',
-    backgroundColor: colors.whiteGray,
-    borderRadius: '4px',
-    padding: '29px 0 26px 0',
-    title: {
-      ...makeTextStyle(fontWeights.light, '30px'),
-      color: colors.dark,
-      padding: '0 30px'
-    },
-    items: {
-      borderTop: `1px solid ${colors.borderGrey}`,
-      backgroundColor: colors.white,
-      marginTop: '28px'
-    },
-    item: {
-      borderBottom: `1px solid ${colors.borderGrey}`,
-      padding: '16px 24px 12px 24px',
-      display: 'flex',
-      alignItems: 'center'
-    },
     dot: {
       width: '20px',
       height: '20px',
@@ -282,6 +264,31 @@ const st = {
       marginLeft: 'auto',
       ...makeTextStyle(fontWeights.regular, '16px'),
       color: colors.coolGray
+    }
+  },
+  modal: {
+    width: '430px',
+    backgroundColor: colors.whiteGray,
+    borderRadius: '4px',
+    padding: '29px 0 26px 0',
+    title: {
+      ...makeTextStyle(fontWeights.light, '30px'),
+      color: colors.dark,
+      padding: '0 30px'
+    },
+    items: {
+      borderTop: `1px solid ${colors.borderGrey}`,
+      backgroundColor: colors.white,
+      marginTop: '28px'
+    },
+    item: {
+      borderBottom: `1px solid ${colors.borderGrey}`,
+      padding: '16px 24px 12px 24px',
+      display: 'flex',
+      alignItems: 'center'
+    },
+    input: {
+      ...textInputStyle
     },
     btn: {
       width: '370px',
@@ -314,10 +321,13 @@ export default class Basket extends Component {
 
   constructor (props) {
     super(props);
+    this.onAddPersonalInfoClick = ::this.onAddPersonalInfoClick;
     this.onChangeDeliveryClick = ::this.onChangeDeliveryClick;
     this.onModalDeliveryClose = ::this.onModalDeliveryClose;
+    this.onModalPhoneClose = ::this.onModalPhoneClose;
     this.state = {
-      isModalDeliveryOpen: false
+      isModalDeliveryOpen: false,
+      isModalPhoneOpen: false
     };
   }
 
@@ -337,12 +347,20 @@ export default class Basket extends Component {
     }
   }
 
+  onAddPersonalInfoClick () {
+    this.setState({ isModalPhoneOpen: true });
+  }
+
   onChangeDeliveryClick () {
     this.setState({ isModalDeliveryOpen: true });
   }
 
   onModalDeliveryClose () {
     this.setState({ isModalDeliveryOpen: false });
+  }
+
+  onModalPhoneClose () {
+    this.setState({ isModalPhoneOpen: false });
   }
 
   onRemoveProductClick (lineId) {
@@ -404,15 +422,16 @@ export default class Basket extends Component {
                         ? item.getIn([ 'selectedShippingOption', 'price', 'text' ])
                         : 'FREE'}
                       </div>
+                    {this.state.isModalDeliveryOpen &&
                     <Modal
-                      isOpen={this.state.isModalDeliveryOpen}
+                      isOpen
                       style={smallDialogStyle}
                       onClose={this.onModalDeliveryClose}>
-                      <div style={st.deliveryModal}>
-                        <div style={st.deliveryModal.title}>Delivery Method</div>
-                        <div style={st.deliveryModal.items}>
+                      <div style={st.modal}>
+                        <div style={st.modal.title}>Delivery Method</div>
+                        <div style={st.modal.items}>
                           {item.getIn([ 'shop', 'shippingOptions' ]).map((option) =>
-                            <div key={`ship_option_${option.get('id')}`} style={st.deliveryModal.item}>
+                            <div key={`ship_option_${option.get('id')}`} style={st.modal.item}>
                               <div style={[ st.deliveryModal.dot, st.deliveryModal.dot.active ]}>
                                 <div style={st.deliveryModal.dot.cir}/>
                               </div>
@@ -428,9 +447,9 @@ export default class Basket extends Component {
                             </div>
                           )}
                         </div>
-                        <Button style={[ pinkButtonStyle, st.deliveryModal.btn ]}>Save</Button>
+                        <Button style={[ pinkButtonStyle, st.modal.btn ]}>Save</Button>
                       </div>
-                    </Modal>
+                    </Modal>}
                   </div>
                   <div style={st.box.footer}>
                     <div>Total</div>
@@ -445,7 +464,22 @@ export default class Basket extends Component {
                 <div style={st.box.items}>
                   <div style={st.box.itemCheckout}>
                     <div style={st.box.itemCheckout.text}>Personal Info</div>
-                    <div style={st.box.itemCheckout.add}>Add</div>
+                    <div style={st.box.itemCheckout.add} onClick={this.onAddPersonalInfoClick}>Add</div>
+                    {this.state.isModalPhoneOpen &&
+                    <Modal
+                      isOpen
+                      style={smallDialogStyle}
+                      onClose={this.onModalPhoneClose}>
+                      <div style={st.modal}>
+                        <div style={st.modal.title}>Mobile Number</div>
+                        <div style={st.modal.items}>
+                          <div style={st.modal.item}>
+                            <input style={st.modal.input} type='text'/>
+                          </div>
+                        </div>
+                        <Button style={[ pinkButtonStyle, st.modal.btn ]}>Save</Button>
+                      </div>
+                    </Modal>}
                   </div>
                   <div style={st.box.itemCheckout}>
                     <div style={st.box.itemCheckout.text}>Delivery Address</div>

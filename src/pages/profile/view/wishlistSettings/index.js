@@ -1,7 +1,7 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { colors, fontWeights, makeTextStyle, Modal, smallDialogStyle, Button, pinkButtonStyle, darkButtonStyle, checkbox } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, Modal, smallDialogStyle, Button, pinkButtonStyle, darkButtonStyle, checkbox, textInputStyle } from '../../../_common/buildingBlocks';
 import { updateCurrentWishlist, removeCurrentWishlist } from '../../actions';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
@@ -21,15 +21,8 @@ const itemStyles = {
     color: colors.dark
   },
   formInput: {
-    width: '100%',
-    height: '40px',
-    borderRadius: '2px',
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    borderColor: '#d7d7d7',
     marginTop: '28px',
-    fontSize: '14px',
-    paddingLeft: '13px'
+    ...textInputStyle
   },
   formCheckbox: {
     marginTop: '20px'

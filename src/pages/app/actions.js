@@ -68,9 +68,16 @@ export function doLoginFacebook ({ facebookAccessToken }) {
     try {
       const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
       dispatch({ data, type: LOGIN_SUCCESS });
+      if (data.user.id) {
+        const ubToken = await dispatch(initUbToken(data.user.id));
+        if (ubToken) {
+          data.ubAuthenticationToken = ubToken;
+        }
+      }
       if (localStorage) {
         localStorage.setItem('session', JSON.stringify(data));
       }
+      await dispatch(loadBasketData());
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });
       throw error;
@@ -83,9 +90,16 @@ export function doTryLoginFacebook ({ facebookAccessToken }) {
     const baseUrl = apiBaseUrlSelector(getState());
     const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
     dispatch({ data, type: LOGIN_SUCCESS });
+    if (data.user.id) {
+      const ubToken = await dispatch(initUbToken(data.user.id));
+      if (ubToken) {
+        data.ubAuthenticationToken = ubToken;
+      }
+    }
     if (localStorage) {
       localStorage.setItem('session', JSON.stringify(data));
     }
+    await dispatch(loadBasketData());
   };
 }
 
