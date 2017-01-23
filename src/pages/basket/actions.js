@@ -112,6 +112,11 @@ export function createUbUser (values, userId, personalInfo) {
       const { access_token } = await dispatch(verifyMobile({ code, number }));
       if (access_token) {
         await dispatch(setUbToken({ userId, ubToken: access_token }));
+
+        const session = JSON.parse(localStorage.getItem('session'));
+        session.ubAuthenticationToken = access_token;
+        localStorage.setItem('session', JSON.stringify(session));
+
         await dispatch(updatePersonalInfo({ number, email }));
         await dispatch(loadUbUser());
       }
