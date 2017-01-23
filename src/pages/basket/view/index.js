@@ -185,12 +185,18 @@ const st = {
       alignItems: 'center',
       justifyContent: 'space-between',
       ...makeTextStyle(fontWeights.regular, '16px'),
-      text: {
+      title: {
         color: colors.black
+      },
+      text: {
+        ...makeTextStyle(fontWeights.regular, '14px', 0, '20px'),
+        color: colors.coolGray
       },
       add: {
         color: colors.darkPink,
-        cursor: 'pointer'
+        cursor: 'pointer',
+        alignSelf: 'flex-start',
+        textDecoration: 'underline'
       }
     }
   },
@@ -288,7 +294,8 @@ const st = {
       alignItems: 'center'
     },
     input: {
-      ...textInputStyle
+      ...textInputStyle,
+      marginBottom: '18px'
     },
     btn: {
       width: '370px',
@@ -297,13 +304,138 @@ const st = {
       marginRight: 'auto',
       display: 'block',
       height: '42px'
+    },
+    form: {
+      borderTop: `1px solid ${colors.borderGrey}`,
+      borderBottom: `1px solid ${colors.borderGrey}`,
+      padding: '24px',
+      backgroundColor: colors.white,
+      marginTop: '28px'
+    },
+    label: {
+      ...makeTextStyle(fontWeights.medium, '13px'),
+      color: colors.slateGray,
+      marginBottom: '8px'
+    },
+    footer: {
+      ...makeTextStyle(fontWeights.medium, '13px', 0, '18px'),
+      color: colors.slateGray,
+      marginTop: '6px'
+    },
+    error: {
+      marginBottom: '10px',
+      color: '#ff0000'
     }
   }
 };
 
+@reduxForm({
+  form: 'basketPhoneForm'
+})
+@localized
+@Radium
+class ModalPhoneForm extends Component {
+  static propTypes = {
+    error: PropTypes.any,
+    handleSubmit: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
+  };
+
+  render () {
+    const { handleSubmit, onSubmit, onClose, error } = this.props;
+
+    return (
+    <Modal
+      isOpen
+      style={smallDialogStyle}
+      onClose={onClose}>
+      <div style={st.modal}>
+        <div style={st.modal.title}>Personal Info</div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div style={st.modal.form}>
+            <label style={st.modal.label}>E-Mail</label>
+            <Field
+              component='input'
+              name='email'
+              props={{ required: true, type: 'email' }}
+              style={st.modal.input}/>
+            <label style={st.modal.label}>Mobile Number</label>
+            <Field
+              component='input'
+              name='number'
+              props={{ required: true }}
+              style={st.modal.input}/>
+            {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
+            <div style={st.modal.footer}>
+              Mobile number info text .Lorem ipsum dolor sit amet,
+              consectetur adipiscing elit.Suspendisse vitae semper
+              ex, et gravida odio. In volutpat, mi eget faucibus gravida,
+              sapien massa lacinia augue, vitae feugiat nisi
+              justo a felis.
+            </div>
+          </div>
+          <Button style={[ pinkButtonStyle, st.modal.btn ]}>Save</Button>
+        </form>
+      </div>
+    </Modal>
+    );
+  }
+}
+
+@reduxForm({
+  form: 'basketPinForm'
+})
+@localized
+@Radium
+class ModalPinForm extends Component {
+  static propTypes = {
+    error: PropTypes.any,
+    handleSubmit: PropTypes.func.isRequired,
+    number: PropTypes.string.isRequired,
+    t: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
+  };
+
+  render () {
+    const { handleSubmit, onSubmit, onClose, error, number } = this.props;
+
+    return (
+      <Modal
+        isOpen
+        style={smallDialogStyle}
+        onClose={onClose}>
+        <div style={st.modal}>
+          <div style={st.modal.title}>Enter Pin</div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div style={st.modal.form}>
+              <div style={st.modal.footer}>
+                Enter the Pin-Code that has been sent to {number}.
+              </div>
+              <label style={st.modal.label}>Pin-Code</label>
+              <Field
+                component='input'
+                name='code'
+                props={{ required: true, type: 'number' }}
+                style={st.modal.input}/>
+              {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
+            </div>
+            <Button style={[ pinkButtonStyle, st.modal.btn ]}>Confirm</Button>
+          </form>
+        </div>
+      </Modal>
+    );
+  }
+}
+
 @localized
 @connect(basketSelector, (dispatch) => ({
+  createUbUser: bindActionCreators(actions.createUbUser, dispatch),
+  initUbUser: bindActionCreators(actions.initUbUser, dispatch),
   loadBasketData: bindActionCreators(actions.loadBasketData, dispatch),
+  loadUbUser: bindActionCreators(actions.loadUbUser, dispatch),
   loadUserData: bindActionCreators(homeActions.loadUserData, dispatch),
   removeFromBasket: bindActionCreators(actions.removeFromBasket, dispatch)
 }))
@@ -311,12 +443,18 @@ const st = {
 export default class Basket extends Component {
   static propTypes = {
     basketData: PropTypes.any.isRequired,
+    createUbUser: PropTypes.func.isRequired,
+    initUbUser: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     loadBasketData: PropTypes.func.isRequired,
+    loadUbUser: PropTypes.func.isRequired,
     loadUserData: PropTypes.func.isRequired,
     location: PropTypes.object,
+    personalInfo: PropTypes.any.isRequired,
     removeFromBasket: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    ubUser: PropTypes.any.isRequired,
+    userId: PropTypes.string.isRequired
   };
 
   constructor (props) {
@@ -325,9 +463,13 @@ export default class Basket extends Component {
     this.onChangeDeliveryClick = ::this.onChangeDeliveryClick;
     this.onModalDeliveryClose = ::this.onModalDeliveryClose;
     this.onModalPhoneClose = ::this.onModalPhoneClose;
+    this.onModalPinClose = ::this.onModalPinClose;
+    this.onPersonalInfoSubmit = ::this.onPersonalInfoSubmit;
+    this.onPinSubmit = ::this.onPinSubmit;
     this.state = {
       isModalDeliveryOpen: false,
-      isModalPhoneOpen: false
+      isModalPhoneOpen: false,
+      isModalPinOpen: false
     };
   }
 
@@ -337,6 +479,7 @@ export default class Basket extends Component {
     }
     if (this.props.isAuthenticated && !this.props.basketData.size) {
       this.props.loadBasketData();
+      this.props.loadUbUser();
     }
   }
 
@@ -359,6 +502,10 @@ export default class Basket extends Component {
     this.setState({ isModalDeliveryOpen: false });
   }
 
+  onModalPinClose () {
+    this.setState({ isModalPinOpen: false });
+  }
+
   onModalPhoneClose () {
     this.setState({ isModalPhoneOpen: false });
   }
@@ -367,8 +514,26 @@ export default class Basket extends Component {
     this.props.removeFromBasket({ lineId });
   }
 
+  async onPersonalInfoSubmit (values) {
+    try {
+      await this.props.initUbUser(values);
+      this.setState({ isModalPhoneOpen: false, isModalPinOpen: true });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async onPinSubmit (values) {
+    try {
+      await this.props.createUbUser(values, this.props.userId, this.props.personalInfo);
+      this.setState({ isModalPinOpen: false });
+    } catch (e) {
+      throw e;
+    }
+  }
+
   render () {
-    const { basketData } = this.props;
+    const { basketData, ubUser } = this.props;
     const basketItems = basketData.get('transactions');
 
     return (
@@ -463,30 +628,32 @@ export default class Basket extends Component {
                 <div style={st.box.title}>Checkout Details</div>
                 <div style={st.box.items}>
                   <div style={st.box.itemCheckout}>
-                    <div style={st.box.itemCheckout.text}>Personal Info</div>
-                    <div style={st.box.itemCheckout.add} onClick={this.onAddPersonalInfoClick}>Add</div>
-                    {this.state.isModalPhoneOpen &&
-                    <Modal
-                      isOpen
-                      style={smallDialogStyle}
-                      onClose={this.onModalPhoneClose}>
-                      <div style={st.modal}>
-                        <div style={st.modal.title}>Mobile Number</div>
-                        <div style={st.modal.items}>
-                          <div style={st.modal.item}>
-                            <input style={st.modal.input} type='text'/>
-                          </div>
-                        </div>
-                        <Button style={[ pinkButtonStyle, st.modal.btn ]}>Save</Button>
+                    <div>
+                      <div style={st.box.itemCheckout.title}>Personal Info</div>
+                      <div style={st.box.itemCheckout.text}>
+                        {ubUser.get('email') && <div>{ubUser.get('email')}</div>}
+                        {ubUser.get('mobile') && <div>{ubUser.get('mobile')}</div>}
                       </div>
-                    </Modal>}
+                    </div>
+                    {ubUser.get('mobile')
+                      ? <div style={st.box.itemCheckout.add} onClick={this.onAddPersonalInfoClick}>update</div>
+                      : <div style={st.box.itemCheckout.add} onClick={this.onAddPersonalInfoClick}>Add</div>
+                    }
+                    {this.state.isModalPhoneOpen &&
+                    <ModalPhoneForm onClose={this.onModalPhoneClose} onSubmit={this.onPersonalInfoSubmit}/>}
+                    {this.state.isModalPinOpen &&
+                    <ModalPinForm number={this.props.personalInfo.get('number')} onClose={this.onModalPinClose} onSubmit={this.onPinSubmit}/>}
                   </div>
                   <div style={st.box.itemCheckout}>
-                    <div style={st.box.itemCheckout.text}>Delivery Address</div>
+                    <div>
+                      <div style={st.box.itemCheckout.title}>Delivery Address</div>
+                    </div>
                     <div style={st.box.itemCheckout.add}>Add</div>
                   </div>
                   <div style={st.box.itemCheckout}>
-                    <div style={st.box.itemCheckout.text}>Payment Method</div>
+                    <div>
+                      <div style={st.box.itemCheckout.title}>Payment Method</div>
+                    </div>
                     <div style={st.box.itemCheckout.add}>Add</div>
                   </div>
                 </div>

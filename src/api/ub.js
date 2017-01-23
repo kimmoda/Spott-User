@@ -1,6 +1,7 @@
 import * as requestUb from './requestUB';
 import * as request from './request';
 import { transformUbProduct } from './transformers';
+import { SubmissionError } from 'redux-form/immutable';
 
 export async function crawlProduct (baseUrl, authenticationToken, { productUrl }) {
   try {
@@ -65,3 +66,38 @@ export async function loadBasket (baseUrl, authenticationToken) {
   }
 }
 
+export async function submitMobileNumber (baseUrl, authenticationToken, { number }) {
+  try {
+    const { body } = await requestUb.post(authenticationToken, `${baseUrl}/oauth/mobileverify`, { number });
+    return body;
+  } catch (error) {
+    throw new SubmissionError({ _error: error.body.error });
+  }
+}
+
+export async function verifyMobileNumber (baseUrl, authenticationToken, { code, number }) {
+  try {
+    const { body } = await requestUb.post(authenticationToken, `${baseUrl}/oauth/mobileverify/complete`, { code, number });
+    return body;
+  } catch (error) {
+    throw new SubmissionError({ _error: error.body.error });
+  }
+}
+
+export async function updateInfo (baseUrl, authenticationToken, { number, email }) {
+  try {
+    const { body } = await requestUb.put(authenticationToken, `${baseUrl}/user/update`, { number, email });
+    return body;
+  } catch (error) {
+    throw new SubmissionError({ _error: error.body.error });
+  }
+}
+
+export async function retrieveUser (baseUrl, authenticationToken) {
+  try {
+    const { body } = await requestUb.get(authenticationToken, `${baseUrl}/user/me`);
+    return body;
+  } catch (error) {
+    throw new SubmissionError({ _error: error.body.error });
+  }
+}
