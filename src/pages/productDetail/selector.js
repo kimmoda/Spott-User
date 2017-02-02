@@ -16,9 +16,12 @@ export const selectedUbImageIdSelector = createSelector(
   (product, selectedImageId) => selectedImageId || (product.getIn([ 'ub', 'currentVariant', 'child', 'options', '0', 'images' ]) && product.getIn([ 'ub', 'currentVariant', 'child', 'options', '0', 'images', '0' ]))
 );
 
+const selectedUbProductVariantSelector = (state) => state.getIn([ 'productDetail', 'currentProduct', 'selectedUbProductVariant' ]);
+
 // View selector for product detail page.
 export const productSelector = createStructuredSelector({
   product: currentProductSelector,
   selectedImageId: selectedImageIdSelector,
-  selectedUbImageId: selectedUbImageIdSelector
+  selectedUbImageId: selectedUbImageIdSelector,
+  selectedUbProductVariant: selectedUbProductVariantSelector
 });

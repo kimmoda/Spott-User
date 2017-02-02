@@ -321,6 +321,10 @@ export const greenButtonStyle = {
     pointerEvents: 'none'
   }
 };
+export const greyButtonStyle = {
+  ...greenButtonStyle,
+  backgroundColor: colors.coolGray
+};
 const disabledButtonStyle = {
   opacity: 0.3
 };

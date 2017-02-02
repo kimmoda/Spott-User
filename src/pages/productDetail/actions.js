@@ -8,6 +8,8 @@ export const LOAD_UB_PRODUCT_ERROR = 'LOAD_UB_PRODUCT_ERROR';
 
 export const CHANGE_IMAGE_SELECTION = 'CHANGE_IMAGE_SELECTION';
 
+export const CHANGE_UB_PRODUCT_VARIANT = 'CHANGE_UB_PRODUCT_VARIANT';
+
 export function loadProduct (productId) {
   return async (dispatch, getState) => {
     try {
@@ -32,4 +34,8 @@ export function loadUbProduct (productUrl, productId) {
 
 export function changeImageSelection (imageId) {
   return { type: CHANGE_IMAGE_SELECTION, imageId };
+}
+
+export function changeUbProductVariant (variant) {
+  return { type: CHANGE_UB_PRODUCT_VARIANT, variant };
 }

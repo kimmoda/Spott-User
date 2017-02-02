@@ -14,11 +14,12 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import { LOADED } from '../../../data/statusTypes';
 import WishlistButton from '../../profile/view/wishlistButton';
-import { addToBasket } from '../../basket/actions';
+import { addToBasketWrapper } from '../../basket/actions';
 
 @localized
 @connect(productSelector, (dispatch) => ({
-  addToBasket: bindActionCreators(addToBasket, dispatch),
+  addToBasket: bindActionCreators(addToBasketWrapper, dispatch),
+  changeUbProductVariant: bindActionCreators(actions.changeUbProductVariant, dispatch),
   onChangeImageSelection: bindActionCreators(actions.changeImageSelection, dispatch),
   loadProduct: bindActionCreators(actions.loadProduct, dispatch),
   loadUbProduct: bindActionCreators(actions.loadUbProduct, dispatch),
@@ -30,6 +31,7 @@ export default class ProductDetail extends Component {
 
   static propTypes = {
     addToBasket: PropTypes.func.isRequired,
+    changeUbProductVariant: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     loadProduct: PropTypes.func.isRequired,
     loadUbProduct: PropTypes.func.isRequired,
@@ -59,6 +61,7 @@ export default class ProductDetail extends Component {
     routerReplace: PropTypes.func.isRequired,
     selectedImageId: PropTypes.string,
     selectedUbImageId: PropTypes.string,
+    selectedUbProductVariant: PropTypes.any,
     t: PropTypes.func.isRequired,
     onChangeImageSelection: PropTypes.func.isRequired
   };
@@ -81,6 +84,7 @@ export default class ProductDetail extends Component {
 
     if (this.props.product.getIn([ 'offerings', '0', 'universalBasketEnabled' ]) && this.props.product.getIn([ 'offerings', '0', 'productUrl' ])) {
       await this.props.loadUbProduct(this.props.product.getIn([ 'offerings', '0', 'productUrl' ]), this.props.params.productId);
+      this.props.changeUbProductVariant({ [this.props.product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])]: this.props.product.getIn([ 'ub', 'currentVariant', 'child', 'options', '0', 'value' ]) });
     }
   }
 
@@ -115,7 +119,16 @@ export default class ProductDetail extends Component {
 
   async onUbAddClick (e) {
     e.preventDefault();
-    await this.props.addToBasket({ productId: this.props.product.getIn([ 'ub', 'id' ]) });
+    await this.props.addToBasket({
+      productId: this.props.product.getIn([ 'ub', 'id' ]),
+      shipping: { id: this.props.product.getIn([ 'ub', 'shop', 'shippingOptions', '0', 'id' ]), shopId: this.props.product.getIn([ 'ub', 'shop', 'id' ]) },
+      variant: { [this.props.product.getIn([ 'ub', 'currentVariant', 'name' ])]: this.props.product.getIn([ 'ub', 'currentVariant', 'value' ]) },
+      variantChild: this.props.selectedUbProductVariant.toJS()
+    });
+  }
+
+  onUbVariantChange (name, e) {
+    this.props.changeUbProductVariant({ [name]: e.target.value });
   }
 
   static styles = {
@@ -456,16 +469,21 @@ export default class ProductDetail extends Component {
               </h2>
               {product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]) &&
               <div>
-                <select defaultValue={product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])} style={styles.inputSelect}>
-                  <option disabled>{product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])}</option>
+                <select
+                  defaultValue={product.getIn([ 'ub', 'currentVariant', 'child', 'options', '0', 'value' ])}
+                  style={styles.inputSelect}
+                  onChange={this.onUbVariantChange.bind(this, product.getIn([ 'ub', 'currentVariant', 'child', 'name' ]))}>
                   {product.getIn([ 'ub', 'currentVariant', 'child', 'options' ]).map((option) =>
-                    option.get('available') && <option key={option.get('value')} value={option.get('value')}>{product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])} - {option.get('text')}</option>
+                    option.get('available') &&
+                      <option key={option.get('value')} value={option.get('value')}>
+                        {product.getIn([ 'ub', 'currentVariant', 'child', 'name' ])} - {option.get('text')}
+                      </option>
                   )}
                 </select>
               </div>}
               <div style={styles.details.buttons.wrapper}>
                 {product.getIn([ 'ub', 'id' ])
-                  ? <button disabled={outOfStock} key='addToBasketButton' style={[ greenButtonStyle, outOfStock && greenButtonStyle.disabled ]} onClick={this.onUbAddClick}>
+                  ? <button disabled={outOfStock || !this.props.selectedUbProductVariant} key='addToBasketButton' style={[ greenButtonStyle, (outOfStock || !this.props.selectedUbProductVariant) && greenButtonStyle.disabled ]} onClick={this.onUbAddClick}>
                       {outOfStock ? t('productDetail.outOfStock') : t('productDetail.addToBasket')}
                     </button>
                   : <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
