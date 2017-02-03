@@ -475,7 +475,7 @@ export default class Basket extends Component {
                         : <div style={st.box.itemCheckout.add} onClick={this.onAddAddressClick}>Add</div>
                       }
                       {this.state.isModalAddressOpen &&
-                      <ModalAddressForm onClose={this.onModalAddressClose} onSubmit={this.onAddressSubmit}/>}
+                      <ModalAddressForm initialValues={{ countryId: 8 }} onClose={this.onModalAddressClose} onSubmit={this.onAddressSubmit}/>}
                       {this.state.isModalAddressSelectOpen &&
                       <ModalAddressSelectForm
                         addNewAddress={this.onAddNewAddressClick}

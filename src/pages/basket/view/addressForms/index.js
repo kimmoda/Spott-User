@@ -46,7 +46,7 @@ export class ModalAddressForm extends Component {
                   component={renderSelectField}
                   disabled={submitting}
                   name='countryId'
-                  options={[ { value: 1, label: 'Belgium' } ]}
+                  options={[ { value: 8, label: 'Belgium' } ]}
                   submitFailed={submitFailed} />
               </div>
               <div style={st.modal.formCols}>
