@@ -1,5 +1,5 @@
 import { createStructuredSelector } from 'reselect';
-import { isAuthenticatedSelector, currentUserIdSelector } from '../app/selector';
+import { isUbAuthenticatedSelector, currentUserIdSelector } from '../app/selector';
 
 export const basketDataSelector = (state) => state.getIn([ 'basket', 'basketData' ]);
 export const basketPersonalInfoSelector = (state) => state.getIn([ 'basket', 'personalInfo' ]);
@@ -9,7 +9,7 @@ export const basketUserCardsSelector = (state) => state.getIn([ 'basket', 'ubUse
 export const _basketEditAddressDataSelector = (state) => state.getIn([ 'basket', 'editAddressData' ]);
 
 export const basketSelector = createStructuredSelector({
-  isAuthenticated: isAuthenticatedSelector,
+  isUbAuthenticated: isUbAuthenticatedSelector,
   basketData: basketDataSelector,
   userId: currentUserIdSelector,
   personalInfo: basketPersonalInfoSelector,

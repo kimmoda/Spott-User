@@ -104,7 +104,7 @@ export async function retrieveUser (baseUrl, authenticationToken) {
 
 export async function addAddress (baseUrl, authenticationToken, data) {
   try {
-    data.province = 'Merchtem';
+    data.province = 'Belgium';
     data.phoneCountry = '+32';
     data.phone = '+320486539106';
     const { body } = await requestUb.post(authenticationToken, `${baseUrl}/address/add`, data);

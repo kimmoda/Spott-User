@@ -17,6 +17,7 @@ export const currentUserLastnameSelector = (state) => state.getIn([ 'app', 'auth
 export const currentUserUsernameSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'username' ]);
 export const currentUserIdSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'id' ]);
 export const isAuthenticatedSelector = (state) => Boolean(state.getIn([ 'app', 'authentication', 'user', 'id' ]));
+export const isUbAuthenticatedSelector = (state) => Boolean(state.getIn([ 'app', 'authentication', 'ubAuthenticationToken' ]));
 
 export const currentUrlSelector = (state) => state.getIn([ 'routing', 'locationBeforeTransitions', 'pathname' ]);
 export const isDownloadPageShowedSelector = (state) => state.getIn([ 'app', 'configuration', 'downloadPageShowed' ]);
