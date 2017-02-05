@@ -35,7 +35,7 @@ export class ModalCardForm extends Component {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div style={st.modal.form}>
               <div style={st.modal.formCols}>
-                <div style={{ width: '194px' }}>
+                <div style={{ width: '184px' }}>
                   <label style={st.modal.label}>Credit Card Number</label>
                   <Field
                     component='input'
@@ -43,15 +43,22 @@ export class ModalCardForm extends Component {
                     props={{ required: true, type: 'number' }}
                     style={st.modal.input}/>
                 </div>
-                <div style={{ width: '91px' }}>
+                <div style={{ width: '110px' }}>
                   <label style={st.modal.label}>Expiration Date</label>
-                  <Field
-                    component='input'
-                    name='expiryDate'
-                    props={{ required: true, type: 'text' }}
-                    style={st.modal.input}/>
+                  <div style={{ display: 'flex' }}>
+                    <Field
+                      component='input'
+                      name='expiryMonth'
+                      props={{ required: true, placeholder: 'MM' }}
+                      style={st.modal.input}/>
+                    <Field
+                      component='input'
+                      name='expiryYear'
+                      props={{ required: true, type: 'number', placeholder: 'YY', max: 30 }}
+                      style={st.modal.input}/>
+                  </div>
                 </div>
-                <div style={{ width: '77px' }}>
+                <div style={{ width: '67px' }}>
                   <label style={st.modal.label}>CVC</label>
                   <Field
                     component='input'

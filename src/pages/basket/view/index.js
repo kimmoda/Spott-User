@@ -208,6 +208,7 @@ export default class Basket extends Component {
       data.number = String(data.number);
       data.addressId = userAddress.get('id');
       data.secret = 'secret';
+      data.expiryDate = `${data.expiryMonth}/${data.expiryYear}`;
       const cardData = await this.props.addNewCard(data);
       if (!this.props.basketData.get('cardId')) {
         await this.props.selectCard({ cardId: cardData.card.id });
