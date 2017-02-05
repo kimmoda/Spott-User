@@ -519,7 +519,12 @@ export default class Basket extends Component {
                         : <div style={st.box.itemCheckout.add} onClick={this.onAddCardClick}>Add</div>
                       }
                       {this.state.isModalCardOpen &&
-                      <ModalCardForm onClose={this.onModalCardClose} onSubmit={this.onCardSubmit}/>}
+                      <ModalCardForm
+                        addNewAddress={this.onAddNewAddressClick}
+                        addresses={userAddresses}
+                        initialValues={{ addressId: basketData.get('shippingAddressId') }}
+                        onClose={this.onModalCardClose}
+                        onSubmit={this.onCardSubmit}/>}
                       {this.state.isModalCardSelectOpen &&
                       <ModalCardSelectForm
                         addNewCard={this.onAddNewCardClick}

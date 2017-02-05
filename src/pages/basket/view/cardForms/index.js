@@ -12,15 +12,18 @@ import { st } from '../styles';
 @Radium
 export class ModalCardForm extends Component {
   static propTypes = {
+    addNewAddress: PropTypes.func.isRequired,
+    addresses: PropTypes.any,
     error: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error } = this.props;
+    const { handleSubmit, onSubmit, onClose, error, addresses, addNewAddress, submitting } = this.props;
 
     return (
       <Modal
@@ -64,6 +67,37 @@ export class ModalCardForm extends Component {
                   name='name'
                   props={{ required: true, type: 'text' }}
                   style={st.modal.input}/>
+              </div>
+              {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
+            </div>
+            <div style={[ st.modal.items, { marginTop: '-20px', borderTop: 0 } ]}>
+              <div style={[ st.modal.item, { borderBottom: 0 } ]}>
+                <label style={st.modal.label}>Billing Address</label>
+              </div>
+              {addresses.map((address) =>
+                <div key={address.get('id')} style={st.modal.item}>
+                  <label style={st.modal.label}>
+                    <Field
+                      component='input'
+                      disabled={submitting}
+                      name='addressId'
+                      type='radio'
+                      value={address.get('id')}/>
+                    <div style={st.modal.radioContent}>
+                      <div style={st.modal.radioContent.title}>
+                        {address.get('title')} {address.get('firstname')} {address.get('lastname')}
+                      </div>
+                      <div style={st.modal.radioContent.dscr}>
+                        {address.get('line1')}<br/>
+                        {address.get('postcode')} {address.get('city')}, {address.get('country')}<br/>
+                        {address.get('phoneCountry')}{address.get('phone')}
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              )}
+              <div style={st.modal.item}>
+                <div style={st.modal.addNewLink} onClick={addNewAddress}>Add New Address</div>
               </div>
               {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
             </div>

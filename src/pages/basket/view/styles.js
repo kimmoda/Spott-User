@@ -381,7 +381,8 @@ export const st = {
       color: colors.darkPink,
       textDecoration: 'underline',
       fontSize: '14px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      padding: '10px 0'
     },
     greet: {
       padding: '29px 24px 0 24px',
