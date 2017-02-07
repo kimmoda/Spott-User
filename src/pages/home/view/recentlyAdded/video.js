@@ -10,15 +10,7 @@ import { slowdown } from '../../../../utils';
 // import * as actions from '../actions';
 import './style.css';
 
-const state = {
-  baseUrl: 'https://spott-ios-rest-prd.appiness.mobi/rest',
-  videos: {
-    'Fifty Shades Of Grey (Trailer)': {
-      videoUrl: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_en/1080p/index.m3u8',
-      fingerprintId: '3203417FFEC27DD3' // TODO: now it's family
-    }
-  }
-};
+const baseUrl = 'https://spott-ios-rest-prd.appiness.mobi/rest';
 
 function transformProduct (product) {
   return {
@@ -54,7 +46,7 @@ function get (url, callback) {
 }
 
 function getSceneDetails (fingerprintId, currentOffsetInSeconds, callback) {
-  get(state.baseUrl + '/v003/video/fingerprints?type=MUFIN&fingerprintId=' + fingerprintId + '&videoOffsetInSeconds=' + currentOffsetInSeconds, function (err, result) {
+  get(baseUrl + '/v003/video/fingerprints?type=MUFIN&fingerprintId=' + fingerprintId + '&videoOffsetInSeconds=' + currentOffsetInSeconds, function (err, result) {
     if (err) {
       return callback(err);
     }
@@ -169,28 +161,24 @@ function renderSceneDetails (sceneDetails, player) {
 const getSceneDetailsSlowdown = slowdown(getSceneDetails, 1000);
 
 @Radium
-export default class Videos extends Component {
+export default class Video extends Component {
 
   static propTypes = {
+    video: PropTypes.object.isRequired
   };
 
   constructor (props) {
     super(props);
-    this.state = {
-      video: state.videos['Fifty Shades Of Grey (Trailer)']
-    };
+    this.state = { theoplayerIsReady: false };
   }
 
-  changeVideo (video) {
+  loadVideo ({ fingerprintId, videoUrl }) {
     // Destroy theoplayer.
     theoplayer.destroy('video');
 
-    const fingerprintId = video.fingerprintId;
-    this.setState({ video });
-
     setTimeout(() => {
-      console.warn('Current video url:', video.videoUrl);
-      console.warn('Current fingerprintId:', video.fingerprintId);
+      console.warn('Current video url:', videoUrl);
+      console.warn('Current fingerprintId:', fingerprintId);
 
       // $('#videoContainer').html('');
 
@@ -232,8 +220,17 @@ export default class Videos extends Component {
 
   componentDidMount () {
     theoplayer.onReady = () => {
-      this.changeVideo(state.videos['Fifty Shades Of Grey (Trailer)']);
+      console.warn('READY TO PLAY!');
+      this.setState({ theoplayerIsReady: true });
+      this.loadVideo(this.props.video);
     };
+  }
+
+  componentWillReceiveProps ({ video }) {
+    console.warn('VIDEO', video);
+    if (this.props.video.id !== video.id && this.state.theoplayerIsReady) {
+      this.loadVideo(video);
+    }
   }
 
   static styles = {
@@ -248,13 +245,12 @@ export default class Videos extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const style = this.props.style;
-    const video = this.state.video;
+    const { video, style } = this.props;
 
     return (
       <div style={[ styles.container, style ]}>
         <div id='videoContainer'>
-          <video id='video' controls>
+          <video id='video' controls poster={video.poster}>
             <source src={video.videoUrl} />
           </video>
         </div>

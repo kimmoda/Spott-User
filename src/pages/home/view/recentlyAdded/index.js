@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
-import { colors, Button, pinkButtonStyle, responsiveBackgroundImage, mediaQueries, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
+import { colors, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, responsiveBackgroundImage, Button, Container, Title, UpperCaseSubtitle } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
 import localized from '../../../_common/localized';
 import { recentlyAddedSelector } from '../../selectors';
 import Video from './video';
+import Playlist from './playlist';
 
 @localized
 @connect(recentlyAddedSelector)
@@ -22,7 +23,8 @@ export default class RecentlyAdded extends Component {
     }),
     otherRecentlyAddedMedia: PropTypes.any.isRequired,
     style: PropTypes.object,
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    videosById: PropTypes.object.isRequired
   }
 
   static styles = {
@@ -77,12 +79,18 @@ export default class RecentlyAdded extends Component {
       [mediaQueries.medium]: {
         fontSize: '16px'
       }
+    },
+    playlistTitle: {
+      color: '#ffffff',
+      ...makeTextStyle(fontWeights.light, '1.125em', '0.4px'),
+      paddingBottom: 20
     }
   };
 
   render () {
     const { styles } = this.constructor;
-    const { firstMedium, otherRecentlyAddedMedia, style, t } = this.props;
+    const { firstMedium, location, playlist, otherRecentlyAddedMedia, style, t, videosById } = this.props;
+    const videoId = location.params && location.params.trailer || 'trailer-1';
     return (
       <div style={[
         styles.wrapper,
@@ -92,11 +100,14 @@ export default class RecentlyAdded extends Component {
         <Container>
           <div style={styles.overlay} />
           <div style={{ display: 'flex' }}>
-            <Video style={{ flex: '1', marginRight: 20, width: '60%' }}/>
+            <Video style={{ flex: '1', marginRight: 20 }} video={videosById[videoId]}/>
             <div style={styles.innerWrapper}>
               <Title style={styles.title}>{(firstMedium && firstMedium.get('title')) || '\u00A0'}</Title>
               <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
               <Button disabled={!firstMedium} style={{ ...pinkButtonStyle, ...styles.button }} to={firstMedium && firstMedium.get('shareUrl')}>{t('home.recentlyAdded.browseButton')}</Button>
+
+              <h3 style={styles.playlistTitle}>More Fifty Shades</h3>
+              <Playlist playlist={playlist}/>
             </div>
           </div>
 

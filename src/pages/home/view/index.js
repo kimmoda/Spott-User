@@ -24,7 +24,8 @@ export default class Home extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     load: PropTypes.func.isRequired,
-    loadUserData: PropTypes.func.isRequired
+    loadUserData: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired
   };
 
   // When loading the home page initially we load the personal data (sequentially) and
@@ -44,13 +45,13 @@ export default class Home extends Component {
   }
 
   render () {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, location } = this.props;
     const backgroundStyle = [ { backgroundColor: colors.whiteGray }, { backgroundColor: colors.white } ];
     let i = 0;
     return (
       <div style={{ fontSize: '16px', backgroundColor: 'white' }}>
         <Search />
-        <RecentlyAdded style={backgroundStyle[i++ % 2]}/>
+        <RecentlyAdded location={location} style={backgroundStyle[i++ % 2]}/>
         {isAuthenticated && <NewScenesForYou style={backgroundStyle[i++ % 2]}/>}
         <TvGuide style={backgroundStyle[i++ % 2]}/>
         <NewEpisodes style={backgroundStyle[i++ % 2]}/>
