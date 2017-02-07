@@ -12,11 +12,10 @@ import './style.css';
 
 const state = {
   baseUrl: 'https://spott-ios-rest-prd.appiness.mobi/rest',
-  currentFingerprintId: '',
   videos: {
     'Fifty Shades Of Grey (Trailer)': {
       videoUrl: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_en/1080p/index.m3u8',
-      fingerprintId: '49109C7A34C0AD9C'
+      fingerprintId: '3203417FFEC27DD3' // TODO: now it's family
     }
   }
 };
@@ -54,8 +53,8 @@ function get (url, callback) {
   });
 }
 
-function getSceneDetails (currentOffsetInSeconds, callback) {
-  get(state.baseUrl + '/v003/video/fingerprints?type=MUFIN&fingerprintId=' + state.fingerprintId + '&videoOffsetInSeconds=' + currentOffsetInSeconds, function (err, result) {
+function getSceneDetails (fingerprintId, currentOffsetInSeconds, callback) {
+  get(state.baseUrl + '/v003/video/fingerprints?type=MUFIN&fingerprintId=' + fingerprintId + '&videoOffsetInSeconds=' + currentOffsetInSeconds, function (err, result) {
     if (err) {
       return callback(err);
     }
@@ -185,6 +184,8 @@ export default class Videos extends Component {
   changeVideo (video) {
     // Destroy theoplayer.
     theoplayer.destroy('video');
+
+    const fingerprintId = video.fingerprintId;
     this.setState({ video });
 
     setTimeout(() => {
@@ -209,7 +210,7 @@ export default class Videos extends Component {
 
           if (currentOffsetInSeconds !== previousOffsetInSeconds && $('#videoContent').find('.productTilesLarge').length === 0) {
             previousOffsetInSeconds = currentOffsetInSeconds;
-            getSceneDetailsSlowdown(currentOffsetInSeconds, function (err, sceneDetails) {
+            getSceneDetailsSlowdown(fingerprintId, currentOffsetInSeconds, function (err, sceneDetails) {
               if (err || !sceneDetails) {
                 return;
               }

@@ -61,7 +61,7 @@ button:focus {
   margin-right: auto;
   min-width: 31.25em;
   position: relative;
-  width: 70%;
+  width: 100%;
 }
 #videoOverlay {
   position: absolute;
