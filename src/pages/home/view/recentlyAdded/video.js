@@ -14,28 +14,8 @@ const state = {
   baseUrl: 'https://spott-ios-rest-prd.appiness.mobi/rest',
   currentFingerprintId: '',
   videos: {
-    'Natura: Humor': {
-      videoUrl: 'http://opentelly.appiness.mobi/video06/1080p/index.m3u8',
-      fingerprintId: '6CE3079542BBF4E7'
-    },
-    'Ekos Ucuuba: Skin Repair': {
-      videoUrl: 'http://opentelly.appiness.mobi/video05/1080p/index.m3u8',
-      fingerprintId: '4FD63B7B09AB5B11'
-    },
-    'Familie S26E23': {
-      videoUrl: 'http://opentelly.appiness.mobi/video01/1080p/index.m3u8',
-      fingerprintId: '3203417FFEC27DD3'
-    },
-    'Germany\'s Next Topmodel S07E01 Shooting mit Heidi': {
-      videoUrl: 'http://opentelly.appiness.mobi/video02/1080p/index.m3u8',
-      fingerprintId: 'F27369A91F196D31'
-    },
-    'Emmerdale S01E7615': {
-      videoUrl: 'http://opentelly.appiness.mobi/video03/1080p/index.m3u8',
-      fingerprintId: 'DFC3C4B13B1189B7'
-    },
     'Fifty Shades Of Grey (Trailer)': {
-      videoUrl: 'http://opentelly.appiness.mobi/video04/1080p/index.m3u8',
+      videoUrl: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_en/1080p/index.m3u8',
       fingerprintId: '49109C7A34C0AD9C'
     }
   }
@@ -198,7 +178,7 @@ export default class Videos extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      video: state.videos['Natura: Humor']
+      video: state.videos['Fifty Shades Of Grey (Trailer)']
     };
   }
 
@@ -251,31 +231,32 @@ export default class Videos extends Component {
 
   componentDidMount () {
     theoplayer.onReady = () => {
-      this.changeVideo(state.videos['Natura: Humor']);
+      this.changeVideo(state.videos['Fifty Shades Of Grey (Trailer)']);
     };
   }
 
   static styles = {
     container: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: 400
+      width: '100%'
+      // display: 'flex',
+      // alignItems: 'center',
+      // justifyContent: 'center',
+      // minHeight: 400
     }
   };
 
   render () {
     const styles = this.constructor.styles;
+    const style = this.props.style;
     const video = this.state.video;
 
     return (
-      <div style={styles.container}>
+      <div style={[ styles.container, style ]}>
         <div id='videoContainer'>
           <video id='video' controls>
             <source src={video.videoUrl} />
           </video>
         </div>
-
         <div id='info'></div>
       </div>
     );

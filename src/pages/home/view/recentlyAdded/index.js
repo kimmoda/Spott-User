@@ -6,6 +6,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
 import localized from '../../../_common/localized';
 import { recentlyAddedSelector } from '../../selectors';
+import Video from './video';
 
 @localized
 @connect(recentlyAddedSelector)
@@ -67,6 +68,7 @@ export default class RecentlyAdded extends Component {
       transform: 'translateY(3.8em)'
     },
     innerWrapper: {
+      width: '40%',
       position: 'relative',
       fontSize: '12px',
       [mediaQueries.small]: {
@@ -89,11 +91,15 @@ export default class RecentlyAdded extends Component {
       ]}>
         <Container>
           <div style={styles.overlay} />
-          <div style={styles.innerWrapper}>
-            <Title style={styles.title}>{(firstMedium && firstMedium.get('title')) || '\u00A0'}</Title>
-            <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
-            <Button disabled={!firstMedium} style={{ ...pinkButtonStyle, ...styles.button }} to={firstMedium && firstMedium.get('shareUrl')}>{t('home.recentlyAdded.browseButton')}</Button>
+          <div style={{ display: 'flex' }}>
+            <Video style={{ flex: '1', marginRight: 20, width: '60%' }}/>
+            <div style={styles.innerWrapper}>
+              <Title style={styles.title}>{(firstMedium && firstMedium.get('title')) || '\u00A0'}</Title>
+              <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
+              <Button disabled={!firstMedium} style={{ ...pinkButtonStyle, ...styles.button }} to={firstMedium && firstMedium.get('shareUrl')}>{t('home.recentlyAdded.browseButton')}</Button>
+            </div>
           </div>
+
           <TopLevelMediumTiles items={otherRecentlyAddedMedia}
             style={styles.tiles} title={t('home.recentlyAdded.title')} titleStyle={styles.tilesTitle} />
         </Container>
