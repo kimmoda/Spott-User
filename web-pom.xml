@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>appiness.mobi</groupId>
 		<artifactId>appiness.spott.website</artifactId>
-		<version>01.00.30-SNAPSHOT</version>
+		<version>opentelly-01.01.00-SNAPSHOT</version>
 		<relativePath>./pom.xml</relativePath>
 	</parent>
 	<artifactId>appiness.spott.website.web</artifactId>
