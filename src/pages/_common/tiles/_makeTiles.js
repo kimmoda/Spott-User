@@ -81,7 +81,7 @@ export default function makeTiles (horizontalSpacing, numColumns, tileRenderer) 
         style: PropTypes.object,
         t: PropTypes.func.isRequired,
         tileProps: PropTypes.object,
-        title: PropTypes.string,
+        title: PropTypes.any,
         titleStyle: PropTypes.object
       };
 

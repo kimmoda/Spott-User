@@ -28,6 +28,7 @@ export const mediumHasTopUserProductsSelector = (state) => state.getIn([ 'data',
 export const userHasSavedScenesRelationsSelector = (state) => state.getIn([ 'data', 'relations', 'userHasSavedScenes' ]);
 export const userHasWishlistsRelationsSelector = (state) => state.getIn([ 'data', 'relations', 'userHasWishlists' ]);
 export const wishlistHasProductsRelationsSelector = (state) => state.getIn([ 'data', 'relations', 'wishlistHasProducts' ]);
+export const mediumHasRecentEpisodesSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasRecentEpisodes' ]);
 
 // List selectors
 // //////////////

@@ -68,7 +68,7 @@ export class UnexpectedError extends RequestError {
 // httpinvoke, our father
 // ----------------------
 
-function tryToParseJson (text) {
+export function tryToParseJson (text) {
   try {
     return JSON.parse(text);
   } catch (error) {
@@ -79,7 +79,7 @@ function tryToParseJson (text) {
 // Hooking a finished hook into httpinvoke creates a new httpinvoke. The given callback is executed
 // upon each processed request. The callback has the power to manipulate the arguments seen by the
 // rest of the appication.
-const wrappedFetch = async function () {
+export const wrappedFetch = async function () {
   // Try to perform the request
   let responseBody;
   let statusCode;

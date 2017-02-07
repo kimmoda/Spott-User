@@ -1,5 +1,6 @@
-import { fetchPopularSeries, fetchNewEpisodes, fetchMediaRecentlyAdded, fetchPopularProducts, fetchNewScenesForYou, fetchProductsRecentlyAddedToWishlist, fetchTvGuideEntries } from '../../data/actions';
+import { fetchPopularSeries, fetchNewEpisodes, fetchMediaRecentlyAdded, fetchPopularProducts, fetchNewScenesForYou, fetchProductsRecentlyAddedToWishlist, fetchTvGuideEntries, makeApiActionCreator } from '../../data/actions';
 import { currentUserIdSelector } from '../app/selector';
+import * as searchApi from '../../api/search';
 
 // Action types
 // ////////////
@@ -17,6 +18,11 @@ export const LOAD_NEW_EPISODES_ERROR = 'HOME/LOAD_NEW_EPISODES_ERROR';
 export const LOAD_POPULAR_SERIES = 'HOME/LOAD_POPULAR_SERIES';
 export const LOAD_POPULAR_SERIES_ERROR = 'HOME/LOAD_POPULAR_SERIES_ERROR';
 export const LOAD_TV_GUIDE_ENTRIES_ERROR = 'HOME/LOAD_TV_GUIDE_FETCH_ERROR';
+
+export const SEARCH_SUGGESTIONS_FETCH_START = 'HOME/SEARCH_SUGGESTIONS_FETCH_START';
+export const SEARCH_SUGGESTIONS_FETCH_SUCCESS = 'HOME/SEARCH_SUGGESTIONS_FETCH_SUCCESS';
+export const SEARCH_SUGGESTIONS_FETCH_ERROR = 'HOME/SEARCH_SUGGESTIONS_FETCH_ERROR';
+export const SEARCH_SUGGESTIONS_CLEAR = 'HOME/SEARCH_SUGGESTIONS_CLEAR';
 
 // Actions creators
 // ////////////////
@@ -119,5 +125,13 @@ export function load () {
     // Top selling products exist out of popular series, which have top products.
     // The products are fetched when the component is mounted.
     await dispatch(loadPopularSeries());
+  };
+}
+
+export const getSearchSuggestions = makeApiActionCreator(searchApi.getSearchSuggestions, SEARCH_SUGGESTIONS_FETCH_START, SEARCH_SUGGESTIONS_FETCH_SUCCESS, SEARCH_SUGGESTIONS_FETCH_ERROR);
+
+export function clearSearchSuggestions () {
+  return (dispatch, getState) => {
+    dispatch({ type: SEARCH_SUGGESTIONS_CLEAR });
   };
 }

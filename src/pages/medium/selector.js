@@ -5,7 +5,8 @@ import {
   charactersEntitiesSelector, mediaEntitiesSelector,
   mediumHasNewScenesForYouSelector, mediumHasEpisodesSelector,
   scenesEntitiesSelector, mediumHasCharactersSelector, mediumHasScenesSelector,
-  mediumHasSeasonsSelector, mediumHasTopProductsSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector
+  mediumHasSeasonsSelector, mediumHasTopProductsSelector, mediumHasProductsSelector, mediumHasTopUserProductsSelector, productsEntitiesSelector,
+  mediumHasRecentEpisodesSelector
 } from '../../data/selector';
 import mostSpecificMedium from './_mostSpecificMedium';
 
@@ -65,4 +66,10 @@ export const scenesSelector = createStructuredSelector({
 
 export const mediumProductsSelector = createStructuredSelector({
   products: createEntitiesByRelationSelector(mediumHasProductsSelector, currentMediumIdSelector, productsEntitiesSelector)
+});
+
+export const recentEpisodesSelector = createStructuredSelector({
+  episodes: createEntitiesByRelationSelector(mediumHasRecentEpisodesSelector, currentMediumIdSelector, mediaEntitiesSelector),
+  mediumHasTopProducts: mediumHasTopProductsSelector,
+  products: productsEntitiesSelector
 });

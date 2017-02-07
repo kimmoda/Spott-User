@@ -8,6 +8,7 @@ import { LAZY } from '../../../data/statusTypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
 import { sceneTilesStyle } from './styles';
+import ProductImpressionSensor from '../productImpressionSensor';
 
 @localized
 @Radium
@@ -28,6 +29,7 @@ export class ProductsFromMediumTile extends Component {
       ),
       logo: PropTypes.string
     }).isRequired,
+    location: PropTypes.object,
     mediumHasTopProducts: ImmutablePropTypes.mapContains({
       data: PropTypes.list
     }).isRequired,
@@ -35,6 +37,16 @@ export class ProductsFromMediumTile extends Component {
     style: PropTypes.object,
     t: PropTypes.func.isRequired
   };
+
+  shouldComponentUpdate (nextProps) {
+    const { item, mediumHasTopProducts } = this.props;
+    const topProducts = mediumHasTopProducts.get(item.get('id'));
+
+    const { item: nextItem, mediumHasTopProducts: nextMediumHasTopProducts } = nextProps;
+    const nextTopProducts = nextMediumHasTopProducts.get(nextItem.get('id'));
+
+    return Boolean(topProducts && nextTopProducts && !topProducts.equals(nextTopProducts));
+  }
 
   static styles = {
     container: {
@@ -120,12 +132,12 @@ export class ProductsFromMediumTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { currentLocale, item, mediumHasTopProducts, products, style, t } = this.props;
+    const { currentLocale, item, mediumHasTopProducts, products, style, t, location } = this.props;
     let topProducts = mediumHasTopProducts.get(item.get('id')) || Map({ _status: LAZY, data: List() });
     topProducts = topProducts.set('data', (topProducts.get('data') || List()).map((id) => products.get(id)).filter((p) => p.get('image')).take(4));
 
     return (
-      <BaseTile key={item.get('id')} load={() => this.props.fetchMediumTopProducts({ mediumId: item.get('id') })} style={style}>
+      <BaseTile key={item.get('id')} load={() => this.props.fetchMediumTopProducts({ mediumId: item.get('id'), pageSize: 4 })} style={style}>
         <div style={styles.container}>
           <RadiumLink title={item.get('title')} to={item.get('shareUrl')}>
             <div
@@ -148,15 +160,23 @@ export class ProductsFromMediumTile extends Component {
             renderItem={() =>
               <div style={styles.productWrapper}>
                 {topProducts.get('data').map((product) => (
-                  <RadiumLink key={product.get('id')} style={styles.productImageWrapper} title={product.get('shortName')} to={product.get('shareUrl')}>
-                    <div style={[
-                      styles.productImage, {
-                        backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=250&width=250")`,
-                        [mediaQueries.medium]: {
-                          backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=214&width=214")`
-                        }
-                      } ]} />
-                  </RadiumLink>
+                  <ProductImpressionSensor key={product.get('id')} productId={product.get('id')}>
+                    <RadiumLink
+                      key={product.get('id')} style={styles.productImageWrapper}
+                      title={product.get('shortName') || product.get('fullName')}
+                      to={{
+                        pathname: product.get('shareUrl'),
+                        state: { modal: true, returnTo: (location && location.pathname) || '/' }
+                      }}>
+                      <div style={[
+                        styles.productImage, {
+                          backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=250&width=250")`,
+                          [mediaQueries.medium]: {
+                            backgroundImage: `url("${product.getIn([ 'image', 'url' ])}?height=214&width=214")`
+                          }
+                        } ]} />
+                    </RadiumLink>
+                  </ProductImpressionSensor>
                 ))}
               </div>}
             renderNotFound={() => <Message style={styles.message}>{t('common.notExist')}</Message>}

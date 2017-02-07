@@ -1,7 +1,8 @@
 import {
   addMediumSubscriber, fetchMediumScenes, fetchMediumEpisodes, fetchMediumSeasons,
   fetchMediumCharacters, fetchMediumNewScenesForYou, fetchMediumProducts,
-  fetchMediumTopUserProducts, fetchMediumTopProducts, fetchMedium, removeMediumSubscriber
+  fetchMediumTopUserProducts, fetchMediumTopProducts, fetchMedium, removeMediumSubscriber,
+  fetchMediumRecentEpisodes
 } from '../../data/actions';
 import { currentUserIdSelector } from '../app/selector';
 import { currentMediumSelector } from './selector';
@@ -46,6 +47,10 @@ export function loadTopUserProducts (mediumId) {
 
 export function loadNewScenesForYou (mediumId) {
   return fetchMediumNewScenesForYou({ mediumId });
+}
+
+export function loadRecentEpisodes (mediumId) {
+  return fetchMediumRecentEpisodes({ mediumId });
 }
 
 // Scenes

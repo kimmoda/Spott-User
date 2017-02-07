@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import BaseTile from './_baseTile';
 import makeTiles from './_makeTiles';
 import { equals } from '../../../utils';
+import ProductImpressionSensor from '../productImpressionSensor';
 
 function formatTitle (name, price) {
   const priceText = formatPrice(price);
@@ -18,6 +19,7 @@ function formatTitle (name, price) {
 export class ProductTile extends Component {
 
   static propTypes = {
+    isDirectPage: PropTypes.bool,
     // Not required! Initially we create a product without an item,
     // then we clone it with an item (see VerticalTiles).
     item: ImmutablePropTypes.mapContains({
@@ -32,6 +34,7 @@ export class ProductTile extends Component {
       }),
       shortName: PropTypes.string
     }),
+    location: PropTypes.object,
     style: PropTypes.object
   };
 
@@ -94,7 +97,7 @@ export class ProductTile extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { item, style } = this.props;
+    const { item, style, location, isDirectPage } = this.props;
 
     // Initially we create a product without an item, then we clone it with an item (see VerticalTiles).
     if (!item) {
@@ -104,17 +107,22 @@ export class ProductTile extends Component {
     const title = formatTitle(item.get('shortName'), item.get('price'));
 
     return (
-      <BaseTile style={style}>
-        <RadiumLink style={styles.container} title={title} to={item.get('shareUrl')}>
-          <div style={styles.imageContainer}>
-            {item.get('image') && <img alt={item.get('shortName')} src={`${item.getIn([ 'image', 'url' ])}?height=375&width=375`} style={styles.image} />}
-          </div>
-          <div style={styles.detailsContainer}>
-            <div style={styles.shortName}>{item.get('shortName')}</div>
-            <div style={styles.price}>{formatPrice(item.get('price'))}</div>
-          </div>
-        </RadiumLink>
-      </BaseTile>
+      <ProductImpressionSensor productId={item.get('id')}>
+        <BaseTile style={style}>
+            <RadiumLink style={styles.container} title={title} to={{
+              pathname: item.get('shareUrl'),
+              state: { modal: !isDirectPage, returnTo: (location && location.pathname) || '/' }
+            }}>
+              <div style={styles.imageContainer}>
+                {item.get('image') && <img alt={item.get('shortName')} src={`${item.getIn([ 'image', 'url' ])}?height=375&width=375`} style={styles.image} />}
+              </div>
+              <div style={styles.detailsContainer}>
+                <div style={styles.shortName}>{item.get('shortName')}</div>
+                <div style={styles.price}>{formatPrice(item.get('price'))}</div>
+              </div>
+            </RadiumLink>
+        </BaseTile>
+      </ProductImpressionSensor>
     );
   }
 }

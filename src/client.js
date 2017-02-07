@@ -23,6 +23,7 @@ import productDetail from './pages/productDetail/reducer';
 import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
 import resetPassword from './pages/resetPassword/reducer';
+import home from './pages/home/reducer';
 
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
@@ -40,7 +41,8 @@ const rootReducer = combineReducers({
   profile,
   resetPassword,
   routing: routerReducer,
-  scene
+  scene,
+  home
 });
 
 /**
@@ -58,6 +60,7 @@ export function createOurStore (theHistory, reducers, initialState) {
   middleware.push(routerMiddleware(theHistory));
   // Install logging middleware when not in production
   if (__DEVELOPMENT__) {
+    /*
     const createLogger = require('redux-logger');
     middleware.push(createLogger({
       // Collapse by default to preserve space in the console
@@ -65,11 +68,22 @@ export function createOurStore (theHistory, reducers, initialState) {
       // Convert Immutable state to plain JavaScript object, before logging.
       stateTransformer: (state) => state.toJS()
     }));
+    */
   }
   // Construct our new createStore() function, using given middleware
   const newCreateStore = Reflect.apply(applyMiddleware, null, middleware)(createStore);
   // Create the store
-  return newCreateStore(reducers, initialState);
+  if (__DEVELOPMENT__) {
+    return newCreateStore(
+      reducers,
+      initialState,
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
+  }
+  return newCreateStore(
+    reducers,
+    initialState
+  );
 }
 
 async function boot () {

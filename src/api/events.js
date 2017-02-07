@@ -19,3 +19,7 @@ export async function postSceneView (baseUrl, authenticationToken, locale, { sce
 export async function postUserView (baseUrl, authenticationToken, locale, { userId }) {
   await post(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}/viewEvents`, {});
 }
+
+export async function postProductImpression (baseUrl, authenticationToken, locale, { productId }) {
+  await post(authenticationToken, locale, `${baseUrl}/v003/product/products/${productId}/impressionEvents`, {});
+}

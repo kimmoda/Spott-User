@@ -6,6 +6,7 @@ import * as usersApi from '../api/users';
 import * as wishlistsApi from '../api/wishlists';
 import * as eventsApi from '../api/events';
 import * as tvGuideApi from '../api/tvGuide';
+import * as ubApi from '../api/ub';
 import { authenticationTokenSelector, apiBaseUrlSelector, currentLocaleSelector } from '../pages/app/selector';
 import { slowdown } from '../utils';
 
@@ -19,6 +20,24 @@ export function makeApiActionCreator (_apiCall, startActionType, successActionTy
       dispatch({ ...params, type: startActionType });
       try {
         const data = await _apiCall(apiBaseUrl, authenticationToken, locale, params);
+        dispatch({ ...params, data, type: successActionType });
+        return data;
+      } catch (error) {
+        dispatch({ ...params, error, type: errorActionType });
+        throw error;
+      }
+    };
+  };
+}
+
+export function makeUbApiActionCreator (_apiCall, startActionType, successActionType, errorActionType) {
+  return function (params) {
+    return async (dispatch, getState) => {
+      const ubApiBaseUrl = 'https://api.ub.io';
+      const ubAuthenticationToken = null;
+      dispatch({ ...params, type: startActionType });
+      try {
+        const data = await _apiCall(ubApiBaseUrl, ubAuthenticationToken, params);
         dispatch({ ...params, data, type: successActionType });
         return data;
       } catch (error) {
@@ -76,6 +95,10 @@ export const PRODUCT_FETCH_START = 'DATA/PRODUCT_FETCH_START';
 export const PRODUCT_FETCH_SUCCESS = 'DATA/PRODUCT_FETCH_SUCCESS';
 export const PRODUCT_FETCH_ERROR = 'DATA/PRODUCT_FETCH_ERROR';
 
+export const UB_PRODUCT_FETCH_START = 'DATA/UB_PRODUCT_FETCH_START';
+export const UB_PRODUCT_FETCH_SUCCESS = 'DATA/UB_PRODUCT_FETCH_SUCCESS';
+export const UB_PRODUCT_FETCH_ERROR = 'DATA/UB_PRODUCT_FETCH_ERROR';
+
 export const USER_FETCH_START = 'DATA/USER_FETCH_START';
 export const USER_FETCH_SUCCESS = 'DATA/USER_FETCH_SUCCESS';
 export const USER_FETCH_ERROR = 'DATA/USER_FETCH_ERROR';
@@ -99,6 +122,26 @@ export const WISHLISTS_OF_USER_FETCH_ERROR = 'WISHLISTS_OF_USER_FETCH_ERROR';
 export const WISHLIST_PRODUCTS_FETCH_START = 'WISHLIST_PRODUCTS_FETCH_START';
 export const WISHLIST_PRODUCTS_FETCH_SUCCESS = 'WISHLIST_PRODUCTS_FETCH_SUCCESS';
 export const WISHLIST_PRODUCTS_FETCH_ERROR = 'WISHLIST_PRODUCTS_FETCH_ERROR';
+
+export const WISHLIST_PRODUCT_ADD_START = 'WISHLIST_PRODUCT_ADD_START';
+export const WISHLIST_PRODUCT_ADD_SUCCESS = 'WISHLIST_PRODUCT_ADD_SUCCESS';
+export const WISHLIST_PRODUCT_ADD_ERROR = 'WISHLIST_PRODUCT_ADD_ERROR';
+
+export const WISHLIST_CREATE_START = 'WISHLIST_CREATE_START';
+export const WISHLIST_CREATE_SUCCESS = 'WISHLIST_CREATE_SUCCESS';
+export const WISHLIST_CREATE_ERROR = 'WISHLIST_CREATE_ERROR';
+
+export const WISHLIST_UPDATE_START = 'WISHLIST_UPDATE_START';
+export const WISHLIST_UPDATE_SUCCESS = 'WISHLIST_UPDATE_SUCCESS';
+export const WISHLIST_UPDATE_ERROR = 'WISHLIST_UPDATE_ERROR';
+
+export const WISHLIST_REMOVE_START = 'WISHLIST_REMOVE_START';
+export const WISHLIST_REMOVE_SUCCESS = 'WISHLIST_REMOVE_SUCCESS';
+export const WISHLIST_REMOVE_ERROR = 'WISHLIST_REMOVE_ERROR';
+
+export const WISHLIST_PRODUCT_REMOVE_START = 'WISHLIST_PRODUCT_REMOVE_START';
+export const WISHLIST_PRODUCT_REMOVE_SUCCESS = 'WISHLIST_PRODUCT_REMOVE_SUCCESS';
+export const WISHLIST_PRODUCT_REMOVE_ERROR = 'WISHLIST_PRODUCT_REMOVE_ERROR';
 
 export const MEDIUM_FETCH_START = 'DATA/MEDIUM_FETCH_START';
 export const MEDIUM_FETCH_SUCCESS = 'DATA/MEDIUM_FETCH_SUCCESS';
@@ -164,6 +207,10 @@ export const PRODUCT_VIEW_START = 'DATA/PRODUCT_VIEW_START';
 export const PRODUCT_VIEW_SUCCESS = 'DATA/PRODUCT_VIEW_SUCCESS';
 export const PRODUCT_VIEW_ERROR = 'DATA/PRODUCT_VIEW_ERROR';
 
+export const PRODUCT_IMPRESSION_START = 'DATA/PRODUCT_IMPRESSION_START';
+export const PRODUCT_IMPRESSION_SUCCESS = 'DATA/PRODUCT_IMPRESSION_SUCCESS';
+export const PRODUCT_IMPRESSION_ERROR = 'DATA/PRODUCT_IMPRESSION_ERROR';
+
 export const SCENE_VIEW_START = 'DATA/SCENE_VIEW_START';
 export const SCENE_VIEW_SUCCESS = 'DATA/SCENE_VIEW_SUCCESS';
 export const SCENE_VIEW_ERROR = 'DATA/SCENE_VIEW_ERROR';
@@ -176,6 +223,10 @@ export const POPULAR_MEDIA_FETCH_START = 'DATA/POPULAR_MEDIA_FETCH_START';
 export const POPULAR_MEDIA_FETCH_SUCCESS = 'DATA/POPULAR_MEDIA_FETCH_SUCCESS';
 export const POPULAR_MEDIA_FETCH_ERROR = 'DATA/POPULAR_MEDIA_FETCH_ERROR';
 
+export const MEDIUM_RECENT_EPISODES_FETCH_START = 'DATA/MEDIUM_RECENT_EPISODES_FETCH_START';
+export const MEDIUM_RECENT_EPISODES_FETCH_SUCCESS = 'DATA/MEDIUM_RECENT_EPISODES_FETCH_SUCCESS';
+export const MEDIUM_RECENT_EPISODES_FETCH_ERROR = 'DATA/MEDIUM_RECENT_EPISODES_FETCH_ERROR';
+
 // Actions creators
 // ////////////////
 
@@ -186,6 +237,8 @@ export const characterView = makeApiActionCreator(slowdown(eventsApi.postCharact
 export const mediumView = makeApiActionCreator(slowdown(eventsApi.postMediumView, 300), MEDIUM_VIEW_START, MEDIUM_VIEW_SUCCESS, MEDIUM_VIEW_ERROR);
 
 export const productView = makeApiActionCreator(slowdown(eventsApi.postProductView, 300), PRODUCT_VIEW_START, PRODUCT_VIEW_SUCCESS, PRODUCT_VIEW_ERROR);
+
+export const productImpression = makeApiActionCreator(eventsApi.postProductImpression, PRODUCT_IMPRESSION_START, PRODUCT_IMPRESSION_SUCCESS, PRODUCT_IMPRESSION_ERROR);
 
 export const sceneView = makeApiActionCreator(slowdown(eventsApi.postSceneView, 300), SCENE_VIEW_START, SCENE_VIEW_SUCCESS, SCENE_VIEW_ERROR);
 
@@ -207,6 +260,8 @@ export const fetchPopularProducts = makeApiActionCreator(productsApi.getPopularP
 
 export const fetchProduct = makeApiActionCreator(productsApi.getProduct, PRODUCT_FETCH_START, PRODUCT_FETCH_SUCCESS, PRODUCT_FETCH_ERROR);
 
+export const fetchUbProduct = makeUbApiActionCreator(ubApi.crawlProduct, UB_PRODUCT_FETCH_START, UB_PRODUCT_FETCH_SUCCESS, UB_PRODUCT_FETCH_ERROR);
+
 export const fetchUser = makeApiActionCreator(usersApi.getUser, USER_FETCH_START, USER_FETCH_SUCCESS, USER_FETCH_ERROR);
 
 export const fetchSavedScenesOfUser = makeApiActionCreator(scenesApi.getSavedScenesOfUser, SAVED_SCENES_OF_USER_FETCH_START, SAVED_SCENES_OF_USER_FETCH_SUCCESS, SAVED_SCENES_OF_USER_FETCH_ERROR);
@@ -218,6 +273,16 @@ export const fetchWishlistOfUser = makeApiActionCreator(wishlistsApi.getWishlist
 export const fetchWishlistsOfUser = makeApiActionCreator(wishlistsApi.getWishlistsOfUser, WISHLISTS_OF_USER_FETCH_START, WISHLISTS_OF_USER_FETCH_SUCCESS, WISHLISTS_OF_USER_FETCH_ERROR);
 
 export const fetchWishlistProducts = makeApiActionCreator(productsApi.getWishlistProducts, WISHLIST_PRODUCTS_FETCH_START, WISHLIST_PRODUCTS_FETCH_SUCCESS, WISHLIST_PRODUCTS_FETCH_ERROR);
+
+export const addWishlistProduct = makeApiActionCreator(wishlistsApi.addWishlistProduct, WISHLIST_PRODUCT_ADD_START, WISHLIST_PRODUCT_ADD_SUCCESS, WISHLIST_PRODUCT_ADD_ERROR);
+
+export const createWishlist = makeApiActionCreator(wishlistsApi.createWishlist, WISHLIST_CREATE_START, WISHLIST_CREATE_SUCCESS, WISHLIST_CREATE_ERROR);
+
+export const updateWishlist = makeApiActionCreator(wishlistsApi.updateWishlist, WISHLIST_UPDATE_START, WISHLIST_UPDATE_SUCCESS, WISHLIST_UPDATE_ERROR);
+
+export const removeWishlist = makeApiActionCreator(wishlistsApi.removeWishlist, WISHLIST_REMOVE_START, WISHLIST_REMOVE_SUCCESS, WISHLIST_REMOVE_ERROR);
+
+export const removeWishlistProduct = makeApiActionCreator(wishlistsApi.removeWishlistProduct, WISHLIST_PRODUCT_REMOVE_START, WISHLIST_PRODUCT_REMOVE_SUCCESS, WISHLIST_PRODUCT_REMOVE_ERROR);
 
 export const fetchMedium = makeApiActionCreator(mediaApi.getMedium, MEDIUM_FETCH_START, MEDIUM_FETCH_SUCCESS, MEDIUM_FETCH_ERROR);
 
@@ -252,3 +317,5 @@ export const saveScene = makeApiActionCreator(scenesApi.saveScene, SAVE_SCENE_ST
 export const removeSavedScene = makeApiActionCreator(scenesApi.removeSavedScene, REMOVE_SAVED_SCENE_START, REMOVE_SAVED_SCENE_SUCCESS, REMOVE_SAVED_SCENE_ERROR);
 
 export const fetchPopularSeries = makeApiActionCreator(mediaApi.getPopularMedia, POPULAR_MEDIA_FETCH_START, POPULAR_MEDIA_FETCH_SUCCESS, POPULAR_MEDIA_FETCH_ERROR);
+
+export const fetchMediumRecentEpisodes = makeApiActionCreator(mediaApi.getMediumRecentEpisodes, MEDIUM_RECENT_EPISODES_FETCH_START, MEDIUM_RECENT_EPISODES_FETCH_SUCCESS, MEDIUM_RECENT_EPISODES_FETCH_ERROR);

@@ -117,6 +117,9 @@ export default class Scene extends Component {
   }
 
   static styles = {
+    wrapper: {
+      position: 'relative'
+    },
     scene: {
       container: {
         position: 'relative',
@@ -342,7 +345,7 @@ export default class Scene extends Component {
     const share = scene.get('share');
 
     const content =
-      <div>
+      <div style={styles.wrapper}>
         <ContentContainer>
           <div style={styles.header.container}>
             <div style={styles.header.left}>

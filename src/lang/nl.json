@@ -99,8 +99,10 @@
     },
     "search": {
       "info": "Spott staat u toe om producten te vinden in de dingen die u bekijkt",
-      "placeholder": "Zoek naar films, series, personages of merken",
-      "title": "Televisie is nu uw favoriete winkel"
+      "placeholder": "Zoek naar TV shows, films, personages of merken",
+      "title": "Televisie is nu uw favoriete winkel",
+      "loadingResults": "Resultaten laden...",
+      "noResults": "Oeps! We kunnen geen resultaten vinden voor de ingegeven zoekopdracht"
     },
     "topSellingProducts": {
       "title": "Best verkochte producten"
@@ -150,7 +152,13 @@
     "noSimilar": "Geen gelijkaardige producten gevonden.",
     "similarProducts": "Gelijkaardige producten",
     "unavailable": "Dit product is niet beschikbaar.",
-    "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​"
+    "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​",
+    "product": "Product",
+    "moreFromBrand": "Meer [[]] producten",
+    "noMoreFromBrand": "No [[]] producten gevonden",
+    "outOfStock": "Niet op voorraad",
+    "addToBasket": "Plaats in mandje",
+    "buyOnStore": "Kopen op winkel"
   },
   "profile": {
     "header": {
@@ -174,12 +182,23 @@
     },
     "wishlists": {
       "empty": "U heeft nog geen verlanglijst.",
-      "unnamedWishlist": "Verlanglijst"
+      "unnamedWishlist": "Verlanglijst",
+      "editWishlist": "Bewerken verlanglijst",
+      "delete": "Verwijder",
+      "cancel": "Annuleer",
+      "save": "Bewaar",
+      "privateList": "Privé lijst"
     },
     "wishlistProducts": {
       "empty": "Deze verlanglijst is leeg.",
       "private": "Deze verlanglijst is privé, de eigenaar moet hem publiek maken om hem zichtbaar te maken.",
       "notExist": "Deze verlanglijst bestaat niet meer. Onze excuses hiervoor.​"
+    },
+    "wishlistButton": {
+      "alreadyExist": "Verlanglijst bestaat al",
+      "addToList": "Toevoegen aan lijst",
+      "create": "Creëren",
+      "createNewList": "Maak een nieuwe lijst"
     },
     "notExist": "Deze profielpagina bestaat niet meer. Onze excuses hiervoor.​"
   },
@@ -197,6 +216,10 @@
     },
     "episodes": {
       "empty": "Er zijn geen afleveringen beschikbaar."
+    },
+    "recentEpisodes": {
+      "empty": "Er zijn geen afleveringen beschikbaar.",
+      "title": "Recente Afleveringen"
     },
     "seasons": {
       "empty": "Er zijn geen seizoenen beschikbaar."
@@ -248,6 +271,7 @@
       "zero":  "[[0]] volgers",
       "one":   "[[1]] volger",
       "other": "[[%(count)s]] volgers"
-    }
+    },
+    "from": "Uit"
   }
 }

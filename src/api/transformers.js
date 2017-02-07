@@ -1,4 +1,5 @@
 import { COMMERCIAL, MOVIE, SERIES, SERIES_EPISODE } from '../data/mediumTypes';
+import * as _ from 'lodash';
 
 function stripDomain (url) {
   return url.substring(url.indexOf('/', 9));
@@ -29,10 +30,11 @@ export function transformUser ({ uuid, userName, profile }) {
   *   image,
   *   price: { amount, currency },
   *   shareUrl,
-  *   shortName
+  *   shortName,
+  *   fullName
   * }
   */
-export function transformListProduct ({ available, buyUrl, image, price, shortName, shareUrl, uuid: id }) {
+export function transformListProduct ({ available, buyUrl, image, price, shortName, shareUrl, uuid: id, fullName }) {
   return {
     available,
     buyUrl,
@@ -40,12 +42,13 @@ export function transformListProduct ({ available, buyUrl, image, price, shortNa
     image: image && { id: image.uuid, url: image.url },
     price,
     shareUrl: stripDomain(shareUrl),
-    shortName
+    shortName,
+    fullName
   };
 }
 
 // no buyUrl, image
-export function transformDetailedProduct ({ available, brand, description, longName, images, offerings, price, relevance, shortName, shareUrl, uuid: id }) {
+export function transformDetailedProduct ({ available, brand, description, longName, images, offerings, price, relevance, shortName, shareUrl, uuid: id, buyUrl }) {
   return {
     available,
     brand: brand && {
@@ -67,11 +70,12 @@ export function transformDetailedProduct ({ available, brand, description, longN
     })),
     relevance,
     shareUrl: stripDomain(shareUrl),
-    shortName
+    shortName,
+    buyUrl
   };
 }
 
-export function transformCharacter ({ avatar, headerImage, name, shareUrl, subscribed, subscriberCount, uuid: id }) {
+export function transformCharacter ({ avatar, headerImage, name, shareUrl, subscribed, subscriberCount, uuid: id, appearances }) {
   return {
     avatarImage: avatar && { id: avatar.uuid, url: avatar.url },
     coverImage: headerImage && { id: headerImage.uuid, url: headerImage.url },
@@ -79,7 +83,11 @@ export function transformCharacter ({ avatar, headerImage, name, shareUrl, subsc
     name,
     shareUrl: stripDomain(shareUrl),
     subscribed,
-    subscriberCount
+    subscriberCount,
+    appearances: appearances && appearances.data && appearances.data.length && {
+      title: appearances.data[0].title,
+      shareUrl: stripDomain(appearances.data[0].shareUrl)
+    }
   };
 }
 
@@ -89,7 +97,8 @@ export function transformWishlist (wishlist) {
     id: wishlist.uuid,
     image: wishlist.image && { id: wishlist.image.uuid, url: wishlist.image.url },
     name: wishlist.name,
-    publicWishlist: wishlist.public
+    publicWishlist: wishlist.public,
+    containsProduct: wishlist.containsProduct
   };
 }
 
@@ -221,4 +230,50 @@ export function transformTvGuideEntry ({ uuid: id, start, medium, medium: { seas
     medium: season && season.serie && transformMedium(season.serie) || transformMedium(medium),
     channel: transformBroadcastChannel(channel)
   };
+}
+
+export function transformSuggestions (data) {
+  const types = {
+    CHARACTER: 'CHARACTER',
+    TV_SERIE: 'TV_SERIE',
+    MOVIE: 'MOVIE'
+  };
+
+  const typeToTitle = {
+    CHARACTER: 'CHARACTERS',
+    TV_SERIE: 'TV SHOWS',
+    MOVIE: 'MOVIES'
+  };
+
+  return _.chain(data)
+    .groupBy('type')
+    .pickBy((val, key) => {
+      return types.hasOwnProperty(key);
+    })
+    .map((val, key) => {
+      return {
+        title: typeToTitle[key],
+        suggestions: val.map((item) => (
+          {
+            title: item.suggestions[0].value,
+            uuid: item.entity.uuid,
+            imageUrl: key === types.CHARACTER
+              ? item.entity.avatar && item.entity.avatar.url
+              : item.entity.posterImage && item.entity.posterImage.url,
+            shareUrl: stripDomain(item.entity.shareUrl),
+            smallImage: key === types.CHARACTER
+          }
+        ))
+      };
+    })
+    .value();
+}
+
+export function transformUbProduct (data) {
+  const { body: { product } } = data;
+  const { productUrl } = data;
+
+  product.currentVariant = product.variants.options.filter((item) => item.child && item.child.options[0].url === productUrl)[0];
+
+  return product;
 }

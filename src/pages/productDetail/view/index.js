@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Radium from 'radium';
 import { Map } from 'immutable';
-import { colors, load, fontWeights, formatPrice, makeTextStyle, mediaQueries, pinkButtonStyle, Button, Container, ShareButton, Spinner } from '../../_common/buildingBlocks';
+import { push as routerPush, replace as routerReplace } from 'react-router-redux';
+import { colors, load, fontWeights, formatPrice, makeTextStyle, mediaQueries, Spinner, pinkButtonStyle, Button, Container, ShareButton, Modal, largeDialogStyle, SmallContainer } from '../../_common/buildingBlocks';
 import ProductTiles from '../../_common/tiles/productTiles';
 import * as actions from '../actions';
 import FacebookShareData from '../../_common/facebookShareData';
@@ -12,11 +13,14 @@ import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import { LOADED } from '../../../data/statusTypes';
+import WishlistButton from '../../profile/view/wishlistButton';
 
 @localized
 @connect(productSelector, (dispatch) => ({
   onChangeImageSelection: bindActionCreators(actions.changeImageSelection, dispatch),
-  loadProduct: bindActionCreators(actions.loadProduct, dispatch)
+  loadProduct: bindActionCreators(actions.loadProduct, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch),
+  routerReplace: bindActionCreators(routerReplace, dispatch)
 }))
 @Radium
 export default class ProductDetail extends Component {
@@ -24,6 +28,13 @@ export default class ProductDetail extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadProduct: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      state: PropTypes.shape({
+        modal: PropTypes.bool,
+        returnTo: PropTypes.string
+      })
+    }).isRequired,
     params: PropTypes.shape({
       productId: PropTypes.string.isRequired
     }).isRequired,
@@ -39,6 +50,8 @@ export default class ProductDetail extends Component {
       ),
       id: PropTypes.string
     }),
+    routerPush: PropTypes.func.isRequired,
+    routerReplace: PropTypes.func.isRequired,
     selectedImageId: PropTypes.string,
     t: PropTypes.func.isRequired,
     onChangeImageSelection: PropTypes.func.isRequired
@@ -47,6 +60,7 @@ export default class ProductDetail extends Component {
   constructor (props) {
     super(props);
     this.share = ::this.share;
+    this.onClose = ::this.onClose;
     this.onBuyClick = ::this.onBuyClick;
     this.product = this.props.params.productId;
     this.renderProduct = ::this.renderProduct;
@@ -70,6 +84,10 @@ export default class ProductDetail extends Component {
     window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
   }
 
+  onClose () {
+    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || '/');
+  }
+
   onBuyClick () {
     const postUrl = this.props.product.getIn([ 'offerings', '0', 'url' ]);
     // Create a form using the good ol' DOM API
@@ -85,15 +103,26 @@ export default class ProductDetail extends Component {
   }
 
   static styles = {
+    wrapper: {
+      position: 'relative'
+    },
+    pbModal: {
+      paddingBottom: '5em'
+    },
     productInfo: {
       fontSize: '16px',
       width: '100%',
       paddingTop: '3.75em',
       paddingBottom: '3.75em',
-      backgroundColor: colors.whiteTwo
+      paddingLeft: '2.5em',
+      paddingRight: '2.5em',
+      backgroundColor: colors.whiteGray,
+      display: 'flex',
+      flexWrap: 'wrap'
     },
     left: {
-      float: 'left',
+      display: 'flex',
+      flexDirection: 'column',
       width: '100%',
       [mediaQueries.medium]: {
         width: '35%',
@@ -101,7 +130,6 @@ export default class ProductDetail extends Component {
       }
     },
     right: {
-      float: 'left',
       width: '100%',
       [mediaQueries.medium]: {
         width: '65%',
@@ -118,30 +146,26 @@ export default class ProductDetail extends Component {
       },
       wrapper: {
         width: '100%',
-        paddingTop: '100%',
         position: 'relative',
-        height: 0,
         marginBottom: '1.25em'
       },
       big: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
         maxWidth: '100%',
-        maxHeight: '100%',
-        margin: 'auto'
+        maxHeight: '100%'
       },
       small: {
         wrapper: {
           display: 'flex',
           alignItems: 'center',
+          flexWrap: 'wrap'
+        },
+        item: {
+          display: 'flex',
+          alignItems: 'center',
           justifyContent: 'center',
-          float: 'left',
-          width: '3.75em',
-          height: '3.75em',
-          margin: '0 0.625em 0.625em 0',
+          width: '42px',
+          height: '42px',
+          margin: '0 0.425em 0.625em 0',
           borderRadius: '0.25em',
           border: `solid 0.15em ${colors.whiteTwo}`,
           cursor: 'pointer'
@@ -190,14 +214,36 @@ export default class ProductDetail extends Component {
           paddingTop: '1.875em',
           display: 'flex',
           justifyContent: 'space-between'
+        },
+        buyButton: {
+          width: '170px',
+          height: '42px',
+          fontSize: '12px',
+          letterSpacing: '3.6px',
+          disabled: {
+            opacity: 1,
+            backgroundColor: colors.coolGray,
+            borderWidth: 0
+          }
         }
       }
     },
     similarProducts: {
       fontSize: '16px',
       width: '100%',
-      paddingTop: '3.75em',
-      paddingBottom: '3.75em',
+      paddingTop: '40px',
+      paddingBottom: '50px',
+      paddingLeft: '2.5em',
+      paddingRight: '2.5em',
+      backgroundColor: colors.whiteGray
+    },
+    brandProducts: {
+      fontSize: '16px',
+      width: '100%',
+      paddingTop: '40px',
+      paddingBottom: '50px',
+      paddingLeft: '2.5em',
+      paddingRight: '2.5em',
       backgroundColor: colors.white
     },
     similarProductsTitle: {
@@ -219,79 +265,232 @@ export default class ProductDetail extends Component {
       ...makeTextStyle(fontWeights.bold),
       color: colors.dark,
       textDecoration: 'none'
+    },
+    header: {
+      container: {
+        paddingBottom: '1.1111em',
+        paddingTop: '1.1111em',
+        [mediaQueries.medium]: {
+          alignItems: 'flex-end',
+          display: 'flex',
+          justifyContent: 'space-between'
+        }
+      },
+      left: {
+        [mediaQueries.medium]: {
+          flex: '1 1 auto',
+          overflow: 'hidden',
+          paddingRight: '0.5em'
+        }
+      },
+      right: {
+        display: 'flex',
+        marginTop: '0.5em',
+        [mediaQueries.medium]: {
+          flex: '0 0 auto',
+          marginTop: 0,
+          justifyContent: 'space-between'
+        }
+      },
+      sceneFrom: {
+        base: {
+          ...makeTextStyle(fontWeights.bold, '0.6111em', '0.1346em'),
+          opacity: 0.5,
+          color: colors.dark,
+          textTransform: 'uppercase',
+          paddingTop: '0.8695em'
+        },
+        light: {
+          color: colors.white
+        }
+      },
+      saveButton: {
+        active: {
+          backgroundColor: colors.darkPink,
+          color: colors.white
+        },
+        base: {
+          backgroundColor: 'transparent',
+          color: colors.coolGray
+        },
+        light: {
+          color: colors.white
+        }
+      },
+      shareButton: {
+        base: {
+          marginLeft: '0.5em'
+        },
+        light: {
+          ':hover': {
+            borderColor: colors.white,
+            color: colors.white,
+            fill: colors.white
+          }
+        }
+      },
+      link: {
+        base: {
+          color: colors.dark
+        },
+        light: {
+          color: colors.white
+        }
+      },
+      title: {
+        base: {
+          ...makeTextStyle(fontWeights.regular, '1.2777em', '0.0222em'),
+          color: colors.dark,
+          fontWeight: 400,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        },
+        emph: {
+          opacity: 0.5
+        },
+        light: {
+          color: colors.white
+        }
+      }
     }
-  }
+  };
 
   renderProduct () {
     const { styles } = this.constructor;
-    const { onChangeImageSelection, product, selectedImageId, t } = this.props;
+    const { onChangeImageSelection, product, selectedImageId, t, location } = this.props;
     const notAvailable = !(product.get('available') && product.getIn([ 'offerings', '0', 'url' ]));
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
     const share = product.get('share');
+    const isPopup = location.state && location.state.modal;
 
-    return (
+    const locationBack = location.state && location.state.returnTo
+      ? Object.assign({}, location, { pathname: location.state.returnTo })
+      : Object.assign({}, location, { state: { returnTo: location.pathname } });
+
+    const productDetails = (
       <div>
-        <div style={styles.productInfo}>
-          <Container>
-            <div style={styles.left}>
-              <div style={styles.images.wrapper}>
-                {selectedImage &&
-                  <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big} />}
-              </div>
-              <div>
-                {product.get('images') && product.get('images').map((image) =>
-                  <div
-                    key={image.get('id')}
-                    style={[ styles.images.small.wrapper, image.get('id') === selectedImageId && styles.images.selected ]}
-                    onClick={onChangeImageSelection.bind(null, image.get('id'))}>
-                    <img
-                      src={`${image.get('url')}?height=160&width=160`}
-                      style={styles.images.small.image}/>
-                  </div>)}
-              </div>
-            </div>
-            <div style={styles.right}>
-              <div>
-                <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
-                <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
-                {product.get('description') &&
-                  <p style={styles.details.productDescription}>{product.get('description')}</p>}
-                <h2 style={styles.details.price}>
-                  {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
-                </h2>
-                <div style={styles.details.buttons.wrapper}>
-                  <Button disabled={notAvailable} key='buyButton' style={pinkButtonStyle} target='_blank' onClick={this.onBuyClick}>
-                    <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
-                  </Button>
-                  <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(share.get('url'))}&title=${share.get('title')}`}>
-                    {t('common.share')}
-                  </ShareButton>
-                </div>
-                {notAvailable &&
-                  <div style={styles.details.notAvailable}>{t('productDetail.unavailable')}</div>}
-              </div>
-            </div>
-            <div style={styles.clear} />
-            {share &&
-              <FacebookShareData
-                description={share.get('description')}
-                imageUrl={share.getIn([ 'image', 'url' ])}
-                title={share.get('title')}
-                url={window.location.href} />}
-          </Container>
+        <div style={styles.header.container}>
+          <div style={styles.header.left}>
+            <div style={[ styles.header.sceneFrom.base, isPopup && styles.header.sceneFrom.light ]}>{t('productDetail.product')}</div>
+            <h1 style={[ styles.header.title.base, isPopup && styles.header.title.light ]}>
+              {product.get('shortName')}
+            </h1>
+          </div>
+          <div style={styles.header.right}>
+            <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(share.get('url'))}&title=${share.get('title')}`} style={[ styles.header.shareButton.base, isPopup && styles.header.shareButton.light ]}>
+              {t('common.share')}
+            </ShareButton>
+          </div>
         </div>
-        <div style={styles.similarProducts}>
-          <Container>
-            <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
-            {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
-              <ProductTiles items={Map({ _status: LOADED, data: product.get('similarProducts') })} />}
-            {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
-              <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
-            {!product.get('similarProducts') && <Spinner />}
-          </Container>
+        <div style={styles.productInfo}>
+          <div style={styles.left}>
+            <div style={styles.images.wrapper}>
+              {selectedImage &&
+              <img src={`${selectedImage.get('url')}?height=750&width=750`} style={styles.images.big}/>}
+            </div>
+            <div style={styles.images.small.wrapper}>
+              {product.get('images') && product.get('images').map((image) =>
+                <div
+                  key={image.get('id')}
+                  style={[ styles.images.small.item, image.get('id') === selectedImageId && styles.images.selected ]}
+                  onClick={onChangeImageSelection.bind(null, image.get('id'))}>
+                  <img
+                    src={`${image.get('url')}?height=160&width=160`}
+                    style={styles.images.small.image}/>
+                </div>)}
+            </div>
+          </div>
+          <div style={styles.right}>
+            <div>
+              <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
+              <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
+              {product.get('description') && <p style={styles.details.productDescription}>{product.get('description')}</p>}
+              <h2 style={styles.details.price}>
+                {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
+              </h2>
+              <div style={styles.details.buttons.wrapper}>
+                <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
+                  <span style={styles.details.buttons.buyText}>
+                    {t('productDetail.buyNow')}
+                  </span>
+                </Button>
+                {product.get('id') && <WishlistButton productUuid={product.get('id')} />}
+              </div>
+              {notAvailable &&
+              <div style={styles.details.notAvailable}>{t('productDetail.unavailable')}</div>}
+            </div>
+          </div>
+          <div style={styles.clear}/>
+          {share &&
+          <FacebookShareData
+            description={share.get('description')}
+            imageUrl={share.getIn([ 'image', 'url' ])}
+            title={share.get('title')}
+            url={window.location.href}/>}
         </div>
       </div>
     );
+
+    const content = (
+      <div style={styles.wrapper}>
+        {isPopup
+          ? productDetails
+          : <SmallContainer>{productDetails}</SmallContainer>
+        }
+        <div style={styles.brandProducts}>
+          <SmallContainer>
+            <div>
+              {(!product.get('brandProducts') || product.get('brandProducts').size === 0) &&
+              <h1 style={styles.similarProductsTitle}>
+                {t('productDetail.moreFromBrand', {}, () => product.getIn([ 'brand', 'name' ]))}
+              </h1>}
+              {product.get('brandProducts') && product.get('brandProducts').size > 0 &&
+              <ProductTiles
+                items={Map({ _status: LOADED, data: product.get('brandProducts') })}
+                tileProps={{ isDirectPage: !isPopup, location: locationBack }}
+                title={t('productDetail.moreFromBrand', {}, (contents, key) => (
+                  product.getIn([ 'brand', 'name' ])
+                ))}/>}
+              {product.get('brandProducts') && product.get('brandProducts').size === 0 &&
+              <p style={styles.similarProductsNone}>
+                {t('productDetail.noMoreFromBrand', {}, () => product.getIn([ 'brand', 'name' ]))}
+              </p>}
+              {!product.get('brandProducts') && <Spinner />}
+            </div>
+          </SmallContainer>
+        </div>
+        <div style={styles.similarProducts}>
+          <SmallContainer>
+            <div>
+              {(!product.get('similarProducts') || product.get('similarProducts').size === 0) &&
+              <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>}
+              {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
+              <ProductTiles
+                items={Map({ _status: LOADED, data: product.get('similarProducts') })}
+                tileProps={{ isDirectPage: !isPopup, location: locationBack }}
+                title={t('productDetail.similarProducts')}/>}
+              {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
+              <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
+              {!product.get('similarProducts') && <Spinner />}
+            </div>
+          </SmallContainer>
+        </div>
+        {isPopup && <div style={styles.pbModal} />}
+      </div>
+    );
+
+    if (isPopup) {
+      return (
+        <Modal
+          isOpen
+          style={largeDialogStyle}
+          onClose={this.onClose}>
+          {content}
+        </Modal>
+      );
+    }
+    return content;
   }
 
   renderNotFoundError () {
@@ -309,7 +508,7 @@ export default class ProductDetail extends Component {
   }
 
   render () {
-    return load(this.props.product, this.renderProduct, null, this.renderNotFoundError, this.renderUnexpectedError);
+    return load(this.props.product, this.renderProduct, this.renderProduct, this.renderNotFoundError, this.renderUnexpectedError);
   }
 
 }

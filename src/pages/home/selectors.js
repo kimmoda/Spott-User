@@ -47,3 +47,8 @@ export const topSellingProductsSelector = createStructuredSelector({
 export const homeSelector = createStructuredSelector({
   isAuthenticated: isAuthenticatedSelector
 });
+
+const searchSuggestionsSelector = (state) => state.getIn([ 'home', 'searchSuggestions' ]);
+export const searchSelector = createStructuredSelector({
+  searchSuggestions: searchSuggestionsSelector
+});

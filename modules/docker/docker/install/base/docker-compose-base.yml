@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+
+  seoserver:
+    image: docker.appiness.mobi/spott.website.seoserver:${project.version}
+    container_name: spott.website.seoserver
+    ports:
+      - 4000:4000
+
+  web:
+    image: ${appiness.docker.registry}/spott.website:${project.version}
+    container_name: spott.website
+    ports:
+      - 80:80
+      - 443:443

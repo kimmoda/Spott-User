@@ -194,11 +194,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         </Route>
 
         <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' onEnter={({ params: { productId } }) => {
-          window.scrollTo(0, 0);
           productId && dispatch(productView({ productId }));
         }} />
         <Route component={ProductDetail} path='product/:productSlug/:productId' onEnter={({ params: { productId } }) => {
-          window.scrollTo(0, 0);
           productId && dispatch(productView({ productId }));
         }} /> {/* Backwards compatible with old url. */}
 

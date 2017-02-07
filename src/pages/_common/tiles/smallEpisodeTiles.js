@@ -49,7 +49,13 @@ export class SmallEpisodeTile extends Component {
       bottom: 0,
       right: 0,
       backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))',
-      pointerEvents: 'none' // Don't capture pointer events. "Click through..."
+      pointerEvents: 'none', // Don't capture pointer events. "Click through...",
+      opacity: 0,
+      transition: 'opacity 0.5s ease-in',
+      hovered: {
+        transition: 'opacity 0.5s ease-out',
+        opacity: 1
+      }
     },
     title: {
       base: {
@@ -98,7 +104,7 @@ export class SmallEpisodeTile extends Component {
         <div
           style={[ styles.image, item.get('profileImage') && { backgroundImage: `url("${item.getIn([ 'profileImage', 'url' ])}")` } ]} />
           <span style={[ styles.title.base, hovered && styles.title.hovered ]}>{item.get('title')}</span>
-        <div style={styles.layer} />
+          <div style={[ styles.layer, hovered && styles.layer.hovered ]} />
       </div>
     );
     return (

@@ -44,7 +44,7 @@ const configuration = {
     new Visualizer(),
     new CopyWebpackPlugin([
       { from: './dev/version.json', to: 'version.json' },
-      { from: './dev/config.json', to: 'config.json' }
+      { from: './dev/config.json', to: './config/config.json' }
     ]),
     // Define constants used throughout the codebase
     new webpack.DefinePlugin({

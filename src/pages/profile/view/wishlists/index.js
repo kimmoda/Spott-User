@@ -1,3 +1,4 @@
+/* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { colors, fontWeights, makeTextStyle, load, Message, RadiumLink } from '../../../_common/buildingBlocks';
@@ -9,8 +10,11 @@ import { slugify } from '../../../../utils';
 import { bindActionCreators } from 'redux';
 import localized from '../../../_common/localized';
 import BaseTile from '../../../_common/tiles/_baseTile';
+import hoverable from '../../../_common/hoverable';
+import WishlistSettings from '../wishlistSettings';
 
 const placeholderLargeImage = require('./placeholderLarge.png');
+const iconSettings = require('../images/iconSettings.svg');
 
 const itemStyles = {
   container: {
@@ -29,7 +33,11 @@ const itemStyles = {
     textOverflow: 'ellipsis',
     paddingTop: '0.7em',
     paddingBottom: '0.7em',
-    paddingLeft: '0.5em'
+    paddingLeft: '0.5em',
+    paddingRight: '0.5em',
+    display: 'flex',
+    height: '21px',
+    boxSizing: 'content-box'
   },
   image: {
     width: '100%',
@@ -39,32 +47,61 @@ const itemStyles = {
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
     border: '1px solid rgba(34, 31, 38, 0.05)'
+  },
+  iconSettings: {
+    marginLeft: 'auto'
   }
 };
+
 @localized
+@hoverable
 class Wishlist extends Component {
   static propTypes = {
     baseUrl: PropTypes.string.isRequired,
+    hovered: PropTypes.bool.isRequired,
     item: ImmutablePropTypes.mapContains({
       fixed: PropTypes.bool.isRequired,
       image: ImmutablePropTypes.mapContains({
         url: PropTypes.string.isRequired
       }),
       name: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired
+      id: PropTypes.string.isRequired,
+      publicWishlist: PropTypes.bool.isRequired
     }),
     style: PropTypes.object,
     t: PropTypes.func.isRequired
+  };
+
+  constructor (props) {
+    super(props);
+    this.onModalClose = ::this.onModalClose;
+    this.onSettingsClick = ::this.onSettingsClick;
+    this.state = {
+      isSettingsOpened: false
+    };
+  }
+
+  onModalClose () {
+    this.setState({ isSettingsOpened: false });
+  }
+
+  onSettingsClick (e) {
+    e.preventDefault();
+    this.setState({ isSettingsOpened: true });
   }
 
   render () {
-    const { baseUrl, item, style, t } = this.props;
+    const { baseUrl, item, style, t, hovered } = this.props;
     return (
       <BaseTile style={style}>
         <RadiumLink style={itemStyles.container} title={item.get('name') || t('profile.wishlists.unnamedWishlist')} to={`${baseUrl}/${slugify(item.get('name')) || 'wishlist'}/${item.get('id')}`}>
-          <p style={itemStyles.name}>{item.get('name') || t('profile.wishlists.unnamedWishlist')}</p>
+          <div style={itemStyles.name}>
+            <span>{item.get('name') || t('profile.wishlists.unnamedWishlist')}</span>
+            {item.get('name') && hovered && <div style={itemStyles.iconSettings} title={t('profile.wishlists.editWishlist')} onClick={this.onSettingsClick}><img src={iconSettings}/></div>}
+          </div>
           <div style={{ ...itemStyles.image, backgroundImage: `url(${item.hasIn([ 'image', 'url' ]) ? item.getIn([ 'image', 'url' ]) : placeholderLargeImage })` }} />
         </RadiumLink>
+        {item.get('name') && this.state.isSettingsOpened && <WishlistSettings wishlist={item} onClose={this.onModalClose} />}
       </BaseTile>
     );
   }
@@ -114,7 +151,7 @@ export default class Wishlists extends Component {
           horizontalSpacing={30}
           items={wishlists.get('data')}
           numColumns={{ extraSmall: 1, small: 2, medium: 4, large: 4, extraLarge: 5, extraExtraLarge: 6 }}
-          tile={<Wishlist baseUrl={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`} />}
+          tile={<Wishlist baseUrl={`/${currentLocale}/profile/${userSlug}/${userId}/wishlists`}/>}
           verticalSpacing={30} />
       );
     }

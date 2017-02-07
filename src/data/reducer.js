@@ -86,7 +86,8 @@ export default (state = fromJS({
     mediumHasTopUserProducts: {},
     userHasSavedScenes: {},
     userHasWishlists: {},
-    wishlistHasProducts: {}
+    wishlistHasProducts: {},
+    mediumHasRecentEpisodes: {}
   },
   lists: {
     popularProducts: {},
@@ -124,6 +125,13 @@ export default (state = fromJS({
       return fetchSuccess(state, [ 'entities', 'products', action.productId ], action.data);
     case actions.PRODUCT_FETCH_ERROR:
       return fetchError(state, [ 'entities', 'products', action.productId ], action.error);
+
+    case actions.UB_PRODUCT_FETCH_START:
+      return fetchStart(state, [ 'entities', 'products', action.productId, 'ub' ]);
+    case actions.UB_PRODUCT_FETCH_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'products', action.productId, 'ub' ], action.data);
+    case actions.UB_PRODUCT_FETCH_ERROR:
+      return fetchError(state, [ 'entities', 'products', action.productId, 'ub' ], action.error);
 
     case actions.PRODUCTS_RECENTLY_ADDED_TO_WISHLIST_FETCH_START:
       return fetchListStart(state, 'recentlyAddedToWishlistProducts');
@@ -193,6 +201,13 @@ export default (state = fromJS({
       return fetchRelationsSuccess(state, 'mediumHasEpisodes', action.mediumId, 'media', action.data);
     case actions.MEDIUM_EPISODES_FETCH_ERROR:
       return fetchRelationsError(state, 'mediumHasEpisodes', action.mediumId, action.error);
+
+    case actions.MEDIUM_RECENT_EPISODES_FETCH_START:
+      return fetchRelationsStart(state, 'mediumHasRecentEpisodes', action.mediumId);
+    case actions.MEDIUM_RECENT_EPISODES_FETCH_SUCCESS:
+      return fetchRelationsSuccess(state, 'mediumHasRecentEpisodes', action.mediumId, 'media', action.data);
+    case actions.MEDIUM_RECENT_EPISODES_FETCH_ERROR:
+      return fetchRelationsError(state, 'mediumHasRecentEpisodes', action.mediumId, action.error);
 
     case actions.MEDIUM_SCENES_FETCH_START:
       return fetchRelationsStart(state, 'mediumHasScenes', action.mediumId);

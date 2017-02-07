@@ -99,8 +99,10 @@
     },
     "search": {
       "info": "Spott allows you to find products in the things you watch",
-      "placeholder": "Search for movies, series, characters or brands",
-      "title": "Television is now your favourite shop"
+      "placeholder": "Search for TV shows, movies, characters or brands",
+      "title": "Television is now your favourite shop",
+      "loadingResults": "Loading results...",
+      "noResults": "Oops! We couldn't find results for your exact search"
     },
     "topSellingProducts": {
       "title": "Top Selling Products"
@@ -150,7 +152,13 @@
     "noSimilar": "No similar items found.",
     "similarProducts": "Similar Items",
     "unavailable": "This product is unavailable.",
-    "notExist": "This product doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+    "notExist": "This product doesn’t seem to exist anymore. We’re sorry for the inconvenience.​",
+    "product": "Product",
+    "moreFromBrand": "More [[]] Products",
+    "noMoreFromBrand": "No [[]] Products found",
+    "outOfStock": "Out of stock",
+    "addToBasket": "Add to basket",
+    "buyOnStore": "Buy on store"
   },
   "profile": {
     "header": {
@@ -174,12 +182,23 @@
     },
     "wishlists": {
       "empty": "You have no wishlists yet.",
-      "unnamedWishlist": "Wishlist"
+      "unnamedWishlist": "Wishlist",
+      "editWishlist": "Edit Wishlist",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "save": "Save",
+      "privateList": "Private list"
     },
     "wishlistProducts": {
       "empty": "This wishlist is empty.",
       "private": "This wishlist is set to private, the owner must set it to public to make it visible.",
       "notExist": "This wishlist doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+    },
+    "wishlistButton": {
+      "alreadyExist": "Wishlist already exists",
+      "addToList": "Add to list",
+      "create": "Create",
+      "createNewList": "Create new list"
     },
     "notExist": "This user profile doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
   },
@@ -197,6 +216,10 @@
     },
     "episodes": {
       "empty": "There are no episodes available."
+    },
+    "recentEpisodes": {
+      "empty": "There are no episodes available.",
+      "title": "Recent Episodes"
     },
     "seasons": {
       "empty": "There are no seasons available."
@@ -248,6 +271,7 @@
       "zero":  "Followers [[0]]",
       "one":   "Followers [[1]]",
       "other": "Followers [[%(count)s]]"
-    }
+    },
+    "from": "From"
   }
 }

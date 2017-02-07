@@ -10,6 +10,7 @@ import makeTiles from './_makeTiles';
 import { fetchScene } from '../../../data/actions';
 import { COMMERCIAL, MOVIE, SERIES } from '../../../data/mediumTypes';
 import { sceneTilesStyle } from './styles';
+import ProductImpressionSensor from '../productImpressionSensor';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -78,7 +79,7 @@ export class SceneTile extends Component {
 
   renderDetails () {
     const styles = sceneTilesStyle;
-    const { hovered, item, t } = this.props;
+    const { hovered, item, t, location } = this.props;
 
     return (
       <div key='details'>
@@ -86,9 +87,13 @@ export class SceneTile extends Component {
         <div style={[ styles.details.base, hovered && styles.details.hovered ]}>
           {/* Only show the markers for the products which have a position.
               Global products and hidden products don't have a position. */}
-          {item.get('products').filter((p) => p.get('position')).map((p) => (
-            <Marker key={p.get('id')} relativeLeft={p.getIn([ 'position', 'x' ])} relativeTop={p.getIn([ 'position', 'y' ])} />
-          ))}
+          {item.get('products').filter((product) => product.get('position')).map((product) =>
+            <RadiumLink alt={product.get('shortName')} key={product.get('id')} title={product.get('shortName')} to={{
+              pathname: `${item.get('shareUrl')}/product/${product.get('id')}`,
+              state: { modal: true, returnTo: (location && location.pathname) || '/' }
+            }}>
+              <Marker key={product.get('id')} relativeLeft={product.getIn([ 'position', 'x' ])} relativeTop={product.getIn([ 'position', 'y' ])} />
+            </RadiumLink>)}
         </div>
         {/* Characters (top right) */}
         <div style={[ styles.characters, styles.details.base, hovered && styles.details.hovered ]}>
@@ -127,14 +132,16 @@ export class SceneTile extends Component {
             </p>}
           <div style={[ styles.line.base, hovered && styles.line.hovered ]} />
           <div style={[ styles.products.base, hovered && styles.products.hovered ]}>{item.get('products').take(8).filter((p) => p.get('image')).map((product) =>
-            <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
-              <RadiumLink key={product.get('id')} title={product.get('shortName')} to={{
-                pathname: `${item.get('shareUrl')}/product/${product.get('id')}`,
-                state: { modal: true, returnTo: (location && location.pathname) || '/' }
-              }}>
-                <img alt={product.get('shortName')} key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage} />
-              </RadiumLink>
-            </div>)}
+            <ProductImpressionSensor active={hovered} key={product.get('id')} productId={product.get('id')}>
+              <div key={product.get('id')} style={[ styles.subtile.base, styles.subtile.product ]}>
+                <RadiumLink key={product.get('id')} title={product.get('shortName')} to={{
+                  pathname: `${item.get('shareUrl')}/product/${product.get('id')}`,
+                  state: { modal: true, returnTo: (location && location.pathname) || '/' }
+                }}>
+                  <img alt={product.get('shortName')} key={product.get('id')} src={`${product.getIn([ 'image', 'url' ])}?height=96&width=96`} style={styles.subtileImage} />
+                </RadiumLink>
+              </div>
+            </ProductImpressionSensor>)}
           </div>
       </div>
     );
@@ -142,7 +149,7 @@ export class SceneTile extends Component {
 
   render () {
     const styles = sceneTilesStyle;
-    const { item, location, style, showDetails } = this.props;
+    const { item, location, style, showDetails, hovered } = this.props;
     return (
       <BaseTile style={style}>
         <div style={styles.container}>
@@ -152,7 +159,12 @@ export class SceneTile extends Component {
             state: { modal: true, returnTo: (location && location.pathname) || '/' }
           }}>
             <div style={[ styles.image, item.get('image') && { backgroundImage: `url("${item.getIn([ 'image', 'url' ])}?width=750&height=422")` } ]} />
-            <div style={styles.layer} />
+            {showDetails &&
+              <div>
+                <div style={[ styles.layer, hovered && styles.layer.hovered ]} />
+                <div style={[ styles.layerSecond, hovered && styles.layerSecond.hovered ]} />
+              </div>
+            }
           </RadiumLink>
           {showDetails && this.renderDetails()}
         </div>

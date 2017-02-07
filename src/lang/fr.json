@@ -99,8 +99,10 @@
     },
     "search": {
       "info": "Spott vous permet de trouver des produits dans les choses que vous regardez",
-      "placeholder": "Recherchez des  films, des séries, des personnages ou des marques",
-      "title": "La télévision est maintenant votre magasin préféré"
+      "placeholder": "Recherchez des show télévisé, des films, des personnages ou des marques",
+      "title": "La télévision est maintenant votre magasin préféré",
+      "loadingResults": "Chargement des résultats...",
+      "noResults": "Oops! Désolé, aucun résultat ne correspond à votre recherche"
     },
     "topSellingProducts": {
       "title": "Top des ventes"
@@ -110,13 +112,13 @@
     "redirecting": "Redirectionner..."
   },
   "login": {
-    "title": "Je m'inscris",
+    "title": "Je me connecte",
     "email": "Votre e-mail",
     "password": "Votre mot de passe",
-    "logInWithFacebookButton": "Je m'inscris avec Facebook",
+    "logInWithFacebookButton": "Je me connecte avec Facebook",
     "submitButton": "Connectez-vous",
     "newUser": "Nouveau utilisateur?",
-    "createAccount": "Je me connecte",
+    "createAccount": "Je m'inscris",
     "forgotPassword": "Mot de passe oublié?",
     "invalid": "Combinaison e-mail/mot de passe est incorrect.",
     "invalidFacebook": "Votre compte Facebook n'est pas lié à un compte Spott. Inscrivez-vous [[ici]]."
@@ -150,7 +152,13 @@
     "noSimilar": "Aucun produit similaire n'a été trouvé.",
     "similarProducts": "Produits similaires",
     "unavailable": "Ce produit n’est pas disponible.",
-    "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​"
+    "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​",
+    "product": "Produit",
+    "moreFromBrand": "Plus de produits [[]]",
+    "noMoreFromBrand": "Aucun [[]] produits trouvés",
+    "outOfStock": "Rupture de stock",
+    "addToBasket": "Ajouter au panier",
+    "buyOnStore": "Acheter en magasin"
   },
   "profile": {
     "header": {
@@ -174,12 +182,23 @@
     },
     "wishlists": {
       "empty": "Vous n'avez pas encore des listes de souhaits.",
-      "unnamedWishlist": "Liste de souhaits"
+      "unnamedWishlist": "Liste de souhaits",
+      "editWishlist": "Modifier la liste de souhaits",
+      "delete": "Effacer",
+      "cancel": "Annuler",
+      "save": "Sauver",
+      "privateList": "Liste privée"
     },
     "wishlistProducts": {
       "empty": "Cette liste de souhaits est vide.",
       "private": "Cette liste de souhaits est privée, le propriétaire doit rendre publique la liste de souhaits afin de pouvoir visualiser.",
       "notExist": "Cette liste de souhaits n’existe plus, nous nous excusons pour le désagrément."
+    },
+    "wishlistButton": {
+      "alreadyExist": "Liste de souhaits déjà existante",
+      "addToList": "Ajouter à la liste",
+      "create": "Créer",
+      "createNewList": "Créer une nouvelle liste"
     },
     "notExist": "Ce profil de la personne n’existe plus, nous nous excusons pour le désagrément.​"
   },
@@ -197,6 +216,10 @@
     },
     "episodes": {
       "empty": "Il n'y a pas d'épisodes disponibles."
+    },
+    "recentEpisodes": {
+      "empty": "Il n'y a pas d'épisodes disponibles.",
+      "title": "Derniers épisodes"
     },
     "seasons": {
       "empty": "Il n'y a pas de seasons disponibles."
@@ -248,6 +271,7 @@
       "zero":  "Abonnés [[0]]",
       "one":   "Abonnés [[1]]",
       "other": "Abonnés [[%(count)s]]"
-    }
+    },
+    "from": "De"
   }
 }

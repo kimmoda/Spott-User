@@ -86,3 +86,9 @@ export async function getPopularMedia (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/media?pageSize=20`);
   return body.data.map(transformMedium);
 }
+
+export async function getMediumRecentEpisodes (baseUrl, authenticationToken, locale, { mediumId }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/media/series/${mediumId}/episodes?pageSize=10`);
+  return body.data.map(transformEpisode);
+}
+

@@ -5,6 +5,8 @@ import { createEntityByIdSelector, userHasSavedScenesRelationsSelector, createEn
 export const currentUserIdSelector = (state) => state.getIn([ 'profile', 'currentUser', 'id' ]);
 export const currentWishlistIdSelector = (state) => state.getIn([ 'profile', 'currentWishlist', 'id' ]);
 
+export const wishlistButtonErrorSelector = (state) => state.getIn([ 'profile', 'wishlistButtonError' ]);
+
 // View selector fro user profile
 export const userSelector = createStructuredSelector({
   user: createEntityByIdSelector(usersEntitiesSelector, currentUserIdSelector)
@@ -33,3 +35,17 @@ export const productsOfWishlistSelector = createStructuredSelector({
   productsOfWishlist: createEntitiesByRelationSelector(wishlistHasProductsRelationsSelector, currentWishlistIdSelector, productsEntitiesSelector),
   wishlist: createEntityByIdSelector(wishlistsEntitiesSelector, currentWishlistIdSelector)
 });
+
+// Wish Button selectors
+export const wishButtonSelector = createSelector(
+  currentLoggedInUserIdSelector,
+  wishlistsOfCurrentUserSelector,
+  wishlistButtonErrorSelector,
+  (currentLoggedInUserId, wishlistsOfCurrentUser, wishlistButtonError) => {
+    return {
+      userId: currentLoggedInUserId,
+      userWishLists: wishlistsOfCurrentUser,
+      error: wishlistButtonError
+    };
+  }
+);

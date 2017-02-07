@@ -11,6 +11,7 @@ import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
 import { LOADED } from '../../../data/statusTypes';
+import WishlistButton from '../../profile/view/wishlistButton';
 
 @localized
 @connect(productSelector, (dispatch) => ({
@@ -23,6 +24,7 @@ export default class ProductDetail extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadProduct: PropTypes.func.isRequired,
+    location: PropTypes.object,
     params: PropTypes.shape({
       productId: PropTypes.string.isRequired
     }).isRequired,
@@ -250,10 +252,12 @@ export default class ProductDetail extends Component {
 
   renderProduct () {
     const { styles } = this.constructor;
-    const { onChangeImageSelection, product, selectedImageId, t } = this.props;
+    const { onChangeImageSelection, product, selectedImageId, t, location } = this.props;
     const notAvailable = !(product.get('available') && product.getIn([ 'offerings', '0', 'url' ]));
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
     const share = product.get('share');
+
+    const locationBack = location.state && location.state.returnTo ? Object.assign({}, location, { pathname: location.state.returnTo }) : location;
 
     return (
       <div>
@@ -292,6 +296,7 @@ export default class ProductDetail extends Component {
                   <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${share.get('url')}`)}&title=${share.get('title')}`}>
                     {t('common.share')}
                   </ShareButton>
+                  <WishlistButton productUuid={product.get('id')}/>
                 </div>
                 {notAvailable &&
                   <div style={styles.details.notAvailable}>{t('productDetail.unavailable')}</div>}
@@ -307,7 +312,7 @@ export default class ProductDetail extends Component {
           <SmallContainer style={styles.smallContainer}>
             <h1 style={styles.similarProductsTitle}>{t('productDetail.similarProducts')}</h1>
             {product.get('similarProducts') && product.get('similarProducts').size > 0 &&
-              <ProductTiles items={Map({ _status: LOADED, data: product.get('similarProducts') })} />}
+              <ProductTiles items={Map({ _status: LOADED, data: product.get('similarProducts') })} tileProps={{ location: locationBack }} />}
             {product.get('similarProducts') && product.get('similarProducts').size === 0 &&
               <p style={styles.similarProductsNone}>{t('productDetail.noSimilar')}</p>}
             {!product.get('similarProducts') && <Spinner />}
