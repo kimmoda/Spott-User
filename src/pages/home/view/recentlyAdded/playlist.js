@@ -109,7 +109,7 @@ class PlaylistItem extends Component {
       <li key={video.id} style={styles.playlistItem} onClick={this.onClick}>
         <div style={[ styles.backgroundGradient.base, hovered && styles.backgroundGradient.hovered ]}/>
         <div style={styles.thumbContainer}>
-          <img alt={video.label[currentLocale]} src={video.thumb} style={styles.thumb} title={video.label[currentLocale]}/>
+          <img alt={video.label[currentLocale]} src={video.thumb.url} style={styles.thumb} title={video.label[currentLocale]}/>
           <div style={styles.overlay}/>
           <img src={playSVG} style={styles.play} />
         </div>

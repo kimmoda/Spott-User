@@ -22,7 +22,9 @@ class SharingHeaders extends Component {
     const meta = [
       { property: 'fb:app_id', content: '418487828343937' },
       { property: 'og:description', content: video.description[currentLocale] },
-      { property: 'og:image', content: location.origin + video.poster },
+      { property: 'og:image:height', content: video.poster.dimension.height },
+      { property: 'og:image:width', content: video.poster.dimension.width },
+      { property: 'og:image', content: location.origin + video.poster.url },
       { property: 'og:site_name', content: 'Spott' },
       { property: 'og:title', content: video.title[currentLocale] },
       { property: 'og:type', content: 'video.movie' },
@@ -30,7 +32,7 @@ class SharingHeaders extends Component {
       { property: 'twitter:card', content: video.title[currentLocale] },
       { property: 'twitter:description', content: video.description[currentLocale] },
       { property: 'twitter:domain', content: 'https://spott.it' },
-      { property: 'twitter:image', content: location.origin + video.poster },
+      { property: 'twitter:image', content: location.origin + video.poster.url },
       { property: 'twitter:site', content: '@SpottBE_nl' },
       { property: 'twitter:title', content: video.title[currentLocale] }
     ];

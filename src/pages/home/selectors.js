@@ -30,8 +30,20 @@ const videosById = {
       fr: 'Fifty Shades Darker Trailer #1',
       nl: 'Fifty Shades Darker Trailer #1'
     },
-    poster: require('./view/recentlyAdded/images/trailer-1-poster.jpg'),
-    thumb: require('./view/recentlyAdded/images/trailer-1-thumb.jpg'),
+    poster: {
+      dimension: {
+        height: 720,
+        width: 1280
+      },
+      url: require('./view/recentlyAdded/images/trailer-1-poster.jpg')
+    },
+    thumb: {
+      dimension: {
+        height: 80,
+        width: 140
+      },
+      url: require('./view/recentlyAdded/images/trailer-1-thumb.jpg')
+    },
     title,
     videoUrl: {
       en: 'https://appinessmedia.blob.core.windows.net/spott/50_dark_01_en/1080p/index.m3u8',
@@ -44,8 +56,20 @@ const videosById = {
     duration: '02:11',
     fingerprintId: '34BEED95DACBD5D5',
     id: 'trailer-2',
-    poster: require('./view/recentlyAdded/images/trailer-2-poster.jpg'),
-    thumb: require('./view/recentlyAdded/images/trailer-2-thumb.jpg'),
+    poster: {
+      dimension: {
+        height: 720,
+        width: 1280
+      },
+      url: require('./view/recentlyAdded/images/trailer-2-poster.jpg')
+    },
+    thumb: {
+      dimension: {
+        height: 80,
+        width: 140
+      },
+      url: require('./view/recentlyAdded/images/trailer-2-thumb.jpg')
+    },
     label: {
       en: 'Fifty Shades Darker Trailer #2',
       fr: 'Fifty Shades Darker Trailer #2',
@@ -63,8 +87,20 @@ const videosById = {
     duration: '02:17',
     fingerprintId: 'E56F4B707FD38E15',
     id: 'trailer-3',
-    poster: require('./view/recentlyAdded/images/trailer-3-poster.jpg'),
-    thumb: require('./view/recentlyAdded/images/trailer-3-thumb.jpg'),
+    poster: {
+      dimension: {
+        height: 720,
+        width: 1280
+      },
+      url: require('./view/recentlyAdded/images/trailer-3-poster.jpg')
+    },
+    thumb: {
+      dimension: {
+        height: 80,
+        width: 140
+      },
+      url: require('./view/recentlyAdded/images/trailer-3-thumb.jpg')
+    },
     label: {
       en: 'Fifty Shades Of Grey Trailer #1',
       fr: 'Fifty Shades Of Grey Trailer #1',
@@ -82,8 +118,20 @@ const videosById = {
     duration: '02:24',
     fingerprintId: 'E3221922A61BAC2A',
     id: 'trailer-4',
-    poster: require('./view/recentlyAdded/images/trailer-4-poster.jpg'),
-    thumb: require('./view/recentlyAdded/images/trailer-4-thumb.jpg'),
+    poster: {
+      dimension: {
+        height: 720,
+        width: 1280
+      },
+      url: require('./view/recentlyAdded/images/trailer-4-poster.jpg')
+    },
+    thumb: {
+      dimension: {
+        height: 80,
+        width: 140
+      },
+      url: require('./view/recentlyAdded/images/trailer-4-thumb.jpg')
+    },
     label: {
       en: 'Fifty Shades Of Grey Trailer #2',
       fr: 'Fifty Shades Of Grey Trailer #2',

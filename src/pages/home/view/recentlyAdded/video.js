@@ -185,7 +185,7 @@ export default class Video extends Component {
     console.warn('Current fingerprintId:', fingerprintId);
 
     $('#videoContainer').html(`
-      <video id="video" controls poster="${poster}">
+      <video id="video" controls poster="${poster.url}">
         <source src="${videoUrl[currentLocale]}"/>
       </video>`
     );
