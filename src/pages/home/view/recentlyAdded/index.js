@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 import { colors, fontWeights, makeTextStyle, mediaQueries, pinkButtonStyle, responsiveBackgroundImage, Button, Container, Title, UpperCaseSubtitle } from '../../../_common/buildingBlocks';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
@@ -9,12 +10,40 @@ import { recentlyAddedSelector } from '../../selectors';
 import Video from './video';
 import Playlist from './playlist';
 
+class SharingHeaders extends Component {
+  static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
+    video: PropTypes.object.isRequired
+  }
+
+  render () {
+    const { currentLocale, video } = this.props;
+    const meta = [
+      { property: 'fb:app_id', content: '418487828343937' },
+      { property: 'og:description', content: video.description[currentLocale] },
+      { property: 'og:image', content: video.poster },
+      { property: 'og:site_name', content: 'Spott' },
+      { property: 'og:title', content: `Spott - ${video.title[currentLocale]}` },
+      { property: 'og:type', content: 'video.movie' },
+      { property: 'title', content: `Spott - ${video.title[currentLocale]}` },
+      { property: 'twitter:card', content: `Spott - ${video.title[currentLocale]}` },
+      { property: 'twitter:description', content: video.description[currentLocale] },
+      { property: 'twitter:domain', content: 'https://spott.it' },
+      { property: 'twitter:image', content: video.poster },
+      { property: 'twitter:site', content: '@SpottBE_nl' },
+      { property: 'twitter:title', content: `Spott - ${video.title[currentLocale]}` }
+    ];
+    return <Helmet meta={meta} />;
+  }
+}
+
 @localized
 @connect(recentlyAddedSelector)
 @Radium
 export default class RecentlyAdded extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     firstMedium: ImmutablePropTypes.mapContains({
       profileImage: ImmutablePropTypes.mapContains({
         url: PropTypes.string.isRequired
@@ -89,7 +118,7 @@ export default class RecentlyAdded extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { firstMedium, params, playlist, otherRecentlyAddedMedia, style, t, videosById } = this.props;
+    const { currentLocale, firstMedium, params, playlist, otherRecentlyAddedMedia, style, t, videosById } = this.props;
     const videoId = params && params.trailer || 'trailer-1';
     console.warn('params', params);
     return (
@@ -98,6 +127,7 @@ export default class RecentlyAdded extends Component {
         firstMedium && firstMedium.get('profileImage') && responsiveBackgroundImage(firstMedium.getIn([ 'profileImage', 'url' ])),
         style
       ]}>
+        <SharingHeaders currentLocale={currentLocale} video={videosById[videoId]}/>
         <Container>
           <div style={styles.overlay} />
           <div style={{ display: 'flex' }}>
