@@ -22,7 +22,7 @@ const title = {
 const videosById = {
   'trailer-1': {
     description,
-    duration: '01:44', // TODO
+    duration: '02:10',
     fingerprintId: '855EB3628BD33309',
     id: 'trailer-1',
     label: {
@@ -30,8 +30,8 @@ const videosById = {
       fr: 'Fifty Shades Darker Trailer #1',
       nl: 'Fifty Shades Darker Trailer #1'
     },
-    poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
-    thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
+    poster: require('./view/recentlyAdded/images/trailer-1-poster.jpg'),
+    thumb: require('./view/recentlyAdded/images/trailer-1-thumb.jpg'),
     title,
     videoUrl: {
       en: 'https://appinessmedia.blob.core.windows.net/spott/50_dark_01_en/1080p/index.m3u8',
@@ -41,11 +41,11 @@ const videosById = {
   },
   'trailer-2': {
     description,
-    duration: '01:44', // TODO
+    duration: '02:11',
     fingerprintId: '34BEED95DACBD5D5',
     id: 'trailer-2',
-    poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
-    thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
+    poster: require('./view/recentlyAdded/images/trailer-2-poster.jpg'),
+    thumb: require('./view/recentlyAdded/images/trailer-2-thumb.jpg'),
     label: {
       en: 'Fifty Shades Darker Trailer #2',
       fr: 'Fifty Shades Darker Trailer #2',
@@ -60,11 +60,11 @@ const videosById = {
   },
   'trailer-3': {
     description,
-    duration: '01:44', // TODO
+    duration: '02:17',
     fingerprintId: 'E56F4B707FD38E15',
     id: 'trailer-3',
-    poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
-    thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
+    poster: require('./view/recentlyAdded/images/trailer-3-poster.jpg'),
+    thumb: require('./view/recentlyAdded/images/trailer-3-thumb.jpg'),
     label: {
       en: 'Fifty Shades Of Grey Trailer #1',
       fr: 'Fifty Shades Of Grey Trailer #1',
@@ -79,11 +79,11 @@ const videosById = {
   },
   'trailer-4': {
     description,
-    duration: '01:44', // TODO
+    duration: '02:24',
     fingerprintId: 'E3221922A61BAC2A',
     id: 'trailer-4',
-    poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
-    thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
+    poster: require('./view/recentlyAdded/images/trailer-4-poster.jpg'),
+    thumb: require('./view/recentlyAdded/images/trailer-4-thumb.jpg'),
     label: {
       en: 'Fifty Shades Of Grey Trailer #2',
       fr: 'Fifty Shades Of Grey Trailer #2',
