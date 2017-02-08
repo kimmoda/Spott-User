@@ -29,9 +29,9 @@ export default class RecentlyAdded extends Component {
 
   static styles = {
     button: {
-      marginBottom: '0.75em',
+      marginBottom: '1.25em',
       [mediaQueries.medium]: {
-        marginBottom: '1.5em'
+        marginBottom: '2em'
       }
     },
     wrapper: {
@@ -89,8 +89,9 @@ export default class RecentlyAdded extends Component {
 
   render () {
     const { styles } = this.constructor;
-    const { firstMedium, location, playlist, otherRecentlyAddedMedia, style, t, videosById } = this.props;
-    const videoId = location.params && location.params.trailer || 'trailer-1';
+    const { firstMedium, params, playlist, otherRecentlyAddedMedia, style, t, videosById } = this.props;
+    const videoId = params && params.trailer || 'trailer-1';
+    console.warn('params', params);
     return (
       <div style={[
         styles.wrapper,
@@ -107,7 +108,7 @@ export default class RecentlyAdded extends Component {
               <Button disabled={!firstMedium} style={{ ...pinkButtonStyle, ...styles.button }} to={firstMedium && firstMedium.get('shareUrl')}>{t('home.recentlyAdded.browseButton')}</Button>
 
               <h3 style={styles.playlistTitle}>More Fifty Shades</h3>
-              <Playlist playlist={playlist}/>
+              <Playlist playlist={playlist.filter(({ id }) => id !== videoId)}/>
             </div>
           </div>
 

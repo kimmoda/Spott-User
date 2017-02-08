@@ -14,7 +14,7 @@ const videosById = {
     fingerprintId: '3203417FFEC27DD3', // TODO: now it's family
     id: 'trailer-1',
     poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
-    thumb: require('./view/recentlyAdded/images/trailer-1-poster.png'),
+    thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
     videoUrl: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_en/1080p/index.m3u8',
     title: {
       en: 'Fifty Shades Of Grey Trailer #1',
@@ -26,7 +26,15 @@ const videosById = {
 
 // Generate 12 videos
 for (let i = 2; i <= 12; i++) {
-  videosById[`trailer-${i}`] = { ...videosById['trailer-1'], id: `trailer-${i}` };
+  videosById[`trailer-${i}`] = {
+    ...videosById['trailer-1'],
+    id: `trailer-${i}`,
+    title: {
+      en: `Fifty Shades Of Grey Trailer #${i}`,
+      fr: `Fifty Shades Of Grey Trailer #${i}`,
+      nl: `Fifty Shades Of Grey Trailer #${i}`
+    }
+  };
 }
 
 const playlist = [];

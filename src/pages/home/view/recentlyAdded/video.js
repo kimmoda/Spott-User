@@ -172,50 +172,52 @@ export default class Video extends Component {
     this.state = { theoplayerIsReady: false };
   }
 
-  loadVideo ({ fingerprintId, videoUrl }) {
+  loadVideo ({ fingerprintId, poster, videoUrl }) {
     // Destroy theoplayer.
     theoplayer.destroy('video');
 
-    setTimeout(() => {
-      console.warn('Current video url:', videoUrl);
-      console.warn('Current fingerprintId:', fingerprintId);
+    console.warn('Current video url:', videoUrl);
+    console.warn('Current fingerprintId:', fingerprintId);
 
-      // $('#videoContainer').html('');
+    $('#videoContainer').html(`
+      <video id="video" controls poster="${poster}">
+        <source src="${videoUrl}"/>
+      </video>`
+    );
 
-      const player = theoplayer(document.getElementById('video'));
+    const player = theoplayer(document.getElementById('video'));
 
-      player.addEventListener('initialized', () => {
-        // Insert the overlay into the generated HTML of the OpenTelly player.
-        // There was no immediate workarround to get it working on Firefox/IE in fullscreen mode.
-        $('#video > div:nth-child(2)').after('<div id="videoOverlay"></div><div id="videoContent"></div>');
+    player.addEventListener('initialized', () => {
+      // Insert the overlay into the generated HTML of the OpenTelly player.
+      // There was no immediate workarround to get it working on Firefox/IE in fullscreen mode.
+      $('#video > div:nth-child(2)').after('<div id="videoOverlay"></div><div id="videoContent"></div>');
 
-        // Track offset changes in the video.
-        let previousOffsetInSeconds = 0;
+      // Track offset changes in the video.
+      let previousOffsetInSeconds = 0;
 
-        function timeupdate () {
-          // Fetch and display the scene info if we have a different scene.
-          const currentOffsetInSeconds = Math.round(player.currentTime || 0);
+      function timeupdate () {
+        // Fetch and display the scene info if we have a different scene.
+        const currentOffsetInSeconds = Math.round(player.currentTime || 0);
 
-          if (currentOffsetInSeconds !== previousOffsetInSeconds && $('#videoContent').find('.productTilesLarge').length === 0) {
-            previousOffsetInSeconds = currentOffsetInSeconds;
-            getSceneDetailsSlowdown(fingerprintId, currentOffsetInSeconds, function (err, sceneDetails) {
-              if (err || !sceneDetails) {
-                return;
-              }
-              // Only update DOM if we are the product details are not shown.
-              if ($('#videoContent').find('.productTilesLarge').length === 0) {
-                // $('#info').html('<pre>' + JSON.stringify(sceneDetails, null, 4) + '</pre>');
-                const $sceneDetails = renderSceneDetails(sceneDetails, player);
-                // Detaches event listeners.
-                $('#videoContent').html($sceneDetails);
-              }
-            });
-          }
+        if (currentOffsetInSeconds !== previousOffsetInSeconds && $('#videoContent').find('.productTilesLarge').length === 0) {
+          previousOffsetInSeconds = currentOffsetInSeconds;
+          getSceneDetailsSlowdown(fingerprintId, currentOffsetInSeconds, function (err, sceneDetails) {
+            if (err || !sceneDetails) {
+              return;
+            }
+            // Only update DOM if we are the product details are not shown.
+            if ($('#videoContent').find('.productTilesLarge').length === 0) {
+              // $('#info').html('<pre>' + JSON.stringify(sceneDetails, null, 4) + '</pre>');
+              const $sceneDetails = renderSceneDetails(sceneDetails, player);
+              // Detaches event listeners.
+              $('#videoContent').html($sceneDetails);
+            }
+          });
         }
+      }
 
-        player.addEventListener('timeupdate', timeupdate);
-      }); // initialized
-    });
+      player.addEventListener('timeupdate', timeupdate);
+    }); // initialized
   }
 
   componentDidMount () {
@@ -250,9 +252,7 @@ export default class Video extends Component {
     return (
       <div style={[ styles.container, style ]}>
         <div id='videoContainer'>
-          <video id='video' controls poster={video.poster}>
-            <source src={video.videoUrl} />
-          </video>
+
         </div>
         <div id='info'></div>
       </div>
