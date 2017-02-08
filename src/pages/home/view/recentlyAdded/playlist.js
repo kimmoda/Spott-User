@@ -63,7 +63,7 @@ class PlaylistItem extends Component {
       right: 0,
       bottom: 0
     },
-    title: {
+    label: {
       color: '#ffffff',
       ...makeTextStyle(fontWeights.medium, '0.875em', '0.3px'),
       paddingBottom: 3
@@ -96,6 +96,9 @@ class PlaylistItem extends Component {
         opacity: 0.4,
         transition: 'opacity 0.4s ease-out'
       }
+    },
+    right: {
+      position: 'relative'
     }
   }
 
@@ -106,12 +109,12 @@ class PlaylistItem extends Component {
       <li key={video.id} style={styles.playlistItem} onClick={this.onClick}>
         <div style={[ styles.backgroundGradient.base, hovered && styles.backgroundGradient.hovered ]}/>
         <div style={styles.thumbContainer}>
-          <img alt={video.title[currentLocale]} src={video.thumb} style={styles.thumb} title={video.title[currentLocale]}/>
+          <img alt={video.label[currentLocale]} src={video.thumb} style={styles.thumb} title={video.label[currentLocale]}/>
           <div style={styles.overlay}/>
           <img src={playSVG} style={styles.play} />
         </div>
-        <div>
-          <h3 style={styles.title}>{video.title[currentLocale]}</h3>
+        <div style={styles.right}>
+          <h3 style={styles.label}>{video.label[currentLocale]}</h3>
           <div style={styles.duration}>{video.duration}</div>
         </div>
       </li>
@@ -134,7 +137,7 @@ export default class Playlist extends Component {
   }
 
   onClickPlaylistItem (video, e) {
-    this.props.routerPush(`/${this.props.currentLocale}/fifty-shades-of-grey/${video.id}`);
+    this.props.routerPush(`/${this.props.currentLocale}/fifty-shades/${video.id}`);
   }
 
   static styles = {

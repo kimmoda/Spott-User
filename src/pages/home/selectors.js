@@ -8,23 +8,31 @@ import {
 } from '../../data/selector';
 import { isAuthenticatedSelector } from '../app/selector';
 
+const description = {
+  en: 'You can now discover all clothing and items worn in \'Fifty Shades Darker\' in Spott. Go to www.spott.it and buy the perfect Valentine\'s gift in one click.',
+  fr: 'Découvrez maintenant tous les tenues et articles portés dans \'Cinquante nuances plus sombres\' dans Spott. Allez à www.spott.it et achetez le cadeau Saint Valentin parfait en un seul clic!',
+  nl: 'Vind alle outfits en items uit \'Fifty Shades Darker\' in Spott. Laat je inspireren op www.spott.it en ontdek met één klik het perfecte Valentijnscadeau.'
+};
+const title = {
+  en: 'Discover all the clothes and items from \'Fifty Shades Darker\' in Spott!',
+  fr: 'Découvrez tous les vêtements et articles de \'Cinquante nuances plus sombres\' dans Spott!',
+  nl: 'Ontdek alle kleding en items uit \'Fifty Shades Darker\' in Spott!'
+};
+
 const videosById = {
   'trailer-1': {
-    description: {
-      en: 'Fifty Shades Darker Trailer #1',
-      fr: 'Fifty Shades Darker Trailer #1',
-      nl: 'Fifty Shades Darker Trailer #1'
-    },
+    description,
     duration: '01:44', // TODO
     fingerprintId: '855EB3628BD33309',
     id: 'trailer-1',
-    poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
-    thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
-    title: {
+    label: {
       en: 'Fifty Shades Darker Trailer #1',
       fr: 'Fifty Shades Darker Trailer #1',
       nl: 'Fifty Shades Darker Trailer #1'
     },
+    poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
+    thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
+    title,
     videoUrl: {
       en: 'https://appinessmedia.blob.core.windows.net/spott/50_dark_01_en/1080p/index.m3u8',
       fr: 'https://appinessmedia.blob.core.windows.net/spott/50_dark_01_fr/1080p/index.m3u8',
@@ -32,21 +40,18 @@ const videosById = {
     }
   },
   'trailer-2': {
-    description: {
-      en: 'Fifty Shades Darker Trailer #2',
-      fr: 'Fifty Shades Darker Trailer #2',
-      nl: 'Fifty Shades Darker Trailer #2'
-    },
+    description,
     duration: '01:44', // TODO
     fingerprintId: '34BEED95DACBD5D5',
     id: 'trailer-2',
     poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
     thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
-    title: {
+    label: {
       en: 'Fifty Shades Darker Trailer #2',
       fr: 'Fifty Shades Darker Trailer #2',
       nl: 'Fifty Shades Darker Trailer #2'
     },
+    title,
     videoUrl: {
       en: 'https://appinessmedia.blob.core.windows.net/spott/50_dark_02_en/1080p/index.m3u8',
       fr: 'https://appinessmedia.blob.core.windows.net/spott/50_dark_02_fr/1080p/index.m3u8',
@@ -54,21 +59,18 @@ const videosById = {
     }
   },
   'trailer-3': {
-    description: {
-      en: 'Fifty Shades Of Grey Trailer #2',
-      fr: 'Fifty Shades Of Grey Trailer #2',
-      nl: 'Fifty Shades Of Grey Trailer #2'
-    },
+    description,
     duration: '01:44', // TODO
     fingerprintId: 'E56F4B707FD38E15',
     id: 'trailer-3',
     poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
     thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
-    title: {
-      en: 'Fifty Shades Of Grey Trailer #2',
-      fr: 'Fifty Shades Of Grey Trailer #2',
-      nl: 'Fifty Shades Of Grey Trailer #2'
+    label: {
+      en: 'Fifty Shades Of Grey Trailer #1',
+      fr: 'Fifty Shades Of Grey Trailer #1',
+      nl: 'Fifty Shades Of Grey Trailer #1'
     },
+    title,
     videoUrl: {
       en: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_en/1080p/index.m3u8',
       fr: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_fr/1080p/index.m3u8',
@@ -76,21 +78,18 @@ const videosById = {
     }
   },
   'trailer-4': {
-    description: {
-      en: 'Fifty Shades Of Grey Trailer #2',
-      fr: 'Fifty Shades Of Grey Trailer #2',
-      nl: 'Fifty Shades Of Grey Trailer #2'
-    },
+    description,
     duration: '01:44', // TODO
     fingerprintId: 'E3221922A61BAC2A',
     id: 'trailer-4',
     poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
     thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
-    title: {
+    label: {
       en: 'Fifty Shades Of Grey Trailer #2',
       fr: 'Fifty Shades Of Grey Trailer #2',
       nl: 'Fifty Shades Of Grey Trailer #2'
     },
+    title,
     videoUrl: {
       en: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_02_en/1080p/index.m3u8',
       fr: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_02_fr/1080p/index.m3u8',

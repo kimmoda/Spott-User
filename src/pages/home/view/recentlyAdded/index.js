@@ -23,15 +23,15 @@ class SharingHeaders extends Component {
       { property: 'og:description', content: video.description[currentLocale] },
       { property: 'og:image', content: video.poster },
       { property: 'og:site_name', content: 'Spott' },
-      { property: 'og:title', content: `Spott - ${video.title[currentLocale]}` },
+      { property: 'og:title', content: video.title[currentLocale] },
       { property: 'og:type', content: 'video.movie' },
-      { property: 'title', content: `Spott - ${video.title[currentLocale]}` },
-      { property: 'twitter:card', content: `Spott - ${video.title[currentLocale]}` },
+      { property: 'title', content: video.title[currentLocale] },
+      { property: 'twitter:card', content: video.title[currentLocale] },
       { property: 'twitter:description', content: video.description[currentLocale] },
       { property: 'twitter:domain', content: 'https://spott.it' },
       { property: 'twitter:image', content: video.poster },
       { property: 'twitter:site', content: '@SpottBE_nl' },
-      { property: 'twitter:title', content: `Spott - ${video.title[currentLocale]}` }
+      { property: 'twitter:title', content: video.title[currentLocale] }
     ];
     return <Helmet meta={meta} />;
   }
