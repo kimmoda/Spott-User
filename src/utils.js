@@ -17,13 +17,7 @@ export function formatEpisodeNumber (seasonNumber, episodeNumber) {
 
 // Check if Phantomjs is rendering.
 export function isServer () {
-  const userAgent = navigator.userAgent.toLowerCase();
-
-  const div = document.createElement('div');
-  div.innerHTML = userAgent;
-  document.body.appendChild(div);
-
-  return userAgent.indexOf('phantomjs') > -1;
+  return navigator.userAgent.toLowerCase().indexOf('phantomjs') > -1;
 }
 
 /**
