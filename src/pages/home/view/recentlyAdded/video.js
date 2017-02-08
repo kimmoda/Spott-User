@@ -4,6 +4,7 @@ import Radium from 'radium';
 import { bindActionCreators } from 'redux';
 import $ from 'npm-zepto';
 import { colors } from '../../../_common/buildingBlocks';
+import localized from '../../../_common/localized';
 import { slowdown } from '../../../../utils';
 // import PopularNearYou from './popularNearYou';
 // import { homeSelector } from '../selectors';
@@ -160,28 +161,32 @@ function renderSceneDetails (sceneDetails, player) {
 
 const getSceneDetailsSlowdown = slowdown(getSceneDetails, 1000);
 
+@localized
 @Radium
 export default class Video extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     video: PropTypes.object.isRequired
   };
 
   constructor (props) {
     super(props);
+    this.loadVideo = ::this.loadVideo;
     this.state = { theoplayerIsReady: false };
   }
 
   loadVideo ({ fingerprintId, poster, videoUrl }) {
+    const currentLocale = this.props.currentLocale;
     // Destroy theoplayer.
     theoplayer.destroy('video');
 
-    console.warn('Current video url:', videoUrl);
+    console.warn('Current video url:', videoUrl[currentLocale]);
     console.warn('Current fingerprintId:', fingerprintId);
 
     $('#videoContainer').html(`
       <video id="video" controls poster="${poster}">
-        <source src="${videoUrl}"/>
+        <source src="${videoUrl[currentLocale]}"/>
       </video>`
     );
 

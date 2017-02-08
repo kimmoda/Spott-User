@@ -138,18 +138,13 @@ export default class Playlist extends Component {
   }
 
   static styles = {
-    playlist: {
-      height: 150,
-      overflowY: 'auto'
-    }
   }
 
   render () {
-    const { styles } = this.constructor;
     const { playlist } = this.props;
     console.warn('playlist', playlist);
     return (
-      <ul style={styles.playlist}>
+      <ul>
         {playlist.map((video) => <PlaylistItem key={video.id} video={video} onClickPlaylistItem={this.onClickPlaylistItem.bind(this, video)}/>)}
       </ul>
     );

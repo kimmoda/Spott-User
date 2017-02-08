@@ -10,12 +10,16 @@ import { isAuthenticatedSelector } from '../app/selector';
 
 const videosById = {
   'trailer-1': {
-    duration: '0:44',
+    duration: '01:44',
     fingerprintId: '3203417FFEC27DD3', // TODO: now it's family
     id: 'trailer-1',
     poster: require('./view/recentlyAdded/images/trailer-1-poster.png'),
     thumb: require('./view/recentlyAdded/images/trailer-1-thumb.png'),
-    videoUrl: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_en/1080p/index.m3u8',
+    videoUrl: {
+      en: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_en/1080p/index.m3u8',
+      fr: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_en/1080p/index.m3u8',
+      nl: 'https://appinessmedia.blob.core.windows.net/spott/50_grey_01_en/1080p/index.m3u8'
+    },
     title: {
       en: 'Fifty Shades Of Grey Trailer #1',
       fr: 'Fifty Shades Of Grey Trailer #1',
@@ -24,8 +28,8 @@ const videosById = {
   }
 };
 
-// Generate 12 videos
-for (let i = 2; i <= 12; i++) {
+// Generate 4 videos
+for (let i = 2; i <= 4; i++) {
   videosById[`trailer-${i}`] = {
     ...videosById['trailer-1'],
     id: `trailer-${i}`,
@@ -38,7 +42,7 @@ for (let i = 2; i <= 12; i++) {
 }
 
 const playlist = [];
-for (let i = 1; i <= 12; i++) {
+for (let i = 1; i <= 4; i++) {
   playlist.push(videosById[`trailer-${i}`]);
 }
 
