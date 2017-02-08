@@ -23,6 +23,7 @@ class SharingHeaders extends Component {
       { property: 'fb:app_id', content: '418487828343937' },
       { property: 'og:description', content: video.description[currentLocale] },
       { property: 'og:image', content: location.origin + video.poster.url },
+      { property: 'og:image:secure_url', content: location.origin + video.poster.url },
       { property: 'og:image:height', content: video.poster.dimension.height },
       { property: 'og:image:width', content: video.poster.dimension.width },
       { property: 'og:image:type', content: 'image/jpeg' },
