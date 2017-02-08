@@ -29,7 +29,7 @@ class SharingHeaders extends Component {
       { property: 'og:image:type', content: 'image/jpeg' },
       { property: 'og:site_name', content: 'Spott' },
       { property: 'og:title', content: video.title[currentLocale] },
-      { property: 'og:type', content: 'video.movie' },
+      { property: 'og:type', content: 'website' },
       { property: 'twitter:card', content: video.title[currentLocale] },
       { property: 'twitter:description', content: video.description[currentLocale] },
       { property: 'twitter:domain', content: 'https://spott.it' },
