@@ -131,7 +131,7 @@ export default class RecentlyAdded extends Component {
         <Container>
           <div style={styles.overlay} />
           <div style={{ display: 'flex' }}>
-            <Video style={{ flex: '1', marginRight: 20 }} video={videosById[videoId]}/>
+            {!__SERVER__ && <Video style={{ flex: '1', marginRight: 20 }} video={videosById[videoId]}/>}
             <div style={styles.innerWrapper}>
               <Title style={styles.title}>{(firstMedium && firstMedium.get('title')) || '\u00A0'}</Title>
               <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
