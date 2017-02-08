@@ -1,7 +1,7 @@
 import cookie from 'react-cookie';
 import * as api from '../../api/configuration';
 import { apiBaseUrlSelector } from './selector';
-import { initUbToken, loadBasketData } from '../basket/actions';
+import { initUbToken, initBasketData } from '../basket/actions';
 
 export const CONFIGURE = 'CONFIGURE';
 export function doInit () {
@@ -53,7 +53,7 @@ export function doLogin ({ email, password }) {
       if (localStorage) {
         localStorage.setItem('session', JSON.stringify(data));
       }
-      await dispatch(loadBasketData());
+      dispatch(initBasketData());
       return data;
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });
@@ -77,7 +77,7 @@ export function doLoginFacebook ({ facebookAccessToken }) {
       if (localStorage) {
         localStorage.setItem('session', JSON.stringify(data));
       }
-      await dispatch(loadBasketData());
+      dispatch(initBasketData());
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });
       throw error;
@@ -99,7 +99,7 @@ export function doTryLoginFacebook ({ facebookAccessToken }) {
     if (localStorage) {
       localStorage.setItem('session', JSON.stringify(data));
     }
-    await dispatch(loadBasketData());
+    dispatch(initBasketData());
   };
 }
 

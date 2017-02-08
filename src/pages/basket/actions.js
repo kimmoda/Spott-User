@@ -224,3 +224,16 @@ export const updateUserAddress = makeUbApiActionCreator(ubApi.updateAddress, UPD
 export const removeUserAddress = makeUbApiActionCreator(ubApi.removeAddress, REMOVE_ADDRESS_START, REMOVE_ADDRESS_SUCCESS, REMOVE_ADDRESS_ERROR);
 
 export const removeUserCard = makeUbApiActionCreator(ubApi.removeCard, REMOVE_CARD_START, REMOVE_CARD_SUCCESS, REMOVE_CARD_ERROR);
+
+export function initBasketData () {
+  return async (dispatch, getState) => {
+    try {
+      await dispatch(loadBasketData());
+      dispatch(loadUbUser());
+      dispatch(loadCards());
+      dispatch(loadUserAddresses());
+    } catch (error) {
+      throw error;
+    }
+  };
+}

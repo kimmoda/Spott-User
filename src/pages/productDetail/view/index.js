@@ -125,6 +125,7 @@ export default class ProductDetail extends Component {
       variant: { [this.props.product.getIn([ 'ub', 'currentVariant', 'name' ])]: this.props.product.getIn([ 'ub', 'currentVariant', 'value' ]) },
       variantChild: this.props.selectedUbProductVariant.toJS()
     });
+    this.props.routerPush(`/${this.props.currentLocale}/basket`);
   }
 
   onUbVariantChange (name, e) {

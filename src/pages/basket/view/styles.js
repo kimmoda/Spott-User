@@ -292,7 +292,10 @@ export const st = {
     },
     input: {
       ...textInputStyle,
-      marginBottom: '18px'
+      marginBottom: '18px',
+      error: {
+        borderColor: '#ff0000'
+      }
     },
     btn: {
       width: '370px',
@@ -328,7 +331,7 @@ export const st = {
       marginBottom: '24px'
     },
     error: {
-      marginBottom: '10px',
+      marginBottom: '20px',
       color: '#ff0000'
     },
     formCols: {
@@ -410,7 +413,18 @@ export const st = {
     marginTop: '10px',
     name: {
       ...makeTextStyle(fontWeights.regular, '13px'),
-      color: colors.slateGray
+      color: colors.slateGray,
+      display: 'flex',
+      alignItems: 'center',
+      textTransform: 'uppercase',
+      icon: {
+        width: '26px',
+        height: '15px',
+        marginRight: '10px',
+        backgroundSize: 'cover',
+        border: `1px solid ${colors.borderGrey}`,
+        borderRadius: '2px'
+      }
     },
     number: {
       ...makeTextStyle(fontWeights.regular, '16px', '1px', '16px'),
@@ -421,6 +435,50 @@ export const st = {
       dot: {
         ...makeTextStyle(fontWeights.bold, '16px')
       }
+    },
+    select: {
+      display: 'flex',
+      alignItems: 'center',
+      name: {
+        ...makeTextStyle(fontWeights.regular, '14px'),
+        color: colors.coolGray,
+        textTransform: 'uppercase'
+      },
+      icon: {
+        width: '52px',
+        height: '30px',
+        marginRight: '16px',
+        backgroundSize: 'cover',
+        border: `1px solid ${colors.borderGrey}`,
+        borderRadius: '2px'
+      },
+      number: {
+        ...makeTextStyle(fontWeights.regular, '14px'),
+        color: colors.dark,
+        marginTop: '1px',
+        height: '20px',
+        display: 'flex',
+        dot: {
+          ...makeTextStyle(fontWeights.bold, '16px')
+        }
+      }
+    }
+  },
+  ccNumInput: {
+    position: 'relative',
+    icon: {
+      width: '45px',
+      height: '27px',
+      position: 'absolute',
+      right: '5px',
+      top: '7px',
+      backgroundSize: 'cover'
+    },
+    field: {
+      ...textInputStyle,
+      ...makeTextStyle(fontWeights.bold, '18px', '1px'),
+      marginBottom: '18px',
+      paddingRight: '62px'
     }
   }
 };

@@ -5,9 +5,13 @@ import Radium from 'radium';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { st } from '../styles';
 import { renderSelectField } from '../selectInput';
+import { validateAddressFrom } from '../../validateForm';
+import { renderField } from '../index';
+import { normalizePhoneNumber } from '../../normalizeForm';
 
 @reduxForm({
-  form: 'basketAddressForm'
+  form: 'basketAddressForm',
+  validate: validateAddressFrom
 })
 @localized
 @Radium
@@ -56,75 +60,84 @@ export class ModalAddressForm extends Component {
                     component={renderSelectField}
                     disabled={submitting}
                     name='title'
-                    options={[ { value: 'Mr.', label: 'Mr.' }, { value: 'Ms.', label: 'Ms.' } ]}
+                    options={[ { value: 'Mr', label: 'Mr' }, { value: 'Ms', label: 'Ms' } ]}
                     submitFailed={submitFailed} />
                 </div>
                 <div style={{ width: '144px' }}>
                   <label style={st.modal.label}>First name</label>
                   <Field
-                    component='input'
+                    component={renderField}
                     name='firstname'
                     props={{ required: true, type: 'text' }}
-                    style={st.modal.input}/>
+                    style={st.modal.input}
+                    submitFailed={submitFailed}/>
                 </div>
                 <div style={{ width: '144px' }}>
                   <label style={st.modal.label}>Last name</label>
                   <Field
-                    component='input'
+                    component={renderField}
                     name='lastname'
                     props={{ required: true, type: 'text' }}
-                    style={st.modal.input}/>
+                    style={st.modal.input}
+                    submitFailed={submitFailed}/>
                 </div>
               </div>
               <div style={st.modal.formRow}>
                 <label style={st.modal.label}>Company</label>
                 <Field
-                  component='input'
+                  component={renderField}
                   name='company'
                   props={{ required: false, type: 'text' }}
-                  style={st.modal.input}/>
+                  style={st.modal.input}
+                  submitFailed={submitFailed}/>
               </div>
               <div style={st.modal.formRow}>
                 <label style={st.modal.label}>Street Address</label>
                 <Field
-                  component='input'
+                  component={renderField}
                   name='line1'
                   props={{ required: true, type: 'text' }}
-                  style={st.modal.input}/>
+                  style={st.modal.input}
+                  submitFailed={submitFailed}/>
               </div>
               <div style={st.modal.formRow}>
                 <label style={st.modal.label}>Additional Info</label>
                 <Field
-                  component='input'
+                  component={renderField}
                   name='note'
                   props={{ type: 'text' }}
-                  style={st.modal.input}/>
+                  style={st.modal.input}
+                  submitFailed={submitFailed}/>
               </div>
               <div style={st.modal.formCols}>
                 <div style={{ width: '229px' }}>
                   <label style={st.modal.label}>City</label>
                   <Field
-                    component='input'
+                    component={renderField}
                     name='city'
                     props={{ required: true, type: 'text' }}
-                    style={st.modal.input}/>
+                    style={st.modal.input}
+                    submitFailed={submitFailed}/>
                 </div>
                 <div style={{ width: '144px' }}>
                   <label style={st.modal.label}>Postal Code</label>
                   <Field
-                    component='input'
+                    component={renderField}
                     name='postcode'
-                    props={{ required: true, type: 'text' }}
-                    style={st.modal.input}/>
+                    props={{ required: true, type: 'number' }}
+                    style={st.modal.input}
+                    submitFailed={submitFailed}/>
                 </div>
               </div>
               <div style={st.modal.formRow}>
                 <label style={st.modal.label}>Mobile number</label>
                 <Field
-                  component='input'
+                  component={renderField}
                   name='phone'
+                  normalize={normalizePhoneNumber}
                   props={{ required: true, type: 'text' }}
-                  style={st.modal.input}/>
+                  style={st.modal.input}
+                  submitFailed={submitFailed}/>
               </div>
               {isEditForm &&
               <Field

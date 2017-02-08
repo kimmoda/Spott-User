@@ -14,10 +14,23 @@ import { st } from './styles';
 import { ModalAddressForm, ModalAddressSelectForm } from './addressForms';
 import { ModalPhoneForm, ModalPinForm } from './phoneForms';
 import { ModalCardForm, ModalCardSelectForm } from './cardForms';
+import './cardsIcons.css';
 
 const iconBasketLarge = require('./iconBasketLarge.svg');
 
 const ModalAddressEditForm = connect(basketEditAddressDataSelector, null)(ModalAddressForm);
+
+export const renderField = Radium((props) => {
+  return (
+    <input
+      autoFocus={props.autoFocus}
+      placeholder={props.placeholder}
+      required={props.required}
+      style={[ st.modal.input, props.submitFailed && props.meta.touched && props.meta.error && st.modal.input.error ]}
+      type={props.type}
+      {...props.input} />
+  );
+});
 
 @reduxForm({
   form: 'basketForm'
@@ -149,7 +162,7 @@ export default class Basket extends Component {
   }
 
   onAddNewAddressClick () {
-    this.setState({ isModalAddressSelectOpen: false, isModalAddressOpen: true });
+    this.setState({ isModalAddressSelectOpen: false, isModalCardOpen: false, isModalAddressOpen: true });
   }
 
   onAddressChangeClick () {
@@ -473,10 +486,10 @@ export default class Basket extends Component {
                       </div>
                       {userAddress
                         ? <div style={st.box.itemCheckout.add} onClick={this.onAddressChangeClick}>change</div>
-                        : <div style={st.box.itemCheckout.add} onClick={this.onAddAddressClick}>Add</div>
+                        : ubUser.get('mobile') && <div style={st.box.itemCheckout.add} onClick={this.onAddAddressClick}>Add</div>
                       }
                       {this.state.isModalAddressOpen &&
-                      <ModalAddressForm initialValues={{ countryId: 8 }} onClose={this.onModalAddressClose} onSubmit={this.onAddressSubmit}/>}
+                      <ModalAddressForm initialValues={{ countryId: 8, title: 'Mr' }} onClose={this.onModalAddressClose} onSubmit={this.onAddressSubmit}/>}
                       {this.state.isModalAddressSelectOpen &&
                       <ModalAddressSelectForm
                         addNewAddress={this.onAddNewAddressClick}
@@ -498,7 +511,12 @@ export default class Basket extends Component {
                         {userCard &&
                         <div style={st.box.itemCheckout.text}>
                           <div style={st.paymentCard}>
-                            <div style={st.paymentCard.name}>VISA</div>
+                            <div style={st.paymentCard.name}>
+                              <div
+                                className={`icon-${userCard.getIn([ 'cardType', 'code' ])}`}
+                                style={st.paymentCard.name.icon}/>
+                              {userCard.getIn([ 'cardType', 'code' ])}
+                            </div>
                             <div style={st.paymentCard.number}>
                               <div style={st.paymentCard.number.dots}>··· ··· ···&nbsp;</div>
                               {userCard.get('maskedNumber').slice(-4)}
@@ -517,7 +535,7 @@ export default class Basket extends Component {
                       </div>
                       {userCards.size
                         ? <div style={st.box.itemCheckout.add} onClick={this.onCardSelectClick}>change</div>
-                        : <div style={st.box.itemCheckout.add} onClick={this.onAddCardClick}>Add</div>
+                        : userAddress && <div style={st.box.itemCheckout.add} onClick={this.onAddCardClick}>Add</div>
                       }
                       {this.state.isModalCardOpen &&
                       <ModalCardForm

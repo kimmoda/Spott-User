@@ -1,12 +1,65 @@
+/* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import { Button, pinkButtonStyle, Modal, smallDialogStyle } from '../../../_common/buildingBlocks';
 import localized from '../../../_common/localized';
 import Radium from 'radium';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { st } from '../styles';
+import { normalizeCardNumber } from '../../normalizeForm';
+import { validateCardFrom } from '../../validateForm';
+import { renderField } from '../index';
+import creditcardutils from 'creditcardutils';
+import '../cardsIcons.css';
+
+@Radium
+class CardNumber extends Component {
+  static propTypes = {
+    input: PropTypes.any.isRequired,
+    meta: PropTypes.any.isRequired,
+    submitFailed: PropTypes.bool.isRequired
+  };
+
+  constructor (props) {
+    super(props);
+    this.inputChange = ::this.inputChange;
+    this.state = {
+      cardType: null
+    };
+  }
+
+  inputChange (e) {
+    const { input: { onChange } } = this.props;
+    const val = e.target.value;
+    this.setState({ cardType: creditcardutils.parseCardType(val) });
+    onChange(e.target.value);
+  }
+
+  render () {
+    const { cardType } = this.state;
+    const { submitFailed } = this.props;
+    const { touched, error } = this.props.meta;
+    return (
+      <div>
+        <div style={st.ccNumInput}>
+          <input
+            required
+            style={[ st.ccNumInput.field, submitFailed && touched && error && st.modal.input.error ]}
+            type='text'
+            {...this.props.input}
+            onChange={this.inputChange}/>
+          <div
+            className={cardType ? `icon-${cardType}` : 'icon-placeholder'}
+            style={st.ccNumInput.icon}/>
+        </div>
+        {submitFailed && touched && error && error !== 'err' && <div style={st.modal.error}>{error}</div>}
+      </div>
+    );
+  }
+}
 
 @reduxForm({
-  form: 'basketCardForm'
+  form: 'basketCardForm',
+  validate: validateCardFrom
 })
 @localized
 @Radium
@@ -16,6 +69,7 @@ export class ModalCardForm extends Component {
     addresses: PropTypes.any,
     error: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
+    submitFailed: PropTypes.bool,
     submitting: PropTypes.bool,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -23,7 +77,7 @@ export class ModalCardForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error, addresses, addNewAddress, submitting } = this.props;
+    const { handleSubmit, onClose, error, addresses, addNewAddress, submitting, submitFailed } = this.props;
 
     return (
       <Modal
@@ -32,50 +86,54 @@ export class ModalCardForm extends Component {
         onClose={onClose}>
         <div style={st.modal}>
           <div style={st.modal.title}>Add New Card</div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit}>
             <div style={st.modal.form}>
-              <div style={st.modal.formCols}>
-                <div style={{ width: '184px' }}>
-                  <label style={st.modal.label}>Credit Card Number</label>
-                  <Field
-                    component='input'
-                    name='number'
-                    props={{ required: true, type: 'number' }}
-                    style={st.modal.input}/>
-                </div>
-                <div style={{ width: '110px' }}>
+              <div style={st.modal.formRow}>
+                <label style={st.modal.label}>Credit Card Number</label>
+                <Field
+                  component={CardNumber}
+                  name='number'
+                  normalize={normalizeCardNumber}
+                  props={{ required: true, type: 'text' }}
+                  submitFailed={submitFailed}/>
+              </div>
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '160px' }}>
                   <label style={st.modal.label}>Expiration Date</label>
                   <div style={{ display: 'flex' }}>
                     <Field
-                      component='input'
+                      component={renderField}
                       name='expiryMonth'
                       props={{ required: true, placeholder: 'MM' }}
-                      style={st.modal.input}/>
+                      style={st.modal.input}
+                      submitFailed={submitFailed}/>
                     <Field
-                      component='input'
+                      component={renderField}
                       name='expiryYear'
-                      props={{ required: true, type: 'number', placeholder: 'YY', max: 30 }}
-                      style={st.modal.input}/>
+                      props={{ required: true, placeholder: 'YY' }}
+                      style={st.modal.input}
+                      submitFailed={submitFailed}/>
                   </div>
                 </div>
-                <div style={{ width: '67px' }}>
+                <div style={{ width: '100px', marginLeft: '10px' }}>
                   <label style={st.modal.label}>CVC</label>
                   <Field
-                    component='input'
+                    component={renderField}
                     name='cvv'
                     props={{ required: true, type: 'number' }}
-                    style={st.modal.input}/>
+                    style={st.modal.input}
+                    submitFailed={submitFailed}/>
                 </div>
               </div>
               <div style={st.modal.formRow}>
                 <label style={st.modal.label}>Name on Card</label>
                 <Field
-                  component='input'
+                  component={renderField}
                   name='name'
                   props={{ required: true, type: 'text' }}
-                  style={st.modal.input}/>
+                  style={st.modal.input}
+                  submitFailed={submitFailed}/>
               </div>
-              {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
             </div>
             <div style={[ st.modal.items, { marginTop: '-20px', borderTop: 0 } ]}>
               <div style={[ st.modal.item, { borderBottom: 0 } ]}>
@@ -106,8 +164,8 @@ export class ModalCardForm extends Component {
               <div style={st.modal.item}>
                 <div style={st.modal.addNewLink} onClick={addNewAddress}>Add New Address</div>
               </div>
-              {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
             </div>
+            {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
             <Button style={[ pinkButtonStyle, st.modal.btn ]}>Save</Button>
           </form>
         </div>
@@ -162,10 +220,19 @@ export class ModalCardSelectForm extends Component {
                       value={card.get('id')}/>
                     <div style={st.modal.radioContent}>
                       <div style={st.modal.radioContent.title}>
-                        <div style={st.paymentCard.name}>VISA</div>
-                        <div style={st.paymentCard.number}>
-                          <div style={st.paymentCard.number.dots}>··· ··· ···&nbsp;</div>
-                          {card.get('maskedNumber').slice(-4)}
+                        <div style={st.paymentCard.select}>
+                          <div
+                            className={`icon-${card.getIn([ 'cardType', 'code' ])}`}
+                            style={st.paymentCard.select.icon}/>
+                          <div style={st.paymentCard.select.right}>
+                            <div style={st.paymentCard.select.number}>
+                              <div style={st.paymentCard.select.number.dots}>XXX XXX XXX&nbsp;</div>
+                              {card.get('maskedNumber').slice(-4)}
+                            </div>
+                            <div style={st.paymentCard.select.name}>
+                              {card.getIn([ 'cardType', 'code' ])}
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div style={st.modal.radioContent.dscr}>
