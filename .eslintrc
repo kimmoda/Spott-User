@@ -39,8 +39,7 @@
   },
   globals: {
     "__DEVELOPMENT__": 1,
-    "__SERVER__": 1,
-    'theoplayer': 1
+    "__SERVER__": 1
   },
   "settings": {
     "import/parser": "babel-eslint"

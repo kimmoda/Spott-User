@@ -10,7 +10,6 @@ import TopSellingProducts from './topSellingProducts';
 import PopularProducts from './popularProducts';
 import DownloadApp from './downloadApp';
 import TvGuide from './tvGuide';
-import Videos from './videos';
 import RecentlyAddedToWishlist from './recentlyAddedToWishlist';
 // import PopularNearYou from './popularNearYou';
 import { homeSelector } from '../selectors';
@@ -52,7 +51,6 @@ export default class Home extends Component {
       <div style={{ fontSize: '16px', backgroundColor: 'white' }}>
         <Search />
         <RecentlyAdded style={backgroundStyle[i++ % 2]}/>
-        <Videos/>
         {isAuthenticated && <NewScenesForYou style={backgroundStyle[i++ % 2]}/>}
         <TvGuide style={backgroundStyle[i++ % 2]}/>
         <NewEpisodes style={backgroundStyle[i++ % 2]}/>
