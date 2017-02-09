@@ -58,7 +58,7 @@ button:focus {
   pointer-events: none;
   z-index: 2147483647;
   font-size: 15px;
-  font-family: Rubik-Medium;
+  font-family: Roboto-Medium;
 }
 
 @media only screen and (min-width: 480px) {
@@ -197,6 +197,7 @@ button:focus {
 .productOverview {
   color: #ffffff;
   display: inline-block;
+  font-family: Roboto-Medium;
   position: absolute;
   left: 7em;
   right: 0;
@@ -204,7 +205,7 @@ button:focus {
 
 .productOverview h1 {
   color: #fff;
-  font-family: Rubik-Medium;
+  font-family: Roboto-Medium;
   font-size: 1.125em;
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -229,7 +230,7 @@ button:focus {
   border: solid 1px #09bbf0;
   color: #fff;
   display: inline-block;
-  font-family: Rubik-Medium;
+  font-family: Roboto-Medium;
   font-size: 0.75em;
   padding: 0.5em 0.875em;
   text-align: center;

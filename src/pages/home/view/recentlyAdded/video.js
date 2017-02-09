@@ -3,7 +3,6 @@ import Radium from 'radium';
 import $ from 'npm-zepto';
 import localized from '../../../_common/localized';
 import { slowdown } from '../../../../utils';
-import '../../../app/view/fonts/index.css';
 import './style.css';
 
 const baseUrl = 'https://spott-ios-rest-prd.appiness.mobi/rest';
