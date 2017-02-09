@@ -227,11 +227,14 @@ export default class Video extends Component {
   }
 
   componentDidMount () {
-    theoplayer.onReady = () => {
-      console.warn('READY TO PLAY!');
-      this.setState({ theoplayerIsReady: true });
-      this.loadVideo(this.props.video);
-    };
+    // Wait until theoplayer is loaded.
+    setTimeout(() => {
+      theoplayer.onReady = () => {
+        console.warn('READY TO PLAY!');
+        this.setState({ theoplayerIsReady: true });
+        this.loadVideo(this.props.video);
+      };
+    }, 250);
   }
 
   componentWillReceiveProps ({ video }) {
