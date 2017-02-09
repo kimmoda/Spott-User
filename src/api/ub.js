@@ -39,9 +39,9 @@ export async function setUbToken (baseUrl, authenticationToken, locale, { userId
   }
 }
 
-export async function addProductToBasket (baseUrl, authenticationToken, { productId }) {
+export async function addProductToBasket (baseUrl, authenticationToken, { productId, affiliateUrl }) {
   try {
-    const { body } = await requestUb.post(authenticationToken, `${baseUrl}/basket/add/${productId}`, { affiliateUrl: 'https://spott.it/' });
+    const { body } = await requestUb.post(authenticationToken, `${baseUrl}/basket/add/${productId}`, { affiliateUrl });
     return body;
   } catch (error) {
     throw error;

@@ -106,10 +106,10 @@ export const selectProductVariant = makeUbApiActionCreator(ubApi.updateBasketLin
 
 export const selectShipping = makeUbApiActionCreator(ubApi.updateShipping, SELECT_SHIPMENT_START, SELECT_SHIPMENT_SUCCESS, SELECT_SHIPMENT_ERROR);
 
-export function addToBasketWrapper ({ productId, shipping, variant, variantChild }) {
+export function addToBasketWrapper ({ productId, shipping, variant, variantChild, affiliateUrl }) {
   return async (dispatch, getState) => {
     try {
-      const basketData = await dispatch(addToBasket({ productId }));
+      const basketData = await dispatch(addToBasket({ productId, affiliateUrl }));
       const lineId = basketData.line.id;
       const data = { options: { attributes: { ...variant, ...variantChild } } };
       await dispatch(selectProductVariant({ lineId, data }));

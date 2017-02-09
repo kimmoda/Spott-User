@@ -123,7 +123,8 @@ export default class ProductDetail extends Component {
       productId: this.props.product.getIn([ 'ub', 'id' ]),
       shipping: { id: this.props.product.getIn([ 'ub', 'shop', 'shippingOptions', '0', 'id' ]), shopId: this.props.product.getIn([ 'ub', 'shop', 'id' ]) },
       variant: { [this.props.product.getIn([ 'ub', 'currentVariant', 'name' ])]: this.props.product.getIn([ 'ub', 'currentVariant', 'value' ]) },
-      variantChild: this.props.selectedUbProductVariant.toJS()
+      variantChild: this.props.selectedUbProductVariant.toJS(),
+      affiliateUrl: this.props.product.getIn([ 'offerings', '0', 'directBuyUrl' ])
     });
     this.props.routerPush(`/${this.props.currentLocale}/basket`);
   }
