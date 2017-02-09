@@ -172,7 +172,8 @@ export default class Basket extends Component {
 
   onAddressEditClick (addressId) {
     const selectedAddress = this.props.userAddresses.find((x) => x.get('id') === addressId);
-    this.props.loadEditAddressData(selectedAddress);
+    const normalizedAddress = selectedAddress.set('phone', normalizePhoneNumber(selectedAddress.get('phone')));
+    this.props.loadEditAddressData(normalizedAddress);
     this.setState({
       isModalAddressSelectOpen: false,
       isModalAddressEditOpen: true
