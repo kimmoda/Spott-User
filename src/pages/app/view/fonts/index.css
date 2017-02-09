@@ -69,8 +69,7 @@
     font-weight: normal;
     font-style: normal;
 }
-/*
-WE USE GOOGLE FONT API
+
 @font-face {
     font-family: 'Roboto-Light';
     src: url('./roboto/roboto-light.woff') format('woff'),
@@ -102,4 +101,4 @@ WE USE GOOGLE FONT API
          url('./roboto/roboto-bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-}*/
+}
