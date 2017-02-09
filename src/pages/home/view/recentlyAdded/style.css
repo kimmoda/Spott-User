@@ -63,21 +63,27 @@ button:focus {
 
 @media only screen and (min-width: 480px) {
   #videoContent {
-    font-size: 16px;
+    font-size: 15px;
   }
 }
 @media only screen and (min-width: 768px) {
   #videoContent {
-    font-size: 17px;
+    font-size: 16px;
   }
 }
 
 @media only screen and (min-width: 992px) {
   #videoContent {
-    font-size: 18px;
+    font-size: 17px;
   }
 }
 @media only screen and (min-width: 1200px) {
+  #videoContent {
+    font-size: 21px;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
   #videoContent {
     font-size: 23px;
   }
@@ -130,7 +136,7 @@ button:focus {
 
 /* On hover the product tile gets selected and remains selected. */
  .productTileSelected {
-   border: solid 2px #09bbf0 !important;
+   border: solid 2px #cf315b !important;
  }
 
 .subtileImage {
@@ -225,9 +231,9 @@ button:focus {
   white-space: nowrap;
 }
 .buyButton {
-  background-color: #09bbf0;
+  background-color: #cf315b;
   border-radius: 2px;
-  border: solid 1px #09bbf0;
+  border: solid 1px #cf315b;
   color: #fff;
   display: inline-block;
   font-family: Roboto-Medium;
