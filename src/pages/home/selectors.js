@@ -37,6 +37,13 @@ const videosById = {
       },
       url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-1-poster.jpg'
     },
+    social: {
+      dimension: {
+        height: 720,
+        width: 1280
+      },
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-1-social.jpg'
+    },
     thumb: {
       dimension: {
         height: 80,
@@ -62,6 +69,13 @@ const videosById = {
         width: 1280
       },
       url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-2-poster.jpg'
+    },
+    social: {
+      dimension: {
+        height: 720,
+        width: 1280
+      },
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-2-social.jpg'
     },
     thumb: {
       dimension: {
@@ -94,6 +108,13 @@ const videosById = {
       },
       url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-3-poster.jpg'
     },
+    social: {
+      dimension: {
+        height: 720,
+        width: 1280
+      },
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-3-social.jpg'
+    },
     thumb: {
       dimension: {
         height: 80,
@@ -124,6 +145,13 @@ const videosById = {
         width: 1280
       },
       url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-4-poster.jpg'
+    },
+    social: {
+      dimension: {
+        height: 720,
+        width: 1280
+      },
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-4-social.jpg'
     },
     thumb: {
       dimension: {
