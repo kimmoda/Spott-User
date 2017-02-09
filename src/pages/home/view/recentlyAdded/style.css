@@ -45,7 +45,7 @@ button:focus {
   z-index: 2147483647;
   opacity: 0;
   background-image: linear-gradient(to top, rgba(0, 0, 0, 0), #000000);
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.3s ease-in;
 }
 #videoContent {
   position: absolute;
@@ -85,7 +85,7 @@ button:focus {
 
 .videoOverlayShow {
   opacity: 1 !important;
-  transition: opacity 0.5s ease-in !important;
+  transition: opacity 0.3s ease-in !important;
 }
 #info {
   color: #ffffff;
@@ -117,7 +117,7 @@ button:focus {
   opacity: 0.98;
   position: relative;
   width: 1.875em;
-  transition: height 0.5s ease-in, width 0.5s ease-in;
+  transition: height 0.3s ease-in, width 0.3s ease-in;
 }
 
 .productTilesLarge div {
@@ -125,7 +125,7 @@ button:focus {
   border: solid 2px #eaeced;
   height: 2.5em;
   width: 2.5em;
-  transition: height 0.5s ease-in, width 0.5s ease-out;
+  transition: height 0.3s ease-in, width 0.3s ease-out;
 }
 
 /* On hover the product tile gets selected and remains selected. */
@@ -163,12 +163,12 @@ button:focus {
 
 #productDetails, #productDetails .productOverview {
   opacity: 0;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.3s ease-in;
 }
 
 .productDetailsShow, .productDetailsShow .productOverview {
   opacity: 1 !important;
-  transition: opacity 0.5s ease-in !important;
+  transition: opacity 0.3s ease-in !important;
 }
 
 .productImageContainer {
