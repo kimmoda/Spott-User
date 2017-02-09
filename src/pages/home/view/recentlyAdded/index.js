@@ -23,10 +23,10 @@ class SharingHeaders extends Component {
       { property: 'fb:app_id', content: '418487828343937' },
       { property: 'og:description', content: video.description[currentLocale] },
       { property: 'og:image:height', content: video.poster.dimension.height },
-      { property: 'og:image:secure_url', content: location.origin + video.poster.url },
+      { property: 'og:image:secure_url', content: video.poster.url },
       { property: 'og:image:type', content: 'image/jpeg' },
       { property: 'og:image:width', content: video.poster.dimension.width },
-      { property: 'og:image', content: location.origin + video.poster.url },
+      { property: 'og:image', content: video.poster.url },
       { property: 'og:site_name', content: 'Spott' },
       { property: 'og:title', content: video.title[currentLocale] },
       { property: 'og:type', content: 'website' },
@@ -35,7 +35,7 @@ class SharingHeaders extends Component {
       { property: 'twitter:description', content: video.description[currentLocale] },
       { property: 'twitter:domain', content: 'https://spott.it' },
       { property: 'twitter:image', content: location.origin + video.poster.url },
-      { property: 'twitter:site', content: '@SpottBE_nl' },
+      { property: 'twitter:site', content: currentLocale === 'fr' ? '@SpottBE_fr' : '@SpottBE_nl' },
       { property: 'twitter:title', content: video.title[currentLocale] }
     ];
     return <Helmet meta={meta} />;
