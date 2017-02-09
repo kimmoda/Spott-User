@@ -199,12 +199,16 @@ export default class Video extends Component {
         // Fetch and display the scene info if we have a different scene.
         const currentOffsetInSeconds = Math.round(player.currentTime || 0);
 
+        console.warn('currentOffsetInSeconds', currentOffsetInSeconds);
+
         if (currentOffsetInSeconds !== previousOffsetInSeconds && $('#videoContent').find('.productTilesLarge').length === 0) {
           previousOffsetInSeconds = currentOffsetInSeconds;
+          console.warn('getSceneDetailsSlowdown');
           getSceneDetailsSlowdown(fingerprintId, currentOffsetInSeconds, function (err, sceneDetails) {
             if (err || !sceneDetails) {
               return;
             }
+            console.warn('PERFORMED');
             // Only update DOM if we are the product details are not shown.
             if ($('#videoContent').find('.productTilesLarge').length === 0) {
               // $('#info').html('<pre>' + JSON.stringify(sceneDetails, null, 4) + '</pre>');
