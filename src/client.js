@@ -24,6 +24,7 @@ import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
 import resetPassword from './pages/resetPassword/reducer';
 import home from './pages/home/reducer';
+import { isServer } from './utils';
 
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
@@ -87,6 +88,14 @@ export function createOurStore (theHistory, reducers, initialState) {
 }
 
 async function boot () {
+  // Make sure theoplayer is accessible.
+  if (!isServer()) {
+    const a = document.createElement('script');
+    const b = document.getElementsByTagName('script')[0];
+    a.src = document.location.protocol + '//cdn.theoplayer.com/latest/f9ae73eb-ac57-42ae-acdb-1ff18be7c597/theoplayer.loader.js';
+    a.type = 'text/javascript';
+    b.parentNode.insertBefore(a, b);
+  }
   // Create redux store
   const initialState = fromJS({});
   const store = createOurStore(browserHistory, rootReducer, initialState);

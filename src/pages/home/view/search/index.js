@@ -100,7 +100,7 @@ export default class Search extends Component {
     wrapper: {
       position: 'relative',
       backgroundColor: colors.whiteGray,
-      zIndex: 1,
+      zIndex: 9,
       transform: 'translate3d(0,0,0)',
       paddingTop: '20px',
       paddingBottom: '50px',

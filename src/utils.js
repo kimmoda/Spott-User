@@ -15,6 +15,11 @@ export function formatEpisodeNumber (seasonNumber, episodeNumber) {
   return `S${pad(seasonNumber)}E${pad(episodeNumber)}`;
 }
 
+// Check if Phantomjs is rendering.
+export function isServer () {
+  return navigator.userAgent.toLowerCase().indexOf('phantomjs') > -1;
+}
+
 /**
  * Creates and returns a new debounced version of the passed function which
  * will postpone its execution until after wait milliseconds have elapsed since
