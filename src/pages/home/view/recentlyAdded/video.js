@@ -234,12 +234,12 @@ export default class Video extends Component {
         this.setState({ theoplayerIsReady: true });
         this.loadVideo(this.props.video);
       };
-    }, 250);
+    }, 500);
   }
 
   componentWillReceiveProps ({ video }) {
-    console.warn('VIDEO', video);
     if (this.props.video.id !== video.id && this.state.theoplayerIsReady) {
+      console.warn('VIDEO componentWillReceiveProps', video);
       this.loadVideo(video);
     }
   }
