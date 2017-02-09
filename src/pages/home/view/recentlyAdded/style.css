@@ -58,6 +58,7 @@ button:focus {
   pointer-events: none;
   z-index: 2147483647;
   font-size: 15px;
+  font-family: Rubik-Medium;
 }
 
 @media only screen and (min-width: 480px) {
