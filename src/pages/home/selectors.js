@@ -26,9 +26,9 @@ const videosById = {
     fingerprintId: '855EB3628BD33309',
     id: 'trailer-1',
     label: {
-      en: 'Fifty Shades Darker Trailer #1',
-      fr: 'Fifty Shades Darker Trailer #1',
-      nl: 'Fifty Shades Darker Trailer #1'
+      en: 'Fifty Shades Darker - Trailer #1',
+      fr: 'Cinquante Nuances Plus Sombres - Bande Annonce #1',
+      nl: 'Vijftig Tinten Donkerder - Trailer #1'
     },
     poster: {
       dimension: {
@@ -71,9 +71,9 @@ const videosById = {
       url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-2-thumb.jpg'
     },
     label: {
-      en: 'Fifty Shades Darker Trailer #2',
-      fr: 'Fifty Shades Darker Trailer #2',
-      nl: 'Fifty Shades Darker Trailer #2'
+      en: 'Fifty Shades Darker - Trailer #2',
+      fr: 'Cinquante Nuances Plus Sombres - Bande Annonce #2',
+      nl: 'Vijftig Tinten Donkerder - Trailer #2'
     },
     title,
     videoUrl: {
@@ -102,9 +102,9 @@ const videosById = {
       url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-3-thumb.jpg'
     },
     label: {
-      en: 'Fifty Shades Of Grey Trailer #1',
-      fr: 'Fifty Shades Of Grey Trailer #1',
-      nl: 'Fifty Shades Of Grey Trailer #1'
+      en: 'Fifty Shades Of Grey - Trailer #1',
+      fr: 'Cinquante Nuances de Grey - Bande Annonce #1',
+      nl: 'Vijftig Tinten Grijs - Trailer #1'
     },
     title,
     videoUrl: {
@@ -134,8 +134,8 @@ const videosById = {
     },
     label: {
       en: 'Fifty Shades Of Grey Trailer #2',
-      fr: 'Fifty Shades Of Grey Trailer #2',
-      nl: 'Fifty Shades Of Grey Trailer #2'
+      fr: 'Cinquante Nuances de Grey - Bande Annonce #2',
+      nl: 'Vijftig Tinten Grijs - Trailer #2'
     },
     title,
     videoUrl: {

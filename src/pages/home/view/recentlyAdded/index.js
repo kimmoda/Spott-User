@@ -142,7 +142,7 @@ export default class RecentlyAdded extends Component {
               <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
               <Button disabled={!firstMedium} style={{ ...pinkButtonStyle, ...styles.button }} to={firstMedium && firstMedium.get('shareUrl')}>{t('home.recentlyAdded.browseButton')}</Button>
 
-              <h3 style={styles.playlistTitle}>More Fifty Shades</h3>
+              <h3 style={styles.playlistTitle}>{t('home.recentlyAdded.moreFiftyShades')}</h3>
               <Playlist playlist={playlist.filter(({ id }) => id !== videoId)}/>
             </div>
           </div>
