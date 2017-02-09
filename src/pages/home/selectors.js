@@ -35,14 +35,14 @@ const videosById = {
         height: 720,
         width: 1280
       },
-      url: require('./view/recentlyAdded/images/trailer-1-poster.jpg')
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-1-poster.jpg'
     },
     thumb: {
       dimension: {
         height: 80,
         width: 140
       },
-      url: require('./view/recentlyAdded/images/trailer-1-thumb.jpg')
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-1-thumb.jpg'
     },
     title,
     videoUrl: {
@@ -61,14 +61,14 @@ const videosById = {
         height: 720,
         width: 1280
       },
-      url: require('./view/recentlyAdded/images/trailer-2-poster.jpg')
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-2-poster.jpg'
     },
     thumb: {
       dimension: {
         height: 80,
         width: 140
       },
-      url: require('./view/recentlyAdded/images/trailer-2-thumb.jpg')
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-2-thumb.jpg'
     },
     label: {
       en: 'Fifty Shades Darker Trailer #2',
@@ -92,14 +92,14 @@ const videosById = {
         height: 720,
         width: 1280
       },
-      url: require('./view/recentlyAdded/images/trailer-3-poster.jpg')
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-3-poster.jpg'
     },
     thumb: {
       dimension: {
         height: 80,
         width: 140
       },
-      url: require('./view/recentlyAdded/images/trailer-3-thumb.jpg')
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-3-thumb.jpg'
     },
     label: {
       en: 'Fifty Shades Of Grey Trailer #1',
@@ -123,14 +123,14 @@ const videosById = {
         height: 720,
         width: 1280
       },
-      url: require('./view/recentlyAdded/images/trailer-4-poster.jpg')
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-4-poster.jpg'
     },
     thumb: {
       dimension: {
         height: 80,
         width: 140
       },
-      url: require('./view/recentlyAdded/images/trailer-4-thumb.jpg')
+      url: 'https://s3-eu-west-1.amazonaws.com/appiness-spott-prd/shades/trailer-4-thumb.jpg'
     },
     label: {
       en: 'Fifty Shades Of Grey Trailer #2',
