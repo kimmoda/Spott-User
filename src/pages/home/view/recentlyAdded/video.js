@@ -153,7 +153,7 @@ function renderSceneDetails (sceneDetails, player) {
   return $sceneDetails;
 }
 
-const getSceneDetailsSlowdown = slowdown(getSceneDetails, 1000);
+const getSceneDetailsSlowdown = slowdown(getSceneDetails, 300);
 
 @localized
 @Radium
