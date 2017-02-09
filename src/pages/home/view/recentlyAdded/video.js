@@ -153,7 +153,7 @@ function renderSceneDetails (sceneDetails, player) {
   return $sceneDetails;
 }
 
-const getSceneDetailsSlowdown = slowdown(getSceneDetails, 300);
+// const getSceneDetailsSlowdown = slowdown(getSceneDetails, 300);
 
 @localized
 @Radium
@@ -204,7 +204,7 @@ export default class Video extends Component {
         if (currentOffsetInSeconds !== previousOffsetInSeconds && $('#videoContent').find('.productTilesLarge').length === 0) {
           previousOffsetInSeconds = currentOffsetInSeconds;
           console.warn('getSceneDetailsSlowdown');
-          getSceneDetailsSlowdown(fingerprintId, currentOffsetInSeconds, function (err, sceneDetails) {
+          getSceneDetails(fingerprintId, currentOffsetInSeconds, function (err, sceneDetails) {
             if (err || !sceneDetails) {
               return;
             }
