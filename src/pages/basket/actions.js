@@ -155,10 +155,10 @@ export const updatePersonalInfo = makeUbApiActionCreator(ubApi.updateInfo, UPDAT
 
 export const loadUbUser = makeUbApiActionCreator(ubApi.retrieveUser, LOAD_UB_USER_START, LOAD_UB_USER_SUCCESS, LOAD_UB_USER_ERROR);
 
-export function initUbUser (values) {
+export function initUbUser (data) {
   return async (dispatch, getState) => {
     try {
-      const { number, email } = values.toJS();
+      const { number, email } = data;
       const { userIsRegistered, verify } = await dispatch(submitMobile({ number }));
       if (userIsRegistered || !verify) {
         throw new SubmissionError({ _error: { message: 'User is already exist' } });

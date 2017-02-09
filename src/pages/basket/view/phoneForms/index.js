@@ -4,6 +4,7 @@ import localized from '../../../_common/localized';
 import Radium from 'radium';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { st } from '../styles';
+import { normalizePhoneNumber } from '../../normalizeForm';
 
 @reduxForm({
   form: 'basketPhoneForm'
@@ -38,11 +39,23 @@ export class ModalPhoneForm extends Component {
                 props={{ required: true, type: 'email' }}
                 style={st.modal.input}/>
               <label style={st.modal.label}>Mobile Number</label>
-              <Field
-                component='input'
-                name='number'
-                props={{ required: true }}
-                style={st.modal.input}/>
+              <div style={st.modal.formCols}>
+                <div style={{ width: '76px' }}>
+                  <Field
+                    component='input'
+                    name='phoneCountry'
+                    props={{ required: true }}
+                    style={st.modal.input}/>
+                </div>
+                <div style={{ width: '295px' }}>
+                  <Field
+                    component='input'
+                    name='number'
+                    normalize={normalizePhoneNumber}
+                    props={{ required: true }}
+                    style={st.modal.input}/>
+                </div>
+              </div>
               {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
               <div style={st.modal.footer}>
                 Mobile number info text .Lorem ipsum dolor sit amet,

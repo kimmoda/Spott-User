@@ -324,7 +324,9 @@ export default class Basket extends Component {
 
   async onPersonalInfoSubmit (values) {
     try {
-      await this.props.initUbUser(values);
+      const { email, phoneCountry, number } = values.toJS();
+      const data = { email, number: `+${phoneCountry.replace(/[^\d]/g, '')}${number.replace(/[^\d]/g, '')}` };
+      await this.props.initUbUser(data);
       this.setState({ isModalPhoneOpen: false, isModalPinOpen: true });
     } catch (e) {
       throw e;
@@ -470,7 +472,14 @@ export default class Basket extends Component {
                         : <div style={st.box.itemCheckout.add} onClick={this.onAddPersonalInfoClick}>Add</div>
                       }
                       {this.state.isModalPhoneOpen &&
-                      <ModalPhoneForm onClose={this.onModalPhoneClose} onSubmit={this.onPersonalInfoSubmit}/>}
+                      <ModalPhoneForm
+                        initialValues={{
+                          email: ubUser.get('email'),
+                          phoneCountry: ubUser.getIn([ 'mobileParts', 'countryCode' ]) || '+32',
+                          number: normalizePhoneNumber(ubUser.getIn([ 'mobileParts', 'number' ]))
+                        }}
+                        onClose={this.onModalPhoneClose}
+                        onSubmit={this.onPersonalInfoSubmit}/>}
                       {this.state.isModalPinOpen &&
                       <ModalPinForm number={this.props.personalInfo.get('number')} onClose={this.onModalPinClose} onSubmit={this.onPinSubmit}/>}
                     </div>
