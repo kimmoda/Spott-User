@@ -32,6 +32,7 @@ class SharingHeaders extends Component {
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: location.href },
       { property: 'twitter:card', content: 'summary' },
+      { property: 'twitter:creator', content: currentLocale === 'fr' ? '@SpottBE_fr' : '@SpottBE_nl' },
       { property: 'twitter:description', content: video.description[currentLocale] },
       { property: 'twitter:domain', content: 'https://spott.it' },
       { property: 'twitter:image', content: location.origin + video.social.url },
