@@ -1,14 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import Radium from 'radium';
-import { bindActionCreators } from 'redux';
 import $ from 'npm-zepto';
-import { colors } from '../../../_common/buildingBlocks';
 import localized from '../../../_common/localized';
 import { slowdown } from '../../../../utils';
-// import PopularNearYou from './popularNearYou';
-// import { homeSelector } from '../selectors';
-// import * as actions from '../actions';
+import '../../../app/view/fonts/index.css';
 import './style.css';
 
 const baseUrl = 'https://spott-ios-rest-prd.appiness.mobi/rest';
@@ -31,7 +26,7 @@ function transformSceneDetails (sceneDetails) {
 }
 function get (url, callback) {
   $.ajax({
-    url: url,
+    url,
     type: 'GET',
     contentType: 'application/json; charset=utf-8',
     headers: { 'api_key': 'EbQzeWS7VzRTYd8ZhhB5nwwZZGpC6BruJpWQDC3Ynd3TwFCtfe6MJMFNu9' },
