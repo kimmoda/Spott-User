@@ -14,6 +14,7 @@ import { st } from './styles';
 import { ModalAddressForm, ModalAddressSelectForm } from './addressForms';
 import { ModalPhoneForm, ModalPinForm } from './phoneForms';
 import { ModalCardForm, ModalCardSelectForm } from './cardForms';
+import { normalizePhoneNumber } from '../normalizeForm';
 import './cardsIcons.css';
 
 const iconBasketLarge = require('./iconBasketLarge.svg');
@@ -489,7 +490,15 @@ export default class Basket extends Component {
                         : ubUser.get('mobile') && <div style={st.box.itemCheckout.add} onClick={this.onAddAddressClick}>Add</div>
                       }
                       {this.state.isModalAddressOpen &&
-                      <ModalAddressForm initialValues={{ countryId: 8, title: 'Mr' }} onClose={this.onModalAddressClose} onSubmit={this.onAddressSubmit}/>}
+                      <ModalAddressForm
+                        initialValues={{
+                          countryId: 8,
+                          title: 'Mr',
+                          phoneCountry: ubUser.getIn([ 'mobileParts', 'countryCode' ]),
+                          phone: normalizePhoneNumber(ubUser.getIn([ 'mobileParts', 'number' ]))
+                        }}
+                        onClose={this.onModalAddressClose}
+                        onSubmit={this.onAddressSubmit}/>}
                       {this.state.isModalAddressSelectOpen &&
                       <ModalAddressSelectForm
                         addNewAddress={this.onAddNewAddressClick}

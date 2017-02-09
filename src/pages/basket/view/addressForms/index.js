@@ -129,15 +129,26 @@ export class ModalAddressForm extends Component {
                     submitFailed={submitFailed}/>
                 </div>
               </div>
-              <div style={st.modal.formRow}>
-                <label style={st.modal.label}>Mobile number</label>
-                <Field
-                  component={renderField}
-                  name='phone'
-                  normalize={normalizePhoneNumber}
-                  props={{ required: true, type: 'text' }}
-                  style={st.modal.input}
-                  submitFailed={submitFailed}/>
+              <div style={st.modal.formCols}>
+                <div style={{ width: '84px' }}>
+                  <label style={st.modal.label}>Country code</label>
+                  <Field
+                    component={renderField}
+                    name='phoneCountry'
+                    props={{ required: true, type: 'text' }}
+                    style={st.modal.input}
+                    submitFailed={submitFailed}/>
+                </div>
+                <div style={{ width: '289px' }}>
+                  <label style={st.modal.label}>Mobile number</label>
+                  <Field
+                    component={renderField}
+                    name='phone'
+                    normalize={normalizePhoneNumber}
+                    props={{ required: true, type: 'text' }}
+                    style={st.modal.input}
+                    submitFailed={submitFailed}/>
+                </div>
               </div>
               {isEditForm &&
               <Field

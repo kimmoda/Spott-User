@@ -1,6 +1,6 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
-import { Button, pinkButtonStyle, Modal, smallDialogStyle } from '../../../_common/buildingBlocks';
+import { Button, pinkButtonStyle, Modal, smallDialogStyle, greyButtonStyle } from '../../../_common/buildingBlocks';
 import localized from '../../../_common/localized';
 import Radium from 'radium';
 import { reduxForm, Field } from 'redux-form/immutable';
@@ -166,7 +166,14 @@ export class ModalCardForm extends Component {
               </div>
             </div>
             {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
-            <Button style={[ pinkButtonStyle, st.modal.btn ]}>Save</Button>
+            <div style={st.modal.buttons}>
+              <button key='cbtn' style={[ greyButtonStyle, st.modal.btn, st.modal.buttons.btn ]} onClick={onClose}>
+                Cancel
+              </button>
+              <Button key='sbtn' style={[ pinkButtonStyle, st.modal.btn, st.modal.buttons.btn ]}>
+                Save
+              </Button>
+            </div>
           </form>
         </div>
       </Modal>
