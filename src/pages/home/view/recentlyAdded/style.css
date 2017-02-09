@@ -2,31 +2,9 @@
   visibility: hidden;
 }
 .theoplayer-skin .vjs-play-progress, .theoplayer-skin .vjs-volume-level {
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAP0lEQ…wcOg5FZi5iBB82AGzixEglJrd4TVK5XUJpskSTEvpdFzX9AB2pGziSQcvAAAAAAElFTkSuQmCC) -50% 0 #cf315b;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAP0lEQ…wcOg5FZi5iBB82AGzixEglJrd4TVK5XUJpskSTEvpdFzX9AB2pGziSQcvAAAAAAElFTkSuQmCC) -50% 0 #cf315b;
 }
 
-
-@media only screen and (min-width: 480px) {
-  #videoContent {
-    font-size: 16px;
-  }
-}
-@media only screen and (min-width: 768px) {
-  #videoContent {
-    font-size: 17px;
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  #videoContent {
-    font-size: 18px;
-  }
-}
-@media only screen and (min-width: 1200px) {
-  #videoContent {
-    font-size: 23px;
-  }
-}
 button {
   cursor: pointer !important;
 }
@@ -79,8 +57,31 @@ button:focus {
   height: auto;
   pointer-events: none;
   z-index: 2147483647;
-  font-size: 14px;
+  font-size: 15px;
 }
+
+@media only screen and (min-width: 480px) {
+  #videoContent {
+    font-size: 16px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  #videoContent {
+    font-size: 17px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  #videoContent {
+    font-size: 18px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  #videoContent {
+    font-size: 23px;
+  }
+}
+
 .videoOverlayShow {
   opacity: 1 !important;
   transition: opacity 0.5s ease-in !important;
