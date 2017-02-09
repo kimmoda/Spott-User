@@ -244,10 +244,6 @@ export default class Video extends Component {
   static styles = {
     container: {
       width: '100%'
-      // display: 'flex',
-      // alignItems: 'center',
-      // justifyContent: 'center',
-      // minHeight: 400
     }
   };
 

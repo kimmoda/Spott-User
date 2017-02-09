@@ -91,7 +91,18 @@ export default class RecentlyAdded extends Component {
     },
     title: {
       color: 'white',
-      marginBottom: '0.17em'
+      marginBottom: '0.17em',
+      fontSize: '2.8em',
+      paddingTop: 20,
+      [mediaQueries.small]: {
+        fontSize: '2.3em'
+      },
+      [mediaQueries.medium]: {
+        paddingTop: 0
+      },
+      [mediaQueries.large]: {
+        fontSize: '2.3em'
+      }
     },
     tilesTitle: {
       color: colors.white
@@ -104,20 +115,40 @@ export default class RecentlyAdded extends Component {
       transform: 'translateY(3.8em)'
     },
     innerWrapper: {
-      width: '40%',
+      width: '100%',
       position: 'relative',
       fontSize: '12px',
       [mediaQueries.small]: {
         fontSize: '14px'
       },
       [mediaQueries.medium]: {
-        fontSize: '16px'
+        fontSize: '16px',
+        width: 400,
+        paddingLeft: 20
+      },
+      [mediaQueries.large]: {
+        fontSize: '16px',
+        width: 600
       }
     },
     playlistTitle: {
       color: '#ffffff',
       ...makeTextStyle(fontWeights.light, '1.125em', '0.4px'),
       paddingBottom: 20
+    },
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      [mediaQueries.medium]: {
+        flexWrap: 'initial'
+      }
+    },
+    video: {
+      // Aspect ratio: 16:9
+      paddingBottom: '56.25%',
+      [mediaQueries.medium]: {
+        paddingBottom: '37%'
+      }
     }
   };
 
@@ -135,8 +166,8 @@ export default class RecentlyAdded extends Component {
         <SharingHeaders currentLocale={currentLocale} video={videosById[videoId]}/>
         <Container>
           <div style={styles.overlay} />
-          <div style={{ display: 'flex' }}>
-            {!isServer() && <Video style={{ flex: '1', marginRight: 20 }} video={videosById[videoId]}/>}
+          <div style={styles.container}>
+            {!isServer() && <Video style={styles.video} video={videosById[videoId]}/>}
             <div style={styles.innerWrapper}>
               <Title style={styles.title}>{(firstMedium && firstMedium.get('title')) || '\u00A0'}</Title>
               <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
