@@ -57,7 +57,7 @@ button:focus {
   height: auto;
   pointer-events: none;
   z-index: 2147483647;
-  font-size: 13px;
+  font-size: 12px;
   font-family: Roboto-Medium;
 }
 

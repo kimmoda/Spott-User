@@ -135,19 +135,19 @@ function renderSceneDetails (sceneDetails, player) {
     }
   });
 
-  // $sceneDetails.on('mouseleave', function () {
-  //   // Deselect product tile.
-  //   $('.productTiles div').removeClass('productTileSelected');
-  //   // Fade out product details.
-  //   $('#productDetails').removeClass('productDetailsShow');
-  //   // Make product tiles smaller.
-  //   $productTiles.removeClass('productTilesLarge');
-  //   // Remove overlay.
-  //   $('#videoOverlay').removeClass('videoOverlayShow');
-  //   if (player.paused) {
-  //     player.play();
-  //   }
-  // });
+  $sceneDetails.on('mouseleave', function () {
+    // Deselect product tile.
+    $('.productTiles div').removeClass('productTileSelected');
+    // Fade out product details.
+    $('#productDetails').removeClass('productDetailsShow');
+    // Make product tiles smaller.
+    $productTiles.removeClass('productTilesLarge');
+    // Remove overlay.
+    $('#videoOverlay').removeClass('videoOverlayShow');
+    if (player.paused) {
+      player.play();
+    }
+  });
 
   return $sceneDetails;
 }
