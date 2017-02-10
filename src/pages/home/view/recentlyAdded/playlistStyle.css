@@ -1,8 +1,0 @@
-.playlist-enter li {
-  opacity: 0.1;
-}
-
-.playlist-enter.playlist-enter-active li {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}

@@ -1,7 +1,11 @@
+/* eslint-disable */
+// THIS CODE IS DIRTY, BECAUSE OF LACK OF TIME.
+// TODO: Refactor zepto.js (jQuery) code to React code.
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import $ from 'npm-zepto';
 import localized from '../../../_common/localized';
+
 import './style.css';
 
 const baseUrl = 'https://spott-ios-rest-prd.appiness.mobi/rest';
@@ -27,7 +31,7 @@ function get (url, callback) {
     url,
     type: 'GET',
     contentType: 'application/json; charset=utf-8',
-    headers: { 'api_key': 'EbQzeWS7VzRTYd8ZhhB5nwwZZGpC6BruJpWQDC3Ynd3TwFCtfe6MJMFNu9' },
+    headers: { api_key: 'EbQzeWS7VzRTYd8ZhhB5nwwZZGpC6BruJpWQDC3Ynd3TwFCtfe6MJMFNu9' },
     success: function (result) {
       callback(null, result);
     },
@@ -152,8 +156,6 @@ function renderSceneDetails (sceneDetails, player) {
   return $sceneDetails;
 }
 
-// const getSceneDetailsSlowdown = slowdown(getSceneDetails, 300);
-
 @localized
 @Radium
 export default class Video extends Component {
@@ -198,16 +200,12 @@ export default class Video extends Component {
         // Fetch and display the scene info if we have a different scene.
         const currentOffsetInSeconds = Math.round(player.currentTime || 0);
 
-        console.warn('currentOffsetInSeconds', currentOffsetInSeconds);
-
         if (currentOffsetInSeconds !== previousOffsetInSeconds && $('#videoContent').find('.productTilesLarge').length === 0) {
           previousOffsetInSeconds = currentOffsetInSeconds;
-          console.warn('getSceneDetailsSlowdown');
           getSceneDetails(fingerprintId, currentOffsetInSeconds, function (err, sceneDetails) {
             if (err || !sceneDetails) {
               return;
             }
-            console.warn('PERFORMED');
             // Only update DOM if we are the product details are not shown.
             if ($('#videoContent').find('.productTilesLarge').length === 0) {
               // $('#info').html('<pre>' + JSON.stringify(sceneDetails, null, 4) + '</pre>');
@@ -227,7 +225,6 @@ export default class Video extends Component {
     // Wait until theoplayer is loaded.
     setTimeout(() => {
       theoplayer.onReady = () => {
-        console.warn('READY TO PLAY!');
         this.setState({ theoplayerIsReady: true });
         this.loadVideo(this.props.video);
       };
@@ -236,7 +233,6 @@ export default class Video extends Component {
 
   componentWillReceiveProps ({ video }) {
     if (this.props.video.id !== video.id && this.state.theoplayerIsReady) {
-      console.warn('VIDEO componentWillReceiveProps', video);
       this.loadVideo(video);
     }
   }
@@ -249,14 +245,12 @@ export default class Video extends Component {
 
   render () {
     const styles = this.constructor.styles;
-    const { video, style } = this.props;
+    const { style } = this.props;
 
     return (
       <div style={[ styles.container, style ]}>
-        <div id='videoContainer'>
-
-        </div>
-        <div id='info'></div>
+        <div id='videoContainer'/>
+        <div id='info'/>
       </div>
     );
   }

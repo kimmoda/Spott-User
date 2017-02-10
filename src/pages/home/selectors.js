@@ -30,6 +30,13 @@ const videosById = {
       fr: 'Cinquante Nuances Plus Sombres - Bande Annonce #1',
       nl: 'Vijftig Tinten Donkerder - Trailer #1'
     },
+    medium: {
+      shareUrl: {
+        en: '/en/movie/fifty-shades-darker-trailer/346f5d81-7927-4666-a906-6fcdff032c06/overview',
+        fr: '/fr/movie/cinquante-nuances-plus-sombres-bande-annonce/346f5d81-7927-4666-a906-6fcdff032c06/overview',
+        nl: '/nl/movie/vijftig-tinten-donkerder-trailer/346f5d81-7927-4666-a906-6fcdff032c06/overview'
+      }
+    },
     poster: {
       dimension: {
         height: 720,
@@ -63,6 +70,13 @@ const videosById = {
     duration: '02:11',
     fingerprintId: '34BEED95DACBD5D5',
     id: 'trailer-2',
+    medium: {
+      shareUrl: {
+        en: '/en/movie/fifty-shades-darker-trailer-2/17bce3b1-2f72-4bcf-9403-664eb6069ce2/overview',
+        fr: '/fr/movie/cinquante-nuances-plus-sombres-bande-annonce-2/17bce3b1-2f72-4bcf-9403-664eb6069ce2/overview',
+        nl: '/nl/movie/vijftig-tinten-donkerder-trailer-2/17bce3b1-2f72-4bcf-9403-664eb6069ce2/overview'
+      }
+    },
     poster: {
       dimension: {
         height: 720,
@@ -101,6 +115,13 @@ const videosById = {
     duration: '02:17',
     fingerprintId: 'E56F4B707FD38E15',
     id: 'trailer-3',
+    medium: {
+      shareUrl: {
+        en: '/en/movie/fifty-shades-of-grey-trailer-1/d70af452-f070-45fe-92b0-a49a25452a11/overview',
+        fr: '/fr/movie/cinquante-nuances-de-grey-bande-annonce-1/d70af452-f070-45fe-92b0-a49a25452a11/overview',
+        nl: '/nl/movie/vijftig-tinten-grijs-trailer-1/d70af452-f070-45fe-92b0-a49a25452a11/overview'
+      }
+    },
     poster: {
       dimension: {
         height: 720,
@@ -139,6 +160,13 @@ const videosById = {
     duration: '02:24',
     fingerprintId: 'E3221922A61BAC2A',
     id: 'trailer-4',
+    medium: {
+      shareUrl: {
+        en: '/en/movie/fifty-shades-of-grey-trailer-2/3581f7c9-2236-46ee-89b7-b3094702727b/overview',
+        fr: '/fr/movie/cinquante-nuances-de-grey-bande-annonce-2/3581f7c9-2236-46ee-89b7-b3094702727b/overview',
+        nl: '/nl/movie/vijftig-tinten-grijs-trailer-2/3581f7c9-2236-46ee-89b7-b3094702727b/overview'
+      }
+    },
     poster: {
       dimension: {
         height: 720,

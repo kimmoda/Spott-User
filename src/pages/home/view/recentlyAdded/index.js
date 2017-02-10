@@ -1,3 +1,4 @@
+/* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import { connect } from 'react-redux';
@@ -57,9 +58,25 @@ export default class RecentlyAdded extends Component {
       title: PropTypes.string.isRequired
     }),
     otherRecentlyAddedMedia: PropTypes.any.isRequired,
+    params: PropTypes.shape({
+      trailer: PropTypes.string
+    }),
+    playlist: PropTypes.array.isRequired,
     style: PropTypes.object,
     t: PropTypes.func.isRequired,
     videosById: PropTypes.object.isRequired
+  }
+
+  constructor (props) {
+    super(props);
+    this.state = { fade: false };
+  }
+
+  componentWillReceiveProps (newProps) {
+    if (this.props.params.trailer !== newProps.params.trailer) {
+      this.setState({ fade: true });
+      setTimeout(() => this.setState({ fade: false }), 300);
+    }
   }
 
   static styles = {
@@ -138,10 +155,18 @@ export default class RecentlyAdded extends Component {
       paddingBottom: 20
     },
     container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      [mediaQueries.medium]: {
-        flexWrap: 'initial'
+      base: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        [mediaQueries.medium]: {
+          flexWrap: 'initial'
+        },
+        opacity: 1,
+        transition: 'opacity 300ms ease-in'
+      },
+      fade: {
+        opacity: 0,
+        transition: 'opacity 300ms ease-out'
       }
     },
     video: {
@@ -157,22 +182,24 @@ export default class RecentlyAdded extends Component {
     const { styles } = this.constructor;
     const { currentLocale, firstMedium, params, playlist, otherRecentlyAddedMedia, style, t, videosById } = this.props;
     const videoId = params && params.trailer || 'trailer-1';
-    console.warn('params', params);
+    const video = videosById[videoId];
     return (
       <div style={[
         styles.wrapper,
         firstMedium && firstMedium.get('profileImage') && responsiveBackgroundImage(firstMedium.getIn([ 'profileImage', 'url' ])),
         style
       ]}>
-        <SharingHeaders currentLocale={currentLocale} video={videosById[videoId]}/>
+        <SharingHeaders currentLocale={currentLocale} video={video}/>
         <Container>
           <div style={styles.overlay} />
-          <div style={styles.container}>
-            {!isServer() && <Video style={styles.video} video={videosById[videoId]}/>}
+          <div style={[ styles.container.base, this.state.fade && styles.container.fade ]}>
+            {!isServer() && <Video style={styles.video} video={video}/>}
             <div style={styles.innerWrapper}>
-              <Title style={styles.title}>{(firstMedium && firstMedium.get('title')) || '\u00A0'}</Title>
+              <Title style={styles.title}>
+                {(video && video.label[currentLocale]) || (firstMedium && firstMedium.get('title')) || '\u00A0'}
+              </Title>
               <UpperCaseSubtitle style={styles.upperCaseSubtitle} >{t('home.recentlyAdded.highlight')}</UpperCaseSubtitle>
-              <Button disabled={!firstMedium} style={{ ...pinkButtonStyle, ...styles.button }} to={firstMedium && firstMedium.get('shareUrl')}>{t('home.recentlyAdded.browseButton')}</Button>
+              <Button disabled={!firstMedium} style={{ ...pinkButtonStyle, ...styles.button }} to={(video && video.medium.shareUrl[currentLocale]) || (firstMedium && firstMedium.get('shareUrl'))}>{t('home.recentlyAdded.browseButton')}</Button>
 
               <h3 style={styles.playlistTitle}>{t('home.recentlyAdded.moreFiftyShades')}</h3>
               <Playlist playlist={playlist.filter(({ id }) => id !== videoId)}/>

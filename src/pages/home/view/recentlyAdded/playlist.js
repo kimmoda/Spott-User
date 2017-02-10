@@ -1,18 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
-import { colors, fontWeights, makeTextStyle, Button, pinkButtonStyle, responsiveBackgroundImage, mediaQueries, Title, UpperCaseSubtitle, Container } from '../../../_common/buildingBlocks';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import TopLevelMediumTiles from '../../../_common/tiles/topLevelMediumTiles';
+import { fontWeights, makeTextStyle } from '../../../_common/buildingBlocks';
 import localized from '../../../_common/localized';
-import { recentlyAddedSelector } from '../../selectors';
-import Video from './video';
 import hoverable from '../../../_common/hoverable';
-
-import './playlistStyle.css';
 
 const playSVG = require('./images/play.svg');
 
@@ -139,24 +132,15 @@ export default class Playlist extends Component {
     style: PropTypes.object
   }
 
-  onClickPlaylistItem (video, e) {
+  onClickPlaylistItem (video) {
     this.props.routerPush(`/${this.props.currentLocale}/fifty-shades/${video.id}`);
-  }
-
-  static styles = {
   }
 
   render () {
     const { playlist } = this.props;
-    console.warn('playlist', playlist);
     return (
       <ul>
-        <ReactCSSTransitionGroup
-          transitionEnterTimeout={500}
-          transitionLeave={false}
-          transitionName='playlist'>
-          {playlist.map((video) => <PlaylistItem key={video.id} video={video} onClickPlaylistItem={this.onClickPlaylistItem.bind(this, video)}/>)}
-        </ReactCSSTransitionGroup>
+        {playlist.map((video) => <PlaylistItem key={video.id} video={video} onClickPlaylistItem={this.onClickPlaylistItem.bind(this, video)}/>)}
       </ul>
     );
   }
