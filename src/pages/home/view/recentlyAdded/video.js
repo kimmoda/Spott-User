@@ -188,7 +188,6 @@ export default class Video extends Component {
     const player = theoplayer(document.getElementById('video'));
 
     player.addEventListener('initialized', () => {
-      player.play();
       // Insert the overlay into the generated HTML of the OpenTelly player.
       // There was no immediate workarround to get it working on Firefox/IE in fullscreen mode.
       $('#video > div:nth-child(2)').after('<div id="videoOverlay"></div><div id="videoContent"></div>');
