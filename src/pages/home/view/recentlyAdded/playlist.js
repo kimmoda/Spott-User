@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Radium from 'radium';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,6 +11,8 @@ import localized from '../../../_common/localized';
 import { recentlyAddedSelector } from '../../selectors';
 import Video from './video';
 import hoverable from '../../../_common/hoverable';
+
+import './playlistStyle.css';
 
 const playSVG = require('./images/play.svg');
 
@@ -148,7 +151,12 @@ export default class Playlist extends Component {
     console.warn('playlist', playlist);
     return (
       <ul>
-        {playlist.map((video) => <PlaylistItem key={video.id} video={video} onClickPlaylistItem={this.onClickPlaylistItem.bind(this, video)}/>)}
+        <ReactCSSTransitionGroup
+          transitionEnterTimeout={500}
+          transitionLeave={false}
+          transitionName='playlist'>
+          {playlist.map((video) => <PlaylistItem key={video.id} video={video} onClickPlaylistItem={this.onClickPlaylistItem.bind(this, video)}/>)}
+        </ReactCSSTransitionGroup>
       </ul>
     );
   }
