@@ -57,7 +57,7 @@ button:focus {
   height: auto;
   pointer-events: none;
   z-index: 2147483647;
-  font-size: 15px;
+  font-size: 13px;
   font-family: Roboto-Medium;
 }
 
@@ -129,8 +129,8 @@ button:focus {
 .productTilesLarge div {
   border-radius: 2px;
   border: solid 2px #eaeced;
-  height: 2.5em;
-  width: 2.5em;
+  height: 2.25em;
+  width: 2.25em;
   transition: height 0.3s ease-in, width 0.3s ease-out;
 }
 
