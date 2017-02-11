@@ -24,7 +24,7 @@ import profile from './pages/profile/reducer';
 import scene from './pages/scene/reducer';
 import resetPassword from './pages/resetPassword/reducer';
 import home from './pages/home/reducer';
-import { isServer } from './utils';
+import { getLocalStorage, isServer } from './utils';
 
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
@@ -110,16 +110,17 @@ async function boot () {
   }));
   // Initialize the app.
   await store.dispatch(doInit());
+  console.warn('LOAD SESSION');
   // Load session from local storage.
-  if (localStorage) {
-    const session = localStorage.getItem('session');
-    if (session) {
-      store.dispatch({ data: JSON.parse(session), type: LOGIN_SUCCESS });
-    }
-    const isDownloadPageShowed = localStorage.getItem('downloadPageShowed');
-    if (isDownloadPageShowed) {
-      store.dispatch({ downloadPageShowed: JSON.parse(isDownloadPageShowed), type: DOWNLOAD_PAGE_SHOWED });
-    }
+  const storage = getLocalStorage();
+  const session = storage.getItem('session');
+  console.warn('LOADED SESSION!');
+  if (session) {
+    store.dispatch({ data: JSON.parse(session), type: LOGIN_SUCCESS });
+  }
+  const isDownloadPageShowed = storage.getItem('downloadPageShowed');
+  if (isDownloadPageShowed) {
+    store.dispatch({ downloadPageShowed: JSON.parse(isDownloadPageShowed), type: DOWNLOAD_PAGE_SHOWED });
   }
 
   // Render application

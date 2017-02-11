@@ -1,6 +1,9 @@
 import cookie from 'react-cookie';
 import * as api from '../../api/configuration';
 import { apiBaseUrlSelector } from './selector';
+import { getLocalStorage } from '../../utils';
+
+const storage = getLocalStorage();
 
 export const CONFIGURE = 'CONFIGURE';
 export function doInit () {
@@ -25,11 +28,9 @@ export function acceptCookies () {
 export const DOWNLOAD_PAGE_SHOWED = 'DOWNLOAD_PAGE_SHOWED';
 export function downloadPageShowed () {
   return (dispatch, getState) => {
-    if (localStorage) {
-      const date = new Date();
-      localStorage.setItem('downloadPageShowed', JSON.stringify(date));
-      dispatch({ type: DOWNLOAD_PAGE_SHOWED, downloadPageShowed: date });
-    }
+    const date = new Date();
+    storage.setItem('downloadPageShowed', JSON.stringify(date));
+    dispatch({ type: DOWNLOAD_PAGE_SHOWED, downloadPageShowed: date });
   };
 }
 
@@ -43,9 +44,7 @@ export function doLogin ({ email, password }) {
       const baseUrl = apiBaseUrlSelector(getState());
       const data = await api.login(baseUrl, { email, password });
       dispatch({ data, type: LOGIN_SUCCESS });
-      if (localStorage) {
-        localStorage.setItem('session', JSON.stringify(data));
-      }
+      storage.setItem('session', JSON.stringify(data));
       return data;
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });
@@ -60,9 +59,7 @@ export function doLoginFacebook ({ facebookAccessToken }) {
     try {
       const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
       dispatch({ data, type: LOGIN_SUCCESS });
-      if (localStorage) {
-        localStorage.setItem('session', JSON.stringify(data));
-      }
+      storage.setItem('session', JSON.stringify(data));
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });
       throw error;
@@ -75,9 +72,7 @@ export function doTryLoginFacebook ({ facebookAccessToken }) {
     const baseUrl = apiBaseUrlSelector(getState());
     const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
     dispatch({ data, type: LOGIN_SUCCESS });
-    if (localStorage) {
-      localStorage.setItem('session', JSON.stringify(data));
-    }
+    storage.setItem('session', JSON.stringify(data));
   };
 }
 
@@ -88,9 +83,7 @@ export function doLogout () {
   return (dispatch) => {
     dispatch({ type: LOGOUT_REQUEST });
     dispatch({ type: LOGOUT_SUCCESS });
-    if (localStorage) {
-      localStorage.removeItem('session');
-    }
+    storage.removeItem('session');
   };
 }
 

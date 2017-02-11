@@ -1,3 +1,43 @@
+
+class LocalStorageAlternative {
+
+  constructor () {
+    this.structureLocalStorage = {};
+  }
+
+  setItem (key, value) {
+    this.structureLocalStorage[key] = value;
+  }
+
+  getItem (key) {
+    if (typeof this.structureLocalStorage[key] !== 'undefined') {
+      return this.structureLocalStorage[key];
+    }
+    return null;
+  }
+
+  removeItem (key) {
+    this.structureLocalStorage[key] = undefined;
+  }
+}
+let storage;
+export function getLocalStorage () {
+  // Cache!
+  if (storage) {
+    return storage;
+  }
+  try {
+    localStorage.setItem('__TEST__', '');
+    localStorage.removeItem('__TEST__');
+    storage = localStorage;
+  } catch (err) {
+    console.warn('No local storage support. Return alternative.');
+    console.warn(err);
+    storage = new LocalStorageAlternative();
+  }
+  return storage;
+}
+
 export function slugify (text) {
   return text.toString().toLowerCase()
     .replace(/\s+/g, '-') // Replace spaces with -
