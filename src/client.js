@@ -110,11 +110,10 @@ async function boot () {
   }));
   // Initialize the app.
   await store.dispatch(doInit());
-  console.warn('LOAD SESSION');
   // Load session from local storage.
   const storage = getLocalStorage();
   const session = storage.getItem('session');
-  console.warn('LOADED SESSION!');
+
   if (session) {
     store.dispatch({ data: JSON.parse(session), type: LOGIN_SUCCESS });
   }

@@ -22,11 +22,19 @@ class LocalStorageAlternative {
 }
 let storage;
 export function getLocalStorage () {
-  // Cache!
+  // Check cache first.
   if (storage) {
     return storage;
   }
+  // Check if the browser supports local storage.
+  if (!localStorage) {
+    console.warn('No local storage support. Return alternative.');
+    storage = new LocalStorageAlternative();
+    return storage;
+  }
   try {
+    // If there is local storage but browser is in private mode,
+    // the next lines will fail.
     localStorage.setItem('__TEST__', '');
     localStorage.removeItem('__TEST__');
     storage = localStorage;
