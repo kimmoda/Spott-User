@@ -97,6 +97,11 @@ export const REMOVE_CARD_START = 'BASKET/REMOVE_CARD_START';
 export const REMOVE_CARD_SUCCESS = 'BASKET/REMOVE_CARD_SUCCESS';
 export const REMOVE_CARD_ERROR = 'BASKET/REMOVE_CARD_ERROR';
 
+export const LOAD_SPOTT_PRODUCT_START = 'BASKET/LOAD_SPOTT_PRODUCT_START';
+export const LOAD_SPOTT_PRODUCT_SUCCESS = 'BASKET/LOAD_SPOTT_PRODUCT_SUCCESS';
+export const LOAD_SPOTT_PRODUCT_ERROR = 'BASKET/LOAD_SPOTT_PRODUCT_ERROR';
+
+export const SET_SPOTT_PRODUCTS = 'BASKET/SET_SPOTT_PRODUCTS';
 // Actions creators
 // ////////////////
 
@@ -123,6 +128,30 @@ export function addToBasketWrapper ({ productId, shipping, variant, variantChild
 export const removeFromBasket = makeUbApiActionCreator(ubApi.removeProductFromBasket, REMOVE_PRODUCT_START, REMOVE_PRODUCT_SUCCESS, REMOVE_PRODUCT_ERROR);
 
 export const loadBasketData = makeUbApiActionCreator(ubApi.loadBasket, LOAD_BASKET_START, LOAD_BASKET_SUCCESS, LOAD_BASKET_ERROR);
+
+export const loadSpottProductByUrl = makeApiActionCreator(ubApi.loadSpottProductByUrl, LOAD_SPOTT_PRODUCT_START, LOAD_SPOTT_PRODUCT_SUCCESS, LOAD_SPOTT_PRODUCT_ERROR);
+
+export function loadBasketWrapper () {
+  return async (dispatch, getState) => {
+    try {
+      const basketData = await dispatch(loadBasketData());
+      const products = {};
+      basketData.basket.transactions.forEach((item) => {
+        item.lines.forEach((line) => {
+          const url = line.product.url;
+          const id = line.product.id;
+          products[id] = { url };
+        });
+      });
+      for (const id in products) {
+        products[id].data = await dispatch(loadSpottProductByUrl({ productUrl: products[id].url }));
+      }
+      dispatch({ type: SET_SPOTT_PRODUCTS, payload: products });
+    } catch (error) {
+      throw error;
+    }
+  };
+}
 
 export const loadNewUbToken = makeUbApiActionCreator(ubApi.getNewUbToken, GET_UB_TOKEN_START, GET_UB_TOKEN_SUCCESS, GET_UB_TOKEN_ERROR);
 

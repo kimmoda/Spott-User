@@ -1,6 +1,6 @@
 import * as requestUb from './requestUB';
 import * as request from './request';
-import { transformUbProduct } from './transformers';
+import { transformUbProduct, transformDetailedProduct } from './transformers';
 import { SubmissionError } from 'redux-form/immutable';
 
 export async function crawlProduct (baseUrl, authenticationToken, { productUrl }) {
@@ -199,5 +199,14 @@ export async function removeCard (baseUrl, authenticationToken, data) {
     return body;
   } catch (error) {
     throw new SubmissionError({ _error: error.body.error });
+  }
+}
+
+export async function loadSpottProductByUrl (baseUrl, authenticationToken, locale, { productUrl }) {
+  try {
+    const { body } = await request.get(authenticationToken, locale, `${baseUrl}/v003/product/products/searches/url?productUrl=${productUrl}`);
+    return transformDetailedProduct(body);
+  } catch (error) {
+    throw error;
   }
 }

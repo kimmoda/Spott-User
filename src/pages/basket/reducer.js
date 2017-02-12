@@ -10,7 +10,8 @@ export default function basketReducer (state = Map({
   ubUser: Map(),
   ubUserAddresses: Map(),
   ubUserCards: Map(),
-  editAddressData: null
+  editAddressData: null,
+  spottProducts: Map()
 }), action) {
   switch (action.type) {
     case actions.ADD_PRODUCT_SUCCESS:
@@ -35,6 +36,8 @@ export default function basketReducer (state = Map({
       return state.set('editAddressData', action.payload);
     case actions.SELECT_CARD_SUCCESS:
       return state.set('basketData', fromJS(action.data.basket));
+    case actions.SET_SPOTT_PRODUCTS:
+      return state.set('spottProducts', fromJS(action.payload));
     default:
       return state;
   }

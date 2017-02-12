@@ -1,7 +1,7 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Container, Button, pinkButtonStyle, Modal, smallDialogStyle } from '../../_common/buildingBlocks';
+import { Container, Button, pinkButtonStyle, Modal, smallDialogStyle, RadiumLink } from '../../_common/buildingBlocks';
 import { bindActionCreators } from 'redux';
 import localized from '../../_common/localized';
 import Radium from 'radium';
@@ -42,7 +42,7 @@ export const renderField = Radium((props) => {
   addNewCard: bindActionCreators(actions.addNewCard, dispatch),
   createUbUser: bindActionCreators(actions.createUbUser, dispatch),
   initUbUser: bindActionCreators(actions.initUbUser, dispatch),
-  loadBasketData: bindActionCreators(actions.loadBasketData, dispatch),
+  loadBasketData: bindActionCreators(actions.loadBasketWrapper, dispatch),
   loadEditAddressData: bindActionCreators(actions.loadEditAddressData, dispatch),
   loadUbUser: bindActionCreators(actions.loadUbUser, dispatch),
   loadUserAddresses: bindActionCreators(actions.loadUserAddresses, dispatch),
@@ -81,6 +81,7 @@ export default class Basket extends Component {
     removeUserCard: PropTypes.func.isRequired,
     selectAddress: PropTypes.func.isRequired,
     selectCard: PropTypes.func.isRequired,
+    spottProducts: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired,
     ubUser: PropTypes.any.isRequired,
     updateUserAddress: PropTypes.func.isRequired,
@@ -358,7 +359,7 @@ export default class Basket extends Component {
   }
 
   render () {
-    const { basketData, ubUser, userAddresses, userCards, handleSubmit, error } = this.props;
+    const { basketData, ubUser, userAddresses, userCards, handleSubmit, error, spottProducts, location } = this.props;
     const basketItems = basketData.get('transactions');
     const userAddress = userAddresses.filter((x) => x.get('id') === basketData.get('shippingAddressId')).first();
     const userCard = userCards.filter((x) => x.get('id') === basketData.get('cardId')).first();
@@ -368,7 +369,7 @@ export default class Basket extends Component {
       <Container style={st.container}>
         <div style={st.title}>My Basket</div>
         <div>
-          {(!basketItems || !basketItems.size) &&
+          {(!basketItems || !basketItems.size || !spottProducts.size) &&
           <div style={[ st.box, st.box.empty ]}>
             <div>
               <img src={iconBasketLarge} width='48'/>
@@ -378,7 +379,7 @@ export default class Basket extends Component {
             <Button style={[ pinkButtonStyle, st.box.empty.btn ]}>START SHOPPING</Button>
             <div style={st.box.empty.history}>View Order History</div>
           </div>}
-          {(basketItems && Boolean(basketItems.size)) &&
+          {(basketItems && Boolean(basketItems.size) && Boolean(spottProducts.size)) &&
           <div style={st.filled}>
             <div style={st.orders}>
               {basketItems.map((item, index) =>
@@ -387,10 +388,14 @@ export default class Basket extends Component {
                   <div style={st.box.items}>
                     {item.get('lines').map((line) =>
                       <div key={line.get('id')} style={st.box.item}>
-                        <div style={[ st.box.item.image, { backgroundImage: `url('${line.getIn([ 'product', 'thumbnailUrl' ])}')` } ]}/>
+                        <RadiumLink style={[ st.box.item.image, { backgroundImage: `url('${line.getIn([ 'product', 'thumbnailUrl' ])}')` } ]}
+                          to={{
+                            pathname: spottProducts.getIn([ String(line.getIn([ 'product', 'id' ])), 'data', 'shareUrl' ]),
+                            state: { modal: true, returnTo: (location && location.pathname) || '/' }
+                          }}/>
                         <div style={st.box.item.content}>
                           <div style={st.box.item.header}>
-                            <div style={st.box.item.brand}>New Balance</div>
+                            <div style={st.box.item.brand}>{spottProducts.getIn([ String(line.getIn([ 'product', 'id' ])), 'data', 'brand', 'name' ])}</div>
                             <div style={st.box.item.remove} onClick={this.onRemoveProductClick.bind(this, line.get('id'))}>X</div>
                           </div>
                           <div style={st.box.item.name}>
