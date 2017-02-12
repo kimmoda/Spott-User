@@ -1,6 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import * as actions from './actions';
 import * as appActions from '../app/actions';
+import { FETCHING, ERROR, LOADED } from '../../data/statusTypes';
 
 export default function basketReducer (state = Map({
   basketData: Map(),
@@ -14,12 +15,24 @@ export default function basketReducer (state = Map({
   spottProducts: Map()
 }), action) {
   switch (action.type) {
+    case actions.ADD_PRODUCT_START:
+      return state.mergeIn([ 'basketData' ], Map({ _error: null, _status: FETCHING }));
     case actions.ADD_PRODUCT_SUCCESS:
-      return state.set('basketData', fromJS(action.data.basket));
+      return state.set('basketData', fromJS({ ...action.data.basket, _error: null, _status: LOADED }));
+    case actions.ADD_PRODUCT_ERROR:
+      return state.mergeIn([ 'basketData' ], Map({ _error: action.error, _status: ERROR }));
+    case actions.REMOVE_PRODUCT_START:
+      return state.mergeIn([ 'basketData' ], Map({ _error: null, _status: FETCHING }));
     case actions.REMOVE_PRODUCT_SUCCESS:
-      return state.set('basketData', fromJS(action.data.basket));
+      return state.set('basketData', fromJS({ ...action.data.basket, _error: null, _status: LOADED }));
+    case actions.REMOVE_PRODUCT_ERROR:
+      return state.mergeIn([ 'basketData' ], Map({ _error: action.error, _status: ERROR }));
+    case actions.LOAD_BASKET_START:
+      return state.mergeIn([ 'basketData' ], Map({ _error: null, _status: FETCHING }));
     case actions.LOAD_BASKET_SUCCESS:
-      return state.set('basketData', fromJS(action.data.basket));
+      return state.set('basketData', fromJS({ ...action.data.basket, _error: null, _status: LOADED }));
+    case actions.LOAD_BASKET_ERROR:
+      return state.mergeIn([ 'basketData' ], Map({ _error: action.error, _status: ERROR }));
     case appActions.LOGOUT_SUCCESS:
       return state.set('basketData', Map());
     case actions.SET_PERSONAL_INFO:

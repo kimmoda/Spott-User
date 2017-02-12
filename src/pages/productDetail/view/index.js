@@ -12,7 +12,7 @@ import FacebookShareData from '../../_common/facebookShareData';
 import { productSelector } from '../selector';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import localized from '../../_common/localized';
-import { LOADED } from '../../../data/statusTypes';
+import { LOADED, FETCHING } from '../../../data/statusTypes';
 import WishlistButton from '../../profile/view/wishlistButton';
 import { addToBasketWrapper } from '../../basket/actions';
 
@@ -31,6 +31,7 @@ export default class ProductDetail extends Component {
 
   static propTypes = {
     addToBasket: PropTypes.func.isRequired,
+    basketStatus: PropTypes.any,
     changeUbProductVariant: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     loadProduct: PropTypes.func.isRequired,
@@ -139,6 +140,18 @@ export default class ProductDetail extends Component {
     },
     pbModal: {
       paddingBottom: '5em'
+    },
+    spinnerOverlay: {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      top: 0,
+      left: 0,
+      zIndex: 100
     },
     productInfo: {
       fontSize: '16px',
@@ -395,7 +408,7 @@ export default class ProductDetail extends Component {
 
   renderProduct () {
     const { styles } = this.constructor;
-    const { onChangeImageSelection, product, selectedImageId, selectedUbImageId, t, location } = this.props;
+    const { onChangeImageSelection, product, selectedImageId, selectedUbImageId, t, location, basketStatus } = this.props;
     const notAvailable = !(product.get('available') && product.getIn([ 'offerings', '0', 'url' ]));
     const outOfStock = Boolean(product.getIn([ 'ub', 'outOfStock' ]));
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
@@ -424,6 +437,7 @@ export default class ProductDetail extends Component {
           </div>
         </div>
         <div style={styles.productInfo}>
+          {(basketStatus && basketStatus === FETCHING) && <div style={styles.spinnerOverlay}><Spinner /></div>}
           {ubImages
             ? <div style={styles.left}>
               <div style={styles.images.wrapper}>

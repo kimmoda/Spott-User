@@ -117,8 +117,9 @@ export function addToBasketWrapper ({ productId, shipping, variant, variantChild
       const basketData = await dispatch(addToBasket({ productId, affiliateUrl }));
       const lineId = basketData.line.id;
       const data = { options: { attributes: { ...variant, ...variantChild } } };
-      await dispatch(selectProductVariant({ lineId, data }));
-      await dispatch(selectShipping(shipping));
+      dispatch(selectProductVariant({ lineId, data }));
+      dispatch(selectShipping(shipping));
+      return basketData;
     } catch (error) {
       throw error;
     }

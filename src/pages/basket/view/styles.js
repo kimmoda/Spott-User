@@ -47,6 +47,7 @@ export const st = {
     border: `1px solid ${colors.borderGrey}`,
     padding: '16px 23px 19px 23px',
     marginBottom: '12px',
+    position: 'relative',
     empty: {
       display: 'flex',
       flexFlow: 'column',
@@ -480,5 +481,17 @@ export const st = {
       marginBottom: '18px',
       paddingRight: '62px'
     }
+  },
+  spinnerOverlay: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    top: 0,
+    left: 0,
+    zIndex: 100
   }
 };

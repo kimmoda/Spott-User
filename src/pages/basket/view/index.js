@@ -1,7 +1,7 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Container, Button, pinkButtonStyle, Modal, smallDialogStyle, RadiumLink } from '../../_common/buildingBlocks';
+import { Container, Button, pinkButtonStyle, Modal, smallDialogStyle, RadiumLink, Spinner } from '../../_common/buildingBlocks';
 import { bindActionCreators } from 'redux';
 import localized from '../../_common/localized';
 import Radium from 'radium';
@@ -15,6 +15,7 @@ import { ModalAddressForm, ModalAddressSelectForm } from './addressForms';
 import { ModalPhoneForm, ModalPinForm } from './phoneForms';
 import { ModalCardForm, ModalCardSelectForm } from './cardForms';
 import { normalizePhoneNumber } from '../normalizeForm';
+import { LOADED, FETCHING } from '../../../data/statusTypes';
 import './cardsIcons.css';
 
 const iconBasketLarge = require('./iconBasketLarge.svg');
@@ -369,7 +370,14 @@ export default class Basket extends Component {
       <Container style={st.container}>
         <div style={st.title}>My Basket</div>
         <div>
-          {(!basketItems || !basketItems.size || !spottProducts.size) &&
+          {(basketData.get('_status') === FETCHING && (!basketItems || !basketItems.size)) &&
+          <div style={[ st.box, st.box.empty ]}>
+            <div>
+              <img src={iconBasketLarge} width='48'/>
+            </div>
+            <Spinner/>
+          </div>}
+          {(basketData.get('_status') === LOADED && (!basketItems || !basketItems.size)) &&
           <div style={[ st.box, st.box.empty ]}>
             <div>
               <img src={iconBasketLarge} width='48'/>
@@ -379,11 +387,12 @@ export default class Basket extends Component {
             <Button style={[ pinkButtonStyle, st.box.empty.btn ]}>START SHOPPING</Button>
             <div style={st.box.empty.history}>View Order History</div>
           </div>}
-          {(basketItems && Boolean(basketItems.size) && Boolean(spottProducts.size)) &&
+          {(basketItems && Boolean(basketItems.size)) &&
           <div style={st.filled}>
             <div style={st.orders}>
               {basketItems.map((item, index) =>
                 <div key={`order_box_${index}`} style={st.box}>
+                  {basketData.get('_status') === FETCHING && <div style={st.spinnerOverlay}><Spinner/></div>}
                   <div style={st.box.title}>{item.getIn([ 'shop', 'url' ])}</div>
                   <div style={st.box.items}>
                     {item.get('lines').map((line) =>
