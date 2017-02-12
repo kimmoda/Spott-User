@@ -146,10 +146,10 @@ export default class ProductDetail extends Component {
       width: '100%',
       height: '100%',
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.8)',
-      top: 0,
+      paddingTop: '350px',
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+      top: '90px',
       left: 0,
       zIndex: 100
     },
