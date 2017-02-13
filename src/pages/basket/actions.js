@@ -105,6 +105,8 @@ export const SET_SPOTT_PRODUCTS = 'BASKET/SET_SPOTT_PRODUCTS';
 // Actions creators
 // ////////////////
 
+export const loadSpottProductByUrl = makeApiActionCreator(ubApi.loadSpottProductByUrl, LOAD_SPOTT_PRODUCT_START, LOAD_SPOTT_PRODUCT_SUCCESS, LOAD_SPOTT_PRODUCT_ERROR);
+
 export const addToBasket = makeUbApiActionCreator(ubApi.addProductToBasket, ADD_PRODUCT_START, ADD_PRODUCT_SUCCESS, ADD_PRODUCT_ERROR);
 
 export const selectProductVariant = makeUbApiActionCreator(ubApi.updateBasketLine, SELECT_PRODUCT_VARIANT_START, SELECT_PRODUCT_VARIANT_SUCCESS, SELECT_PRODUCT_VARIANT_ERROR);
@@ -117,7 +119,23 @@ export function addToBasketWrapper ({ productId, shipping, variant, variantChild
       const basketData = await dispatch(addToBasket({ productId, affiliateUrl }));
       const lineId = basketData.line.id;
       const data = { options: { attributes: { ...variant, ...variantChild } } };
-      dispatch(selectProductVariant({ lineId, data }));
+      const state = getState();
+      const stateSpottProducts = state.getIn([ 'basket', 'spottProducts' ]).toJS();
+      const newProducts = {};
+      const newBasketData = await dispatch(selectProductVariant({ lineId, data }));
+      newBasketData.basket.transactions.forEach((item) => {
+        item.lines.forEach((line) => {
+          const url = line.product.url;
+          const id = line.product.id;
+          if (!stateSpottProducts[id]) {
+            newProducts[id] = { url };
+          }
+        });
+      });
+      for (const id in newProducts) {
+        newProducts[id].data = await dispatch(loadSpottProductByUrl({ productUrl: newProducts[id].url }));
+      }
+      dispatch({ type: SET_SPOTT_PRODUCTS, payload: newProducts });
       dispatch(selectShipping(shipping));
       return basketData;
     } catch (error) {
@@ -130,18 +148,20 @@ export const removeFromBasket = makeUbApiActionCreator(ubApi.removeProductFromBa
 
 export const loadBasketData = makeUbApiActionCreator(ubApi.loadBasket, LOAD_BASKET_START, LOAD_BASKET_SUCCESS, LOAD_BASKET_ERROR);
 
-export const loadSpottProductByUrl = makeApiActionCreator(ubApi.loadSpottProductByUrl, LOAD_SPOTT_PRODUCT_START, LOAD_SPOTT_PRODUCT_SUCCESS, LOAD_SPOTT_PRODUCT_ERROR);
-
 export function loadBasketWrapper () {
   return async (dispatch, getState) => {
     try {
       const basketData = await dispatch(loadBasketData());
       const products = {};
+      const state = getState();
+      const stateSpottProducts = state.getIn([ 'basket', 'spottProducts' ]).toJS();
       basketData.basket.transactions.forEach((item) => {
         item.lines.forEach((line) => {
           const url = line.product.url;
           const id = line.product.id;
-          products[id] = { url };
+          if (!stateSpottProducts[id]) {
+            products[id] = { url };
+          }
         });
       });
       for (const id in products) {
@@ -258,7 +278,7 @@ export const removeUserCard = makeUbApiActionCreator(ubApi.removeCard, REMOVE_CA
 export function initBasketData () {
   return async (dispatch, getState) => {
     try {
-      await dispatch(loadBasketData());
+      dispatch(loadBasketWrapper());
       dispatch(loadUbUser());
       dispatch(loadCards());
       dispatch(loadUserAddresses());

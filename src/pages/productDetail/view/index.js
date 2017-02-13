@@ -120,7 +120,7 @@ export default class ProductDetail extends Component {
 
   async onUbAddClick (e) {
     e.preventDefault();
-    await this.props.addToBasket({
+    this.props.addToBasket({
       productId: this.props.product.getIn([ 'ub', 'id' ]),
       shipping: { id: this.props.product.getIn([ 'ub', 'shop', 'shippingOptions', '0', 'id' ]), shopId: this.props.product.getIn([ 'ub', 'shop', 'id' ]) },
       variant: { [this.props.product.getIn([ 'ub', 'currentVariant', 'name' ])]: this.props.product.getIn([ 'ub', 'currentVariant', 'value' ]) },
