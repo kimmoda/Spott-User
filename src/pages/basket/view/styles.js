@@ -405,7 +405,7 @@ export const st = {
     }
   },
   paymentCard: {
-    width: '138px',
+    width: '150px',
     height: '56px',
     borderRadius: '4px',
     border: `1px solid ${colors.borderGrey}`,
@@ -493,5 +493,76 @@ export const st = {
     top: 0,
     left: 0,
     zIndex: 100
+  },
+  boxOrder: {
+    borderRadius: '4px',
+    backgroundColor: colors.white,
+    border: `1px solid ${colors.borderGrey}`,
+    marginBottom: '24px',
+    position: 'relative',
+    ...makeTextStyle(fontWeights.medium, '16px', '0.3px'),
+    title: {
+      color: colors.dark,
+      backgroundColor: colors.whiteGray,
+      padding: '16px 24px 17px 24px',
+      borderBottom: `1px solid ${colors.borderGrey}`,
+      position: 'relative',
+      marginBottom: '-1px',
+      borderTopLeftRadius: '4px',
+      borderTopRightRadius: '4px'
+    },
+    items: {
+      padding: '0 22px 0 22px'
+    },
+    item: {
+      borderTop: `1px solid ${colors.borderGrey}`,
+      padding: '17px 0 20px 0',
+      header: {
+        display: 'flex',
+        justifyContent: 'space-between'
+      },
+      shopName: {
+        color: colors.coolGray
+      },
+      cost: {
+        color: colors.dark
+      },
+      content: {
+        position: 'relative',
+        display: 'flex',
+        marginTop: '16px'
+      },
+      pWrapper: {
+        position: 'relative',
+        flexGrow: '1'
+      },
+      products: {
+        display: 'flex',
+        overflow: 'hidden'
+      },
+      product: {
+        width: '120px',
+        height: '120px',
+        marginRight: '16px',
+        borderRadius: '4px',
+        backgroundSize: 'cover',
+        display: 'block'
+      },
+      shadow: {
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        width: '330px',
+        height: '120px',
+        backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.0), #ffffff)'
+      },
+      details: {
+        minWidth: '50px',
+        display: 'flex',
+        alignItems: 'flex-end',
+        color: colors.darkPink,
+        textDecoration: 'underline'
+      }
+    }
   }
 };

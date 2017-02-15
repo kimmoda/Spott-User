@@ -16,6 +16,7 @@ import { ModalPhoneForm, ModalPinForm } from './phoneForms';
 import { ModalCardForm, ModalCardSelectForm } from './cardForms';
 import { normalizePhoneNumber } from '../normalizeForm';
 import { LOADED, FETCHING } from '../../../data/statusTypes';
+import { push as routerPush } from 'react-router-redux';
 import './cardsIcons.css';
 
 const iconBasketLarge = require('./iconBasketLarge.svg');
@@ -53,6 +54,7 @@ export const renderField = Radium((props) => {
   removeFromBasket: bindActionCreators(actions.removeFromBasket, dispatch),
   removeUserAddress: bindActionCreators(actions.removeUserAddress, dispatch),
   removeUserCard: bindActionCreators(actions.removeUserCard, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch),
   selectAddress: bindActionCreators(actions.selectAddress, dispatch),
   selectCard: bindActionCreators(actions.selectCard, dispatch),
   updateUserAddress: bindActionCreators(actions.updateUserAddress, dispatch)
@@ -64,6 +66,7 @@ export default class Basket extends Component {
     addNewCard: PropTypes.func.isRequired,
     basketData: PropTypes.any.isRequired,
     createUbUser: PropTypes.func.isRequired,
+    currentLocale: PropTypes.string.isRequired,
     error: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
     initUbUser: PropTypes.func.isRequired,
@@ -80,6 +83,7 @@ export default class Basket extends Component {
     removeFromBasket: PropTypes.func.isRequired,
     removeUserAddress: PropTypes.func.isRequired,
     removeUserCard: PropTypes.func.isRequired,
+    routerPush: PropTypes.func.isRequired,
     selectAddress: PropTypes.func.isRequired,
     selectCard: PropTypes.func.isRequired,
     spottProducts: PropTypes.any.isRequired,
@@ -357,6 +361,7 @@ export default class Basket extends Component {
   async onModalCheckoutSuccessClose () {
     await this.props.loadBasketData();
     this.setState({ isModalCheckoutSuccessOpen: false });
+    this.props.routerPush(`/${this.props.currentLocale}/orders`);
   }
 
   render () {
@@ -384,7 +389,7 @@ export default class Basket extends Component {
             </div>
             <div style={st.box.empty.fline}>Your basket is currently empty</div>
             <div style={st.box.empty.sline}>Browse some scenes to find popular products</div>
-            <Button style={[ pinkButtonStyle, st.box.empty.btn ]}>START SHOPPING</Button>
+            <Button style={[ pinkButtonStyle, st.box.empty.btn ]} to='/'>START SHOPPING</Button>
             <div style={st.box.empty.history}>View Order History</div>
           </div>}
           {(basketItems && Boolean(basketItems.size)) &&

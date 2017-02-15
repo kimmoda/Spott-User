@@ -210,3 +210,12 @@ export async function loadSpottProductByUrl (baseUrl, authenticationToken, local
     throw error;
   }
 }
+
+export async function loadOrders (baseUrl, authenticationToken) {
+  try {
+    const { body } = await requestUb.get(authenticationToken, `${baseUrl}/order/history`);
+    return body;
+  } catch (error) {
+    throw error;
+  }
+}

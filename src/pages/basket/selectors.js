@@ -23,3 +23,10 @@ export const basketSelector = createStructuredSelector({
 export const basketEditAddressDataSelector = createStructuredSelector({
   initialValues: _basketEditAddressDataSelector
 });
+
+export const _ordersSelector = (state) => state.getIn([ 'basket', 'orders' ]);
+export const ordersSelector = createStructuredSelector({
+  isUbAuthenticated: isUbAuthenticatedSelector,
+  orders: _ordersSelector,
+  spottProducts: basketSpottProductsSelector
+});

@@ -12,7 +12,8 @@ export default function basketReducer (state = Map({
   ubUserAddresses: Map(),
   ubUserCards: Map(),
   editAddressData: null,
-  spottProducts: Map()
+  spottProducts: Map(),
+  orders: Map()
 }), action) {
   switch (action.type) {
     case actions.ADD_PRODUCT_START:
@@ -57,6 +58,12 @@ export default function basketReducer (state = Map({
       return state.set('editAddressData', action.payload);
     case actions.SET_SPOTT_PRODUCTS:
       return state.mergeIn([ 'spottProducts' ], fromJS(action.payload));
+    case actions.LOAD_ORDERS_START:
+      return state.mergeIn([ 'orders' ], Map({ _error: null, _status: FETCHING }));
+    case actions.LOAD_ORDERS_SUCCESS:
+      return state.set('orders', fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.LOAD_ORDERS_ERROR:
+      return state.mergeIn([ 'orders' ], Map({ _error: action.error, _status: ERROR }));
     default:
       return state;
   }

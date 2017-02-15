@@ -102,6 +102,10 @@ export const LOAD_SPOTT_PRODUCT_SUCCESS = 'BASKET/LOAD_SPOTT_PRODUCT_SUCCESS';
 export const LOAD_SPOTT_PRODUCT_ERROR = 'BASKET/LOAD_SPOTT_PRODUCT_ERROR';
 
 export const SET_SPOTT_PRODUCTS = 'BASKET/SET_SPOTT_PRODUCTS';
+
+export const LOAD_ORDERS_START = 'BASKET/LOAD_ORDERS_START';
+export const LOAD_ORDERS_SUCCESS = 'BASKET/LOAD_ORDERS_SUCCESS';
+export const LOAD_ORDERS_ERROR = 'BASKET/LOAD_ORDERS_ERROR';
 // Actions creators
 // ////////////////
 
@@ -113,29 +117,41 @@ export const selectProductVariant = makeUbApiActionCreator(ubApi.updateBasketLin
 
 export const selectShipping = makeUbApiActionCreator(ubApi.updateShipping, SELECT_SHIPMENT_START, SELECT_SHIPMENT_SUCCESS, SELECT_SHIPMENT_ERROR);
 
+async function loadSpottProductByUbData (dispatch, getState, transactions) {
+  try {
+    const products = {};
+    const state = getState();
+    const stateSpottProducts = state.getIn([ 'basket', 'spottProducts' ]).toJS();
+    transactions.forEach((item) => {
+      item.lines.forEach((line) => {
+        const url = line.product.url;
+        const id = line.product.id;
+        if (!stateSpottProducts[id]) {
+          products[id] = { url };
+        }
+      });
+    });
+    for (const id in products) {
+      try {
+        products[id].data = await dispatch(loadSpottProductByUrl({ productUrl: products[id].url }));
+      } catch (error) {
+        Reflect.deleteProperty(products, id);
+      }
+    }
+    dispatch({ type: SET_SPOTT_PRODUCTS, payload: products });
+  } catch (error) {
+    throw error;
+  }
+}
+
 export function addToBasketWrapper ({ productId, shipping, variant, variantChild, affiliateUrl }) {
   return async (dispatch, getState) => {
     try {
       const basketData = await dispatch(addToBasket({ productId, affiliateUrl }));
       const lineId = basketData.line.id;
       const data = { options: { attributes: { ...variant, ...variantChild } } };
-      const state = getState();
-      const stateSpottProducts = state.getIn([ 'basket', 'spottProducts' ]).toJS();
-      const newProducts = {};
       const newBasketData = await dispatch(selectProductVariant({ lineId, data }));
-      newBasketData.basket.transactions.forEach((item) => {
-        item.lines.forEach((line) => {
-          const url = line.product.url;
-          const id = line.product.id;
-          if (!stateSpottProducts[id]) {
-            newProducts[id] = { url };
-          }
-        });
-      });
-      for (const id in newProducts) {
-        newProducts[id].data = await dispatch(loadSpottProductByUrl({ productUrl: newProducts[id].url }));
-      }
-      dispatch({ type: SET_SPOTT_PRODUCTS, payload: newProducts });
+      await loadSpottProductByUbData(dispatch, getState, newBasketData.basket.transactions);
       dispatch(selectShipping(shipping));
       return basketData;
     } catch (error) {
@@ -152,22 +168,7 @@ export function loadBasketWrapper () {
   return async (dispatch, getState) => {
     try {
       const basketData = await dispatch(loadBasketData());
-      const products = {};
-      const state = getState();
-      const stateSpottProducts = state.getIn([ 'basket', 'spottProducts' ]).toJS();
-      basketData.basket.transactions.forEach((item) => {
-        item.lines.forEach((line) => {
-          const url = line.product.url;
-          const id = line.product.id;
-          if (!stateSpottProducts[id]) {
-            products[id] = { url };
-          }
-        });
-      });
-      for (const id in products) {
-        products[id].data = await dispatch(loadSpottProductByUrl({ productUrl: products[id].url }));
-      }
-      dispatch({ type: SET_SPOTT_PRODUCTS, payload: products });
+      await loadSpottProductByUbData(dispatch, getState, basketData.basket.transactions);
     } catch (error) {
       throw error;
     }
@@ -282,6 +283,19 @@ export function initBasketData () {
       dispatch(loadUbUser());
       dispatch(loadCards());
       dispatch(loadUserAddresses());
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
+export const loadOrdersData = makeUbApiActionCreator(ubApi.loadOrders, LOAD_ORDERS_START, LOAD_ORDERS_SUCCESS, LOAD_ORDERS_ERROR);
+
+export function loadOrders () {
+  return async (dispatch, getState) => {
+    try {
+      const ordersData = await dispatch(loadOrdersData());
+      await loadSpottProductByUbData(dispatch, getState, ordersData.transactions);
     } catch (error) {
       throw error;
     }
