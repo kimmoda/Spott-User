@@ -12,6 +12,7 @@ export default class FacebookShareData extends Component {
   render () {
     const { description, imageUrl, title, url } = this.props;
     const meta = [
+      { property: 'fb:app_id', content: '418487828343937' },
       { property: 'og:site_name', content: 'Spott' },
       { property: 'og:title', content: title },
       { property: 'og:type', content: 'website' },
