@@ -189,7 +189,9 @@ export default class RecentlyAdded extends Component {
         firstMedium && firstMedium.get('profileImage') && responsiveBackgroundImage(firstMedium.getIn([ 'profileImage', 'url' ])),
         style
       ]}>
-        <SharingHeaders currentLocale={currentLocale} video={video}/>
+        {/* Only override the share headers if the trailer url was shared. */}
+        {params.trailer &&
+          <SharingHeaders currentLocale={currentLocale} video={video}/>}
         <Container>
           <div style={styles.overlay} />
           <div style={[ styles.container.base, this.state.fade && styles.container.fade ]}>
