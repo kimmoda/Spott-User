@@ -106,6 +106,10 @@ export const SET_SPOTT_PRODUCTS = 'BASKET/SET_SPOTT_PRODUCTS';
 export const LOAD_ORDERS_START = 'BASKET/LOAD_ORDERS_START';
 export const LOAD_ORDERS_SUCCESS = 'BASKET/LOAD_ORDERS_SUCCESS';
 export const LOAD_ORDERS_ERROR = 'BASKET/LOAD_ORDERS_ERROR';
+
+export const TRACK_UB_ORDER_START = 'BASKET/TRACK_UB_ORDER_START';
+export const TRACK_UB_ORDER_SUCCESS = 'BASKET/TRACK_UB_ORDER_SUCCESS';
+export const TRACK_UB_ORDER_ERROR = 'BASKET/TRACK_UB_ORDER_ERROR';
 // Actions creators
 // ////////////////
 
@@ -116,6 +120,8 @@ export const addToBasket = makeUbApiActionCreator(ubApi.addProductToBasket, ADD_
 export const selectProductVariant = makeUbApiActionCreator(ubApi.updateBasketLine, SELECT_PRODUCT_VARIANT_START, SELECT_PRODUCT_VARIANT_SUCCESS, SELECT_PRODUCT_VARIANT_ERROR);
 
 export const selectShipping = makeUbApiActionCreator(ubApi.updateShipping, SELECT_SHIPMENT_START, SELECT_SHIPMENT_SUCCESS, SELECT_SHIPMENT_ERROR);
+
+export const trackUbOrder = makeApiActionCreator(ubApi.trackUbOrder, TRACK_UB_ORDER_START, TRACK_UB_ORDER_SUCCESS, TRACK_UB_ORDER_ERROR);
 
 async function loadSpottProductByUbData (dispatch, getState, transactions) {
   try {
@@ -296,6 +302,33 @@ export function loadOrders () {
     try {
       const ordersData = await dispatch(loadOrdersData());
       await loadSpottProductByUbData(dispatch, getState, ordersData.transactions);
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
+export function placeOrderWrapper ({ cvv }) {
+  return async (dispatch, getState) => {
+    try {
+      const products = {};
+      const state = getState();
+      const transactions = state.getIn([ 'basket', 'basketData', 'transactions' ]).toJS();
+      const stateSpottProducts = state.getIn([ 'basket', 'spottProducts' ]).toJS();
+
+      const orderData = await dispatch(placeOrder({ cvv }));
+      if (orderData && orderData.status === 'success') {
+        transactions.forEach((item) => {
+          item.lines.forEach((line) => {
+            const url = line.product.url;
+            const id = line.product.id;
+            products[id] = { url };
+          });
+        });
+        for (const id in products) {
+          dispatch(trackUbOrder({ productOfferingUuid: stateSpottProducts[id].data.offerings[0].productOfferingUuid }));
+        }
+      }
     } catch (error) {
       throw error;
     }

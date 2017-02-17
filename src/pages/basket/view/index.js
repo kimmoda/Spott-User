@@ -50,7 +50,7 @@ export const renderField = Radium((props) => {
   loadUserAddresses: bindActionCreators(actions.loadUserAddresses, dispatch),
   loadUserCards: bindActionCreators(actions.loadCards, dispatch),
   loadUserData: bindActionCreators(homeActions.loadUserData, dispatch),
-  placeOrder: bindActionCreators(actions.placeOrder, dispatch),
+  placeOrder: bindActionCreators(actions.placeOrderWrapper, dispatch),
   removeFromBasket: bindActionCreators(actions.removeFromBasket, dispatch),
   removeUserAddress: bindActionCreators(actions.removeUserAddress, dispatch),
   removeUserCard: bindActionCreators(actions.removeUserCard, dispatch),

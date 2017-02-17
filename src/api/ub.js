@@ -148,9 +148,9 @@ export async function updateBasket (baseUrl, authenticationToken, data) {
   }
 }
 
-export async function postOrder (baseUrl, authenticationToken, data) {
+export async function postOrder (baseUrl, authenticationToken, { cvv }) {
   try {
-    const { body } = await requestUb.post(authenticationToken, `${baseUrl}/basket/checkout`, data);
+    const { body } = await requestUb.post(authenticationToken, `${baseUrl}/basket/checkout`, { cvv });
     return body;
   } catch (error) {
     throw new SubmissionError({ _error: error.body.error });
@@ -214,6 +214,15 @@ export async function loadSpottProductByUrl (baseUrl, authenticationToken, local
 export async function loadOrders (baseUrl, authenticationToken) {
   try {
     const { body } = await requestUb.get(authenticationToken, `${baseUrl}/order/history`);
+    return body;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function trackUbOrder (baseUrl, authenticationToken, locale, { productOfferingUuid }) {
+  try {
+    const { body } = await request.post(authenticationToken, locale, `${baseUrl}/v003/product/universalBasket/actions/registerPurchase/${productOfferingUuid}`);
     return body;
   } catch (error) {
     throw error;
