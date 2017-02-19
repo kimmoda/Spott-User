@@ -19,6 +19,7 @@ import '../cardsIcons.css';
 @Radium
 export default class Orders extends Component {
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     isUbAuthenticated: PropTypes.bool.isRequired,
     loadOrders: PropTypes.func.isRequired,
     location: PropTypes.object,
@@ -26,13 +27,6 @@ export default class Orders extends Component {
     spottProducts: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired
   };
-
-  constructor (props) {
-    super(props);
-    this.state = {
-      isModalAddressOpen: false
-    };
-  }
 
   componentDidMount () {
     if (this.props.isUbAuthenticated) {
@@ -48,7 +42,7 @@ export default class Orders extends Component {
   }
 
   render () {
-    const { orders, spottProducts, location } = this.props;
+    const { orders, spottProducts, location, currentLocale } = this.props;
 
     return (
       <Container style={st.container}>
@@ -103,7 +97,7 @@ export default class Orders extends Component {
                         </div>
                         <div style={st.boxOrder.item.shadow}/>
                       </div>
-                      <div style={st.boxOrder.item.details}>Details</div>
+                      <RadiumLink style={st.boxOrder.item.details} to={`/${currentLocale}/orders/${order.get('id')}`}>Details</RadiumLink>
                     </div>
                   </div>
                 </div>

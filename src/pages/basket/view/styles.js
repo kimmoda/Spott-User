@@ -13,8 +13,7 @@ export const st = {
   filled: {
     display: 'flex',
     width: '100%',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap'
+    justifyContent: 'space-between'
   },
   orders: {
     flexGrow: 1,
@@ -69,6 +68,17 @@ export const st = {
         color: colors.coolGray,
         marginTop: '24px'
       }
+    },
+    dateTitle: {
+      ...makeTextStyle(fontWeights.medium, '16px', '0.3px'),
+      color: colors.dark,
+      backgroundColor: colors.whiteGray,
+      padding: '16px 24px 17px 24px',
+      borderBottom: `1px solid ${colors.borderGrey}`,
+      position: 'relative',
+      borderTopLeftRadius: '4px',
+      borderTopRightRadius: '4px',
+      margin: '-16px -23px 15px -23px'
     },
     title: {
       ...makeTextStyle(fontWeights.medium, '16px', '0.3px'),
@@ -563,6 +573,76 @@ export const st = {
         color: colors.darkPink,
         textDecoration: 'underline'
       }
+    }
+  },
+  returnBox: {
+    borderRadius: '4px',
+    backgroundColor: colors.white,
+    border: `1px solid ${colors.borderGrey}`,
+    padding: '16px 0 19px 0',
+    marginBottom: '12px',
+    position: 'relative'
+  },
+  returnTitle: {
+    ...makeTextStyle(fontWeights.regular, '16px'),
+    color: colors.dark,
+    padding: '0 23px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    cursor: 'pointer',
+    arrow: {
+      width: '24px',
+      height: '24px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer'
+    },
+    arrowUp: {
+      width: 0,
+      height: 0,
+      borderLeft: '6px solid transparent',
+      borderRight: '6px solid transparent',
+      borderBottom: `6px solid ${colors.coolGray}`
+    },
+    arrowDown: {
+      width: 0,
+      height: 0,
+      borderLeft: '6px solid transparent',
+      borderRight: '6px solid transparent',
+      borderTop: `6px solid ${colors.coolGray}`
+    }
+  },
+  returnContent: {
+    marginTop: '17px',
+    borderTop: `1px solid ${colors.borderGrey}`,
+    padding: '22px 23px 14px 23px',
+    ...makeTextStyle(fontWeights.regular, '14px', 0, '18px')
+  },
+  returnCreds: {
+    marginTop: '24px',
+    border: `1px solid ${colors.borderGrey}`,
+    padding: '16px 30px 24px 16px',
+    display: 'inline-block',
+    borderRadius: '2px',
+    color: colors.slateGray,
+    ...makeTextStyle(fontWeights.medium, '14px'),
+    title: {
+      color: colors.slateGray,
+      marginBottom: '15px'
+    },
+    row: {
+      display: 'flex'
+    },
+    left: {
+      ...makeTextStyle(fontWeights.medium, '14px', 0, '24px'),
+      color: colors.dark,
+      width: '140px'
+    },
+    right: {
+      ...makeTextStyle(fontWeights.regular, '14px', 0, '24px'),
+      color: colors.slateGray
     }
   }
 };

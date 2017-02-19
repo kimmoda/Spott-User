@@ -32,6 +32,7 @@ import ResetPassword from './pages/resetPassword';
 import ResetPasswordSuccess from './pages/resetPassword/success';
 import Basket from './pages/basket/view';
 import Orders from './pages/basket/view/orders';
+import OrderDetails from './pages/basket/view/orderDetails';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
@@ -223,6 +224,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Basket} path='basket' />
 
         <Route component={Orders} path='orders' />
+
+        <Route component={OrderDetails} path='orders/:orderId' />
 
       </Route>
     );
