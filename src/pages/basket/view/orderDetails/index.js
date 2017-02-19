@@ -56,7 +56,7 @@ export default class OrderDetails extends Component {
   }
 
   render () {
-    const { orders, spottProducts, location, params } = this.props;
+    const { orders, spottProducts, location, params, t } = this.props;
     const { orderId } = params;
     const order = orders.get('transactions') && orders.get('transactions').find((x) => x.get('id') === orderId);
     const address = order && order.getIn([ 'details', 'shipping' ]);
@@ -129,7 +129,7 @@ export default class OrderDetails extends Component {
               <div style={st.returnBox}>
                 <div style={st.returnTitle} onClick={this.onOrderReturnClick}>
                   <div>
-                    Want to return this order?
+                    {t('basket.wantReturnOrder')}
                   </div>
                   <div style={st.returnTitle.arrow}>
                     {this.state.isOrderReturnOpen
@@ -139,16 +139,14 @@ export default class OrderDetails extends Component {
                   </div>
                 </div>
                 <div style={[ st.returnContent, { display: this.state.isOrderReturnOpen ? 'block' : 'none' } ]}>
-                  This shop required a sign up for purchasing. So we created an account for you for your order. It
-                  might be required that you login to this account if you want to return this order. If this is the
-                  case, please use the login details below.<br/><br/>
-                  Returns get handled by the shop as if you bought on their site directly and their conditions apply.
+                  {t('basket.returnOrderDescription')}<br/><br/>
+                  {t('basket.returnOrderDescriptionBottom')}
                   <div>
                     <div style={st.returnCreds}>
-                      <div style={st.returnCreds.title}>Your shop account login</div>
+                      <div style={st.returnCreds.title}>{t('basket.yourShopLogin')}</div>
                       <div style={st.returnCreds.content}>
                         <div style={st.returnCreds.row}>
-                          <div style={st.returnCreds.left}>Shop:</div>
+                          <div style={st.returnCreds.left}>{t('basket.shop')}:</div>
                           <a href={`http://${order.getIn([ 'shop', 'url' ])}`} style={st.returnCreds.right} target='_blank'>
                             {order.getIn([ 'shop', 'url' ])}
                           </a>
@@ -158,7 +156,7 @@ export default class OrderDetails extends Component {
                           <div style={st.returnCreds.right}>{account.get('email')}</div>
                         </div>
                         <div style={st.returnCreds.row}>
-                          <div style={st.returnCreds.left}>Password:</div>
+                          <div style={st.returnCreds.left}>{t('basket.password')}:</div>
                           <div style={st.returnCreds.right}>{account.get('password')}</div>
                         </div>
                       </div>
@@ -169,7 +167,7 @@ export default class OrderDetails extends Component {
             </div>
             <div style={st.checkoutDetails}>
               <div style={st.box}>
-                  <div style={st.box.title}>Checkout Details</div>
+                  <div style={st.box.title}>{t('basket.checkoutDetails')}</div>
                   <div style={st.box.items}>
                     <div style={st.box.itemCheckout}>
                       <div>
@@ -185,7 +183,7 @@ export default class OrderDetails extends Component {
                     </div>
                     <div style={st.box.itemCheckout}>
                       <div>
-                        <div style={st.box.itemCheckout.title}>Payment Method</div>
+                        <div style={st.box.itemCheckout.title}>{t('basket.paymentMethod')}</div>
                         <div style={st.box.itemCheckout.text}>
                           <div style={st.paymentCard}>
                             <div style={st.paymentCard.name}>

@@ -21,7 +21,7 @@ export class ModalPhoneForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error } = this.props;
+    const { handleSubmit, onSubmit, onClose, error, t } = this.props;
 
     return (
       <Modal
@@ -29,7 +29,7 @@ export class ModalPhoneForm extends Component {
         style={smallDialogStyle}
         onClose={onClose}>
         <div style={st.modal}>
-          <div style={st.modal.title}>Personal Info</div>
+          <div style={st.modal.title}>{t('basket.personalInfo')}</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div style={st.modal.form}>
               <label style={st.modal.label}>E-Mail</label>
@@ -38,7 +38,7 @@ export class ModalPhoneForm extends Component {
                 name='email'
                 props={{ required: true, type: 'email' }}
                 style={st.modal.input}/>
-              <label style={st.modal.label}>Mobile Number</label>
+              <label style={st.modal.label}>{t('basket.mobileNumber')}</label>
               <div style={st.modal.formCols}>
                 <div style={{ width: '76px' }}>
                   <Field
@@ -58,14 +58,10 @@ export class ModalPhoneForm extends Component {
               </div>
               {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
               <div style={st.modal.footer}>
-                Mobile number info text .Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit.Suspendisse vitae semper
-                ex, et gravida odio. In volutpat, mi eget faucibus gravida,
-                sapien massa lacinia augue, vitae feugiat nisi
-                justo a felis.
+                {t('basket.mobileVerify')}
               </div>
             </div>
-            <Button style={[ pinkButtonStyle, st.modal.btn ]}>Save</Button>
+            <Button style={[ pinkButtonStyle, st.modal.btn ]}>{t('basket.save')}</Button>
           </form>
         </div>
       </Modal>
@@ -89,7 +85,7 @@ export class ModalPinForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error, number } = this.props;
+    const { handleSubmit, onSubmit, onClose, error, number, t } = this.props;
 
     return (
       <Modal
@@ -97,13 +93,13 @@ export class ModalPinForm extends Component {
         style={smallDialogStyle}
         onClose={onClose}>
         <div style={st.modal}>
-          <div style={st.modal.title}>Enter Pin</div>
+          <div style={st.modal.title}>{t('basket.enterPin')}</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div style={st.modal.form}>
               <div style={st.modal.header}>
-                Enter the Pin-Code that has been sent to {number}.
+                {t('basket.pinSentTo')} {number}.
               </div>
-              <label style={st.modal.label}>Pin-Code</label>
+              <label style={st.modal.label}>{t('basket.pinCode')}</label>
               <Field
                 component='input'
                 name='code'
@@ -111,7 +107,7 @@ export class ModalPinForm extends Component {
                 style={st.modal.input}/>
               {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
             </div>
-            <Button style={[ pinkButtonStyle, st.modal.btn ]}>Confirm</Button>
+            <Button style={[ pinkButtonStyle, st.modal.btn ]}>{t('basket.confirm')}</Button>
           </form>
         </div>
       </Modal>

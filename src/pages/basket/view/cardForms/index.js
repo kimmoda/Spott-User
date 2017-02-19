@@ -77,7 +77,7 @@ export class ModalCardForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onClose, error, addresses, addNewAddress, submitting, submitFailed } = this.props;
+    const { handleSubmit, onClose, error, addresses, addNewAddress, submitting, submitFailed, t } = this.props;
 
     return (
       <Modal
@@ -85,11 +85,11 @@ export class ModalCardForm extends Component {
         style={smallDialogStyle}
         onClose={onClose}>
         <div style={st.modal}>
-          <div style={st.modal.title}>Add New Card</div>
+          <div style={st.modal.title}>{t('basket.addNewCard')}</div>
           <form onSubmit={handleSubmit}>
             <div style={st.modal.form}>
               <div style={st.modal.formRow}>
-                <label style={st.modal.label}>Credit Card Number</label>
+                <label style={st.modal.label}>{t('basket.creditCardNumber')}</label>
                 <Field
                   component={CardNumber}
                   name='number'
@@ -126,7 +126,7 @@ export class ModalCardForm extends Component {
                 </div>
               </div>
               <div style={st.modal.formRow}>
-                <label style={st.modal.label}>Name on Card</label>
+                <label style={st.modal.label}>{t('basket.nameOnCard')}</label>
                 <Field
                   component={renderField}
                   name='name'
@@ -137,7 +137,7 @@ export class ModalCardForm extends Component {
             </div>
             <div style={[ st.modal.items, { marginTop: '-20px', borderTop: 0 } ]}>
               <div style={[ st.modal.item, { borderBottom: 0 } ]}>
-                <label style={st.modal.label}>Billing Address</label>
+                <label style={st.modal.label}>{t('basket.billingAddress')}</label>
               </div>
               {addresses.map((address) =>
                 <div key={address.get('id')} style={st.modal.item}>
@@ -162,16 +162,16 @@ export class ModalCardForm extends Component {
                 </div>
               )}
               <div style={st.modal.item}>
-                <div style={st.modal.addNewLink} onClick={addNewAddress}>Add New Address</div>
+                <div style={st.modal.addNewLink} onClick={addNewAddress}>{t('basket.addNewAddress')}</div>
               </div>
             </div>
             {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
             <div style={st.modal.buttons}>
               <button key='cbtn' style={[ greyButtonStyle, st.modal.btn, st.modal.buttons.btn ]} onClick={onClose}>
-                Cancel
+                {t('basket.cancel')}
               </button>
               <Button key='sbtn' style={[ pinkButtonStyle, st.modal.btn, st.modal.buttons.btn ]}>
-                Save
+                {t('basket.save')}
               </Button>
             </div>
           </form>
@@ -202,7 +202,7 @@ export class ModalCardSelectForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error, submitting, cards, addNewCard, removeCard, initialValues } = this.props;
+    const { handleSubmit, onSubmit, onClose, error, submitting, cards, addNewCard, removeCard, initialValues, t } = this.props;
 
     return (
       <Modal
@@ -210,11 +210,11 @@ export class ModalCardSelectForm extends Component {
         style={smallDialogStyle}
         onClose={onClose}>
         <div style={st.modal}>
-          <div style={st.modal.title}>Select Payment Method</div>
+          <div style={st.modal.title}>{t('basket.selectPaymentMethod')}</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div style={st.modal.items}>
               <div style={st.modal.item}>
-                <div style={st.modal.addNewLink} onClick={addNewCard}>Add New Card</div>
+                <div style={st.modal.addNewLink} onClick={addNewCard}>{t('basket.addNewCard')}</div>
               </div>
               {cards.map((card) =>
                 <div key={card.get('id')} style={st.modal.item}>
@@ -247,7 +247,7 @@ export class ModalCardSelectForm extends Component {
                       </div>
                     </div>
                     {initialValues.get('cardId') !== card.get('id') &&
-                    <div style={st.modal.radioEdit} onClick={removeCard.bind(this, card.get('id'))}>Remove</div>}
+                    <div style={st.modal.radioEdit} onClick={removeCard.bind(this, card.get('id'))}>{t('basket.remove')}</div>}
                   </label>
                 </div>
               )}
@@ -255,7 +255,7 @@ export class ModalCardSelectForm extends Component {
             </div>
             <div style={st.modal.buttons}>
               <Button style={[ pinkButtonStyle, st.modal.btn ]}>
-                Save
+                {t('basket.save')}
               </Button>
             </div>
           </form>

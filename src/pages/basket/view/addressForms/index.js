@@ -31,7 +31,7 @@ export class ModalAddressForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error, submitting, submitFailed, isEditForm, removeAddress, initialValues } = this.props;
+    const { handleSubmit, onSubmit, onClose, error, submitting, submitFailed, isEditForm, removeAddress, initialValues, t } = this.props;
 
     return (
       <Modal
@@ -45,7 +45,7 @@ export class ModalAddressForm extends Component {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div style={st.modal.form}>
               <div style={st.modal.formRow}>
-                <label style={st.modal.label}>Country</label>
+                <label style={st.modal.label}>{t('basket.country')}</label>
                 <Field
                   component={renderSelectField}
                   disabled={submitting}
@@ -55,7 +55,7 @@ export class ModalAddressForm extends Component {
               </div>
               <div style={st.modal.formCols}>
                 <div style={{ width: '73px' }}>
-                  <label style={st.modal.label}>Title</label>
+                  <label style={st.modal.label}>{t('basket.title')}</label>
                   <Field
                     component={renderSelectField}
                     disabled={submitting}
@@ -64,7 +64,7 @@ export class ModalAddressForm extends Component {
                     submitFailed={submitFailed} />
                 </div>
                 <div style={{ width: '144px' }}>
-                  <label style={st.modal.label}>First name</label>
+                  <label style={st.modal.label}>{t('basket.firstName')}</label>
                   <Field
                     component={renderField}
                     name='firstname'
@@ -73,7 +73,7 @@ export class ModalAddressForm extends Component {
                     submitFailed={submitFailed}/>
                 </div>
                 <div style={{ width: '144px' }}>
-                  <label style={st.modal.label}>Last name</label>
+                  <label style={st.modal.label}>{t('basket.lastName')}</label>
                   <Field
                     component={renderField}
                     name='lastname'
@@ -83,7 +83,7 @@ export class ModalAddressForm extends Component {
                 </div>
               </div>
               <div style={st.modal.formRow}>
-                <label style={st.modal.label}>Company</label>
+                <label style={st.modal.label}>{t('basket.company')}</label>
                 <Field
                   component={renderField}
                   name='company'
@@ -92,7 +92,7 @@ export class ModalAddressForm extends Component {
                   submitFailed={submitFailed}/>
               </div>
               <div style={st.modal.formRow}>
-                <label style={st.modal.label}>Street Address</label>
+                <label style={st.modal.label}>{t('basket.streetAddress')}</label>
                 <Field
                   component={renderField}
                   name='line1'
@@ -101,7 +101,7 @@ export class ModalAddressForm extends Component {
                   submitFailed={submitFailed}/>
               </div>
               <div style={st.modal.formRow}>
-                <label style={st.modal.label}>Additional Info</label>
+                <label style={st.modal.label}>{t('basket.additionalInfo')}</label>
                 <Field
                   component={renderField}
                   name='note'
@@ -111,7 +111,7 @@ export class ModalAddressForm extends Component {
               </div>
               <div style={st.modal.formCols}>
                 <div style={{ width: '229px' }}>
-                  <label style={st.modal.label}>City</label>
+                  <label style={st.modal.label}>{t('basket.city')}</label>
                   <Field
                     component={renderField}
                     name='city'
@@ -120,7 +120,7 @@ export class ModalAddressForm extends Component {
                     submitFailed={submitFailed}/>
                 </div>
                 <div style={{ width: '144px' }}>
-                  <label style={st.modal.label}>Postal Code</label>
+                  <label style={st.modal.label}>{t('basket.postalCode')}</label>
                   <Field
                     component={renderField}
                     name='postcode'
@@ -140,7 +140,7 @@ export class ModalAddressForm extends Component {
                     submitFailed={submitFailed}/>
                 </div>
                 <div style={{ width: '289px' }}>
-                  <label style={st.modal.label}>Mobile number</label>
+                  <label style={st.modal.label}>{t('basket.mobileNumber')}</label>
                   <Field
                     component={renderField}
                     name='phone'
@@ -164,10 +164,10 @@ export class ModalAddressForm extends Component {
                 Remove Address
               </div>}
               <button key='cbtn' style={[ greyButtonStyle, st.modal.btn, st.modal.buttons.btn ]} onClick={onClose}>
-                Cancel
+                {t('basket.cancel')}
               </button>
               <Button key='sbtn' style={[ pinkButtonStyle, st.modal.btn, st.modal.buttons.btn ]}>
-                Save
+                {t('basket.save')}
               </Button>
             </div>
           </form>

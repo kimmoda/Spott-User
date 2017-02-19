@@ -365,7 +365,7 @@ export default class Basket extends Component {
   }
 
   render () {
-    const { basketData, ubUser, userAddresses, userCards, handleSubmit, error, spottProducts, location } = this.props;
+    const { basketData, ubUser, userAddresses, userCards, handleSubmit, error, spottProducts, location, t, currentLocale } = this.props;
     const basketItems = basketData.get('transactions');
     const userAddress = userAddresses.filter((x) => x.get('id') === basketData.get('shippingAddressId')).first();
     const userCard = userCards.filter((x) => x.get('id') === basketData.get('cardId')).first();
@@ -373,7 +373,7 @@ export default class Basket extends Component {
 
     return (
       <Container style={st.container}>
-        <div style={st.title}>My Basket</div>
+        <div style={st.title}>{t('basket.myBasket')}</div>
         <div>
           {(basketData.get('_status') === FETCHING && (!basketItems || !basketItems.size)) &&
           <div style={[ st.box, st.box.empty ]}>
@@ -387,10 +387,10 @@ export default class Basket extends Component {
             <div>
               <img src={iconBasketLarge} width='48'/>
             </div>
-            <div style={st.box.empty.fline}>Your basket is currently empty</div>
+            <div style={st.box.empty.fline}>{t('basket.emptyBasket')}</div>
             <div style={st.box.empty.sline}>Browse some scenes to find popular products</div>
             <Button style={[ pinkButtonStyle, st.box.empty.btn ]} to='/'>START SHOPPING</Button>
-            <div style={st.box.empty.history}>View Order History</div>
+            <RadiumLink style={st.box.empty.history} to={`/${currentLocale}/orders`}>View Order History</RadiumLink>
           </div>}
           {(basketItems && Boolean(basketItems.size)) &&
           <div style={st.filled}>
@@ -431,7 +431,7 @@ export default class Basket extends Component {
                   </div>
                   <div style={st.box.delivery}>
                     <div style={st.box.delivery.type}>{item.getIn([ 'selectedShippingOption', 'text' ])}</div>
-                    <div style={st.box.delivery.link} onClick={this.onChangeDeliveryClick}>change</div>
+                    <div style={st.box.delivery.link} onClick={this.onChangeDeliveryClick}>{t('basket.change')}</div>
                     <div style={st.box.delivery.cost}>
                       {item.getIn([ 'selectedShippingOption', 'price', 'value' ])
                         ? item.getIn([ 'selectedShippingOption', 'price', 'text' ])
@@ -443,7 +443,7 @@ export default class Basket extends Component {
                       style={smallDialogStyle}
                       onClose={this.onModalDeliveryClose}>
                       <div style={st.modal}>
-                        <div style={st.modal.title}>Delivery Method</div>
+                        <div style={st.modal.title}>{t('basket.deliveryMethod')}</div>
                         <div style={st.modal.items}>
                           {item.getIn([ 'shop', 'shippingOptions' ]).map((option) =>
                             <div key={`ship_option_${option.get('id')}`} style={st.modal.item}>
@@ -462,12 +462,12 @@ export default class Basket extends Component {
                             </div>
                           )}
                         </div>
-                        <Button style={[ pinkButtonStyle, st.modal.btn ]} onClick={this.onModalDeliveryClose}>Save</Button>
+                        <Button style={[ pinkButtonStyle, st.modal.btn ]} onClick={this.onModalDeliveryClose}>{t('basket.save')}</Button>
                       </div>
                     </Modal>}
                   </div>
                   <div style={st.box.footer}>
-                    <div>Total</div>
+                    <div>{t('basket.total')}</div>
                     <div style={st.box.footer.totalCost}>{item.getIn([ 'total', 'text' ])}</div>
                   </div>
                 </div>
@@ -476,19 +476,19 @@ export default class Basket extends Component {
             <div style={st.checkoutDetails}>
               <div style={st.box}>
                 <form onSubmit={handleSubmit(this.onOrderSubmit)}>
-                  <div style={st.box.title}>Checkout Details</div>
+                  <div style={st.box.title}>{t('basket.checkoutDetails')}</div>
                   <div style={st.box.items}>
                     <div style={st.box.itemCheckout}>
                       <div>
-                        <div style={st.box.itemCheckout.title}>Personal Info</div>
+                        <div style={st.box.itemCheckout.title}>{t('basket.personalInfo')}</div>
                         <div style={st.box.itemCheckout.text}>
                           {ubUser.get('email') && <div>{ubUser.get('email')}</div>}
                           {ubUser.get('mobile') && <div>{ubUser.get('mobile')}</div>}
                         </div>
                       </div>
                       {ubUser.get('mobile')
-                        ? <div style={st.box.itemCheckout.add} onClick={this.onAddPersonalInfoClick}>change</div>
-                        : <div style={st.box.itemCheckout.add} onClick={this.onAddPersonalInfoClick}>Add</div>
+                        ? <div style={st.box.itemCheckout.add} onClick={this.onAddPersonalInfoClick}>{t('basket.change')}</div>
+                        : <div style={st.box.itemCheckout.add} onClick={this.onAddPersonalInfoClick}>{t('basket.add')}</div>
                       }
                       {this.state.isModalPhoneOpen &&
                       <ModalPhoneForm
@@ -515,8 +515,8 @@ export default class Basket extends Component {
                         </div>}
                       </div>
                       {userAddress
-                        ? <div style={st.box.itemCheckout.add} onClick={this.onAddressChangeClick}>change</div>
-                        : ubUser.get('mobile') && <div style={st.box.itemCheckout.add} onClick={this.onAddAddressClick}>Add</div>
+                        ? <div style={st.box.itemCheckout.add} onClick={this.onAddressChangeClick}>{t('basket.change')}</div>
+                        : ubUser.get('mobile') && <div style={st.box.itemCheckout.add} onClick={this.onAddAddressClick}>{t('basket.add')}</div>
                       }
                       {this.state.isModalAddressOpen &&
                       <ModalAddressForm
@@ -545,7 +545,7 @@ export default class Basket extends Component {
                     </div>
                     <div style={st.box.itemCheckout}>
                       <div>
-                        <div style={st.box.itemCheckout.title}>Payment Method</div>
+                        <div style={st.box.itemCheckout.title}>{t('basket.paymentMethod')}</div>
                         {userCard &&
                         <div style={st.box.itemCheckout.text}>
                           <div style={st.paymentCard}>
@@ -572,8 +572,8 @@ export default class Basket extends Component {
                         {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
                       </div>
                       {userCards.size
-                        ? <div style={st.box.itemCheckout.add} onClick={this.onCardSelectClick}>change</div>
-                        : userAddress && <div style={st.box.itemCheckout.add} onClick={this.onAddCardClick}>Add</div>
+                        ? <div style={st.box.itemCheckout.add} onClick={this.onCardSelectClick}>{t('basket.change')}</div>
+                        : userAddress && <div style={st.box.itemCheckout.add} onClick={this.onAddCardClick}>{t('basket.add')}</div>
                       }
                       {this.state.isModalCardOpen &&
                       <ModalCardForm
@@ -594,7 +594,7 @@ export default class Basket extends Component {
                   </div>
                   <div style={st.checkoutBtnWrapper}>
                     <button disabled={!checkoutEnabled} style={[ st.greenBtn, !checkoutEnabled && st.greenBtn.disabled ]}>
-                      PLACE ORDER
+                      {t('basket.placeOrder')}
                     </button>
                     {this.state.isModalCheckoutSuccessOpen &&
                     <Modal
@@ -602,19 +602,19 @@ export default class Basket extends Component {
                       style={smallDialogStyle}
                       onClose={this.onModalCheckoutSuccessClose}>
                       <div style={st.modal}>
-                        <div style={st.modal.title}>Thank You!</div>
+                        <div style={st.modal.title}>{t('basket.thankYou')}</div>
                         <div style={st.modal.greet}>
                           <div style={st.modal.greet.title}>
-                            Your order is being placed with the retailer
+                            {t('basket.yourOrderPlaced')}
                           </div>
                           <div style={st.modal.greet.dscr}>
-                            <div style={st.modal.greet.dscr.head}>What’s next:</div>
-                            1.	When your order has been processed, you will receive a confirmation email from the retailer.
+                            <div style={st.modal.greet.dscr.head}>{t('basket.whatsNext')}</div>
+                            1. {t('basket.whenOrderBeenProcessed')}
                             <br/><br/>
-                            2.	Your bank may require payment verification and requiest your 3D-Secure passcode. In this case we’ll send you an SMS shortly.
+                            2. {t('basket.3dSecure')}
                           </div>
                         </div>
-                        <Button style={[ pinkButtonStyle, st.modal.btn ]} onClick={this.onModalCheckoutSuccessClose}>Continue</Button>
+                        <Button style={[ pinkButtonStyle, st.modal.btn ]} onClick={this.onModalCheckoutSuccessClose}>{t('basket.continue')}</Button>
                       </div>
                     </Modal>}
                   </div>

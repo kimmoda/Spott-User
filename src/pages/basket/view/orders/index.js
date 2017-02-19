@@ -42,11 +42,11 @@ export default class Orders extends Component {
   }
 
   render () {
-    const { orders, spottProducts, location, currentLocale } = this.props;
+    const { orders, spottProducts, location, currentLocale, t } = this.props;
 
     return (
       <Container style={st.container}>
-        <div style={st.title}>My Orders</div>
+        <div style={st.title}>{t('basket.myOrders')}</div>
         <div>
           {orders.get('_status') === FETCHING &&
           <div style={[ st.box, st.box.empty ]}>
@@ -54,8 +54,8 @@ export default class Orders extends Component {
           </div>}
           {(orders.get('_status') === LOADED && !orders.get('transactions').size) &&
           <div style={[ st.box, st.box.empty ]}>
-            <div style={st.box.empty.fline}>No Order History</div>
-            <div style={st.box.empty.sline}>You haven’t made any purchases yet</div>
+            <div style={st.box.empty.fline}>{t('basket.noOrderHistory')}</div>
+            <div style={st.box.empty.sline}>{t('basket.noFinishedOrders')}</div>
             <Button style={[ pinkButtonStyle, st.box.empty.btn ]} to='/'>START SHOPPING</Button>
           </div>}
           {(orders.get('_status') === LOADED && Boolean(orders.get('transactions').size)) &&
@@ -97,7 +97,7 @@ export default class Orders extends Component {
                         </div>
                         <div style={st.boxOrder.item.shadow}/>
                       </div>
-                      <RadiumLink style={st.boxOrder.item.details} to={`/${currentLocale}/orders/${order.get('id')}`}>Details</RadiumLink>
+                      <RadiumLink style={st.boxOrder.item.details} to={`/${currentLocale}/orders/${order.get('id')}`}>{t('basket.details')}</RadiumLink>
                     </div>
                   </div>
                 </div>
