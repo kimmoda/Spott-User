@@ -197,7 +197,7 @@ export class ModalAddressSelectForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error, submitting, addresses, addNewAddress, editAddress } = this.props;
+    const { handleSubmit, onSubmit, onClose, error, submitting, addresses, addNewAddress, editAddress, t } = this.props;
 
     return (
       <Modal
@@ -205,11 +205,11 @@ export class ModalAddressSelectForm extends Component {
         style={smallDialogStyle}
         onClose={onClose}>
         <div style={st.modal}>
-          <div style={st.modal.title}>Shipping Address</div>
+          <div style={st.modal.title}>{t('basket.shippingAddress')}</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div style={st.modal.items}>
               <div style={st.modal.item}>
-                <div style={st.modal.addNewLink} onClick={addNewAddress}>Add New Address</div>
+                <div style={st.modal.addNewLink} onClick={addNewAddress}>{t('basket.addNewAddress')}</div>
               </div>
               {addresses.map((address) =>
                 <div key={address.get('id')} style={st.modal.item}>
@@ -230,7 +230,7 @@ export class ModalAddressSelectForm extends Component {
                         {address.get('phoneCountry')}{address.get('phone')}
                       </div>
                     </div>
-                    <div style={st.modal.radioEdit} onClick={editAddress.bind(this, address.get('id'))}>Edit</div>
+                    <div style={st.modal.radioEdit} onClick={editAddress.bind(this, address.get('id'))}>{t('basket.edit')}</div>
                   </label>
                 </div>
               )}
@@ -238,7 +238,7 @@ export class ModalAddressSelectForm extends Component {
             </div>
             <div style={st.modal.buttons}>
               <Button style={[ pinkButtonStyle, st.modal.btn ]}>
-                Save
+                {t('basket.save')}
               </Button>
             </div>
           </form>

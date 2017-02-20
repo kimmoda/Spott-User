@@ -326,6 +326,7 @@
     "remove": "Remove",
     "change": "change",
     "add": "Add",
-    "continue": "Continue"
+    "continue": "Continue",
+    "edit": "Edit"
   }
 }
