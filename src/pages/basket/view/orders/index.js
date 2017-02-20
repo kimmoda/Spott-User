@@ -56,7 +56,7 @@ export default class Orders extends Component {
           <div style={[ st.box, st.box.empty ]}>
             <div style={st.box.empty.fline}>{t('basket.noOrderHistory')}</div>
             <div style={st.box.empty.sline}>{t('basket.noFinishedOrders')}</div>
-            <Button style={[ pinkButtonStyle, st.box.empty.btn ]} to='/'>START SHOPPING</Button>
+            <Button style={[ pinkButtonStyle, st.box.empty.btn ]} to='/'>{t('basket.startShopping')}</Button>
           </div>}
           {(orders.get('_status') === LOADED && Boolean(orders.get('transactions').size)) &&
           <div>

@@ -131,7 +131,7 @@ export class ModalAddressForm extends Component {
               </div>
               <div style={st.modal.formCols}>
                 <div style={{ width: '84px' }}>
-                  <label style={st.modal.label}>Country code</label>
+                  <label style={st.modal.label}>{t('basket.countryCode')}</label>
                   <Field
                     component={renderField}
                     name='phoneCountry'

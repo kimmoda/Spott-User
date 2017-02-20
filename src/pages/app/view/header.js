@@ -197,7 +197,7 @@ class Header extends Component {
                       button={<span style={[ styles.userSection.triggerArrow.base, floating && styles.userSection.triggerArrow.floating ]}>▾</span>}
                       contentStyle={styles.userSection.menu}>
                       <Button style={[ styles.userSection.menuItem, styles.userSection.profileMenuItem ]} to={`/${currentLocale}/profile/${slugify(currentUsername)}/${currentUserId}`}>{currentUsername}</Button>
-                      <Button style={[ styles.userSection.menuItem, styles.userSection.profileMenuItem ]} to={`/${currentLocale}/orders`}>My Orders</Button>
+                      <Button style={[ styles.userSection.menuItem, styles.userSection.profileMenuItem ]} to={`/${currentLocale}/orders`}>{t('basket.myOrders')}</Button>
                       <Button style={styles.userSection.menuItem} onClick={this.onLogoutClick}>{t('_common.header.logout')}</Button>
                     </Dropdown>
                 </div>

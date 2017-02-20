@@ -388,9 +388,9 @@ export default class Basket extends Component {
               <img src={iconBasketLarge} width='48'/>
             </div>
             <div style={st.box.empty.fline}>{t('basket.emptyBasket')}</div>
-            <div style={st.box.empty.sline}>Browse some scenes to find popular products</div>
-            <Button style={[ pinkButtonStyle, st.box.empty.btn ]} to='/'>START SHOPPING</Button>
-            <RadiumLink style={st.box.empty.history} to={`/${currentLocale}/orders`}>View Order History</RadiumLink>
+            <div style={st.box.empty.sline}>{t('basket.browseSomeScenes')}</div>
+            <Button style={[ pinkButtonStyle, st.box.empty.btn ]} to='/'>{t('basket.startShopping')}</Button>
+            <RadiumLink style={st.box.empty.history} to={`/${currentLocale}/orders`}>{t('basket.viewOrderHistory')}</RadiumLink>
           </div>}
           {(basketItems && Boolean(basketItems.size)) &&
           <div style={st.filled}>
@@ -504,7 +504,7 @@ export default class Basket extends Component {
                     </div>
                     <div style={st.box.itemCheckout}>
                       <div>
-                        <div style={st.box.itemCheckout.title}>Delivery Address</div>
+                        <div style={st.box.itemCheckout.title}>{t('basket.deliveryAddress')}</div>
                         {userAddress &&
                         <div style={st.box.itemCheckout.text}>
                           <div>
@@ -561,7 +561,7 @@ export default class Basket extends Component {
                             </div>
                           </div>
                           <div style={st.box.itemCheckout.cvc}>
-                            <label style={st.modal.label}>Enter 3-digit CVC Code</label>
+                            <label style={st.modal.label}>{t('basket.enterCVC')}</label>
                             <Field
                               component='input'
                               name='cvv'

@@ -327,6 +327,17 @@
     "change": "verandering",
     "add": "Toevoegen",
     "continue": "Verderzetten",
-    "edit": "Wijzigen"
+    "edit": "Wijzigen",
+    "orderPlaced": "Bestelling geplaatst",
+    "deliveryAddress": "Afleveradres",
+    "startShopping": "Start het shoppen",
+    "youHaventPurchases": "U heeft nog geen bestellingen geplaatst",
+    "noOrderDetails": "Geen details van bestelling",
+    "usernameEmail": "Gebruikersnaam / e-mail",
+    "expirationDate": "Vervaldatum",
+    "browseSomeScenes": "Scrol door de verschillende scènes om de populaire producten te vinden",
+    "viewOrderHistory": "Bekijk bestellingshistorie",
+    "enterCVC": "Gelieve de 3-cijferige CVC code in te geven",
+    "countryCode": "Landnummer"
   }
 }

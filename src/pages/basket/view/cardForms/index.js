@@ -99,7 +99,7 @@ export class ModalCardForm extends Component {
               </div>
               <div style={{ display: 'flex' }}>
                 <div style={{ width: '160px' }}>
-                  <label style={st.modal.label}>Expiration Date</label>
+                  <label style={st.modal.label}>{t('basket.expirationDate')}</label>
                   <div style={{ display: 'flex' }}>
                     <Field
                       component={renderField}

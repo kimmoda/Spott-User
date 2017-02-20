@@ -327,6 +327,17 @@
     "change": "changer",
     "add": "Ajouter",
     "continue": "Continuer",
-    "edit": "Modifier"
+    "edit": "Modifier",
+    "orderPlaced": "Commande passée",
+    "deliveryAddress": "Adresse de livraison",
+    "startShopping": "Commencer le shopping",
+    "youHaventPurchases": "Vous n'avez pas encore placer des commandes",
+    "noOrderDetails": "Pas de détails de commande",
+    "usernameEmail": "Nom d'utilisateur / e-mail",
+    "expirationDate": "Date d'expiration",
+    "browseSomeScenes": "Parcourez des scènes pour trouver des produits populaires",
+    "viewOrderHistory": "Afficher l'historique des commandes",
+    "enterCVC": "Entrez le code CVC à 3 chiffres",
+    "countryCode": "Code pays"
   }
 }

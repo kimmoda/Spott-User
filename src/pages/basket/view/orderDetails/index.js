@@ -73,9 +73,9 @@ export default class OrderDetails extends Component {
           </div>}
           {(orders.get('_status') === LOADED && !order) &&
           <div style={[ st.box, st.box.empty ]}>
-            <div style={st.box.empty.fline}>No Order Details</div>
-            <div style={st.box.empty.sline}>You haven’t made any purchases yet</div>
-            <Button style={[ pinkButtonStyle, st.box.empty.btn ]} to='/'>START SHOPPING</Button>
+            <div style={st.box.empty.fline}>{t('basket.noOrderDetails')}</div>
+            <div style={st.box.empty.sline}>{t('basket.youHaventPurchases')}</div>
+            <Button style={[ pinkButtonStyle, st.box.empty.btn ]} to='/'>{t('basket.startShopping')}</Button>
           </div>}
           {(orders.get('_status') === LOADED && Boolean(order)) &&
           <div style={st.filled}>
@@ -122,7 +122,7 @@ export default class OrderDetails extends Component {
                   </div>
                 </div>
                 <div style={st.box.footer}>
-                  <div>Total</div>
+                  <div>{t('basket.total')}</div>
                   <div style={st.box.footer.totalCost}>{order.getIn([ 'total', 'text' ])}</div>
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default class OrderDetails extends Component {
                           </a>
                         </div>
                         <div style={st.returnCreds.row}>
-                          <div style={st.returnCreds.left}>Username/e-mail:</div>
+                          <div style={st.returnCreds.left}>{t('basket.usernameEmail')}:</div>
                           <div style={st.returnCreds.right}>{account.get('email')}</div>
                         </div>
                         <div style={st.returnCreds.row}>
@@ -171,7 +171,7 @@ export default class OrderDetails extends Component {
                   <div style={st.box.items}>
                     <div style={st.box.itemCheckout}>
                       <div>
-                        <div style={st.box.itemCheckout.title}>Delivery Address</div>
+                        <div style={st.box.itemCheckout.title}>{t('basket.deliveryAddress')}</div>
                         <div style={st.box.itemCheckout.text}>
                           <div>
                             {address.get('title')} {address.get('firstname')} {address.get('lastname')}
@@ -202,7 +202,7 @@ export default class OrderDetails extends Component {
                     </div>
                     <div style={st.box.itemCheckout}>
                       <div>
-                        <div style={st.box.itemCheckout.title}>Order Placed</div>
+                        <div style={st.box.itemCheckout.title}>{t('basket.orderPlaced')}</div>
                         <div style={st.box.itemCheckout.text}>
                           {moment(order.get('createdAt')).format('DD MMM YYYY')}
                         </div>
