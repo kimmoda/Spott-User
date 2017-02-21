@@ -621,8 +621,7 @@ export default class Basket extends Component {
                 </form>
               </div>
               <div style={st.checkoutDetails.legal}>
-                Lorem ipsum dolor sit amet and accept the terms and conditions and privacy statement suspendisse
-                faucibus condimentum orci sit amet luctus. Nam accumsan orci vel magna imperdiet bibendum.
+                {t('basket.weUseUB', {}, (content, key) => <a href='https://ub.io/page/terms' key={key} style={st.checkoutDetails.legal.link} target='_blank'>{content}</a>)}
               </div>
             </div>
           </div>

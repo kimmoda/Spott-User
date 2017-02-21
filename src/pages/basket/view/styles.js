@@ -37,7 +37,11 @@ export const st = {
       ...makeTextStyle(fontWeights.light, '12px', '-0.1px', '15px'),
       color: colors.coolGray,
       marginTop: '24px',
-      maxWidth: '370px'
+      maxWidth: '370px',
+      link: {
+        color: colors.slateGray,
+        textDecoration: 'none'
+      }
     }
   },
   box: {
