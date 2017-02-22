@@ -103,7 +103,7 @@ export class ModalPinForm extends Component {
               <Field
                 component='input'
                 name='code'
-                props={{ required: true, type: 'number' }}
+                props={{ required: true }}
                 style={st.modal.input}/>
               {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
             </div>
