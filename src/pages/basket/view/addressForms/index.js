@@ -40,7 +40,7 @@ export class ModalAddressForm extends Component {
         onClose={onClose}>
         <div style={st.modal}>
           <div style={st.modal.title}>
-            {isEditForm ? 'Edit Address' : 'Add New Address'}
+            {isEditForm ? t('basket.editAddress') : t('basket.addNewAddress')}
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div style={st.modal.form}>

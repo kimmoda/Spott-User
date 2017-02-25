@@ -65,7 +65,7 @@ export default class OrderDetails extends Component {
 
     return (
       <Container style={st.container}>
-        <div style={st.title}>Order Detail</div>
+        <div style={st.title}>{t('basket.orderDetails')}</div>
         <div>
           {(orders.get('_status') === FETCHING || !order) &&
           <div style={[ st.box, st.box.empty ]}>
