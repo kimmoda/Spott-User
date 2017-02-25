@@ -1,5 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { createEntityByIdSelector, productsEntitiesSelector } from '../../data/selector';
+import { isUbAuthenticatedSelector } from '../app/selector';
 
 export const currentProductIdSelector = (state) => state.getIn([ 'productDetail', 'currentProduct', 'id' ]);
 const currentProductSelector = createEntityByIdSelector(productsEntitiesSelector, currentProductIdSelector);
@@ -26,5 +27,6 @@ export const productSelector = createStructuredSelector({
   selectedImageId: selectedImageIdSelector,
   selectedUbImageId: selectedUbImageIdSelector,
   selectedUbProductVariant: selectedUbProductVariantSelector,
-  basketStatus: basketStatusSelector
+  basketStatus: basketStatusSelector,
+  isUbAuthenticated: isUbAuthenticatedSelector
 });

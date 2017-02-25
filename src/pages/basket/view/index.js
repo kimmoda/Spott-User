@@ -149,6 +149,9 @@ export default class Basket extends Component {
       this.props.loadUserAddresses();
       this.props.loadUserCards();
     }
+    if (!this.props.isUbAuthenticated) {
+      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: '/' } });
+    }
   }
 
   // If authenticated we load the personal data.
@@ -365,7 +368,7 @@ export default class Basket extends Component {
   }
 
   render () {
-    const { basketData, ubUser, userAddresses, userCards, handleSubmit, error, spottProducts, location, t, currentLocale } = this.props;
+    const { basketData, ubUser, userAddresses, userCards, handleSubmit, error, spottProducts, location, t, currentLocale, isUbAuthenticated } = this.props;
     const basketItems = basketData.get('transactions');
     const userAddress = userAddresses.filter((x) => x.get('id') === basketData.get('shippingAddressId')).first();
     const userCard = userCards.filter((x) => x.get('id') === basketData.get('cardId')).first();
@@ -382,7 +385,7 @@ export default class Basket extends Component {
             </div>
             <Spinner/>
           </div>}
-          {(basketData.get('_status') === LOADED && (!basketItems || !basketItems.size)) &&
+          {((basketData.get('_status') === LOADED && (!basketItems || !basketItems.size)) || !isUbAuthenticated) &&
           <div style={[ st.box, st.box.empty ]}>
             <div>
               <img src={iconBasketLarge} width='48'/>

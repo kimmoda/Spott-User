@@ -34,6 +34,7 @@ export default class ProductDetail extends Component {
     basketStatus: PropTypes.any,
     changeUbProductVariant: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
+    isUbAuthenticated: PropTypes.bool.isRequired,
     loadProduct: PropTypes.func.isRequired,
     loadUbProduct: PropTypes.func.isRequired,
     location: PropTypes.shape({
@@ -120,14 +121,18 @@ export default class ProductDetail extends Component {
 
   async onUbAddClick (e) {
     e.preventDefault();
-    this.props.addToBasket({
-      productId: this.props.product.getIn([ 'ub', 'id' ]),
-      shipping: { id: this.props.product.getIn([ 'ub', 'shop', 'shippingOptions', '0', 'id' ]), shopId: this.props.product.getIn([ 'ub', 'shop', 'id' ]) },
-      variant: { [this.props.product.getIn([ 'ub', 'currentVariant', 'name' ])]: this.props.product.getIn([ 'ub', 'currentVariant', 'value' ]) },
-      variantChild: this.props.selectedUbProductVariant.toJS(),
-      affiliateUrl: this.props.product.getIn([ 'offerings', '0', 'directBuyUrl' ])
-    });
-    this.props.routerPush(`/${this.props.currentLocale}/basket`);
+    if (this.props.isUbAuthenticated) {
+      this.props.addToBasket({
+        productId: this.props.product.getIn([ 'ub', 'id' ]),
+        shipping: { id: this.props.product.getIn([ 'ub', 'shop', 'shippingOptions', '0', 'id' ]), shopId: this.props.product.getIn([ 'ub', 'shop', 'id' ]) },
+        variant: { [this.props.product.getIn([ 'ub', 'currentVariant', 'name' ])]: this.props.product.getIn([ 'ub', 'currentVariant', 'value' ]) },
+        variantChild: this.props.selectedUbProductVariant.toJS(),
+        affiliateUrl: this.props.product.getIn([ 'offerings', '0', 'directBuyUrl' ])
+      });
+      this.props.routerPush(`/${this.props.currentLocale}/basket`);
+    } else {
+      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location.state && this.props.location.state.returnTo) || '/') } });
+    }
   }
 
   onUbVariantChange (name, e) {
@@ -408,7 +413,7 @@ export default class ProductDetail extends Component {
 
   renderProduct () {
     const { styles } = this.constructor;
-    const { onChangeImageSelection, product, selectedImageId, selectedUbImageId, t, location, basketStatus } = this.props;
+    const { onChangeImageSelection, product, selectedImageId, selectedUbImageId, t, location, basketStatus, isUbAuthenticated } = this.props;
     const notAvailable = !(product.get('available') && product.getIn([ 'offerings', '0', 'url' ]));
     const outOfStock = Boolean(product.getIn([ 'ub', 'outOfStock' ]));
     const selectedImage = product.get('images') && product.get('images').find((image) => image.get('id') === selectedImageId);
@@ -499,14 +504,17 @@ export default class ProductDetail extends Component {
               </div>}
               <div style={styles.details.buttons.wrapper}>
                 {product.getIn([ 'ub', 'id' ])
-                  ? <button disabled={outOfStock || !this.props.selectedUbProductVariant} key='addToBasketButton' style={[ greenButtonStyle, (outOfStock || !this.props.selectedUbProductVariant) && greenButtonStyle.disabled ]} onClick={this.onUbAddClick}>
-                      {outOfStock ? t('productDetail.outOfStock') : t('productDetail.addToBasket')}
-                    </button>
+                  ? <div>
+                      <button disabled={outOfStock || !this.props.selectedUbProductVariant} key='addToBasketButton' style={[ greenButtonStyle, (outOfStock || !this.props.selectedUbProductVariant) && greenButtonStyle.disabled ]} onClick={this.onUbAddClick}>
+                        {outOfStock ? t('productDetail.outOfStock') : t('productDetail.addToBasket')}
+                      </button>
+                      {!isUbAuthenticated && <div>You must be logged in to add product to the basket</div>}
+                    </div>
                   : <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
                         <span style={styles.details.buttons.buyText}>
                           {t('productDetail.buyOnStore')}
                         </span>
-                  </Button>
+                    </Button>
                 }
                 {product.get('id') && <WishlistButton productUuid={product.get('id')} />}
               </div>
