@@ -5,57 +5,10 @@ import localized from '../../../_common/localized';
 import Radium from 'radium';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { st } from '../styles';
-import { normalizeCardNumber } from '../../normalizeForm';
 import { validateCardFrom } from '../../validateForm';
 import { renderField } from '../index';
-import creditcardutils from 'creditcardutils';
+import { CardNumber, CvvNumber } from '../formFields';
 import '../cardsIcons.css';
-
-@Radium
-class CardNumber extends Component {
-  static propTypes = {
-    input: PropTypes.any.isRequired,
-    meta: PropTypes.any.isRequired,
-    submitFailed: PropTypes.bool.isRequired
-  };
-
-  constructor (props) {
-    super(props);
-    this.inputChange = ::this.inputChange;
-    this.state = {
-      cardType: null
-    };
-  }
-
-  inputChange (e) {
-    const { input: { onChange } } = this.props;
-    const val = e.target.value;
-    this.setState({ cardType: creditcardutils.parseCardType(val) });
-    onChange(e.target.value);
-  }
-
-  render () {
-    const { cardType } = this.state;
-    const { submitFailed } = this.props;
-    const { touched, error } = this.props.meta;
-    return (
-      <div>
-        <div style={st.ccNumInput}>
-          <input
-            required
-            style={[ st.ccNumInput.field, submitFailed && touched && error && st.modal.input.error ]}
-            type='text'
-            {...this.props.input}
-            onChange={this.inputChange}/>
-          <div
-            className={cardType ? `icon-${cardType}` : 'icon-placeholder'}
-            style={st.ccNumInput.icon}/>
-        </div>
-        {submitFailed && touched && error && error !== 'err' && <div style={st.modal.error}>{error}</div>}
-      </div>
-    );
-  }
-}
 
 @reduxForm({
   form: 'basketCardForm',
@@ -93,7 +46,6 @@ export class ModalCardForm extends Component {
                 <Field
                   component={CardNumber}
                   name='number'
-                  normalize={normalizeCardNumber}
                   props={{ required: true, type: 'text' }}
                   submitFailed={submitFailed}/>
               </div>
@@ -118,10 +70,9 @@ export class ModalCardForm extends Component {
                 <div style={{ width: '100px', marginLeft: '10px' }}>
                   <label style={st.modal.label}>CVC</label>
                   <Field
-                    component={renderField}
+                    component={CvvNumber}
                     name='cvv'
-                    props={{ required: true, type: 'number' }}
-                    style={st.modal.input}
+                    props={{ required: true }}
                     submitFailed={submitFailed}/>
                 </div>
               </div>
@@ -154,6 +105,7 @@ export class ModalCardForm extends Component {
                       </div>
                       <div style={st.modal.radioContent.dscr}>
                         {address.get('line1')}<br/>
+                        {address.get('line2') && <div>{address.get('line2')}</div>}
                         {address.get('postcode')} {address.get('city')}, {address.get('country')}<br/>
                         {address.get('phoneCountry')}{address.get('phone')}
                       </div>

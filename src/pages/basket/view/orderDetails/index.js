@@ -177,6 +177,7 @@ export default class OrderDetails extends Component {
                             {address.get('title')} {address.get('firstname')} {address.get('lastname')}
                           </div>
                           <div>{address.get('line1')}</div>
+                          {address.get('line2') && <div>{address.get('line2')}</div>}
                           <div>{address.get('postcode')} {address.get('city')}</div>
                         </div>
                       </div>

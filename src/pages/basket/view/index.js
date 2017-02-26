@@ -17,6 +17,8 @@ import { ModalCardForm, ModalCardSelectForm } from './cardForms';
 import { normalizePhoneNumber } from '../normalizeForm';
 import { LOADED, FETCHING } from '../../../data/statusTypes';
 import { push as routerPush } from 'react-router-redux';
+import { CvvNumber } from './formFields';
+import { validateBasketForm } from '../validateForm';
 import './cardsIcons.css';
 
 const iconBasketLarge = require('./iconBasketLarge.svg');
@@ -36,7 +38,8 @@ export const renderField = Radium((props) => {
 });
 
 @reduxForm({
-  form: 'basketForm'
+  form: 'basketForm',
+  validate: validateBasketForm
 })
 @localized
 @connect(basketSelector, (dispatch) => ({
@@ -87,6 +90,7 @@ export default class Basket extends Component {
     selectAddress: PropTypes.func.isRequired,
     selectCard: PropTypes.func.isRequired,
     spottProducts: PropTypes.any.isRequired,
+    submitFailed: PropTypes.bool,
     t: PropTypes.func.isRequired,
     ubUser: PropTypes.any.isRequired,
     updateUserAddress: PropTypes.func.isRequired,
@@ -200,6 +204,7 @@ export default class Basket extends Component {
   async onAddressSubmit (values) {
     try {
       const data = values.toJS();
+      data.phone = String(data.phone.replace(/[^\d]/g, ''));
       const addressData = await this.props.addNewAddress(data);
       if (!this.props.basketData.get('shippingAddressId')) {
         await this.props.selectAddress({ shippingAddressId: addressData.address.id });
@@ -214,6 +219,7 @@ export default class Basket extends Component {
   async onAddressEditSubmit (values) {
     try {
       const data = values.toJS();
+      data.phone = String(data.phone.replace(/[^\d]/g, ''));
       const addressData = await this.props.updateUserAddress(data);
       if (!this.props.basketData.get('shippingAddressId')) {
         await this.props.selectAddress({ shippingAddressId: addressData.address.id });
@@ -229,7 +235,7 @@ export default class Basket extends Component {
     try {
       const data = values.toJS();
       const userAddress = this.props.userAddresses.first();
-      data.number = String(data.number);
+      data.number = String(data.number.trim());
       data.addressId = userAddress.get('id');
       data.secret = 'secret';
       data.expiryDate = `${data.expiryMonth}/${data.expiryYear}`;
@@ -247,7 +253,7 @@ export default class Basket extends Component {
   async onOrderSubmit (values) {
     try {
       const { cvv } = values.toJS();
-      await this.props.placeOrder({ cvv });
+      await this.props.placeOrder({ cvv: cvv.trim() });
       this.setState({ isModalCheckoutSuccessOpen: true });
     } catch (e) {
       console.log(e);
@@ -368,7 +374,7 @@ export default class Basket extends Component {
   }
 
   render () {
-    const { basketData, ubUser, userAddresses, userCards, handleSubmit, error, spottProducts, location, t, currentLocale, isUbAuthenticated } = this.props;
+    const { basketData, ubUser, userAddresses, userCards, handleSubmit, error, spottProducts, location, t, currentLocale, isUbAuthenticated, submitFailed } = this.props;
     const basketItems = basketData.get('transactions');
     const userAddress = userAddresses.filter((x) => x.get('id') === basketData.get('shippingAddressId')).first();
     const userCard = userCards.filter((x) => x.get('id') === basketData.get('cardId')).first();
@@ -514,6 +520,7 @@ export default class Basket extends Component {
                             {userAddress.get('title')} {userAddress.get('firstname')} {userAddress.get('lastname')}
                           </div>
                           <div>{userAddress.get('line1')}</div>
+                          {userAddress.get('line2') && <div>{userAddress.get('line2')}</div>}
                           <div>{userAddress.get('postcode')} {userAddress.get('city')}</div>
                         </div>}
                       </div>
@@ -566,10 +573,10 @@ export default class Basket extends Component {
                           <div style={st.box.itemCheckout.cvc}>
                             <label style={st.modal.label}>{t('basket.enterCVC')}</label>
                             <Field
-                              component='input'
+                              component={CvvNumber}
                               name='cvv'
-                              props={{ required: true, type: 'number' }}
-                              style={st.box.itemCheckout.cvcInput}/>
+                              props={{ required: true }}
+                              submitFailed={submitFailed}/>
                           </div>
                         </div>}
                         {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}

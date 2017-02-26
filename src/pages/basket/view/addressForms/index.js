@@ -7,7 +7,7 @@ import { st } from '../styles';
 import { renderSelectField } from '../selectInput';
 import { validateAddressFrom } from '../../validateForm';
 import { renderField } from '../index';
-import { normalizePhoneNumber } from '../../normalizeForm';
+import { PhoneNumber } from '../formFields';
 
 @reduxForm({
   form: 'basketAddressForm',
@@ -104,7 +104,7 @@ export class ModalAddressForm extends Component {
                 <label style={st.modal.label}>{t('basket.additionalInfo')}</label>
                 <Field
                   component={renderField}
-                  name='note'
+                  name='line2'
                   props={{ type: 'text' }}
                   style={st.modal.input}
                   submitFailed={submitFailed}/>
@@ -142,11 +142,9 @@ export class ModalAddressForm extends Component {
                 <div style={{ width: '289px' }}>
                   <label style={st.modal.label}>{t('basket.mobileNumber')}</label>
                   <Field
-                    component={renderField}
+                    component={PhoneNumber}
                     name='phone'
-                    normalize={normalizePhoneNumber}
                     props={{ required: true, type: 'text' }}
-                    style={st.modal.input}
                     submitFailed={submitFailed}/>
                 </div>
               </div>
@@ -226,6 +224,7 @@ export class ModalAddressSelectForm extends Component {
                       </div>
                       <div style={st.modal.radioContent.dscr}>
                         {address.get('line1')}<br/>
+                        {address.get('line2') && <div>{address.get('line2')}</div>}
                         {address.get('postcode')} {address.get('city')}, {address.get('country')}<br/>
                         {address.get('phoneCountry')}{address.get('phone')}
                       </div>

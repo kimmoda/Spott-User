@@ -46,3 +46,11 @@ export const validateAddressFrom = (values) => {
   }
   return errors;
 };
+
+export const validateBasketForm = (values) => {
+  const errors = {};
+  if (!values.get('cvv') || !creditcardutils.validateCardCVC(values.get('cvv'))) {
+    errors.cvv = 'err';
+  }
+  return errors;
+};
