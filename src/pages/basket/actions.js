@@ -216,8 +216,8 @@ export function initUbUser (data) {
   return async (dispatch, getState) => {
     try {
       const { number, email } = data;
-      const { userIsRegistered, verify } = await dispatch(submitMobile({ number }));
-      if (userIsRegistered || !verify) {
+      const { verify } = await dispatch(submitMobile({ number }));
+      if (!verify) {
         throw new SubmissionError({ _error: { message: 'User is already exist' } });
       }
       dispatch({ type: SET_PERSONAL_INFO, payload: { number, email } });
