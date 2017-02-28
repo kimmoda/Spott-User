@@ -277,7 +277,11 @@ export function transformUbProduct (data) {
   const { body: { product } } = data;
   const { productUrl } = data;
 
-  product.currentVariant = product.variants.options.filter((item) => item.child && item.child.options[0].url === productUrl)[0];
+  if (product.variants.options[0].child) {
+    product.currentVariant = product.variants.options.filter((item) => item.child && item.child.options[0].url === productUrl)[0];
+  } else {
+    product.currentVariant = { child: { name: product.variants.options[0].name, options: product.variants.options } };
+  }
 
   return product;
 }
