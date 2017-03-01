@@ -245,7 +245,7 @@ export default class Basket extends Component {
       data.secret = 'secret';
       data.expiryDate = `${data.expiryMonth}/${data.expiryYear}`;
       const cardData = await this.props.addNewCard(data);
-      if (!this.props.basketData.get('cardId')) {
+      if (!this.props.basketData.get('cardId') || !this.props.userCards.size) {
         await this.props.selectCard({ cardId: cardData.card.id });
       }
       this.setState({ isModalCardOpen: false });
@@ -276,6 +276,9 @@ export default class Basket extends Component {
 
   async onCardRemoveClick (cardId) {
     await this.props.removeUserCard({ id: cardId });
+    if (this.props.basketData.get('cardId') === cardId) {
+      await this.props.selectCard({ cardId: 'null' });
+    }
     this.setState({
       isModalCardSelectOpen: false
     });
