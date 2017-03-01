@@ -194,6 +194,11 @@ export default class Basket extends Component {
   }
 
   async onAddressRemoveClick (addressId) {
+    const { userAddresses, basketData } = this.props;
+    const userAddress = userAddresses.filter((x) => x.get('id') === basketData.get('shippingAddressId')).first();
+    if (userAddress && addressId === userAddress.get('id')) {
+      await this.props.selectAddress({ shippingAddressId: 'null' });
+    }
     await this.props.removeUserAddress({ id: addressId });
     this.setState({
       isModalAddressEditOpen: false
@@ -524,7 +529,7 @@ export default class Basket extends Component {
                           <div>{userAddress.get('postcode')} {userAddress.get('city')}</div>
                         </div>}
                       </div>
-                      {userAddress
+                      {userAddresses.size
                         ? <div style={st.box.itemCheckout.add} onClick={this.onAddressChangeClick}>{t('basket.change')}</div>
                         : ubUser.get('mobile') && <div style={st.box.itemCheckout.add} onClick={this.onAddAddressClick}>{t('basket.add')}</div>
                       }

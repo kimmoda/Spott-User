@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Button, pinkButtonStyle, Modal, smallDialogStyle, greyButtonStyle } from '../../../_common/buildingBlocks';
+import { connect } from 'react-redux';
 import localized from '../../../_common/localized';
 import Radium from 'radium';
 import { reduxForm, Field } from 'redux-form/immutable';
@@ -8,15 +9,18 @@ import { renderSelectField } from '../selectInput';
 import { validateAddressFrom } from '../../validateForm';
 import { renderField } from '../index';
 import { PhoneNumber } from '../formFields';
+import { basketAddressFormSelector } from '../../selectors';
 
 @reduxForm({
   form: 'basketAddressForm',
   validate: validateAddressFrom
 })
 @localized
+@connect(basketAddressFormSelector, (dispatch) => ({}))
 @Radium
 export class ModalAddressForm extends Component {
   static propTypes = {
+    addressForm: PropTypes.any.isRequired,
     addressId: PropTypes.string,
     error: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
@@ -31,7 +35,7 @@ export class ModalAddressForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error, submitting, submitFailed, isEditForm, removeAddress, initialValues, t } = this.props;
+    const { handleSubmit, onSubmit, onClose, error, submitting, submitFailed, isEditForm, initialValues, t, removeAddress, addressForm } = this.props;
 
     return (
       <Modal
@@ -166,6 +170,7 @@ export class ModalAddressForm extends Component {
                 style={st.modal.input}
                 type='hidden'/>}
               {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
+              {addressForm.get('_error') && typeof addressForm.get('_error') === 'string' && <div style={st.modal.error}>{addressForm.get('_error')}</div>}
             </div>
             <div style={st.modal.buttons}>
               {isEditForm &&

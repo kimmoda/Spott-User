@@ -154,7 +154,7 @@ export class ModalCardSelectForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error, submitting, cards, addNewCard, removeCard, initialValues, t } = this.props;
+    const { handleSubmit, onSubmit, onClose, error, submitting, cards, addNewCard, removeCard, t } = this.props;
 
     return (
       <Modal
@@ -198,8 +198,7 @@ export class ModalCardSelectForm extends Component {
                         {card.get('name')}
                       </div>
                     </div>
-                    {initialValues.get('cardId') !== card.get('id') &&
-                    <div style={st.modal.radioEdit} onClick={removeCard.bind(this, card.get('id'))}>{t('basket.remove')}</div>}
+                    <div style={st.modal.radioEdit} onClick={removeCard.bind(this, card.get('id'))}>{t('basket.remove')}</div>
                   </label>
                 </div>
               )}

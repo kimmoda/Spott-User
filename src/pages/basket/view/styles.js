@@ -360,19 +360,20 @@ export const st = {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: '27px 31px 0 31px',
+      padding: '27px 14px 0 31px',
       btn: {
-        width: '45%',
-        marginLeft: '10px',
-        marginRight: '10px',
-        marginTop: '0px'
+        marginLeft: '5px',
+        marginRight: '5px',
+        marginTop: '0px',
+        padding: '0.85em 18px',
+        height: '35px'
       },
       remove: {
         color: colors.darkPink,
         textDecoration: 'underline',
         cursor: 'pointer',
         minWidth: '120px',
-        marginRight: '30px',
+        marginRight: '5px',
         ...makeTextStyle(fontWeights.regular, '14px')
       }
     },

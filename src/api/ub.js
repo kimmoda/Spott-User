@@ -189,7 +189,7 @@ export async function removeAddress (baseUrl, authenticationToken, data) {
     const { body } = await requestUb.del(authenticationToken, `${baseUrl}/address/delete`, data);
     return body;
   } catch (error) {
-    throw new SubmissionError({ _error: error.body.error });
+    throw error.body.error.message;
   }
 }
 
