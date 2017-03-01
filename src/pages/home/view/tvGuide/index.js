@@ -39,7 +39,7 @@ export default class NewEpisodes extends Component {
   render () {
     const { styles } = this.constructor;
     const { style, tvGuideEntries, t } = this.props;
-    return (<div style={styles.empty} />);
+
     if ((tvGuideEntries.get('_status') === LOADED || tvGuideEntries.get('_status') === UPDATING) && (tvGuideEntries.get('data') && tvGuideEntries.get('data').size === 0)) {
       return (<div style={styles.empty} />);
     }
