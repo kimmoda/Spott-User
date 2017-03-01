@@ -519,7 +519,7 @@ export default class Basket extends Component {
                           <div>
                             {userAddress.get('title')} {userAddress.get('firstname')} {userAddress.get('lastname')}
                           </div>
-                          <div>{userAddress.get('line1')}</div>
+                          <div>{userAddress.get('line1')} {userAddress.get('houseNumber')}</div>
                           {userAddress.get('line2') && <div>{userAddress.get('line2')}</div>}
                           <div>{userAddress.get('postcode')} {userAddress.get('city')}</div>
                         </div>}

@@ -104,7 +104,7 @@ export class ModalCardForm extends Component {
                         {address.get('title')} {address.get('firstname')} {address.get('lastname')}
                       </div>
                       <div style={st.modal.radioContent.dscr}>
-                        {address.get('line1')}<br/>
+                        {address.get('line1')} {address.get('houseNumber')}<br/>
                         {address.get('line2') && <div>{address.get('line2')}</div>}
                         {address.get('postcode')} {address.get('city')}, {address.get('country')}<br/>
                         {address.get('phoneCountry')}{address.get('phone')}

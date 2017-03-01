@@ -340,6 +340,7 @@
     "enterCVC": "Entrez le code CVC à 3 chiffres",
     "countryCode": "Code pays",
     "weUseUB": "Nous utilisons le check-out du Universal Basket pour passer votre commande chez les détaillants en toute sécurité. En tapotant 'Confirmer la commande', vous acceptez les [[Conditions de l'Universal Basket]].",
-    "orderDetails": "Détails de commande"
+    "orderDetails": "Détails de commande",
+    "houseNumber": "Numéro de maison"
   }
 }

@@ -91,14 +91,25 @@ export class ModalAddressForm extends Component {
                   style={st.modal.input}
                   submitFailed={submitFailed}/>
               </div>
-              <div style={st.modal.formRow}>
-                <label style={st.modal.label}>{t('basket.streetAddress')}</label>
-                <Field
-                  component={renderField}
-                  name='line1'
-                  props={{ required: true, type: 'text' }}
-                  style={st.modal.input}
-                  submitFailed={submitFailed}/>
+              <div style={st.modal.formCols}>
+                <div style={{ width: '250px' }}>
+                  <label style={st.modal.label}>{t('basket.streetAddress')}</label>
+                  <Field
+                    component={renderField}
+                    name='line1'
+                    props={{ required: true, type: 'text' }}
+                    style={st.modal.input}
+                    submitFailed={submitFailed}/>
+                </div>
+                <div style={{ width: '120px' }}>
+                  <label style={st.modal.label}>{t('basket.houseNumber')}</label>
+                  <Field
+                    component={renderField}
+                    name='houseNumber'
+                    props={{ required: true, type: 'text' }}
+                    style={st.modal.input}
+                    submitFailed={submitFailed}/>
+                </div>
               </div>
               <div style={st.modal.formRow}>
                 <label style={st.modal.label}>{t('basket.additionalInfo')}</label>
@@ -223,7 +234,7 @@ export class ModalAddressSelectForm extends Component {
                         {address.get('title')} {address.get('firstname')} {address.get('lastname')}
                       </div>
                       <div style={st.modal.radioContent.dscr}>
-                        {address.get('line1')}<br/>
+                        {address.get('line1')} {address.get('houseNumber')}<br/>
                         {address.get('line2') && <div>{address.get('line2')}</div>}
                         {address.get('postcode')} {address.get('city')}, {address.get('country')}<br/>
                         {address.get('phoneCountry')}{address.get('phone')}

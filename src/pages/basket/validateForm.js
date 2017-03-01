@@ -35,6 +35,9 @@ export const validateAddressFrom = (values) => {
   if (!values.get('line1')) {
     errors.line1 = 'err';
   }
+  if (!values.get('houseNumber')) {
+    errors.houseNumber = 'err';
+  }
   if (!values.get('city')) {
     errors.city = 'err';
   }
