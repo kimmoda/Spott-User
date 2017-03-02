@@ -12,6 +12,7 @@ export default function basketReducer (state = Map({
   ubUserAddresses: Map(),
   ubUserCards: Map(),
   editAddressData: null,
+  editCardData: null,
   spottProducts: Map(),
   orders: Map(),
   addressForm: Map()
@@ -57,6 +58,8 @@ export default function basketReducer (state = Map({
       return state.set('ubUserCards', fromJS(action.data.cards));
     case actions.LOAD_EDIT_ADDRESS_DATA:
       return state.set('editAddressData', action.payload);
+    case actions.LOAD_EDIT_CARD_DATA:
+      return state.set('editCardData', action.payload);
     case actions.SET_SPOTT_PRODUCTS:
       return state.mergeIn([ 'spottProducts' ], fromJS(action.payload));
     case actions.LOAD_ORDERS_START:

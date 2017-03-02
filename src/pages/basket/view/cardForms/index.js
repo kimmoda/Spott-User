@@ -22,6 +22,9 @@ export class ModalCardForm extends Component {
     addresses: PropTypes.any,
     error: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
+    initialValues: PropTypes.any,
+    isEditForm: PropTypes.bool,
+    removeCard: PropTypes.func,
     submitFailed: PropTypes.bool,
     submitting: PropTypes.bool,
     t: PropTypes.func.isRequired,
@@ -30,7 +33,7 @@ export class ModalCardForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onClose, error, addresses, addNewAddress, submitting, submitFailed, t } = this.props;
+    const { handleSubmit, onClose, error, addresses, addNewAddress, submitting, submitFailed, t, removeCard, isEditForm, initialValues } = this.props;
 
     return (
       <Modal
@@ -38,12 +41,15 @@ export class ModalCardForm extends Component {
         style={smallDialogStyle}
         onClose={onClose}>
         <div style={st.modal}>
-          <div style={st.modal.title}>{t('basket.addNewCard')}</div>
+          <div style={st.modal.title}>
+            {isEditForm ? t('basket.editCard') : t('basket.addNewCard')}
+          </div>
           <form onSubmit={handleSubmit}>
             <div style={st.modal.form}>
               <div style={st.modal.formRow}>
                 <label style={st.modal.label}>{t('basket.creditCardNumber')}</label>
                 <Field
+                  cardType={initialValues.getIn([ 'cardType', 'code' ])}
                   component={CardNumber}
                   name='number'
                   props={{ required: true, type: 'text' }}
@@ -85,6 +91,12 @@ export class ModalCardForm extends Component {
                   style={st.modal.input}
                   submitFailed={submitFailed}/>
               </div>
+              {isEditForm &&
+              <Field
+                component='input'
+                name='id'
+                style={st.modal.input}
+                type='hidden'/>}
             </div>
             <div style={[ st.modal.items, { marginTop: '-20px', borderTop: 0 } ]}>
               <div style={[ st.modal.item, { borderBottom: 0 } ]}>
@@ -119,6 +131,10 @@ export class ModalCardForm extends Component {
             </div>
             {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
             <div style={st.modal.buttons}>
+              {isEditForm &&
+              <div style={st.modal.buttons.remove} onClick={removeCard.bind(this, initialValues.get('id'))}>
+                Remove Card
+              </div>}
               <button key='cbtn' style={[ greyButtonStyle, st.modal.btn, st.modal.buttons.btn ]} onClick={onClose}>
                 {t('basket.cancel')}
               </button>
@@ -142,10 +158,10 @@ export class ModalCardSelectForm extends Component {
   static propTypes = {
     addNewCard: PropTypes.func.isRequired,
     cards: PropTypes.any,
+    editCard: PropTypes.func.isRequired,
     error: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
     initialValues: PropTypes.any,
-    removeCard: PropTypes.func.isRequired,
     submitFailed: PropTypes.bool,
     submitting: PropTypes.bool,
     t: PropTypes.func.isRequired,
@@ -154,7 +170,7 @@ export class ModalCardSelectForm extends Component {
   };
 
   render () {
-    const { handleSubmit, onSubmit, onClose, error, submitting, cards, addNewCard, removeCard, t } = this.props;
+    const { handleSubmit, onSubmit, onClose, error, submitting, cards, addNewCard, editCard, t } = this.props;
 
     return (
       <Modal
@@ -198,7 +214,7 @@ export class ModalCardSelectForm extends Component {
                         {card.get('name')}
                       </div>
                     </div>
-                    <div style={st.modal.radioEdit} onClick={removeCard.bind(this, card.get('id'))}>{t('basket.remove')}</div>
+                    <div style={st.modal.radioEdit} onClick={editCard.bind(this, card.get('id'))}>{t('basket.edit')}</div>
                   </label>
                 </div>
               )}

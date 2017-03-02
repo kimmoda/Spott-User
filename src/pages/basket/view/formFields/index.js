@@ -11,6 +11,7 @@ const RadiumMaskedInput = Radium(MaskedInput);
 @Radium
 export class CardNumber extends Component {
   static propTypes = {
+    cardType: PropTypes.string,
     input: PropTypes.any.isRequired,
     meta: PropTypes.any.isRequired,
     submitFailed: PropTypes.bool.isRequired
@@ -20,7 +21,7 @@ export class CardNumber extends Component {
     super(props);
     this.inputChange = ::this.inputChange;
     this.state = {
-      cardType: null,
+      cardType: this.props.cardType,
       cardMask: '1111 1111 1111 1111 111'
     };
     this.cardMasks = {

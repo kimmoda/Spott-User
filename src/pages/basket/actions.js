@@ -84,6 +84,7 @@ export const SELECT_SHIPMENT_SUCCESS = 'BASKET/SELECT_SHIPMENT_SUCCESS';
 export const SELECT_SHIPMENT_ERROR = 'BASKET/SELECT_SHIPMENT_ERROR';
 
 export const LOAD_EDIT_ADDRESS_DATA = 'BASKET/LOAD_EDIT_ADDRESS_DATA';
+export const LOAD_EDIT_CARD_DATA = 'BASKET/LOAD_EDIT_CARD_DATA';
 
 export const UPDATE_ADDRESS_START = 'BASKET/UPDATE_ADDRESS_START';
 export const UPDATE_ADDRESS_SUCCESS = 'BASKET/UPDATE_ADDRESS_SUCCESS';
@@ -96,6 +97,10 @@ export const REMOVE_ADDRESS_ERROR = 'BASKET/REMOVE_ADDRESS_ERROR';
 export const REMOVE_CARD_START = 'BASKET/REMOVE_CARD_START';
 export const REMOVE_CARD_SUCCESS = 'BASKET/REMOVE_CARD_SUCCESS';
 export const REMOVE_CARD_ERROR = 'BASKET/REMOVE_CARD_ERROR';
+
+export const UPDATE_CARD_START = 'BASKET/UPDATE_CARD_START';
+export const UPDATE_CARD_SUCCESS = 'BASKET/UPDATE_CARD_SUCCESS';
+export const UPDATE_CARD_ERROR = 'BASKET/UPDATE_CARD_ERROR';
 
 export const LOAD_SPOTT_PRODUCT_START = 'BASKET/LOAD_SPOTT_PRODUCT_START';
 export const LOAD_SPOTT_PRODUCT_SUCCESS = 'BASKET/LOAD_SPOTT_PRODUCT_SUCCESS';
@@ -276,7 +281,19 @@ export function loadEditAddressData (data) {
   };
 }
 
+export function loadEditCardData (data) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: LOAD_EDIT_CARD_DATA, payload: data });
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
 export const updateUserAddress = makeUbApiActionCreator(ubApi.updateAddress, UPDATE_ADDRESS_START, UPDATE_ADDRESS_SUCCESS, UPDATE_ADDRESS_ERROR);
+
+export const updateUserCard = makeUbApiActionCreator(ubApi.updateCard, UPDATE_CARD_START, UPDATE_CARD_SUCCESS, UPDATE_CARD_ERROR);
 
 export const removeUserAddress = makeUbApiActionCreator(ubApi.removeAddress, REMOVE_ADDRESS_START, REMOVE_ADDRESS_SUCCESS, REMOVE_ADDRESS_ERROR);
 

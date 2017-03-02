@@ -341,6 +341,7 @@
     "countryCode": "Country code",
     "weUseUB": "We use UB Checkout to securely place your order at the retailers. By tapping ‘Place Orders’, you agree to the [[UB Terms]].",
     "orderDetails": "Order Details",
-    "houseNumber": "House Number"
+    "houseNumber": "House Number",
+    "editCard": "Edit Card"
   }
 }

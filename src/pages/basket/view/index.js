@@ -8,7 +8,7 @@ import Radium from 'radium';
 import RecentlyAddedToWishlist from '../../home/view/recentlyAddedToWishlist';
 import * as actions from '../actions';
 import * as homeActions from '../../home/actions';
-import { basketSelector, basketEditAddressDataSelector } from '../selectors';
+import { basketSelector, basketEditAddressDataSelector, basketEditCardDataSelector } from '../selectors';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { st } from './styles';
 import { ModalAddressForm, ModalAddressSelectForm } from './addressForms';
@@ -19,11 +19,14 @@ import { LOADED, FETCHING } from '../../../data/statusTypes';
 import { push as routerPush } from 'react-router-redux';
 import { CvvNumber } from './formFields';
 import { validateBasketForm } from '../validateForm';
+import moment from 'moment';
 import './cardsIcons.css';
 
 const iconBasketLarge = require('./iconBasketLarge.svg');
 
 const ModalAddressEditForm = connect(basketEditAddressDataSelector, null)(ModalAddressForm);
+
+const ModalCardEditForm = connect(basketEditCardDataSelector, null)(ModalCardForm);
 
 export const renderField = Radium((props) => {
   return (
@@ -49,6 +52,7 @@ export const renderField = Radium((props) => {
   initUbUser: bindActionCreators(actions.initUbUser, dispatch),
   loadBasketData: bindActionCreators(actions.loadBasketWrapper, dispatch),
   loadEditAddressData: bindActionCreators(actions.loadEditAddressData, dispatch),
+  loadEditCardData: bindActionCreators(actions.loadEditCardData, dispatch),
   loadUbUser: bindActionCreators(actions.loadUbUser, dispatch),
   loadUserAddresses: bindActionCreators(actions.loadUserAddresses, dispatch),
   loadUserCards: bindActionCreators(actions.loadCards, dispatch),
@@ -60,7 +64,8 @@ export const renderField = Radium((props) => {
   routerPush: bindActionCreators(routerPush, dispatch),
   selectAddress: bindActionCreators(actions.selectAddress, dispatch),
   selectCard: bindActionCreators(actions.selectCard, dispatch),
-  updateUserAddress: bindActionCreators(actions.updateUserAddress, dispatch)
+  updateUserAddress: bindActionCreators(actions.updateUserAddress, dispatch),
+  updateUserCard: bindActionCreators(actions.updateUserCard, dispatch)
 }))
 @Radium
 export default class Basket extends Component {
@@ -76,6 +81,7 @@ export default class Basket extends Component {
     isUbAuthenticated: PropTypes.bool.isRequired,
     loadBasketData: PropTypes.func.isRequired,
     loadEditAddressData: PropTypes.func.isRequired,
+    loadEditCardData: PropTypes.func.isRequired,
     loadUbUser: PropTypes.func.isRequired,
     loadUserAddresses: PropTypes.func.isRequired,
     loadUserCards: PropTypes.func.isRequired,
@@ -94,6 +100,7 @@ export default class Basket extends Component {
     t: PropTypes.func.isRequired,
     ubUser: PropTypes.any.isRequired,
     updateUserAddress: PropTypes.func.isRequired,
+    updateUserCard: PropTypes.func.isRequired,
     userAddresses: PropTypes.any.isRequired,
     userCards: PropTypes.any.isRequired,
     userId: PropTypes.string
@@ -112,6 +119,7 @@ export default class Basket extends Component {
     this.onModalDeliveryClose = ::this.onModalDeliveryClose;
     this.onModalAddressClose = ::this.onModalAddressClose;
     this.onModalAddressEditClose = ::this.onModalAddressEditClose;
+    this.onModalCardEditClose = ::this.onModalCardEditClose;
     this.onModalCardClose = ::this.onModalCardClose;
     this.onModalCardSelectClose = ::this.onModalCardSelectClose;
     this.onModalPhoneClose = ::this.onModalPhoneClose;
@@ -120,12 +128,14 @@ export default class Basket extends Component {
     this.onModalCheckoutSuccessClose = ::this.onModalCheckoutSuccessClose;
     this.onAddressSubmit = ::this.onAddressSubmit;
     this.onAddressEditSubmit = ::this.onAddressEditSubmit;
+    this.onCardEditSubmit = ::this.onCardEditSubmit;
     this.onPersonalInfoSubmit = ::this.onPersonalInfoSubmit;
     this.onPinSubmit = ::this.onPinSubmit;
     this.onOrderSubmit = ::this.onOrderSubmit;
     this.onAddNewAddressClick = ::this.onAddNewAddressClick;
     this.onAddressSelectSubmit = ::this.onAddressSelectSubmit;
     this.onAddressEditClick = ::this.onAddressEditClick;
+    this.onCardEditClick = ::this.onCardEditClick;
     this.onAddressRemoveClick = ::this.onAddressRemoveClick;
     this.onCardRemoveClick = ::this.onCardRemoveClick;
     this.onCardSelectSubmit = ::this.onCardSelectSubmit;
@@ -134,12 +144,14 @@ export default class Basket extends Component {
       isModalAddressEditOpen: false,
       isModalAddressSelectOpen: false,
       isModalCardOpen: false,
+      isModalCardEditOpen: false,
       isModalCardSelectOpen: false,
       isModalCheckoutSuccessOpen: false,
       isModalDeliveryOpen: false,
       isModalPhoneOpen: false,
       isModalPinOpen: false,
-      addressEditId: null
+      addressEditId: null,
+      cardEditId: null
     };
   }
 
@@ -193,6 +205,18 @@ export default class Basket extends Component {
     });
   }
 
+  onCardEditClick (cardId) {
+    const selectedCard = this.props.userCards.find((x) => x.get('id') === cardId);
+    const month = moment(selectedCard.get('expiryDate')).format('MM');
+    const year = moment(selectedCard.get('expiryDate')).format('YY');
+    const normalizedCard = selectedCard.set('expiryMonth', month).set('expiryYear', year);
+    this.props.loadEditCardData(normalizedCard);
+    this.setState({
+      isModalCardSelectOpen: false,
+      isModalCardEditOpen: true
+    });
+  }
+
   async onAddressRemoveClick (addressId) {
     const { userAddresses, basketData } = this.props;
     const userAddress = userAddresses.filter((x) => x.get('id') === basketData.get('shippingAddressId')).first();
@@ -231,6 +255,29 @@ export default class Basket extends Component {
       }
       this.setState({ isModalAddressEditOpen: false });
       this.props.loadUserAddresses();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async onCardEditSubmit (values) {
+    try {
+      const data = values.toJS();
+      const normalizeData = {
+        number: String(data.number.trim()),
+        addressId: data.addressId,
+        expiryDate: `${data.expiryMonth}/${data.expiryYear}`,
+        secret: 'secret',
+        cvv: data.cvv,
+        name: data.name,
+        id: data.id
+      };
+      const cardData = await this.props.updateUserCard(normalizeData);
+      if (!this.props.basketData.get('cardId')) {
+        await this.props.selectCard({ cardId: cardData.card.id });
+      }
+      this.setState({ isModalCardEditOpen: false });
+      this.props.loadUserCards();
     } catch (e) {
       throw e;
     }
@@ -280,7 +327,7 @@ export default class Basket extends Component {
       await this.props.selectCard({ cardId: 'null' });
     }
     this.setState({
-      isModalCardSelectOpen: false
+      isModalCardEditOpen: false
     });
     this.props.loadUserCards();
   }
@@ -315,6 +362,11 @@ export default class Basket extends Component {
   onModalAddressEditClose (e) {
     e && e.preventDefault();
     this.setState({ isModalAddressEditOpen: false });
+  }
+
+  onModalCardEditClose (e) {
+    e && e.preventDefault();
+    this.setState({ isModalCardEditOpen: false });
   }
 
   onModalCardClose () {
@@ -587,7 +639,6 @@ export default class Basket extends Component {
                               submitFailed={submitFailed}/>
                           </div>
                         </div>}
-                        {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
                       </div>
                       {userCards.size
                         ? <div style={st.box.itemCheckout.add} onClick={this.onCardSelectClick}>{t('basket.change')}</div>
@@ -604,12 +655,21 @@ export default class Basket extends Component {
                       <ModalCardSelectForm
                         addNewCard={this.onAddNewCardClick}
                         cards={userCards}
+                        editCard={this.onCardEditClick}
                         initialValues={{ cardId: basketData.get('cardId') }}
-                        removeCard={this.onCardRemoveClick}
                         onClose={this.onModalCardSelectClose}
                         onSubmit={this.onCardSelectSubmit}/>}
+                      {this.state.isModalCardEditOpen &&
+                      <ModalCardEditForm
+                        addNewAddress={this.onAddNewAddressClick}
+                        addresses={userAddresses}
+                        isEditForm
+                        removeCard={this.onCardRemoveClick}
+                        onClose={this.onModalCardEditClose}
+                        onSubmit={this.onCardEditSubmit}/>}
                     </div>
                   </div>
+                  {error && typeof error.message === 'string' && <div style={st.modal.error}>{error.message}</div>}
                   <div style={st.checkoutBtnWrapper}>
                     <button disabled={!checkoutEnabled} style={[ st.greenBtn, !checkoutEnabled && st.greenBtn.disabled ]}>
                       {t('basket.placeOrder')}

@@ -9,6 +9,7 @@ export const basketUserCardsSelector = (state) => state.getIn([ 'basket', 'ubUse
 export const _basketEditAddressDataSelector = (state) => state.getIn([ 'basket', 'editAddressData' ]);
 export const basketSpottProductsSelector = (state) => state.getIn([ 'basket', 'spottProducts' ]);
 export const _basketAddressFormSelector = (state) => state.getIn([ 'basket', 'addressForm' ]);
+export const _basketEditCardDataSelector = (state) => state.getIn([ 'basket', 'editCardData' ]);
 
 export const basketSelector = createStructuredSelector({
   isUbAuthenticated: isUbAuthenticatedSelector,
@@ -34,4 +35,8 @@ export const ordersSelector = createStructuredSelector({
 
 export const basketAddressFormSelector = createStructuredSelector({
   addressForm: _basketAddressFormSelector
+});
+
+export const basketEditCardDataSelector = createStructuredSelector({
+  initialValues: _basketEditCardDataSelector
 });

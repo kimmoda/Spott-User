@@ -347,7 +347,8 @@ export const st = {
     },
     error: {
       marginBottom: '20px',
-      color: '#ff0000'
+      color: '#ff0000',
+      maxWidth: '320px'
     },
     formCols: {
       display: 'flex',
@@ -372,7 +373,7 @@ export const st = {
         color: colors.darkPink,
         textDecoration: 'underline',
         cursor: 'pointer',
-        minWidth: '120px',
+        minWidth: '112px',
         marginRight: '5px',
         ...makeTextStyle(fontWeights.regular, '14px')
       }

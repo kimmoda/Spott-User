@@ -341,6 +341,7 @@
     "countryCode": "Landnummer",
     "weUseUB": "De Universal Basket check-out wordt gebruikt om uw bestelling veilig te plaatsen bij de retailers. Wanneer u klikt op 'Bestelling plaatsen', gaat u akkoord met de [[Universal Basket Voorwaarden]].",
     "orderDetails": "Details van bestelling",
-    "houseNumber": "Huisnummer"
+    "houseNumber": "Huisnummer",
+    "editCard": "Kaart aanpassen"
   }
 }

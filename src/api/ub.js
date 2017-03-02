@@ -184,6 +184,15 @@ export async function updateAddress (baseUrl, authenticationToken, data) {
   }
 }
 
+export async function updateCard (baseUrl, authenticationToken, data) {
+  try {
+    const { body } = await requestUb.put(authenticationToken, `${baseUrl}/card/update`, data);
+    return body;
+  } catch (error) {
+    throw new SubmissionError({ _error: error.body.error });
+  }
+}
+
 export async function removeAddress (baseUrl, authenticationToken, data) {
   try {
     const { body } = await requestUb.del(authenticationToken, `${baseUrl}/address/delete`, data);
