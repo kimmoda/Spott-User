@@ -115,6 +115,11 @@ export const LOAD_ORDERS_ERROR = 'BASKET/LOAD_ORDERS_ERROR';
 export const TRACK_UB_ORDER_START = 'BASKET/TRACK_UB_ORDER_START';
 export const TRACK_UB_ORDER_SUCCESS = 'BASKET/TRACK_UB_ORDER_SUCCESS';
 export const TRACK_UB_ORDER_ERROR = 'BASKET/TRACK_UB_ORDER_ERROR';
+
+export const UPDATE_LOCALE_START = 'BASKET/UPDATE_LOCALE_START';
+export const UPDATE_LOCALE_SUCCESS = 'BASKET/UPDATE_LOCALE_SUCCESS';
+export const UPDATE_LOCALE_ERROR = 'BASKET/UPDATE_LOCALE_ERROR';
+
 // Actions creators
 // ////////////////
 
@@ -127,6 +132,8 @@ export const selectProductVariant = makeUbApiActionCreator(ubApi.updateBasketLin
 export const selectShipping = makeUbApiActionCreator(ubApi.updateShipping, SELECT_SHIPMENT_START, SELECT_SHIPMENT_SUCCESS, SELECT_SHIPMENT_ERROR);
 
 export const trackUbOrder = makeApiActionCreator(ubApi.trackUbOrder, TRACK_UB_ORDER_START, TRACK_UB_ORDER_SUCCESS, TRACK_UB_ORDER_ERROR);
+
+export const updateLocale = makeUbApiActionCreator(ubApi.updateLocale, UPDATE_LOCALE_START, UPDATE_LOCALE_SUCCESS, UPDATE_LOCALE_ERROR);
 
 async function loadSpottProductByUbData (dispatch, getState, transactions) {
   try {

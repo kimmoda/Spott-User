@@ -1,7 +1,7 @@
 import cookie from 'react-cookie';
 import * as api from '../../api/configuration';
-import { apiBaseUrlSelector } from './selector';
-import { initUbToken, initBasketData } from '../basket/actions';
+import { apiBaseUrlSelector, currentLocaleSelector } from './selector';
+import { initUbToken, initBasketData, updateLocale as updateUbLocale } from '../basket/actions';
 
 export const CONFIGURE = 'CONFIGURE';
 export function doInit () {
@@ -42,6 +42,7 @@ export function doLogin ({ email, password }) {
     dispatch({ type: LOGIN_REQUEST });
     try {
       const baseUrl = apiBaseUrlSelector(getState());
+      const currentLocale = currentLocaleSelector(getState());
       const data = await api.login(baseUrl, { email, password });
       dispatch({ data, type: LOGIN_SUCCESS });
       if (data.user.id) {
@@ -49,6 +50,7 @@ export function doLogin ({ email, password }) {
         if (ubToken) {
           data.ubAuthenticationToken = ubToken;
         }
+        dispatch(updateUbLocale(currentLocale));
       }
       if (localStorage) {
         localStorage.setItem('session', JSON.stringify(data));
@@ -64,6 +66,7 @@ export function doLogin ({ email, password }) {
 export function doLoginFacebook ({ facebookAccessToken }) {
   return async (dispatch, getState) => {
     const baseUrl = apiBaseUrlSelector(getState());
+    const currentLocale = currentLocaleSelector(getState());
     dispatch({ type: LOGIN_REQUEST });
     try {
       const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
@@ -73,6 +76,7 @@ export function doLoginFacebook ({ facebookAccessToken }) {
         if (ubToken) {
           data.ubAuthenticationToken = ubToken;
         }
+        dispatch(updateUbLocale(currentLocale));
       }
       if (localStorage) {
         localStorage.setItem('session', JSON.stringify(data));
@@ -88,6 +92,7 @@ export function doLoginFacebook ({ facebookAccessToken }) {
 export function doTryLoginFacebook ({ facebookAccessToken }) {
   return async (dispatch, getState) => {
     const baseUrl = apiBaseUrlSelector(getState());
+    const currentLocale = currentLocaleSelector(getState());
     const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
     dispatch({ data, type: LOGIN_SUCCESS });
     if (data.user.id) {
@@ -95,6 +100,7 @@ export function doTryLoginFacebook ({ facebookAccessToken }) {
       if (ubToken) {
         data.ubAuthenticationToken = ubToken;
       }
+      dispatch(updateUbLocale(currentLocale));
     }
     if (localStorage) {
       localStorage.setItem('session', JSON.stringify(data));

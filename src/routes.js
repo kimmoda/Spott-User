@@ -40,7 +40,8 @@ import { characterView, mediumView, productView, sceneView, userView } from './d
 import { changeLocale, downloadPageShowed } from './pages/app/actions';
 import { COMMERCIAL, MOVIE, SERIES } from './data/mediumTypes';
 import { locales } from './locales';
-import { currentLocaleSelector, isDownloadPageShowedSelector } from './pages/app/selector';
+import { currentLocaleSelector, isDownloadPageShowedSelector, isUbAuthenticatedSelector } from './pages/app/selector';
+import { updateLocale as updateUbLocale } from './pages/basket/actions';
 
 /**
  * The application routes
@@ -107,6 +108,10 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
     // When entering a page, the locale is dispatched.
     function onLocaleEnter (state, replace) {
+      const isUbAuthenticated = isUbAuthenticatedSelector(getState());
+      if (isUbAuthenticated) {
+        dispatch(updateUbLocale(locale));
+      }
       dispatch(changeLocale(locale));
     }
 

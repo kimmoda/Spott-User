@@ -237,3 +237,12 @@ export async function trackUbOrder (baseUrl, authenticationToken, locale, { prod
     throw error;
   }
 }
+
+export async function updateLocale (baseUrl, authenticationToken, locale) {
+  try {
+    const { body } = await requestUb.put(authenticationToken, `${baseUrl}/basket/locale`, { locale, countryId: 8 });
+    return body;
+  } catch (error) {
+    throw error;
+  }
+}
