@@ -1,7 +1,10 @@
 import cookie from 'react-cookie';
 import * as api from '../../api/configuration';
 import { apiBaseUrlSelector, currentLocaleSelector } from './selector';
+import { getLocalStorage } from '../../utils';
 import { initUbToken, initBasketData, updateLocale as updateUbLocale } from '../basket/actions';
+
+const storage = getLocalStorage();
 
 export const CONFIGURE = 'CONFIGURE';
 export function doInit () {
@@ -26,11 +29,9 @@ export function acceptCookies () {
 export const DOWNLOAD_PAGE_SHOWED = 'DOWNLOAD_PAGE_SHOWED';
 export function downloadPageShowed () {
   return (dispatch, getState) => {
-    if (localStorage) {
-      const date = new Date();
-      localStorage.setItem('downloadPageShowed', JSON.stringify(date));
-      dispatch({ type: DOWNLOAD_PAGE_SHOWED, downloadPageShowed: date });
-    }
+    const date = new Date();
+    storage.setItem('downloadPageShowed', JSON.stringify(date));
+    dispatch({ type: DOWNLOAD_PAGE_SHOWED, downloadPageShowed: date });
   };
 }
 
@@ -52,9 +53,7 @@ export function doLogin ({ email, password }) {
         }
         dispatch(updateUbLocale(currentLocale));
       }
-      if (localStorage) {
-        localStorage.setItem('session', JSON.stringify(data));
-      }
+      storage.setItem('session', JSON.stringify(data));
       dispatch(initBasketData());
       return data;
     } catch (error) {
@@ -78,9 +77,7 @@ export function doLoginFacebook ({ facebookAccessToken }) {
         }
         dispatch(updateUbLocale(currentLocale));
       }
-      if (localStorage) {
-        localStorage.setItem('session', JSON.stringify(data));
-      }
+      storage.setItem('session', JSON.stringify(data));
       dispatch(initBasketData());
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });
@@ -102,9 +99,7 @@ export function doTryLoginFacebook ({ facebookAccessToken }) {
       }
       dispatch(updateUbLocale(currentLocale));
     }
-    if (localStorage) {
-      localStorage.setItem('session', JSON.stringify(data));
-    }
+    storage.setItem('session', JSON.stringify(data));
     dispatch(initBasketData());
   };
 }
@@ -116,9 +111,7 @@ export function doLogout () {
   return (dispatch) => {
     dispatch({ type: LOGOUT_REQUEST });
     dispatch({ type: LOGOUT_SUCCESS });
-    if (localStorage) {
-      localStorage.removeItem('session');
-    }
+    storage.removeItem('session');
   };
 }
 

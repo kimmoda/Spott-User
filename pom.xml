@@ -1,19 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>appiness.mobi</groupId>
 		<artifactId>appiness.root</artifactId>
-		<version>12</version>
+		<version>11</version>
 	</parent>
 	<artifactId>appiness.spott.website</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	<version>01.01-ub-SNAPSHOT</version>
+	<version>02.00-newfeed-SNAPSHOT</version>
 
 	<scm>
 		<connection>scm:git:https://bitbucket.org/appiness/appiness.spott.website</connection>
-	</scm>
+	  <tag>HEAD</tag>
+  </scm>
 
 	<repositories>
 		<repository>
@@ -35,7 +35,7 @@
 		<npm-version>3.8.6</npm-version>
 
 		<appiness.docker.nginx.version>01.00.01</appiness.docker.nginx.version>
-		<appiness.docker.seoserver.version>00.00.01-SNAPSHOT</appiness.docker.seoserver.version>
+		<appiness.docker.seoserver.version>01.00.00</appiness.docker.seoserver.version>
 	</properties>
 
     <dependencyManagement>

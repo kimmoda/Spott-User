@@ -127,7 +127,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
     return (
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
-        <IndexRoute component={Home} onEnter={goToDownloadPage}/>
+        <IndexRedirect to='fifty-shades/trailer-1'/>
+        <Route component={Home} path='fifty-shades/:trailer' onEnter={goToDownloadPage}/>
 
         <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
         <Route component={Privacy} path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />

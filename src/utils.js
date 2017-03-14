@@ -1,3 +1,51 @@
+
+class LocalStorageAlternative {
+
+  constructor () {
+    this.structureLocalStorage = {};
+  }
+
+  setItem (key, value) {
+    this.structureLocalStorage[key] = value;
+  }
+
+  getItem (key) {
+    if (typeof this.structureLocalStorage[key] !== 'undefined') {
+      return this.structureLocalStorage[key];
+    }
+    return null;
+  }
+
+  removeItem (key) {
+    this.structureLocalStorage[key] = undefined;
+  }
+}
+let storage;
+export function getLocalStorage () {
+  // Check cache first.
+  if (storage) {
+    return storage;
+  }
+  // Check if the browser supports local storage.
+  if (!localStorage) {
+    console.warn('No local storage support. Return alternative.');
+    storage = new LocalStorageAlternative();
+    return storage;
+  }
+  try {
+    // If there is local storage but browser is in private mode,
+    // the next lines will fail.
+    localStorage.setItem('__TEST__', '');
+    localStorage.removeItem('__TEST__');
+    storage = localStorage;
+  } catch (err) {
+    console.warn('No local storage support. Return alternative.');
+    console.warn(err);
+    storage = new LocalStorageAlternative();
+  }
+  return storage;
+}
+
 export function slugify (text) {
   return text.toString().toLowerCase()
     .replace(/\s+/g, '-') // Replace spaces with -
@@ -13,6 +61,11 @@ function pad (number) {
 
 export function formatEpisodeNumber (seasonNumber, episodeNumber) {
   return `S${pad(seasonNumber)}E${pad(episodeNumber)}`;
+}
+
+// Check if Phantomjs is rendering.
+export function isServer () {
+  return navigator.userAgent.toLowerCase().indexOf('phantomjs') > -1;
 }
 
 /**

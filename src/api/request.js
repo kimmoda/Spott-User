@@ -1,4 +1,8 @@
+import { getLocalStorage } from '../utils';
+
 export const apiKey = 'EbQzeWS7VzRTYd8ZhhB5nwwZZGpC6BruJpWQDC3Ynd3TwFCtfe6MJMFNu9';
+
+const storage = getLocalStorage();
 
 // Errors
 // //////
@@ -108,7 +112,7 @@ export const wrappedFetch = async function () {
         // We received 403 Forbidden. We are not authorized. This can be due to an invalid
         // expired authentication token. We do a hard reload of the application, which will
         // redirect us to login. Ugly, but effective!
-        window.localStorage.removeItem('session');
+        storage.removeItem('session');
         return window.location.reload();
       case 404:
         throw new NotFoundError('entity', responseBody);

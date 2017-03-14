@@ -26,6 +26,7 @@ import scene from './pages/scene/reducer';
 import resetPassword from './pages/resetPassword/reducer';
 import home from './pages/home/reducer';
 import basket from './pages/basket/reducer';
+import { getLocalStorage, isServer } from './utils';
 
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
@@ -90,6 +91,14 @@ export function createOurStore (theHistory, reducers, initialState) {
 }
 
 async function boot () {
+  // Make sure theoplayer is accessible.
+  if (!isServer()) {
+    const a = document.createElement('script');
+    const b = document.getElementsByTagName('script')[0];
+    a.src = document.location.protocol + '//cdn.theoplayer.com/latest/f9ae73eb-ac57-42ae-acdb-1ff18be7c597/theoplayer.loader.js';
+    a.type = 'text/javascript';
+    b.parentNode.insertBefore(a, b);
+  }
   // Create redux store
   const initialState = fromJS({});
   const store = createOurStore(browserHistory, rootReducer, initialState);
@@ -105,19 +114,19 @@ async function boot () {
   // Initialize the app.
   await store.dispatch(doInit());
   // Load session from local storage.
-  if (localStorage) {
-    const session = localStorage.getItem('session');
-    if (session) {
-      const sessionData = JSON.parse(session);
-      store.dispatch({ data: sessionData, type: LOGIN_SUCCESS });
-      if (sessionData.ubAuthenticationToken) {
-        store.dispatch(initBasketData());
-      }
+  const storage = getLocalStorage();
+  const session = storage.getItem('session');
+
+  if (session) {
+    const sessionData = JSON.parse(session);
+    store.dispatch({ data: sessionData, type: LOGIN_SUCCESS });
+    if (sessionData.ubAuthenticationToken) {
+      store.dispatch(initBasketData());
     }
-    const isDownloadPageShowed = localStorage.getItem('downloadPageShowed');
-    if (isDownloadPageShowed) {
-      store.dispatch({ downloadPageShowed: JSON.parse(isDownloadPageShowed), type: DOWNLOAD_PAGE_SHOWED });
-    }
+  }
+  const isDownloadPageShowed = storage.getItem('downloadPageShowed');
+  if (isDownloadPageShowed) {
+    store.dispatch({ downloadPageShowed: JSON.parse(isDownloadPageShowed), type: DOWNLOAD_PAGE_SHOWED });
   }
 
   // Render application

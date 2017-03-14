@@ -39,7 +39,7 @@ export default class NewScenesForYou extends Component {
     const { scenes, style, t } = this.props;
 
     if ((scenes.get('_status') === LOADED || scenes.get('_status') === UPDATING) && (scenes.get('data') && scenes.get('data').size === 0)) {
-      return (<div style={styles.empty}/>);
+      return (<div style={styles.empty} />);
     }
 
     return (
