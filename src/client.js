@@ -95,7 +95,7 @@ async function boot () {
   if (!isServer()) {
     const a = document.createElement('script');
     const b = document.getElementsByTagName('script')[0];
-    a.src = document.location.protocol + '//cdn.theoplayer.com/latest/f9ae73eb-ac57-42ae-acdb-1ff18be7c597/theoplayer.loader.js';
+    a.src = `${document.location.protocol}//cdn.theoplayer.com/latest/f9ae73eb-ac57-42ae-acdb-1ff18be7c597/theoplayer.loader.js`;
     a.type = 'text/javascript';
     b.parentNode.insertBefore(a, b);
   }
