@@ -1,0 +1,104 @@
+@import "../vars";
+
+.markers-overlay {
+  @include overlayHoverDark;
+  &:hover {
+    opacity: 1;
+    .markers {
+      display: block;
+    }
+  }
+}
+
+.markers {
+  display: none;
+}
+
+.marker {
+  position: absolute;
+  display: block;
+  top: 40px;
+  left: 100px;
+  width: 16px;
+  height: 16px;
+  box-shadow: $boxShadowSharp;
+  border: solid 2px $colorWhite;
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    .marker-wrapper {
+      display: block;
+    }
+  }
+  &:nth-child(1) {
+    top: 40px;
+    left: 100px;
+  }
+  &:nth-child(2) {
+    top: 70px;
+    left: 50px;
+  }
+  &:nth-child(3) {
+    top: 100px;
+    left: 200px;
+  }
+  &:nth-child(4) {
+    top: 150px;
+    left: 150px;
+  }
+}
+
+.marker-wrapper {
+  display: none;
+  position: absolute;
+  left: 0;
+  padding-left: 27px;
+  top: -26px;
+  z-index: 100;
+  &:hover {
+    display: block;
+  }
+}
+
+.marker-content {
+  display: flex;
+  padding: 8px;
+  background-color: $colorWhite;
+  box-shadow: $boxShadowBlur;
+  box-sizing: border-box;
+  width: 230px;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: $colorWhite;
+    left: 22px;
+    top: 27px;
+    transform: rotate(45deg);
+  }
+}
+
+.marker-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 2px;
+  background-color: $colorGrayLight;
+}
+
+.marker-right {
+  margin-left: 10px;
+}
+
+.marker-title {
+  @include tinyRegular($colorGreen);
+}
+
+.marker-name {
+  @include smallMedium;
+}
+
+.marker-price {
+  @include smallMedium;
+}

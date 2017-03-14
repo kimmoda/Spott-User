@@ -1,0 +1,444 @@
+$colorBlack: #221f26;
+$colorGrayDark: #59575c;
+$colorGray: #a7a6a9;
+$colorGrayLight: #d7d7d7;
+$colorGrayLighter: #efefef;
+$colorGrayWhite: #f9f9f9;
+$colorWhite: #ffffff;
+
+$colorPink: #cf315b;
+$colorPinkDark: #9b2444;
+$colorPinkMid: #b0294d;
+
+$colorGreen: #2ecb70;
+$colorGreenDark: #229853;
+$colorGreenMid: #27ac5f;
+
+$colorOrange: #e64b3b;
+
+$colorYellow: #ffb400;
+
+$boxShadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+$boxShadowBlur: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+$boxShadowBlurer: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
+$boxShadowSharp: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+$boxShadowSharpLite: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+
+$gradientBlack: linear-gradient(to bottom, rgba(34, 31, 38, 0.0), rgba(34, 31, 38, 0.7));
+$gradientWhite: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), #ffffff);
+
+$offsetWidth: 48px;
+$columnWidth: 72px;
+$gutterWidth: 32px;
+$gutterSmallWidth: 16px;
+$maxWidth: 1216px;
+$headerHeight: 80px;
+
+@function gridWidth($n) {
+  @return $n * $columnWidth + ($n - 1) * $gutterWidth;
+}
+
+@function gridSmallWidth($n) {
+  @return $n * $columnWidth + ($n - 1) * $gutterSmallWidth;
+}
+
+@mixin headlineMedium($color: $colorBlack) {
+  font-family: 'Roboto-Medium', Arial, sans-serif;
+  font-size: 22px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: $color;
+}
+
+@mixin headlineLight($color: $colorBlack) {
+  font-family: 'Roboto-Light', Arial, sans-serif;
+  font-size: 22px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: $color;
+}
+
+@mixin titleRegular($color: $colorBlack) {
+  font-family: 'Roboto-Regular', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  color: $color;
+}
+
+@mixin titleMedium($color: $colorBlack) {
+  font-family: 'Roboto-Medium', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  color: $color;
+}
+
+@mixin bodyRegular($color: $colorBlack) {
+  font-family: 'Roboto-Regular', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.2px;
+  color: $color;
+}
+
+@mixin bodyMedium($color: $colorBlack) {
+  font-family: 'Roboto-Medium', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.2px;
+  color: $color;
+}
+
+@mixin smallRegular($color: $colorBlack) {
+  font-family: 'Roboto-Regular', Arial, sans-serif;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.4px;
+  color: $color;
+}
+
+@mixin smallMedium($color: $colorBlack) {
+  font-family: 'Roboto-Medium', Arial, sans-serif;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 0.4px;
+  color: $color;
+}
+
+@mixin tinyRegular($color: $colorBlack) {
+  font-family: 'Roboto-Regular', Arial, sans-serif;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.3px;
+  color: $color;
+}
+
+@mixin tinyMedium($color: $colorBlack) {
+  font-family: 'Roboto-Medium', Arial, sans-serif;
+  font-size: 11px;
+  line-height: 14px;
+  letter-spacing: 0.3px;
+  color: $color;
+}
+
+@mixin btn {
+  box-sizing: border-box;
+  border: solid 1px $colorGrayLight;
+  text-align: center;
+  color: $colorGray;
+  background-color: $colorWhite;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+  &:hover {
+    border: solid 1px $colorGray;
+    color: $colorGrayDark;
+    i {
+      :global {
+        .fill {
+          fill: $colorGrayDark;
+        }
+      }
+    }
+  }
+  &:active {
+    background-color: $colorGrayLighter;
+    border: solid 1px $colorGray;
+    color: $colorGrayDark;
+    i {
+      :global {
+        .fill {
+          fill: $colorGrayDark;
+        }
+      }
+    }
+  }
+  &:disabled {
+    border: solid 1px $colorGrayLight;
+    color: $colorGray;
+    opacity: 0.5;
+    i {
+      :global {
+        .fill {
+          fill: $colorGrayLight;
+        }
+      }
+    }
+  }
+  i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+  }
+}
+
+@mixin btnPink {
+  color: $colorWhite;
+  background-color: $colorPink;
+  border: solid 1px $colorPink;
+  &:hover {
+    color: $colorWhite;
+    background-color: $colorPinkMid;
+    border: solid 1px $colorPinkMid;
+  }
+  &:active {
+    color: $colorWhite;
+    background-color: $colorPinkDark;
+    border: solid 1px $colorPinkDark;
+  }
+  &:disabled {
+    color: $colorWhite;
+    background-color: $colorGray;
+    border: solid 1px $colorGray;
+    opacity: 0.5;
+  }
+}
+
+@mixin btnGreen {
+  color: $colorWhite;
+  background-color: $colorGreen;
+  border: solid 1px $colorGreen;
+  &:hover {
+    color: $colorWhite;
+    background-color: $colorGreenMid;
+    border: solid 1px $colorGreenMid;
+  }
+  &:active {
+    color: $colorWhite;
+    background-color: $colorGreenDark;
+    border: solid 1px $colorGreenDark;
+  }
+  &:disabled {
+    color: $colorWhite;
+    background-color: $colorGray;
+    border: solid 1px $colorGray;
+    opacity: 0.5;
+  }
+}
+
+@mixin btnGray {
+  color: $colorWhite;
+  background-color: $colorGray;
+  border: solid 1px $colorGray;
+  &:hover {
+    color: $colorWhite;
+    background-color: $colorGrayDark;
+    border: solid 1px $colorGrayDark;
+  }
+  &:active {
+    color: $colorWhite;
+    background-color: $colorBlack;
+    border: solid 1px $colorBlack;
+  }
+  &:disabled {
+    color: $colorWhite;
+    background-color: $colorGray;
+    border: solid 1px $colorGray;
+    opacity: 0.5;
+  }
+}
+
+@mixin btnWhite {
+  color: $colorGrayDark;
+  background-color: $colorWhite;
+  border: solid 1px $colorWhite;
+  &:hover {
+    color: $colorGrayDark;
+    background-color: $colorGrayLighter;
+    border: solid 1px $colorGrayLighter;
+  }
+  &:active {
+    color: $colorGrayDark;
+    background-color: $colorGrayLight;
+    border: solid 1px $colorGrayLight;
+  }
+  &:disabled {
+    color: $colorGrayDark;
+    background-color: $colorGray;
+    border: solid 1px $colorGray;
+    opacity: 0.5;
+  }
+}
+
+@mixin btnBig {
+  @include btn;
+  font-family: 'Roboto-Medium', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 48px;
+  letter-spacing: 0.3px;
+  padding: 0 33.5px;
+  border-radius: 3px;
+  height: 48px;
+  min-height: 48px;
+}
+
+@mixin btnBigRound {
+  @include btn;
+  font-family: 'Roboto-Bold', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 48px;
+  letter-spacing: 0.3px;
+  border-radius: 50%;
+  height: 48px;
+  min-height: 48px;
+  width: 48px;
+  min-width: 48px;
+}
+
+@mixin btnMedium($icon: false) {
+  @include btn;
+  font-family: 'Roboto-Medium', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 32px;
+  letter-spacing: 0.2px;
+  padding: 0 22.5px;
+  border-radius: 3px;
+  height: 32px;
+  min-height: 32px;
+  @if $icon {
+    padding: 0 18px 0 9px;
+    i {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+    }
+  }
+}
+
+@mixin btnMediumRound($icon: false) {
+  @include btn;
+  font-family: 'Roboto-Bold', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 32px;
+  letter-spacing: 0.2px;
+  border-radius: 50%;
+  height: 32px;
+  min-height: 32px;
+  width: 32px;
+  min-width: 32px;
+  @if $icon {
+    i {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+@mixin btnSmall($icon: false) {
+  @include btn;
+  font-family: 'Roboto-Medium', Arial, sans-serif;
+  font-size: 11px;
+  line-height: 26px;
+  letter-spacing: 0.3px;
+  padding: 0 20px;
+  border-radius: 3px;
+  height: 26px;
+  min-height: 26px;
+  @if $icon {
+    padding: 0 13px 0 7px;
+    i {
+      width: 18px;
+      height: 18px;
+      margin-right: 3px;
+    }
+  }
+}
+
+@mixin btnSmallRound($icon: false) {
+  @include btn;
+  font-family: 'Roboto-Bold', Arial, sans-serif;
+  font-size: 11px;
+  line-height: 26px;
+  letter-spacing: 0.3px;
+  border-radius: 50%;
+  height: 26px;
+  min-height: 26px;
+  width: 26px;
+  min-width: 26px;
+  @if $icon {
+    i {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+@mixin link($borderColor: $colorPink, $hoverTextColor: $colorBlack, $hoverBorderColor: $colorPink, $activeTextColor: $colorBlack) {
+  position: relative;
+  text-decoration: none;
+  &:hover {
+    color: $hoverTextColor;
+    &::after {
+      border-bottom: 2px solid $hoverBorderColor;
+    }
+  }
+  &:active {
+    color: $activeTextColor;
+    &::after {
+      border-bottom: none;
+    }
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    height: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid $borderColor;
+    margin-top: 5px;
+  }
+}
+
+@mixin overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  &::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    background-image: $gradientBlack;
+  }
+  &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background-image: $gradientWhite;
+  }
+}
+
+@mixin overlayHoverDark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background-image: $gradientBlack;
+  backface-visibility: hidden;
+}

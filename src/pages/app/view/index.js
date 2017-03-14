@@ -140,6 +140,7 @@ export default class App extends Component {
     const standalone = routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
     const floating = routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
     const noSignInButtonInHeader = routes.reduce((acc, curr) => typeof curr.noSignInButtonInHeader === 'undefined' ? acc : curr.noSignInButtonInHeader, false);
+    const newDesign = routes.reduce((acc, curr) => typeof curr.newDesign === 'undefined' ? acc : curr.newDesign, false);
     if (location.state && location.state.modal && this.previousChildren) {
       // Render containing page (previousChildren) and modal (children)
       return (
@@ -152,6 +153,9 @@ export default class App extends Component {
           {!standalone && <Footer style={styles.footer} />}
         </div>
       );
+    }
+    if (newDesign) {
+      return children;
     }
     // Standard route, nothing special here.
     return (

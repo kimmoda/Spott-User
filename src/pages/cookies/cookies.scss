@@ -1,86 +1,88 @@
-.cookies {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  padding: 20px 0 5px;
-
-  @media (max-width: 768px) {
-    padding: 35px 0 15px;
-  }
-
-  h1 {
-    margin-bottom: 15px;
+:global {
+  .cookies {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 20px 0 5px;
 
     @media (max-width: 768px) {
-      margin-bottom: 25px;
-    }
-  }
-
-  a {
-    color: #cf315b;
-  }
-
-  p {
-    margin-bottom: 15px;
-  }
-
-  ul {
-    padding-left: .6em;
-    margin-bottom: 35px;
-
-    @media (max-width: 768px) {
-      padding-left: 1.2em;
+      padding: 35px 0 15px;
     }
 
-    li {
-      counter-reset: none !important;
-      counter-increment: none !important;
-      margin-bottom: 5px !important;
+    h1 {
+      margin-bottom: 15px;
 
-      &:before {
-        content: "" !important;
+      @media (max-width: 768px) {
+        margin-bottom: 25px;
       }
     }
 
-    &.list__stripes {
+    a {
+      color: #cf315b;
+    }
+
+    p {
+      margin-bottom: 15px;
+    }
+
+    ul {
+      padding-left: .6em;
+      margin-bottom: 35px;
+
+      @media (max-width: 768px) {
+        padding-left: 1.2em;
+      }
+
       li {
-        margin-bottom: 15px !important;
+        counter-reset: none !important;
+        counter-increment: none !important;
+        margin-bottom: 5px !important;
 
         &:before {
-          content: "-" !important;
+          content: "" !important;
+        }
+      }
+
+      &.list__stripes {
+        li {
+          margin-bottom: 15px !important;
+
+          &:before {
+            content: "-" !important;
+          }
         }
       }
     }
-  }
 
-  ol {
-    list-style-type: none;
-    counter-reset: heading;
-    counter-reset: item;
-    margin: 0;
-    padding: 0;
-
-    li {
-      display: table;
-      counter-increment: heading;
+    ol {
+      list-style-type: none;
+      counter-reset: heading;
+      counter-reset: item;
       margin: 0;
-      margin-bottom: 15px;
-      word-wrap: break-word;
+      padding: 0;
 
-      &:before {
-        content: counters(heading, ".") ". ";
-        display: table-cell;
-        padding-right: .6em;
+      li {
+        display: table;
+        counter-increment: heading;
+        margin: 0;
+        margin-bottom: 15px;
+        word-wrap: break-word;
 
-        @media (max-width: 768px) {
-          padding-right: 1.2em;
+        &:before {
+          content: counters(heading, ".") ". ";
+          display: table-cell;
+          padding-right: .6em;
+
+          @media (max-width: 768px) {
+            padding-right: 1.2em;
+          }
+        }
+
+        &.list__heading {
+          font-weight: bold;
+          font-size: 21px;
         }
       }
 
-      &.list__heading {
-        font-weight: bold;
-        font-size: 21px;
-      }
     }
-
   }
 }

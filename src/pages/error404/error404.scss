@@ -1,38 +1,41 @@
-.error404 {
-  padding-top: 5px;
-  padding-bottom: 5px;
+:global {
+  .error404 {
+    padding-top: 5px;
+    padding-bottom: 5px;
 
-  @media (min-width: 768px) {
-    padding-top: 81px;
-    padding-bottom: 81px;
-  }
-
-  .error404__textwrapper {
-    text-align: center;
-    margin: 50px auto;
-
-    @media (min-width: 960px) {
-      max-width: 40%;
+    @media (min-width: 768px) {
+      padding-top: 81px;
+      padding-bottom: 81px;
     }
 
-    h1 {
-      margin-bottom: 35px;
-      font-size: 48px;
-    }
-    p {
-      margin-bottom: 10px;
+    .error404__textwrapper {
+      text-align: center;
+      margin: 50px auto;
 
-      &:last-of-type {
-        margin-bottom: 0;
+      @media (min-width: 960px) {
+        max-width: 40%;
       }
-    }
-    a {
-      color: #cf315b;
-      text-decoration: underline;;
-    }
 
-    .error404__badge {
-      margin-top: 25px;
+      h1 {
+        margin-bottom: 35px;
+        font-size: 48px;
+      }
+      p {
+        margin-bottom: 10px;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+      a {
+        color: #cf315b;
+        text-decoration: underline;;
+      }
+
+      .error404__badge {
+        margin-top: 25px;
+      }
     }
   }
 }
+
