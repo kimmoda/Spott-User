@@ -22,7 +22,7 @@ const configuration = {
       { loader: 'style!css', test: /\.css$/ },
       { loader: 'json', test: /\.json/ },
       { loader: 'raw', test: /\.html/ },
-      { loader: 'style!raw!sass', test: /\.scss/ },
+      { loader: 'style!css?modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]!resolve-url-loader!sass?sourceMap', test: /\.scss/ },
       { loader: 'file?name=[name]-[md5:hash].[ext]', test: /\.gif$|\.jpg$|\.jpeg$|\.png|\.eot$|\.svg$|\.ttf|\.otf$|\.woff$|\.woff2$|\.pdf$/ }
     ]
   },
