@@ -18,7 +18,7 @@ import Profile from './pages/profile/view';
 import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
 import ProfileWishlists from './pages/profile/view/wishlists';
 import ProfileSavedScenes from './pages/profile/view/savedScenes';
-import Redirect from './pages/redirect';
+import RedirectPage from './pages/redirect';
 import Scene from './pages/scene/view';
 import SceneProduct from './pages/scene/view/productDetail';
 import Medium from './pages/medium/view';
@@ -121,7 +121,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <IndexRedirect to='fifty-shades/trailer-1'/>
         <Route component={Home} path='fifty-shades/:trailer' onEnter={goToDownloadPage}/>
 
-        <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
+        <Route component={RedirectPage} noSignInButtonInHeader path='app' showCookies={false} />
         <Route component={Privacy} path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
         <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
         <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
@@ -224,6 +224,10 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
   return (
     <Route component={App} path='/' onEnter={onRootEnter}>
+      {/* Hardcoded short url for Xite */}
+      <Route path='xite'>
+        <IndexRedirect to='/nl/series/xite/38d6531a-9741-45cd-a1b7-dd1ddf641e08/overview' />
+      </Route>
       <IndexRedirect to={`/${getBrowserLanguage()}`} />
       {locales.map((locale) => makeLocalizedRoutes(locale))}
 
