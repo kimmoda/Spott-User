@@ -25,8 +25,10 @@ export default class NewHome extends Component {
     super(props);
     this.onSearchFocus = ::this.onSearchFocus;
     this.onSearchBlur = ::this.onSearchBlur;
+    this.onSearchChange = ::this.onSearchChange;
     this.state = {
-      isSearchActive: false
+      isSearchActive: false,
+      searchValue: ''
     };
   }
 
@@ -35,7 +37,14 @@ export default class NewHome extends Component {
   }
 
   onSearchBlur () {
-    this.setState({ isSearchActive: false });
+    if (!this.state.searchValue) {
+      this.setState({ isSearchActive: false });
+    }
+  }
+
+  onSearchChange (e) {
+    e.preventDefault();
+    this.setState({ searchValue: e.target.value });
   }
 
   render () {
@@ -54,7 +63,10 @@ export default class NewHome extends Component {
                 <input
                   placeholder='Search for inspiration'
                   styleName='search-input' type='text'
-                  onBlur={this.onSearchBlur} onFocus={this.onSearchFocus}/>
+                  value={this.state.searchValue}
+                  onBlur={this.onSearchBlur}
+                  onChange={this.onSearchChange}
+                  onFocus={this.onSearchFocus}/>
               </div>
             </div>
             <Link styleName='sign-in' to={`/${currentLocale}`}>

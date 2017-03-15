@@ -1,5 +1,10 @@
 @import "../vars";
 
+// pass variables to react component
+:export {
+  cssTileWidth: gridSmallWidth(2) + $gutterSmallWidth;
+}
+
 .topic {
   position: relative;
   display: block;

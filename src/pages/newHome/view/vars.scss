@@ -25,7 +25,11 @@ $boxShadowSharp: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
 $boxShadowSharpLite: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 
 $gradientBlack: linear-gradient(to bottom, rgba(34, 31, 38, 0.0), rgba(34, 31, 38, 0.7));
+$gradientBlackRight: linear-gradient(to right, rgba(34, 31, 38, 0.0), rgba(34, 31, 38, 0.7));
+$gradientBlackLeft: linear-gradient(to left, rgba(34, 31, 38, 0.0), rgba(34, 31, 38, 0.7));
 $gradientWhite: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), #ffffff);
+$gradientWhiteRight: linear-gradient(to right, rgba(249, 249, 249, 0.0), $colorGrayWhite);
+$gradientWhiteLeft: linear-gradient(to left, rgba(249, 249, 249, 0.0), $colorGrayWhite);
 
 $offsetWidth: 48px;
 $columnWidth: 72px;
