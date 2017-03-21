@@ -118,7 +118,11 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
     return (
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
-        <IndexRedirect to='fifty-shades/trailer-1'/>
+        <IndexRoute component={Home} onEnter={goToDownloadPage}/>
+        {/*
+          Fifty shades promo is over.
+          <IndexRedirect to='fifty-shades/trailer-1'/>
+        */}
         <Route component={Home} path='fifty-shades/:trailer' onEnter={goToDownloadPage}/>
 
         <Route component={RedirectPage} noSignInButtonInHeader path='app' showCookies={false} />
