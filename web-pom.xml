@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>appiness.mobi</groupId>
 		<artifactId>appiness.spott.website</artifactId>
-		<version>01.00.38-SNAPSHOT</version>
+		<version>01.00.38</version>
 		<relativePath>./pom.xml</relativePath>
 	</parent>
 	<artifactId>appiness.spott.website.web</artifactId>
