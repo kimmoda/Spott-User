@@ -1,0 +1,58 @@
+@import "../vars";
+
+.sidebars {
+  position: relative;
+  width: gridSmallWidth(5);
+  box-shadow: $boxShadowBlurer;
+  overflow: hidden;
+  transition: all 0.3s ease-in;
+}
+
+.sidebars-active {
+  box-shadow: $boxShadowBlurer;
+  transform: translateX(0);
+}
+
+.sidebars-inactive {
+  box-shadow: none;
+  transform: translateX(100%);
+}
+
+.sidebar-enter {
+  transform: translateX(100%);
+  &:before {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  &.sidebar-enter-active {
+    transition: transform 0.3s ease-in;
+    transform: translateX(0);
+    &:before {
+      opacity: 1;
+    }
+  }
+}
+
+.sidebar-leave {
+  transform: translateX(0);
+  &:before {
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+  &.sidebar-leave-active {
+    transition: transform 0.3s ease-in;
+    transform: translateX(100%);
+    &:before {
+      opacity: 0;
+    }
+  }
+}
+
+.sidebar-appear {
+  transform: translateX(100%);
+  &.sidebar-appear-active {
+    transition: transform 0.3s ease-in;
+    transform: translateX(0);
+  }
+}
+

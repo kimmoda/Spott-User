@@ -1,0 +1,195 @@
+@import "../vars";
+
+.sidebar {
+  width: gridSmallWidth(5);
+  background-color: $colorWhite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 300;
+  transition: all 0.5s ease;
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    transform: translate3d(-100%, 0, 0);
+  }
+  &:first-child {
+    &:before {
+      display: none;
+    }
+  }
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  position: relative;
+}
+
+.sidebar-title {
+  @include titleMedium;
+  display: flex;
+  align-items: center;
+  &:before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: $colorGreen;
+    border-radius: 50%;
+    margin-right: 7px;
+  }
+}
+
+.sidebar-close {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  right: 21px;
+  transition: transform 0.5s ease;
+  i {
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.sidebar-image {
+  width: 424px;
+  height: 424px;
+}
+
+.sidebar-photos {
+  padding: 20px 24px 8px 24px;
+  box-sizing: border-box;
+  display: flex;
+  overflow: hidden;
+}
+
+.sidebar-photo {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 4px;
+  background-color: $colorGrayLight;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  backface-visibility: hidden;
+  margin-right: 8px;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.sidebar-panel {
+  padding: 24px;
+  box-sizing: border-box;
+  border-bottom: 1px solid $colorGrayLight;
+}
+
+.sidebar-brand {
+  @include link;
+  @include bodyRegular;
+  display: inline-block;
+}
+
+.sidebar-title2 {
+  @include titleMedium;
+  margin-top: 7px;
+}
+
+.sidebar-cost {
+  @include bodyMedium;
+  margin-top: 5px;
+}
+
+.sidebar-options {
+  margin: 35px 0 0 0;
+}
+
+.sidebar-select {
+  @include bodyRegular;
+  width: 100%;
+  height: 32px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  border-radius: 3px;
+  background-color: $colorWhite;
+  border: solid 1px $colorGrayLight;
+}
+
+.sidebar-add {
+  @include btnBig;
+  @include btnGreen;
+  width: 100%;
+}
+
+.sidebar-footer {
+  padding: 24px;
+  box-sizing: border-box;
+  border-bottom: 1px solid $colorGrayLight;
+  display: flex;
+}
+
+.sidebar-stars {
+  @include btnMedium($icon: true);
+}
+
+.sidebar-users {
+  margin-left: 16px;
+  display: flex;
+}
+
+.sidebar-user {
+  @include userBig;
+}
+
+.sidebar-moar {
+  @include btnMediumRound(true);
+  margin-left: auto;
+}
+
+.sidebar-panel-title {
+  @include titleMedium;
+  margin-bottom: 14px;
+}
+
+.sidebar-description {
+  @include bodyRegular($colorGrayDark);
+}
+
+.sidebar-seens {
+  box-sizing: border-box;
+  display: flex;
+  overflow: hidden;
+}
+
+.sidebar-seen {
+  @include product;
+}
+
+.sidebar-similars {
+  box-sizing: border-box;
+  display: flex;
+  overflow: hidden;
+}
+
+.sidebar-similar {
+  @include product;
+}

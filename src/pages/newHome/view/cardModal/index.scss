@@ -13,13 +13,57 @@
 
 .modal-content {
   position: absolute;
-  top: 60px;
+  top: 0;
   overflow: visible;
+  width: 100%;
+}
+
+.modal-close {
+  cursor: pointer;
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  transition: transform 0.5s ease;
+  i {
+    :global {
+      .fill {
+        fill: $colorBlack;
+      }
+    }
+    svg {
+      width: 21px;
+      height: 21px;
+    }
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.wrapper {
   display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.main {
+  display: flex;
+  flex-grow: 1;
   flex-wrap: wrap;
   flex-flow: column;
   align-items: center;
-  width: 100%;
+  margin-top: 60px;
+  transition: transform 0.5s ease;
+}
+
+.main-sidebar-active {
+  transform: translateX(0);
+}
+
+.main-sidebar-inactive {
+  transform: translateX(212px);
 }
 
 .card {
@@ -52,31 +96,7 @@
 }
 
 .product {
-  width: 80px;
-  height: 80px;
-  min-width: 80px;
-  min-height: 80px;
-  border-radius: 4px;
-  background-color: $colorGrayLight;
-  position: relative;
-  cursor: pointer;
-  margin-right: 8px;
-  transition: transform 0.2s ease;
-  backface-visibility: hidden;
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 8px;
-    bottom: 8px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: $colorGreen;
-  }
-  &:hover {
-    transform: scale(1.02);
-  }
+  @include product;
 }
 
 .content {
@@ -124,22 +144,7 @@
 }
 
 .user {
-  width: 32px;
-  height: 32px;
-  border: solid 2px $colorWhite;
-  border-radius: 50%;
-  background-color: $colorGray;
-  position: relative;
-  margin-left: -16px;
-  display: block;
-  transition: transform 0.3s ease;
-  &:first-child {
-    margin-left: 0;
-  }
-  &:hover {
-    z-index: 100!important;
-    transform: scale(1.1);
-  }
+  @include userBig;
 }
 
 .moar {

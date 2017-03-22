@@ -66,6 +66,7 @@
   background-color: $colorWhite;
   box-shadow: $boxShadowBlur;
   box-sizing: border-box;
+  border-radius: 4px;
   width: 230px;
   &:after {
     content: '';
