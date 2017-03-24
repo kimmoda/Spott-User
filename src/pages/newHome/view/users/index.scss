@@ -13,7 +13,7 @@
   background-color: $colorGray;
   background-size: cover;
   position: relative;
-  margin-left: -13px;
+  margin-left: -10px;
   display: block;
   transition: transform 0.3s ease;
   &:first-child {
@@ -32,7 +32,7 @@
   border-radius: 50%;
   background-color: $colorGray;
   position: relative;
-  margin-left: -16px;
+  margin-left: -12px;
   display: block;
   transition: transform 0.3s ease;
   &:first-child {
@@ -42,4 +42,14 @@
     z-index: 100!important;
     transform: scale(1.1);
   }
+}
+
+.users-moar {
+  @include btnSmallRound(true);
+  margin-left: 3px;
+}
+
+.users-moar-large {
+  @include btnMediumRound(true);
+  margin-left: 3px;
 }

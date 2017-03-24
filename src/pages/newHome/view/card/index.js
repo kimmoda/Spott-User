@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
-import { IconHeart, IconDots } from '../icons';
+import { IconHeart, IconForward } from '../icons';
 import CardModal from '../cardModal';
 import CardMarkers from '../cardMarkers';
 import Users from '../users/index';
@@ -101,7 +101,7 @@ export default class Card extends Component {
             <Users/>
           </div>
           <Link styleName='moar' to='#'>
-            <i><IconDots/></i>
+            <i><IconForward/></i>
           </Link>
         </div>
       </div>

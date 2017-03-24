@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
+import { IconDots } from '../icons';
 
 const styles = require('./index.scss');
 
@@ -47,6 +48,9 @@ export default class Users extends Component {
             }}
             styleName={large ? 'user-large' : 'user'} to='#'/>
         )}
+        <Link styleName={large ? 'users-moar-large' : 'users-moar'} to='#'>
+          <i><IconDots/></i>
+        </Link>
       </div>
     );
   }

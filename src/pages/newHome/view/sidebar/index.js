@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
-import { IconDots, IconStar, IconClose } from '../icons';
+import { IconForward, IconStar, IconClose } from '../icons';
 import Users from '../users/index';
 
 const styles = require('./index.scss');
@@ -62,7 +62,7 @@ export default class Sidebar extends Component {
             <Users large />
           </div>
           <Link styleName='sidebar-moar' to='#'>
-            <i><IconDots/></i>
+            <i><IconForward/></i>
           </Link>
         </div>
         <div styleName='sidebar-panel'>

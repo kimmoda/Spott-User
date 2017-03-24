@@ -8,12 +8,12 @@
   background-color: $colorWhite;
   box-shadow: $boxShadowBlurer;
   border-radius: 4px;
-  transition: transform 0.2s ease;
+  transition: box-shadow 0.4s ease;
   backface-visibility: hidden;
   transform: translateZ(0) scale(1.0, 1.0);
   position: relative;
   &:hover {
-    transform: scale(1.03);
+    box-shadow: $boxShadowBlurest;
   }
   @for $i from 1 through 100 {
     &:nth-child(#{$i}) {

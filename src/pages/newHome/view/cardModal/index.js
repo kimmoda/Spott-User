@@ -5,7 +5,7 @@ import CSSModules from 'react-css-modules';
 import ReactModal from 'react-modal';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
-import { IconHeart, IconDots, IconClose } from '../icons';
+import { IconHeart, IconForward, IconClose } from '../icons';
 import CardMarkers from '../cardMarkers';
 import Card from '../card';
 import Topics from '../topics';
@@ -119,7 +119,7 @@ export default class CardModal extends Component {
                   <Users large />
                 </div>
                 <Link styleName='moar' to='#'>
-                  <i><IconDots/></i>
+                  <i><IconForward/></i>
                 </Link>
               </div>
             </div>
