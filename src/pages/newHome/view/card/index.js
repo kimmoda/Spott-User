@@ -6,6 +6,7 @@ import localized from '../../../_common/localized';
 import { IconHeart, IconDots } from '../icons';
 import CardModal from '../cardModal';
 import CardMarkers from '../cardMarkers';
+import Users from '../users/index';
 
 const styles = require('./index.scss');
 
@@ -97,12 +98,7 @@ export default class Card extends Component {
             <span>24</span>
           </Link>
           <div styleName='users'>
-            {new Array(5).fill(1).map((item, index) =>
-              <Link
-                key={`user_${index}`}
-                style={{ zIndex: 5 - index, backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})` }}
-                styleName='user' to='#'/>
-            )}
+            <Users/>
           </div>
           <Link styleName='moar' to='#'>
             <i><IconDots/></i>

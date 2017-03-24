@@ -63,7 +63,7 @@
 }
 
 .main-sidebar-inactive {
-  transform: translateX(212px);
+  transform: translateX(gridSmallWidth(5) / 2);
 }
 
 .card {
@@ -141,10 +141,6 @@
   margin-left: 16px;
   display: flex;
   position: relative;
-}
-
-.user {
-  @include userBig;
 }
 
 .moar {

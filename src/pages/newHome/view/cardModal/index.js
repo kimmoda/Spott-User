@@ -10,6 +10,7 @@ import CardMarkers from '../cardMarkers';
 import Card from '../card';
 import Topics from '../topics';
 import Sidebars from '../sidebars/index';
+import Users from '../users/index';
 
 const styles = require('./index.scss');
 
@@ -115,12 +116,7 @@ export default class CardModal extends Component {
                   <span>24</span>
                 </Link>
                 <div styleName='users'>
-                  {new Array(5).fill(1).map((item, index) =>
-                    <Link
-                      key={`user_${index}`}
-                      style={{ zIndex: 5 - index, backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})` }}
-                      styleName='user' to='#'/>
-                  )}
+                  <Users large />
                 </div>
                 <Link styleName='moar' to='#'>
                   <i><IconDots/></i>

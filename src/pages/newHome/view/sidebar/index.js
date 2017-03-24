@@ -4,6 +4,7 @@ import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
 import { IconDots, IconStar, IconClose } from '../icons';
+import Users from '../users/index';
 
 const styles = require('./index.scss');
 
@@ -16,24 +17,6 @@ export default class Sidebar extends Component {
     onBackClick: PropTypes.func.isRequired,
     onProductClick: PropTypes.func.isRequired
   };
-
-  constructor (props) {
-    super(props);
-
-    this.users = [
-      'http://lorempixel.com/26/26/people/1',
-      'http://lorempixel.com/26/26/abstract/1',
-      'http://lorempixel.com/26/26/abstract/2',
-      'http://lorempixel.com/26/26/abstract/3',
-      'http://lorempixel.com/26/26/abstract/4',
-      'http://lorempixel.com/26/26/abstract/5',
-      'http://lorempixel.com/26/26/abstract/6',
-      'http://lorempixel.com/26/26/abstract/7',
-      'http://lorempixel.com/26/26/abstract/8',
-      'http://lorempixel.com/26/26/abstract/9',
-      'http://lorempixel.com/26/26/abstract/10'
-    ];
-  }
 
   render () {
     const { product, onBackClick, onProductClick } = this.props;
@@ -76,15 +59,7 @@ export default class Sidebar extends Component {
             <span>28</span>
           </Link>
           <div styleName='sidebar-users'>
-            {new Array(5).fill(1).map((item, index) =>
-              <Link
-                key={`sidebar-user_${index}`}
-                style={{
-                  zIndex: 5 - index,
-                  backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})`
-                }}
-                styleName='sidebar-user' to='#'/>
-            )}
+            <Users large />
           </div>
           <Link styleName='sidebar-moar' to='#'>
             <i><IconDots/></i>

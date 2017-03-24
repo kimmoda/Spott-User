@@ -1,0 +1,45 @@
+@import "../vars";
+
+.users {
+  display: flex;
+  position: relative;
+}
+
+.user {
+  width: 26px;
+  height: 26px;
+  border: solid 2px $colorWhite;
+  border-radius: 50%;
+  background-color: $colorGray;
+  background-size: cover;
+  position: relative;
+  margin-left: -13px;
+  display: block;
+  transition: transform 0.3s ease;
+  &:first-child {
+    margin-left: 0;
+  }
+  &:hover {
+    z-index: 100!important;
+    transform: scale(1.1);
+  }
+}
+
+.user-large {
+  width: 32px;
+  height: 32px;
+  border: solid 2px $colorWhite;
+  border-radius: 50%;
+  background-color: $colorGray;
+  position: relative;
+  margin-left: -16px;
+  display: block;
+  transition: transform 0.3s ease;
+  &:first-child {
+    margin-left: 0;
+  }
+  &:hover {
+    z-index: 100!important;
+    transform: scale(1.1);
+  }
+}
