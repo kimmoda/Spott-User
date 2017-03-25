@@ -12,10 +12,13 @@
 }
 
 .modal-content {
-  overflow: visible;
+  overflow: hidden;
+  will-change: overflow;
   display: flex;
   width: 100%;
   position: relative;
+  backface-visibility: hidden;
+  height: 100vh;
 }
 
 .modal-close {
@@ -53,21 +56,47 @@
 
 .main {
   display: flex;
-  flex-grow: 1;
   flex-wrap: wrap;
   flex-flow: column;
   align-items: center;
-  margin-top: 60px;
-  transition: transform 0.5s ease;
+  padding-top: 60px;
+  transition: transform 0.5s 0.2s ease;
   position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: auto;
+  width: 100%;
+  will-change: transform;
 }
 
 .main-sidebar-active {
-  transform: translateX(0);
+  transform: translateX(-#{gridSmallWidth(5)});
 }
 
 .main-sidebar-inactive {
+  transform: translateX(0);
+  transition: transform 0.4s ease;
+}
+
+.main-sidebar-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column;
+  align-items: center;
+  transition: transform 0.5s 0.2s ease;
+  height: auto;
+  width: 100%;
+  position: relative;
+  will-change: transform;
+}
+
+.main-sidebar-wrapper-active {
   transform: translateX(gridSmallWidth(5) / 2);
+}
+
+.main-sidebar-wrapper-inactive {
+  transform: translateX(0);
+  transition: transform 0.4s ease;
 }
 
 .card {
