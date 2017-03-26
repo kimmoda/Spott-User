@@ -9,15 +9,20 @@ const styles = require('./index.scss');
 @CSSModules(styles, { allowMultiple: true })
 export default class CardMarkers extends Component {
   static propTypes = {
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    onImageClick: PropTypes.func,
+    onMarkerClick: PropTypes.func
   };
 
   render () {
+    const { onImageClick, onMarkerClick } = this.props;
+
     return (
-    <div styleName='markers-overlay'>
+    <div styleName='markers-wrapper'>
+      <div styleName='markers-overlay' onClick={onImageClick}/>
       <div styleName='markers'>
         {new Array(5).fill(1).map((item, index) =>
-          <div key={`marker_${index}`} styleName='marker'>
+          <div key={`marker_${index}`} styleName='marker' onClick={onMarkerClick}>
             <div styleName='marker-wrapper'>
               <div styleName='marker-content'>
                 <div styleName='marker-image'/>

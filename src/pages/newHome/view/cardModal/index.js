@@ -20,6 +20,7 @@ const styles = require('./index.scss');
 export default class CardModal extends Component {
   static propTypes = {
     image: PropTypes.string.isRequired,
+    isSidebarOpen: PropTypes.bool,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
   };
@@ -32,7 +33,7 @@ export default class CardModal extends Component {
 
     this.state = {
       sidebarItemIndex: 1,
-      sidebarItem: null
+      sidebarItem: props.isSidebarOpen ? 'Windsor Three Piece Suit 0' : null
     };
 
     this.users = [
@@ -54,6 +55,7 @@ export default class CardModal extends Component {
     this._originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
   }
+
   componentWillUnmount () {
     document.body.style.overflow = this._originalOverflow;
   }

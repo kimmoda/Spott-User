@@ -22,9 +22,11 @@ export default class Card extends Component {
   constructor (props) {
     super(props);
     this.onCardClick = ::this.onCardClick;
+    this.onCardMarkerClick = ::this.onCardMarkerClick;
     this.onCardModalClose = ::this.onCardModalClose;
     this.state = {
-      isCardModalOpen: false
+      isCardModalOpen: false,
+      isCardModalSidebar: false
     };
     this.images = [
       'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/b86c71a8-aa71-41e6-a613-41b41287266f?height=280&width=249',
@@ -61,17 +63,27 @@ export default class Card extends Component {
     this.setState({ isCardModalOpen: true });
   }
 
+  onCardMarkerClick () {
+    this.setState({
+      isCardModalOpen: true,
+      isCardModalSidebarOpen: true
+    });
+  }
+
   onCardModalClose () {
-    this.setState({ isCardModalOpen: false });
+    this.setState({
+      isCardModalOpen: false,
+      isCardModalSidebarOpen: false
+    });
   }
 
   render () {
     return (
       <div styleName='card'>
-        {this.state.isCardModalOpen && <CardModal image={this.cardImage} onClose={this.onCardModalClose}/>}
+        {this.state.isCardModalOpen && <CardModal image={this.cardImage} isSidebarOpen={this.state.isCardModalSidebarOpen} onClose={this.onCardModalClose}/>}
         <div styleName='image' onClick={this.onCardClick}>
           <img src={this.cardImage}/>
-          <CardMarkers/>
+          <CardMarkers onImageClick={this.onCardClick} onMarkerClick={this.onCardMarkerClick} />
           <Link
             style={{ backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})` }}
             styleName='person' to='#'/>

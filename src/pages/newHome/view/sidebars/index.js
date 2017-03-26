@@ -22,7 +22,7 @@ export default class Sidebars extends Component {
     this.onBackClick = ::this.onBackClick;
     this.onProductClick = ::this.onProductClick;
     this.state = {
-      sidebarsList: this.props.item ? [ this.props.item.item ] : []
+      sidebarsList: this.props.item ? [ this.props.item ] : []
     };
   }
 
