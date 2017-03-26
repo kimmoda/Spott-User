@@ -30,11 +30,11 @@ export default class Sidebar extends Component {
           </div>
         </div>
         <div styleName='sidebar-image'>
-          <img src='http://lorempixel.com/424/424/abstract/3'/>
+          <img src='https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/c61222a6-70d2-4d64-b81f-f5e30a9cab19?height=424&width=424'/>
         </div>
         <div styleName='sidebar-photos'>
           {new Array(7).fill(1).map((item, index) =>
-            <div key={`sidebar_phoro_${index}`} style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }} styleName='sidebar-photo'/>
+            <div key={`sidebar_photo_${index}`} style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }} styleName='sidebar-photo'/>
           )}
         </div>
         <div styleName='sidebar-panel'>

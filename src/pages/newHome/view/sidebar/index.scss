@@ -6,7 +6,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
   z-index: 300;
   transition: all 0.5s ease;
   &:before {
@@ -69,8 +68,8 @@
 }
 
 .sidebar-image {
-  width: 424px;
-  height: 424px;
+  width: gridSmallWidth(5);
+  overflow: hidden;
 }
 
 .sidebar-photos {

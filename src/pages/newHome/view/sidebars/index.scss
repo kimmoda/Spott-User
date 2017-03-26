@@ -11,6 +11,7 @@
   top: 0;
   transition: all 0.3s ease-in;
   will-change: transform;
+  z-index: 100;
 }
 
 .sidebars-active {

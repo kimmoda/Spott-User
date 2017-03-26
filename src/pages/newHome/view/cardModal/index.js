@@ -11,6 +11,7 @@ import Card from '../card';
 import Topics from '../topics';
 import Sidebars from '../sidebars/index';
 import Users from '../users/index';
+import ImageLoader from '../imageLoader/index';
 
 const styles = require('./index.scss');
 
@@ -18,6 +19,7 @@ const styles = require('./index.scss');
 @CSSModules(styles, { allowMultiple: true })
 export default class CardModal extends Component {
   static propTypes = {
+    image: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
   };
@@ -76,7 +78,7 @@ export default class CardModal extends Component {
   }
 
   render () {
-    const { onClose } = this.props;
+    const { image, onClose } = this.props;
 
     return (
       <ReactModal
@@ -95,7 +97,7 @@ export default class CardModal extends Component {
             <div styleName='modal-close-layer' onClick={onClose}/>
             <div styleName='card'>
               <div styleName='image'>
-                <img src='http://lorempixel.com/592/830/abstract/7'/>
+                <ImageLoader srcOriginal={image} srcThumb={image}/>
                 <CardMarkers/>
               </div>
               <div styleName='products'>
