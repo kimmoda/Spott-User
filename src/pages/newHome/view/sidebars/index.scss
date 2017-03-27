@@ -57,7 +57,7 @@
 .sidebar-appear {
   transform: translateX(100%);
   &.sidebar-appear-active {
-    transition: transform 0.3s ease-in;
+    transition: none;
     transform: translateX(0);
   }
 }
