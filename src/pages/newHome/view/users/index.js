@@ -37,20 +37,27 @@ export default class Users extends Component {
 
   render () {
     const { large } = this.props;
+    const rndNum = (Math.floor((Math.random() * 20) + 2));
+    const num = rndNum <= 6 ? rndNum : 6;
+    const largeNum = rndNum <= 18 ? rndNum : 18;
+
     return (
-      <div styleName='users'>
-        {new Array(5).fill(1).map((item, index) =>
-          <Link
-            key={`user_${index}`}
-            style={{
-              zIndex: 5 - index,
-              backgroundImage: `url(${this.images[Math.floor(Math.random() * this.images.length)]})`
-            }}
-            styleName={large ? 'user-large' : 'user'} to='#'/>
-        )}
-        <Link styleName={large ? 'users-moar-large' : 'users-moar'} to='#'>
+      <div styleName={large ? 'users-large' : 'users'}>
+        <div styleName='users-wrapper'>
+          {new Array(large ? largeNum : num).fill(1).map((item, index) =>
+            <Link
+              key={`user_${index}`}
+              style={{
+                zIndex: 100 - index,
+                backgroundImage: `url(${this.images[Math.floor(Math.random() * this.images.length)]})`
+              }}
+              styleName='user' to='#'/>
+          )}
+        </div>
+        {((rndNum >= 6 && !large) || (rndNum >= 18 && large)) &&
+        <Link styleName='users-moar' to='#'>
           <i><IconDots/></i>
-        </Link>
+        </Link>}
       </div>
     );
   }

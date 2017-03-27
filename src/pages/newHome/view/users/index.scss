@@ -3,53 +3,70 @@
 .users {
   display: flex;
   position: relative;
+  .user {
+    width: 26px;
+    min-width: 26px;
+    height: 26px;
+    min-height: 26px;
+    border: solid 2px $colorWhite;
+    border-radius: 50%;
+    background-color: $colorGray;
+    background-size: cover;
+    position: relative;
+    margin-left: -10px;
+    display: block;
+    transition: transform 0.3s ease;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:hover {
+      z-index: 100!important;
+      transform: scale(1.1);
+    }
+  }
+  .users-moar {
+    @include btnSmallRound(true);
+    margin-left: 3px;
+  }
+  .users-wrapper {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    max-width: 130px;
+  }
 }
 
-.user {
-  width: 26px;
-  height: 26px;
-  border: solid 2px $colorWhite;
-  border-radius: 50%;
-  background-color: $colorGray;
-  background-size: cover;
+.users-large {
+  display: flex;
   position: relative;
-  margin-left: -10px;
-  display: block;
-  transition: transform 0.3s ease;
-  &:first-child {
-    margin-left: 0;
+  .user {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    min-height: 32px;
+    border: solid 2px $colorWhite;
+    border-radius: 50%;
+    background-color: $colorGray;
+    position: relative;
+    margin-left: -12px;
+    display: block;
+    transition: transform 0.3s ease;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:hover {
+      z-index: 100!important;
+      transform: scale(1.1);
+    }
   }
-  &:hover {
-    z-index: 100!important;
-    transform: scale(1.1);
+  .users-moar {
+    @include btnMediumRound(true);
+    margin-left: 3px;
   }
-}
-
-.user-large {
-  width: 32px;
-  height: 32px;
-  border: solid 2px $colorWhite;
-  border-radius: 50%;
-  background-color: $colorGray;
-  position: relative;
-  margin-left: -12px;
-  display: block;
-  transition: transform 0.3s ease;
-  &:first-child {
-    margin-left: 0;
+  .users-wrapper {
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    max-width: 372px;
   }
-  &:hover {
-    z-index: 100!important;
-    transform: scale(1.1);
-  }
-}
-
-.users-moar {
-  @include btnSmallRound(true);
-  margin-left: 3px;
-}
-
-.users-moar-large {
-  @include btnMediumRound(true);
-  margin-left: 3px;
 }
