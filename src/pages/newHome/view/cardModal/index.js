@@ -27,6 +27,7 @@ export default class CardModal extends Component {
 
   constructor (props) {
     super(props);
+    this.onCloseHandler = ::this.onCloseHandler;
     this.onProductClick = ::this.onProductClick;
     this.onSidebarClose = ::this.onSidebarClose;
     this.onWrapperClick = ::this.onWrapperClick;
@@ -60,6 +61,16 @@ export default class CardModal extends Component {
     document.body.style.overflow = this._originalOverflow;
   }
 
+  onCloseHandler () {
+    if (this.state.sidebarItem) {
+      this.setState({
+        sidebarItem: null
+      });
+    } else {
+      this.props.onClose();
+    }
+  }
+
   onProductClick () {
     this.setState({
       sidebarItemIndex: this.state.sidebarItemIndex + 1,
@@ -80,23 +91,23 @@ export default class CardModal extends Component {
   }
 
   render () {
-    const { image, onClose } = this.props;
+    const { image } = this.props;
 
     return (
       <ReactModal
         className={styles['modal-content']}
         isOpen
         overlayClassName={styles['modal-overlay']}
-        onRequestClose={onClose}>
-        <div styleName='modal-close-layer' onClick={onClose}/>
-        <div styleName='modal-close' onClick={onClose}>
+        onRequestClose={this.onCloseHandler}>
+        <div styleName='modal-close' onClick={this.onCloseHandler}>
           <i><IconClose/></i>
         </div>
         <div className={this.state.sidebarItem ? styles['main-sidebar-active'] : styles['main-sidebar-inactive']}
              styleName='main'>
+          <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
           <div className={this.state.sidebarItem ? styles['main-sidebar-wrapper-active'] : styles['main-sidebar-wrapper-inactive']}
                styleName='main-sidebar-wrapper'>
-            <div styleName='modal-close-layer' onClick={onClose}/>
+            <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
             <div styleName='card'>
               <div styleName='image'>
                 <ImageLoader srcOriginal={image} srcThumb={image}/>

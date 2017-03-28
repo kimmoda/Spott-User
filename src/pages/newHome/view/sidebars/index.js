@@ -53,7 +53,7 @@ export default class Sidebars extends Component {
       <div className={this.state.sidebarsList.length ? styles['sidebars-active'] : styles['sidebars-inactive']} styleName='sidebars'>
         <ReactCSSTransitionGroup
           transitionAppear
-          transitionAppearTimeout={300}
+          transitionAppearTimeout={400}
           transitionEnterTimeout={400}
           transitionLeaveTimeout={500}
           transitionName={{
@@ -61,7 +61,7 @@ export default class Sidebars extends Component {
             appearActive: styles['sidebar-appear-active'],
             enter: styles['sidebar-enter'],
             enterActive: styles['sidebar-enter-active'],
-            leave: styles['sidebar-leave'],
+            leave: this.state.sidebarsList.length ? styles['sidebar-leave'] : styles['sidebar-leave-all'],
             leaveActive: styles['sidebar-leave-active']
           }}>
           {this.state.sidebarsList.map((product, index) =>

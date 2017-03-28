@@ -53,13 +53,11 @@
   z-index: 0;
   display: block;
   background-color: transparent;
+  top: 0;
+  left: 0;
 }
 
 .main {
-  display: flex;
-  flex-wrap: wrap;
-  flex-flow: column;
-  align-items: center;
   padding-top: 60px;
   transition: transform 0.5s 0.2s ease;
   position: relative;
@@ -113,10 +111,14 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  img {
-    display: block;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  overflow: hidden;
+  div {
+    img {
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
   }
 }
 

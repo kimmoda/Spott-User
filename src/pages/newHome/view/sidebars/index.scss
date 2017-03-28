@@ -54,6 +54,23 @@
   }
 }
 
+.sidebar-leave-all {
+  transform: translateX(0);
+  &:before {
+    display: none;
+    opacity: 0;
+    transition: none;
+  }
+  &.sidebar-leave-active {
+    transition: transform 0.3s ease-in;
+    transform: translateX(100%);
+    &:before {
+      display: none;
+      opacity: 0;
+    }
+  }
+}
+
 .sidebar-appear {
   transform: translateX(100%);
   &.sidebar-appear-active {
