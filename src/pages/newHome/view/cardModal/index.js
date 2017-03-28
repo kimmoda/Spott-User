@@ -131,7 +131,7 @@ export default class CardModal extends Component {
                   <span>24</span>
                 </Link>
                 <div styleName='users'>
-                  <Users large/>
+                  <Users large maxNum={16}/>
                 </div>
                 <Link styleName='moar' to='#'>
                   <i><IconForward/></i>

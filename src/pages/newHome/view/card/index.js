@@ -112,7 +112,7 @@ export default class Card extends Component {
             <span>24</span>
           </Link>
           <div styleName='users'>
-            <Users/>
+            <Users maxNum={5}/>
           </div>
           <Link styleName='moar' to='#'>
             <i><IconForward/></i>

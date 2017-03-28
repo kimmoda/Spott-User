@@ -3,6 +3,7 @@
 .users {
   display: flex;
   position: relative;
+  align-items: center;
   .user {
     width: 26px;
     min-width: 26px;
@@ -15,30 +16,24 @@
     position: relative;
     margin-left: -10px;
     display: block;
-    transition: transform 0.3s ease;
+    box-sizing: content-box;
     &:first-child {
       margin-left: 0;
     }
     &:hover {
       z-index: 100!important;
-      transform: scale(1.1);
     }
   }
   .users-moar {
     @include btnSmallRound(true);
     margin-left: 3px;
   }
-  .users-wrapper {
-    display: flex;
-    position: relative;
-    overflow: hidden;
-    max-width: 130px;
-  }
 }
 
 .users-large {
   display: flex;
   position: relative;
+  align-items: center;
   .user {
     width: 32px;
     min-width: 32px;
@@ -50,23 +45,22 @@
     position: relative;
     margin-left: -12px;
     display: block;
-    transition: transform 0.3s ease;
+    box-sizing: content-box;
     &:first-child {
       margin-left: 0;
     }
     &:hover {
       z-index: 100!important;
-      transform: scale(1.1);
     }
   }
   .users-moar {
     @include btnMediumRound(true);
     margin-left: 3px;
   }
-  .users-wrapper {
-    display: flex;
-    position: relative;
-    overflow: hidden;
-    max-width: 372px;
-  }
+}
+
+.users-wrapper {
+  display: flex;
+  position: relative;
+  align-items: center;
 }

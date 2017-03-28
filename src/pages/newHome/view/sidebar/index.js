@@ -59,7 +59,7 @@ export default class Sidebar extends Component {
             <span>28</span>
           </Link>
           <div styleName='sidebar-users'>
-            <Users large />
+            <Users large maxNum={8} />
           </div>
           <Link styleName='sidebar-moar' to='#'>
             <i><IconForward/></i>
