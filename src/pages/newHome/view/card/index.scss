@@ -6,14 +6,14 @@
   display: inline-block;
   margin: 0 0 $gutterWidth 0;
   background-color: $colorWhite;
-  box-shadow: $boxShadowBlurer;
+  box-shadow: $boxShadowBlurInit;
   border-radius: 4px;
   transition: box-shadow 0.4s ease;
   backface-visibility: hidden;
   transform: translateZ(0) scale(1.0, 1.0);
   position: relative;
   &:hover {
-    box-shadow: $boxShadowBlurest;
+    box-shadow: $boxShadowBlurHover;
   }
   @for $i from 1 through 100 {
     &:nth-child(#{$i}) {
