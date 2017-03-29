@@ -89,6 +89,7 @@ export default class Card extends Component {
             styleName='person' to='#'/>
         </div>
         <div styleName='content'>
+          <div styleName='click-overlay' onClick={this.onCardClick}/>
           <div styleName='reason'>
             Because you subscribed to Chicago Med
           </div>
@@ -107,6 +108,7 @@ export default class Card extends Component {
           </div>
         </div>
         <div styleName='footer'>
+          <div styleName='click-overlay' onClick={this.onCardClick}/>
           <Link styleName='likes' to='#'>
             <i><IconHeart/></i>
             <span>24</span>

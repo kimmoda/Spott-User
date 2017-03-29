@@ -19,6 +19,7 @@
 
 .markers-overlay {
   @include overlayHoverDark;
+  cursor: zoom-in;
 }
 
 .markers {
