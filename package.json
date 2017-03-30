@@ -73,6 +73,7 @@
     "react-autosuggest": "^7.0.1",
     "react-cookie": "^0.4.8",
     "react-css-modules": "^4.1.0",
+    "react-custom-scrollbars": "^4.0.2",
     "react-dom": "15.1.0",
     "react-helmet": "3.1.0",
     "react-immutable-proptypes": "2.1.0",

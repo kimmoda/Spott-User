@@ -1,0 +1,12 @@
+@import "../vars";
+
+.scroll-vertical {
+  z-index: 1000;
+  position: absolute;
+  width: 6px;
+  right: 2px;
+  bottom: 2px;
+  top: 2px;
+  border-radius: 3px;
+  transition: opacity 0.3s ease;
+}

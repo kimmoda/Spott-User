@@ -4,6 +4,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import CSSModules from 'react-css-modules';
 import localized from '../../../_common/localized';
 import Sidebar from '../sidebar/index';
+import CustomScrollbars from '../customScrollbars';
 
 const styles = require('./index.scss');
 
@@ -50,7 +51,8 @@ export default class Sidebars extends Component {
 
   render () {
     return (
-      <div className={this.state.sidebarsList.length ? styles['sidebars-active'] : styles['sidebars-inactive']} styleName='sidebars'>
+    <div className={this.state.sidebarsList.length ? styles['sidebars-active'] : styles['sidebars-inactive']} styleName='sidebars'>
+      <CustomScrollbars>
         <ReactCSSTransitionGroup
           transitionAppear
           transitionAppearTimeout={400}
@@ -72,7 +74,8 @@ export default class Sidebars extends Component {
               onProductClick={this.onProductClick}/>
           )}
         </ReactCSSTransitionGroup>
-      </div>
+      </CustomScrollbars>
+    </div>
     );
   }
 }
