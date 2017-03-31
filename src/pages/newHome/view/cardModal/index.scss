@@ -69,7 +69,7 @@
 }
 
 .main-sidebar-active {
-  transform: translateX(-#{gridSmallWidth(5)});
+  transform: translateX(0);
 }
 
 .main-sidebar-inactive {
@@ -90,7 +90,7 @@
 }
 
 .main-sidebar-wrapper-active {
-  transform: translateX(gridSmallWidth(5) / 2);
+  transform: translateX(-#{gridSmallWidth(5) / 2});
 }
 
 .main-sidebar-wrapper-inactive {
