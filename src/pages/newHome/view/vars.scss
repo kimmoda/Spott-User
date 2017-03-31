@@ -425,7 +425,6 @@ $headerHeight: 80px;
   left: 0;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
   &::before {
     content: '';
     display: block;

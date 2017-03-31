@@ -14,6 +14,7 @@
   border-radius: 4px;
   box-sizing: border-box;
   margin-right: $gutterSmallWidth;
+  overflow: hidden;
   &:hover {
     .topic-title {
       color: $colorBlack;
@@ -54,6 +55,7 @@
 .topic-overlay {
   @include overlay;
   border-radius: 4px;
+  overflow: hidden;
 }
 
 .topic-title {
