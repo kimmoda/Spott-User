@@ -112,6 +112,9 @@ export default class CardModal extends Component {
               <div styleName='image'>
                 <ImageLoader srcOriginal={image} srcThumb={image}/>
                 <CardMarkers/>
+                <Link
+                  style={{ backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})` }}
+                  styleName='person' to='#'/>
               </div>
               <div styleName='products'>
                 {new Array(7).fill(1).map((item, index) =>

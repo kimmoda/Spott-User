@@ -1,0 +1,48 @@
+@import "../vars";
+
+.tiles-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+@mixin topicsArrow {
+  position: absolute;
+  cursor: pointer;
+  width: 80px;
+  height: 90px;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+.topics-left {
+  @include topicsArrow;
+  left: 0;
+  background-image: $gradientWhiteLeft;
+  justify-content: flex-start;
+  .topics-btn {
+    margin-left: $gutterSmallWidth;
+    transform: rotate(180deg);
+  }
+}
+
+.topics-btn {
+  @include btnSmallRound(true);
+}
+
+.topics-right {
+  @include topicsArrow;
+  right: 0;
+  background-image: $gradientWhiteRight;
+  justify-content: flex-end;
+  .topics-btn {
+    margin-right: $gutterSmallWidth;
+  }
+}
+
+.tiles-list {
+  position: relative;
+  display: flex;
+  transition: transform 0.3s ease;
+}

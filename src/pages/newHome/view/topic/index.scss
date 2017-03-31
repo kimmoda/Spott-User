@@ -56,6 +56,13 @@
   @include overlay;
   border-radius: 4px;
   overflow: hidden;
+  backface-visibility: hidden;
+  &:before {
+    border-radius: 4px;
+  }
+  &:after {
+    border-radius: 4px;
+  }
 }
 
 .topic-title {

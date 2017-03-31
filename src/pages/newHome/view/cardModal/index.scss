@@ -121,6 +121,27 @@
       overflow: hidden;
     }
   }
+  &:hover {
+    .person {
+      display: block;
+    }
+  }
+}
+
+.person {
+  z-index: 100;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  left: 16px;
+  bottom: 16px;
+  border-radius: 2px;
+  transition: transform 0.3s ease;
+  display: none;
+  box-shadow: $boxShadow;
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .products {
