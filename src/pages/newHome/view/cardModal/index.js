@@ -9,9 +9,10 @@ import { IconHeart, IconForward, IconClose } from '../icons';
 import CardMarkers from '../cardMarkers';
 import Card from '../card';
 import Topics from '../topics';
-import Sidebars from '../sidebars/index';
-import Users from '../users/index';
-import ImageLoader from '../imageLoader/index';
+import Sidebars from '../sidebars';
+import Users from '../users';
+import ImageLoader from '../imageLoader';
+import Tiles from '../tiles';
 
 const styles = require('./index.scss');
 
@@ -50,6 +51,8 @@ export default class CardModal extends Component {
       'http://lorempixel.com/26/26/abstract/9',
       'http://lorempixel.com/26/26/abstract/10'
     ];
+
+    this.productTileWidth = parseInt(styles.cssProductTileWidth, 10);
   }
 
   componentDidMount () {
@@ -117,12 +120,14 @@ export default class CardModal extends Component {
                   styleName='person' to='#'/>
               </div>
               <div styleName='products'>
-                {new Array(7).fill(1).map((item, index) =>
-                  <div key={`product_${index}`}
-                       style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}
-                       styleName='product'
-                       onClick={this.onProductClick}/>
-                )}
+                <Tiles tileWidth={this.productTileWidth} tilesCount={10}>
+                  {new Array(10).fill(1).map((item, index) =>
+                    <div key={`product_${index}`}
+                         style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}
+                         styleName='product'
+                         onClick={this.onProductClick}/>
+                  )}
+                </Tiles>
               </div>
               <div styleName='content'>
                 <h3 styleName='title'>Erin Lindsay in Chicago Med</h3>

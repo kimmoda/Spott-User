@@ -4,7 +4,8 @@ import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
 import { IconForward, IconStar, IconClose } from '../icons';
-import Users from '../users/index';
+import Users from '../users';
+import Tiles from '../tiles';
 
 const styles = require('./index.scss');
 
@@ -17,6 +18,11 @@ export default class Sidebar extends Component {
     onBackClick: PropTypes.func.isRequired,
     onProductClick: PropTypes.func.isRequired
   };
+
+  constructor (props) {
+    super(props);
+    this.tileWidth = parseInt(styles.cssTileWidth, 10);
+  }
 
   render () {
     const { product, onBackClick, onProductClick } = this.props;
@@ -75,25 +81,29 @@ export default class Sidebar extends Component {
         <div styleName='sidebar-panel'>
           <div styleName='sidebar-panel-title'>Also seen in</div>
           <div styleName='sidebar-seens'>
-            {new Array(7).fill(1).map((item, index) =>
-              <div
-                key={`seen_${index}`}
-                style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}
-                styleName='sidebar-seen'
-                onClick={onProductClick.bind(this, `Seen ${index}`)}/>
-            )}
+            <Tiles tileWidth={this.tileWidth} tilesCount={10}>
+              {new Array(10).fill(1).map((item, index) =>
+                <div
+                  key={`seen_${index}`}
+                  style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}
+                  styleName='sidebar-seen'
+                  onClick={onProductClick.bind(this, `Seen ${index}`)}/>
+              )}
+            </Tiles>
           </div>
         </div>
         <div styleName='sidebar-panel'>
           <div styleName='sidebar-panel-title'>Similar Items</div>
           <div styleName='sidebar-similars'>
-            {new Array(7).fill(1).map((item, index) =>
-              <div
-                key={`product_${index}`}
-                style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}
-                styleName='sidebar-similar'
-                onClick={onProductClick.bind(this, `Product ${index}`)}/>
-            )}
+            <Tiles tileWidth={this.tileWidth} tilesCount={10}>
+              {new Array(10).fill(1).map((item, index) =>
+                <div
+                  key={`product_${index}`}
+                  style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}
+                  styleName='sidebar-similar'
+                  onClick={onProductClick.bind(this, `Product ${index}`)}/>
+              )}
+            </Tiles>
           </div>
         </div>
       </div>

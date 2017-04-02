@@ -1,5 +1,10 @@
 @import "../vars";
 
+// pass variables to react component
+:export {
+  cssTileWidth: gridSmallWidth(1) + $gutterSmallWidth;
+}
+
 .sidebar {
   width: gridSmallWidth(5);
   background-color: $colorWhite;

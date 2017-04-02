@@ -5,38 +5,50 @@
   overflow: hidden;
 }
 
-@mixin topicsArrow {
+@mixin tilesArrow {
   position: absolute;
   cursor: pointer;
-  width: 80px;
-  height: 90px;
+  height: 100%;
   top: 0;
   z-index: 100;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 
-.topics-left {
-  @include topicsArrow;
+.tiles-btn-active {
+  transition: opacity 0.3s ease, width 0s ease;
+  opacity: 1;
+  width: 80px;
+}
+
+.tiles-btn-inactive {
+  transition: opacity 0.3s ease, width 0s 0.3s ease;
+  opacity: 0;
+  width: 0;
+}
+
+.tiles-btn-left {
+  @include tilesArrow;
   left: 0;
   background-image: $gradientWhiteLeft;
   justify-content: flex-start;
-  .topics-btn {
+  .tiles-btn {
     margin-left: $gutterSmallWidth;
     transform: rotate(180deg);
   }
 }
 
-.topics-btn {
+.tiles-btn {
   @include btnSmallRound(true);
 }
 
-.topics-right {
-  @include topicsArrow;
+.tiles-btn-right {
+  @include tilesArrow;
   right: 0;
   background-image: $gradientWhiteRight;
   justify-content: flex-end;
-  .topics-btn {
+  .tiles-btn {
     margin-right: $gutterSmallWidth;
   }
 }

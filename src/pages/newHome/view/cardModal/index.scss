@@ -1,5 +1,10 @@
 @import "../vars";
 
+// pass variables to react component
+:export {
+  cssProductTileWidth: gridSmallWidth(1) + $gutterSmallWidth;
+}
+
 .modal-overlay {
   background-color: rgba(249, 249, 249, 0.95);
   z-index: 1000;

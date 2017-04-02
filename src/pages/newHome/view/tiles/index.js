@@ -2,7 +2,6 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import localized from '../../../_common/localized';
-import Topic from '../topic';
 import { IconArrow3 } from '../icons';
 
 const styles = require('./index.scss');
@@ -12,9 +11,11 @@ const styles = require('./index.scss');
 export default class Tiles extends Component {
 
   static propTypes = {
+    children: PropTypes.array.isRequired,
     currentLocale: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
-    tileWidth: PropTypes.string.isRequired
+    tileWidth: PropTypes.number.isRequired,
+    tilesCount: PropTypes.number.isRequired
   };
 
   constructor (props) {
@@ -23,19 +24,17 @@ export default class Tiles extends Component {
     this.onMoveRight = ::this.onMoveRight;
     this.state = {
       tileIndex: 0,
-      tilesCount: 10,
       tilesStyle: {
         transform: 'translateX(0px)'
       }
     };
-    this.tileWidth = parseInt(this.props.tileWidth, 10);
   }
 
   onMoveLeft () {
     if (this.state.tileIndex > 0) {
       this.setState({
         tilesStyle: {
-          transform: `translateX(-${this.tileWidth * (this.state.tileIndex - 1)}px)`
+          transform: `translateX(-${this.props.tileWidth * (this.state.tileIndex - 1)}px)`
         },
         tileIndex: this.state.tileIndex - 1
       });
@@ -43,10 +42,10 @@ export default class Tiles extends Component {
   }
 
   onMoveRight () {
-    if (Math.round(this.tilesContainer.clientWidth / this.tileWidth) + this.state.tileIndex < this.state.tilesCount) {
+    if (Math.round(this.tilesContainer.clientWidth / this.props.tileWidth) + this.state.tileIndex < this.props.tilesCount) {
       this.setState({
         tilesStyle: {
-          transform: `translateX(-${this.tileWidth * (this.state.tileIndex + 1)}px)`
+          transform: `translateX(-${this.props.tileWidth * (this.state.tileIndex + 1)}px)`
         },
         tileIndex: this.state.tileIndex + 1
       });
@@ -54,20 +53,23 @@ export default class Tiles extends Component {
   }
 
   render () {
+    const { tilesCount, tileWidth, children } = this.props;
+    const { tilesStyle, tileIndex } = this.state;
+    const clientWidth = this.tilesContainer ? this.tilesContainer.clientWidth : 0;
+    const tilesEnd = Math.round(clientWidth / tileWidth) + tileIndex;
+
     return (
       <div ref={(ref) => { this.tilesContainer = ref; }} styleName='tiles-wrapper'>
-        <div styleName='topics-left' onClick={this.onMoveLeft}>
-          <div styleName='topics-btn'>
+        <div className={tileIndex ? styles['tiles-btn-active'] : styles['tiles-btn-inactive']} styleName='tiles-btn-left' onClick={this.onMoveLeft}>
+          <div styleName='tiles-btn'>
             <i><IconArrow3/></i>
           </div>
         </div>
-        <div style={this.state.tilesStyle} styleName='tiles-list'>
-          {new Array(10).fill(1).map((item, index) =>
-            <Topic key={`topic_${index}`} ref={(ref) => { this.tileRef = ref; }}/>
-          )}
+        <div style={tilesStyle} styleName='tiles-list'>
+          {children}
         </div>
-        <div styleName='topics-right' onClick={this.onMoveRight}>
-          <div styleName='topics-btn'>
+        <div className={tilesEnd >= tilesCount ? styles['tiles-btn-inactive'] : styles['tiles-btn-active']} styleName='tiles-btn-right' onClick={this.onMoveRight}>
+          <div styleName='tiles-btn'>
             <i><IconArrow3/></i>
           </div>
         </div>

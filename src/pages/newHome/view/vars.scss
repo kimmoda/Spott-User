@@ -485,15 +485,16 @@ $headerHeight: 80px;
 }
 
 @mixin product {
-  width: 80px;
-  height: 80px;
-  min-width: 80px;
-  min-height: 80px;
+  $size: gridSmallWidth(1) + $gutterSmallWidth / 2;
+  width: $size;
+  height: $size;
+  min-width: $size;
+  min-height: $size;
   border-radius: 4px;
   background-color: $colorGrayLight;
   position: relative;
   cursor: pointer;
-  margin-right: 8px;
+  margin-right: $gutterSmallWidth / 2;
   transition: transform 0.2s ease;
   backface-visibility: hidden;
   &:after {
