@@ -1,0 +1,26 @@
+@import "../vars";
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.topics {
+  width: 100%;
+  padding: 28px $offsetWidth 0 $offsetWidth;
+  background-color: $colorWhite;
+  box-sizing: border-box;
+  height: 184px;
+  border-bottom: 1px solid $colorGrayLighter;
+}
+
+.topics-content {
+  max-width: $maxWidth;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.topics-title {
+  @include titleMedium;
+  margin-bottom: 14px;
+}

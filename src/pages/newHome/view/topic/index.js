@@ -47,8 +47,10 @@ export default class Topics extends Component {
   }
 
   render () {
+    const { currentLocale } = this.props;
+
     return (
-      <Link styleName='topic' to='#'>
+      <Link styleName='topic' to={`/${currentLocale}/new/topic`}>
         <div
           style={{ backgroundImage: `url(${this.images[Math.floor(Math.random() * this.images.length)]})` }}
           styleName='topic-image'/>

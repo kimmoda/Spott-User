@@ -4,7 +4,6 @@ import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../_common/localized';
 import Topics from './topics';
-import Cards from './cards';
 import { IconSearch } from './icons';
 
 const styles = require('./index.scss');
@@ -14,9 +13,10 @@ const spottGrayLogo = require('./spottGray.svg');
 
 @localized
 @CSSModules(styles, { allowMultiple: true })
-export default class NewHome extends Component {
+export default class New extends Component {
 
   static propTypes = {
+    children: PropTypes.object.isRequired,
     currentLocale: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired
   };
@@ -48,13 +48,13 @@ export default class NewHome extends Component {
   }
 
   render () {
-    const { currentLocale, t } = this.props;
+    const { currentLocale, t, children } = this.props;
 
     return (
       <div styleName='wrapper'>
         <header className={this.state.isSearchActive && styles['header-search-active']} styleName='header'>
           <div styleName='header-wrapper'>
-            <Link styleName='logo' to={`/${currentLocale}`}>
+            <Link styleName='logo' to={`/${currentLocale}/new/home`}>
               <img alt={t('_common.header.home')} src={spottLogo}/>
             </Link>
             <div className={this.state.isSearchActive && styles['search-active']} styleName='search'>
@@ -96,14 +96,7 @@ export default class NewHome extends Component {
           </div>
         </div>
         <section styleName='content'>
-          <div styleName='poster'/>
-          <div styleName='topics'>
-            <div styleName='topics-content'>
-              <div styleName='topics-title'>Trending Topics</div>
-              <Topics />
-            </div>
-          </div>
-          <Cards/>
+          {children}
         </section>
         <footer styleName='footer'>
           <div styleName='footer-wrapper'>

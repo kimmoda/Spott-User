@@ -42,7 +42,9 @@ import { COMMERCIAL, MOVIE, SERIES } from './data/mediumTypes';
 import { locales } from './locales';
 import { currentLocaleSelector, isDownloadPageShowedSelector, isUbAuthenticatedSelector } from './pages/app/selector';
 import { updateLocale as updateUbLocale } from './pages/basket/actions';
-import NewHome from './pages/newHome/view';
+import New from './pages/newHome/view';
+import NewHome from './pages/newHome/view/homePage';
+import NewTopic from './pages/newHome/view/topicPage';
 
 /**
  * The application routes
@@ -234,7 +236,11 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
         <Route component={OrderDetails} path='orders/:orderId' />
 
-        <Route component={NewHome} newDesign path='new/home' />
+        <Route component={New} newDesign path='new'>
+          <IndexRedirect to='home' />
+          <Route component={NewHome} path='home' />
+          <Route component={NewTopic} path='topic' />
+        </Route>
       </Route>
     );
   }
