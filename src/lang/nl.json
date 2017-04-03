@@ -149,6 +149,7 @@
   },
   "productDetail": {
     "buyNow": "Koop nu",
+    "moreInfo": "Meer info",
     "by": "Van %(brandName)s",
     "noSimilar": "Geen gelijkaardige producten gevonden.",
     "similarProducts": "Gelijkaardige producten",

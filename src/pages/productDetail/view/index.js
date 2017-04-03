@@ -405,14 +405,16 @@ export default class ProductDetail extends Component {
             <div>
               <h2 style={styles.details.productTitle}>{product.get('shortName')}</h2>
               <p style={styles.details.brand.label}>{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
-              {product.get('description') && <p style={styles.details.productDescription}>{product.get('description')}</p>}
-              <h2 style={styles.details.price}>
-                {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
-              </h2>
+              {(typeof product.getIn([ 'offerings', '0', 'price', 'amount' ]) !== 'undefined' && product.getIn([ 'offerings', '0', 'price', 'amount' ]) > 0) &&
+                <h2 style={styles.details.price}>
+                  {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
+                </h2>
+              }
               <div style={styles.details.buttons.wrapper}>
                 <Button disabled={notAvailable} key='buyButton' style={[ pinkButtonStyle, styles.details.buttons.buyButton ]} target='_blank' onClick={this.onBuyClick}>
                   <span style={styles.details.buttons.buyText}>
-                    {t('productDetail.buyNow')}
+                    {(typeof product.getIn([ 'offerings', '0', 'price', 'amount' ]) !== 'undefined' && product.getIn([ 'offerings', '0', 'price', 'amount' ]) <= 0) && t('productDetail.moreInfo')}
+                    {(typeof product.getIn([ 'offerings', '0', 'price', 'amount' ]) === 'undefined' || product.getIn([ 'offerings', '0', 'price', 'amount' ]) > 0) && t('productDetail.buyNow')}
                   </span>
                 </Button>
                 {product.get('id') && <WishlistButton productUuid={product.get('id')} />}

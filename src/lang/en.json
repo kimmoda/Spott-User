@@ -149,6 +149,7 @@
   },
   "productDetail": {
     "buyNow": "Buy Now",
+    "moreInfo": "More info",
     "by": "By %(brandName)s",
     "noSimilar": "No similar items found.",
     "similarProducts": "Similar Items",
