@@ -286,12 +286,15 @@ export default class ProductDetail extends Component {
                 <p style={styles.details.brand.label}>{this.renderRelevance(product.get('relevance'))}{product.get('brand') ? t('productDetail.by', { brandName: product.getIn([ 'brand', 'name' ]) }) : <span>&nbsp;</span>}</p>
                 {product.get('description') &&
                   <p style={styles.details.productDescription}>{product.get('description')}</p>}
-                <h2 style={styles.details.price}>
-                  {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
-                </h2>
+                {(typeof product.getIn([ 'offerings', '0', 'price', 'amount' ]) !== 'undefined' && product.getIn([ 'offerings', '0', 'price', 'amount' ]) > 0) &&
+                  <h2 style={styles.details.price}>
+                    {formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}
+                  </h2>
+                }
                 <div style={styles.details.buttons.wrapper}>
                   <Button disabled={notAvailable} key='buyButton' style={pinkButtonStyle} target='_blank' onClick={this.onBuyClick}>
-                    <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>
+                    {(typeof product.getIn([ 'offerings', '0', 'price', 'amount' ]) !== 'undefined' && product.getIn([ 'offerings', '0', 'price', 'amount' ]) <= 0) && <span style={styles.details.buttons.buyText}>{t('productDetail.moreInfo')}</span>}
+                    {(typeof product.getIn([ 'offerings', '0', 'price', 'amount' ]) === 'undefined' || product.getIn([ 'offerings', '0', 'price', 'amount' ]) > 0) && <span style={styles.details.buttons.buyText}>{t('productDetail.buyNow')}</span>}
                   </Button>
                   <ShareButton disabled={!share} href={share && `http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${share.get('url')}`)}&title=${share.get('title')}`}>
                     {t('common.share')}
