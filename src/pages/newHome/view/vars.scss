@@ -40,6 +40,11 @@ $gutterSmallWidth: 16px;
 $maxWidth: 1216px;
 $headerHeight: 80px;
 
+// pass variables to react component
+:export {
+  cssHeaderHeight: $headerHeight;
+}
+
 @function gridWidth($n) {
   @return $n * $columnWidth + ($n - 1) * $gutterWidth;
 }
