@@ -1,7 +1,7 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
-import Dropdown from '../dropdown';
+import DropdownMenu, { DropdownNested } from '../dropdownMenu';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
 import Cards from '../cards';
@@ -98,16 +98,20 @@ export default class NewTopic extends Component {
         </div>
         <div styleName='cards-filters-container'>
           <div styleName='cards-filters'>
-            <Dropdown triggerText={filterVal}>
+            <DropdownMenu triggerText={filterVal}>
               {filterVals.map((item, index) =>
                 <div key={`filter1_${index}`} onClick={this.onFilterClick}>{item}</div>
               )}
-            </Dropdown>
-            <Dropdown triggerText={filterSecondVal}>
+              <DropdownNested triggerText='Nested menu'>
+                <div>Nested menu item</div>
+                <div>Nested menu item 2</div>
+              </DropdownNested>
+            </DropdownMenu>
+            <DropdownMenu triggerText={filterSecondVal}>
               {filterSecondVals.map((item, index) =>
                 <div key={`filter2_${index}`} onClick={this.onFilterSecondClick}>{item}</div>
               )}
-            </Dropdown>
+            </DropdownMenu>
           </div>
         </div>
         <Cards/>
