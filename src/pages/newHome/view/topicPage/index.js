@@ -1,6 +1,7 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
+import Dropdown from '../dropdown';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
 import Cards from '../cards';
@@ -16,8 +17,14 @@ export default class NewTopic extends Component {
   constructor (props) {
     super(props);
     this.handleScroll = ::this.handleScroll;
+    this.onFilterClick = ::this.onFilterClick;
+    this.onFilterSecondClick = ::this.onFilterSecondClick;
     this.state = {
-      isScrolledToInfo: false
+      isScrolledToInfo: false,
+      filterVal: 'Everything',
+      filterVals: [ 'Test 1', 'Test 2', 'Test 3' ],
+      filterSecondVal: 'Popular',
+      filterSecondVals: [ 'Test 3', 'Test 4', 'Test 5' ]
     };
     this.infoImage = 'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/5b447383-ed89-40e7-a71a-a19788a00406?height=72&width=48';
     this.headerHeight = parseInt(cssHeaderHeight, 10);
@@ -38,12 +45,26 @@ export default class NewTopic extends Component {
 
   handleScroll () {
     this.setState({
-      isScrolledToInfo: this.infoContainerOffsetTop <= window.scrollY + this.headerHeight
+      isScrolledToInfo: this.infoContainerOffsetTop <= window.scrollY + this.headerHeight + 30
+    });
+  }
+
+  onFilterClick (e) {
+    this.setState({
+      filterVals: this.state.filterVals.filter((item) => item !== e.target.innerText).concat(this.state.filterVal),
+      filterVal: e.target.innerText
+    });
+  }
+
+  onFilterSecondClick (e) {
+    this.setState({
+      filterSecondVals: this.state.filterSecondVals.filter((item) => item !== e.target.innerText).concat(this.state.filterSecondVal),
+      filterSecondVal: e.target.innerText
     });
   }
 
   render () {
-    const { isScrolledToInfo } = this.state;
+    const { isScrolledToInfo, filterVal, filterVals, filterSecondVal, filterSecondVals } = this.state;
 
     return (
       <section styleName='wrapper'>
@@ -73,6 +94,20 @@ export default class NewTopic extends Component {
           <div styleName='topics-content'>
             <div styleName='topics-title'>Related Topics</div>
             <Topics />
+          </div>
+        </div>
+        <div styleName='cards-filters-container'>
+          <div styleName='cards-filters'>
+            <Dropdown triggerText={filterVal}>
+              {filterVals.map((item, index) =>
+                <div key={`filter1_${index}`} onClick={this.onFilterClick}>{item}</div>
+              )}
+            </Dropdown>
+            <Dropdown triggerText={filterSecondVal}>
+              {filterSecondVals.map((item, index) =>
+                <div key={`filter2_${index}`} onClick={this.onFilterSecondClick}>{item}</div>
+              )}
+            </Dropdown>
           </div>
         </div>
         <Cards/>

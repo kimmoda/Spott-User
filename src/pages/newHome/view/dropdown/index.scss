@@ -1,0 +1,49 @@
+@import "../vars";
+
+.dropdown-container {
+  position: relative;
+  user-select: none;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 24px;
+}
+
+.dropdown-trigger {
+  @include titleMedium;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  i {
+    display: block;
+    margin-left: 10px;
+    transform: rotate(90deg);
+    :global {
+      .fill {
+        fill: $colorBlack;
+      }
+    }
+  }
+}
+
+.dropdown-content {
+  border-radius: 4px;
+  background-color: $colorWhite;
+  box-shadow: $boxShadowBlur;
+  min-width: 150px;
+  top: 100%;
+  left: 0;
+  padding: 4px 0;
+  margin-top: 10px;
+  & > div {
+    @include smallRegular($colorGrayDark);
+    height: 34px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    cursor: pointer;
+    &:hover {
+      background-color: $colorGrayLighter;
+    }
+  }
+}

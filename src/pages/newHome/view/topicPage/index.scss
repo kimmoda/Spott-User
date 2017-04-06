@@ -17,18 +17,24 @@
   width: 100%;
   border-bottom: 1px solid $colorGrayLighter;
   box-sizing: content-box;
+  background-color: $colorWhite;
 }
 
 .info {
   width: 100%;
   background-color: $colorWhite;
   padding: 19px $offsetWidth 19px $offsetWidth;
+  transition: transform 0.1s ease;
+  transform: translateY(30px);
+  top: -30px;
+  position: relative;
 }
 
 .info-sticky {
   position: fixed;
-  top: $headerHeight;
+  transform: translateY(0);
   left: 0;
+  top: $headerHeight;
   z-index: 1000;
   box-shadow: $boxShadow;
   border-bottom: 1px solid $colorGrayLighter;
@@ -95,10 +101,9 @@
 
 .topics {
   width: 100%;
-  padding: 28px $offsetWidth 0 $offsetWidth;
+  padding: 28px $offsetWidth 31px $offsetWidth;
   background-color: $colorWhite;
   box-sizing: border-box;
-  height: 184px;
   border-bottom: 1px solid $colorGrayLighter;
 }
 
@@ -111,4 +116,28 @@
 .topics-title {
   @include titleMedium;
   margin-bottom: 14px;
+}
+
+.cards-filters-container {
+  width: 100%;
+  padding: 0 $offsetWidth;
+  display: flex;
+  justify-content: center;
+  background-color: $colorGrayWhite;
+}
+
+.cards-filters {
+  max-width: $maxWidth;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid $colorGrayLighter;
+  padding: 30px 0 30px 0;
+}
+
+.cards-filter {
+  @include titleMedium;
+  cursor: pointer;
+  margin: 0 24px;
 }
