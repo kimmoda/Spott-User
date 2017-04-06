@@ -94,9 +94,12 @@
   margin-left: 70px;
 }
 
+.info-share-wrapper {
+  margin-left: 32px;
+}
+
 .info-share {
   @include btnMediumRound(true);
-  margin-left: 32px;
 }
 
 .topics {
@@ -137,7 +140,23 @@
 }
 
 .cards-filter {
-  @include titleMedium;
-  cursor: pointer;
   margin: 0 24px;
+}
+
+.cards-filter-trigger {
+  @include titleMedium;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  i {
+    display: block;
+    margin-left: 10px;
+    transform: rotate(90deg);
+    :global {
+      .fill {
+        fill: $colorBlack;
+      }
+    }
+  }
 }

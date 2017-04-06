@@ -12,8 +12,9 @@ const styles = require('./index.scss');
 export default class OurDropdownMenu extends Component {
 
   static propTypes = {
+    alignLeft: PropTypes.bool,
     children: PropTypes.node.isRequired,
-    triggerText: PropTypes.string.isRequired
+    trigger: PropTypes.node.isRequired
   };
 
   constructor (props) {
@@ -34,13 +35,13 @@ export default class OurDropdownMenu extends Component {
   }
 
   render () {
-    const { children, triggerText } = this.props;
+    const { children, trigger, alignLeft } = this.props;
 
     const menuOptions = {
       isOpen: this.state.isMenuOpen,
       close: this.close,
-      className: styles['dropdown-container'],
-      toggle: <div className={styles['dropdown-trigger']} onClick={this.toggle}><div>{triggerText}</div><i><IconArrow3/></i></div>,
+      className: alignLeft ? styles['dropdown-container-left'] : styles['dropdown-container'],
+      toggle: <div onClick={this.toggle}>{trigger}</div>,
       enterTimeout: 1,
       leaveTimeout: 1
     };
@@ -77,6 +78,15 @@ export class DropdownNested extends Component {
           {children}
         </div>
       </NestedDropdownMenu>
+    );
+  }
+}
+
+@CSSModules(styles, { allowMultiple: true })
+export class DropdownDivider extends Component {
+  render () {
+    return (
+      <span styleName='dropdown-divider'/>
     );
   }
 }

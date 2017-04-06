@@ -1,11 +1,11 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
-import DropdownMenu, { DropdownNested } from '../dropdownMenu';
+import DropdownMenu, { DropdownNested, DropdownDivider } from '../dropdownMenu';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
 import Cards from '../cards';
-import { IconForward } from '../icons';
+import { IconForward, IconArrow3 } from '../icons';
 
 const styles = require('./index.scss');
 const { cssHeaderHeight } = require('../vars.scss');
@@ -84,8 +84,11 @@ export default class NewTopic extends Component {
                 <div styleName='info-subscribers-text'>Subscribers</div>
               </div>
               <div styleName='info-subscribe-btn'>Subscribed</div>
-              <div styleName='info-share'>
-                <i><IconForward/></i>
+              <div styleName='info-share-wrapper'>
+                <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>
+                  <div>Facebook</div>
+                  <div>Twitter</div>
+                </DropdownMenu>
               </div>
             </div>
           </div>
@@ -98,20 +101,25 @@ export default class NewTopic extends Component {
         </div>
         <div styleName='cards-filters-container'>
           <div styleName='cards-filters'>
-            <DropdownMenu triggerText={filterVal}>
-              {filterVals.map((item, index) =>
-                <div key={`filter1_${index}`} onClick={this.onFilterClick}>{item}</div>
-              )}
-              <DropdownNested triggerText='Nested menu'>
-                <div>Nested menu item</div>
-                <div>Nested menu item 2</div>
-              </DropdownNested>
-            </DropdownMenu>
-            <DropdownMenu triggerText={filterSecondVal}>
-              {filterSecondVals.map((item, index) =>
-                <div key={`filter2_${index}`} onClick={this.onFilterSecondClick}>{item}</div>
-              )}
-            </DropdownMenu>
+            <div styleName='cards-filter'>
+              <DropdownMenu trigger={<div className={styles['cards-filter-trigger']}><div>{filterVal}</div><i><IconArrow3/></i></div>}>
+                {filterVals.map((item, index) =>
+                  <div key={`filter1_${index}`} onClick={this.onFilterClick}>{item}</div>
+                )}
+                <DropdownDivider/>
+                <DropdownNested triggerText='Nested menu'>
+                  <div>Nested menu item</div>
+                  <div>Nested menu item 2</div>
+                </DropdownNested>
+              </DropdownMenu>
+            </div>
+            <div styleName='cards-filter'>
+              <DropdownMenu trigger={<div className={styles['cards-filter-trigger']}><div>{filterSecondVal}</div><i><IconArrow3/></i></div>}>
+                {filterSecondVals.map((item, index) =>
+                  <div key={`filter2_${index}`} onClick={this.onFilterSecondClick}>{item}</div>
+                )}
+              </DropdownMenu>
+            </div>
           </div>
         </div>
         <Cards/>

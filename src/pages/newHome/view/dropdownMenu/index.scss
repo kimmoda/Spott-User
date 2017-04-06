@@ -19,7 +19,6 @@
   z-index: 100;
   display: flex;
   flex-wrap: wrap;
-  margin: 0 24px;
   :global {
     .dd-menu-items {
       position: absolute;
@@ -30,22 +29,28 @@
   }
 }
 
-.dropdown-trigger {
-  @include titleMedium;
+.dropdown-container-left {
+  position: relative;
+  user-select: none;
+  z-index: 100;
   display: flex;
-  align-items: center;
-  text-decoration: none;
-  cursor: pointer;
-  i {
-    display: block;
-    margin-left: 10px;
-    transform: rotate(90deg);
-    :global {
-      .fill {
-        fill: $colorBlack;
-      }
+  flex-wrap: wrap;
+  :global {
+    .dd-menu-items {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      z-index: 110;
     }
   }
+}
+
+.dropdown-divider {
+  height: 1px;
+  width: 100%;
+  border-top: 1px solid $colorGrayLighter;
+  margin: 4px 0;
+  display: block;
 }
 
 .dropdown-content {
