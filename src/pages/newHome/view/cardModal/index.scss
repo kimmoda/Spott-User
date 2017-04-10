@@ -7,7 +7,7 @@
 
 .modal-overlay {
   background-color: rgba(249, 249, 249, 0.95);
-  z-index: 1000;
+  z-index: 5000;
   overflow: auto;
   position: fixed;
   top: 0;
@@ -305,7 +305,7 @@
   @include titleMedium;
 }
 
-.spotts-list {
+.spotts-list > div {
   width: 100%;
   column-count: 3;
   column-gap: $gutterWidth;

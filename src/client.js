@@ -26,6 +26,7 @@ import scene from './pages/scene/reducer';
 import resetPassword from './pages/resetPassword/reducer';
 import home from './pages/home/reducer';
 import basket from './pages/basket/reducer';
+import newHome from './pages/newHome/reducer';
 import { getLocalStorage, isServer } from './utils';
 
 // Enable some stuff during development to ease debugging
@@ -46,7 +47,8 @@ const rootReducer = combineReducers({
   routing: routerReducer,
   scene,
   home,
-  basket
+  basket,
+  newHome
 });
 
 /**

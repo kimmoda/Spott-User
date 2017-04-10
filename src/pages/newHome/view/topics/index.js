@@ -1,11 +1,15 @@
 /* eslint-disable react/no-set-state */
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Topic from '../topic';
 import Tiles from '../tiles';
+import { LOADED } from '../../../../data/statusTypes';
 
 const { cssTileWidth } = require('../topic/index.scss');
 
 export default class Topics extends Component {
+  static propTypes = {
+    items: PropTypes.any.isRequired
+  };
 
   constructor (props) {
     super(props);
@@ -13,14 +17,17 @@ export default class Topics extends Component {
   }
 
   render () {
+    const { items } = this.props;
+
     return (
-      <Tiles tileWidth={this.tileWidth} tilesCount={10}>
-        {new Array(10).fill(1).map((item, index) =>
-          <Topic key={`topic_${index}`} ref={(ref) => {
-            this.tileRef = ref;
-          }}/>
-        )}
-      </Tiles>
+      <div>
+        {items.get('_status') === LOADED &&
+        <Tiles tileWidth={this.tileWidth} tilesCount={items.get('data').size}>
+          {items.get('data').map((item, index) =>
+            <Topic item={item} key={`topic_${index}`}/>
+          )}
+        </Tiles>}
+      </div>
     );
   }
 }

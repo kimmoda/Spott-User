@@ -1,10 +1,14 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import localized from '../../_common/localized';
 import Topics from './topics';
 import { IconSearch } from './icons';
+import * as actions from '../actions';
+import { newHomeSelector } from '../selectors';
 
 const styles = require('./index.scss');
 
@@ -12,13 +16,18 @@ const spottLogo = require('./spott.svg');
 const spottGrayLogo = require('./spottGray.svg');
 
 @localized
+@connect(newHomeSelector, (dispatch) => ({
+  loadTrendingTopics: bindActionCreators(actions.loadTrendingTopics, dispatch)
+}))
 @CSSModules(styles, { allowMultiple: true })
 export default class New extends Component {
 
   static propTypes = {
     children: PropTypes.object.isRequired,
     currentLocale: PropTypes.string.isRequired,
-    t: PropTypes.func.isRequired
+    loadTrendingTopics: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
+    trendingTopics: PropTypes.any.isRequired
   };
 
   constructor (props) {
@@ -30,6 +39,10 @@ export default class New extends Component {
       isSearchActive: false,
       searchValue: ''
     };
+  }
+
+  componentWillMount () {
+    this.props.loadTrendingTopics();
   }
 
   onSearchFocus () {
@@ -48,7 +61,7 @@ export default class New extends Component {
   }
 
   render () {
-    const { currentLocale, t, children } = this.props;
+    const { currentLocale, t, children, trendingTopics } = this.props;
 
     return (
       <div styleName='wrapper'>
@@ -90,8 +103,8 @@ export default class New extends Component {
               <div styleName='recent-searches-clear'>Clear search history</div>
             </div>
             <div styleName='search-topics'>
-              <div styleName='search-topics-title'>Trending Topics</div>
-              <Topics />
+              <div styleName='search-topics-title'>Topics for you</div>
+              <Topics items={trendingTopics} />
             </div>
           </div>
         </div>

@@ -24,3 +24,16 @@
   @include titleMedium;
   margin-bottom: 14px;
 }
+
+
+.cards {
+  padding: $gutterWidth $offsetWidth 0 $offsetWidth;
+  & > div {
+    max-width: $maxWidth;
+    background-color: $colorGrayWhite;
+    margin: 0 auto;
+    width: 100%;
+    column-count: 4;
+    column-gap: $gutterWidth;
+  }
+}

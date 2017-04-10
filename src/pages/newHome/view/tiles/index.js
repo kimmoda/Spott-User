@@ -11,7 +11,7 @@ const styles = require('./index.scss');
 export default class Tiles extends Component {
 
   static propTypes = {
-    children: PropTypes.array.isRequired,
+    children: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
     tileWidth: PropTypes.number.isRequired,

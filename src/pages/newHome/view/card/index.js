@@ -16,6 +16,7 @@ export default class Card extends Component {
 
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
+    item: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired
   };
 
@@ -78,11 +79,13 @@ export default class Card extends Component {
   }
 
   render () {
+    const { item } = this.props;
+
     return (
       <div styleName='card'>
-        {this.state.isCardModalOpen && <CardModal image={this.cardImage} isSidebarOpen={this.state.isCardModalSidebarOpen} onClose={this.onCardModalClose}/>}
+        {this.state.isCardModalOpen && <CardModal imageThumb={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`} isSidebarOpen={this.state.isCardModalSidebarOpen} spottId={item.get('uuid')} onClose={this.onCardModalClose}/>}
         <div styleName='image' onClick={this.onCardClick}>
-          <img src={this.cardImage}/>
+          <img src={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`}/>
           <CardMarkers onImageClick={this.onCardClick} onMarkerClick={this.onCardMarkerClick} />
           <Link
             style={{ backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})` }}
@@ -93,18 +96,14 @@ export default class Card extends Component {
           <div styleName='reason'>
             Because you subscribed to Chicago Med
           </div>
-          <h3 styleName='title'>Erin Lindsay in Chicago Med</h3>
+          <h3 styleName='title'>{item.get('title')}</h3>
           <div styleName='description'>
             Taken from Season 2 Episode 5 — Extreme Measures
           </div>
           <div styleName='topic-links'>
-            <Link styleName='topic-link' to='#'>Gabriel Macht</Link>
-            <Link styleName='topic-link' to='#'>Harvey Specter</Link>
-            <Link styleName='topic-link' to='#'>Red Carpet</Link>
-            <Link styleName='topic-link' to='#'>Tom Ford</Link>
-            <Link styleName='topic-link' to='#'>Suits</Link>
-            <Link styleName='topic-link' to='#'>Series</Link>
-            <Link styleName='topic-link' to='#'>Suit</Link>
+            {item.get('topics').map((topic, index) =>
+              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to='#'>{topic.get('text')}</Link>
+            )}
           </div>
         </div>
         <div styleName='footer'>

@@ -239,7 +239,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={New} newDesign path='new'>
           <IndexRedirect to='home' />
           <Route component={NewHome} path='home' />
-          <Route component={NewTopic} path='topic' />
+          <Route component={NewTopic} path='topic/:topicId' />
         </Route>
       </Route>
     );

@@ -2,26 +2,41 @@
 /* eslint-disable react/jsx-indent-props */
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ReactModal from 'react-modal';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
 import { IconHeart, IconForward, IconClose } from '../icons';
 import CardMarkers from '../cardMarkers';
-import Card from '../card';
 import Topics from '../topics';
 import Sidebars from '../sidebars';
 import Users from '../users';
 import ImageLoader from '../imageLoader';
 import Tiles from '../tiles';
+import * as actions from '../../actions';
+import { spottDetailsSelector } from '../../selectors';
+import Cards from '../cards/index';
 
 const styles = require('./index.scss');
 
 @localized
+@connect(spottDetailsSelector, (dispatch) => ({
+  loadSpott: bindActionCreators(actions.loadSpott, dispatch),
+  loadSpottLovers: bindActionCreators(actions.loadSpottLovers, dispatch)
+}))
 @CSSModules(styles, { allowMultiple: true })
 export default class CardModal extends Component {
   static propTypes = {
-    image: PropTypes.string.isRequired,
+    imageThumb: PropTypes.string.isRequired,
     isSidebarOpen: PropTypes.bool,
+    loadSpott: PropTypes.func.isRequired,
+    loadSpottLovers: PropTypes.func.isRequired,
+    relatedTopics: PropTypes.any.isRequired,
+    similarSpotts: PropTypes.any.isRequired,
+    spott: PropTypes.any.isRequired,
+    spottId: PropTypes.string.isRequired,
+    spottLovers: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
   };
@@ -53,6 +68,11 @@ export default class CardModal extends Component {
     ];
 
     this.productTileWidth = parseInt(styles.cssProductTileWidth, 10);
+  }
+
+  componentWillMount () {
+    this.props.loadSpott({ uuid: this.props.spottId });
+    this.props.loadSpottLovers({ uuid: this.props.spottId });
   }
 
   componentDidMount () {
@@ -94,7 +114,7 @@ export default class CardModal extends Component {
   }
 
   render () {
-    const { image } = this.props;
+    const { imageThumb, relatedTopics, spott, similarSpotts } = this.props;
 
     return (
       <ReactModal
@@ -113,7 +133,7 @@ export default class CardModal extends Component {
             <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
             <div styleName='card'>
               <div styleName='image'>
-                <ImageLoader srcOriginal={image} srcThumb={image}/>
+                {spott.getIn([ 'image', 'url' ]) && <ImageLoader srcOriginal={spott.getIn([ 'image', 'url' ])} srcThumb={imageThumb}/>}
                 <CardMarkers/>
                 <Link
                   style={{ backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})` }}
@@ -130,24 +150,20 @@ export default class CardModal extends Component {
                 </Tiles>
               </div>
               <div styleName='content'>
-                <h3 styleName='title'>Erin Lindsay in Chicago Med</h3>
+                <h3 styleName='title'>{spott.get('title')}</h3>
                 <div styleName='description'>
                   Taken from Season 2 Episode 5 — Extreme Measures
                 </div>
                 <div styleName='topic-links'>
-                  <Link styleName='topic-link' to='#'>Gabriel Macht</Link>
-                  <Link styleName='topic-link' to='#'>Harvey Specter</Link>
-                  <Link styleName='topic-link' to='#'>Red Carpet</Link>
-                  <Link styleName='topic-link' to='#'>Tom Ford</Link>
-                  <Link styleName='topic-link' to='#'>Suits</Link>
-                  <Link styleName='topic-link' to='#'>Series</Link>
-                  <Link styleName='topic-link' to='#'>Suit</Link>
+                  {spott.get('topics') && spott.get('topics').map((topic, index) =>
+                    <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to='#'>{topic.get('text')}</Link>
+                  )}
                 </div>
               </div>
               <div styleName='footer'>
                 <Link styleName='likes' to='#'>
                   <i><IconHeart/></i>
-                  <span>24</span>
+                  <span>{spott.get('loverCount')}</span>
                 </Link>
                 <div styleName='users'>
                   <Users large maxNum={16}/>
@@ -160,15 +176,13 @@ export default class CardModal extends Component {
             <div styleName='topics'>
               <div styleName='topics-content'>
                 <div styleName='topics-title'>Related Topics</div>
-                <Topics/>
+                <Topics items={relatedTopics}/>
               </div>
             </div>
             <div styleName='spotts'>
               <div styleName='spotts-title'>Similar Spotts</div>
               <div styleName='spotts-list'>
-                {new Array(9).fill(1).map((item, index) =>
-                  <Card key={`modal_card_${index}`}/>
-                )}
+                <Cards items={similarSpotts}/>
               </div>
             </div>
           </div>
