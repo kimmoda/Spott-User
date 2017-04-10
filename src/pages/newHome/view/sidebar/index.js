@@ -21,7 +21,7 @@ export default class Sidebar extends Component {
 
   constructor (props) {
     super(props);
-    this.tileWidth = parseInt(styles.cssTileWidth, 10);
+    this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
   }
 
   render () {
@@ -81,11 +81,11 @@ export default class Sidebar extends Component {
         <div styleName='sidebar-panel'>
           <div styleName='sidebar-panel-title'>Also seen in</div>
           <div styleName='sidebar-seens'>
-            <Tiles tileWidth={this.tileWidth} tilesCount={10}>
+            <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={10}>
               {new Array(10).fill(1).map((item, index) =>
                 <div
                   key={`seen_${index}`}
-                  style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}
+                  style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})`, minWidth: Math.floor(Math.random() * 120) + 60 }}
                   styleName='sidebar-seen'
                   onClick={onProductClick.bind(this, `Seen ${index}`)}/>
               )}
@@ -95,7 +95,7 @@ export default class Sidebar extends Component {
         <div styleName='sidebar-panel'>
           <div styleName='sidebar-panel-title'>Similar Items</div>
           <div styleName='sidebar-similars'>
-            <Tiles tileWidth={this.tileWidth} tilesCount={10}>
+            <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={10}>
               {new Array(10).fill(1).map((item, index) =>
                 <div
                   key={`product_${index}`}

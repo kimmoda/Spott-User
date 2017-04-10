@@ -67,7 +67,7 @@ export default class CardModal extends Component {
       'http://lorempixel.com/26/26/abstract/10'
     ];
 
-    this.productTileWidth = parseInt(styles.cssProductTileWidth, 10);
+    this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
   }
 
   componentWillMount () {
@@ -140,7 +140,7 @@ export default class CardModal extends Component {
                   styleName='person' to='#'/>
               </div>
               <div styleName='products'>
-                <Tiles tileWidth={this.productTileWidth} tilesCount={10}>
+                <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={10}>
                   {new Array(10).fill(1).map((item, index) =>
                     <div key={`product_${index}`}
                          style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}

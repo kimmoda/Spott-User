@@ -2,7 +2,7 @@
 
 // pass variables to react component
 :export {
-  cssProductTileWidth: gridSmallWidth(1) + $gutterSmallWidth;
+  cssTileOffsetWidth: $gutterSmallWidth / 2;
 }
 
 .modal-overlay {

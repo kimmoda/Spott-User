@@ -1,5 +1,6 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import CSSModules from 'react-css-modules';
 import localized from '../../../_common/localized';
 import { IconArrow3 } from '../icons';
@@ -14,7 +15,7 @@ export default class Tiles extends Component {
     children: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
-    tileWidth: PropTypes.number.isRequired,
+    tileOffsetWidth: PropTypes.number.isRequired,
     tilesCount: PropTypes.number.isRequired
   };
 
@@ -24,17 +25,36 @@ export default class Tiles extends Component {
     this.onMoveRight = ::this.onMoveRight;
     this.state = {
       tileIndex: 0,
+      translateOffset: 0,
       tilesStyle: {
         transform: 'translateX(0px)'
       }
     };
+    this.tilesWidths = [];
+    this.elsInContainerCount = 0;
+  }
+
+  componentDidMount () {
+    this.tilesWidths = new Array(this.props.tilesCount).fill(1).map((item, index) => {
+      return ReactDOM.findDOMNode(this.refs[index]).clientWidth + this.props.tileOffsetWidth;
+    });
+
+    let width = this.tilesContainer.clientWidth;
+    let elsCount = 0;
+    this.tilesWidths.map((elWidth) => {
+      width -= elWidth;
+      Math.round(width / elWidth) >= 0 && elsCount++;
+    });
+    this.elsInContainerCount = elsCount;
   }
 
   onMoveLeft () {
     if (this.state.tileIndex > 0) {
+      const translateOffset = this.state.translateOffset + this.tilesWidths[this.state.tileIndex - 1];
       this.setState({
+        translateOffset,
         tilesStyle: {
-          transform: `translateX(-${this.props.tileWidth * (this.state.tileIndex - 1)}px)`
+          transform: `translateX(${translateOffset}px)`
         },
         tileIndex: this.state.tileIndex - 1
       });
@@ -42,10 +62,12 @@ export default class Tiles extends Component {
   }
 
   onMoveRight () {
-    if (Math.round(this.tilesContainer.clientWidth / this.props.tileWidth) + this.state.tileIndex < this.props.tilesCount) {
+    if (this.elsInContainerCount + this.state.tileIndex < this.props.tilesCount) {
+      const translateOffset = this.state.translateOffset - this.tilesWidths[this.state.tileIndex];
       this.setState({
+        translateOffset,
         tilesStyle: {
-          transform: `translateX(-${this.props.tileWidth * (this.state.tileIndex + 1)}px)`
+          transform: `translateX(${translateOffset}px)`
         },
         tileIndex: this.state.tileIndex + 1
       });
@@ -53,10 +75,8 @@ export default class Tiles extends Component {
   }
 
   render () {
-    const { tilesCount, tileWidth, children } = this.props;
+    const { tilesCount, children } = this.props;
     const { tilesStyle, tileIndex } = this.state;
-    const clientWidth = this.tilesContainer ? this.tilesContainer.clientWidth : 0;
-    const tilesEnd = Math.round(clientWidth / tileWidth) + tileIndex;
 
     return (
       <div ref={(ref) => { this.tilesContainer = ref; }} styleName='tiles-wrapper'>
@@ -66,9 +86,11 @@ export default class Tiles extends Component {
           </div>
         </div>
         <div style={tilesStyle} styleName='tiles-list'>
-          {children}
+          {React.Children.map(children, (element, idx) => {
+            return React.cloneElement(element, { ref: idx });
+          })}
         </div>
-        <div className={tilesEnd >= tilesCount ? styles['tiles-btn-inactive'] : styles['tiles-btn-active']} styleName='tiles-btn-right' onClick={this.onMoveRight}>
+        <div className={this.elsInContainerCount + tileIndex >= tilesCount ? styles['tiles-btn-inactive'] : styles['tiles-btn-active']} styleName='tiles-btn-right' onClick={this.onMoveRight}>
           <div styleName='tiles-btn'>
             <i><IconArrow3/></i>
           </div>

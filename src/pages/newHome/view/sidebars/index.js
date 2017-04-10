@@ -55,8 +55,8 @@ export default class Sidebars extends Component {
       <CustomScrollbars>
         <ReactCSSTransitionGroup
           transitionAppear
-          transitionAppearTimeout={400}
-          transitionEnterTimeout={400}
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
           transitionName={{
             appear: styles['sidebar-appear'],

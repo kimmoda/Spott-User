@@ -28,13 +28,13 @@
   transform: translateX(100%);
   &:before {
     opacity: 0;
-    transition: opacity 0.3s;
   }
   &.sidebar-enter-active {
     transition: transform 0.3s ease-in;
     transform: translateX(0);
     &:before {
       opacity: 1;
+      transition: opacity 0.5s;
     }
   }
 }

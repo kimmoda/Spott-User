@@ -4,7 +4,7 @@ import Topic from '../topic';
 import Tiles from '../tiles';
 import { LOADED } from '../../../../data/statusTypes';
 
-const { cssTileWidth } = require('../topic/index.scss');
+const { cssTileOffsetWidth } = require('../topic/index.scss');
 
 export default class Topics extends Component {
   static propTypes = {
@@ -13,7 +13,7 @@ export default class Topics extends Component {
 
   constructor (props) {
     super(props);
-    this.tileWidth = parseInt(cssTileWidth, 10);
+    this.tileOffsetWidth = parseInt(cssTileOffsetWidth, 10);
   }
 
   render () {
@@ -22,7 +22,7 @@ export default class Topics extends Component {
     return (
       <div>
         {items.get('_status') === LOADED &&
-        <Tiles tileWidth={this.tileWidth} tilesCount={items.get('data').size}>
+        <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={items.get('data').size}>
           {items.get('data').map((item, index) =>
             <Topic item={item} key={`topic_${index}`}/>
           )}

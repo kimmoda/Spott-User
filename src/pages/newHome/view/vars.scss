@@ -491,7 +491,7 @@ $headerHeight: 80px;
 
 @mixin product {
   $size: gridSmallWidth(1) + $gutterSmallWidth / 2;
-  width: $size;
+  width: 100%;
   height: $size;
   min-width: $size;
   min-height: $size;

@@ -2,7 +2,7 @@
 
 // pass variables to react component
 :export {
-  cssTileWidth: gridSmallWidth(2) + $gutterSmallWidth;
+  cssTileOffsetWidth: $gutterSmallWidth;
 }
 
 .topic {

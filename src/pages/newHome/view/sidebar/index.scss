@@ -2,7 +2,7 @@
 
 // pass variables to react component
 :export {
-  cssTileWidth: gridSmallWidth(1) + $gutterSmallWidth;
+  cssTileOffsetWidth: $gutterSmallWidth / 2;
 }
 
 .sidebar {
@@ -12,7 +12,6 @@
   top: 0;
   left: 0;
   z-index: 300;
-  transition: all 0.5s ease;
   &:before {
     content: '';
     display: block;
