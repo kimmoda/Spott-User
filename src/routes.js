@@ -45,6 +45,7 @@ import { updateLocale as updateUbLocale } from './pages/basket/actions';
 import New from './pages/newHome/view';
 import NewHome from './pages/newHome/view/homePage';
 import NewTopic from './pages/newHome/view/topicPage';
+import NewLogin from './pages/newHome/view/login';
 
 /**
  * The application routes
@@ -240,6 +241,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           <IndexRedirect to='home' />
           <Route component={NewHome} path='home' />
           <Route component={NewTopic} path='topic/:topicId' />
+          <Route component={NewLogin} path='login' />
         </Route>
       </Route>
     );

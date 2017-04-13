@@ -141,7 +141,7 @@ export default class App extends Component {
     const floating = routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
     const noSignInButtonInHeader = routes.reduce((acc, curr) => typeof curr.noSignInButtonInHeader === 'undefined' ? acc : curr.noSignInButtonInHeader, false);
     const newDesign = routes.reduce((acc, curr) => typeof curr.newDesign === 'undefined' ? acc : curr.newDesign, false);
-    if (location.state && location.state.modal && this.previousChildren) {
+    if (!newDesign && location.state && location.state.modal && this.previousChildren) {
       // Render containing page (previousChildren) and modal (children)
       return (
         <div style={styles.container}>
@@ -155,7 +155,21 @@ export default class App extends Component {
       );
     }
     if (newDesign) {
-      return children;
+      if (location.state && location.state.modal && this.previousChildren) {
+        return (
+          <div>
+            <HrefLang location={location} />
+            <div>{this.previousChildren}</div>
+            <div>{children}</div>
+          </div>
+        );
+      }
+      return (
+        <div>
+          <HrefLang location={location} />
+          <div>{children}</div>
+        </div>
+      );
     }
     // Standard route, nothing special here.
     return (

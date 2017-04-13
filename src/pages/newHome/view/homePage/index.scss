@@ -31,9 +31,10 @@
   & > div {
     max-width: $maxWidth;
     background-color: $colorGrayWhite;
-    margin: 0 auto;
+    margin: 0 auto 32px auto;
     width: 100%;
     column-count: 4;
     column-gap: $gutterWidth;
+    column-fill: initial;
   }
 }

@@ -25,9 +25,14 @@ const configuration = {
       { loader: 'style!css', test: /\.css$/ },
       { loader: 'json', test: /\.json/ },
       { loader: 'raw', test: /\.html/ },
-      { loader: 'style!css?modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]!resolve-url-loader!sass?sourceMap', test: /\.scss/ },
+      { loader: 'style!css?modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]!postcss-loader!resolve-url-loader!sass?sourceMap', test: /\.scss/ },
       { loader: 'file?name=[name]-[md5:hash].[ext]', test: /\.gif$|\.jpg$|\.jpeg$|\.png|\.eot$|\.svg$|\.otf$|\.ttf$|\.woff$|\.woff2$|\.pdf$/ }
     ]
+  },
+  postcss: () => {
+    return [
+      require('autoprefixer')
+    ];
   },
   devServer: {
     // host: '192.168.1.127',

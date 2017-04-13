@@ -26,6 +26,7 @@ export default class New extends Component {
     children: PropTypes.object.isRequired,
     currentLocale: PropTypes.string.isRequired,
     loadTrendingTopics: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
     trendingTopics: PropTypes.any.isRequired
   };
@@ -39,10 +40,6 @@ export default class New extends Component {
       isSearchActive: false,
       searchValue: ''
     };
-  }
-
-  componentWillMount () {
-    this.props.loadTrendingTopics();
   }
 
   onSearchFocus () {
@@ -82,7 +79,7 @@ export default class New extends Component {
                   onFocus={this.onSearchFocus}/>
               </div>
             </div>
-            <Link styleName='sign-in' to={`/${currentLocale}`}>
+            <Link styleName='sign-in' to={{ pathname: `/${currentLocale}/new/login`, state: { modal: true, returnTo: this.props.location.pathname } }}>
               Sign in
             </Link>
           </div>

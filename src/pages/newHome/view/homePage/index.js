@@ -31,7 +31,7 @@ export default class NewHome extends Component {
     super(props);
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.loadSpottsList();
     this.props.loadTrendingTopics();
   }
