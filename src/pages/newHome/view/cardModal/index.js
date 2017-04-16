@@ -145,8 +145,8 @@ export default class CardModal extends Component {
             <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
             <div styleName='card'>
               <div styleName='image'>
-                {spott.getIn([ 'image', 'url' ]) && <ImageLoader srcOriginal={spott.getIn([ 'image', 'url' ])} srcThumb={imageThumb}/>}
-                <CardMarkers/>
+                <ImageLoader srcOriginal={spott.getIn([ 'image', 'url' ])} srcThumb={imageThumb}/>
+                <CardMarkers markers={spott.get('productMarkers')}/>
                 <Link
                   style={{ backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})` }}
                   styleName='person' to='#'/>

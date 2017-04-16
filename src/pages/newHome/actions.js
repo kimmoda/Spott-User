@@ -20,10 +20,6 @@ export const GET_TOPIC_RELATED_START = 'NEW/GET_TOPIC_RELATED_START';
 export const GET_TOPIC_RELATED_SUCCESS = 'NEW/GET_TOPIC_RELATED_SUCCESS';
 export const GET_TOPIC_RELATED_ERROR = 'NEW/GET_TOPIC_RELATED_ERROR';
 
-export const GET_TOPIC_SUBSCRIBERS_START = 'NEW/GET_TOPIC_SUBSCRIBERS_START';
-export const GET_TOPIC_SUBSCRIBERS_SUCCESS = 'NEW/GET_TOPIC_SUBSCRIBERS_SUCCESS';
-export const GET_TOPIC_SUBSCRIBERS_ERROR = 'NEW/GET_TOPIC_SUBSCRIBERS_ERROR';
-
 export const SET_TOPIC_SUBSCRIBER_START = 'NEW/SET_TOPIC_SUBSCRIBER_START';
 export const SET_TOPIC_SUBSCRIBER_SUCCESS = 'NEW/SET_TOPIC_SUBSCRIBER_SUCCESS';
 export const SET_TOPIC_SUBSCRIBER_ERROR = 'NEW/SET_TOPIC_SUBSCRIBER_ERROR';
@@ -35,6 +31,10 @@ export const REMOVE_TOPIC_SUBSCRIBER_ERROR = 'NEW/REMOVE_TOPIC_SUBSCRIBER_ERROR'
 export const GET_SPOTTS_LIST_START = 'NEW/GET_SPOTTS_LIST_START';
 export const GET_SPOTTS_LIST_SUCCESS = 'NEW/GET_SPOTTS_LIST_SUCCESS';
 export const GET_SPOTTS_LIST_ERROR = 'NEW/GET_SPOTTS_LIST_ERROR';
+
+export const LOAD_SPOTT_START = 'NEW/LOAD_SPOTT_START';
+export const LOAD_SPOTT_SUCCESS = 'NEW/LOAD_SPOTT_SUCCESS';
+export const LOAD_SPOTT_ERROR = 'NEW/LOAD_SPOTT_ERROR';
 
 export const GET_SPOTT_START = 'NEW/GET_SPOTT_START';
 export const GET_SPOTT_SUCCESS = 'NEW/GET_SPOTT_SUCCESS';
@@ -81,7 +81,18 @@ export function loadTopicDetails ({ uuid }) {
 
 export const loadSpottsList = makeApiActionCreator(api.getSpottsList, GET_SPOTTS_LIST_START, GET_SPOTTS_LIST_SUCCESS, GET_SPOTTS_LIST_ERROR);
 
-export const loadSpott = makeApiActionCreator(api.getSpott, GET_SPOTT_START, GET_SPOTT_SUCCESS, GET_SPOTT_ERROR);
+export const fetchSpott = makeApiActionCreator(api.getSpott, GET_SPOTT_START, GET_SPOTT_SUCCESS, GET_SPOTT_ERROR);
+
+export function loadSpott ({ uuid }) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: LOAD_SPOTT_START, uuid });
+      return await dispatch(fetchSpott({ uuid }));
+    } catch (error) {
+      return dispatch({ type: LOAD_SPOTT_ERROR, uuid, error });
+    }
+  };
+}
 
 export const loadSpottLovers = makeApiActionCreator(api.getSpottLovers, GET_SPOTT_LOVERS_START, GET_SPOTT_LOVERS_SUCCESS, GET_SPOTT_LOVERS_ERROR);
 

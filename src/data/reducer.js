@@ -2,6 +2,7 @@
 /* eslint no-param-reassign: 0 */
 import { fromJS, List, Map } from 'immutable';
 import * as actions from './actions';
+import * as newActions from '../pages/newHome/actions';
 import { FETCHING, UPDATING, ERROR, LOADED } from './statusTypes';
 import { LOGOUT_SUCCESS } from '../pages/app/actions';
 
@@ -72,7 +73,8 @@ export default (state = fromJS({
     scenes: {},
     users: {},
     tvGuideEntries: {},
-    wishlists: {}
+    wishlists: {},
+    spotts: {}
   },
   relations: {
     characterHasProducts: {},
@@ -332,6 +334,15 @@ export default (state = fromJS({
       return fetchListSuccess(state, 'tvGuideEntries', 'tvGuideEntries', action.data);
     case actions.TV_GUIDE_ENTRIES_FETCH_ERROR:
       return fetchListError(state, 'tvGuideEntries', action.error);
+
+    // new API actions
+
+    case newActions.GET_SPOTT_START:
+      return fetchStart(state, [ 'entities', 'spotts', action.uuid ]);
+    case newActions.GET_SPOTT_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid ], action.data);
+    case newActions.GET_SPOTT_ERROR:
+      return fetchError(state, [ 'entities', 'spotts', action.uuid ], action.error);
 
     // Uninteresting actions
     // ---------------------

@@ -10,7 +10,7 @@ const styles = require('./index.scss');
 export default class ImageLoader extends Component {
 
   static propTypes = {
-    srcOriginal: PropTypes.string.isRequired,
+    srcOriginal: PropTypes.string,
     srcThumb: PropTypes.string.isRequired
   };
 
@@ -20,27 +20,22 @@ export default class ImageLoader extends Component {
     this.state = {
       loaded: false
     };
+    this.imageWidth = 592;
   }
 
   onImageLoaded () {
-    setTimeout(() => {
-      this.setState({
-        loaded: true
-      });
-    }, 1000);
+    this.setState({
+      loaded: true
+    });
   }
 
   render () {
     const { srcThumb, srcOriginal } = this.props;
+
     return (
       <div className={this.state.loaded && styles['image-loaded']} styleName='image'>
-        <img
-          src={srcThumb}
-          styleName='image-thumb'/>
-        <img
-          src={srcOriginal}
-          styleName='image-original'
-          onLoad={this.onImageLoaded}/>
+        <img src={srcThumb} styleName='image-thumb'/>
+        {srcOriginal && <img src={`${srcOriginal}?width=${this.imageWidth}`} styleName='image-original' onLoad={this.onImageLoaded}/>}
       </div>
     );
   }

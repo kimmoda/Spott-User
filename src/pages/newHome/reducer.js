@@ -8,7 +8,7 @@ export default function newHomeReducer (state = Map({
   topicSpotts: Map(),
   topicRelated: Map(),
   spotts: Map(),
-  spott: Map(),
+  currentSpott: Map(),
   spottLovers: Map()
 }), action) {
   switch (action.type) {
@@ -61,12 +61,10 @@ export default function newHomeReducer (state = Map({
     case actions.GET_SPOTTS_LIST_ERROR:
       return state.mergeIn([ 'spotts' ], Map({ _error: action.error, _status: ERROR }));
 
-    case actions.GET_SPOTT_START:
-      return state.mergeIn([ 'spott' ], Map({ _error: null, _status: FETCHING }));
-    case actions.GET_SPOTT_SUCCESS:
-      return state.set('spott', fromJS({ ...action.data, _error: null, _status: LOADED }));
-    case actions.GET_SPOTT_ERROR:
-      return state.mergeIn([ 'spott' ], Map({ _error: action.error, _status: ERROR }));
+    case actions.LOAD_SPOTT_START:
+      return state.set('currentSpott', Map({ uuid: action.uuid }));
+    case actions.LOAD_SPOTT_ERROR:
+      return state.mergeIn([ 'currentSpott' ], Map({ _error: action.error }));
 
     case actions.GET_SPOTT_LOVERS_START:
       return state.mergeIn([ 'spottLovers' ], Map({ _error: null, _status: FETCHING }));

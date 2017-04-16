@@ -1,4 +1,5 @@
 import { createStructuredSelector } from 'reselect';
+import { createEntityByIdSelector } from '../../data/selector';
 
 export const authenticationTokenSelector = (state) => state.getIn([ 'app', 'authentication', 'authenticationToken' ]);
 export const currentUserAvatarSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'avatar' ]);
@@ -13,7 +14,11 @@ export const topicRelatedSelector = (state) => state.getIn([ 'newHome', 'topicRe
 export const topicSubscribersSelector = (state) => state.getIn([ 'newHome', 'topicSubscribers' ]);
 
 export const spottsSelector = (state) => state.getIn([ 'newHome', 'spotts' ]);
-export const spottSelector = (state) => state.getIn([ 'newHome', 'spott' ]);
+
+export const currentSpottUuidSelector = (state) => state.getIn([ 'newHome', 'currentSpott', 'uuid' ]);
+export const spottEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'spotts' ]);
+export const spottSelector = createEntityByIdSelector(spottEntitiesSelector, currentSpottUuidSelector);
+
 export const spottLoversSelector = (state) => state.getIn([ 'newHome', 'spottLovers' ]);
 
 export const newHomeSelector = createStructuredSelector({
