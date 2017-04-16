@@ -1,4 +1,4 @@
-import { get } from './request';
+import { get, post, del } from './request';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=1&pageSize=10`);
@@ -20,8 +20,13 @@ export async function getTopicRelated (baseUrl, authenticationToken, locale, { u
   return body;
 }
 
-export async function getTopicSubscribers (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/subscribers`);
+export async function setTopicSubscriber (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/subscribers`);
+  return body;
+}
+
+export async function removeTopicSubscriber (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await del(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/subscribers`);
   return body;
 }
 
@@ -40,3 +45,12 @@ export async function getSpottLovers (baseUrl, authenticationToken, locale, { uu
   return body;
 }
 
+export async function setSpottLover (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/lovers`);
+  return body;
+}
+
+export async function removeSpottLover (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await del(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/lovers`);
+  return body;
+}

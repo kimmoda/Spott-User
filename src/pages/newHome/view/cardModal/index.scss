@@ -199,6 +199,11 @@
   @include btnMedium($icon: true);
 }
 
+.likes-liked {
+  @include btnMedium($icon: true);
+  @include btnPink;
+}
+
 .users {
   margin-left: 16px;
   display: flex;

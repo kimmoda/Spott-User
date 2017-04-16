@@ -1,0 +1,64 @@
+@import "../vars";
+
+.input {
+  @include bodyRegular;
+  width: 100%;
+  height: 32px;
+  border-radius: 3px;
+  background-color: $colorWhite;
+  border: 1px solid $colorGrayLight;
+  outline: none;
+  padding-left: 12px;
+  padding-right: 12px;
+  &:focus {
+    border: solid 1px $colorGray;
+  }
+  &:disabled {
+    border: solid 1px $colorGrayLight;
+    background-color: $colorGrayWhite;
+  }
+  &::placeholder {
+    color: $colorGray;
+  }
+}
+
+.input-error {
+  border: 1px solid $colorOrange;
+  color: $colorOrange;
+}
+
+
+:global {
+  .form {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .form-error {
+    @include bodyMedium($colorOrange);
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .form-title {
+    @include headlineMedium;
+  }
+
+  .form-row {
+    margin-top: 24px;
+  }
+
+  .form-label {
+    @include titleMedium;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .form-submit {
+    @include btnMedium;
+    @include btnPink;
+    margin-top: 27px;
+    width: 100%;
+  }
+}

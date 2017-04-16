@@ -18,6 +18,9 @@ $colorOrange: #e64b3b;
 
 $colorYellow: #ffb400;
 
+$overlayColorWhite: rgba(249, 249, 249, 0.95);
+$overlayColorBlack: rgba(34, 31, 38, 0.5);
+
 $boxShadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 $boxShadowBlur: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
 $boxShadowBlurer: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
@@ -203,21 +206,49 @@ $headerHeight: 80px;
   color: $colorWhite;
   background-color: $colorPink;
   border: solid 1px $colorPink;
+  i {
+    :global {
+      .fill {
+        fill: $colorWhite;
+      }
+    }
+  }
   &:hover {
     color: $colorWhite;
     background-color: $colorPinkMid;
     border: solid 1px $colorPinkMid;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
   }
   &:active {
     color: $colorWhite;
     background-color: $colorPinkDark;
     border: solid 1px $colorPinkDark;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
   }
   &:disabled {
     color: $colorWhite;
     background-color: $colorGray;
     border: solid 1px $colorGray;
     opacity: 0.5;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
   }
 }
 
@@ -225,21 +256,49 @@ $headerHeight: 80px;
   color: $colorWhite;
   background-color: $colorGreen;
   border: solid 1px $colorGreen;
+  i {
+    :global {
+      .fill {
+        fill: $colorWhite;
+      }
+    }
+  }
   &:hover {
     color: $colorWhite;
     background-color: $colorGreenMid;
     border: solid 1px $colorGreenMid;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
   }
   &:active {
     color: $colorWhite;
     background-color: $colorGreenDark;
     border: solid 1px $colorGreenDark;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
   }
   &:disabled {
     color: $colorWhite;
     background-color: $colorGray;
     border: solid 1px $colorGray;
     opacity: 0.5;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
   }
 }
 
@@ -247,21 +306,49 @@ $headerHeight: 80px;
   color: $colorWhite;
   background-color: $colorGray;
   border: solid 1px $colorGray;
+  i {
+    :global {
+      .fill {
+        fill: $colorWhite;
+      }
+    }
+  }
   &:hover {
     color: $colorWhite;
     background-color: $colorGrayDark;
     border: solid 1px $colorGrayDark;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
   }
   &:active {
     color: $colorWhite;
     background-color: $colorBlack;
     border: solid 1px $colorBlack;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
   }
   &:disabled {
     color: $colorWhite;
     background-color: $colorGray;
     border: solid 1px $colorGray;
     opacity: 0.5;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
   }
 }
 
@@ -269,21 +356,49 @@ $headerHeight: 80px;
   color: $colorGrayDark;
   background-color: $colorWhite;
   border: solid 1px $colorWhite;
+  i {
+    :global {
+      .fill {
+        fill: $colorGrayDark;
+      }
+    }
+  }
   &:hover {
     color: $colorGrayDark;
     background-color: $colorGrayLighter;
     border: solid 1px $colorGrayLighter;
+    i {
+      :global {
+        .fill {
+          fill: $colorGrayDark;
+        }
+      }
+    }
   }
   &:active {
     color: $colorGrayDark;
     background-color: $colorGrayLight;
     border: solid 1px $colorGrayLight;
+    i {
+      :global {
+        .fill {
+          fill: $colorGrayDark;
+        }
+      }
+    }
   }
   &:disabled {
     color: $colorGrayDark;
     background-color: $colorGray;
     border: solid 1px $colorGray;
     opacity: 0.5;
+    i {
+      :global {
+        .fill {
+          fill: $colorGrayDark;
+        }
+      }
+    }
   }
 }
 

@@ -2,21 +2,30 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import localized from '../../../_common/localized';
 import { IconHeart, IconForward } from '../icons';
 import CardModal from '../cardModal';
 import CardMarkers from '../cardMarkers';
 import Users from '../users/index';
+import * as actions from '../../actions';
 
 const styles = require('./index.scss');
 
 @localized
+@connect(null, (dispatch) => ({
+  removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
+  setSpottLover: bindActionCreators(actions.setSpottLover, dispatch)
+}))
 @CSSModules(styles, { allowMultiple: true })
 export default class Card extends Component {
 
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     item: PropTypes.any.isRequired,
+    removeSpottLover: PropTypes.func.isRequired,
+    setSpottLover: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired
   };
 
@@ -56,8 +65,6 @@ export default class Card extends Component {
       'http://lorempixel.com/26/26/abstract/9',
       'http://lorempixel.com/26/26/abstract/10'
     ];
-
-    this.cardImage = this.images[Math.floor(Math.random() * this.images.length)];
   }
 
   onCardClick () {
@@ -76,6 +83,14 @@ export default class Card extends Component {
       isCardModalOpen: false,
       isCardModalSidebarOpen: false
     });
+  }
+
+  onLoveClick (spottId, loved) {
+    if (loved) {
+      this.props.removeSpottLover({ uuid: spottId });
+    } else {
+      this.props.setSpottLover({ uuid: spottId });
+    }
   }
 
   render () {
@@ -108,10 +123,10 @@ export default class Card extends Component {
         </div>
         <div styleName='footer'>
           <div styleName='click-overlay' onClick={this.onCardClick}/>
-          <Link styleName='likes' to='#'>
+          <div styleName='likes' onClick={this.onLoveClick.bind(this, item.get('uuid'), item.get('loved'))}>
             <i><IconHeart/></i>
             <span>24</span>
-          </Link>
+          </div>
           <div styleName='users'>
             <Users maxNum={5}/>
           </div>

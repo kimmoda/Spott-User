@@ -1,0 +1,68 @@
+@import "../vars";
+
+.logo {
+  position: relative;
+  z-index: 100;
+  display: block;
+  height: 34px;
+  img {
+    height: 34px;
+    width: 110px;
+  }
+}
+
+.footer {
+  width: 100%;
+  height: 148px;
+  padding: 31px $offsetWidth 0 $offsetWidth;
+  border-top: 1px solid $colorGrayLighter;
+  background-color: $colorWhite;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.footer-wrapper {
+  max-width: $maxWidth;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+
+.footer-left {
+  max-width: 214px;
+}
+
+.footer-dsc {
+  @include bodyMedium($colorGray);
+  margin-top: 10px;
+}
+
+
+.footer-navs {
+  margin: 10px 0 0 100px;
+  display: flex;
+}
+
+.footer-nav {
+  margin-right: 53px;
+  display: flex;
+  flex-flow: column;
+}
+
+.footer-follow {
+  @include bodyMedium($colorGray);
+  display: block;
+  margin: 8px 0 0 150px;
+}
+
+.footer-nav-link {
+  @include bodyRegular($colorGray);
+  display: block;
+  margin-bottom: 8px;
+  text-decoration: none;
+}
+
+.footer-copyright {
+  @include smallRegular($colorGray);
+  margin: 10px 0 0 auto;
+}

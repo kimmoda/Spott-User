@@ -23,7 +23,9 @@ const styles = require('./index.scss');
 @localized
 @connect(spottDetailsSelector, (dispatch) => ({
   loadSpott: bindActionCreators(actions.loadSpott, dispatch),
-  loadSpottLovers: bindActionCreators(actions.loadSpottLovers, dispatch)
+  loadSpottLovers: bindActionCreators(actions.loadSpottLovers, dispatch),
+  removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
+  setSpottLover: bindActionCreators(actions.setSpottLover, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class CardModal extends Component {
@@ -33,6 +35,8 @@ export default class CardModal extends Component {
     loadSpott: PropTypes.func.isRequired,
     loadSpottLovers: PropTypes.func.isRequired,
     relatedTopics: PropTypes.any.isRequired,
+    removeSpottLover: PropTypes.func.isRequired,
+    setSpottLover: PropTypes.func.isRequired,
     similarSpotts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
     spottId: PropTypes.string.isRequired,
@@ -113,6 +117,14 @@ export default class CardModal extends Component {
     this.props.onClose();
   }
 
+  onLoveClick (spottId, loved) {
+    if (loved) {
+      this.props.removeSpottLover({ uuid: spottId });
+    } else {
+      this.props.setSpottLover({ uuid: spottId });
+    }
+  }
+
   render () {
     const { imageThumb, relatedTopics, spott, similarSpotts } = this.props;
 
@@ -161,10 +173,10 @@ export default class CardModal extends Component {
                 </div>
               </div>
               <div styleName='footer'>
-                <Link styleName='likes' to='#'>
+                <div className={spott.get('loved') && styles['likes-liked']} styleName='likes' onClick={this.onLoveClick.bind(this, spott.get('uuid'), spott.get('loved'))}>
                   <i><IconHeart/></i>
                   <span>{spott.get('loverCount')}</span>
-                </Link>
+                </div>
                 <div styleName='users'>
                   <Users large maxNum={16}/>
                 </div>

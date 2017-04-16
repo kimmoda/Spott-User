@@ -90,8 +90,12 @@
 
 .info-subscribe-btn {
   @include btnMedium;
-  @include btnPink;
   margin-left: 70px;
+}
+
+.info-subscribe-btn-subscribed {
+  @include btnMedium;
+  @include btnPink;
 }
 
 .info-share-wrapper {

@@ -16,7 +16,9 @@ const { cssHeaderHeight } = require('../vars.scss');
 
 @localized
 @connect(topicDetailsSelector, (dispatch) => ({
-  loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch)
+  loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch),
+  removeTopicSubscriber: bindActionCreators(actions.removeTopicSubscriber, dispatch),
+  setTopicSubscriber: bindActionCreators(actions.setTopicSubscriber, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class NewTopic extends Component {
@@ -25,6 +27,8 @@ export default class NewTopic extends Component {
     params: PropTypes.shape({
       topicId: PropTypes.string.isRequired
     }),
+    removeTopicSubscriber: PropTypes.func.isRequired,
+    setTopicSubscriber: PropTypes.func.isRequired,
     topic: PropTypes.any.isRequired,
     topicRelated: PropTypes.any.isRequired,
     topicSpotts: PropTypes.any.isRequired
@@ -90,6 +94,14 @@ export default class NewTopic extends Component {
     });
   }
 
+  onSubscribeClick (topicId, subscribed) {
+    if (subscribed) {
+      this.props.removeTopicSubscriber({ uuid: topicId });
+    } else {
+      this.props.setTopicSubscriber({ uuid: topicId });
+    }
+  }
+
   render () {
     const { topic, topicRelated, topicSpotts } = this.props;
     const { isScrolledToInfo, filterVal, filterVals, filterSecondVal, filterSecondVals } = this.state;
@@ -111,7 +123,12 @@ export default class NewTopic extends Component {
                 <div styleName='info-subscribers-count'>{topic.get('subscriberCount')}</div>
                 <div styleName='info-subscribers-text'>Subscribers</div>
               </div>
-              <div styleName='info-subscribe-btn'>Subscribed</div>
+              <div
+                className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
+                styleName='info-subscribe-btn'
+                onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
+                {topic.get('subscribed') ? 'Subscribed' : 'Subscribe'}
+              </div>
               <div styleName='info-share-wrapper'>
                 <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>
                   <div>Facebook</div>

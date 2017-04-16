@@ -6,7 +6,7 @@
 }
 
 .modal-overlay {
-  background-color: rgba(249, 249, 249, 0.95);
+  background-color: $overlayColorBlack;
   z-index: 5000;
   overflow: auto;
   position: fixed;
@@ -54,4 +54,26 @@
   &:hover {
     transform: scale(1.1);
   }
+}
+
+.forgot-password {
+  @include smallRegular($colorPink);
+  margin-top: 7px;
+  cursor: pointer;
+  text-align: right;
+}
+
+.new-user {
+  @include bodyRegular($colorGrayDark);
+  display: flex;
+  margin-top: 32px;
+  justify-content: center;
+}
+
+.sign-up {
+  @include bodyMedium($colorPink);
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 6px;
+  display: block;
 }
