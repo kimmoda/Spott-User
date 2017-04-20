@@ -39,6 +39,10 @@ export const GET_SPOTT_START = 'NEW/GET_SPOTT_START';
 export const GET_SPOTT_SUCCESS = 'NEW/GET_SPOTT_SUCCESS';
 export const GET_SPOTT_ERROR = 'NEW/GET_SPOTT_ERROR';
 
+export const GET_SPOTT_SIMILAR_START = 'NEW/GET_SPOTT_SIMILAR_START';
+export const GET_SPOTT_SIMILAR_SUCCESS = 'NEW/GET_SPOTT_SIMILAR_SUCCESS';
+export const GET_SPOTT_SIMILAR_ERROR = 'NEW/GET_SPOTT_SIMILAR_ERROR';
+
 export const GET_SPOTT_LOVERS_START = 'NEW/GET_SPOTT_LOVERS_START';
 export const GET_SPOTT_LOVERS_SUCCESS = 'NEW/GET_SPOTT_LOVERS_SUCCESS';
 export const GET_SPOTT_LOVERS_ERROR = 'NEW/GET_SPOTT_LOVERS_ERROR';
@@ -100,18 +104,9 @@ export function loadTopicDetails ({ uuid }) {
 
 export const loadSpottsList = makeApiActionCreator(api.getSpottsList, GET_SPOTTS_LIST_START, GET_SPOTTS_LIST_SUCCESS, GET_SPOTTS_LIST_ERROR);
 
-export const fetchSpott = makeApiActionCreator(api.getSpott, GET_SPOTT_START, GET_SPOTT_SUCCESS, GET_SPOTT_ERROR);
+export const loadSpott = makeApiActionCreator(api.getSpott, GET_SPOTT_START, GET_SPOTT_SUCCESS, GET_SPOTT_ERROR);
 
-export function loadSpott ({ uuid }) {
-  return async (dispatch, getState) => {
-    try {
-      dispatch({ type: LOAD_SPOTT_START, uuid });
-      return await dispatch(fetchSpott({ uuid }));
-    } catch (error) {
-      return dispatch({ type: LOAD_SPOTT_ERROR, uuid, error });
-    }
-  };
-}
+export const loadSpottSimilar = makeApiActionCreator(api.getSpottSimilar, GET_SPOTT_SIMILAR_START, GET_SPOTT_SIMILAR_SUCCESS, GET_SPOTT_SIMILAR_ERROR);
 
 export const loadSpottLovers = makeApiActionCreator(api.getSpottLovers, GET_SPOTT_LOVERS_START, GET_SPOTT_LOVERS_SUCCESS, GET_SPOTT_LOVERS_ERROR);
 
@@ -119,16 +114,29 @@ export const setSpottLover = makeApiActionCreator(api.setSpottLover, SET_SPOTT_L
 
 export const removeSpottLover = makeApiActionCreator(api.removeSpottLover, REMOVE_SPOTT_LOVER_START, REMOVE_SPOTT_LOVER_SUCCESS, REMOVE_SPOTT_LOVER_ERROR);
 
-export const fetchProduct = makeApiActionCreator(api.getProduct, GET_PRODUCT_START, GET_PRODUCT_SUCCESS, GET_PRODUCT_ERROR);
+export function loadSpottDetails ({ uuid }) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: LOAD_SPOTT_START, uuid });
+      await dispatch(loadSpott({ uuid }));
+      dispatch(loadSpottSimilar({ uuid }));
+      dispatch(loadSpottLovers({ uuid }));
+    } catch (error) {
+      return dispatch({ type: LOAD_SPOTT_ERROR, uuid, error });
+    }
+  };
+}
 
-export const fetchProductSimilar = makeApiActionCreator(api.getProductSimilar, GET_PRODUCT_SIMILAR_START, GET_PRODUCT_SIMILAR_SUCCESS, GET_PRODUCT_SIMILAR_ERROR);
+export const loadProduct = makeApiActionCreator(api.getProduct, GET_PRODUCT_START, GET_PRODUCT_SUCCESS, GET_PRODUCT_ERROR);
 
-export function loadProduct ({ uuid }) {
+export const loadProductSimilar = makeApiActionCreator(api.getProductSimilar, GET_PRODUCT_SIMILAR_START, GET_PRODUCT_SIMILAR_SUCCESS, GET_PRODUCT_SIMILAR_ERROR);
+
+export function loadProductDetails ({ uuid }) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: LOAD_PRODUCT_START, uuid });
-      await dispatch(fetchProduct({ uuid }));
-      dispatch(fetchProductSimilar({ uuid }));
+      await dispatch(loadProduct({ uuid }));
+      dispatch(loadProductSimilar({ uuid }));
     } catch (error) {
       return dispatch({ type: LOAD_PRODUCT_ERROR, uuid, error });
     }
@@ -139,8 +147,8 @@ export function loadSidebarProduct ({ uuid }) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: LOAD_SIDEBAR_PRODUCT_START, uuid });
-      await dispatch(fetchProduct({ uuid }));
-      dispatch(fetchProductSimilar({ uuid }));
+      await dispatch(loadProduct({ uuid }));
+      dispatch(loadProductSimilar({ uuid }));
     } catch (error) {
       return dispatch({ type: LOAD_SIDEBAR_PRODUCT_ERROR, uuid, error });
     }

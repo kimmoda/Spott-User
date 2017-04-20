@@ -345,6 +345,34 @@ export default (state = fromJS({
     case newActions.GET_SPOTT_ERROR:
       return fetchError(state, [ 'entities', 'spotts', action.uuid ], action.error);
 
+    case newActions.GET_SPOTT_SIMILAR_START:
+      return fetchStart(state, [ 'entities', 'spotts', action.uuid, 'similar' ]);
+    case newActions.GET_SPOTT_SIMILAR_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid, 'similar' ], action.data);
+    case newActions.GET_SPOTT_SIMILAR_ERROR:
+      return fetchError(state, [ 'entities', 'spotts', action.uuid, 'similar' ], action.error);
+
+    case newActions.GET_SPOTT_LOVERS_START:
+      return fetchStart(state, [ 'entities', 'spotts', action.uuid, 'lovers' ]);
+    case newActions.GET_SPOTT_LOVERS_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid, 'lovers' ], action.data);
+    case newActions.GET_SPOTT_LOVERS_ERROR:
+      return fetchError(state, [ 'entities', 'spotts', action.uuid, 'lovers' ], action.error);
+
+    case newActions.SET_SPOTT_LOVER_START:
+      return fetchStart(state, [ 'entities', 'spotts', action.uuid ]);
+    case newActions.SET_SPOTT_LOVER_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid ], action.data);
+    case newActions.SET_SPOTT_LOVER_ERROR:
+      return fetchError(state, [ 'entities', 'spotts', action.uuid ], action.error);
+
+    case newActions.REMOVE_SPOTT_LOVER_START:
+      return fetchStart(state, [ 'entities', 'spotts', action.uuid ]);
+    case newActions.REMOVE_SPOTT_LOVER_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid ], action.data);
+    case newActions.REMOVE_SPOTT_LOVER_ERROR:
+      return fetchError(state, [ 'entities', 'spotts', action.uuid ], action.error);
+
     case newActions.GET_PRODUCT_START:
       return fetchStart(state, [ 'entities', 'newProducts', action.uuid ]);
     case newActions.GET_PRODUCT_SUCCESS:

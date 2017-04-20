@@ -23,6 +23,24 @@ export default class Sidebar extends Component {
   constructor (props) {
     super(props);
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
+
+    this.state = {
+      currentImage: null
+    };
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.product) {
+      this.setState({
+        currentImage: nextProps.product.getIn([ 'images', '0', 'url' ])
+      });
+    }
+  }
+
+  onImageClick (url) {
+    this.setState({
+      currentImage: url
+    });
   }
 
   render () {
@@ -37,11 +55,16 @@ export default class Sidebar extends Component {
           </div>
         </div>
         <div styleName='sidebar-image'>
-          <img src={`${product.getIn([ 'images', '0', 'url' ])}?width=424&height=424`}/>
+          <img src={`${this.state.currentImage}?width=424&height=424`}/>
         </div>
         <div styleName='sidebar-photos'>
           {product.get('images') && product.get('images').map((item, index) =>
-            <div key={`sidebar_photo_${index}`} style={{ backgroundImage: `url('${item.get('url')}?width=80&height=80'` }} styleName='sidebar-photo'/>
+            <div
+              className={this.state.currentImage === item.get('url') && styles['sidebar-photo-active']}
+              key={`sidebar_photo_${index}`}
+              style={{ backgroundImage: `url('${item.get('url')}?width=80&height=80'` }}
+              styleName='sidebar-photo'
+              onClick={this.onImageClick.bind(this, item.get('url'))}/>
           )}
         </div>
         <div styleName='sidebar-panel'>

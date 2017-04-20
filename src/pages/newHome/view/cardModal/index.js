@@ -24,8 +24,7 @@ const styles = require('./index.scss');
 @connect(spottDetailsSelector, (dispatch) => ({
   clearSidebarProducts: bindActionCreators(actions.clearSidebarProducts, dispatch),
   loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch),
-  loadSpott: bindActionCreators(actions.loadSpott, dispatch),
-  loadSpottLovers: bindActionCreators(actions.loadSpottLovers, dispatch),
+  loadSpottDetails: bindActionCreators(actions.loadSpottDetails, dispatch),
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
   setSpottLover: bindActionCreators(actions.setSpottLover, dispatch)
 }))
@@ -36,16 +35,12 @@ export default class CardModal extends Component {
     imageThumb: PropTypes.string.isRequired,
     isSidebarOpen: PropTypes.bool,
     loadSidebarProduct: PropTypes.func.isRequired,
-    loadSpott: PropTypes.func.isRequired,
-    loadSpottLovers: PropTypes.func.isRequired,
-    relatedTopics: PropTypes.any.isRequired,
+    loadSpottDetails: PropTypes.func.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
     sidebarProducts: PropTypes.any.isRequired,
-    similarSpotts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
     spottId: PropTypes.string.isRequired,
-    spottLovers: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
   };
@@ -55,10 +50,6 @@ export default class CardModal extends Component {
     this.onCloseHandler = ::this.onCloseHandler;
     this.onSidebarClose = ::this.onSidebarClose;
     this.onWrapperClick = ::this.onWrapperClick;
-
-    this.state = {
-      sidebarProductId: null
-    };
 
     this.users = [
       'http://lorempixel.com/26/26/people/1',
@@ -78,8 +69,7 @@ export default class CardModal extends Component {
   }
 
   componentWillMount () {
-    this.props.loadSpott({ uuid: this.props.spottId });
-    this.props.loadSpottLovers({ uuid: this.props.spottId });
+    this.props.loadSpottDetails({ uuid: this.props.spottId });
   }
 
   componentDidMount () {
@@ -122,7 +112,7 @@ export default class CardModal extends Component {
   }
 
   render () {
-    const { imageThumb, relatedTopics, spott, similarSpotts, sidebarProducts } = this.props;
+    const { imageThumb, spott, sidebarProducts } = this.props;
 
     return (
       <ReactModal
@@ -183,18 +173,20 @@ export default class CardModal extends Component {
                 </Link>
               </div>
             </div>
-            <div styleName='topics'>
-              <div styleName='topics-content'>
-                <div styleName='topics-title'>Related Topics</div>
-                <Topics items={relatedTopics}/>
-              </div>
-            </div>
-            <div styleName='spotts'>
-              <div styleName='spotts-title'>Similar Spotts</div>
-              <div styleName='spotts-list'>
-                <Cards items={similarSpotts}/>
-              </div>
-            </div>
+            {Boolean(spott.get('topics') && spott.get('topics').size) &&
+              <div styleName='topics'>
+                <div styleName='topics-content'>
+                  <div styleName='topics-title'>Related Topics</div>
+                  <Topics itemsRelated={spott.get('topics')}/>
+                </div>
+              </div>}
+            {spott.get('similar') &&
+              <div styleName='spotts'>
+                <div styleName='spotts-title'>Similar Spotts</div>
+                <div styleName='spotts-list'>
+                  <Cards items={spott.get('similar')}/>
+                </div>
+              </div>}
           </div>
         </div>
         <Sidebars onSidebarClose={this.onSidebarClose}/>

@@ -8,7 +8,8 @@ const { cssTileOffsetWidth } = require('../topic/index.scss');
 
 export default class Topics extends Component {
   static propTypes = {
-    items: PropTypes.any.isRequired
+    items: PropTypes.any,
+    itemsRelated: PropTypes.any
   };
 
   constructor (props) {
@@ -17,13 +18,20 @@ export default class Topics extends Component {
   }
 
   render () {
-    const { items } = this.props;
+    const { items, itemsRelated } = this.props;
 
     return (
       <div>
-        {items.get('_status') === LOADED &&
+        {Boolean(items && items.get('_status') === LOADED) &&
         <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={items.get('data').size}>
           {items.get('data').map((item, index) =>
+            <Topic item={item} key={`topic_${index}`}/>
+          )}
+        </Tiles>}
+
+        {Boolean(itemsRelated && itemsRelated.size) &&
+        <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={itemsRelated.size}>
+          {itemsRelated.map((item, index) =>
             <Topic item={item} key={`topic_${index}`}/>
           )}
         </Tiles>}

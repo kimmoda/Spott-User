@@ -45,6 +45,11 @@ export async function getSpottLovers (baseUrl, authenticationToken, locale, { uu
   return body;
 }
 
+export async function getSpottSimilar (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/searches/similar`);
+  return body;
+}
+
 export async function setSpottLover (baseUrl, authenticationToken, locale, { uuid }) {
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/lovers`);
   return body;

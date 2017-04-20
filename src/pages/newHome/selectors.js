@@ -29,8 +29,6 @@ export const sidebarProductsSelector = createStructuredSelector({
   sidebarProducts: createEntitiesByListSelector(sidebarProductsListSelector, productEntitiesSelector)
 });
 
-export const spottLoversSelector = (state) => state.getIn([ 'newHome', 'spottLovers' ]);
-
 export const newHomeSelector = createStructuredSelector({
   trendingTopics: trendingTopicsSelector,
   spotts: spottsSelector
@@ -47,9 +45,6 @@ export const newHeaderSelector = createStructuredSelector({
 
 export const spottDetailsSelector = createStructuredSelector({
   spott: spottSelector,
-  spottLovers: spottLoversSelector,
-  relatedTopics: trendingTopicsSelector,
-  similarSpotts: spottsSelector,
   sidebarProducts: createEntitiesByListSelector(sidebarProductsListSelector, productEntitiesSelector)
 });
 

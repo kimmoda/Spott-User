@@ -113,7 +113,7 @@ export default class Card extends Component {
           </div>
           <h3 styleName='title'>{item.get('title')}</h3>
           <div styleName='description'>
-            Taken from Season 2 Episode 5 — Extreme Measures
+            {item.get('comment')}
           </div>
           <div styleName='topic-links'>
             {item.get('topics').map((topic, index) =>

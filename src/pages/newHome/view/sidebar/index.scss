@@ -108,9 +108,14 @@
   transition: transform 0.2s ease;
   backface-visibility: hidden;
   margin-right: 8px;
+  border: 1px solid transparent;
   &:hover {
     transform: scale(1.1);
   }
+}
+
+.sidebar-photo-active {
+  border: 1px solid $colorGreen;
 }
 
 .sidebar-panel {
