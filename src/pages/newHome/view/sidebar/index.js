@@ -6,6 +6,7 @@ import localized from '../../../_common/localized';
 import { IconForward, IconStar, IconClose } from '../icons';
 import Users from '../users';
 import Tiles from '../tiles';
+import { formatPrice } from '../../../_common/buildingBlocks';
 
 const styles = require('./index.scss');
 
@@ -30,23 +31,23 @@ export default class Sidebar extends Component {
     return (
       <div styleName='sidebar'>
         <div styleName='sidebar-header'>
-          <div styleName='sidebar-title'>{product}</div>
-          <div styleName='sidebar-close' onClick={onBackClick.bind(this, product)}>
+          <div styleName='sidebar-title'>{product.get('shortName')}</div>
+          <div styleName='sidebar-close' onClick={onBackClick.bind(this, product.get('uuid'))}>
             <i><IconClose/></i>
           </div>
         </div>
         <div styleName='sidebar-image'>
-          <img src='https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/c61222a6-70d2-4d64-b81f-f5e30a9cab19?height=424&width=424'/>
+          <img src={`${product.getIn([ 'images', '0', 'url' ])}?width=424&height=424`}/>
         </div>
         <div styleName='sidebar-photos'>
-          {new Array(7).fill(1).map((item, index) =>
-            <div key={`sidebar_photo_${index}`} style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }} styleName='sidebar-photo'/>
+          {product.get('images') && product.get('images').map((item, index) =>
+            <div key={`sidebar_photo_${index}`} style={{ backgroundImage: `url('${item.get('url')}?width=80&height=80'` }} styleName='sidebar-photo'/>
           )}
         </div>
         <div styleName='sidebar-panel'>
-          <Link styleName='sidebar-brand' to='#'>Tom Ford</Link>
-          <div styleName='sidebar-title2'>{product}— Blue</div>
-          <div styleName='sidebar-cost'>$5,180</div>
+          <Link styleName='sidebar-brand' to='#'>{product.getIn([ 'brand', 'name' ])}</Link>
+          <div styleName='sidebar-title2'>{product.get('longName')}</div>
+          <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
           <div styleName='sidebar-options'>
             <select styleName='sidebar-select'>
               <option value='0'>58R</option>
@@ -62,7 +63,7 @@ export default class Sidebar extends Component {
         <div styleName='sidebar-footer'>
           <Link styleName='sidebar-stars' to='#'>
             <i><IconStar/></i>
-            <span>28</span>
+            <span>{product.get('likeCount')}</span>
           </Link>
           <div styleName='sidebar-users'>
             <Users large maxNum={8} />
@@ -74,8 +75,7 @@ export default class Sidebar extends Component {
         <div styleName='sidebar-panel'>
           <div styleName='sidebar-panel-title'>Description</div>
           <div styleName='sidebar-description'>
-            An exceptional example of Tom Ford tailoring,<br/>
-            this three-piece suit offers distinguished elegance.
+            {product.get('description')}
           </div>
         </div>
         <div styleName='sidebar-panel'>
@@ -92,20 +92,21 @@ export default class Sidebar extends Component {
             </Tiles>
           </div>
         </div>
-        <div styleName='sidebar-panel'>
-          <div styleName='sidebar-panel-title'>Similar Items</div>
-          <div styleName='sidebar-similars'>
-            <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={10}>
-              {new Array(10).fill(1).map((item, index) =>
-                <div
-                  key={`product_${index}`}
-                  style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}
-                  styleName='sidebar-similar'
-                  onClick={onProductClick.bind(this, `Product ${index}`)}/>
-              )}
-            </Tiles>
-          </div>
-        </div>
+        {Boolean(product.getIn([ 'similar', 'data' ]) && product.getIn([ 'similar', 'data' ]).size) &&
+          <div styleName='sidebar-panel'>
+            <div styleName='sidebar-panel-title'>Similar Items</div>
+            <div styleName='sidebar-similars'>
+              <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={product.getIn([ 'similar', 'data' ]).size}>
+                {product.getIn([ 'similar', 'data' ]).map((item, index) =>
+                  <div
+                    key={`product_${index}`}
+                    style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=80&height=80'` }}
+                    styleName='sidebar-similar'
+                    onClick={onProductClick.bind(this, item.get('uuid'))}/>
+                )}
+              </Tiles>
+            </div>
+          </div>}
       </div>
     );
   }

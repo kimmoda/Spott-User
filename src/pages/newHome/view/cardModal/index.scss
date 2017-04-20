@@ -118,7 +118,6 @@
   box-sizing: border-box;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  overflow: hidden;
   div {
     img {
       border-top-left-radius: 4px;
@@ -159,6 +158,18 @@
 
 .product {
   @include product;
+}
+
+.product-available {
+  &:after {
+    background-color: $colorGreen;
+  }
+}
+
+.product-unavailable {
+  &:after {
+    background-color: $colorYellow;
+  }
 }
 
 .content {

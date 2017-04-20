@@ -54,3 +54,13 @@ export async function removeSpottLover (baseUrl, authenticationToken, locale, { 
   const { body } = await del(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/lovers`);
   return body;
 }
+
+export async function getProduct (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}`);
+  return body;
+}
+
+export async function getProductSimilar (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/similar`);
+  return body;
+}

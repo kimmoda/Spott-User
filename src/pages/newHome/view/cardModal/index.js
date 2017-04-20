@@ -22,6 +22,8 @@ const styles = require('./index.scss');
 
 @localized
 @connect(spottDetailsSelector, (dispatch) => ({
+  clearSidebarProducts: bindActionCreators(actions.clearSidebarProducts, dispatch),
+  loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch),
   loadSpott: bindActionCreators(actions.loadSpott, dispatch),
   loadSpottLovers: bindActionCreators(actions.loadSpottLovers, dispatch),
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
@@ -30,13 +32,16 @@ const styles = require('./index.scss');
 @CSSModules(styles, { allowMultiple: true })
 export default class CardModal extends Component {
   static propTypes = {
+    clearSidebarProducts: PropTypes.func.isRequired,
     imageThumb: PropTypes.string.isRequired,
     isSidebarOpen: PropTypes.bool,
+    loadSidebarProduct: PropTypes.func.isRequired,
     loadSpott: PropTypes.func.isRequired,
     loadSpottLovers: PropTypes.func.isRequired,
     relatedTopics: PropTypes.any.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
+    sidebarProducts: PropTypes.any.isRequired,
     similarSpotts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
     spottId: PropTypes.string.isRequired,
@@ -48,13 +53,11 @@ export default class CardModal extends Component {
   constructor (props) {
     super(props);
     this.onCloseHandler = ::this.onCloseHandler;
-    this.onProductClick = ::this.onProductClick;
     this.onSidebarClose = ::this.onSidebarClose;
     this.onWrapperClick = ::this.onWrapperClick;
 
     this.state = {
-      sidebarItemIndex: 1,
-      sidebarItem: props.isSidebarOpen ? 'Windsor Three Piece Suit 0' : null
+      sidebarProductId: null
     };
 
     this.users = [
@@ -89,26 +92,19 @@ export default class CardModal extends Component {
   }
 
   onCloseHandler () {
-    if (this.state.sidebarItem) {
-      this.setState({
-        sidebarItem: null
-      });
+    if (this.props.sidebarProducts.get('data').size) {
+      this.props.clearSidebarProducts();
     } else {
       this.props.onClose();
     }
   }
 
-  onProductClick () {
-    this.setState({
-      sidebarItemIndex: this.state.sidebarItemIndex + 1,
-      sidebarItem: `Windsor Three Piece Suit ${this.state.sidebarItemIndex}`
-    });
+  onProductClick (productId) {
+    this.props.loadSidebarProduct({ uuid: productId });
   }
 
   onSidebarClose () {
-    this.setState({
-      sidebarItem: null
-    });
+    this.props.clearSidebarProducts();
   }
 
   onWrapperClick (e) {
@@ -126,7 +122,7 @@ export default class CardModal extends Component {
   }
 
   render () {
-    const { imageThumb, relatedTopics, spott, similarSpotts } = this.props;
+    const { imageThumb, relatedTopics, spott, similarSpotts, sidebarProducts } = this.props;
 
     return (
       <ReactModal
@@ -137,10 +133,10 @@ export default class CardModal extends Component {
         <div styleName='modal-close' onClick={this.onCloseHandler}>
           <i><IconClose/></i>
         </div>
-        <div className={this.state.sidebarItem ? styles['main-sidebar-active'] : styles['main-sidebar-inactive']}
+        <div className={sidebarProducts.get('data').size ? styles['main-sidebar-active'] : styles['main-sidebar-inactive']}
              styleName='main'>
           <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
-          <div className={this.state.sidebarItem ? styles['main-sidebar-wrapper-active'] : styles['main-sidebar-wrapper-inactive']}
+          <div className={sidebarProducts.get('data').size ? styles['main-sidebar-wrapper-active'] : styles['main-sidebar-wrapper-inactive']}
                styleName='main-sidebar-wrapper'>
             <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
             <div styleName='card'>
@@ -152,14 +148,16 @@ export default class CardModal extends Component {
                   styleName='person' to='#'/>
               </div>
               <div styleName='products'>
-                <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={10}>
-                  {new Array(10).fill(1).map((item, index) =>
-                    <div key={`product_${index}`}
-                         style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})` }}
-                         styleName='product'
-                         onClick={this.onProductClick}/>
+                {spott.get('productMarkers') && <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={spott.get('productMarkers').size}>
+                  {spott.get('productMarkers').map((item, index) =>
+                    <div
+                      className={item.getIn([ 'product', 'available' ]) ? styles['product-available'] : styles['product-unavailable']}
+                      key={`product_${index}`}
+                      style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80')` }}
+                      styleName='product'
+                      onClick={this.onProductClick.bind(this, item.getIn([ 'product', 'uuid' ]))}/>
                   )}
-                </Tiles>
+                </Tiles>}
               </div>
               <div styleName='content'>
                 <h3 styleName='title'>{spott.get('title')}</h3>
@@ -199,7 +197,7 @@ export default class CardModal extends Component {
             </div>
           </div>
         </div>
-        <Sidebars item={this.state.sidebarItem} onSidebarClose={this.onSidebarClose}/>
+        <Sidebars onSidebarClose={this.onSidebarClose}/>
       </ReactModal>
     );
   }

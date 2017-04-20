@@ -12,6 +12,7 @@
   top: 0;
   left: 0;
   z-index: 300;
+  min-height: 100vh;
   &:before {
     content: '';
     display: block;
@@ -22,6 +23,14 @@
     height: 100%;
     background: rgba(0,0,0,0.3);
     transform: translate3d(-100%, 0, 0);
+  }
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    background-color: $colorWhite;
+    left: 0;
+    width: 100%;
   }
   &:first-child {
     &:before {
@@ -74,6 +83,9 @@
 .sidebar-image {
   width: gridSmallWidth(5);
   overflow: hidden;
+  img {
+    width: gridSmallWidth(5);
+  }
 }
 
 .sidebar-photos {
@@ -90,6 +102,7 @@
   min-height: 32px;
   border-radius: 4px;
   background-color: $colorGrayLight;
+  background-size: cover;
   position: relative;
   cursor: pointer;
   transition: transform 0.2s ease;

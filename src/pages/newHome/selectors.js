@@ -1,5 +1,5 @@
 import { createStructuredSelector } from 'reselect';
-import { createEntityByIdSelector } from '../../data/selector';
+import { createEntityByIdSelector, createEntitiesByListSelector } from '../../data/selector';
 
 export const authenticationTokenSelector = (state) => state.getIn([ 'app', 'authentication', 'authenticationToken' ]);
 export const currentUserAvatarSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'avatar' ]);
@@ -18,6 +18,16 @@ export const spottsSelector = (state) => state.getIn([ 'newHome', 'spotts' ]);
 export const currentSpottUuidSelector = (state) => state.getIn([ 'newHome', 'currentSpott', 'uuid' ]);
 export const spottEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'spotts' ]);
 export const spottSelector = createEntityByIdSelector(spottEntitiesSelector, currentSpottUuidSelector);
+
+export const productEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'newProducts' ]);
+
+export const currentProductUuidSelector = (state) => state.getIn([ 'newHome', 'currentProduct', 'uuid' ]);
+export const productSelector = createEntityByIdSelector(productEntitiesSelector, currentProductUuidSelector);
+
+export const sidebarProductsListSelector = (state) => state.getIn([ 'newHome', 'sidebarProducts' ]);
+export const sidebarProductsSelector = createStructuredSelector({
+  sidebarProducts: createEntitiesByListSelector(sidebarProductsListSelector, productEntitiesSelector)
+});
 
 export const spottLoversSelector = (state) => state.getIn([ 'newHome', 'spottLovers' ]);
 
@@ -39,7 +49,8 @@ export const spottDetailsSelector = createStructuredSelector({
   spott: spottSelector,
   spottLovers: spottLoversSelector,
   relatedTopics: trendingTopicsSelector,
-  similarSpotts: spottsSelector
+  similarSpotts: spottsSelector,
+  sidebarProducts: createEntitiesByListSelector(sidebarProductsListSelector, productEntitiesSelector)
 });
 
 export const topicDetailsSelector = createStructuredSelector({
@@ -47,4 +58,8 @@ export const topicDetailsSelector = createStructuredSelector({
   topicSpotts: topicSpottsSelector,
   topicRelated: topicRelatedSelector,
   topicSubscribers: topicSubscribersSelector
+});
+
+export const productDetailsSelector = createStructuredSelector({
+  product: productSelector
 });

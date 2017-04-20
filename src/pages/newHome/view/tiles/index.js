@@ -46,6 +46,7 @@ export default class Tiles extends Component {
       Math.round(width / elWidth) >= 0 && elsCount++;
     });
     this.elsInContainerCount = elsCount;
+    this.forceUpdate();
   }
 
   onMoveLeft () {

@@ -31,7 +31,7 @@ export default class CardMarkers extends Component {
             onClick={onMarkerClick}>
             <div styleName='marker-wrapper'>
               <div styleName='marker-content'>
-                <div styleName='marker-image'/>
+                <div style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=48&height=48')` }} styleName='marker-image'/>
                 <div styleName='marker-right'>
                   <div styleName='marker-title'>Match indication</div>
                   <div styleName='marker-name'>{item.getIn([ 'product', 'shortName' ])}</div>

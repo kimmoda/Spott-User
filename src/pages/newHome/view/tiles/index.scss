@@ -3,6 +3,7 @@
 .tiles-wrapper {
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 @mixin tilesArrow {

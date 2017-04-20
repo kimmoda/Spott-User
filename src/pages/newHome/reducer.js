@@ -1,4 +1,4 @@
-import { Map, fromJS } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import * as actions from './actions';
 import { FETCHING, ERROR, LOADED } from '../../data/statusTypes';
 
@@ -9,7 +9,9 @@ export default function newHomeReducer (state = Map({
   topicRelated: Map(),
   spotts: Map(),
   currentSpott: Map(),
-  spottLovers: Map()
+  spottLovers: Map(),
+  currentProduct: Map(),
+  sidebarProducts: Map({ data: List() })
 }), action) {
   switch (action.type) {
     case actions.GET_TRENDING_TOPICS_START:
@@ -86,6 +88,26 @@ export default function newHomeReducer (state = Map({
       return state.set('spott', fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.REMOVE_SPOTT_LOVER_ERROR:
       return state.mergeIn([ 'spott' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.LOAD_PRODUCT_START:
+      return state.set('currentProduct', Map({ uuid: action.uuid }));
+    case actions.LOAD_PRODUCT_ERROR:
+      return state.mergeIn([ 'currentProduct' ], Map({ _error: action.error }));
+
+    case actions.LOAD_SIDEBAR_PRODUCT_START:
+      return state.updateIn([ 'sidebarProducts', 'data' ], (data) => data.find((item) => item === action.uuid) ? data : data.push(action.uuid));
+    case actions.LOAD_SIDEBAR_PRODUCT_ERROR:
+      return state.mergeIn([ 'sidebarProducts' ], Map({ _error: action.error }));
+
+    case actions.REMOVE_SIDEBAR_PRODUCT_START:
+      return state.updateIn([ 'sidebarProducts', 'data' ], (data) => data.filter((item) => item !== action.uuid));
+    case actions.REMOVE_SIDEBAR_PRODUCT_ERROR:
+      return state.mergeIn([ 'sidebarProducts' ], Map({ _error: action.error }));
+
+    case actions.CLEAR_SIDEBAR_PRODUCTS_START:
+      return state.updateIn([ 'sidebarProducts', 'data' ], (data) => List());
+    case actions.CLEAR_SIDEBAR_PRODUCTS_ERROR:
+      return state.mergeIn([ 'sidebarProducts' ], Map({ _error: action.error }));
 
     default:
       return state;

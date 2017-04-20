@@ -74,7 +74,8 @@ export default (state = fromJS({
     users: {},
     tvGuideEntries: {},
     wishlists: {},
-    spotts: {}
+    spotts: {},
+    newProducts: {}
   },
   relations: {
     characterHasProducts: {},
@@ -343,6 +344,20 @@ export default (state = fromJS({
       return fetchSuccess(state, [ 'entities', 'spotts', action.uuid ], action.data);
     case newActions.GET_SPOTT_ERROR:
       return fetchError(state, [ 'entities', 'spotts', action.uuid ], action.error);
+
+    case newActions.GET_PRODUCT_START:
+      return fetchStart(state, [ 'entities', 'newProducts', action.uuid ]);
+    case newActions.GET_PRODUCT_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'newProducts', action.uuid ], action.data);
+    case newActions.GET_PRODUCT_ERROR:
+      return fetchError(state, [ 'entities', 'newProducts', action.uuid ], action.error);
+
+    case newActions.GET_PRODUCT_SIMILAR_START:
+      return fetchStart(state, [ 'entities', 'newProducts', action.uuid, 'similar' ]);
+    case newActions.GET_PRODUCT_SIMILAR_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'newProducts', action.uuid, 'similar' ], action.data);
+    case newActions.GET_PRODUCT_SIMILAR_ERROR:
+      return fetchError(state, [ 'entities', 'newProducts', action.uuid, 'similar' ], action.error);
 
     // Uninteresting actions
     // ---------------------

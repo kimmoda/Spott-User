@@ -33,7 +33,6 @@ export const GET_SPOTTS_LIST_SUCCESS = 'NEW/GET_SPOTTS_LIST_SUCCESS';
 export const GET_SPOTTS_LIST_ERROR = 'NEW/GET_SPOTTS_LIST_ERROR';
 
 export const LOAD_SPOTT_START = 'NEW/LOAD_SPOTT_START';
-export const LOAD_SPOTT_SUCCESS = 'NEW/LOAD_SPOTT_SUCCESS';
 export const LOAD_SPOTT_ERROR = 'NEW/LOAD_SPOTT_ERROR';
 
 export const GET_SPOTT_START = 'NEW/GET_SPOTT_START';
@@ -51,6 +50,26 @@ export const SET_SPOTT_LOVER_ERROR = 'NEW/SET_SPOTT_LOVER_ERROR';
 export const REMOVE_SPOTT_LOVER_START = 'NEW/REMOVE_SPOTT_LOVER_START';
 export const REMOVE_SPOTT_LOVER_SUCCESS = 'NEW/REMOVE_SPOTT_LOVER_SUCCESS';
 export const REMOVE_SPOTT_LOVER_ERROR = 'NEW/REMOVE_SPOTT_LOVER_ERROR';
+
+export const LOAD_PRODUCT_START = 'NEW/LOAD_PRODUCT_START';
+export const LOAD_PRODUCT_ERROR = 'NEW/LOAD_PRODUCT_ERROR';
+
+export const GET_PRODUCT_START = 'NEW/GET_PRODUCT_START';
+export const GET_PRODUCT_SUCCESS = 'NEW/GET_PRODUCT_SUCCESS';
+export const GET_PRODUCT_ERROR = 'NEW/GET_PRODUCT_ERROR';
+
+export const GET_PRODUCT_SIMILAR_START = 'NEW/GET_PRODUCT_SIMILAR_START';
+export const GET_PRODUCT_SIMILAR_SUCCESS = 'NEW/GET_PRODUCT_SIMILAR_SUCCESS';
+export const GET_PRODUCT_SIMILAR_ERROR = 'NEW/GET_PRODUCT_SIMILAR_ERROR';
+
+export const LOAD_SIDEBAR_PRODUCT_START = 'NEW/LOAD_SIDEBAR_PRODUCT_START';
+export const LOAD_SIDEBAR_PRODUCT_ERROR = 'NEW/LOAD_SIDEBAR_PRODUCT_ERROR';
+
+export const REMOVE_SIDEBAR_PRODUCT_START = 'NEW/REMOVE_SIDEBAR_PRODUCT_START';
+export const REMOVE_SIDEBAR_PRODUCT_ERROR = 'NEW/REMOVE_SIDEBAR_PRODUCT_ERROR';
+
+export const CLEAR_SIDEBAR_PRODUCTS_START = 'NEW/CLEAR_SIDEBAR_PRODUCTS_START';
+export const CLEAR_SIDEBAR_PRODUCTS_ERROR = 'NEW/CLEAR_SIDEBAR_PRODUCTS_ERROR';
 
 // Actions creators
 // ////////////////
@@ -99,3 +118,51 @@ export const loadSpottLovers = makeApiActionCreator(api.getSpottLovers, GET_SPOT
 export const setSpottLover = makeApiActionCreator(api.setSpottLover, SET_SPOTT_LOVER_START, SET_SPOTT_LOVER_SUCCESS, SET_SPOTT_LOVER_ERROR);
 
 export const removeSpottLover = makeApiActionCreator(api.removeSpottLover, REMOVE_SPOTT_LOVER_START, REMOVE_SPOTT_LOVER_SUCCESS, REMOVE_SPOTT_LOVER_ERROR);
+
+export const fetchProduct = makeApiActionCreator(api.getProduct, GET_PRODUCT_START, GET_PRODUCT_SUCCESS, GET_PRODUCT_ERROR);
+
+export const fetchProductSimilar = makeApiActionCreator(api.getProductSimilar, GET_PRODUCT_SIMILAR_START, GET_PRODUCT_SIMILAR_SUCCESS, GET_PRODUCT_SIMILAR_ERROR);
+
+export function loadProduct ({ uuid }) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: LOAD_PRODUCT_START, uuid });
+      await dispatch(fetchProduct({ uuid }));
+      dispatch(fetchProductSimilar({ uuid }));
+    } catch (error) {
+      return dispatch({ type: LOAD_PRODUCT_ERROR, uuid, error });
+    }
+  };
+}
+
+export function loadSidebarProduct ({ uuid }) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: LOAD_SIDEBAR_PRODUCT_START, uuid });
+      await dispatch(fetchProduct({ uuid }));
+      dispatch(fetchProductSimilar({ uuid }));
+    } catch (error) {
+      return dispatch({ type: LOAD_SIDEBAR_PRODUCT_ERROR, uuid, error });
+    }
+  };
+}
+
+export function removeSidebarProduct ({ uuid }) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: REMOVE_SIDEBAR_PRODUCT_START, uuid });
+    } catch (error) {
+      return dispatch({ type: REMOVE_SIDEBAR_PRODUCT_ERROR, uuid, error });
+    }
+  };
+}
+
+export function clearSidebarProducts () {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: CLEAR_SIDEBAR_PRODUCTS_START });
+    } catch (error) {
+      return dispatch({ type: CLEAR_SIDEBAR_PRODUCTS_ERROR, error });
+    }
+  };
+}

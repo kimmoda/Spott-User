@@ -606,12 +606,13 @@ $headerHeight: 80px;
 
 @mixin product {
   $size: gridSmallWidth(1) + $gutterSmallWidth / 2;
-  width: 100%;
+  width: $size;
   height: $size;
   min-width: $size;
   min-height: $size;
   border-radius: 4px;
   background-color: $colorGrayLight;
+  background-size: cover;
   position: relative;
   cursor: pointer;
   margin-right: $gutterSmallWidth / 2;
@@ -626,7 +627,6 @@ $headerHeight: 80px;
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: $colorGreen;
   }
   &:hover {
     transform: scale(1.02);
