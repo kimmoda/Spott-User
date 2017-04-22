@@ -27,6 +27,10 @@
   color: $colorOrange;
 }
 
+.checkbox-error {
+  border: 1px solid $colorOrange;
+  padding: 2px;
+}
 
 :global {
   .form {
@@ -51,8 +55,84 @@
 
   .form-label {
     @include titleMedium;
-    display: block;
+    display: inline-block;
+    position: relative;
     margin-bottom: 8px;
+  }
+
+  .form-label-required {
+    &:after {
+      @include bodyMedium($colorPink);
+      content: '*';
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      right: -8px;
+    }
+  }
+
+  .form-join-fields {
+    display: flex;
+    justify-content: space-between;
+    & > div {
+      width: 49%;
+    }
+  }
+
+  .form-join-3-fields {
+    display: flex;
+    justify-content: space-between;
+    & > div {
+      &:nth-child(1) {
+        width: 92px;
+      }
+      &:nth-child(2) {
+        width: 148px;
+      }
+      &:nth-child(3) {
+        width: 92px;
+      }
+    }
+  }
+
+  .form-radios {
+    display: flex;
+    &>div {
+      margin-right: 16px;
+      label {
+        display: flex;
+        align-items: center;
+        input {
+          width: 14px;
+          height: 14px;
+        }
+        span {
+          @include bodyRegular;
+          display: block;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .form-checkbox {
+    display: flex;
+    &>div {
+      label {
+        display: flex;
+        align-items: flex-start;
+        padding: 2px;
+        input {
+          width: 14px;
+          height: 14px;
+        }
+        span {
+          @include tinyRegular;
+          display: block;
+          margin-left: 18px;
+        }
+      }
+    }
   }
 
   .form-submit {
