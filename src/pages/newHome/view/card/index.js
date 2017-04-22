@@ -94,7 +94,7 @@ export default class Card extends Component {
   }
 
   render () {
-    const { item } = this.props;
+    const { item, currentLocale } = this.props;
 
     return (
       <div styleName='card'>
@@ -117,7 +117,7 @@ export default class Card extends Component {
           </div>
           <div styleName='topic-links'>
             {item.get('topics').map((topic, index) =>
-              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to='#'>{topic.get('text')}</Link>
+              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/new/topic/${topic.get('uuid')}`}>{topic.get('text')}</Link>
             )}
           </div>
         </div>

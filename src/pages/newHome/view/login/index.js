@@ -78,7 +78,7 @@ export default class NewLogin extends Component {
   }
 
   render () {
-    const { errorSubmit, handleSubmit, t, submitFailed } = this.props;
+    const { errorSubmit, handleSubmit, t, submitFailed, currentLocale } = this.props;
 
     return (
       <ReactModal
@@ -112,7 +112,18 @@ export default class NewLogin extends Component {
           <div styleName='forgot-password'>Forgot your password?</div>
           {errorSubmit && <div className='form-error'>{t(errorSubmit)}</div>}
           <button className='form-submit' type='submit'>Log in</button>
-          <div styleName='new-user'>New User? <Link styleName='sign-up' to='#'>Sign up here!</Link></div>
+          <div styleName='new-user'>
+            New User?
+            <Link
+              styleName='sign-up'
+              to={this.props.location.state && this.props.location.state.modal
+                ? {
+                  pathname: `/${currentLocale}/new/registration`,
+                  state: { modal: true, returnTo: this.props.location.state.returnTo }
+                } : `/${currentLocale}/new/registration`}>
+              Sign up here!
+            </Link>
+          </div>
         </form>
       </ReactModal>
     );

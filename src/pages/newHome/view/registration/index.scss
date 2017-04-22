@@ -1,0 +1,79 @@
+@import "../vars";
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.modal-overlay {
+  background-color: $overlayColorBlack;
+  z-index: 5000;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  overflow: hidden;
+  display: flex;
+  width: 400px;
+  position: relative;
+  backface-visibility: hidden;
+  height: auto;
+  border-radius: 4px;
+  background-color: $colorWhite;
+  padding: 24px 24px 32px 24px;
+}
+
+.modal-close {
+  cursor: pointer;
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  transition: transform 0.5s ease;
+  z-index: 10;
+  i {
+    :global {
+      .fill {
+        fill: $colorBlack;
+      }
+    }
+    svg {
+      width: 21px;
+      height: 21px;
+    }
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.forgot-password {
+  @include smallRegular($colorPink);
+  margin-top: 7px;
+  cursor: pointer;
+  text-align: right;
+}
+
+.new-user {
+  @include bodyRegular($colorGrayDark);
+  display: flex;
+  margin-top: 32px;
+  justify-content: center;
+}
+
+.sign-up {
+  @include bodyMedium($colorPink);
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 6px;
+  display: block;
+}

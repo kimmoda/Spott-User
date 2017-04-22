@@ -46,6 +46,7 @@ import New from './pages/newHome/view';
 import NewHome from './pages/newHome/view/homePage';
 import NewTopic from './pages/newHome/view/topicPage';
 import NewLogin from './pages/newHome/view/login';
+import NewRegistration from './pages/newHome/view/registration';
 
 /**
  * The application routes
@@ -242,6 +243,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
           <Route component={NewHome} path='home' />
           <Route component={NewTopic} path='topic/:topicId' />
           <Route component={NewLogin} path='login' />
+          <Route component={NewRegistration} path='registration' />
         </Route>
       </Route>
     );
