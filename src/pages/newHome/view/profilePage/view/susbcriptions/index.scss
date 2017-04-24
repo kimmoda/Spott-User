@@ -1,0 +1,52 @@
+@import "../../../vars";
+
+.subscriptions {
+  display: block;
+  box-sizing: border-box;
+  padding: 24px 24px 40px 24px;
+}
+
+.title {
+  @include headlineMedium;
+}
+
+.topics-list {
+  margin-top: 37px;
+}
+
+.topic {
+  display: flex;
+  align-items: center;
+  padding: 13px 0 13px 0;
+  border-bottom: 1px solid $colorGrayLighter;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.topic-image {
+  width: 68px;
+  height: 38px;
+  border-radius: 2px;
+  background-color: $colorGrayLighter;
+}
+
+.topic-dscr {
+  margin-left: 11px;
+}
+
+.topic-title {
+  @include bodyRegular;
+  @include link;
+}
+
+.topic-type {
+  @include smallRegular($colorGray);
+  margin-top: 8px;
+}
+
+.topic-btn {
+  @include btnMedium;
+  @include btnPink;
+  margin-left: auto;
+}

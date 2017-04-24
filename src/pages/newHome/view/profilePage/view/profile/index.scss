@@ -1,0 +1,81 @@
+@import "../../../vars";
+
+.content-profile {
+  padding: 24px;
+}
+
+.content-title {
+  @include headlineMedium;
+}
+
+.user-photos {
+  display: flex;
+  margin-top: 32px;
+}
+
+.user-avatar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 96px;
+  margin-right: 40px;
+}
+
+.avatar-image {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: $colorGrayLighter;
+}
+
+.avatar-link {
+  @include bodyRegular($colorPink);
+  margin-top: 16px;
+  text-decoration: none;
+}
+
+.user-bg {
+  display: block;
+}
+
+.bg-image {
+  width: 250px;
+  height: 96px;
+  border-radius: 4px;
+  background-color: $colorGrayLighter;
+}
+
+.bg-link {
+  @include bodyRegular($colorPink);
+  margin-top: 16px;
+  text-decoration: none;
+}
+
+.user-form {
+  margin-top: 40px;
+}
+
+.user-form-wrapper {
+  width: 360px;
+}
+
+.user-form-row {
+  margin-top: 32px;
+}
+
+.user-form-high-row {
+  margin-top: 37px;
+}
+
+.user-form-submit {
+  border-top: 1px solid $colorGrayLighter;
+  margin: 64px -24px 0 -24px;
+  padding: 20px 24px 0 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.user-form-submit-btn {
+  @include btnMedium;
+  @include btnPink;
+}

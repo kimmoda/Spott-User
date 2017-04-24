@@ -193,7 +193,7 @@ export default class NewRegistration extends Component {
               submitFailed={submitFailed}/>
           </div>
           <div className='form-row'>
-            <div className='form-checkbox'>
+            <div className='form-checkbox-tiny'>
               <Field
                 component={FormCheckbox}
                 label='I confirm to know, understand and accept the terms and

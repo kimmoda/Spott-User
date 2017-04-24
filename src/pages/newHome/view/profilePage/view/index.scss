@@ -1,0 +1,49 @@
+@import "../../vars";
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px $offsetWidth 40px $offsetWidth;
+}
+
+.content-wrapper {
+  max-width: gridWidth(10);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+}
+
+.nav {
+  width: gridWidth(3);
+  margin-right: $gutterWidth;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.nav-link {
+  @include titleRegular($colorGray);
+  text-decoration: none;
+}
+
+.nav-link-active {
+  @include titleMedium($colorPink);
+}
+
+.content {
+  width: gridWidth(7);
+  background-color: $colorWhite;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: $boxShadowBlur;
+}

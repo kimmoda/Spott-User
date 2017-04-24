@@ -123,8 +123,28 @@
         align-items: flex-start;
         padding: 2px;
         input {
-          width: 14px;
-          height: 14px;
+          width: 18px;
+          height: 18px;
+        }
+        span {
+          @include bodyRegular;
+          display: block;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .form-checkbox-tiny {
+    display: flex;
+    &>div {
+      label {
+        display: flex;
+        align-items: flex-start;
+        padding: 2px;
+        input {
+          width: 18px;
+          height: 18px;
         }
         span {
           @include tinyRegular;

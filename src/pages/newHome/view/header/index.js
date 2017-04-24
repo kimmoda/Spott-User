@@ -111,7 +111,7 @@ export default class Header extends Component {
                         <img src={currentUserAvatar ? `${currentUserAvatar.get('url')}?height=24&width=24` : dummyAvatarImage}/>
                         <i><IconArrow3/></i>
                       </div>}>
-                        <div>My profile</div>
+                        <Link to={`/${currentLocale}/new/user/profile`}>My profile</Link>
                         <div>Settings</div>
                         <DropdownDivider/>
                         <div onClick={this.onLogoutClick}>Log Out</div>

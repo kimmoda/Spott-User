@@ -8,6 +8,7 @@
   padding: 0 16px;
   cursor: pointer;
   width: 100%;
+  text-decoration: none;
   &:hover {
     background-color: $colorGrayLighter;
   }
@@ -63,6 +64,9 @@
   margin-top: 10px;
   position: relative;
   & > div {
+    @include dropdownItem;
+  }
+  & > a {
     @include dropdownItem;
   }
   .dropdown-nested {

@@ -126,7 +126,7 @@ export class FormCheckbox extends Component {
 
   render () {
     const { touched, error } = this.props.meta;
-    const { input, autoFocus, placeholder, required, submitFailed, label, value } = this.props;
+    const { input, autoFocus, placeholder, required, submitFailed, label } = this.props;
     return (
       <div>
         <label className={submitFailed && error && styles['checkbox-error']}>
@@ -135,7 +135,6 @@ export class FormCheckbox extends Component {
             placeholder={placeholder}
             required={required}
             type='checkbox'
-            value={value}
             {...input} />
           <span>{label}</span>
         </label>
