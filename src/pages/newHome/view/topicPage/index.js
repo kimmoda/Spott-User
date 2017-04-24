@@ -108,7 +108,7 @@ export default class NewTopic extends Component {
 
     return (
       <section styleName='wrapper'>
-        <div styleName='poster'/>
+        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}')` }} styleName='poster'/>}
         <div style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
           <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainer = ref; }} styleName='info'>
             <div styleName='info-content'>
