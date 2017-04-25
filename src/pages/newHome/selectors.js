@@ -58,3 +58,10 @@ export const topicDetailsSelector = createStructuredSelector({
 export const productDetailsSelector = createStructuredSelector({
   product: productSelector
 });
+
+export const userSubscriptionsSelector = (state) => state.getIn([ 'newHome', 'profile', 'subscriptions' ]);
+
+export const userProfileDetailsSelector = createStructuredSelector({
+  userId: currentUserIdSelector,
+  subscriptions: userSubscriptionsSelector
+});

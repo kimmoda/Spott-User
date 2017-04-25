@@ -11,7 +11,8 @@ export default function newHomeReducer (state = Map({
   currentSpott: Map(),
   spottLovers: Map(),
   currentProduct: Map(),
-  sidebarProducts: Map({ data: List() })
+  sidebarProducts: Map({ data: List() }),
+  profile: Map({ subscriptions: Map() })
 }), action) {
   switch (action.type) {
     case actions.GET_TRENDING_TOPICS_START:
@@ -87,6 +88,13 @@ export default function newHomeReducer (state = Map({
       return state.updateIn([ 'sidebarProducts', 'data' ], (data) => List());
     case actions.CLEAR_SIDEBAR_PRODUCTS_ERROR:
       return state.mergeIn([ 'sidebarProducts' ], Map({ _error: action.error }));
+
+    case actions.GET_USER_SUBSCRIPTIONS_START:
+      return state.mergeIn([ 'profile', 'subscriptions' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_USER_SUBSCRIPTIONS_SUCCESS:
+      return state.setIn([ 'profile', 'subscriptions' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_USER_SUBSCRIPTIONS_ERROR:
+      return state.mergeIn([ 'profile', 'subscriptions' ], Map({ _error: action.error, _status: ERROR }));
 
     default:
       return state;

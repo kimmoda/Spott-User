@@ -69,3 +69,8 @@ export async function getProductSimilar (baseUrl, authenticationToken, locale, {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/similar`);
   return body;
 }
+
+export async function getUserSubscriptions (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/subscriptions`);
+  return body;
+}

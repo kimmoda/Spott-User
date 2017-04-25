@@ -25,10 +25,13 @@
 }
 
 .topic-image {
+  display: block;
+  text-decoration: none;
   width: 68px;
   height: 38px;
   border-radius: 2px;
   background-color: $colorGrayLighter;
+  background-size: cover;
 }
 
 .topic-dscr {
@@ -38,6 +41,7 @@
 .topic-title {
   @include bodyRegular;
   @include link;
+  display: block;
 }
 
 .topic-type {
