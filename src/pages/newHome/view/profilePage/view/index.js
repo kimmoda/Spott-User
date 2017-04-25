@@ -35,13 +35,13 @@ export default class NewUserProfile extends Component {
           <nav styleName='nav'>
             <ul styleName='nav-list'>
               <li styleName='nav-item'>
-                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/new/user/profile`}>Profile</Link>
+                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/profile`}>Profile</Link>
               </li>
               <li styleName='nav-item'>
-                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/new/user/account`}>Account</Link>
+                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/account`}>Account</Link>
               </li>
               <li styleName='nav-item'>
-                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/new/user/subscriptions`}>Manage Subscriptions</Link>
+                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/subscriptions`}>Manage Subscriptions</Link>
               </li>
               <li styleName='nav-item'>
                 <Link styleName='nav-link' to='#'>Notifications</Link>

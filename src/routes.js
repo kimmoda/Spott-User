@@ -1,48 +1,22 @@
 import React from 'react';
 import { IndexRoute, IndexRedirect, Route } from 'react-router';
-import { colors, SmallContainer } from './pages/_common/buildingBlocks';
 import { isIos, isAndroid } from './pages/_common/downloadAppButtons';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
 import Cookies from './pages/cookies';
-import Character from './pages/character/view';
-import CharacterProducts from './pages/character/view/products';
 import Error404 from './pages/error404';
-import Home from './pages/home/view';
-import Login from './pages/login';
 import Mobile from './pages/mobile';
-import Register from './pages/register/view';
 import Privacy from './pages/privacy';
-import ProductDetail from './pages/productDetail/view';
-import Profile from './pages/profile/view';
-import ProfileWishlistProducts from './pages/profile/view/wishlistProducts';
-import ProfileWishlists from './pages/profile/view/wishlists';
-import ProfileSavedScenes from './pages/profile/view/savedScenes';
 import Redirect from './pages/redirect';
-import Scene from './pages/scene/view';
-import SceneProduct from './pages/scene/view/productDetail';
-import Medium from './pages/medium/view';
-import MediumOverview from './pages/medium/view/overview';
-import MediumProducts from './pages/medium/view/products';
-import MediumSeasons from './pages/medium/view/seasons';
-import MediumEpisodes from './pages/medium/view/episodes';
-import MediumScenes from './pages/medium/view/scenes';
-import MediumTabs from './pages/medium/view/tabs';
 import ResetPassword from './pages/resetPassword';
 import ResetPasswordSuccess from './pages/resetPassword/success';
-import Basket from './pages/basket/view';
-import Orders from './pages/basket/view/orders';
-import OrderDetails from './pages/basket/view/orderDetails';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
-import { characterView, mediumView, productView, sceneView, userView } from './data/actions';
 import { changeLocale, downloadPageShowed } from './pages/app/actions';
-import { COMMERCIAL, MOVIE, SERIES } from './data/mediumTypes';
 import { locales } from './locales';
 import { currentLocaleSelector, isDownloadPageShowedSelector, isUbAuthenticatedSelector } from './pages/app/selector';
 import { updateLocale as updateUbLocale } from './pages/basket/actions';
-import New from './pages/newHome/view';
 import NewHome from './pages/newHome/view/homePage';
 import NewTopic from './pages/newHome/view/topicPage';
 import NewLogin from './pages/newHome/view/login';
@@ -124,136 +98,27 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       dispatch(changeLocale(locale));
     }
 
-    const placeholderStyle = {
-      width: '100%',
-      paddingTop: '7.5em',
-      paddingBottom: '7.5em',
-      paddingLeft: '2.5em',
-      paddingRight: '2.5em',
-      backgroundColor: colors.whiteGray
-    };
-
     return (
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
-        <IndexRedirect to='fifty-shades/trailer-1'/>
-        <Route component={Home} path='fifty-shades/:trailer' onEnter={goToDownloadPage}/>
-
         <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
         <Route component={Privacy} path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
         <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
         <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
-        <Route component={Character} path='character/:characterSlug/:characterId' onEnter={({ params: { characterId } }) => {
-          characterId && dispatch(characterView({ characterId }));
-        }}>
-          <IndexRedirect to='products' />
-          <Route component={CharacterProducts} path='products' />
-        </Route>
-
-        {/* Scenes */}
-        <Route component={Scene} path='series/:seriesSlug/:seriesId/season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId/scenes/scene/:sceneId' onEnter={({ params: { sceneId } }) => {
-          sceneId && dispatch(sceneView({ sceneId }));
-        }}>
-          <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
-          <Route component={SceneProduct} path='product/:productId' />
-        </Route>
-
-        <Route component={Scene} path='commercial/:commercialSlug/:commercialId/scenes/scene/:sceneId' onEnter={({ params: { sceneId } }) => {
-          sceneId && dispatch(sceneView({ sceneId }));
-        }}>
-          <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
-          <Route component={SceneProduct} path='product/:productId' />
-        </Route>
-
-        <Route component={Scene} path='movie/:movieSlug/:movieId/scenes/scene/:sceneId' onEnter={({ params: { sceneId } }) => {
-          sceneId && dispatch(sceneView({ sceneId }));
-        }}>
-          <IndexRoute component={() => <div style={placeholderStyle}><SmallContainer /></div>} />
-          <Route component={SceneProduct} path='product/:productId' />
-        </Route>
-
-        {/* Media */}
-        <Route component={Medium} mediumType={COMMERCIAL} path='commercial/:mediumSlug/:mediumId' onEnter={({ params: { mediumId } }) => {
-          window.scrollTo(0, 0);
-          mediumId && dispatch(mediumView({ mediumId }));
-        }}>
-          <IndexRedirect to='overview' />
-          <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
-          <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
-          <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={COMMERCIAL} path='scenes' />
-        </Route>
-        <Route component={Medium} mediumType={SERIES} path='series/:mediumSlug/:mediumId' onEnter={({ params: { mediumId } }) => {
-          window.scrollTo(0, 0);
-          mediumId && dispatch(mediumView({ mediumId }));
-        }}>
-          <IndexRedirect to='overview' />
-          <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
-          <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
-          <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={SERIES}>
-            <Route component={MediumSeasons} path='season'>
-              <Route component={MediumEpisodes} path=':seasonSlug/:seasonId' onEnter={({ params: { seasonId } }) => {
-                seasonId && dispatch(mediumView({ mediumId: seasonId }));
-              }}>
-                <Route component={null} path='episode/:episodeSlug/:episodeId' onEnter={({ params: { episodeId } }) => {
-                  episodeId && dispatch(mediumView({ mediumId: episodeId }));
-                }}/>
-              </Route>
-            </Route>
-          </Route>
-        </Route>
-        <Route component={Medium} mediumType={MOVIE} path={'movie/:mediumSlug/:mediumId'} onEnter={({ params: { mediumId } }) => {
-          window.scrollTo(0, 0);
-          mediumId && dispatch(mediumView({ mediumId }));
-        }}>
-          <IndexRedirect to='overview' />
-          <Route components={{ main: MediumOverview, nav: MediumTabs }} path='overview' />
-          <Route components={{ main: MediumProducts, nav: MediumTabs }} path='products' />
-          <Route components={{ main: MediumScenes, nav: MediumTabs }} mediumType={MOVIE} path='scenes' />
-        </Route>
-
-        <Route component={ProductDetail} path='product/:productSlug/:brandSlug/:productId' onEnter={({ params: { productId } }) => {
-          productId && dispatch(productView({ productId }));
-        }} />
-        <Route component={ProductDetail} path='product/:productSlug/:productId' onEnter={({ params: { productId } }) => {
-          productId && dispatch(productView({ productId }));
-        }} /> {/* Backwards compatible with old url. */}
-
         <Route component={Mobile} path='mobile/download' standalone/>
-        <Route component={Login} noSignInButtonInHeader path='login' />
-        <Route component={Register} noSignInButtonInHeader path='register' />
         <Route component={ResetPassword} noSignInButtonInHeader path='resetpassword'/>
         <Route component={ResetPasswordSuccess} noSignInButtonInHeader path='resetpassword/success'/>
         <Route component={ChangePassword} noSignInButtonInHeader path='user/changepwd'/>
 
-        <Route component={Profile} floating path='profile/:userSlug/:userId' onEnter={({ params: { userId } }) => {
-          userId && dispatch(userView({ userId }));
-        }}>
-          <IndexRedirect to='saved-scenes' />
-          <Route path='wishlists'>
-            <IndexRoute component={ProfileWishlists} />
-            <Route component={ProfileWishlistProducts} path=':wishlistSlug/:wishlistId' />
-          </Route>
-          <Route component={ProfileSavedScenes} path='saved-scenes' />
-        </Route>
-
-        <Route component={Basket} path='basket' />
-
-        <Route component={Orders} path='orders' />
-
-        <Route component={OrderDetails} path='orders/:orderId' />
-
-        <Route component={New} newDesign path='new'>
-          <IndexRedirect to='home' />
-          <Route component={NewHome} path='home' />
-          <Route component={NewTopic} path='topic/:topicId' />
-          <Route component={NewLogin} path='login' />
-          <Route component={NewRegistration} path='registration' />
-          <Route component={NewUserProfilePage} path='user'>
-            <IndexRedirect to='profile' />
-            <Route component={NewUserProfile} path='profile' />
-            <Route component={NewUserAccount} path='account' />
-            <Route component={NewUserSubscriptions} path='subscriptions' />
-          </Route>
+        <IndexRoute component={NewHome} newDesign onEnter={goToDownloadPage}/>
+        <Route component={NewTopic} newDesign path='topic/:topicId'/>
+        <Route component={NewLogin} newDesign path='login'/>
+        <Route component={NewRegistration} newDesign path='registration'/>
+        <Route component={NewUserProfilePage} newDesign path='user'>
+          <IndexRedirect to='profile'/>
+          <Route component={NewUserProfile} newDesign path='profile'/>
+          <Route component={NewUserAccount} newDesign path='account'/>
+          <Route component={NewUserSubscriptions} newDesign path='subscriptions'/>
         </Route>
       </Route>
     );

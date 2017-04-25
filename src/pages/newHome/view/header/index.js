@@ -60,7 +60,7 @@ export default class Header extends Component {
   onLogoutClick (e) {
     e.preventDefault();
     this.props.logout();
-    this.props.routerPush(`/${this.props.currentLocale}/new/home`);
+    this.props.routerPush(`/${this.props.currentLocale}/`);
   }
 
   onSearchFocus () {
@@ -85,7 +85,7 @@ export default class Header extends Component {
       <div>
         <header className={this.state.isSearchActive && styles['header-search-active']} styleName='header'>
           <div styleName='header-wrapper'>
-            <Link styleName='logo' to={`/${currentLocale}/new/home`}>
+            <Link styleName='logo' to={`/${currentLocale}/`}>
               <img alt={t('_common.header.home')} src={spottLogo}/>
             </Link>
             <div className={this.state.isSearchActive && styles['search-active']} styleName='search'>
@@ -111,14 +111,14 @@ export default class Header extends Component {
                         <img src={currentUserAvatar ? `${currentUserAvatar.get('url')}?height=24&width=24` : dummyAvatarImage}/>
                         <i><IconArrow3/></i>
                       </div>}>
-                        <Link to={`/${currentLocale}/new/user/profile`}>My profile</Link>
+                        <Link to={`/${currentLocale}/user/profile`}>My profile</Link>
                         <div>Settings</div>
                         <DropdownDivider/>
                         <div onClick={this.onLogoutClick}>Log Out</div>
                       </DropdownMenu>
                     </div>
                   </div>
-                : <Link styleName='sign-in' to={{ pathname: `/${currentLocale}/new/login`, state: { modal: true, returnTo: this.props.location.pathname } }}>
+                : <Link styleName='sign-in' to={{ pathname: `/${currentLocale}/login`, state: { modal: true, returnTo: this.props.location.pathname } }}>
                     Sign in
                   </Link>
               }

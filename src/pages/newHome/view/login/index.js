@@ -65,7 +65,7 @@ export default class NewLogin extends Component {
   }
 
   onClose () {
-    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || `/${this.props.currentLocale}/new/home`);
+    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || `/${this.props.currentLocale}/`);
   }
 
   async onSubmit (values) {
@@ -118,9 +118,9 @@ export default class NewLogin extends Component {
               styleName='sign-up'
               to={this.props.location.state && this.props.location.state.modal
                 ? {
-                  pathname: `/${currentLocale}/new/registration`,
+                  pathname: `/${currentLocale}/registration`,
                   state: { modal: true, returnTo: this.props.location.state.returnTo }
-                } : `/${currentLocale}/new/registration`}>
+                } : `/${currentLocale}/registration`}>
               Sign up here!
             </Link>
           </div>

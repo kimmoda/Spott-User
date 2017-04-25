@@ -117,7 +117,7 @@ export default class Card extends Component {
           </div>
           <div styleName='topic-links'>
             {item.get('topics').map((topic, index) =>
-              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/new/topic/${topic.get('uuid')}`}>{topic.get('text')}</Link>
+              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${topic.get('uuid')}`}>{topic.get('text')}</Link>
             )}
           </div>
         </div>

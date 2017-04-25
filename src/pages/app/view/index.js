@@ -10,6 +10,8 @@ import Cookies from './cookies';
 import { locales } from '../../../locales';
 import { appSelector } from '../selector';
 
+import NewDesign from '../../newHome/view';
+
 require('./reset.css');
 require('./fonts/index.css');
 require('./base.scss');
@@ -159,15 +161,17 @@ export default class App extends Component {
         return (
           <div>
             <HrefLang location={location} />
-            <div>{this.previousChildren}</div>
+            <NewDesign location={location}>{this.previousChildren}</NewDesign>
             <div>{children}</div>
+            {showCookies && <Cookies />}
           </div>
         );
       }
       return (
         <div>
           <HrefLang location={location} />
-          <div>{children}</div>
+          <NewDesign location={location}>{children}</NewDesign>
+          {showCookies && <Cookies />}
         </div>
       );
     }

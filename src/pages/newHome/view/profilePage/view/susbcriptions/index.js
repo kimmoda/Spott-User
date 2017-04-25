@@ -54,11 +54,11 @@ export default class NewUserSubscriptions extends Component {
               <Link
                 style={{ backgroundImage: `url('${item.getIn([ 'logo', 'url' ])}?width=68&height=38')` }}
                 styleName='topic-image'
-                to={`/${currentLocale}/new/topic/${item.get('uuid')}`}/>
+                to={`/${currentLocale}/topic/${item.get('uuid')}`}/>
               <div styleName='topic-dscr'>
                 <Link
                   styleName='topic-title'
-                  to={`/${currentLocale}/new/topic/${item.get('uuid')}`}>
+                  to={`/${currentLocale}/topic/${item.get('uuid')}`}>
                   {item.get('name')}
                 </Link>
                 <div styleName='topic-type'>Brand</div>
@@ -71,11 +71,11 @@ export default class NewUserSubscriptions extends Component {
               <Link
                 style={{ backgroundImage: `url('${item.getIn([ 'logo', 'url' ])}?width=68&height=38')` }}
                 styleName='topic-image'
-                to={`/${currentLocale}/new/topic/${item.get('uuid')}`}/>
+                to={`/${currentLocale}/topic/${item.get('uuid')}`}/>
               <div styleName='topic-dscr'>
                 <Link
                   styleName='topic-title'
-                  to={`/${currentLocale}/new/topic/${item.get('uuid')}`}>
+                  to={`/${currentLocale}/topic/${item.get('uuid')}`}>
                   {item.get('name')}
                 </Link>
                 <div styleName='topic-type'>Actor</div>
@@ -88,11 +88,11 @@ export default class NewUserSubscriptions extends Component {
               <Link
                 style={{ backgroundImage: `url('${item.getIn([ 'logo', 'url' ])}?width=68&height=38')` }}
                 styleName='topic-image'
-                to={`/${currentLocale}/new/topic/${item.get('uuid')}`}/>
+                to={`/${currentLocale}/topic/${item.get('uuid')}`}/>
               <div styleName='topic-dscr'>
                 <Link
                   styleName='topic-title'
-                  to={`/${currentLocale}/new/topic/${item.get('uuid')}`}>
+                  to={`/${currentLocale}/topic/${item.get('uuid')}`}>
                   {item.get('name')}
                 </Link>
                 <div styleName='topic-type'>Character</div>
@@ -105,11 +105,11 @@ export default class NewUserSubscriptions extends Component {
               <Link
                 style={{ backgroundImage: `url('${item.getIn([ 'profileImage', 'url' ])}?width=68&height=38')` }}
                 styleName='topic-image'
-                to={`/${currentLocale}/new/topic/${item.get('uuid')}`}/>
+                to={`/${currentLocale}/topic/${item.get('uuid')}`}/>
               <div styleName='topic-dscr'>
                 <Link
                   styleName='topic-title'
-                  to={`/${currentLocale}/new/topic/${item.get('uuid')}`}>
+                  to={`/${currentLocale}/topic/${item.get('uuid')}`}>
                   {item.get('title')}
                 </Link>
                 <div styleName='topic-type'>Medium</div>
