@@ -131,6 +131,17 @@ export function loadSpottDetails ({ uuid }) {
   };
 }
 
+export function loadSpottCardDetails ({ uuid }) {
+  return async (dispatch, getState) => {
+    try {
+      await dispatch(loadSpott({ uuid }));
+      dispatch(loadSpottLovers({ uuid }));
+    } catch (error) {
+      return dispatch({ type: LOAD_SPOTT_ERROR, uuid, error });
+    }
+  };
+}
+
 export const loadProduct = makeApiActionCreator(api.getProduct, GET_PRODUCT_START, GET_PRODUCT_SUCCESS, GET_PRODUCT_ERROR);
 
 export const loadProductSimilar = makeApiActionCreator(api.getProductSimilar, GET_PRODUCT_SIMILAR_START, GET_PRODUCT_SIMILAR_SUCCESS, GET_PRODUCT_SIMILAR_ERROR);

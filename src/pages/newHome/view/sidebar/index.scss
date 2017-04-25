@@ -173,11 +173,16 @@
   @include btnMedium($icon: true);
 }
 
+.sidebar-stars-stared {
+  @include btnMedium($icon: true);
+  @include btnYellow;
+}
+
 .sidebar-users {
   margin-left: 16px;
 }
 
-.sidebar-moar {
+.sidebar-share {
   @include btnMediumRound(true);
   margin-left: auto;
 }

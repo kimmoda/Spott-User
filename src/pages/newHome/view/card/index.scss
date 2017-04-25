@@ -35,22 +35,29 @@
     border-top-right-radius: 4px;
   }
   &:hover {
-    .person {
-      display: block;
+    .persons {
+      display: flex;
     }
   }
 }
 
-.person {
+.persons {
   z-index: 100;
   position: absolute;
-  width: 32px;
   height: 32px;
   left: 16px;
   bottom: 16px;
+  display: none;
+}
+
+.person {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
   border-radius: 2px;
   transition: transform 0.3s ease;
-  display: none;
+  background-size: cover;
+  background-color: $colorGray;
   box-shadow: $boxShadow;
   &:hover {
     transform: scale(1.1);
@@ -112,12 +119,17 @@
   position: relative;
 }
 
+.likes-liked {
+  @include btnSmall($icon: true);
+  @include btnPink;
+}
+
 .users {
   margin-left: 8px;
   position: relative;
 }
 
-.moar {
+.share {
   @include btnSmallRound($icon: true);
   margin-left: auto;
   position: relative;

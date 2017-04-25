@@ -33,11 +33,11 @@ export default class CardModal extends Component {
   static propTypes = {
     clearSidebarProducts: PropTypes.func.isRequired,
     imageThumb: PropTypes.string.isRequired,
-    isSidebarOpen: PropTypes.bool,
     loadSidebarProduct: PropTypes.func.isRequired,
     loadSpottDetails: PropTypes.func.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
+    sidebarProductId: PropTypes.any,
     sidebarProducts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
     spottId: PropTypes.string.isRequired,
@@ -51,25 +51,14 @@ export default class CardModal extends Component {
     this.onSidebarClose = ::this.onSidebarClose;
     this.onWrapperClick = ::this.onWrapperClick;
 
-    this.users = [
-      'http://lorempixel.com/26/26/people/1',
-      'http://lorempixel.com/26/26/abstract/1',
-      'http://lorempixel.com/26/26/abstract/2',
-      'http://lorempixel.com/26/26/abstract/3',
-      'http://lorempixel.com/26/26/abstract/4',
-      'http://lorempixel.com/26/26/abstract/5',
-      'http://lorempixel.com/26/26/abstract/6',
-      'http://lorempixel.com/26/26/abstract/7',
-      'http://lorempixel.com/26/26/abstract/8',
-      'http://lorempixel.com/26/26/abstract/9',
-      'http://lorempixel.com/26/26/abstract/10'
-    ];
-
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
   }
 
   componentWillMount () {
     this.props.loadSpottDetails({ uuid: this.props.spottId });
+    if (this.props.sidebarProductId) {
+      this.props.loadSidebarProduct({ uuid: this.props.sidebarProductId });
+    }
   }
 
   componentDidMount () {
@@ -132,10 +121,17 @@ export default class CardModal extends Component {
             <div styleName='card'>
               <div styleName='image'>
                 <ImageLoader srcOriginal={spott.getIn([ 'image', 'url' ])} srcThumb={imageThumb}/>
-                <CardMarkers markers={spott.get('productMarkers')}/>
-                <Link
-                  style={{ backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})` }}
-                  styleName='person' to='#'/>
+                {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')}/>}
+                {spott.get('personMarkers') &&
+                  <div styleName='persons'>
+                    {spott.get('personMarkers').map((person) =>
+                      <div
+                        key={`person_marker_${person.get('uuid')}`}
+                        style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
+                        styleName='person'
+                        title={person.getIn([ 'character', 'name' ])}/>
+                    )}
+                  </div>}
               </div>
               <div styleName='products'>
                 {spott.get('productMarkers') && <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={spott.get('productMarkers').size}>
@@ -166,7 +162,7 @@ export default class CardModal extends Component {
                   <span>{spott.get('loverCount')}</span>
                 </div>
                 <div styleName='users'>
-                  <Users large maxNum={16}/>
+                  {spott.getIn([ 'lovers', 'data' ]) && <Users items={spott.getIn([ 'lovers', 'data' ])} large maxNum={16}/>}
                 </div>
                 <Link styleName='moar' to='#'>
                   <i><IconForward/></i>

@@ -19,6 +19,13 @@ export const currentSpottUuidSelector = (state) => state.getIn([ 'newHome', 'cur
 export const spottEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'spotts' ]);
 export const spottSelector = createEntityByIdSelector(spottEntitiesSelector, currentSpottUuidSelector);
 
+const spottCardUuidSelector = (state, props) => props.spottId;
+const spottCardSelector = createEntityByIdSelector(spottEntitiesSelector, spottCardUuidSelector);
+export const spottCardDetailsSelector = createStructuredSelector({
+  spottDetails: spottCardSelector,
+  userId: currentUserIdSelector
+});
+
 export const productEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'newProducts' ]);
 
 export const currentProductUuidSelector = (state) => state.getIn([ 'newHome', 'currentProduct', 'uuid' ]);

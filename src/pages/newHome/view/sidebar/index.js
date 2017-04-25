@@ -4,7 +4,6 @@ import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
 import { IconForward, IconStar, IconClose } from '../icons';
-import Users from '../users';
 import Tiles from '../tiles';
 import { formatPrice } from '../../../_common/buildingBlocks';
 
@@ -84,16 +83,20 @@ export default class Sidebar extends Component {
           </div>
         </div>
         <div styleName='sidebar-footer'>
-          <Link styleName='sidebar-stars' to='#'>
+          <div
+            className={product.get('inUserWishList') && styles['sidebar-stars-stared']}
+            styleName='sidebar-stars'>
             <i><IconStar/></i>
-            <span>{product.get('likeCount')}</span>
-          </Link>
-          <div styleName='sidebar-users'>
-            <Users large maxNum={8} />
+            <span>{product.get('wishListCount')}</span>
           </div>
-          <Link styleName='sidebar-moar' to='#'>
+          {/*
+           <div styleName='sidebar-users'>
+             <Users large maxNum={8} />
+           </div>
+          */}
+          <div styleName='sidebar-share'>
             <i><IconForward/></i>
-          </Link>
+          </div>
         </div>
         <div styleName='sidebar-panel'>
           <div styleName='sidebar-panel-title'>Description</div>

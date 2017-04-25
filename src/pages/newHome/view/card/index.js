@@ -10,11 +10,13 @@ import CardModal from '../cardModal';
 import CardMarkers from '../cardMarkers';
 import Users from '../users/index';
 import * as actions from '../../actions';
+import { spottCardDetailsSelector } from '../../selectors';
 
 const styles = require('./index.scss');
 
 @localized
-@connect(null, (dispatch) => ({
+@connect(spottCardDetailsSelector, (dispatch) => ({
+  loadSpottCardDetails: bindActionCreators(actions.loadSpottCardDetails, dispatch),
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
   setSpottLover: bindActionCreators(actions.setSpottLover, dispatch)
 }))
@@ -24,9 +26,13 @@ export default class Card extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     item: PropTypes.any.isRequired,
+    loadSpottCardDetails: PropTypes.func.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired
+    spottDetails: PropTypes.any.isRequired,
+    spottId: PropTypes.string.isRequired,
+    t: PropTypes.func.isRequired,
+    userId: PropTypes.string
   };
 
   constructor (props) {
@@ -36,75 +42,71 @@ export default class Card extends Component {
     this.onCardModalClose = ::this.onCardModalClose;
     this.state = {
       isCardModalOpen: false,
-      isCardModalSidebar: false
+      sidebarProductId: null,
+      loved: this.props.item.get('loved'),
+      loverCount: this.props.item.get('loverCount')
     };
-    this.images = [
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/b86c71a8-aa71-41e6-a613-41b41287266f?height=280&width=249',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/5b447383-ed89-40e7-a71a-a19788a00406?height=280&width=220',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/1e998ee2-872f-433e-b992-2e5d9fa6ebaf?height=280&width=350',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/ecf7bfc9-2951-47aa-9759-d3ef07958448?height=280&width=400',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/16e5e79c-5b08-41a3-ada6-ccda9c8c150c?height=280&width=200',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/3f1d46bf-8357-43bd-8e43-e483ac6d832c?height=280&width=190',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/c61222a6-70d2-4d64-b81f-f5e30a9cab19?height=280&width=430',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/9ddbb426-f19e-44cb-8239-b9b6ff12adba?height=280&width=215',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/2202ee0a-f3be-4e58-a448-57cf30d88d4e?height=280&width=390',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/dffd478a-6123-4c72-a12b-e25dead1faec?height=280&width=310',
-      'https://spott-ios-rest-prd.appiness.mobi/spott/rest/v003/image/images/aeaf0679-d3a6-4d9a-b304-880059ab007a?height=280&width=290'
-    ];
+  }
 
-    this.users = [
-      'http://lorempixel.com/26/26/people/1',
-      'http://lorempixel.com/26/26/abstract/1',
-      'http://lorempixel.com/26/26/abstract/2',
-      'http://lorempixel.com/26/26/abstract/3',
-      'http://lorempixel.com/26/26/abstract/4',
-      'http://lorempixel.com/26/26/abstract/5',
-      'http://lorempixel.com/26/26/abstract/6',
-      'http://lorempixel.com/26/26/abstract/7',
-      'http://lorempixel.com/26/26/abstract/8',
-      'http://lorempixel.com/26/26/abstract/9',
-      'http://lorempixel.com/26/26/abstract/10'
-    ];
+  componentWillMount () {
+    this.props.loadSpottCardDetails({ uuid: this.props.spottId });
   }
 
   onCardClick () {
     this.setState({ isCardModalOpen: true });
   }
 
-  onCardMarkerClick () {
+  onCardMarkerClick (productId) {
     this.setState({
       isCardModalOpen: true,
-      isCardModalSidebarOpen: true
+      sidebarProductId: productId
     });
   }
 
   onCardModalClose () {
     this.setState({
-      isCardModalOpen: false,
-      isCardModalSidebarOpen: false
+      isCardModalOpen: false
     });
   }
 
   onLoveClick (spottId, loved) {
-    if (loved) {
-      this.props.removeSpottLover({ uuid: spottId });
-    } else {
-      this.props.setSpottLover({ uuid: spottId });
+    if (this.props.userId) {
+      if (loved) {
+        this.props.removeSpottLover({ uuid: spottId });
+        this.setState({
+          loved: !this.state.loved,
+          loverCount: this.state.loverCount - 1
+        });
+      } else {
+        this.props.setSpottLover({ uuid: spottId });
+        this.setState({
+          loved: !this.state.loved,
+          loverCount: this.state.loverCount + 1
+        });
+      }
     }
   }
 
   render () {
-    const { item, currentLocale } = this.props;
+    const { item, currentLocale, spottDetails } = this.props;
+    const { loved, loverCount } = this.state;
 
     return (
       <div styleName='card'>
-        {this.state.isCardModalOpen && <CardModal imageThumb={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`} isSidebarOpen={this.state.isCardModalSidebarOpen} spottId={item.get('uuid')} onClose={this.onCardModalClose}/>}
+        {this.state.isCardModalOpen && <CardModal imageThumb={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`} sidebarProductId={this.state.sidebarProductId} spottId={item.get('uuid')} onClose={this.onCardModalClose}/>}
         <div styleName='image' onClick={this.onCardClick}>
           <img src={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`}/>
-          <CardMarkers onImageClick={this.onCardClick} onMarkerClick={this.onCardMarkerClick} />
-          <Link
-            style={{ backgroundImage: `url(${this.users[Math.floor(Math.random() * this.users.length)]})` }}
-            styleName='person' to='#'/>
+          {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onImageClick={this.onCardClick} onMarkerClick={this.onCardMarkerClick}/>}
+          {spottDetails.get('personMarkers') &&
+            <div styleName='persons'>
+              {spottDetails.get('personMarkers').map((person) =>
+                <div
+                  key={`person_marker_${person.get('uuid')}`}
+                  style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
+                  styleName='person'
+                  title={person.getIn([ 'character', 'name' ])}/>
+              )}
+            </div>}
         </div>
         <div styleName='content'>
           <div styleName='click-overlay' onClick={this.onCardClick}/>
@@ -123,14 +125,17 @@ export default class Card extends Component {
         </div>
         <div styleName='footer'>
           <div styleName='click-overlay' onClick={this.onCardClick}/>
-          <div styleName='likes' onClick={this.onLoveClick.bind(this, item.get('uuid'), item.get('loved'))}>
+          <div
+            className={loved && styles['likes-liked']}
+            styleName='likes'
+            onClick={this.onLoveClick.bind(this, item.get('uuid'), loved)}>
             <i><IconHeart/></i>
-            <span>24</span>
+            <span>{loverCount}</span>
           </div>
           <div styleName='users'>
-            <Users maxNum={5}/>
+            {spottDetails.getIn([ 'lovers', 'data' ]) && <Users items={spottDetails.getIn([ 'lovers', 'data' ])} maxNum={5}/>}
           </div>
-          <Link styleName='moar' to='#'>
+          <Link styleName='share' to='#'>
             <i><IconForward/></i>
           </Link>
         </div>

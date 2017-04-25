@@ -19,7 +19,7 @@ export default class Cards extends Component {
     return (
       <div>
         {items.get('_status') === LOADED && items.get('data').map((item, index) =>
-          <Card item={item} key={`home_card_${index}`}/>
+          <Card item={item} key={`home_card_${index}`} spottId={item.get('uuid')} />
         )}
       </div>
     );

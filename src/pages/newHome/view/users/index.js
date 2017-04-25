@@ -6,6 +6,7 @@ import localized from '../../../_common/localized';
 import { IconDots } from '../icons';
 
 const styles = require('./index.scss');
+const dummyAvatar = require('./dummyAvatar.svg');
 
 @localized
 @CSSModules(styles, { allowMultiple: true })
@@ -13,6 +14,7 @@ export default class Users extends Component {
 
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
+    items: PropTypes.any.isRequired,
     large: PropTypes.bool,
     maxNum: PropTypes.number.isRequired,
     t: PropTypes.func.isRequired
@@ -37,24 +39,24 @@ export default class Users extends Component {
   }
 
   render () {
-    const { large, maxNum } = this.props;
-    const rndNum = (Math.floor((Math.random() * 20) + 2));
-    const num = rndNum <= maxNum ? rndNum : maxNum;
+    const { large, maxNum, items } = this.props;
 
     return (
       <div styleName={large ? 'users-large' : 'users'}>
         <div styleName='users-wrapper'>
-          {new Array(num).fill(1).map((item, index) =>
+          {items.slice(0, maxNum).map((item, index) =>
             <Link
-              key={`user_${index}`}
+              key={`user_${item.getIn([ 'user', 'uuid' ])}`}
               style={{
                 zIndex: 100 - index,
-                backgroundImage: `url(${this.images[Math.floor(Math.random() * this.images.length)]})`
+                backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?width=26&height=26)` : `url(${dummyAvatar})`
               }}
-              styleName='user' to='#'/>
+              styleName='user'
+              title={`${item.get('firstName')} ${item.get('lastName')}`}
+              to='#'/>
           )}
         </div>
-        {rndNum >= maxNum &&
+        {items.size >= maxNum &&
         <Link styleName='users-moar' to='#'>
           <i><IconDots/></i>
         </Link>}

@@ -302,6 +302,56 @@ $headerHeight: 80px;
   }
 }
 
+@mixin btnYellow {
+  color: $colorYellow;
+  background-color: $colorYellow;
+  border: solid 1px $colorYellow;
+  i {
+    :global {
+      .fill {
+        fill: $colorWhite;
+      }
+    }
+  }
+  &:hover {
+    color: $colorWhite;
+    background-color: $colorYellow;
+    border: solid 1px $colorYellow;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
+  }
+  &:active {
+    color: $colorWhite;
+    background-color: $colorYellow;
+    border: solid 1px $colorYellow;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
+  }
+  &:disabled {
+    color: $colorWhite;
+    background-color: $colorGray;
+    border: solid 1px $colorGray;
+    opacity: 0.5;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
+  }
+}
+
 @mixin btnGray {
   color: $colorWhite;
   background-color: $colorGray;
