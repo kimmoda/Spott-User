@@ -26,7 +26,7 @@ export default class CardMarkers extends Component {
         {markers && markers.map((item, index) =>
           <div
             key={`marker_${index}`}
-            style={{ top: item.getIn([ 'point', 'y' ]), left: item.getIn([ 'point', 'x' ]) }}
+            style={{ top: `${item.getIn([ 'point', 'y' ])}%`, left: `${item.getIn([ 'point', 'x' ])}%` }}
             styleName='marker'
             onClick={() => onMarkerClick(item.getIn([ 'product', 'uuid' ]))}>
             <div styleName='marker-wrapper'>
