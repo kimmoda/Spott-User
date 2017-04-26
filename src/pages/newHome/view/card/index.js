@@ -110,9 +110,7 @@ export default class Card extends Component {
         </div>
         <div styleName='content'>
           <div styleName='click-overlay' onClick={this.onCardClick}/>
-          <div styleName='reason'>
-            Because you subscribed to Chicago Med
-          </div>
+          {item.get('promoted') && <div styleName='reason'>Promoted</div>}
           <h3 styleName='title'>{item.get('title')}</h3>
           <div styleName='description'>
             {item.get('comment')}

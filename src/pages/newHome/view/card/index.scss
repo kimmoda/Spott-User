@@ -59,6 +59,7 @@
   background-size: cover;
   background-color: $colorGray;
   box-shadow: $boxShadow;
+  cursor: pointer;
   &:hover {
     transform: scale(1.1);
   }
@@ -81,11 +82,11 @@
 
 .reason {
   @include smallRegular($colorGray);
+  margin-bottom: 8px;
 }
 
 .title {
   @include titleMedium();
-  margin-top: 8px;
 }
 
 .description {

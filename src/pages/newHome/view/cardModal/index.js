@@ -32,6 +32,7 @@ const styles = require('./index.scss');
 export default class CardModal extends Component {
   static propTypes = {
     clearSidebarProducts: PropTypes.func.isRequired,
+    currentLocale: PropTypes.string.isRequired,
     imageThumb: PropTypes.string.isRequired,
     loadSidebarProduct: PropTypes.func.isRequired,
     loadSpottDetails: PropTypes.func.isRequired,
@@ -48,6 +49,7 @@ export default class CardModal extends Component {
   constructor (props) {
     super(props);
     this.onCloseHandler = ::this.onCloseHandler;
+    this.onProductClick = ::this.onProductClick;
     this.onSidebarClose = ::this.onSidebarClose;
     this.onWrapperClick = ::this.onWrapperClick;
 
@@ -101,7 +103,7 @@ export default class CardModal extends Component {
   }
 
   render () {
-    const { imageThumb, spott, sidebarProducts } = this.props;
+    const { imageThumb, spott, sidebarProducts, currentLocale } = this.props;
 
     return (
       <ReactModal
@@ -121,7 +123,7 @@ export default class CardModal extends Component {
             <div styleName='card'>
               <div styleName='image'>
                 <ImageLoader srcOriginal={spott.getIn([ 'image', 'url' ])} srcThumb={imageThumb}/>
-                {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')}/>}
+                {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')} onMarkerClick={this.onProductClick}/>}
                 {spott.get('personMarkers') &&
                   <div styleName='persons'>
                     {spott.get('personMarkers').map((person) =>
@@ -152,7 +154,7 @@ export default class CardModal extends Component {
                 </div>
                 <div styleName='topic-links'>
                   {spott.get('topics') && spott.get('topics').map((topic, index) =>
-                    <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to='#'>{topic.get('text')}</Link>
+                    <Link key={`m_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${topic.get('uuid')}`}>{topic.get('text')}</Link>
                   )}
                 </div>
               </div>
