@@ -12,7 +12,7 @@ import * as actions from '../../../app/actions';
 import { validateLoginForm } from './validateForm';
 import { FormInput } from '../form';
 import { authenticationErrorSelector, authenticationIsLoadingSelector } from '../../../app/selector';
-import FacebookLoginButton from '../../../login/facebookLoginButton';
+import FacebookLoginButton from './facebookLoginButton';
 
 const styles = require('./index.scss');
 
@@ -90,7 +90,9 @@ export default class NewLogin extends Component {
           <div className='form-title'>
             Log in
           </div>
-          <FacebookLoginButton onClose={this.onClose}/>
+          <div styleName='facebook-btn-wrapper'>
+            <FacebookLoginButton className={styles['facebook-btn']} onClose={this.onClose}/>
+          </div>
           <div className='form-row'>
             <label className='form-label'>E-mail</label>
             <Field
