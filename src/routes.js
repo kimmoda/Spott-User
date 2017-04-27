@@ -21,10 +21,10 @@ import NewHome from './pages/newHome/view/homePage';
 import NewTopic from './pages/newHome/view/topicPage';
 import NewLogin from './pages/newHome/view/login';
 import NewRegistration from './pages/newHome/view/registration';
-import NewUserProfilePage from './pages/newHome/view/profilePage/view';
-import NewUserProfile from './pages/newHome/view/profilePage/view/profile';
-import NewUserAccount from './pages/newHome/view/profilePage/view/account';
-import NewUserSubscriptions from './pages/newHome/view/profilePage/view/susbcriptions';
+import NewUserSettingsPage from './pages/newHome/view/settingsPage/view';
+import NewUserSettings from './pages/newHome/view/settingsPage/view/settings';
+import NewUserAccount from './pages/newHome/view/settingsPage/view/account';
+import NewUserSubscriptions from './pages/newHome/view/settingsPage/view/susbcriptions';
 
 /**
  * The application routes
@@ -114,9 +114,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={NewTopic} newDesign path='topic/:topicId'/>
         <Route component={NewLogin} newDesign path='login'/>
         <Route component={NewRegistration} newDesign path='registration'/>
-        <Route component={NewUserProfilePage} newDesign path='user'>
+        <Route component={NewUserSettingsPage} newDesign path='user'>
           <IndexRedirect to='profile'/>
-          <Route component={NewUserProfile} newDesign path='profile'/>
+          <Route component={NewUserSettings} newDesign path='settings'/>
           <Route component={NewUserAccount} newDesign path='account'/>
           <Route component={NewUserSubscriptions} newDesign path='subscriptions'/>
         </Route>

@@ -18,11 +18,11 @@ const styles = require('./index.scss');
   loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch)
 }))
 @reduxForm({
-  form: 'userProfileForm',
+  form: 'userSettingsForm',
   validate: validateUserForm
 })
 @CSSModules(styles, { allowMultiple: true })
-export default class NewUserProfile extends Component {
+export default class NewUserSettings extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     error: PropTypes.any,

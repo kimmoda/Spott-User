@@ -35,7 +35,7 @@ export default class NewUserProfile extends Component {
           <nav styleName='nav'>
             <ul styleName='nav-list'>
               <li styleName='nav-item'>
-                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/profile`}>Profile</Link>
+                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/settings`}>Profile</Link>
               </li>
               <li styleName='nav-item'>
                 <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/account`}>Account</Link>
