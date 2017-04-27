@@ -38,7 +38,7 @@ export default class CardModal extends Component {
     loadSpottDetails: PropTypes.func.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
-    sidebarProductId: PropTypes.any,
+    sidebarMarker: PropTypes.any,
     sidebarProducts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
     spottId: PropTypes.string.isRequired,
@@ -58,8 +58,8 @@ export default class CardModal extends Component {
 
   componentWillMount () {
     this.props.loadSpottDetails({ uuid: this.props.spottId });
-    if (this.props.sidebarProductId) {
-      this.props.loadSidebarProduct({ uuid: this.props.sidebarProductId });
+    if (this.props.sidebarMarker) {
+      this.props.loadSidebarProduct({ uuid: this.props.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: this.props.sidebarMarker.get('relevance') });
     }
   }
 
@@ -80,8 +80,8 @@ export default class CardModal extends Component {
     }
   }
 
-  onProductClick (productId) {
-    this.props.loadSidebarProduct({ uuid: productId });
+  onProductClick (marker) {
+    this.props.loadSidebarProduct({ uuid: marker.getIn([ 'product', 'uuid' ]), relevance: marker.get('relevance') });
   }
 
   onSidebarClose () {
@@ -139,7 +139,7 @@ export default class CardModal extends Component {
                 {spott.get('productMarkers') && <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={spott.get('productMarkers').size}>
                   {spott.get('productMarkers').map((item, index) =>
                     <div
-                      className={item.getIn([ 'product', 'available' ]) ? styles['product-available'] : styles['product-unavailable']}
+                      className={item.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
                       key={`product_${index}`}
                       style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80')` }}
                       styleName='product'
@@ -150,7 +150,7 @@ export default class CardModal extends Component {
               <div styleName='content'>
                 <h3 styleName='title'>{spott.get('title')}</h3>
                 <div styleName='description'>
-                  Taken from Season 2 Episode 5 — Extreme Measures
+                  {spott.get('comment')}
                 </div>
                 <div styleName='topic-links'>
                   {spott.get('topics') && spott.get('topics').map((topic, index) =>

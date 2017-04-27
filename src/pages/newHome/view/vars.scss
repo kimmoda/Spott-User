@@ -666,7 +666,6 @@ $headerHeight: 80px;
   position: relative;
   cursor: pointer;
   margin-right: $gutterSmallWidth / 2;
-  transition: transform 0.2s ease;
   backface-visibility: hidden;
   &:after {
     content: '';
@@ -677,8 +676,5 @@ $headerHeight: 80px;
     width: 8px;
     height: 8px;
     border-radius: 50%;
-  }
-  &:hover {
-    transform: scale(1.02);
   }
 }

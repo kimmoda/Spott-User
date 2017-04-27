@@ -56,10 +56,10 @@ export default class Card extends Component {
     this.setState({ isCardModalOpen: true });
   }
 
-  onCardMarkerClick (productId) {
+  onCardMarkerClick (marker) {
     this.setState({
       isCardModalOpen: true,
-      sidebarProductId: productId
+      sidebarMarker: marker
     });
   }
 
@@ -93,7 +93,7 @@ export default class Card extends Component {
 
     return (
       <div styleName='card'>
-        {this.state.isCardModalOpen && <CardModal imageThumb={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`} sidebarProductId={this.state.sidebarProductId} spottId={item.get('uuid')} onClose={this.onCardModalClose}/>}
+        {this.state.isCardModalOpen && <CardModal imageThumb={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`} sidebarMarker={this.state.sidebarMarker} spottId={item.get('uuid')} onClose={this.onCardModalClose}/>}
         <div styleName='image' onClick={this.onCardClick}>
           <img src={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`}/>
           {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onImageClick={this.onCardClick} onMarkerClick={this.onCardMarkerClick}/>}

@@ -22,6 +22,7 @@ export default class Sidebar extends Component {
   constructor (props) {
     super(props);
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
+    this.onBuyClick = ::this.onBuyClick;
 
     this.state = {
       currentImage: null
@@ -42,13 +43,31 @@ export default class Sidebar extends Component {
     });
   }
 
+  onBuyClick () {
+    const postUrl = this.props.product.getIn([ 'offerings', '0', 'buyUrl' ]);
+    // Create a form using the good ol' DOM API
+    const form = document.createElement('form');
+    form.setAttribute('method', 'POST');
+    form.setAttribute('action', postUrl);
+    form.setAttribute('target', '_blank');
+    // Destructive manipulation of the DOM-tree.
+    document.body.appendChild(form);
+    // Submit form
+    form.submit();
+    form.remove();
+  }
+
   render () {
-    const { product, onBackClick, onProductClick } = this.props;
+    const { product, onBackClick, onProductClick, t } = this.props;
 
     return (
       <div styleName='sidebar'>
         <div styleName='sidebar-header'>
-          <div styleName='sidebar-title'>{product.get('shortName')}</div>
+          <div
+            className={product.get('relevance') && (product.get('relevance') === 'EXACT' ? styles['sidebar-title-exact'] : styles['sidebar-title-medium'])}
+            styleName='sidebar-title'>
+            {product.get('shortName')}
+          </div>
           <div styleName='sidebar-close' onClick={onBackClick.bind(this, product.get('uuid'))}>
             <i><IconClose/></i>
           </div>
@@ -71,15 +90,10 @@ export default class Sidebar extends Component {
           <div styleName='sidebar-title2'>{product.get('longName')}</div>
           <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
           <div styleName='sidebar-options'>
-            <select styleName='sidebar-select'>
-              <option value='0'>58R</option>
-              <option value='0'>62R</option>
-            </select>
-            <select styleName='sidebar-select'>
-              <option value='0'>Blue</option>
-              <option value='0'>Black</option>
-            </select>
-            <div styleName='sidebar-add'>Add to Basket</div>
+            {(product.get('available') || typeof product.get('available') === 'undefined')
+              ? <div styleName='sidebar-add' onClick={this.onBuyClick}>{t('productDetail.buyNow')}</div>
+              : <div styleName='sidebar-add-unavailable' onClick={this.onBuyClick}>{t('productDetail.outOfStock')}</div>
+            }
           </div>
         </div>
         <div styleName='sidebar-footer'>
@@ -102,20 +116,6 @@ export default class Sidebar extends Component {
           <div styleName='sidebar-panel-title'>Description</div>
           <div styleName='sidebar-description'>
             {product.get('description')}
-          </div>
-        </div>
-        <div styleName='sidebar-panel'>
-          <div styleName='sidebar-panel-title'>Also seen in</div>
-          <div styleName='sidebar-seens'>
-            <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={10}>
-              {new Array(10).fill(1).map((item, index) =>
-                <div
-                  key={`seen_${index}`}
-                  style={{ backgroundImage: `url(http://lorempixel.com/80/80/abstract/${index})`, minWidth: Math.floor(Math.random() * 120) + 60 }}
-                  styleName='sidebar-seen'
-                  onClick={onProductClick.bind(this, `Seen ${index}`)}/>
-              )}
-            </Tiles>
           </div>
         </div>
         {Boolean(product.getIn([ 'similar', 'data' ]) && product.getIn([ 'similar', 'data' ]).size) &&

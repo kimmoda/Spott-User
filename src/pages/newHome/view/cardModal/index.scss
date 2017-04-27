@@ -162,13 +162,13 @@
   @include product;
 }
 
-.product-available {
+.product-exact {
   &:after {
     background-color: $colorGreen;
   }
 }
 
-.product-unavailable {
+.product-medium {
   &:after {
     background-color: $colorYellow;
   }

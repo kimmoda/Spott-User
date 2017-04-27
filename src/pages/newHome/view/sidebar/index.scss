@@ -56,9 +56,21 @@
     display: block;
     width: 8px;
     height: 8px;
-    background-color: $colorGreen;
+    background-color: transparent;
     border-radius: 50%;
     margin-right: 7px;
+  }
+}
+
+.sidebar-title-exact {
+  &:before {
+    background-color: $colorGreen;
+  }
+}
+
+.sidebar-title-medium {
+  &:before {
+    background-color: $colorYellow;
   }
 }
 
@@ -158,6 +170,12 @@
 .sidebar-add {
   @include btnBig;
   @include btnGreen;
+  width: 100%;
+}
+
+.sidebar-add-unavailable {
+  @include btnBig;
+  @include btnYellow;
   width: 100%;
 }
 

@@ -158,11 +158,11 @@ export function loadProductDetails ({ uuid }) {
   };
 }
 
-export function loadSidebarProduct ({ uuid }) {
+export function loadSidebarProduct ({ uuid, relevance }) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: LOAD_SIDEBAR_PRODUCT_START, uuid });
-      await dispatch(loadProduct({ uuid }));
+      await dispatch(loadProduct({ uuid, relevance }));
       dispatch(loadProductSimilar({ uuid }));
     } catch (error) {
       return dispatch({ type: LOAD_SIDEBAR_PRODUCT_ERROR, uuid, error });
