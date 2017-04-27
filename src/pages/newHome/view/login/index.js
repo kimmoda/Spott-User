@@ -91,7 +91,7 @@ export default class NewLogin extends Component {
             Log in
           </div>
           <div styleName='facebook-btn-wrapper'>
-            <FacebookLoginButton className={styles['facebook-btn']} onClose={this.onClose}/>
+            <FacebookLoginButton onClose={this.onClose}/>
           </div>
           <div className='form-row'>
             <label className='form-label'>E-mail</label>

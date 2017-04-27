@@ -84,34 +84,3 @@
   padding-bottom: 24px;
   border-bottom: 1px solid $colorGrayLighter;
 }
-
-.facebook-btn {
-  @include bodyMedium($colorWhite);
-  height: 32px;
-  background-color: #3b579d;
-  width: 100%;
-  box-sizing: border-box;
-  border-radius: 3px;
-  padding: 7px 8px;
-  border: none;
-  outline: none;
-  display: flex;
-  align-items: center;
-  transition: all 0.2s ease;
-  &:hover {
-    background-color: darken(#3b579d, 3%);
-  }
-  &:active {
-    background-color: darken(#3b579d, 5%);
-  }
-  svg {
-    width: 18px;
-    height: 18px;
-  }
-  span {
-    display: block;
-    text-align: center;
-    flex-grow: 1;
-    margin-left: -18px;
-  }
-}

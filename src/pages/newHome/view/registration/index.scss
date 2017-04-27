@@ -56,6 +56,13 @@
   }
 }
 
+.facebook-btn-wrapper {
+  margin-top: 24px;
+  margin-bottom: -4px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid $colorGrayLighter;
+}
+
 .forgot-password {
   @include smallRegular($colorPink);
   margin-top: 7px;

@@ -13,7 +13,7 @@ import * as actions from '../../../register/actions';
 import { validateRegistrationForm } from './validateForm';
 import { FormInput, FormRadio, FormSelect, FormCheckbox } from '../form';
 import { registrationFacebookErrorSelector, registrationFacebookIsLoadingSelector } from '../../../app/selector';
-import FacebookRegisterButton from '../../../register/view/facebookRegisterButton';
+import FacebookRegisterButton from './facebookRegisterButton';
 
 const styles = require('./index.scss');
 
@@ -93,7 +93,9 @@ export default class NewRegistration extends Component {
           <div className='form-title'>
             Sign up
           </div>
-          <FacebookRegisterButton disabled={facebookIsLoading} onClose={this.onClose} />
+          <div styleName='facebook-btn-wrapper'>
+            <FacebookRegisterButton disabled={facebookIsLoading} onClose={this.onClose} />
+          </div>
           {facebookError && typeof facebookError === 'string' && <div className='form-error'>{t(facebookError)}</div>}
           <div className='form-row'>
             <label className='form-label form-label-required'>Name</label>
