@@ -55,14 +55,10 @@
   height: 32px;
   margin-right: 8px;
   border-radius: 2px;
-  transition: transform 0.3s ease;
   background-size: cover;
   background-color: $colorGray;
   box-shadow: $boxShadow;
   cursor: pointer;
-  &:hover {
-    transform: scale(1.1);
-  }
 }
 
 .content {

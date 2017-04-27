@@ -17,7 +17,7 @@ export default class CardMarkers extends Component {
   };
 
   render () {
-    const { markers, onImageClick, onMarkerClick } = this.props;
+    const { markers, onImageClick, onMarkerClick, t } = this.props;
 
     return (
     <div styleName='markers-wrapper'>
@@ -33,7 +33,11 @@ export default class CardMarkers extends Component {
               <div styleName='marker-content'>
                 <div style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=48&height=48')` }} styleName='marker-image'/>
                 <div styleName='marker-right'>
-                  <div styleName='marker-title'>Match indication</div>
+                  <div
+                    className={item.get('relevance') === 'EXACT' ? styles['marker-rel-exact'] : styles['marker-rel-medium']}
+                    styleName='marker-rel'>
+                    {t(`relevance.${item.get('relevance')}`)}
+                  </div>
                   <div styleName='marker-name'>{item.getIn([ 'product', 'shortName' ])}</div>
                   <div styleName='marker-price'>{formatPrice(item.getIn([ 'product', 'price' ]))}</div>
                 </div>

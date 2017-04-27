@@ -94,8 +94,16 @@
   margin-left: 10px;
 }
 
-.marker-title {
+.marker-rel {
+   @include tinyRegular($colorGreen);
+}
+
+.marker-rel-exact {
   @include tinyRegular($colorGreen);
+}
+
+.marker-rel-medium {
+  @include tinyRegular($colorYellow);
 }
 
 .marker-name {
