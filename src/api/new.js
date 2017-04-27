@@ -1,7 +1,7 @@
 import { get, post, del } from './request';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=1&pageSize=10`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=10`);
   return body;
 }
 
@@ -37,6 +37,11 @@ export async function getSpottsList (baseUrl, authenticationToken, locale) {
 
 export async function getSpott (baseUrl, authenticationToken, locale, { uuid }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}`);
+  return body;
+}
+
+export async function getSpottRelatedTopics (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/relatedTopics?page=0&pageSize=10`);
   return body;
 }
 

@@ -171,11 +171,11 @@ export default class CardModal extends Component {
                 </Link>
               </div>
             </div>
-            {Boolean(spott.get('topics') && spott.get('topics').size) &&
+            {Boolean(spott.get('relatedTopics') && spott.get('relatedTopics').size) &&
               <div styleName='topics'>
                 <div styleName='topics-content'>
                   <div styleName='topics-title'>Related Topics</div>
-                  <Topics itemsRelated={spott.get('topics')}/>
+                  <Topics items={spott.get('relatedTopics')}/>
                 </div>
               </div>}
             {spott.get('similar') &&

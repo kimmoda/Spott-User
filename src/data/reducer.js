@@ -345,6 +345,13 @@ export default (state = fromJS({
     case newActions.GET_SPOTT_ERROR:
       return fetchError(state, [ 'entities', 'spotts', action.uuid ], action.error);
 
+    case newActions.GET_SPOTT_RELATED_TOPICS_START:
+      return fetchStart(state, [ 'entities', 'spotts', action.uuid, 'relatedTopics' ]);
+    case newActions.GET_SPOTT_RELATED_TOPICS_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid, 'relatedTopics' ], action.data);
+    case newActions.GET_SPOTT_RELATED_TOPICS_ERROR:
+      return fetchError(state, [ 'entities', 'spotts', action.uuid, 'relatedTopics' ], action.error);
+
     case newActions.GET_SPOTT_SIMILAR_START:
       return fetchStart(state, [ 'entities', 'spotts', action.uuid, 'similar' ]);
     case newActions.GET_SPOTT_SIMILAR_SUCCESS:

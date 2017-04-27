@@ -39,6 +39,10 @@ export const GET_SPOTT_START = 'NEW/GET_SPOTT_START';
 export const GET_SPOTT_SUCCESS = 'NEW/GET_SPOTT_SUCCESS';
 export const GET_SPOTT_ERROR = 'NEW/GET_SPOTT_ERROR';
 
+export const GET_SPOTT_RELATED_TOPICS_START = 'NEW/GET_SPOTT_RELATED_TOPICS_START';
+export const GET_SPOTT_RELATED_TOPICS_SUCCESS = 'NEW/GET_SPOTT_RELATED_TOPICS_SUCCESS';
+export const GET_SPOTT_RELATED_TOPICS_ERROR = 'NEW/GET_SPOTT_RELATED_TOPICS_ERROR';
+
 export const GET_SPOTT_SIMILAR_START = 'NEW/GET_SPOTT_SIMILAR_START';
 export const GET_SPOTT_SIMILAR_SUCCESS = 'NEW/GET_SPOTT_SIMILAR_SUCCESS';
 export const GET_SPOTT_SIMILAR_ERROR = 'NEW/GET_SPOTT_SIMILAR_ERROR';
@@ -110,6 +114,8 @@ export const loadSpottsList = makeApiActionCreator(api.getSpottsList, GET_SPOTTS
 
 export const loadSpott = makeApiActionCreator(api.getSpott, GET_SPOTT_START, GET_SPOTT_SUCCESS, GET_SPOTT_ERROR);
 
+export const loadSpottRelatedTopics = makeApiActionCreator(api.getSpottRelatedTopics, GET_SPOTT_RELATED_TOPICS_START, GET_SPOTT_RELATED_TOPICS_SUCCESS, GET_SPOTT_RELATED_TOPICS_ERROR);
+
 export const loadSpottSimilar = makeApiActionCreator(api.getSpottSimilar, GET_SPOTT_SIMILAR_START, GET_SPOTT_SIMILAR_SUCCESS, GET_SPOTT_SIMILAR_ERROR);
 
 export const loadSpottLovers = makeApiActionCreator(api.getSpottLovers, GET_SPOTT_LOVERS_START, GET_SPOTT_LOVERS_SUCCESS, GET_SPOTT_LOVERS_ERROR);
@@ -123,6 +129,7 @@ export function loadSpottDetails ({ uuid }) {
     try {
       dispatch({ type: LOAD_SPOTT_START, uuid });
       await dispatch(loadSpott({ uuid }));
+      dispatch(loadSpottRelatedTopics({ uuid }));
       dispatch(loadSpottSimilar({ uuid }));
       dispatch(loadSpottLovers({ uuid }));
     } catch (error) {
