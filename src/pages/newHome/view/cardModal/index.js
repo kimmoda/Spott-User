@@ -143,7 +143,7 @@ export default class CardModal extends Component {
                       key={`product_${index}`}
                       style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80')` }}
                       styleName='product'
-                      onClick={this.onProductClick.bind(this, item.getIn([ 'product', 'uuid' ]))}/>
+                      onClick={this.onProductClick.bind(this, item)}/>
                   )}
                 </Tiles>}
               </div>

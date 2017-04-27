@@ -112,12 +112,13 @@ export default class Sidebar extends Component {
             <i><IconForward/></i>
           </div>
         </div>
-        <div styleName='sidebar-panel'>
-          <div styleName='sidebar-panel-title'>Description</div>
-          <div styleName='sidebar-description'>
-            {product.get('description')}
-          </div>
-        </div>
+        {product.get('description') &&
+          <div styleName='sidebar-panel'>
+            <div styleName='sidebar-panel-title'>Description</div>
+            <div styleName='sidebar-description'>
+              {product.get('description')}
+            </div>
+          </div>}
         {Boolean(product.getIn([ 'similar', 'data' ]) && product.getIn([ 'similar', 'data' ]).size) &&
           <div styleName='sidebar-panel'>
             <div styleName='sidebar-panel-title'>Similar Items</div>

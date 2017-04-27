@@ -303,7 +303,7 @@ $headerHeight: 80px;
 }
 
 @mixin btnYellow {
-  color: $colorYellow;
+  color: $colorWhite;
   background-color: $colorYellow;
   border: solid 1px $colorYellow;
   i {
@@ -315,8 +315,8 @@ $headerHeight: 80px;
   }
   &:hover {
     color: $colorWhite;
-    background-color: $colorYellow;
-    border: solid 1px $colorYellow;
+    background-color: darken($colorYellow, 3%);
+    border: solid 1px darken($colorYellow, 3%);
     i {
       :global {
         .fill {
@@ -327,8 +327,8 @@ $headerHeight: 80px;
   }
   &:active {
     color: $colorWhite;
-    background-color: $colorYellow;
-    border: solid 1px $colorYellow;
+    background-color: darken($colorYellow, 5%);
+    border: solid 1px darken($colorYellow, 5%);
     i {
       :global {
         .fill {

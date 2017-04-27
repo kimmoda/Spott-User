@@ -45,7 +45,7 @@ export default class CustomScrollbars extends Component {
       <Scrollbars
         renderTrackHorizontal={this.renderTrackHorizontal}
         renderTrackVertical={this.renderTrackVertical}
-        style={{ position: 'absolute', top: 0, left: 0, zIndex: 300, width: '424px' }}
+        style={{ position: 'absolute', top: 0, left: 0, zIndex: 300, width: '424px', overflow: 'visible' }}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         {...this.props}/>
