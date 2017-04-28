@@ -8,7 +8,7 @@ import { Link } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
-import { IconSearch, IconLightning, IconArrow3 } from '../icons';
+import { IconSearch, IconArrow3 } from '../icons';
 import DropdownMenu, { DropdownDivider } from '../dropdownMenu';
 import * as actions from '../../actions';
 import * as appActions from '../../../app/actions';
@@ -103,9 +103,11 @@ export default class Header extends Component {
             <div styleName='header-right'>
               {isAuthenticated
                 ? <div styleName='user-bar'>
-                    <div styleName='user-notifications'>
-                      <i><IconLightning/></i>
-                    </div>
+                    {/*
+                      <div styleName='user-notifications'>
+                        <i><IconLightning/></i>
+                      </div>
+                    */}
                     <div styleName='user-menu'>
                       <DropdownMenu alignLeft trigger={<div className={styles['user-avatar']}>
                         <img src={currentUserAvatar ? `${currentUserAvatar.get('url')}?height=24&width=24` : dummyAvatarImage}/>
