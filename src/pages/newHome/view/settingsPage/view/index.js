@@ -43,9 +43,6 @@ export default class NewUserSettingsPage extends Component {
               <li styleName='nav-item'>
                 <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/subscriptions`}>Manage Subscriptions</Link>
               </li>
-              <li styleName='nav-item'>
-                <Link styleName='nav-link' to='#'>Notifications</Link>
-              </li>
             </ul>
           </nav>
           <section styleName='content'>

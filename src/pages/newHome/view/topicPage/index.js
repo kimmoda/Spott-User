@@ -3,11 +3,11 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import DropdownMenu, { DropdownNested, DropdownDivider } from '../dropdownMenu';
+import DropdownMenu from '../dropdownMenu';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
 import Cards from '../cards';
-import { IconForward, IconArrow3 } from '../icons';
+import { IconForward } from '../icons';
 import * as actions from '../../actions';
 import { topicDetailsSelector } from '../../selectors';
 
@@ -104,7 +104,7 @@ export default class NewTopic extends Component {
 
   render () {
     const { topic, topicRelated, topicSpotts } = this.props;
-    const { isScrolledToInfo, filterVal, filterVals, filterSecondVal, filterSecondVals } = this.state;
+    const { isScrolledToInfo } = this.state;
 
     return (
       <section styleName='wrapper'>
@@ -144,6 +144,7 @@ export default class NewTopic extends Component {
             <Topics items={topicRelated} />
           </div>
         </div>
+        {/*
         <div styleName='cards-filters-container'>
           <div styleName='cards-filters'>
             <div styleName='cards-filter'>
@@ -167,6 +168,7 @@ export default class NewTopic extends Component {
             </div>
           </div>
         </div>
+        */}
         <div styleName='cards'>
           <Cards items={topicSpotts}/>
         </div>

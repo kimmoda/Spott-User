@@ -12,13 +12,17 @@ const styles = require('./index.scss');
 
 @localized
 @connect(userSettingsDetailsSelector, (dispatch) => ({
-  loadUserSubscriptions: bindActionCreators(actions.loadUserSubscriptions, dispatch)
+  loadUserSubscriptions: bindActionCreators(actions.loadUserSubscriptions, dispatch),
+  removeTopicSubscriber: bindActionCreators(actions.removeTopicSubscriber, dispatch),
+  setTopicSubscriber: bindActionCreators(actions.setTopicSubscriber, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class NewUserSubscriptions extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadUserSubscriptions: PropTypes.func.isRequired,
+    removeTopicSubscriber: PropTypes.func.isRequired,
+    setTopicSubscriber: PropTypes.func.isRequired,
     subscriptions: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired,
     userId: PropTypes.string
@@ -34,74 +38,20 @@ export default class NewUserSubscriptions extends Component {
     }
   }
 
-  onSubscribedClick (topicId) {
+  async onSubscribeClick (topicId) {
+    await this.props.removeTopicSubscriber({ uuid: topicId });
     this.props.loadUserSubscriptions({ uuid: this.props.userId });
   }
 
   render () {
     const { currentLocale, subscriptions } = this.props;
-    const brandSubscriptions = subscriptions.getIn([ 'brandSubscriptions', 'data' ]);
-    const actorSubscriptions = subscriptions.getIn([ 'actorSubscriptions', 'data' ]);
-    const characterSubscriptions = subscriptions.getIn([ 'characterSubscriptions', 'data' ]);
-    const mediumSubscriptions = subscriptions.getIn([ 'mediumSubscriptions', 'data' ]);
 
     return (
       <div styleName='subscriptions'>
         <h2 styleName='title'>Manage Subscriptions</h2>
         <div styleName='topics-list'>
-          {brandSubscriptions && brandSubscriptions.map((item, index) =>
-            <div key={`user_brand_subs_${index}`} styleName='topic'>
-              <Link
-                style={{ backgroundImage: `url('${item.getIn([ 'logo', 'url' ])}?width=68&height=38')` }}
-                styleName='topic-image'
-                to={`/${currentLocale}/topic/${item.get('uuid')}`}/>
-              <div styleName='topic-dscr'>
-                <Link
-                  styleName='topic-title'
-                  to={`/${currentLocale}/topic/${item.get('uuid')}`}>
-                  {item.get('name')}
-                </Link>
-                <div styleName='topic-type'>Brand</div>
-              </div>
-              <button styleName='topic-btn' onClick={this.onSubscribedClick.bind(this, item.get('uuid'))}>Subscribed</button>
-            </div>
-          )}
-          {actorSubscriptions && actorSubscriptions.map((item, index) =>
-            <div key={`user_actor_subs_${index}`} styleName='topic'>
-              <Link
-                style={{ backgroundImage: `url('${item.getIn([ 'logo', 'url' ])}?width=68&height=38')` }}
-                styleName='topic-image'
-                to={`/${currentLocale}/topic/${item.get('uuid')}`}/>
-              <div styleName='topic-dscr'>
-                <Link
-                  styleName='topic-title'
-                  to={`/${currentLocale}/topic/${item.get('uuid')}`}>
-                  {item.get('name')}
-                </Link>
-                <div styleName='topic-type'>Actor</div>
-              </div>
-              <button styleName='topic-btn' onClick={this.onSubscribedClick.bind(this, item.get('uuid'))}>Subscribed</button>
-            </div>
-          )}
-          {characterSubscriptions && characterSubscriptions.map((item, index) =>
-            <div key={`user_character_subs_${index}`} styleName='topic'>
-              <Link
-                style={{ backgroundImage: `url('${item.getIn([ 'logo', 'url' ])}?width=68&height=38')` }}
-                styleName='topic-image'
-                to={`/${currentLocale}/topic/${item.get('uuid')}`}/>
-              <div styleName='topic-dscr'>
-                <Link
-                  styleName='topic-title'
-                  to={`/${currentLocale}/topic/${item.get('uuid')}`}>
-                  {item.get('name')}
-                </Link>
-                <div styleName='topic-type'>Character</div>
-              </div>
-              <button styleName='topic-btn' onClick={this.onSubscribedClick.bind(this, item.get('uuid'))}>Subscribed</button>
-            </div>
-          )}
-          {mediumSubscriptions && mediumSubscriptions.map((item, index) =>
-            <div key={`user_medium_subs_${index}`} styleName='topic'>
+          { subscriptions.get('data') && subscriptions.get('data').map((item, index) =>
+            <div key={`user_subs_${index}`} styleName='topic'>
               <Link
                 style={{ backgroundImage: `url('${item.getIn([ 'profileImage', 'url' ])}?width=68&height=38')` }}
                 styleName='topic-image'
@@ -110,11 +60,11 @@ export default class NewUserSubscriptions extends Component {
                 <Link
                   styleName='topic-title'
                   to={`/${currentLocale}/topic/${item.get('uuid')}`}>
-                  {item.get('title')}
+                  {item.get('text')}
                 </Link>
-                <div styleName='topic-type'>Medium</div>
+                <div styleName='topic-type'>{item.get('sourceType')}</div>
               </div>
-              <button styleName='topic-btn' onClick={this.onSubscribedClick.bind(this, item.get('uuid'))}>Subscribed</button>
+              <button styleName='topic-btn' onClick={this.onSubscribeClick.bind(this, item.get('uuid'))}>Subscribed</button>
             </div>
           )}
         </div>
