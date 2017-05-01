@@ -13,7 +13,7 @@ import { fromJS } from 'immutable';
 import { AsyncRouterContext } from 'redux-async-props';
 import { combineReducers } from 'redux-immutablejs';
 import { reducer as form } from 'redux-form/immutable';
-import { initBasketData } from './pages/basket/actions';
+// import { initBasketData } from './pages/basket/actions';
 
 import { LOGIN_SUCCESS, DOWNLOAD_PAGE_SHOWED, doInit } from './pages/app/actions';
 import { getRoutes } from './routes';
@@ -122,9 +122,11 @@ async function boot () {
   if (session) {
     const sessionData = JSON.parse(session);
     store.dispatch({ data: sessionData, type: LOGIN_SUCCESS });
+    /*
     if (sessionData.ubAuthenticationToken) {
       store.dispatch(initBasketData());
     }
+    */
   }
   const isDownloadPageShowed = storage.getItem('downloadPageShowed');
   if (isDownloadPageShowed) {

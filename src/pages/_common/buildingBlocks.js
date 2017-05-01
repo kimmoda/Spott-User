@@ -97,7 +97,7 @@ const currencies = {
 };
 
 export function formatPrice (price) {
-  if (price) {
+  if (price && price.get('amount')) {
     // Try to use symbol.
     const currency = currencies[price.get('currency')];
     if (currency) {

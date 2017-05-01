@@ -1,0 +1,164 @@
+@import "../../vars";
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.poster {
+  width: 100%;
+  height: 480px;
+  position: relative;
+  background-size: cover;
+}
+
+.info-wrapper {
+  width: 100%;
+  border-bottom: 1px solid $colorGrayLighter;
+  box-sizing: content-box;
+  background-color: $colorWhite;
+}
+
+.info {
+  width: 100%;
+  background-color: $colorWhite;
+  padding: 19px $offsetWidth 19px $offsetWidth;
+  transition: transform 0.1s ease;
+  transform: translateY(30px);
+  top: -30px;
+  position: relative;
+}
+
+.info-sticky {
+  position: fixed;
+  transform: translateY(0);
+  left: 0;
+  top: $headerHeight;
+  z-index: 1000;
+  box-shadow: $boxShadow;
+  border-bottom: 1px solid $colorGrayLighter;
+}
+
+.info-content {
+  max-width: $maxWidth;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.info-left {
+  display: flex;
+  align-items: center;
+}
+
+.info-image {
+  width: 48px;
+  height: 48px;
+  background-size: cover;
+  overflow: hidden;
+  background-color: $colorGray;
+  border-radius: 50%;
+}
+
+.info-header {
+  margin-left: $gutterSmallWidth;
+}
+
+.info-name {
+  @include headlineMedium;
+}
+
+.info-about {
+  @include bodyRegular($colorGray);
+}
+
+.info-followers {
+  @include btnMedium;
+  @include btnWhite;
+  margin-left: auto;
+}
+
+.info-followers-count {
+  @include bodyMedium;
+}
+
+.info-followers-text {
+  @include bodyRegular($colorGray);
+  margin-left: 6px;
+}
+
+.info-following {
+  @include btnMedium;
+  @include btnWhite;
+  margin-left: 10px;
+}
+
+.info-following-count {
+  @include bodyMedium;
+}
+
+.info-following-text {
+  @include bodyRegular($colorGray);
+  margin-left: 6px;
+}
+
+.info-follow-btn {
+  @include btnMedium;
+  margin-left: 70px;
+}
+
+.info-subscribe-btn-subscribed {
+  @include btnMedium;
+  @include btnPink;
+}
+
+.info-share-wrapper {
+  margin-left: 32px;
+}
+
+.info-share {
+  @include btnMediumRound(true);
+}
+
+.nav-wrapper {
+  width: 100%;
+  border-bottom: 1px solid $colorGrayLighter;
+  box-sizing: border-box;
+  background-color: $colorWhite;
+  height: 80px;
+  padding: 0 $offsetWidth 0 $offsetWidth;
+}
+
+.nav {
+  max-width: $maxWidth;
+  margin: 0 auto;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.nav-item {
+  @include titleMedium($colorGray);
+  margin-right: 48px;
+  padding-bottom: 28px;
+  box-sizing: border-box;
+  transition: color 0.2s ease;
+  text-decoration: none;
+  &:hover {
+    color: $colorBlack;
+    text-decoration: none;
+  }
+}
+
+.nav-item-active {
+  color: $colorBlack;
+  border-bottom: 2px solid $colorPink;
+  text-decoration: none;
+}
+
+.content {
+  width: 100%;
+  padding: 32px $offsetWidth 32px $offsetWidth;
+}

@@ -27,7 +27,6 @@ const dummyAvatarImage = require('./dummyAvatar.svg');
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class Header extends Component {
-
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     currentUserAvatar: ImmutablePropTypes.mapContains({
@@ -79,7 +78,7 @@ export default class Header extends Component {
   }
 
   render () {
-    const { currentLocale, t, trendingTopics, isAuthenticated, currentUserAvatar } = this.props;
+    const { currentLocale, t, trendingTopics, isAuthenticated, currentUserAvatar, currentUserId } = this.props;
 
     return (
       <div>
@@ -109,11 +108,13 @@ export default class Header extends Component {
                       </div>
                     */}
                     <div styleName='user-menu'>
-                      <DropdownMenu alignLeft trigger={<div className={styles['user-avatar']}>
+                      <Link className={styles['user-avatar']} to={`/${currentLocale}/profile/${currentUserId}`}>
                         <img src={currentUserAvatar ? `${currentUserAvatar.get('url')}?height=24&width=24` : dummyAvatarImage}/>
+                      </Link>
+                      <DropdownMenu alignLeft trigger={<div className={styles['user-dropdown']}>
                         <i><IconArrow3/></i>
                       </div>}>
-                        <Link to='#'>My profile</Link>
+                        <Link to={`/${currentLocale}/profile/${currentUserId}`}>My profile</Link>
                         <Link to={`/${currentLocale}/user/settings`}>Settings</Link>
                         <DropdownDivider/>
                         <div onClick={this.onLogoutClick}>Log Out</div>

@@ -394,6 +394,27 @@ export default (state = fromJS({
     case newActions.GET_PRODUCT_SIMILAR_ERROR:
       return fetchError(state, [ 'entities', 'newProducts', action.uuid, 'similar' ], action.error);
 
+    case newActions.GET_USER_PROFILE_START:
+      return fetchStart(state, [ 'entities', 'users', action.uuid, 'profile' ]);
+    case newActions.GET_USER_PROFILE_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'users', action.uuid, 'profile' ], action.data);
+    case newActions.GET_USER_PROFILE_ERROR:
+      return fetchError(state, [ 'entities', 'users', action.uuid, 'profile' ], action.error);
+
+    case newActions.GET_USER_LOVED_POSTS_START:
+      return fetchStart(state, [ 'entities', 'users', action.uuid, 'lovedPosts' ]);
+    case newActions.GET_USER_LOVED_POSTS_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'users', action.uuid, 'lovedPosts' ], action.data);
+    case newActions.GET_USER_LOVED_POSTS_ERROR:
+      return fetchError(state, [ 'entities', 'users', action.uuid, 'lovedPosts' ], action.error);
+
+    case newActions.GET_USER_WISHLIST_START:
+      return fetchStart(state, [ 'entities', 'users', action.uuid, 'wishlist' ]);
+    case newActions.GET_USER_WISHLIST_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'users', action.uuid, 'wishlist' ], action.data);
+    case newActions.GET_USER_WISHLIST_ERROR:
+      return fetchError(state, [ 'entities', 'users', action.uuid, 'wishlist' ], action.error);
+
     // Uninteresting actions
     // ---------------------
 

@@ -15,8 +15,8 @@ import ResetPasswordSuccess from './pages/resetPassword/success';
 import Terms from './pages/terms';
 import { changeLocale, downloadPageShowed } from './pages/app/actions';
 import { locales } from './locales';
-import { currentLocaleSelector, isDownloadPageShowedSelector, isUbAuthenticatedSelector } from './pages/app/selector';
-import { updateLocale as updateUbLocale } from './pages/basket/actions';
+import { currentLocaleSelector, isDownloadPageShowedSelector } from './pages/app/selector';
+// import { updateLocale as updateUbLocale } from './pages/basket/actions';
 import NewHome from './pages/newHome/view/homePage';
 import NewTopic from './pages/newHome/view/topicPage';
 import NewLogin from './pages/newHome/view/login';
@@ -25,6 +25,9 @@ import NewUserSettingsPage from './pages/newHome/view/settingsPage/view';
 import NewUserSettings from './pages/newHome/view/settingsPage/view/settings';
 import NewUserAccount from './pages/newHome/view/settingsPage/view/account';
 import NewUserSubscriptions from './pages/newHome/view/settingsPage/view/susbcriptions';
+import NewUserProfilePage from './pages/newHome/view/profilePage/view';
+import NewUserLoves from './pages/newHome/view/profilePage/view/loves';
+import NewUserWishlist from './pages/newHome/view/profilePage/view/wishlist';
 
 /**
  * The application routes
@@ -91,10 +94,11 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
     // When entering a page, the locale is dispatched.
     function onLocaleEnter (state, replace) {
-      const isUbAuthenticated = isUbAuthenticatedSelector(getState());
+      /* const isUbAuthenticated = isUbAuthenticatedSelector(getState());
       if (isUbAuthenticated) {
         dispatch(updateUbLocale(locale));
       }
+      */
       dispatch(changeLocale(locale));
     }
 
@@ -115,10 +119,15 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={NewLogin} newDesign path='login'/>
         <Route component={NewRegistration} newDesign path='registration'/>
         <Route component={NewUserSettingsPage} newDesign path='user'>
-          <IndexRedirect to='profile'/>
+          <IndexRedirect to='settings'/>
           <Route component={NewUserSettings} newDesign path='settings'/>
           <Route component={NewUserAccount} newDesign path='account'/>
           <Route component={NewUserSubscriptions} newDesign path='subscriptions'/>
+        </Route>
+        <Route component={NewUserProfilePage} newDesign path='profile/:userId'>
+          <IndexRedirect to='loves'/>
+          <Route component={NewUserLoves} newDesign path='loves'/>
+          <Route component={NewUserWishlist} newDesign path='wishlist'/>
         </Route>
       </Route>
     );

@@ -68,7 +68,9 @@
 .user-menu {
   display: flex;
   margin-left: 26px;
+  align-items: center;
   cursor: pointer;
+  z-index: 100;
 }
 
 .user-avatar {
@@ -79,6 +81,11 @@
     height: 24px;
     border-radius: 50%;
   }
+}
+
+.user-dropdown {
+  display: flex;
+  align-items: center;
   i {
     display: flex;
     align-items: center;

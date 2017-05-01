@@ -1,0 +1,45 @@
+@import "../../../vars";
+
+.wishlists {
+  max-width: $maxWidth;
+  margin: 0 auto;
+  width: 100%;
+  border-radius: 4px;
+  background-color: $colorWhite;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 32px 15px 0 15px;
+  box-shadow: $boxShadowBlur;
+}
+
+.product {
+  width: 264px;
+  margin: 0 16px 45px 16px;
+  cursor: pointer;
+}
+
+.product-image {
+  width: 264px;
+  height: 264px;
+  background-size: cover;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.product-brand {
+  @include bodyRegular;
+  @include link;
+  display: inline-block;
+  margin-top: 12px;
+}
+
+.product-title {
+  @include titleMedium;
+  margin-top: 10px;
+}
+
+.product-price {
+  @include bodyMedium;
+  margin-top: 10px;
+}

@@ -6,12 +6,12 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import localized from '../../../../../_common/localized';
 import * as actions from '../../../../actions';
-import { userProfileDetailsSelector } from '../../../../selectors';
+import { userSettingsDetailsSelector } from '../../../../selectors';
 
 const styles = require('./index.scss');
 
 @localized
-@connect(userProfileDetailsSelector, (dispatch) => ({
+@connect(userSettingsDetailsSelector, (dispatch) => ({
   loadUserSubscriptions: bindActionCreators(actions.loadUserSubscriptions, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })

@@ -1,19 +1,33 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
 import { IconForward, IconStar, IconClose } from '../icons';
 import Tiles from '../tiles';
 import { formatPrice } from '../../../_common/buildingBlocks';
+import * as actions from '../../actions';
+import { sidebarSelector } from '../../selectors';
 
 const styles = require('./index.scss');
 
 @localized
+@connect(sidebarSelector, (dispatch) => ({
+  addProductToWishlist: bindActionCreators(actions.addProductToWishlist, dispatch),
+  loadUserWishlist: bindActionCreators(actions.loadUserWishlist, dispatch),
+  removeProductFromWishlist: bindActionCreators(actions.removeProductFromWishlist, dispatch)
+}))
 @CSSModules(styles, { allowMultiple: true })
 export default class Sidebar extends Component {
   static propTypes = {
+    addProductToWishlist: PropTypes.func.isRequired,
+    currentUserId: PropTypes.string,
+    isAuthenticated: PropTypes.string,
+    loadUserWishlist: PropTypes.func.isRequired,
     product: PropTypes.any.isRequired,
+    removeProductFromWishlist: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     onBackClick: PropTypes.func.isRequired,
     onProductClick: PropTypes.func.isRequired
@@ -23,16 +37,21 @@ export default class Sidebar extends Component {
     super(props);
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
     this.onBuyClick = ::this.onBuyClick;
+    this.onWishlistClick = ::this.onWishlistClick;
 
     this.state = {
-      currentImage: null
+      currentImage: null,
+      inUserWishList: null,
+      wishListCount: null
     };
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.product) {
       this.setState({
-        currentImage: nextProps.product.getIn([ 'images', '0', 'url' ])
+        currentImage: nextProps.product.getIn([ 'images', '0', 'url' ]),
+        inUserWishList: nextProps.product.get('inUserWishList'),
+        wishListCount: nextProps.product.get('wishListCount')
       });
     }
   }
@@ -41,6 +60,25 @@ export default class Sidebar extends Component {
     this.setState({
       currentImage: url
     });
+  }
+
+  async onWishlistClick (productId) {
+    if (this.props.isAuthenticated) {
+      if (this.state.inUserWishList) {
+        this.setState({
+          inUserWishList: !this.state.inUserWishList,
+          wishListCount: this.state.wishListCount - 1
+        });
+        await this.props.removeProductFromWishlist({ uuid: this.props.currentUserId, productUuid: productId });
+      } else {
+        this.setState({
+          inUserWishList: !this.state.inUserWishList,
+          wishListCount: this.state.wishListCount + 1
+        });
+        await this.props.addProductToWishlist({ uuid: this.props.currentUserId, productUuid: productId });
+      }
+      this.props.loadUserWishlist({ uuid: this.props.currentUserId });
+    }
   }
 
   onBuyClick () {
@@ -98,10 +136,11 @@ export default class Sidebar extends Component {
         </div>
         <div styleName='sidebar-footer'>
           <div
-            className={product.get('inUserWishList') && styles['sidebar-stars-stared']}
-            styleName='sidebar-stars'>
+            className={this.state.inUserWishList && styles['sidebar-stars-stared']}
+            styleName='sidebar-stars'
+            onClick={this.onWishlistClick.bind(this, product.get('uuid'))}>
             <i><IconStar/></i>
-            <span>{product.get('wishListCount')}</span>
+            <span>{this.state.wishListCount}</span>
           </div>
           {/*
            <div styleName='sidebar-users'>

@@ -68,7 +68,20 @@ export const productDetailsSelector = createStructuredSelector({
 
 export const userSubscriptionsSelector = (state) => state.getIn([ 'newHome', 'profile', 'subscriptions' ]);
 
-export const userProfileDetailsSelector = createStructuredSelector({
+export const userSettingsDetailsSelector = createStructuredSelector({
   userId: currentUserIdSelector,
   subscriptions: userSubscriptionsSelector
+});
+
+export const usersEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'users' ]);
+const userProfileUuidSelector = (state, props) => props.params.userId;
+const userProfileSelector = createEntityByIdSelector(usersEntitiesSelector, userProfileUuidSelector);
+
+export const userProfileDetailsSelector = createStructuredSelector({
+  userProfile: userProfileSelector
+});
+
+export const sidebarSelector = createStructuredSelector({
+  isAuthenticated: authenticationTokenSelector,
+  currentUserId: currentUserIdSelector
 });

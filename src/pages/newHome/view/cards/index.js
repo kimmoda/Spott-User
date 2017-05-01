@@ -2,7 +2,6 @@
 import React, { Component, PropTypes } from 'react';
 import localized from '../../../_common/localized';
 import Card from '../card';
-import { LOADED } from '../../../../data/statusTypes';
 
 @localized
 export default class Cards extends Component {
@@ -18,7 +17,7 @@ export default class Cards extends Component {
 
     return (
       <div>
-        {items.get('_status') === LOADED && items.get('data').map((item, index) =>
+        {items.get('data') && items.get('data').map((item, index) =>
           <Card item={item} key={`home_card_${index}`} spottId={item.get('uuid')} />
         )}
       </div>

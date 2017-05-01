@@ -58,6 +58,13 @@
   }
 }
 
+.sidebar-enter-first {
+  transform: translateX(0);
+  &:before {
+    opacity: 0;
+  }
+}
+
 .sidebar-leave {
   transform: translateX(0);
   &:before {

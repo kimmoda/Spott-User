@@ -1,0 +1,14 @@
+@import "../../../vars";
+
+.loves {
+  max-width: $maxWidth;
+  margin: 0 auto 32px auto;
+  & > div {
+    max-width: $maxWidth;
+    margin: 0 auto 32px auto;
+    width: 100%;
+    column-count: 4;
+    column-gap: $gutterWidth;
+    column-fill: initial;
+  }
+}

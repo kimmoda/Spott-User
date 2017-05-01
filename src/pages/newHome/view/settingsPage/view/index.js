@@ -15,7 +15,7 @@ const styles = require('./index.scss');
   loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
-export default class NewUserProfile extends Component {
+export default class NewUserSettingsPage extends Component {
   static propTypes = {
     children: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,

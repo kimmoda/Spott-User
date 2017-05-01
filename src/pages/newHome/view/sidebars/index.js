@@ -23,13 +23,13 @@ export default class Sidebars extends Component {
     loadSidebarProduct: PropTypes.func.isRequired,
     removeSidebarProduct: PropTypes.func.isRequired,
     sidebarProducts: PropTypes.any.isRequired,
+    singleMode: PropTypes.bool,
     t: PropTypes.func.isRequired,
     onSidebarClose: PropTypes.func.isRequired
   };
 
   constructor (props) {
     super(props);
-
     this.onBackClick = ::this.onBackClick;
     this.onProductClick = ::this.onProductClick;
   }
@@ -46,10 +46,10 @@ export default class Sidebars extends Component {
   }
 
   render () {
-    const { sidebarProducts } = this.props;
+    const { sidebarProducts, singleMode } = this.props;
 
     return (
-    <div className={sidebarProducts.get('data').size ? styles['sidebars-active'] : styles['sidebars-inactive']} styleName='sidebars'>
+    <div className={!singleMode && (sidebarProducts.get('data').size ? styles['sidebars-active'] : styles['sidebars-inactive'])} styleName='sidebars'>
         <ReactCSSTransitionGroup
           transitionAppear
           transitionAppearTimeout={500}
@@ -58,7 +58,7 @@ export default class Sidebars extends Component {
           transitionName={{
             appear: styles['sidebar-appear'],
             appearActive: styles['sidebar-appear-active'],
-            enter: styles['sidebar-enter'],
+            enter: sidebarProducts.get('data').size > 1 ? styles['sidebar-enter'] : styles['sidebar-enter-first'],
             enterActive: styles['sidebar-enter-active'],
             leave: sidebarProducts.get('data').size ? styles['sidebar-leave'] : styles['sidebar-leave-all'],
             leaveActive: styles['sidebar-leave-active']

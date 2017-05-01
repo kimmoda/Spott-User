@@ -82,3 +82,28 @@ export async function getUserSubscriptions (baseUrl, authenticationToken, locale
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/subscriptions`);
   return body;
 }
+
+export async function getUserProfile (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}`);
+  return body;
+}
+
+export async function getUserLovesPosts (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/lovedPosts`);
+  return body;
+}
+
+export async function getUserWishlist (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/wishlists/products`);
+  return body;
+}
+
+export async function addProductToWishlist (baseUrl, authenticationToken, locale, { uuid, productUuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/wishlists/products/${productUuid}`);
+  return body;
+}
+
+export async function removeProductFromWishlist (baseUrl, authenticationToken, locale, { uuid, productUuid }) {
+  const { body } = await del(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/wishlists/products/${productUuid}`);
+  return body;
+}
