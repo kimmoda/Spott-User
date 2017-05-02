@@ -1,6 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import * as actions from './actions';
 import * as ubActions from '../basket/actions';
+import * as newActions from '../newHome/actions';
 import { combineReducers } from 'redux-immutablejs';
 import {
   REGISTER_USER_START,
@@ -26,6 +27,15 @@ function authentication (state = fromJS({
         .set('isLoginModalOpen', false)
         .set('isLoading', false)
         .merge(fromJS(action.data));
+    case newActions.UPDATE_USER_PROFILE_SUCCESS:
+      return state
+        .mergeIn([ 'user' ], fromJS(action.data));
+    case newActions.UPDATE_USER_AVATAR_SUCCESS:
+      return state
+        .mergeIn([ 'user' ], fromJS(action.data));
+    case newActions.UPDATE_USER_BACKGROUND_SUCCESS:
+      return state
+        .mergeIn([ 'user' ], fromJS(action.data));
     case actions.LOGIN_FAILURE:
       return state
         .set('error', action.error)

@@ -1,5 +1,6 @@
 import { COMMERCIAL, MOVIE, SERIES, SERIES_EPISODE } from '../data/mediumTypes';
 import * as _ from 'lodash';
+import moment from 'moment';
 
 function stripDomain (url) {
   return url.substring(url.indexOf('/', 9));
@@ -7,17 +8,22 @@ function stripDomain (url) {
 
 export function transformUser ({ uuid, userName, profile }) {
   return {
-    avatar: profile.avatar ? { id: profile.avatar.uuid, url: profile.avatar.url } : null,
+    avatar: profile.avatar ? profile.avatar : null,
     dateOfBirth: profile.dateOfBirth,
-    email: profile.email,
-    firstname: profile.firstName,
+    email: profile.email ? profile.email : null,
+    firstName: profile.firstName,
     followerCount: profile.followerCount,
     followingCount: profile.followingCount,
     id: uuid,
-    lastname: profile.lastName,
-    picture: profile.picture ? { id: profile.picture.uuid, url: profile.picture.url } : null,
+    lastName: profile.lastName,
+    picture: profile.picture ? profile.picture : null,
     tagline: profile.tagLine,
-    username: userName
+    username: userName,
+    description: profile.description ? profile.description : null,
+    gender: profile.gender ? profile.gender : null,
+    dayOfBirth: moment(profile.dateOfBirth).get('date'),
+    monthOfBirth: moment(profile.dateOfBirth).get('month'),
+    yearOfBirth: moment(profile.dateOfBirth).get('year')
   };
 }
 

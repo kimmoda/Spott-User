@@ -6,6 +6,7 @@ export const currentUserAvatarSelector = (state) => state.getIn([ 'app', 'authen
 export const currentUserFirstnameSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'firstname' ]);
 export const currentUserLastnameSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'lastname' ]);
 export const currentUserIdSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'id' ]);
+export const currentUserProfileSelector = (state) => state.getIn([ 'app', 'authentication', 'user' ]);
 
 export const trendingTopicsSelector = (state) => state.getIn([ 'newHome', 'trendingTopics' ]);
 export const topicSelector = (state) => state.getIn([ 'newHome', 'topic' ]);
@@ -70,6 +71,8 @@ export const userSubscriptionsSelector = (state) => state.getIn([ 'newHome', 'pr
 
 export const userSettingsDetailsSelector = createStructuredSelector({
   userId: currentUserIdSelector,
+  currentUserProfile: currentUserProfileSelector,
+  initialValues: currentUserProfileSelector,
   subscriptions: userSubscriptionsSelector
 });
 

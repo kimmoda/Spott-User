@@ -1,5 +1,8 @@
 import { makeApiActionCreator } from '../../data/actions';
 import * as api from '../../api/new';
+import { getLocalStorage } from '../../utils';
+
+const storage = getLocalStorage();
 
 // Action types
 // ////////////
@@ -86,6 +89,18 @@ export const GET_USER_SUBSCRIPTIONS_ERROR = 'NEW/GET_USER_SUBSCRIPTIONS_ERROR';
 export const GET_USER_PROFILE_START = 'NEW/GET_USER_PROFILE_START';
 export const GET_USER_PROFILE_SUCCESS = 'NEW/GET_USER_PROFILE_SUCCESS';
 export const GET_USER_PROFILE_ERROR = 'NEW/GET_USER_PROFILE_ERROR';
+
+export const UPDATE_USER_PROFILE_START = 'NEW/UPDATE_USER_PROFILE_START';
+export const UPDATE_USER_PROFILE_SUCCESS = 'NEW/UPDATE_USER_PROFILE_SUCCESS';
+export const UPDATE_USER_PROFILE_ERROR = 'NEW/UPDATE_USER_PROFILE_ERROR';
+
+export const UPDATE_USER_AVATAR_START = 'NEW/UPDATE_USER_AVATAR_START';
+export const UPDATE_USER_AVATAR_SUCCESS = 'NEW/UPDATE_USER_AVATAR_SUCCESS';
+export const UPDATE_USER_AVATAR_ERROR = 'NEW/UPDATE_USER_AVATAR_ERROR';
+
+export const UPDATE_USER_BACKGROUND_START = 'NEW/UPDATE_USER_BACKGROUND_START';
+export const UPDATE_USER_BACKGROUND_SUCCESS = 'NEW/UPDATE_USER_BACKGROUND_SUCCESS';
+export const UPDATE_USER_BACKGROUND_ERROR = 'NEW/UPDATE_USER_BACKGROUND_ERROR';
 
 export const GET_USER_LOVED_POSTS_START = 'NEW/GET_USER_LOVED_POSTS_START';
 export const GET_USER_LOVED_POSTS_SUCCESS = 'NEW/GET_USER_LOVED_POSTS_SUCCESS';
@@ -217,9 +232,32 @@ export function clearSidebarProducts () {
   };
 }
 
-export const loadUserSubscriptions = makeApiActionCreator(api.getUserSubscriptions, GET_USER_SUBSCRIPTIONS_START, GET_USER_SUBSCRIPTIONS_SUCCESS, GET_USER_SUBSCRIPTIONS_ERROR);
-
 export const loadUserProfile = makeApiActionCreator(api.getUserProfile, GET_USER_PROFILE_START, GET_USER_PROFILE_SUCCESS, GET_USER_PROFILE_ERROR);
+
+export const updateUserProfile = makeApiActionCreator(api.updateUserProfile, UPDATE_USER_PROFILE_START, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_ERROR);
+
+export function updateUserProfileWrapper ({ uuid, data }) {
+  return async (dispatch, getState) => {
+    try {
+      const user = await dispatch(updateUserProfile({ uuid, data }));
+      const session = JSON.parse(storage.getItem('session'));
+      const body = {
+        authenticationToken: session.authenticationToken,
+        user
+      };
+      storage.setItem('session', JSON.stringify(body));
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+}
+
+export const updateUserAvatar = makeApiActionCreator(api.updateUserAvatar, UPDATE_USER_AVATAR_START, UPDATE_USER_AVATAR_SUCCESS, UPDATE_USER_AVATAR_ERROR);
+
+export const updateUserBackground = makeApiActionCreator(api.updateUserBackground, UPDATE_USER_BACKGROUND_START, UPDATE_USER_BACKGROUND_SUCCESS, UPDATE_USER_BACKGROUND_ERROR);
+
+export const loadUserSubscriptions = makeApiActionCreator(api.getUserSubscriptions, GET_USER_SUBSCRIPTIONS_START, GET_USER_SUBSCRIPTIONS_SUCCESS, GET_USER_SUBSCRIPTIONS_ERROR);
 
 export const loadUserLovedPosts = makeApiActionCreator(api.getUserLovesPosts, GET_USER_LOVED_POSTS_START, GET_USER_LOVED_POSTS_SUCCESS, GET_USER_LOVED_POSTS_ERROR);
 

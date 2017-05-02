@@ -108,9 +108,10 @@ export default class Header extends Component {
                       </div>
                     */}
                     <div styleName='user-menu'>
-                      <Link className={styles['user-avatar']} to={`/${currentLocale}/profile/${currentUserId}`}>
-                        <img src={currentUserAvatar ? `${currentUserAvatar.get('url')}?height=24&width=24` : dummyAvatarImage}/>
-                      </Link>
+                      <Link
+                        className={styles['user-avatar']}
+                        style={{ backgroundImage: `url(${currentUserAvatar.get('url') ? currentUserAvatar.get('url') : dummyAvatarImage}?height=24&width=24)` }}
+                        to={`/${currentLocale}/profile/${currentUserId}`}/>
                       <DropdownMenu alignLeft trigger={<div className={styles['user-dropdown']}>
                         <i><IconArrow3/></i>
                       </div>}>

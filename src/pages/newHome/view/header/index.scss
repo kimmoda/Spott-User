@@ -76,11 +76,11 @@
 .user-avatar {
   display: flex;
   align-items: center;
-  img {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-  }
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: 50% 50%;
 }
 
 .user-dropdown {

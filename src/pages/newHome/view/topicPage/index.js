@@ -47,7 +47,6 @@ export default class NewTopic extends Component {
       filterSecondVals: [ 'Test 3', 'Test 4', 'Test 5' ]
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
-    this.infoContainerOffsetTop = null;
     this.infoContainerHeight = null;
     this.isScrolledToInfo = false;
   }
@@ -57,7 +56,6 @@ export default class NewTopic extends Component {
   }
 
   componentDidMount () {
-    this.infoContainerOffsetTop = this.infoContainer.offsetTop;
     this.infoContainerHeight = this.infoContainer.clientHeight;
     window.addEventListener('scroll', this.handleScroll);
   }
@@ -76,7 +74,7 @@ export default class NewTopic extends Component {
 
   handleScroll () {
     this.setState({
-      isScrolledToInfo: this.infoContainerOffsetTop <= window.scrollY + this.headerHeight + 30
+      isScrolledToInfo: this.infoContainer.offsetTop <= window.scrollY + this.headerHeight + 30
     });
   }
 
@@ -108,9 +106,9 @@ export default class NewTopic extends Component {
 
     return (
       <section styleName='wrapper'>
-        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}')` }} styleName='poster'/>}
-        <div style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
-          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainer = ref; }} styleName='info'>
+        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200')` }} styleName='poster'/>}
+        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
+          <div className={isScrolledToInfo && styles['info-sticky']} styleName='info'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div style={{ backgroundImage: `url('${topic.getIn([ 'profileImage', 'url' ])}?width=48&height=72')` }} styleName='info-image'/>

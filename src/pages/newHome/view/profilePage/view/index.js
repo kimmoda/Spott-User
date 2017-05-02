@@ -41,13 +41,11 @@ export default class NewUserProfile extends Component {
       isScrolledToInfo: false
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
-    this.infoContainerOffsetTop = null;
     this.infoContainerHeight = null;
     this.isScrolledToInfo = false;
   }
 
   componentDidMount () {
-    this.infoContainerOffsetTop = this.infoContainer.offsetTop;
     this.infoContainerHeight = this.infoContainer.clientHeight;
     window.addEventListener('scroll', this.handleScroll);
     this.props.loadUserProfile({ uuid: this.props.params.userId });
@@ -59,7 +57,7 @@ export default class NewUserProfile extends Component {
 
   handleScroll () {
     this.setState({
-      isScrolledToInfo: this.infoContainerOffsetTop <= window.scrollY + this.headerHeight + 30
+      isScrolledToInfo: this.infoContainer.offsetTop <= window.scrollY + this.headerHeight + 30
     });
   }
 
@@ -78,8 +76,9 @@ export default class NewUserProfile extends Component {
 
     return (
       <section styleName='wrapper'>
-        <div style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
-          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainer = ref; }} styleName='info'>
+        {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
+        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
+          <div className={isScrolledToInfo && styles['info-sticky']} styleName='info'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div

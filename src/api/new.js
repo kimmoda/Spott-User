@@ -1,4 +1,5 @@
 import { get, post, del } from './request';
+import { transformUser } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=10`);
@@ -106,4 +107,19 @@ export async function addProductToWishlist (baseUrl, authenticationToken, locale
 export async function removeProductFromWishlist (baseUrl, authenticationToken, locale, { uuid, productUuid }) {
   const { body } = await del(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/wishlists/products/${productUuid}`);
   return body;
+}
+
+export async function updateUserProfile (baseUrl, authenticationToken, locale, { uuid, data }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}`, data);
+  return transformUser(body);
+}
+
+export async function updateUserAvatar (baseUrl, authenticationToken, locale, { uuid, data }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/avatar`, data);
+  return transformUser(body);
+}
+
+export async function updateUserBackground (baseUrl, authenticationToken, locale, { uuid, data }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/background`, data);
+  return transformUser(body);
 }

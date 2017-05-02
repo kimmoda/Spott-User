@@ -6,14 +6,14 @@ import { bindActionCreators } from 'redux';
 import { reduxForm, Field } from 'redux-form/immutable';
 import localized from '../../../../../_common/localized';
 import * as actions from '../../../../actions';
-import { topicDetailsSelector } from '../../../../selectors';
+import { userSettingsDetailsSelector } from '../../../../selectors';
 import { validateAccountForm } from '../../validateForm';
 import { FormSelect, FormCheckbox } from '../../../form';
 
 const styles = require('./index.scss');
 
 @localized
-@connect(topicDetailsSelector, (dispatch) => ({
+@connect(userSettingsDetailsSelector, (dispatch) => ({
   loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch)
 }))
 @reduxForm({
@@ -28,7 +28,8 @@ export default class NewUserAccount extends Component {
     handleSubmit: PropTypes.func.isRequired,
     submitFailed: PropTypes.bool,
     submitting: PropTypes.bool.isRequired,
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    userId: PropTypes.string
   };
 
   constructor (props) {

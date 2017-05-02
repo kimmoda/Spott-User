@@ -18,7 +18,7 @@ export async function getConfiguration () {
 export async function login (baseUrl, { email: emailIn, password }) {
   try {
     // TODO: localize! Server should return proper error message to display to the user.
-    const { body } = await request.post(null, 'nl', `${baseUrl}/v003/security/login`, { userName: emailIn, password });
+    const { body } = await request.post(null, 'nl', `${baseUrl}/v004/security/login`, { userName: emailIn, password });
     return {
       authenticationToken: body.authenticationToken,
       user: transformUser(body.user)
