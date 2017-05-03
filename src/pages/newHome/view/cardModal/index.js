@@ -127,11 +127,12 @@ export default class CardModal extends Component {
                 {spott.get('personMarkers') &&
                   <div styleName='persons'>
                     {spott.get('personMarkers').map((person) =>
-                      <div
+                      <Link
                         key={`person_marker_${person.get('uuid')}`}
                         style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
                         styleName='person'
-                        title={person.getIn([ 'character', 'name' ])}/>
+                        title={person.getIn([ 'character', 'name' ])}
+                        to={`/${currentLocale}/topic/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>
                     )}
                   </div>}
               </div>

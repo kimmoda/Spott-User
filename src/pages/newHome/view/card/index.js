@@ -112,11 +112,12 @@ export default class Card extends Component {
           {spottDetails.get('personMarkers') &&
             <div styleName='persons'>
               {spottDetails.get('personMarkers').map((person) =>
-                <div
+                <Link
                   key={`person_marker_${person.get('uuid')}`}
                   style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
                   styleName='person'
-                  title={person.getIn([ 'character', 'name' ])}/>
+                  title={person.getIn([ 'character', 'name' ])}
+                  to={`/${currentLocale}/topic/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>
               )}
             </div>}
         </div>
