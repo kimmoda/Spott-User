@@ -51,6 +51,12 @@ export default class NewUserProfile extends Component {
     this.props.loadUserProfile({ uuid: this.props.params.userId });
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.params.userId && nextProps.params.userId !== this.props.params.userId) {
+      this.props.loadUserProfile({ uuid: nextProps.params.userId });
+    }
+  }
+
   componentWillUnmount () {
     window.removeEventListener('scroll', this.handleScroll);
   }

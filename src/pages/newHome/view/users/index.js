@@ -39,7 +39,7 @@ export default class Users extends Component {
   }
 
   render () {
-    const { large, maxNum, items } = this.props;
+    const { large, maxNum, items, currentLocale } = this.props;
 
     return (
       <div styleName={large ? 'users-large' : 'users'}>
@@ -53,7 +53,7 @@ export default class Users extends Component {
               }}
               styleName='user'
               title={`${item.get('firstName')} ${item.get('lastName')}`}
-              to='#'/>
+              to={`/${currentLocale}/profile/${item.getIn([ 'user', 'uuid' ])}`}/>
           )}
         </div>
         {items.size >= maxNum &&

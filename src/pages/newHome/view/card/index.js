@@ -17,6 +17,7 @@ const styles = require('./index.scss');
 @localized
 @connect(spottCardDetailsSelector, (dispatch) => ({
   loadSpottCardDetails: bindActionCreators(actions.loadSpottCardDetails, dispatch),
+  loadSpottLovers: bindActionCreators(actions.loadSpottLovers, dispatch),
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
   setSpottLover: bindActionCreators(actions.setSpottLover, dispatch)
 }))
@@ -27,6 +28,7 @@ export default class Card extends Component {
     currentLocale: PropTypes.string.isRequired,
     item: PropTypes.any.isRequired,
     loadSpottCardDetails: PropTypes.func.isRequired,
+    loadSpottLovers: PropTypes.func.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
     spottDetails: PropTypes.any.isRequired,
@@ -52,6 +54,15 @@ export default class Card extends Component {
     this.props.loadSpottCardDetails({ uuid: this.props.spottId });
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.spottId !== this.props.spottId) {
+      this.setState({
+        loved: nextProps.item.get('loved'),
+        loverCount: nextProps.item.get('loverCount')
+      });
+    }
+  }
+
   onCardClick () {
     this.setState({ isCardModalOpen: true });
   }
@@ -69,21 +80,22 @@ export default class Card extends Component {
     });
   }
 
-  onLoveClick (spottId, loved) {
+  async onLoveClick (spottId, loved) {
     if (this.props.userId) {
       if (loved) {
-        this.props.removeSpottLover({ uuid: spottId });
         this.setState({
           loved: !this.state.loved,
           loverCount: this.state.loverCount - 1
         });
+        await this.props.removeSpottLover({ uuid: spottId });
       } else {
-        this.props.setSpottLover({ uuid: spottId });
         this.setState({
           loved: !this.state.loved,
           loverCount: this.state.loverCount + 1
         });
+        await this.props.setSpottLover({ uuid: spottId });
       }
+      this.props.loadSpottLovers({ uuid: spottId });
     }
   }
 

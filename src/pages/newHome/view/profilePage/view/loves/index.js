@@ -34,6 +34,11 @@ export default class NewUserLoves extends Component {
     this.props.loadUserLovedPosts({ uuid: this.props.params.userId });
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.params.userId && nextProps.params.userId !== this.props.params.userId) {
+      this.props.loadUserLovedPosts({ uuid: nextProps.params.userId });
+    }
+  }
   render () {
     const { userProfile } = this.props;
 
