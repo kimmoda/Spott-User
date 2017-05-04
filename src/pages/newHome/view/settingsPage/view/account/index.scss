@@ -68,7 +68,12 @@
   margin-left: 16px;
 }
 
+.password-input {
+  display: block;
+}
+
 .password-change {
   @include btnMedium;
   display: block;
+  max-width: 127px;
 }

@@ -123,3 +123,8 @@ export async function updateUserBackground (baseUrl, authenticationToken, locale
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/background`, data);
   return transformUser(body);
 }
+
+export async function updateUserPassword (baseUrl, authenticationToken, locale, data) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/register/changepassword`, data);
+  return body;
+}
