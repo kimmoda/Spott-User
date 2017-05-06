@@ -35,6 +35,14 @@ export const GET_SPOTTS_LIST_START = 'NEW/GET_SPOTTS_LIST_START';
 export const GET_SPOTTS_LIST_SUCCESS = 'NEW/GET_SPOTTS_LIST_SUCCESS';
 export const GET_SPOTTS_LIST_ERROR = 'NEW/GET_SPOTTS_LIST_ERROR';
 
+export const GET_SPOTTS_SUBSCRIBED_LIST_START = 'NEW/GET_SPOTTS_SUBSCRIBED_LIST_START';
+export const GET_SPOTTS_SUBSCRIBED_LIST_SUCCESS = 'NEW/GET_SPOTTS_SUBSCRIBED_LIST_SUCCESS';
+export const GET_SPOTTS_SUBSCRIBED_LIST_ERROR = 'NEW/GET_SPOTTS_SUBSCRIBED_LIST_ERROR';
+
+export const GET_SPOTTS_PROMOTED_LIST_START = 'NEW/GET_SPOTTS_PROMOTED_LIST_START';
+export const GET_SPOTTS_PROMOTED_LIST_SUCCESS = 'NEW/GET_SPOTTS_PROMOTED_LIST_SUCCESS';
+export const GET_SPOTTS_PROMOTED_LIST_ERROR = 'NEW/GET_SPOTTS_PROMOTED_LIST_ERROR';
+
 export const LOAD_SPOTT_START = 'NEW/LOAD_SPOTT_START';
 export const LOAD_SPOTT_ERROR = 'NEW/LOAD_SPOTT_ERROR';
 
@@ -150,6 +158,28 @@ export function loadTopicDetails ({ uuid }) {
 }
 
 export const loadSpottsList = makeApiActionCreator(api.getSpottsList, GET_SPOTTS_LIST_START, GET_SPOTTS_LIST_SUCCESS, GET_SPOTTS_LIST_ERROR);
+
+export const loadSpottsSubscribedList = makeApiActionCreator(api.getSpottsSubscribedList, GET_SPOTTS_SUBSCRIBED_LIST_START, GET_SPOTTS_SUBSCRIBED_LIST_SUCCESS, GET_SPOTTS_SUBSCRIBED_LIST_ERROR);
+
+export const loadSpottsPromotedList = makeApiActionCreator(api.getSpottsPromotedList, GET_SPOTTS_PROMOTED_LIST_START, GET_SPOTTS_PROMOTED_LIST_SUCCESS, GET_SPOTTS_PROMOTED_LIST_ERROR);
+
+export function loadSpottsListWrapper (isAuthenticated) {
+  return async (dispatch, getState) => {
+    try {
+      if (isAuthenticated) {
+        const result = await dispatch(loadSpottsSubscribedList());
+        if (result.data.length <= 5) {
+          dispatch(loadSpottsList());
+        }
+      } else {
+        dispatch(loadSpottsList());
+      }
+      dispatch(loadSpottsPromotedList());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
 
 export const loadSpott = makeApiActionCreator(api.getSpott, GET_SPOTT_START, GET_SPOTT_SUCCESS, GET_SPOTT_ERROR);
 

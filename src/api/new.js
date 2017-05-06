@@ -21,6 +21,16 @@ export async function getTopicRelated (baseUrl, authenticationToken, locale, { u
   return body;
 }
 
+export async function getTopicMediaSeasons (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/${uuid}/seasons`);
+  return body;
+}
+
+export async function getTopicMediaSeries (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/${uuid}/seasons`);
+  return body;
+}
+
 export async function setTopicSubscriber (baseUrl, authenticationToken, locale, { uuid }) {
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/subscribers`);
   return body;
@@ -32,7 +42,17 @@ export async function removeTopicSubscriber (baseUrl, authenticationToken, local
 }
 
 export async function getSpottsList (baseUrl, authenticationToken, locale) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=0&pageSize=10`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=0&pageSize=50&subscriptionBased=false`);
+  return body;
+}
+
+export async function getSpottsSubscribedList (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=0&pageSize=50&subscriptionBased=true`);
+  return body;
+}
+
+export async function getSpottsPromotedList (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/promoted?page=0&pageSize=50`);
   return body;
 }
 

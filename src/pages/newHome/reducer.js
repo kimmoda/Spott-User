@@ -8,6 +8,8 @@ export default function newHomeReducer (state = Map({
   topicSpotts: Map(),
   topicRelated: Map(),
   spotts: Map(),
+  spottsSubscribed: Map(),
+  spottsPromoted: Map(),
   currentSpott: Map(),
   spottLovers: Map(),
   currentProduct: Map(),
@@ -63,6 +65,20 @@ export default function newHomeReducer (state = Map({
       return state.set('spotts', fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_SPOTTS_LIST_ERROR:
       return state.mergeIn([ 'spotts' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_SPOTTS_SUBSCRIBED_LIST_START:
+      return state.mergeIn([ 'spottsSubscribed' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_SPOTTS_SUBSCRIBED_LIST_SUCCESS:
+      return state.set('spottsSubscribed', fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_SPOTTS_SUBSCRIBED_LIST_ERROR:
+      return state.mergeIn([ 'spottsSubscribed' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_SPOTTS_PROMOTED_LIST_START:
+      return state.mergeIn([ 'spottsPromoted' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_SPOTTS_PROMOTED_LIST_SUCCESS:
+      return state.set('spottsPromoted', fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_SPOTTS_PROMOTED_LIST_ERROR:
+      return state.mergeIn([ 'spottsPromoted' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.LOAD_SPOTT_START:
       return state.set('currentSpott', Map({ uuid: action.uuid }));

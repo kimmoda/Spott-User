@@ -1,5 +1,6 @@
-import { createStructuredSelector } from 'reselect';
+import { createStructuredSelector, createSelector } from 'reselect';
 import { createEntityByIdSelector, createEntitiesByListSelector } from '../../data/selector';
+import * as _ from 'lodash';
 
 export const authenticationTokenSelector = (state) => state.getIn([ 'app', 'authentication', 'authenticationToken' ]);
 export const currentUserAvatarSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'avatar' ]);
@@ -15,6 +16,8 @@ export const topicRelatedSelector = (state) => state.getIn([ 'newHome', 'topicRe
 export const topicSubscribersSelector = (state) => state.getIn([ 'newHome', 'topicSubscribers' ]);
 
 export const spottsSelector = (state) => state.getIn([ 'newHome', 'spotts' ]);
+export const spottsSubscribedSelector = (state) => state.getIn([ 'newHome', 'spottsSubscribed' ]);
+export const spottsPromotedSelector = (state) => state.getIn([ 'newHome', 'spottsPromoted' ]);
 
 export const currentSpottUuidSelector = (state) => state.getIn([ 'newHome', 'currentSpott', 'uuid' ]);
 export const spottEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'spotts' ]);
@@ -37,9 +40,50 @@ export const sidebarProductsSelector = createStructuredSelector({
   sidebarProducts: createEntitiesByListSelector(sidebarProductsListSelector, productEntitiesSelector)
 });
 
+const step = 2;
+const homeSpottsSelector = createSelector(
+  spottsSelector,
+  (spotts) => {
+    return spotts.get('data') && spotts.get('data')
+      .map((item, idx) => ((idx + 1) % step) === 0 ? [ item, null ] : [ item ])
+      .reduce((acc, item) => [ ...acc, ...item ], []);
+  }
+);
+
+/*
+const homeSpottsSubscribedSelector = createSelector(
+  spottsSubscribedSelector,
+  (spottsSubscribed) => {
+    return spottsSubscribed.get('data') && spottsSubscribed.get('data')
+        .map((item, idx) => ((idx + 1) % step) === 0 ? [ item, null ] : [ item ])
+        .reduce((acc, item) => [ ...acc, ...item ], []);
+  }
+);
+*/
+
+const homeSpottsPromotedSelector = createSelector(
+  spottsPromotedSelector,
+  (spottsPromoted) => {
+    return spottsPromoted.get('data') && spottsPromoted.get('data')
+      .reduce((acc, item) => [ ...acc, ...(new Array(step)).fill(null), item ], []);
+  }
+);
+
+const homeFeedSelector = createSelector(
+  homeSpottsSelector,
+  homeSpottsPromotedSelector,
+  (homeSpotts, homeSpottsPromoted) => {
+    return _.zip(homeSpotts, homeSpottsPromoted).map((item) => item[0] || item[1]).filter((item) => item);
+  }
+);
+
 export const newHomeSelector = createStructuredSelector({
+  isAuthenticated: authenticationTokenSelector,
   trendingTopics: trendingTopicsSelector,
-  spotts: spottsSelector
+  spotts: spottsSelector,
+  spottsSubscribed: spottsSubscribedSelector,
+  spottsPromoted: spottsPromotedSelector,
+  feedSpotts: homeFeedSelector
 });
 
 export const newHeaderSelector = createStructuredSelector({
