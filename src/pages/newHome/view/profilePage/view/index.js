@@ -25,6 +25,7 @@ export default class NewUserProfile extends Component {
   static propTypes = {
     children: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
+    currentUserId: PropTypes.string,
     loadUserProfile: PropTypes.func.isRequired,
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired
@@ -76,7 +77,7 @@ export default class NewUserProfile extends Component {
   }
 
   render () {
-    const { children, currentLocale, userProfile } = this.props;
+    const { children, currentLocale, userProfile, currentUserId } = this.props;
     const { userId } = this.props.params;
     const { isScrolledToInfo } = this.state;
 
@@ -129,12 +130,13 @@ export default class NewUserProfile extends Component {
               to={`/${currentLocale}/profile/${userId}/loves`}>
               Loves
             </Link>
-            <Link
-              activeClassName={styles['nav-item-active']}
-              styleName='nav-item'
-              to={`/${currentLocale}/profile/${userId}/wishlist`}>
-              Wishlist
-            </Link>
+            {userId === currentUserId &&
+              <Link
+                activeClassName={styles['nav-item-active']}
+                styleName='nav-item'
+                to={`/${currentLocale}/profile/${userId}/wishlist`}>
+                Wishlist
+              </Link>}
           </div>
         </div>
         <div styleName='content'>

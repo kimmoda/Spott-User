@@ -134,7 +134,8 @@ const userProfileUuidSelector = (state, props) => props.params.userId;
 const userProfileSelector = createEntityByIdSelector(usersEntitiesSelector, userProfileUuidSelector);
 
 export const userProfileDetailsSelector = createStructuredSelector({
-  userProfile: userProfileSelector
+  userProfile: userProfileSelector,
+  currentUserId: currentUserIdSelector
 });
 
 export const sidebarSelector = createStructuredSelector({

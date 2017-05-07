@@ -52,9 +52,16 @@ export default class NewHome extends Component {
         </div>
         <div styleName='cards'>
           <div>
-            {isAuthenticated && spottsSubscribed.get('data') && spottsSubscribed.get('data').map((item, index) =>
-              <Card item={item} key={`home_card_${index}`} spottId={item.get('uuid')} />
-            )}
+            {isAuthenticated && spottsSubscribed.get('data') && spottsSubscribed.get('data').map((item, index) => {
+              if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
+                promotedIndex++;
+                return [
+                  <Card item={item} key={`home_card_${index}_${item.get('uuid')}`} spottId={item.get('uuid')}/>,
+                  <Card item={spottsPromoted.getIn([ 'data', promotedIndex - 1 ])} key={`home_card_${index}`} spottId={spottsPromoted.getIn([ 'data', promotedIndex - 1, 'uuid' ])}/>
+                ];
+              }
+              return (<Card item={item} key={`home_card_${index}_${item.get('uuid')}`} spottId={item.get('uuid')}/>);
+            })}
             {(!isAuthenticated || (!spottsSubscribed.get('data') || spottsSubscribed.get('data').size <= 5)) && spotts.get('data') && spotts.get('data').map((item, index) => {
               if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
                 promotedIndex++;
