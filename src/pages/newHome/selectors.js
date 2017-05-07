@@ -86,13 +86,16 @@ export const newHomeSelector = createStructuredSelector({
   feedSpotts: homeFeedSelector
 });
 
+const searchSuggestionsSelector = (state) => state.getIn([ 'newHome', 'searchSuggestions' ]);
+
 export const newHeaderSelector = createStructuredSelector({
   trendingTopics: trendingTopicsSelector,
   isAuthenticated: authenticationTokenSelector,
   currentUserAvatar: currentUserAvatarSelector,
   currentUserFirstname: currentUserFirstnameSelector,
   currentUserLastname: currentUserLastnameSelector,
-  currentUserId: currentUserIdSelector
+  currentUserId: currentUserIdSelector,
+  searchSuggestions: searchSuggestionsSelector
 });
 
 export const spottDetailsSelector = createStructuredSelector({

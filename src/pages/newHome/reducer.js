@@ -14,7 +14,13 @@ export default function newHomeReducer (state = Map({
   spottLovers: Map(),
   currentProduct: Map(),
   sidebarProducts: Map({ data: List() }),
-  profile: Map({ subscriptions: Map() })
+  profile: Map({ subscriptions: Map() }),
+  searchSuggestions: Map({
+    isLoading: false,
+    isSuccessful: false,
+    error: null,
+    items: List()
+  })
 }), action) {
   switch (action.type) {
     case actions.GET_TRENDING_TOPICS_START:
@@ -112,6 +118,42 @@ export default function newHomeReducer (state = Map({
     case actions.GET_USER_SUBSCRIPTIONS_ERROR:
       return state.mergeIn([ 'profile', 'subscriptions' ], Map({ _error: action.error, _status: ERROR }));
 
+    case actions.SEARCH_SUGGESTIONS_CLEAR:
+      return state.merge({
+        searchSuggestions: {
+          isLoading: false,
+          isSuccessful: false,
+          items: [],
+          error: null
+        }
+      });
+    case actions.SEARCH_SUGGESTIONS_FETCH_START:
+      return state.merge({
+        searchSuggestions: {
+          isLoading: true,
+          isSuccessful: false,
+          items: [],
+          error: null
+        }
+      });
+    case actions.SEARCH_SUGGESTIONS_FETCH_SUCCESS:
+      return state.merge({
+        searchSuggestions: {
+          isLoading: false,
+          isSuccessful: true,
+          items: action.data,
+          error: null
+        }
+      });
+    case actions.SEARCH_SUGGESTIONS_FETCH_ERROR:
+      return state.merge({
+        searchSuggestions: {
+          isLoading: false,
+          isSuccessful: false,
+          items: [],
+          error: action.error
+        }
+      });
     default:
       return state;
   }

@@ -130,6 +130,11 @@ export const REMOVE_PRODUCT_FROM_WISHLIST_START = 'NEW/REMOVE_PRODUCT_FROM_WISHL
 export const REMOVE_PRODUCT_FROM_WISHLIST_SUCCESS = 'NEW/REMOVE_PRODUCT_FROM_WISHLIST_SUCCESS';
 export const REMOVE_PRODUCT_FROM_WISHLIST_ERROR = 'NEW/REMOVE_PRODUCT_FROM_TO_WISHLIST_ERROR';
 
+export const SEARCH_SUGGESTIONS_FETCH_START = 'NEW/SEARCH_SUGGESTIONS_FETCH_START';
+export const SEARCH_SUGGESTIONS_FETCH_SUCCESS = 'NEW/SEARCH_SUGGESTIONS_FETCH_SUCCESS';
+export const SEARCH_SUGGESTIONS_FETCH_ERROR = 'NEW/SEARCH_SUGGESTIONS_FETCH_ERROR';
+export const SEARCH_SUGGESTIONS_CLEAR = 'NEW/SEARCH_SUGGESTIONS_CLEAR';
+
 // Actions creators
 // ////////////////
 
@@ -302,3 +307,11 @@ export const loadUserWishlist = makeApiActionCreator(api.getUserWishlist, GET_US
 export const addProductToWishlist = makeApiActionCreator(api.addProductToWishlist, ADD_PRODUCT_TO_WISHLIST_START, ADD_PRODUCT_TO_WISHLIST_SUCCESS, ADD_PRODUCT_TO_WISHLIST_ERROR);
 
 export const removeProductFromWishlist = makeApiActionCreator(api.removeProductFromWishlist, REMOVE_PRODUCT_FROM_WISHLIST_START, REMOVE_PRODUCT_FROM_WISHLIST_SUCCESS, REMOVE_PRODUCT_FROM_WISHLIST_ERROR);
+
+export const getSearchSuggestions = makeApiActionCreator(api.getSearchSuggestions, SEARCH_SUGGESTIONS_FETCH_START, SEARCH_SUGGESTIONS_FETCH_SUCCESS, SEARCH_SUGGESTIONS_FETCH_ERROR);
+
+export function clearSearchSuggestions () {
+  return (dispatch, getState) => {
+    dispatch({ type: SEARCH_SUGGESTIONS_CLEAR });
+  };
+}

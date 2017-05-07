@@ -291,3 +291,28 @@ export function transformUbProduct (data) {
 
   return product;
 }
+
+export function transformNewSuggestions (data) {
+  function toUrlPart (type, uuid) {
+    if (type === 'TV_SERIE' || type === 'CHARACTER' || type === 'MOVIE') {
+      return `topic/MEDIUM%7C${uuid}`;
+    }
+    if (type === 'BRAND') {
+      return `topic/BRAND%7C${uuid}`;
+    }
+    if (type === 'USER') {
+      return `profile/${uuid}`;
+    }
+    if (type === 'ANNOTATED_POST') {
+      return '';
+    }
+    return '';
+  }
+
+  return data.map((val) => {
+    return {
+      text: val.suggestions[0].value,
+      urlPart: toUrlPart(val.type, val.entity.uuid)
+    };
+  });
+}

@@ -1,5 +1,5 @@
 import { get, post, del } from './request';
-import { transformUser } from './transformers';
+import { transformUser, transformNewSuggestions } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=10`);
@@ -147,4 +147,9 @@ export async function updateUserBackground (baseUrl, authenticationToken, locale
 export async function updateUserPassword (baseUrl, authenticationToken, locale, data) {
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/register/changepassword`, data);
   return body;
+}
+
+export async function getSearchSuggestions (baseUrl, authenticationToken, locale, { searchString }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/suggest?searchString=${searchString}&locale=${locale}`);
+  return transformNewSuggestions(body.data);
 }
