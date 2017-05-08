@@ -7,7 +7,7 @@ export default function newHomeReducer (state = Map({
   topic: Map(),
   topicSpotts: Map(),
   topicRelated: Map(),
-  spotts: Map(),
+  spotts: Map({ data: List() }),
   spottsSubscribed: Map(),
   spottsPromoted: Map(),
   currentSpott: Map(),
@@ -68,7 +68,14 @@ export default function newHomeReducer (state = Map({
     case actions.GET_SPOTTS_LIST_START:
       return state.mergeIn([ 'spotts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_SPOTTS_LIST_SUCCESS:
-      return state.set('spotts', fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state.mergeIn([ 'spotts' ], fromJS({
+        page: action.data.page,
+        pageCount: action.data.pageCount,
+        pageSize: action.data.pageSize,
+        totalResultCount: action.data.totalResultCount,
+        _error: null,
+        _status: LOADED
+      })).updateIn([ 'spotts', 'data' ], (data) => data.push(...fromJS(action.data.data)));
     case actions.GET_SPOTTS_LIST_ERROR:
       return state.mergeIn([ 'spotts' ], Map({ _error: action.error, _status: ERROR }));
 

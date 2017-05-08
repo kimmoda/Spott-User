@@ -41,8 +41,8 @@ export async function removeTopicSubscriber (baseUrl, authenticationToken, local
   return body;
 }
 
-export async function getSpottsList (baseUrl, authenticationToken, locale) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=0&pageSize=50&subscriptionBased=false`);
+export async function getSpottsList (baseUrl, authenticationToken, locale, page = 0) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=${page}&pageSize=2&subscriptionBased=false`);
   return body;
 }
 

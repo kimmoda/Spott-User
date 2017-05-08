@@ -168,16 +168,16 @@ export const loadSpottsSubscribedList = makeApiActionCreator(api.getSpottsSubscr
 
 export const loadSpottsPromotedList = makeApiActionCreator(api.getSpottsPromotedList, GET_SPOTTS_PROMOTED_LIST_START, GET_SPOTTS_PROMOTED_LIST_SUCCESS, GET_SPOTTS_PROMOTED_LIST_ERROR);
 
-export function loadSpottsListWrapper (isAuthenticated) {
+export function loadSpottsListWrapper (isAuthenticated, page = 0) {
   return async (dispatch, getState) => {
     try {
       if (isAuthenticated) {
         const result = await dispatch(loadSpottsSubscribedList());
         if (result.data.length <= 5) {
-          dispatch(loadSpottsList());
+          dispatch(loadSpottsList(page));
         }
       } else {
-        dispatch(loadSpottsList());
+        dispatch(loadSpottsList(page));
       }
       dispatch(loadSpottsPromotedList());
     } catch (error) {

@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+// import Masonry from 'react-masonry-component';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
 import Card from '../card';
@@ -37,6 +38,10 @@ export default class NewHome extends Component {
   componentDidMount () {
     this.props.loadSpottsList(Boolean(this.props.isAuthenticated));
     this.props.loadTrendingTopics();
+  }
+
+  loadMore (page) {
+    this.props.loadSpottsList(Boolean(this.props.isAuthenticated), page);
   }
 
   render () {
@@ -74,6 +79,8 @@ export default class NewHome extends Component {
             })}
           </div>
         </div>
+        {Boolean(spotts.get('_status') !== 'fetching' && spotts.get('totalResultCount') && spotts.get('totalResultCount') > spotts.get('pageSize') && spotts.get('page') + 1 !== spotts.get('pageCount')) &&
+          <div styleName='load-more' onClick={this.loadMore.bind(this, spotts.get('page') + 1)}>Load more...</div>}
       </section>
     );
   }
