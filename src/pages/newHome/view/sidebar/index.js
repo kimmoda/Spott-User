@@ -10,6 +10,7 @@ import Tiles from '../tiles';
 import { formatPrice } from '../../../_common/buildingBlocks';
 import * as actions from '../../actions';
 import { sidebarSelector } from '../../selectors';
+import ImageLoader from '../imageLoader/index';
 
 const styles = require('./index.scss');
 
@@ -49,7 +50,7 @@ export default class Sidebar extends Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.product) {
       this.setState({
-        currentImage: nextProps.product.getIn([ 'images', '0', 'url' ]),
+        currentImage: nextProps.product.getIn([ 'images', '0' ]),
         inUserWishList: nextProps.product.get('inUserWishList'),
         wishListCount: nextProps.product.get('wishListCount')
       });
@@ -111,7 +112,7 @@ export default class Sidebar extends Component {
           </div>
         </div>
         <div styleName='sidebar-image'>
-          <img src={`${this.state.currentImage}?width=424&height=424`}/>
+          {this.state.currentImage && <ImageLoader imgOriginal={this.state.currentImage} width={424}/>}
         </div>
         <div styleName='sidebar-photos'>
           {product.get('images') && product.get('images').map((item, index) =>
@@ -120,7 +121,7 @@ export default class Sidebar extends Component {
               key={`sidebar_photo_${index}`}
               style={{ backgroundImage: `url('${item.get('url')}?width=80&height=80'` }}
               styleName='sidebar-photo'
-              onClick={this.onImageClick.bind(this, item.get('url'))}/>
+              onClick={this.onImageClick.bind(this, item)}/>
           )}
         </div>
         <div styleName='sidebar-panel'>

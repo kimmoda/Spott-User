@@ -33,7 +33,7 @@ export default class CardModal extends Component {
   static propTypes = {
     clearSidebarProducts: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
-    imageThumb: PropTypes.string.isRequired,
+    imageThumb: PropTypes.object.isRequired,
     loadSidebarProduct: PropTypes.func.isRequired,
     loadSpottDetails: PropTypes.func.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
@@ -122,7 +122,7 @@ export default class CardModal extends Component {
             <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
             <div styleName='card'>
               <div styleName='image'>
-                <ImageLoader srcOriginal={spott.getIn([ 'image', 'url' ])} srcThumb={imageThumb}/>
+                {spott.get('image') && <ImageLoader imgOriginal={spott.get('image')} imgThumb={imageThumb} width={592} widthThumb={280}/>}
                 {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')} onMarkerClick={this.onProductClick}/>}
                 {spott.get('personMarkers') &&
                   <div styleName='persons'>
@@ -172,14 +172,14 @@ export default class CardModal extends Component {
                 </Link>
               </div>
             </div>
-            {Boolean(spott.get('relatedTopics') && spott.get('relatedTopics').size) &&
+            {Boolean(spott.getIn([ 'relatedTopics', 'data' ]) && spott.getIn([ 'relatedTopics', 'data' ]).size) &&
               <div styleName='topics'>
                 <div styleName='topics-content'>
                   <div styleName='topics-title'>Related Topics</div>
                   <Topics items={spott.get('relatedTopics')}/>
                 </div>
               </div>}
-            {spott.get('similar') &&
+            {Boolean(spott.getIn([ 'similar', 'data' ]) && spott.getIn([ 'similar', 'data' ]).size) &&
               <div styleName='spotts'>
                 <div styleName='spotts-title'>Similar Spotts</div>
                 <div styleName='spotts-list'>

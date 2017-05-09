@@ -11,6 +11,8 @@ import CardMarkers from '../cardMarkers';
 import Users from '../users/index';
 import * as actions from '../../actions';
 import { spottCardDetailsSelector } from '../../selectors';
+import ImageLoader from '../imageLoader/index';
+import { LOADED } from '../../../../data/statusTypes';
 
 const styles = require('./index.scss');
 
@@ -50,8 +52,10 @@ export default class Card extends Component {
     };
   }
 
-  componentWillMount () {
-    this.props.loadSpottCardDetails({ uuid: this.props.spottId });
+  componentDidMount () {
+    if (this.props.spottDetails.get('_status') !== LOADED) {
+      this.props.loadSpottCardDetails({ uuid: this.props.spottId });
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -105,9 +109,9 @@ export default class Card extends Component {
 
     return (
       <div styleName='card'>
-        {this.state.isCardModalOpen && <CardModal imageThumb={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`} sidebarMarker={this.state.sidebarMarker} spottId={item.get('uuid')} onClose={this.onCardModalClose}/>}
+        {this.state.isCardModalOpen && <CardModal imageThumb={item.get('image')} sidebarMarker={this.state.sidebarMarker} spottId={item.get('uuid')} onClose={this.onCardModalClose}/>}
         <div styleName='image' onClick={this.onCardClick}>
-          <img src={`${item.getIn([ 'image', 'url' ])}?width=280&height=280`}/>
+          <ImageLoader imgOriginal={item.get('image')} width={280}/>
           {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onImageClick={this.onCardClick} onMarkerClick={this.onCardMarkerClick}/>}
           {spottDetails.get('personMarkers') &&
             <div styleName='persons'>

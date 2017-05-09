@@ -16,6 +16,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: $colorGray;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   &:before {
     content: '';
     display: block;

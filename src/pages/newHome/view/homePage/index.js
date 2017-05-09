@@ -3,12 +3,13 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import Masonry from 'react-masonry-component';
+import Masonry from 'react-masonry-component';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
 import Card from '../card';
 import * as actions from '../../actions';
 import { newHomeSelector } from '../../selectors';
+import { FETCHING } from '../../../../data/statusTypes';
 
 const styles = require('./index.scss');
 
@@ -36,7 +37,7 @@ export default class NewHome extends Component {
   }
 
   componentDidMount () {
-    this.props.loadSpottsList(Boolean(this.props.isAuthenticated));
+    this.props.loadSpottsList(Boolean(this.props.isAuthenticated), this.props.spotts.get('page') ? this.props.spotts.get('page') : 0);
     this.props.loadTrendingTopics();
   }
 
@@ -56,7 +57,7 @@ export default class NewHome extends Component {
           </div>
         </div>
         <div styleName='cards'>
-          <div>
+          <Masonry options={{ transitionDuration: 100 }}>
             {isAuthenticated && spottsSubscribed.get('data') && spottsSubscribed.get('data').map((item, index) => {
               if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
                 promotedIndex++;
@@ -67,7 +68,7 @@ export default class NewHome extends Component {
               }
               return (<Card item={item} key={`home_card_${index}_${item.get('uuid')}`} spottId={item.get('uuid')}/>);
             })}
-            {(!isAuthenticated || (!spottsSubscribed.get('data') || spottsSubscribed.get('data').size <= 5)) && spotts.get('data') && spotts.get('data').map((item, index) => {
+            {(!isAuthenticated || (!spottsSubscribed.get('data') || spottsSubscribed.get('data').size <= 5)) && spotts.get('data') && spotts.get('data').valueSeq().map((item, index) => {
               if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
                 promotedIndex++;
                 return [
@@ -77,9 +78,9 @@ export default class NewHome extends Component {
               }
               return (<Card item={item} key={`home_card_${index}_${item.get('uuid')}`} spottId={item.get('uuid')}/>);
             })}
-          </div>
+          </Masonry>
         </div>
-        {Boolean(spotts.get('_status') !== 'fetching' && spotts.get('totalResultCount') && spotts.get('totalResultCount') > spotts.get('pageSize') && spotts.get('page') + 1 !== spotts.get('pageCount')) &&
+        {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') && spotts.get('totalResultCount') > spotts.get('pageSize') && spotts.get('page') + 1 !== spotts.get('pageCount')) &&
           <div styleName='load-more' onClick={this.loadMore.bind(this, spotts.get('page') + 1)}>Load more...</div>}
       </section>
     );

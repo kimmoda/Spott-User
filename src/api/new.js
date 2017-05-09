@@ -1,5 +1,5 @@
 import { get, post, del } from './request';
-import { transformUser, transformNewSuggestions } from './transformers';
+import { transformUser, transformNewSuggestions, transformSpottsList } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=10`);
@@ -42,8 +42,8 @@ export async function removeTopicSubscriber (baseUrl, authenticationToken, local
 }
 
 export async function getSpottsList (baseUrl, authenticationToken, locale, page = 0) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=${page}&pageSize=2&subscriptionBased=false`);
-  return body;
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=${page}&pageSize=4&subscriptionBased=false`);
+  return transformSpottsList(body);
 }
 
 export async function getSpottsSubscribedList (baseUrl, authenticationToken, locale) {

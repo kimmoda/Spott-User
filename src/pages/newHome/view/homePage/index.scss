@@ -29,13 +29,14 @@
 .cards {
   padding: $gutterWidth $offsetWidth 0 $offsetWidth;
   & > div {
-    max-width: $maxWidth;
+    max-width: $maxWidth + $gutterWidth;
     background-color: $colorGrayWhite;
     margin: 0 auto 32px auto;
     width: 100%;
-    column-count: 4;
-    column-gap: $gutterWidth;
-    column-fill: initial;
+    & > div {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
   }
 }
 

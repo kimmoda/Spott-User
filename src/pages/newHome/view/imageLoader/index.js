@@ -10,8 +10,10 @@ const styles = require('./index.scss');
 export default class ImageLoader extends Component {
 
   static propTypes = {
-    srcOriginal: PropTypes.string,
-    srcThumb: PropTypes.string.isRequired
+    imgOriginal: PropTypes.object.isRequired,
+    imgThumb: PropTypes.object,
+    width: PropTypes.number.isRequired,
+    widthThumb: PropTypes.number
   };
 
   constructor (props) {
@@ -20,7 +22,6 @@ export default class ImageLoader extends Component {
     this.state = {
       loaded: false
     };
-    this.imageWidth = 592;
   }
 
   onImageLoaded () {
@@ -30,12 +31,24 @@ export default class ImageLoader extends Component {
   }
 
   render () {
-    const { srcThumb, srcOriginal } = this.props;
+    const { imgThumb, imgOriginal, width, widthThumb } = this.props;
 
     return (
-      <div className={this.state.loaded && styles['image-loaded']} styleName='image'>
-        <img src={srcThumb} styleName='image-thumb'/>
-        {srcOriginal && <img src={`${srcOriginal}?width=${this.imageWidth}`} styleName='image-original' onLoad={this.onImageLoaded}/>}
+      <div
+        className={this.state.loaded && styles['image-loaded']}
+        style={{ height: imgOriginal.getIn([ 'dimension', 'height' ]) * (width / imgOriginal.getIn([ 'dimension', 'width' ])) }}
+        styleName='image'>
+        {imgThumb &&
+        <img
+          height={imgThumb.getIn([ 'dimension', 'height' ]) * (width / imgThumb.getIn([ 'dimension', 'width' ]))}
+          src={`${imgThumb.get('url')}?width=${widthThumb || width}`}
+          styleName='image-thumb'/>}
+        {imgOriginal &&
+        <img
+          height={imgOriginal.getIn([ 'dimension', 'height' ]) * (width / imgOriginal.getIn([ 'dimension', 'width' ]))}
+          src={`${imgOriginal.get('url')}?width=${width}`}
+          styleName='image-original'
+          onLoad={this.onImageLoaded}/>}
       </div>
     );
   }

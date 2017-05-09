@@ -316,3 +316,15 @@ export function transformNewSuggestions (data) {
     };
   });
 }
+
+export function transformSpottsList (data) {
+  return {
+    meta: {
+      page: data.page,
+      pageCount: data.pageCount,
+      pageSize: data.pageSize,
+      totalResultCount: data.totalResultCount
+    },
+    data: Object.assign({}, ...data.data.map((item) => { return { [item.uuid]: { ...item } }; }))
+  };
+}
