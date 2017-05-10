@@ -135,6 +135,18 @@ export const SEARCH_SUGGESTIONS_FETCH_SUCCESS = 'NEW/SEARCH_SUGGESTIONS_FETCH_SU
 export const SEARCH_SUGGESTIONS_FETCH_ERROR = 'NEW/SEARCH_SUGGESTIONS_FETCH_ERROR';
 export const SEARCH_SUGGESTIONS_CLEAR = 'NEW/SEARCH_SUGGESTIONS_CLEAR';
 
+export const SEARCH_POSTS_FETCH_START = 'NEW/SEARCH_POSTS_FETCH_START';
+export const SEARCH_POSTS_FETCH_SUCCESS = 'NEW/SEARCH_POSTS_FETCH_SUCCESS';
+export const SEARCH_POSTS_FETCH_ERROR = 'NEW/SEARCH_POSTS_FETCH_ERROR';
+
+export const SEARCH_PERSONS_FETCH_START = 'NEW/SEARCH_PERSONS_FETCH_START';
+export const SEARCH_PERSONS_FETCH_SUCCESS = 'NEW/SEARCH_PERSONS_FETCH_SUCCESS';
+export const SEARCH_PERSONS_FETCH_ERROR = 'NEW/SEARCH_PERSONS_FETCH_ERROR';
+
+export const SEARCH_TOPICS_FETCH_START = 'NEW/SEARCH_TOPICS_FETCH_START';
+export const SEARCH_TOPICS_FETCH_SUCCESS = 'NEW/SEARCH_TOPICS_FETCH_SUCCESS';
+export const SEARCH_TOPICS_FETCH_ERROR = 'NEW/SEARCH_TOPICS_FETCH_ERROR';
+
 // Actions creators
 // ////////////////
 
@@ -313,5 +325,24 @@ export const getSearchSuggestions = makeApiActionCreator(api.getSearchSuggestion
 export function clearSearchSuggestions () {
   return (dispatch, getState) => {
     dispatch({ type: SEARCH_SUGGESTIONS_CLEAR });
+  };
+}
+
+export const loadSearchPosts = makeApiActionCreator(api.getSearchPosts, SEARCH_POSTS_FETCH_START, SEARCH_POSTS_FETCH_SUCCESS, SEARCH_POSTS_FETCH_ERROR);
+
+export const loadSearchPersons = makeApiActionCreator(api.getSearchPersons, SEARCH_PERSONS_FETCH_START, SEARCH_PERSONS_FETCH_SUCCESS, SEARCH_PERSONS_FETCH_ERROR);
+
+export const loadSearchTopics = makeApiActionCreator(api.getSearchTopics, SEARCH_TOPICS_FETCH_START, SEARCH_TOPICS_FETCH_SUCCESS, SEARCH_TOPICS_FETCH_ERROR);
+
+export function loadSearchResults ({ searchString }) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadSearchPosts({ searchString }));
+      dispatch(loadSearchPersons({ searchString }));
+      dispatch(loadSearchTopics({ searchString }));
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   };
 }

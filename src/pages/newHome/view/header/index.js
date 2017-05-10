@@ -58,6 +58,7 @@ export default class Header extends Component {
     this.getSuggestionValue = ::this.getSuggestionValue;
     this.onBlur = ::this.onBlur;
     this.onSearchClose = ::this.onSearchClose;
+    this.onSearchOverlayClick = ::this.onSearchOverlayClick;
     this.onChange = ::this.onChange;
     this.onFocus = ::this.onFocus;
     this.onKeyDown = ::this.onKeyDown;
@@ -70,7 +71,7 @@ export default class Header extends Component {
 
     this.state = {
       isInputFocused: false,
-      searchValue: '',
+      searchValue: this.props.location.query && this.props.location.query.q ? this.props.location.query.q : '',
       prevSearchValue: ''
     };
   }
@@ -87,6 +88,12 @@ export default class Header extends Component {
       isInputFocused: false,
       searchValue: '',
       prevSearchValue: ''
+    });
+  }
+
+  onSearchOverlayClick () {
+    this.setState({
+      isInputFocused: false
     });
   }
 
@@ -121,7 +128,8 @@ export default class Header extends Component {
   }
 
   onSuggestionSelected (event, { suggestion }) {
-    this.props.routerPush(`/${this.props.currentLocale}/${suggestion.urlPart}`);
+    this.setState({ searchValue: suggestion.text });
+    this.props.routerPush(`/${this.props.currentLocale}/search?q=${suggestion.text}`);
     this.setState({
       isInputFocused: false
     });
@@ -257,7 +265,7 @@ export default class Header extends Component {
         <div
           className={this.state.isInputFocused && styles['search-results-overlay-active']}
           styleName='search-results-overlay'
-          onClick={this.onSearchClose}/>
+          onClick={this.onSearchOverlayClick}/>
       </div>
     );
   }

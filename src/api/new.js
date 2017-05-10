@@ -1,5 +1,5 @@
 import { get, post, del } from './request';
-import { transformUser, transformNewSuggestions, transformSpottsList } from './transformers';
+import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=10`);
@@ -152,4 +152,19 @@ export async function updateUserPassword (baseUrl, authenticationToken, locale, 
 export async function getSearchSuggestions (baseUrl, authenticationToken, locale, { searchString }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/suggest?searchString=${searchString}&locale=${locale}`);
   return transformNewSuggestions(body.data);
+}
+
+export async function getSearchPosts (baseUrl, authenticationToken, locale, { searchString }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/posts?searchString=${searchString}&locale=${locale}`);
+  return body;
+}
+
+export async function getSearchPersons (baseUrl, authenticationToken, locale, { searchString }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/persons?searchString=${searchString}&locale=${locale}`);
+  return transformPersonsList(body);
+}
+
+export async function getSearchTopics (baseUrl, authenticationToken, locale, { searchString }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/topics?searchString=${searchString}&locale=${locale}`);
+  return body;
 }

@@ -20,6 +20,11 @@ export default function newHomeReducer (state = Map({
     isSuccessful: false,
     error: null,
     items: List()
+  }),
+  searchResults: Map({
+    topics: Map(),
+    persons: Map(),
+    posts: Map()
   })
 }), action) {
   switch (action.type) {
@@ -154,6 +159,28 @@ export default function newHomeReducer (state = Map({
           error: action.error
         }
       });
+
+    case actions.SEARCH_TOPICS_FETCH_START:
+      return state.mergeIn([ 'searchResults', 'topics' ], Map({ _error: null, _status: FETCHING }));
+    case actions.SEARCH_TOPICS_FETCH_SUCCESS:
+      return state.setIn([ 'searchResults', 'topics' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.SEARCH_TOPICS_FETCH_ERROR:
+      return state.mergeIn([ 'searchResults', 'topics' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.SEARCH_POSTS_FETCH_START:
+      return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: null, _status: FETCHING }));
+    case actions.SEARCH_POSTS_FETCH_SUCCESS:
+      return state.setIn([ 'searchResults', 'posts' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.SEARCH_POSTS_FETCH_ERROR:
+      return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.SEARCH_PERSONS_FETCH_START:
+      return state.mergeIn([ 'searchResults', 'persons' ], Map({ _error: null, _status: FETCHING }));
+    case actions.SEARCH_PERSONS_FETCH_SUCCESS:
+      return state.setIn([ 'searchResults', 'persons' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.SEARCH_PERSONS_FETCH_ERROR:
+      return state.mergeIn([ 'searchResults', 'persons' ], Map({ _error: action.error, _status: ERROR }));
+
     default:
       return state;
   }

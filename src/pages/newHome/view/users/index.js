@@ -22,20 +22,6 @@ export default class Users extends Component {
 
   constructor (props) {
     super(props);
-
-    this.images = [
-      'http://lorempixel.com/26/26/people/1',
-      'http://lorempixel.com/26/26/abstract/1',
-      'http://lorempixel.com/26/26/abstract/2',
-      'http://lorempixel.com/26/26/abstract/3',
-      'http://lorempixel.com/26/26/abstract/4',
-      'http://lorempixel.com/26/26/abstract/5',
-      'http://lorempixel.com/26/26/abstract/6',
-      'http://lorempixel.com/26/26/abstract/7',
-      'http://lorempixel.com/26/26/abstract/8',
-      'http://lorempixel.com/26/26/abstract/9',
-      'http://lorempixel.com/26/26/abstract/10'
-    ];
   }
 
   render () {

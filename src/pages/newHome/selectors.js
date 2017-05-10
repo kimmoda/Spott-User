@@ -142,3 +142,13 @@ export const sidebarSelector = createStructuredSelector({
   isAuthenticated: authenticationTokenSelector,
   currentUserId: currentUserIdSelector
 });
+
+const searchTopicsSelector = (state) => state.getIn([ 'newHome', 'searchResults', 'topics' ]);
+const searchPostsSelector = (state) => state.getIn([ 'newHome', 'searchResults', 'posts' ]);
+const searchPersonsSelector = (state) => state.getIn([ 'newHome', 'searchResults', 'persons' ]);
+
+export const searchResultsSelector = createStructuredSelector({
+  topics: searchTopicsSelector,
+  posts: searchPostsSelector,
+  persons: searchPersonsSelector
+});

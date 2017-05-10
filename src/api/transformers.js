@@ -328,3 +328,9 @@ export function transformSpottsList (data) {
     data: Object.assign({}, ...data.data.map((item) => { return { [item.uuid]: { ...item } }; }))
   };
 }
+
+export function transformPersonsList (data) {
+  return {
+    data: data.data.map((item) => item.user)
+  };
+}
