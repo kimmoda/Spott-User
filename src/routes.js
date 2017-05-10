@@ -28,6 +28,7 @@ import NewUserSubscriptions from './pages/newHome/view/settingsPage/view/susbcri
 import NewUserProfilePage from './pages/newHome/view/profilePage/view';
 import NewUserLoves from './pages/newHome/view/profilePage/view/loves';
 import NewUserWishlist from './pages/newHome/view/profilePage/view/wishlist';
+import SearchResults from './pages/newHome/view/searchResultsPage';
 
 /**
  * The application routes
@@ -118,6 +119,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={NewTopic} newDesign path='topic/:topicId'/>
         <Route component={NewLogin} newDesign path='login'/>
         <Route component={NewRegistration} newDesign path='registration'/>
+        <Route component={SearchResults} newDesign path='search'/>
         <Route component={NewUserSettingsPage} newDesign path='user'>
           <IndexRedirect to='settings'/>
           <Route component={NewUserSettings} newDesign path='settings'/>

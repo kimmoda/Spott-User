@@ -52,7 +52,7 @@ export async function getSpottsSubscribedList (baseUrl, authenticationToken, loc
 }
 
 export async function getSpottsPromotedList (baseUrl, authenticationToken, locale) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/promoted?page=0&pageSize=50`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/promoted?page=0&pageSize=200`);
   return body;
 }
 
