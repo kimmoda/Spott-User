@@ -34,7 +34,7 @@
   transform: translateY(0);
   left: 0;
   top: $headerHeight;
-  z-index: 1000;
+  z-index: 900;
   box-shadow: $boxShadow;
   border-bottom: 1px solid $colorGrayLighter;
 }
