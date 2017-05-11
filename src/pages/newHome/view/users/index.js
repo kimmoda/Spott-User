@@ -3,10 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
-import { IconDots } from '../icons';
+import { IconDots, IconAvatar } from '../icons';
 
 const styles = require('./index.scss');
-const dummyAvatar = require('./dummyAvatar.svg');
 
 @localized
 @CSSModules(styles, { allowMultiple: true })
@@ -35,11 +34,13 @@ export default class Users extends Component {
               key={`user_${item.getIn([ 'user', 'uuid' ])}`}
               style={{
                 zIndex: 100 - index,
-                backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?width=26&height=26)` : `url(${dummyAvatar})`
+                backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?width=26&height=26)` : null
               }}
               styleName='user'
               title={`${item.get('firstName')} ${item.get('lastName')}`}
-              to={`/${currentLocale}/profile/${item.getIn([ 'user', 'uuid' ])}`}/>
+              to={`/${currentLocale}/profile/${item.getIn([ 'user', 'uuid' ])}`}>
+              {!item.getIn([ 'avatar', 'url' ]) && <IconAvatar/>}
+            </Link>
           )}
         </div>
         {items.size >= maxNum &&

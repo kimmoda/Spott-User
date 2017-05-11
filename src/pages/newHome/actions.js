@@ -114,6 +114,14 @@ export const UPDATE_USER_PASSWORD_START = 'NEW/UPDATE_USER_PASSWORD_START';
 export const UPDATE_USER_PASSWORD_SUCCESS = 'NEW/UPDATE_USER_PASSWORD_SUCCESS';
 export const UPDATE_USER_PASSWORD_ERROR = 'NEW/UPDATE_USER_PASSWORD_ERROR';
 
+export const SET_USER_FOLLOWING_START = 'NEW/SET_USER_FOLLOWING_START';
+export const SET_USER_FOLLOWING_SUCCESS = 'NEW/SET_USER_FOLLOWING_SUCCESS';
+export const SET_USER_FOLLOWING_ERROR = 'NEW/SET_USER_FOLLOWING_ERROR';
+
+export const REMOVE_USER_FOLLOWING_START = 'NEW/REMOVE_USER_FOLLOWING_START';
+export const REMOVE_USER_FOLLOWING_SUCCESS = 'NEW/REMOVE_USER_FOLLOWING_SUCCESS';
+export const REMOVE_USER_FOLLOWING_ERROR = 'NEW/REMOVE_USER_FOLLOWING_ERROR';
+
 export const GET_USER_LOVED_POSTS_START = 'NEW/GET_USER_LOVED_POSTS_START';
 export const GET_USER_LOVED_POSTS_SUCCESS = 'NEW/GET_USER_LOVED_POSTS_SUCCESS';
 export const GET_USER_LOVED_POSTS_ERROR = 'NEW/GET_USER_LOVED_POSTS_ERROR';
@@ -310,6 +318,10 @@ export const updateUserBackground = makeApiActionCreator(api.updateUserBackgroun
 
 export const updateUserPassword = makeApiActionCreator(api.updateUserPassword, UPDATE_USER_PASSWORD_START, UPDATE_USER_PASSWORD_SUCCESS, UPDATE_USER_PASSWORD_ERROR);
 
+export const setUserFollowing = makeApiActionCreator(api.setUserFollowing, SET_USER_FOLLOWING_START, SET_USER_FOLLOWING_SUCCESS, SET_USER_FOLLOWING_ERROR);
+
+export const removeUserFollowing = makeApiActionCreator(api.removeUserFollowing, REMOVE_USER_FOLLOWING_START, REMOVE_USER_FOLLOWING_SUCCESS, REMOVE_USER_FOLLOWING_ERROR);
+
 export const loadUserSubscriptions = makeApiActionCreator(api.getUserSubscriptions, GET_USER_SUBSCRIPTIONS_START, GET_USER_SUBSCRIPTIONS_SUCCESS, GET_USER_SUBSCRIPTIONS_ERROR);
 
 export const loadUserLovedPosts = makeApiActionCreator(api.getUserLovesPosts, GET_USER_LOVED_POSTS_START, GET_USER_LOVED_POSTS_SUCCESS, GET_USER_LOVED_POSTS_ERROR);
@@ -333,16 +345,3 @@ export const loadSearchPosts = makeApiActionCreator(api.getSearchPosts, SEARCH_P
 export const loadSearchPersons = makeApiActionCreator(api.getSearchPersons, SEARCH_PERSONS_FETCH_START, SEARCH_PERSONS_FETCH_SUCCESS, SEARCH_PERSONS_FETCH_ERROR);
 
 export const loadSearchTopics = makeApiActionCreator(api.getSearchTopics, SEARCH_TOPICS_FETCH_START, SEARCH_TOPICS_FETCH_SUCCESS, SEARCH_TOPICS_FETCH_ERROR);
-
-export function loadSearchResults ({ searchString }) {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(loadSearchPosts({ searchString }));
-      dispatch(loadSearchPersons({ searchString }));
-      dispatch(loadSearchTopics({ searchString }));
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  };
-}

@@ -57,8 +57,12 @@
   height: 48px;
   background-size: cover;
   overflow: hidden;
-  background-color: $colorGray;
   border-radius: 50%;
+  svg {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
 }
 
 .info-header {
