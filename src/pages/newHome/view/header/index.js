@@ -190,13 +190,13 @@ export default class Header extends Component {
 
     return (
       <div>
-        <header className={this.state.isInputFocused && styles['header-search-active']} styleName='header'>
+        <header className={this.state.isInputFocused && styles['header-search-active']} styleName='header responsive-container '>
           <div styleName='header-wrapper'>
             <Link styleName='logo' to={`/${currentLocale}/`}>
               <img alt={t('_common.header.home')} src={spottLogo}/>
             </Link>
             <div className={this.state.isInputFocused && styles['search-active']} styleName='search'>
-              <div className={this.state.isInputFocused && styles['search-wrapper-active']} styleName='search-wrapper'>
+              <div className={this.state.isInputFocused && (styles['search-wrapper-active'] + ' ' + styles['responsive-container'])} styleName='search-wrapper'>
                 <Autosuggest
                   focusFirstSuggestion={false}
                   focusInputOnSuggestionClick={false}
@@ -222,7 +222,7 @@ export default class Header extends Component {
                     <div styleName='user-menu'>
                       <Link
                         className={styles['user-avatar']}
-                        style={{ backgroundImage: `url(${currentUserAvatar.get('url') ? currentUserAvatar.get('url') : dummyAvatarImage}?height=24&width=24)` }}
+                        style={{ backgroundImage: `url(${currentUserAvatar && currentUserAvatar.get('url') ? currentUserAvatar.get('url') : dummyAvatarImage}?height=24&width=24)` }}
                         to={`/${currentLocale}/profile/${currentUserId}`}/>
                       <DropdownMenu alignLeft trigger={<div className={styles['user-dropdown']}>
                         <i><IconArrow3/></i>
@@ -241,7 +241,7 @@ export default class Header extends Component {
             </div>
           </div>
         </header>
-        <div className={this.state.isInputFocused && styles['search-results-active']} styleName='search-results'>
+        <div className={this.state.isInputFocused && styles['search-results-active'] + ' ' + styles['responsive-container']} styleName='search-results'>
           <div styleName='search-results-wrapper'>
             <div styleName='recent-searches'>
               <h2 styleName='recent-searches-title'>Recent searches</h2>

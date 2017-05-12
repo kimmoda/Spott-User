@@ -1,5 +1,5 @@
 @import "../vars";
-
+@import "../responsive";
 .header {
   width: 100%;
   position: fixed;
@@ -135,7 +135,9 @@
   height: 34px;
   transition: margin-left 0.3s ease, width 0s ease;
   width: gridWidth(3);
-  margin-left: calc(50% - (#{gridWidth(3)} / 2));
+  //margin-left: calc(50% - (#{gridWidth(3)} / 2));
+  margin-left: 50%;
+  transform: translateX(-50%);
   :global {
     .react-autosuggest__container {
       width: 100%;
@@ -146,10 +148,10 @@
 .search-wrapper-active {
   position: relative;
   height: 79px;
-  margin: 0 auto;
+  padding: 0 20px;
   background-color: $colorWhite;
   z-index: 120;
-  width: 100%;
+  width: 100% !important;
   border-bottom: 1px solid $colorGrayLighter;
   svg {
     fill: $colorGray;
@@ -307,9 +309,8 @@
   background-color: $colorWhite;
   transition: top 0.5s ease;
   display: flex;
-  height: 234px;
   z-index: 1000;
-  padding: 40px $offsetWidth 0 $offsetWidth;
+  padding: 40px 0;
 }
 
 .search-results-active {
@@ -338,11 +339,11 @@
   display: flex;
   position: relative;
   box-sizing: border-box;
-  height: 234px;
 }
 
 .recent-searches {
-  width: gridWidth(3);
+  width: 30%;
+  padding-right: 20px;
 }
 
 .recent-searches-title {
@@ -370,11 +371,44 @@
 }
 
 .search-topics {
-  width: gridWidth(9);
-  margin-left: $gutterWidth;
+  width: 70%;
+  padding-left: 20px;
 }
 
 .search-topics-title {
   @include headlineMedium();
   margin-bottom: $gutterWidth;
+}
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+  .search-input-wrapper {
+    max-width: $maxWidth;
+  }
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1){
+  .search-wrapper {
+    width: 100px;
+  }
+  .recent-searches, .search-topics {
+    width: 100%;
+    padding: 0px;
+  }
+  .search-topics {
+    margin-top: 40px;
+  }
+  .search-results-wrapper {
+    display: block;
+  }
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .search-wrapper {
+    width: 16px;
+  }
 }
