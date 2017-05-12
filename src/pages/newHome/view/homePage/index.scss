@@ -1,4 +1,5 @@
 @import "../vars";
+@import "../responsive";
 
 .wrapper {
   width: 100%;
@@ -7,10 +8,9 @@
 
 .topics {
   width: 100%;
-  padding: 28px $offsetWidth 0 $offsetWidth;
+  padding: 28px $offsetWidth;
   background-color: $colorWhite;
   box-sizing: border-box;
-  height: 184px;
   border-bottom: 1px solid $colorGrayLighter;
 }
 
@@ -27,16 +27,18 @@
 
 
 .cards {
-  padding: $gutterWidth $offsetWidth 0 $offsetWidth;
+  margin: auto;
+  padding: $gutterWidth 0 0 0;
+  max-width: $maxWidth;
   & > div {
-    max-width: $maxWidth + $gutterWidth;
+    max-width: $maxWidth;
     background-color: $colorGrayWhite;
     margin: 0 auto 32px auto;
     width: 100%;
-    & > div {
-      margin-left: 16px;
-      margin-right: 16px;
-    }
+    //& > div {
+    //  margin-left: 16px;
+    //  margin-right: 16px;
+    //}
   }
 }
 
