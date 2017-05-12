@@ -149,6 +149,16 @@ export async function updateUserPassword (baseUrl, authenticationToken, locale, 
   return body;
 }
 
+export async function setUserFollowing (baseUrl, authenticationToken, locale, { uuid, data }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/following`, data);
+  return body;
+}
+
+export async function removeUserFollowing (baseUrl, authenticationToken, locale, { uuid, data }) {
+  const { body } = await del(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/following`, data);
+  return body;
+}
+
 export async function getSearchSuggestions (baseUrl, authenticationToken, locale, { searchString }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/suggest?searchString=${searchString}&locale=${locale}`);
   return transformNewSuggestions(body.data);

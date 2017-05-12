@@ -11,12 +11,16 @@
     min-height: 26px;
     border: solid 2px $colorWhite;
     border-radius: 50%;
-    background-color: $colorGray;
     background-size: cover;
     position: relative;
     margin-left: -10px;
     display: block;
     box-sizing: content-box;
+    overflow: hidden;
+    svg {
+      width: 26px;
+      height: 26px;
+    }
     &:first-child {
       margin-left: 0;
     }
@@ -41,12 +45,16 @@
     min-height: 32px;
     border: solid 2px $colorWhite;
     border-radius: 50%;
-    background-color: $colorGray;
     background-size: cover;
     position: relative;
     margin-left: -12px;
     display: block;
     box-sizing: content-box;
+    svg {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+    }
     &:first-child {
       margin-left: 0;
     }

@@ -13,14 +13,14 @@ const styles = require('./index.scss');
 
 @localized
 @connect(searchResultsSelector, (dispatch) => ({
-  loadSearchResults: bindActionCreators(actions.loadSearchResults, dispatch)
+  loadSearchTopics: bindActionCreators(actions.loadSearchTopics, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class SearchResults extends Component {
   static propTypes = {
     children: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
-    loadSearchResults: PropTypes.func.isRequired,
+    loadSearchTopics: PropTypes.func.isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
         q: PropTypes.string
@@ -36,12 +36,12 @@ export default class SearchResults extends Component {
   }
 
   componentDidMount () {
-    this.props.loadSearchResults({ searchString: this.props.location.query.q });
+    this.props.loadSearchTopics({ searchString: this.props.location.query.q });
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.props.location.query.q !== nextProps.location.query.q) {
-      this.props.loadSearchResults({ searchString: nextProps.location.query.q });
+      this.props.loadSearchTopics({ searchString: nextProps.location.query.q });
     }
   }
 

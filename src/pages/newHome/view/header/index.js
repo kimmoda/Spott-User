@@ -10,7 +10,7 @@ import Autosuggest from 'react-autosuggest';
 import { slowdown } from '../../../../utils';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
-import { IconArrow3 } from '../icons';
+import { IconArrow3, IconAvatar } from '../icons';
 import DropdownMenu, { DropdownDivider } from '../dropdownMenu';
 import * as actions from '../../actions';
 import * as appActions from '../../../app/actions';
@@ -21,7 +21,6 @@ import AutocompleteInput from './autocompleteInput';
 const styles = require('./index.scss');
 
 const spottLogo = require('./spott.svg');
-const dummyAvatarImage = require('./dummyAvatar.svg');
 
 @localized
 @connect(newHeaderSelector, (dispatch) => ({
@@ -208,7 +207,7 @@ export default class Header extends Component {
                   suggestions={suggestions}
                   onSuggestionSelected={this.onSuggestionSelected}
                   onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                  onSuggestionsFetchRequested={this.onSuggestionsFetchRequested} />
+                  onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}/>
               </div>
             </div>
             <div styleName='header-right'>
@@ -222,8 +221,10 @@ export default class Header extends Component {
                     <div styleName='user-menu'>
                       <Link
                         className={styles['user-avatar']}
-                        style={{ backgroundImage: `url(${currentUserAvatar && currentUserAvatar.get('url') ? currentUserAvatar.get('url') : dummyAvatarImage}?height=24&width=24)` }}
-                        to={`/${currentLocale}/profile/${currentUserId}`}/>
+                        style={{ backgroundImage: (currentUserAvatar && currentUserAvatar.get('url')) ? `url(${currentUserAvatar.get('url')}?height=24&width=24)` : null }}
+                        to={`/${currentLocale}/profile/${currentUserId}`}>
+                        {Boolean(!currentUserAvatar || !currentUserAvatar.get('url')) && <IconAvatar/>}
+                      </Link>
                       <DropdownMenu alignLeft trigger={<div className={styles['user-dropdown']}>
                         <i><IconArrow3/></i>
                       </div>}>

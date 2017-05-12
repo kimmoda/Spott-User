@@ -6,13 +6,12 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import DropdownMenu from '../../dropdownMenu';
 import localized from '../../../../_common/localized';
-import { IconForward } from '../../icons';
+import { IconForward, IconAvatar } from '../../icons';
 import * as actions from '../../../actions';
 import { userProfileDetailsSelector } from '../../../selectors';
 
 const styles = require('./index.scss');
 const { cssHeaderHeight } = require('../../vars.scss');
-const dummyAvatar = require('./dummyAvatar.svg');
 
 @localized
 @connect(userProfileDetailsSelector, (dispatch) => ({
@@ -89,8 +88,10 @@ export default class NewUserProfile extends Component {
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div
-                  style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ]) || dummyAvatar}?width=48&height=48')` }}
-                  styleName='info-image'/>
+                  style={{ backgroundImage: userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ]) ? `url('${userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ])}?width=48&height=48')` : null }}
+                  styleName='info-image'>
+                  {!userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ]) && <IconAvatar/>}
+                </div>
                 <div styleName='info-header'>
                   <h2 styleName='info-name'>
                     {userProfile.getIn([ 'profile', 'profile' ]) && `${userProfile.getIn([ 'profile', 'profile', 'firstName' ])} ${userProfile.getIn([ 'profile', 'profile', 'lastName' ])}`}

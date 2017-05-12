@@ -148,6 +148,7 @@ const searchPostsSelector = (state) => state.getIn([ 'newHome', 'searchResults',
 const searchPersonsSelector = (state) => state.getIn([ 'newHome', 'searchResults', 'persons' ]);
 
 export const searchResultsSelector = createStructuredSelector({
+  currentUserId: currentUserIdSelector,
   topics: searchTopicsSelector,
   posts: searchPostsSelector,
   persons: searchPersonsSelector
