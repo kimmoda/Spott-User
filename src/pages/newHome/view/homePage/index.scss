@@ -15,7 +15,6 @@
 }
 
 .topics-content {
-  max-width: $maxWidth;
   margin: 0 auto;
   width: 100%;
 }
@@ -29,9 +28,7 @@
 .cards {
   margin: auto;
   padding: $gutterWidth 0 0 0;
-  max-width: $maxWidth;
   & > div {
-    max-width: $maxWidth;
     background-color: $colorGrayWhite;
     margin: 0 auto 32px auto;
     width: 100%;
@@ -45,8 +42,6 @@
 .load-more {
   @include btnBig;
   @include btnGray;
-  width: 100%;
   display: block;
-  max-width: $maxWidth;
   margin: 40px auto 60px auto;
 }

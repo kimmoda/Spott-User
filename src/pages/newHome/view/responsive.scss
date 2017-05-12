@@ -1,48 +1,57 @@
 @import "vars";
-$lgDesktopPadding: 48px;
-$desktopPadding: 40px;
-$tabletLandscapePadding: 32px;
-$tabletPortraitPadding: 24px;
-$phonePadding: 16px;
-
-$lgDesktopBreakpoint: 1800px;
-$desktopBreakpoint: 1200px;
-$tabletLandscapeBreakpoint: 900px;
-$tabletPortraitBreakpoint: 600px;
-$phoneBreakpoint: 599px;
 
 //large desktop view
 @media (min-width: $lgDesktopBreakpoint) {
   .responsive-container {
-    padding-left: $lgDesktopPadding !important;
-    padding-right: $lgDesktopPadding !important;
+    padding-left: $lgDesktopGutter !important;
+    padding-right: $lgDesktopGutter !important;
+  }
+  .responsive-element {
+    margin-left: $desktopGutter !important;
+    margin-right: $desktopGutter !important;
   }
 }
 //desktop view
 @media (max-width: $lgDesktopBreakpoint - 1) {
   .responsive-container {
-    padding-left: $desktopPadding !important;
-    padding-right: $desktopPadding !important;
+    padding-left: $desktopGutter !important;
+    padding-right: $desktopGutter !important;
+  }
+  .responsive-element {
+    margin-left: $desktopGutter !important;
+    margin-right: $desktopGutter !important;
   }
 }
 //tablet landscape view
 @media (max-width: $desktopBreakpoint - 1) {
   .responsive-container {
-    padding-left: $tabletLandscapePadding !important;
-    padding-right: $tabletLandscapePadding !important;
+    padding-left: $tabletLandscapeGutter !important;
+    padding-right: $tabletLandscapeGutter !important;
+  }
+  .responsive-element {
+    margin-left: $desktopGutter !important;
+    margin-right: $desktopGutter !important;
   }
 }
 //tablet portrait view
 @media (max-width: $tabletLandscapeBreakpoint - 1){
   .responsive-container {
-    padding-left: $tabletPortraitPadding !important;
-    padding-right: $tabletPortraitPadding !important;
+    padding-left: $tabletPortraitGutter !important;
+    padding-right: $tabletPortraitGutter !important;
+  }
+  .responsive-element {
+    margin-left: $tabletPortraitGutter !important;
+    margin-right: $tabletPortraitGutter !important;
   }
 }
 //phone view
 @media (max-width: $phoneBreakpoint) {
   .responsive-container {
-    padding-left: $phonePadding !important;
-    padding-right: $phonePadding !important;
+    padding-left: $phoneGutter !important;
+    padding-right: $phoneGutter !important;
+  }
+  .responsive-element {
+    margin-left: $phoneGutter !important;
+    margin-right: $phoneGutter !important;
   }
 }
