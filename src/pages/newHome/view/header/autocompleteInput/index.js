@@ -34,22 +34,21 @@ class AutocompleteInput extends Component {
 
   onFocus () {
     this.props.onFocus();
+    this.textInput.focus();
     this.setState({ isInputFocused: true });
   }
 
   render () {
     const { placeholder, value, onChange, onKeyDown } = this.props;
     return (
-      <div styleName='search-input-wrapper'>
+      <div tabIndex="0" styleName='search-input-wrapper' onBlur={this.onBlur} onFocus={this.onFocus}>
         <i><IconSearch/></i>
         <input
           placeholder={placeholder}
           ref={(input) => { this.textInput = input; }}
           styleName='search-input'
           value={value}
-          onBlur={this.onBlur}
           onChange={onChange}
-          onFocus={this.onFocus}
           onKeyDown={onKeyDown}/>
         <div styleName='search-input-close' onClick={this.props.onSearchClose}>
           <i><IconClose/></i>

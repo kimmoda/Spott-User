@@ -40,9 +40,20 @@ $offsetWidth: 48px;
 $columnWidth: 72px;
 $gutterWidth: 32px;
 $gutterSmallWidth: 16px;
-$maxWidth: 1216px;
+$maxWidth: 1360px;
 $headerHeight: 80px;
 
+$lgDesktopPadding: 48px;
+$desktopPadding: 40px;
+$tabletLandscapePadding: 32px;
+$tabletPortraitPadding: 24px;
+$phonePadding: 16px;
+
+$lgDesktopBreakpoint: 1800px;
+$desktopBreakpoint: 1200px;
+$tabletLandscapeBreakpoint: 900px;
+$tabletPortraitBreakpoint: 600px;
+$phoneBreakpoint: 599px;
 // pass variables to react component
 :export {
   cssHeaderHeight: $headerHeight;

@@ -50,14 +50,14 @@ export default class NewHome extends Component {
     let promotedIndex = 0;
     return (
       <section styleName='wrapper'>
-        <div styleName='topics'>
+        <div styleName='topics responsive-container'>
           <div styleName='topics-content'>
             <div styleName='topics-title'>Trending Topics</div>
             <Topics items={trendingTopics} />
           </div>
         </div>
-        <div styleName='cards'>
-          <Masonry disableImagesLoaded options={{ transitionDuration: 100 }}>
+        <div styleName='cards responsive-container'>
+          <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true, gutter: 16}}>
             {isAuthenticated && spottsSubscribed.get('data') && spottsSubscribed.get('data').map((item, index) => {
               if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
                 promotedIndex++;

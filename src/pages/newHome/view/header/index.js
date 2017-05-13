@@ -211,13 +211,13 @@ export default class Header extends Component {
 
     return (
       <div>
-        <header className={this.state.isInputFocused && styles['header-search-active']} styleName='header'>
+        <header className={this.state.isInputFocused && styles['header-search-active']} styleName='header responsive-container '>
           <div styleName='header-wrapper'>
             <Link styleName='logo' to={`/${currentLocale}/`}>
               <img alt={t('_common.header.home')} src={spottLogo}/>
             </Link>
             <div className={this.state.isInputFocused && styles['search-active']} styleName='search'>
-              <div className={this.state.isInputFocused && styles['search-wrapper-active']} styleName='search-wrapper'>
+              <div className={this.state.isInputFocused && (styles['search-wrapper-active'] + ' ' + styles['responsive-container'])} styleName='search-wrapper'>
                 <Autosuggest
                   focusFirstSuggestion={false}
                   focusInputOnSuggestionClick={false}
@@ -264,7 +264,7 @@ export default class Header extends Component {
             </div>
           </div>
         </header>
-        <div className={this.state.isInputFocused && styles['search-results-active']} styleName='search-results'>
+        <div className={this.state.isInputFocused && styles['search-results-active'] + ' ' + styles['responsive-container']} styleName='search-results'>
           <div styleName='search-results-wrapper'>
             {Boolean(searchHistory && searchHistory.get('data') && searchHistory.get('data').size) &&
             <div styleName='recent-searches'>
