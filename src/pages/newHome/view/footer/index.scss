@@ -1,4 +1,5 @@
 @import "../vars";
+@import "../responsive";
 
 .logo {
   position: relative;
@@ -13,7 +14,6 @@
 
 .footer {
   width: 100%;
-  height: 148px;
   padding: 31px $offsetWidth 0 $offsetWidth;
   border-top: 1px solid $colorGrayLighter;
   background-color: $colorWhite;
@@ -22,10 +22,27 @@
 }
 
 .footer-wrapper {
-  max-width: $maxWidth;
   width: 100%;
   margin: 0 auto;
-  display: flex;
+  margin-bottom: 42px;
+  display: table;
+  & > div:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.footer-main-col {
+  display: table;
+  width: 50%;
+  float: left;
+  & > div:last-child {
+    margin-bottom: 0;
+  }
+}
+.footer-sub-col {
+  width: 50%;
+  float: left;
+
 }
 
 .footer-left {
@@ -39,12 +56,13 @@
 
 
 .footer-navs {
-  margin: 10px 0 0 100px;
   display: flex;
+  & > div:first-child {
+    margin-right: 65px;
+  }
 }
 
 .footer-nav {
-  margin-right: 53px;
   display: flex;
   flex-flow: column;
 }
@@ -52,7 +70,6 @@
 .footer-follow {
   @include bodyMedium($colorGray);
   display: block;
-  margin: 8px 0 0 150px;
 }
 
 .footer-nav-link {
@@ -64,5 +81,37 @@
 
 .footer-copyright {
   @include smallRegular($colorGray);
-  margin: 10px 0 0 auto;
+}
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+  .footer-wrapper {
+    margin-bottom: 26px;
+  }
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1){
+  .footer-main-col {
+    width: 100%;
+    margin-bottom: 40px;
+  }
+  .footer-wrapper {
+    margin-bottom: 32px;
+  }
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .footer-sub-col {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  .footer-main-col {
+    margin-bottom: 30px;
+  }
+  .footer-wrapper {
+    margin-bottom: 34px;
+  }
 }
