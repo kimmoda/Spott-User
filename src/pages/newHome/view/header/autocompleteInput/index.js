@@ -41,7 +41,7 @@ class AutocompleteInput extends Component {
   render () {
     const { placeholder, value, onChange, onKeyDown } = this.props;
     return (
-      <div tabIndex="0" styleName='search-input-wrapper' onBlur={this.onBlur} onFocus={this.onFocus}>
+      <div styleName='search-input-wrapper' tabIndex='0' onBlur={this.onBlur} onFocus={this.onFocus}>
         <i><IconSearch/></i>
         <input
           placeholder={placeholder}
