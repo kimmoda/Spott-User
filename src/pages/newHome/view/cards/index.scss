@@ -1,1 +1,10 @@
 @import "../vars";
+
+.load-more {
+  @include btnBig;
+  @include btnGray;
+  width: 100%;
+  display: block;
+  max-width: $maxWidth;
+  margin: 40px auto 60px auto;
+}

@@ -17,6 +17,7 @@ const { cssHeaderHeight } = require('../vars.scss');
 @localized
 @connect(topicDetailsSelector, (dispatch) => ({
   loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch),
+  loadTopicSpottsMore: bindActionCreators(actions.loadTopicSpottsMore, dispatch),
   removeTopicSubscriber: bindActionCreators(actions.removeTopicSubscriber, dispatch),
   setTopicSubscriber: bindActionCreators(actions.setTopicSubscriber, dispatch)
 }))
@@ -24,6 +25,7 @@ const { cssHeaderHeight } = require('../vars.scss');
 export default class NewTopic extends Component {
   static propTypes = {
     loadTopicDetails: PropTypes.func.isRequired,
+    loadTopicSpottsMore: PropTypes.func.isRequired,
     params: PropTypes.shape({
       topicId: PropTypes.string.isRequired
     }),
@@ -39,6 +41,7 @@ export default class NewTopic extends Component {
     this.handleScroll = ::this.handleScroll;
     this.onFilterClick = ::this.onFilterClick;
     this.onFilterSecondClick = ::this.onFilterSecondClick;
+    this.loadMore = ::this.loadMore;
     this.state = {
       isScrolledToInfo: false,
       filterVal: 'Everything',
@@ -51,11 +54,8 @@ export default class NewTopic extends Component {
     this.isScrolledToInfo = false;
   }
 
-  componentWillMount () {
-    this.props.loadTopicDetails({ uuid: this.props.params.topicId });
-  }
-
   componentDidMount () {
+    this.props.loadTopicDetails({ uuid: this.props.params.topicId, page: this.props.topicSpotts.get('page') || 0 });
     this.infoContainerHeight = this.infoContainer.clientHeight;
     window.addEventListener('scroll', this.handleScroll);
   }
@@ -64,7 +64,7 @@ export default class NewTopic extends Component {
     const { topicId } = this.props.params;
     const { topicId: nextTopicId } = nextProps.params;
     if (topicId !== nextTopicId) {
-      this.props.loadTopicDetails({ uuid: nextTopicId });
+      this.props.loadTopicDetails({ uuid: nextTopicId, page: nextProps.topicSpotts.get('page') || 0 });
     }
   }
 
@@ -76,6 +76,10 @@ export default class NewTopic extends Component {
     this.setState({
       isScrolledToInfo: this.infoContainer.offsetTop <= window.scrollY + this.headerHeight + 30
     });
+  }
+
+  loadMore (page) {
+    this.props.loadTopicSpottsMore({ uuid: this.props.params.topicId, page });
   }
 
   onFilterClick (e) {
@@ -136,12 +140,13 @@ export default class NewTopic extends Component {
             </div>
           </div>
         </div>
-        <div styleName='topics'>
-          <div styleName='topics-content'>
-            <div styleName='topics-title'>Related Topics</div>
-            <Topics items={topicRelated} />
-          </div>
-        </div>
+        {Boolean(topicRelated && topicRelated.get('data') && topicRelated.get('data').size) &&
+          <div styleName='topics'>
+            <div styleName='topics-content'>
+              <div styleName='topics-title'>Related Topics</div>
+              <Topics items={topicRelated} />
+            </div>
+          </div>}
         {/*
         <div styleName='cards-filters-container'>
           <div styleName='cards-filters'>
@@ -167,8 +172,10 @@ export default class NewTopic extends Component {
           </div>
         </div>
         */}
-        <div styleName='cards'>
-          <Cards items={topicSpotts}/>
+        <div styleName='cards-wrapper'>
+          <div styleName='cards'>
+            <Cards loadMore={this.loadMore} spotts={topicSpotts}/>
+          </div>
         </div>
       </section>
     );

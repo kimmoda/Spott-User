@@ -88,6 +88,8 @@ export const newHomeSelector = createStructuredSelector({
 
 const searchSuggestionsSelector = (state) => state.getIn([ 'newHome', 'searchSuggestions' ]);
 
+const searchHistorySelector = (state) => state.getIn([ 'newHome', 'searchHistory' ]);
+
 export const newHeaderSelector = createStructuredSelector({
   trendingTopics: trendingTopicsSelector,
   isAuthenticated: authenticationTokenSelector,
@@ -95,7 +97,8 @@ export const newHeaderSelector = createStructuredSelector({
   currentUserFirstname: currentUserFirstnameSelector,
   currentUserLastname: currentUserLastnameSelector,
   currentUserId: currentUserIdSelector,
-  searchSuggestions: searchSuggestionsSelector
+  searchSuggestions: searchSuggestionsSelector,
+  searchHistory: searchHistorySelector
 });
 
 export const spottDetailsSelector = createStructuredSelector({

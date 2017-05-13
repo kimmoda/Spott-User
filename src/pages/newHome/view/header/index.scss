@@ -312,9 +312,8 @@
   background-color: $colorWhite;
   transition: top 0.5s ease;
   display: flex;
-  height: 234px;
   z-index: 1000;
-  padding: 40px $offsetWidth 0 $offsetWidth;
+  padding: 40px $offsetWidth 48px $offsetWidth;
 }
 
 .search-results-active {
@@ -343,11 +342,11 @@
   display: flex;
   position: relative;
   box-sizing: border-box;
-  height: 234px;
 }
 
 .recent-searches {
-  width: gridWidth(3);
+  min-width: gridWidth(3);
+  margin-right: $gutterWidth;
 }
 
 .recent-searches-title {
@@ -375,8 +374,7 @@
 }
 
 .search-topics {
-  width: gridWidth(9);
-  margin-left: $gutterWidth;
+  min-width: gridWidth(9);
 }
 
 .search-topics-title {

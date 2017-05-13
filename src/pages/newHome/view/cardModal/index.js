@@ -183,7 +183,7 @@ export default class CardModal extends Component {
               <div styleName='spotts'>
                 <div styleName='spotts-title'>Similar Spotts</div>
                 <div styleName='spotts-list'>
-                  <Cards items={spott.get('similar')}/>
+                  <Cards spotts={spott.get('similar')}/>
                 </div>
               </div>}
           </div>

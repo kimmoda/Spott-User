@@ -12,13 +12,15 @@ const styles = require('../index.scss');
 
 @localized
 @connect(searchResultsSelector, (dispatch) => ({
-  loadSearchPosts: bindActionCreators(actions.loadSearchPosts, dispatch)
+  loadSearchPosts: bindActionCreators(actions.loadSearchPosts, dispatch),
+  loadSearchPostsMore: bindActionCreators(actions.loadSearchPostsMore, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class SearchResultsPosts extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadSearchPosts: PropTypes.func.isRequired,
+    loadSearchPostsMore: PropTypes.func.isRequired,
     location: PropTypes.shape({
       query: PropTypes.shape({
         q: PropTypes.string
@@ -29,24 +31,31 @@ export default class SearchResultsPosts extends Component {
 
   constructor (props) {
     super(props);
+    this.loadMore = ::this.loadMore;
   }
 
   componentDidMount () {
-    this.props.loadSearchPosts({ searchString: this.props.location.query.q });
+    this.props.loadSearchPosts({ searchString: this.props.location.query.q, page: this.props.posts.get('page') || 0 });
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.props.location.query.q !== nextProps.location.query.q) {
-      this.props.loadSearchPosts({ searchString: nextProps.location.query.q });
+      this.props.loadSearchPosts({ searchString: nextProps.location.query.q, page: this.props.posts.get('page') || 0 });
     }
+  }
+
+  loadMore (page) {
+    this.props.loadSearchPostsMore({ searchString: this.props.location.query.q, page });
   }
 
   render () {
     const { posts } = this.props;
 
     return (
-      <div styleName='cards'>
-        <Cards items={posts}/>
+      <div styleName='cards-wrapper'>
+        <div styleName='cards'>
+          <Cards loadMore={this.loadMore} spotts={posts}/>
+        </div>
       </div>
     );
   }

@@ -24,10 +24,12 @@ const spottLogo = require('./spott.svg');
 
 @localized
 @connect(newHeaderSelector, (dispatch) => ({
+  getSearchHistory: bindActionCreators(actions.getSearchHistory, dispatch),
   getSearchSuggestions: bindActionCreators(actions.getSearchSuggestions, dispatch),
   clearSearchSuggestions: bindActionCreators(actions.clearSearchSuggestions, dispatch),
   loadTrendingTopics: bindActionCreators(actions.loadTrendingTopics, dispatch),
   logout: bindActionCreators(appActions.doLogout, dispatch),
+  removeSearchHistory: bindActionCreators(actions.removeSearchHistory, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
@@ -39,12 +41,15 @@ export default class Header extends Component {
     currentUserFirstname: PropTypes.string,
     currentUserId: PropTypes.string,
     currentUserLastname: PropTypes.string,
+    getSearchHistory: PropTypes.func.isRequired,
     getSearchSuggestions: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.string,
     loadTrendingTopics: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired,
+    removeSearchHistory: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
+    searchHistory: PropTypes.object.isRequired,
     searchSuggestions: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
     trendingTopics: PropTypes.any.isRequired
@@ -58,6 +63,7 @@ export default class Header extends Component {
     this.onBlur = ::this.onBlur;
     this.onSearchClose = ::this.onSearchClose;
     this.onSearchOverlayClick = ::this.onSearchOverlayClick;
+    this.onSearchHistoryClearClick = ::this.onSearchHistoryClearClick;
     this.onChange = ::this.onChange;
     this.onFocus = ::this.onFocus;
     this.onKeyDown = ::this.onKeyDown;
@@ -73,6 +79,18 @@ export default class Header extends Component {
       searchValue: this.props.location.query && this.props.location.query.q ? this.props.location.query.q : '',
       prevSearchValue: ''
     };
+  }
+
+  componentDidMount () {
+    this.props.getSearchHistory();
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.location.query.q !== nextProps.location.query.q) {
+      this.state = {
+        searchValue: nextProps.location.query && nextProps.location.query.q ? nextProps.location.query.q : ''
+      };
+    }
   }
 
   getSuggestionValue (suggestion) {
@@ -94,6 +112,10 @@ export default class Header extends Component {
     this.setState({
       isInputFocused: false
     });
+  }
+
+  onSearchHistoryClearClick () {
+    this.props.removeSearchHistory();
   }
 
   onFocus () {
@@ -173,7 +195,7 @@ export default class Header extends Component {
   }
 
   render () {
-    const { currentLocale, t, trendingTopics, isAuthenticated, currentUserAvatar, currentUserId, searchSuggestions } = this.props;
+    const { currentLocale, t, trendingTopics, isAuthenticated, currentUserAvatar, currentUserId, searchSuggestions, searchHistory } = this.props;
     const { searchValue } = this.state;
     const suggestions = searchSuggestions.get('items').toJS();
 
@@ -244,19 +266,21 @@ export default class Header extends Component {
         </header>
         <div className={this.state.isInputFocused && styles['search-results-active']} styleName='search-results'>
           <div styleName='search-results-wrapper'>
+            {Boolean(searchHistory && searchHistory.get('data') && searchHistory.get('data').size) &&
             <div styleName='recent-searches'>
               <h2 styleName='recent-searches-title'>Recent searches</h2>
               <div styleName='recent-searches-items'>
-                <Link styleName='recent-searches-item' to='#'>Gabriel Macht</Link>
-                <Link styleName='recent-searches-item' to='#'>Harvey Specter</Link>
-                <Link styleName='recent-searches-item' to='#'>Red Carpet</Link>
-                <Link styleName='recent-searches-item' to='#'>Tom Ford</Link>
-                <Link styleName='recent-searches-item' to='#'>Suits</Link>
-                <Link styleName='recent-searches-item' to='#'>Series</Link>
-                <Link styleName='recent-searches-item' to='#'>Suit</Link>
+                {searchHistory.get('data').filter((item) => item.get('query') !== 'undefined').map((item, index) =>
+                  <Link
+                    key={`search_history_item_${index}`}
+                    styleName='recent-searches-item'
+                    to={`/${currentLocale}/search/posts?q=${item.get('query')}`}>
+                    {item.get('query')}
+                  </Link>
+                )}
               </div>
-              <div styleName='recent-searches-clear'>Clear search history</div>
-            </div>
+              <div styleName='recent-searches-clear' onClick={this.onSearchHistoryClearClick}>Clear search history</div>
+            </div>}
             <div styleName='search-topics'>
               <div styleName='search-topics-title'>Topics for you</div>
               <Topics items={trendingTopics} />

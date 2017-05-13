@@ -43,8 +43,10 @@ export default class NewUserLoves extends Component {
     const { userProfile } = this.props;
 
     return (
-      <div styleName='loves'>
-        {userProfile.getIn([ 'lovedPosts', 'data' ]) && <Cards items={userProfile.get('lovedPosts')}/>}
+      <div styleName='loves-wrapper'>
+        <div styleName='loves'>
+          {userProfile.getIn([ 'lovedPosts', 'data' ]) && <Cards spotts={userProfile.get('lovedPosts')}/>}
+        </div>
       </div>
     );
   }
