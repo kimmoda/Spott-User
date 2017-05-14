@@ -8,7 +8,7 @@ import DropdownMenu from '../dropdownMenu';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
 import Cards from '../cards';
-import { IconForward } from '../icons';
+import { IconForward, IconCheck } from '../icons';
 import * as actions from '../../actions';
 import { topicDetailsSelector } from '../../selectors';
 
@@ -53,7 +53,8 @@ export default class NewTopic extends Component {
       filterVal: 'Everything',
       filterVals: [ 'Test 1', 'Test 2', 'Test 3' ],
       filterSecondVal: 'Popular',
-      filterSecondVals: [ 'Test 3', 'Test 4', 'Test 5' ]
+      filterSecondVals: [ 'Test 3', 'Test 4', 'Test 5' ],
+      isMobile: false
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
     this.infoContainerHeight = null;
@@ -63,7 +64,9 @@ export default class NewTopic extends Component {
   componentDidMount () {
     this.props.loadTopicDetails({ uuid: this.props.params.topicId, page: this.props.topicSpotts.get('page') || 0 });
     this.infoContainerHeight = this.infoContainer.clientHeight;
+    this.checkIfMobile();
     window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('resize', this.handleResize.bind(this));
   }
 
   componentWillReceiveProps (nextProps) {
@@ -82,6 +85,19 @@ export default class NewTopic extends Component {
     this.setState({
       isScrolledToInfo: this.infoContainer.offsetTop <= window.scrollY + this.headerHeight + 30
     });
+  }
+
+  handleResize () {
+    this.checkIfMobile();
+
+  }
+
+  checkIfMobile () {
+    if (window.innerWidth < 600) {
+      this.setState({ isMobile: true });
+    } else {
+      this.setState({ isMobile: false });
+    }
   }
 
   loadMore (page) {
@@ -117,13 +133,12 @@ export default class NewTopic extends Component {
 
   render () {
     const { topic, topicRelated, topicSpotts, location } = this.props;
-    const { isScrolledToInfo } = this.state;
-
+    const { isScrolledToInfo, isMobile } = this.state;
     return (
       <section styleName='wrapper'>
         {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200')` }} styleName='poster'/>}
-        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
-          <div className={isScrolledToInfo && styles['info-sticky']} styleName='info'>
+        <div ref={(ref) => { this.infoContainer = ref; }} styleName='info-wrapper'>
+          <div className={isScrolledToInfo && styles['info-sticky']} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div style={{ backgroundImage: `url('${topic.getIn([ 'profileImage', 'url' ])}?width=48&height=72')` }} styleName='info-image'/>
@@ -132,21 +147,23 @@ export default class NewTopic extends Component {
                   <div styleName='info-type'>{topic.get('sourceType')}</div>
                 </div>
               </div>
-              <div styleName='info-subscribers'>
-                <div styleName='info-subscribers-count'>{topic.get('subscriberCount')}</div>
-                <div styleName='info-subscribers-text'>Subscribers</div>
-              </div>
-              <div
-                className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
-                styleName='info-subscribe-btn'
-                onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
-                {topic.get('subscribed') ? 'Subscribed' : 'Subscribe'}
-              </div>
-              <div styleName='info-share-wrapper'>
-                <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>
-                  <div>Facebook</div>
-                  <div>Twitter</div>
-                </DropdownMenu>
+              <div styleName='info-right'>
+                <div styleName='info-subscribers'>
+                  <div styleName='info-subscribers-count'>{topic.get('subscriberCount')}</div>
+                  <div styleName='info-subscribers-text'>Subscribers</div>
+                </div>
+                <div
+                    className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
+                    styleName='info-subscribe-btn'
+                    onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
+                  {isMobile ? <i><IconCheck/></i> : topic.get('subscribed') ? 'Subscribed' : 'Subscribe'}
+                </div>
+                <div styleName='info-share-wrapper'>
+                  <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>
+                    <div>Facebook</div>
+                    <div>Twitter</div>
+                  </DropdownMenu>
+                </div>
               </div>
             </div>
           </div>

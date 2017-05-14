@@ -25,35 +25,46 @@ export default class Footer extends Component {
     const { currentLocale, t } = this.props;
 
     return (
-      <footer styleName='footer'>
+      <footer styleName='footer responsive-container'>
         <div styleName='footer-wrapper'>
-          <div styleName='footer-left'>
-            <Link styleName='logo' to={`/${currentLocale}`}>
-              <img alt={t('_common.header.home')} src={spottGrayLogo}/>
-            </Link>
-            <div styleName='footer-dsc'>
-              Spott allows you to find products<br/>
-              in the things you watch.
+          <div styleName='footer-main-col'>
+            <div styleName='footer-sub-col'>
+              <div styleName='footer-left'>
+                <Link styleName='logo' to={`/${currentLocale}`}>
+                  <img alt={t('_common.header.home')} src={spottGrayLogo}/>
+                </Link>
+                <div styleName='footer-dsc'>
+                  Spott allows you to find products in the things you watch.
+                </div>
+              </div>
+            </div>
+            <div styleName='footer-sub-col'>
+              <nav styleName='footer-navs'>
+                <div styleName='footer-nav'>
+                  <Link styleName='footer-nav-link' to='#'>About</Link>
+                  <Link styleName='footer-nav-link' to='#'>Help</Link>
+                  <Link styleName='footer-nav-link' to='#'>Contact</Link>
+                </div>
+                <div styleName='footer-nav'>
+                  <Link styleName='footer-nav-link' to='#'>Terms</Link>
+                  <Link styleName='footer-nav-link' to='#'>Privacy</Link>
+                  <Link styleName='footer-nav-link' to='#'>Business</Link>
+                </div>
+              </nav>
             </div>
           </div>
-          <nav styleName='footer-navs'>
-            <div styleName='footer-nav'>
-              <Link styleName='footer-nav-link' to='#'>About</Link>
-              <Link styleName='footer-nav-link' to='#'>Help</Link>
-              <Link styleName='footer-nav-link' to='#'>Contact</Link>
+          <div styleName='footer-main-col'>
+            <div styleName='footer-sub-col'>
+              <div styleName='footer-follow'>
+                Follow us on social media
+              </div>
             </div>
-            <div styleName='footer-nav'>
-              <Link styleName='footer-nav-link' to='#'>Terms</Link>
-              <Link styleName='footer-nav-link' to='#'>Privacy</Link>
-              <Link styleName='footer-nav-link' to='#'>Business</Link>
+            <div styleName='footer-sub-col'>
+              <div styleName='footer-copyright'>
+                © Spott 2017<br/>
+                Appiness, Hertshage 10, 9300 Aalst, Belgium
+              </div>
             </div>
-          </nav>
-          <div styleName='footer-follow'>
-            Follow us on social media
-          </div>
-          <div styleName='footer-copyright'>
-            © Spott 2017<br/>
-            Appiness, Hertshage 10, 9300 Aalst, Belgium
           </div>
         </div>
       </footer>

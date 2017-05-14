@@ -154,6 +154,22 @@ export function IconForward () {
   )
 }
 
+export function IconCheck () {
+  return (
+      <svg height="9px" version="1.1" viewBox="0 0 12 9" width="12px" xmlns="http://www.w3.org/2000/svg">
+        <g id="Style-Guide---Colors-Styles-Buttons-Icons" transform="translate(-1461.000000, -216.000000)">
+          <g id="Group-5" transform="translate(1390.000000, 100.000000)">
+            <g id="Icons/Export-Check" transform="translate(68.000000, 112.000000)">
+              <g id="Icon-Check">
+                <path className='fill' d="M6,10.2 L1.8,6 L1.4,7.4 L6,13 L16,1 L16.6,-0.4 L6,10.2 Z" id="Shape" fill="#A7A6A9"/>
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
+  )
+}
+
 export function IconGallery() {
   return (
     <svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg">

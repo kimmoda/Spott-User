@@ -1,4 +1,5 @@
 @import "../vars";
+@import "../responsive";
 
 .wrapper {
   width: 100%;
@@ -40,7 +41,6 @@
 }
 
 .info-content {
-  max-width: $maxWidth;
   margin: 0 auto;
   width: 100%;
   display: flex;
@@ -51,7 +51,11 @@
   display: flex;
   align-items: center;
 }
-
+.info-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
 .info-image {
   width: 48px;
   height: 72px;
@@ -76,7 +80,6 @@
 .info-subscribers {
   @include btnMedium;
   @include btnWhite;
-  margin-left: auto;
 }
 
 .info-subscribers-count {
@@ -90,7 +93,7 @@
 
 .info-subscribe-btn {
   @include btnMedium;
-  margin-left: 70px;
+  margin-left: 16.5px;
 }
 
 .info-subscribe-btn-subscribed {
@@ -173,4 +176,50 @@
   max-width: $maxWidth;
   margin: 0 auto 32px auto;
   width: 100%;
+}
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1){
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .info-title {
+    font-size: 14px;
+    line-height: 1.1;
+    letter-spacing: 0.3px;
+  }
+  .info-type {
+    font-size: 12px;
+    line-height: 1.17;
+    letter-spacing: 0.4px;
+  }
+  .info-header {
+    margin-left: 8px;
+  }
+  .info {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+  .info-image {
+    width: 32px;
+    height: 48px;
+  }
+  .info-subscribers {
+    display: none;
+  }
+  .info-subscribe-btn-subscribed, .info-subscribe-btn {
+    padding: 0 9px;
+  }
+  .info-share-wrapper {
+    margin-left: 16px;
+  }
 }

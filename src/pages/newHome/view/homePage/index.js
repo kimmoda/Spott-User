@@ -82,7 +82,7 @@ export default class NewHome extends Component {
           </Masonry>
         </div>
         {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') && spotts.get('totalResultCount') > spotts.get('pageSize') && spotts.get('page') + 1 !== spotts.get('pageCount')) &&
-          <div styleName='load-more' onClick={this.loadMore.bind(this, spotts.get('page') + 1)}>Load more...</div>}
+          <div styleName='load-more responsive-element' onClick={this.loadMore.bind(this, spotts.get('page') + 1)}>Load more...</div>}
       </section>
     );
   }

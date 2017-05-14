@@ -1,12 +1,15 @@
 @import "../../../vars";
 
 .loves-wrapper {
-  max-width: $maxWidth;
   margin: 0 auto 32px auto;
 }
 
 .loves {
-  max-width: $maxWidth;
   margin: 0 auto 32px auto;
   width: 100%;
+  & > div {
+    & > div {
+      margin: auto;
+    }
+  }
 }
