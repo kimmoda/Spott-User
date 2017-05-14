@@ -132,7 +132,7 @@ export const userAccountDetailsSelector = createStructuredSelector({
   token: authenticationTokenSelector
 });
 
-export const usersEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'users' ]);
+export const usersEntitiesSelector = (state) => state.getIn([ 'newHome', 'users' ]);
 const userProfileUuidSelector = (state, props) => props.params.userId;
 const userProfileSelector = createEntityByIdSelector(usersEntitiesSelector, userProfileUuidSelector);
 

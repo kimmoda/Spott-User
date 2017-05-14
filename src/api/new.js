@@ -109,9 +109,9 @@ export async function getUserProfile (baseUrl, authenticationToken, locale, { uu
   return body;
 }
 
-export async function getUserLovesPosts (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/lovedPosts`);
-  return body;
+export async function getUserLovesPosts (baseUrl, authenticationToken, locale, { uuid, page }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/lovedPosts?page=${page}&pageSize=20`);
+  return transformSpottsList(body);
 }
 
 export async function getUserWishlist (baseUrl, authenticationToken, locale, { uuid }) {
@@ -165,7 +165,7 @@ export async function getSearchSuggestions (baseUrl, authenticationToken, locale
 }
 
 export async function getSearchPosts (baseUrl, authenticationToken, locale, { searchString, page = 0 }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/posts?searchString=${searchString}&locale=${locale}&page=${page}&pageSize=10`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/posts?searchString=${searchString}&locale=${locale}&page=${page}&pageSize=20`);
   return transformSpottsList(body);
 }
 

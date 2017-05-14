@@ -26,7 +26,8 @@ export default function newHomeReducer (state = Map({
     persons: Map(),
     posts: Map({ data: OrderedMap() })
   }),
-  searchHistory: Map()
+  searchHistory: Map(),
+  users: Map()
 }), action) {
   switch (action.type) {
     case actions.GET_TRENDING_TOPICS_START:
@@ -209,6 +210,27 @@ export default function newHomeReducer (state = Map({
       return state.setIn([ 'searchHistory' ], Map({ _error: null, _status: LOADED }));
     case actions.REMOVE_SEARCH_HISTORY_ERROR:
       return state.mergeIn([ 'searchHistory' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_USER_PROFILE_START:
+      return state.mergeIn([ 'users', action.uuid, 'profile' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_USER_PROFILE_SUCCESS:
+      return state.setIn([ 'users', action.uuid, 'profile' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_USER_PROFILE_ERROR:
+      return state.mergeIn([ 'users', action.uuid, 'profile' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_USER_LOVED_POSTS_START:
+      return state.mergeIn([ 'users', action.uuid, 'lovedPosts' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_USER_LOVED_POSTS_SUCCESS:
+      return state.mergeIn([ 'users', action.uuid, 'lovedPosts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'users', action.uuid, 'lovedPosts', 'data' ], fromJS(action.data.data).toOrderedMap());
+    case actions.GET_USER_LOVED_POSTS_ERROR:
+      return state.mergeIn([ 'users', action.uuid, 'lovedPosts' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_USER_WISHLIST_START:
+      return state.mergeIn([ 'users', action.uuid, 'wishlist' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_USER_WISHLIST_SUCCESS:
+      return state.setIn([ 'users', action.uuid, 'wishlist' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_USER_WISHLIST_ERROR:
+      return state.mergeIn([ 'users', action.uuid, 'wishlist' ], Map({ _error: action.error, _status: ERROR }));
 
     default:
       return state;
