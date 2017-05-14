@@ -4,6 +4,7 @@ import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
+import { push as routerPush } from 'react-router-redux';
 import localized from '../../../_common/localized';
 import { IconForward, IconStar, IconClose } from '../icons';
 import Tiles from '../tiles';
@@ -18,17 +19,21 @@ const styles = require('./index.scss');
 @connect(sidebarSelector, (dispatch) => ({
   addProductToWishlist: bindActionCreators(actions.addProductToWishlist, dispatch),
   loadUserWishlist: bindActionCreators(actions.loadUserWishlist, dispatch),
-  removeProductFromWishlist: bindActionCreators(actions.removeProductFromWishlist, dispatch)
+  removeProductFromWishlist: bindActionCreators(actions.removeProductFromWishlist, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class Sidebar extends Component {
   static propTypes = {
     addProductToWishlist: PropTypes.func.isRequired,
+    currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
     isAuthenticated: PropTypes.string,
     loadUserWishlist: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     product: PropTypes.any.isRequired,
     removeProductFromWishlist: PropTypes.func.isRequired,
+    routerPush: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     onBackClick: PropTypes.func.isRequired,
     onProductClick: PropTypes.func.isRequired
@@ -79,6 +84,8 @@ export default class Sidebar extends Component {
         await this.props.addProductToWishlist({ uuid: this.props.currentUserId, productUuid: productId });
       }
       this.props.loadUserWishlist({ uuid: this.props.currentUserId });
+    } else {
+      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location && this.props.location.pathname) || '/') } });
     }
   }
 

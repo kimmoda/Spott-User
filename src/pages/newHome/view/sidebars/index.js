@@ -21,6 +21,7 @@ const styles = require('./index.scss');
 export default class Sidebars extends Component {
   static propTypes = {
     loadSidebarProduct: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     removeSidebarProduct: PropTypes.func.isRequired,
     sidebarProducts: PropTypes.any.isRequired,
     singleMode: PropTypes.bool,
@@ -46,7 +47,7 @@ export default class Sidebars extends Component {
   }
 
   render () {
-    const { sidebarProducts, singleMode } = this.props;
+    const { sidebarProducts, singleMode, location } = this.props;
 
     return (
     <div className={!singleMode && (sidebarProducts.get('data').size ? styles['sidebars-active'] : styles['sidebars-inactive'])} styleName='sidebars'>
@@ -67,6 +68,7 @@ export default class Sidebars extends Component {
             <CustomScrollbars key={`scroll_sidebar_${index}`}>
               <Sidebar
                 key={`sidebar_${index}`}
+                location={location}
                 product={product}
                 onBackClick={this.onBackClick}
                 onProductClick={this.onProductClick}/>

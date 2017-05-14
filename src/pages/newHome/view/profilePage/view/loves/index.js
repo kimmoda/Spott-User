@@ -19,6 +19,7 @@ export default class NewUserLoves extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadUserLovedPosts: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired
     }),
@@ -46,12 +47,12 @@ export default class NewUserLoves extends Component {
   }
 
   render () {
-    const { userProfile } = this.props;
+    const { userProfile, location } = this.props;
 
     return (
       <div styleName='loves-wrapper'>
         <div styleName='loves'>
-          {userProfile.getIn([ 'lovedPosts', 'data' ]) && <Cards loadMore={this.loadMore} spotts={userProfile.get('lovedPosts')}/>}
+          {userProfile.getIn([ 'lovedPosts', 'data' ]) && <Cards loadMore={this.loadMore} location={location} spotts={userProfile.get('lovedPosts')}/>}
         </div>
       </div>
     );

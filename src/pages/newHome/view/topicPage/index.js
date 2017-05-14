@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push as routerPush } from 'react-router-redux';
 import DropdownMenu from '../dropdownMenu';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
@@ -19,17 +20,22 @@ const { cssHeaderHeight } = require('../vars.scss');
   loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch),
   loadTopicSpottsMore: bindActionCreators(actions.loadTopicSpottsMore, dispatch),
   removeTopicSubscriber: bindActionCreators(actions.removeTopicSubscriber, dispatch),
-  setTopicSubscriber: bindActionCreators(actions.setTopicSubscriber, dispatch)
+  setTopicSubscriber: bindActionCreators(actions.setTopicSubscriber, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class NewTopic extends Component {
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
+    currentUserId: PropTypes.string,
     loadTopicDetails: PropTypes.func.isRequired,
     loadTopicSpottsMore: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     params: PropTypes.shape({
       topicId: PropTypes.string.isRequired
     }),
     removeTopicSubscriber: PropTypes.func.isRequired,
+    routerPush: PropTypes.func.isRequired,
     setTopicSubscriber: PropTypes.func.isRequired,
     topic: PropTypes.any.isRequired,
     topicRelated: PropTypes.any.isRequired,
@@ -97,15 +103,20 @@ export default class NewTopic extends Component {
   }
 
   onSubscribeClick (topicId, subscribed) {
-    if (subscribed) {
-      this.props.removeTopicSubscriber({ uuid: topicId });
+    if (this.props.currentUserId) {
+      if (subscribed) {
+        this.props.removeTopicSubscriber({ uuid: topicId });
+      } else {
+        this.props.setTopicSubscriber({ uuid: topicId });
+      }
     } else {
-      this.props.setTopicSubscriber({ uuid: topicId });
+      console.log(this.props.location);
+      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location && this.props.location.pathname) || '/') } });
     }
   }
 
   render () {
-    const { topic, topicRelated, topicSpotts } = this.props;
+    const { topic, topicRelated, topicSpotts, location } = this.props;
     const { isScrolledToInfo } = this.state;
 
     return (
@@ -174,7 +185,7 @@ export default class NewTopic extends Component {
         */}
         <div styleName='cards-wrapper'>
           <div styleName='cards'>
-            <Cards loadMore={this.loadMore} spotts={topicSpotts}/>
+            <Cards loadMore={this.loadMore} location={location} spotts={topicSpotts}/>
           </div>
         </div>
       </section>

@@ -103,14 +103,16 @@ export const newHeaderSelector = createStructuredSelector({
 
 export const spottDetailsSelector = createStructuredSelector({
   spott: spottSelector,
-  sidebarProducts: createEntitiesByListSelector(sidebarProductsListSelector, productEntitiesSelector)
+  sidebarProducts: createEntitiesByListSelector(sidebarProductsListSelector, productEntitiesSelector),
+  currentUserId: currentUserIdSelector
 });
 
 export const topicDetailsSelector = createStructuredSelector({
   topic: topicSelector,
   topicSpotts: topicSpottsSelector,
   topicRelated: topicRelatedSelector,
-  topicSubscribers: topicSubscribersSelector
+  topicSubscribers: topicSubscribersSelector,
+  currentUserId: currentUserIdSelector
 });
 
 export const productDetailsSelector = createStructuredSelector({

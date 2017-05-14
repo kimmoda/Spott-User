@@ -19,6 +19,7 @@ export default class NewUserWishlist extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadUserWishlist: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired
     }),
@@ -35,12 +36,12 @@ export default class NewUserWishlist extends Component {
   }
 
   render () {
-    const { userProfile } = this.props;
+    const { userProfile, location } = this.props;
 
     return (
       <div styleName='wishlists'>
         {userProfile.getIn([ 'wishlist', 'data' ]) && userProfile.getIn([ 'wishlist', 'data' ]).map((item, index) =>
-          <NewUserWishlistProduct item={item} key={`wishlist_product_${index}_${item.get('uuid')}`}/>
+          <NewUserWishlistProduct item={item} key={`wishlist_product_${index}_${item.get('uuid')}`} location={location}/>
         )}
       </div>
     );
