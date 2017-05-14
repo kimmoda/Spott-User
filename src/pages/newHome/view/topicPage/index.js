@@ -132,8 +132,9 @@ export default class NewTopic extends Component {
   }
 
   render () {
-    const { topic, topicRelated, topicSpotts, location } = this.props;
+    const { topic, topicRelated, topicSpotts } = this.props;
     const { isScrolledToInfo, isMobile } = this.state;
+
     return (
       <section styleName='wrapper'>
         {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200')` }} styleName='poster'/>}
@@ -153,9 +154,9 @@ export default class NewTopic extends Component {
                   <div styleName='info-subscribers-text'>Subscribers</div>
                 </div>
                 <div
-                    className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
-                    styleName='info-subscribe-btn'
-                    onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
+                  className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
+                  styleName='info-subscribe-btn'
+                  onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
                   {isMobile ? <i><IconCheck/></i> : topic.get('subscribed') ? 'Subscribed' : 'Subscribe'}
                 </div>
                 <div styleName='info-share-wrapper'>
