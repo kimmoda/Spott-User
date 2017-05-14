@@ -150,7 +150,7 @@ export default class NewUserSettings extends Component {
               </div>
             </div>
             <div styleName='user-form-row'>
-              <label className='form-label form-label-required'>Bio</label>
+              <label className='form-label'>Bio</label>
               <Field
                 component={FormInput}
                 name='description'
@@ -175,17 +175,10 @@ export default class NewUserSettings extends Component {
                   submitFailed={submitFailed}
                   type='radio'
                   value='FEMALE'/>
-                <Field
-                  component={FormRadio}
-                  label='Unspecified'
-                  name='gender'
-                  submitFailed={submitFailed}
-                  type='radio'
-                  value='UNKNOWN'/>
               </div>
             </div>
             <div styleName='user-form-row'>
-              <label className='form-label'>Date of birth</label>
+              <label className='form-label form-label-required'>Date of birth</label>
               <div className='form-join-3-fields'>
                 <Field
                   component={FormSelect}
