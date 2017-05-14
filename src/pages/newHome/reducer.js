@@ -5,7 +5,7 @@ import { FETCHING, ERROR, LOADED } from '../../data/statusTypes';
 export default function newHomeReducer (state = Map({
   trendingTopics: Map(),
   topic: Map(),
-  topicSpotts: Map(),
+  topicSpotts: Map({ data: OrderedMap() }),
   topicRelated: Map(),
   spotts: Map({ data: OrderedMap() }),
   spottsSubscribed: Map(),
@@ -24,8 +24,9 @@ export default function newHomeReducer (state = Map({
   searchResults: Map({
     topics: Map(),
     persons: Map(),
-    posts: Map()
-  })
+    posts: Map({ data: OrderedMap() })
+  }),
+  searchHistory: Map()
 }), action) {
   switch (action.type) {
     case actions.GET_TRENDING_TOPICS_START:
@@ -45,8 +46,15 @@ export default function newHomeReducer (state = Map({
     case actions.GET_TOPIC_SPOTTS_START:
       return state.mergeIn([ 'topicSpotts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_TOPIC_SPOTTS_SUCCESS:
-      return state.set('topicSpotts', fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state.mergeIn([ 'topicSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).setIn([ 'topicSpotts', 'data' ], fromJS(action.data.data).toOrderedMap());
     case actions.GET_TOPIC_SPOTTS_ERROR:
+      return state.mergeIn([ 'topicSpotts' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_TOPIC_SPOTTS_MORE_START:
+      return state.mergeIn([ 'topicSpotts' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_TOPIC_SPOTTS_MORE_SUCCESS:
+      return state.mergeIn([ 'topicSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'topicSpotts', 'data' ], fromJS(action.data.data));
+    case actions.GET_TOPIC_SPOTTS_MORE_ERROR:
       return state.mergeIn([ 'topicSpotts' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.GET_TOPIC_RELATED_START:
@@ -160,26 +168,47 @@ export default function newHomeReducer (state = Map({
         }
       });
 
-    case actions.SEARCH_TOPICS_FETCH_START:
+    case actions.GET_SEARCH_TOPICS_START:
       return state.mergeIn([ 'searchResults', 'topics' ], Map({ _error: null, _status: FETCHING }));
-    case actions.SEARCH_TOPICS_FETCH_SUCCESS:
+    case actions.GET_SEARCH_TOPICS_SUCCESS:
       return state.setIn([ 'searchResults', 'topics' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
-    case actions.SEARCH_TOPICS_FETCH_ERROR:
+    case actions.GET_SEARCH_TOPICS_ERROR:
       return state.mergeIn([ 'searchResults', 'topics' ], Map({ _error: action.error, _status: ERROR }));
 
-    case actions.SEARCH_POSTS_FETCH_START:
+    case actions.GET_SEARCH_POSTS_START:
       return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: null, _status: FETCHING }));
-    case actions.SEARCH_POSTS_FETCH_SUCCESS:
-      return state.setIn([ 'searchResults', 'posts' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
-    case actions.SEARCH_POSTS_FETCH_ERROR:
+    case actions.GET_SEARCH_POSTS_SUCCESS:
+      return state.mergeIn([ 'searchResults', 'posts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).setIn([ 'searchResults', 'posts', 'data' ], fromJS(action.data.data).toOrderedMap());
+    case actions.GET_SEARCH_POSTS_ERROR:
       return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: action.error, _status: ERROR }));
 
-    case actions.SEARCH_PERSONS_FETCH_START:
+    case actions.GET_SEARCH_POSTS_MORE_START:
+      return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_SEARCH_POSTS_MORE_SUCCESS:
+      return state.mergeIn([ 'searchResults', 'posts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'searchResults', 'posts', 'data' ], fromJS(action.data.data));
+    case actions.GET_SEARCH_POSTS_MORE_ERROR:
+      return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_SEARCH_PERSONS_START:
       return state.mergeIn([ 'searchResults', 'persons' ], Map({ _error: null, _status: FETCHING }));
-    case actions.SEARCH_PERSONS_FETCH_SUCCESS:
+    case actions.GET_SEARCH_PERSONS_SUCCESS:
       return state.setIn([ 'searchResults', 'persons' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
-    case actions.SEARCH_PERSONS_FETCH_ERROR:
+    case actions.GET_SEARCH_PERSONS_ERROR:
       return state.mergeIn([ 'searchResults', 'persons' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_SEARCH_HISTORY_START:
+      return state.mergeIn([ 'searchHistory' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_SEARCH_HISTORY_SUCCESS:
+      return state.setIn([ 'searchHistory' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_SEARCH_HISTORY_ERROR:
+      return state.mergeIn([ 'searchHistory' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.REMOVE_SEARCH_HISTORY_START:
+      return state.mergeIn([ 'searchHistory' ], Map({ _error: null, _status: FETCHING }));
+    case actions.REMOVE_SEARCH_HISTORY_SUCCESS:
+      return state.setIn([ 'searchHistory' ], Map({ _error: null, _status: LOADED }));
+    case actions.REMOVE_SEARCH_HISTORY_ERROR:
+      return state.mergeIn([ 'searchHistory' ], Map({ _error: action.error, _status: ERROR }));
 
     default:
       return state;

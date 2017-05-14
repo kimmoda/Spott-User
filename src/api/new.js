@@ -11,9 +11,9 @@ export async function getTopic (baseUrl, authenticationToken, locale, { uuid }) 
   return body;
 }
 
-export async function getTopicSpotts (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/posts`);
-  return body;
+export async function getTopicSpotts (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/posts?page=${page}&pageSize=10`);
+  return transformSpottsList(body);
 }
 
 export async function getTopicRelated (baseUrl, authenticationToken, locale, { uuid }) {
@@ -62,7 +62,7 @@ export async function getSpott (baseUrl, authenticationToken, locale, { uuid }) 
 }
 
 export async function getSpottRelatedTopics (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/relatedTopics?page=0&pageSize=10`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/relatedTopics?page=0&pageSize=20`);
   return body;
 }
 
@@ -71,8 +71,8 @@ export async function getSpottLovers (baseUrl, authenticationToken, locale, { uu
   return body;
 }
 
-export async function getSpottSimilar (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/searches/similar`);
+export async function getSpottSimilar (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/searches/similar?page=${page}&pageSize=20`);
   return body;
 }
 
@@ -164,9 +164,9 @@ export async function getSearchSuggestions (baseUrl, authenticationToken, locale
   return transformNewSuggestions(body.data);
 }
 
-export async function getSearchPosts (baseUrl, authenticationToken, locale, { searchString }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/posts?searchString=${searchString}&locale=${locale}`);
-  return body;
+export async function getSearchPosts (baseUrl, authenticationToken, locale, { searchString, page = 0 }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/posts?searchString=${searchString}&locale=${locale}&page=${page}&pageSize=10`);
+  return transformSpottsList(body);
 }
 
 export async function getSearchPersons (baseUrl, authenticationToken, locale, { searchString }) {
@@ -176,5 +176,15 @@ export async function getSearchPersons (baseUrl, authenticationToken, locale, { 
 
 export async function getSearchTopics (baseUrl, authenticationToken, locale, { searchString }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/topics?searchString=${searchString}&locale=${locale}`);
+  return body;
+}
+
+export async function getSearchHistory (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/search/history`);
+  return body;
+}
+
+export async function removeSearchHistory (baseUrl, authenticationToken, locale) {
+  const { body } = await del(authenticationToken, locale, `${baseUrl}/v004/search/history`);
   return body;
 }
