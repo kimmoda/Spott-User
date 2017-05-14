@@ -156,15 +156,12 @@ export function IconForward () {
 
 export function IconCheck () {
   return (
-      <svg width="12px" height="9px" viewBox="0 0 12 9" version="1.1" xmlns="http://www.w3.org/2000/svg">
-        <g id="Style-Guide" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-          <g id="Style-Guide---Colors-Styles-Buttons-Icons" transform="translate(-1461.000000, -216.000000)">
-            <g id="Group-5" transform="translate(1390.000000, 100.000000)">
-              <g id="Icons/Check-Gray" transform="translate(68.000000, 112.000000)">
-                <g id="Icon-Check">
-                  <polygon id="Bounds" points="0 0 18 0 18 18 0 18"/>
-                  <path  className='fill' d="M6,10.2 L1.8,6 L2.4,7.4 L6,13 L16,1 L16.6,-0.4 L6,10.2 Z" id="Shape"/>
-                </g>
+      <svg height="9px" version="1.1" viewBox="0 0 12 9" width="12px" xmlns="http://www.w3.org/2000/svg">
+        <g id="Style-Guide---Colors-Styles-Buttons-Icons" transform="translate(-1461.000000, -216.000000)">
+          <g id="Group-5" transform="translate(1390.000000, 100.000000)">
+            <g id="Icons/Export-Check" transform="translate(68.000000, 112.000000)">
+              <g id="Icon-Check">
+                <path className='fill' d="M6,10.2 L1.8,6 L1.4,7.4 L6,13 L16,1 L16.6,-0.4 L6,10.2 Z" id="Shape" fill="#A7A6A9"/>
               </g>
             </g>
           </g>
@@ -172,20 +169,6 @@ export function IconCheck () {
       </svg>
   )
 }
-//export function IconCheck () {
-//  return (
-//
-//      <svg height="15px" version="1.1" viewBox="0 0 18 15" width="18px" xmlns="http://www.w3.org/2000/svg">
-//        <g fill="none" fill-rule="evenodd" id="Style-Guide"  stroke="none" stroke-width="1">
-//          <g id="Style-Guide---Colors-Styles-Buttons-Icons" transform="translate(-423.000000, -47.000000)">
-//            <g id="Icon-Check" transform="translate(423.000000, 47.500000)">
-//              <path d="M6,10.2 L1.8,6 L0.4,7.4 L6,13 L18,1 L16.6,-0.4 L6,10.2 Z" id="Shape"/>
-//            </g>
-//          </g>
-//        </g>
-//      </svg>
-//  )
-//}
 
 export function IconGallery() {
   return (

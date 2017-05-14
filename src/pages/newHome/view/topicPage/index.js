@@ -93,6 +93,7 @@ export default class NewTopic extends Component {
       this.setState({ isMobile: false });
     }
   }
+
   loadMore (page) {
     this.props.loadTopicSpottsMore({ uuid: this.props.params.topicId, page });
   }
@@ -125,7 +126,7 @@ export default class NewTopic extends Component {
     return (
       <section styleName='wrapper'>
         {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200')` }} styleName='poster'/>}
-        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
+        <div ref={(ref) => { this.infoContainer = ref; }} styleName='info-wrapper'>
           <div className={isScrolledToInfo && styles['info-sticky']} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>

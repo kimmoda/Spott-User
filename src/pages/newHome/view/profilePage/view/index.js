@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import DropdownMenu from '../../dropdownMenu';
 import localized from '../../../../_common/localized';
-import { IconForward, IconAvatar } from '../../icons';
+import { IconForward, IconAvatar, IconCheck } from '../../icons';
 import * as actions from '../../../actions';
 import { userProfileDetailsSelector } from '../../../selectors';
 
@@ -38,7 +38,8 @@ export default class NewUserProfile extends Component {
     super(props);
     this.handleScroll = ::this.handleScroll;
     this.state = {
-      isScrolledToInfo: false
+      isScrolledToInfo: false,
+      isMobile: false
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
     this.infoContainerHeight = null;
@@ -49,6 +50,8 @@ export default class NewUserProfile extends Component {
     this.infoContainerHeight = this.infoContainer.clientHeight;
     window.addEventListener('scroll', this.handleScroll);
     this.props.loadUserProfile({ uuid: this.props.params.userId });
+    this.checkIfMobile();
+    window.addEventListener('resize', this.handleResize.bind(this));
   }
 
   componentWillReceiveProps (nextProps) {
@@ -67,6 +70,19 @@ export default class NewUserProfile extends Component {
     });
   }
 
+  handleResize () {
+    this.checkIfMobile();
+
+  }
+
+  checkIfMobile () {
+    if (window.innerWidth < 600) {
+      this.setState({ isMobile: true });
+    } else {
+      this.setState({ isMobile: false });
+    }
+  }
+
   onSubscribeClick (topicId, subscribed) {
     if (subscribed) {
       this.props.removeTopicSubscriber({ uuid: topicId });
@@ -78,13 +94,13 @@ export default class NewUserProfile extends Component {
   render () {
     const { children, currentLocale, userProfile, currentUserId } = this.props;
     const { userId } = this.props.params;
-    const { isScrolledToInfo } = this.state;
+    const { isScrolledToInfo, isMobile } = this.state;
 
     return (
       <section styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
-        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
-          <div className={isScrolledToInfo && styles['info-sticky']} styleName='info'>
+        <div ref={(ref) => { this.infoContainer = ref; }} styleName='info-wrapper'>
+          <div className={isScrolledToInfo && styles['info-sticky']} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div
@@ -101,29 +117,31 @@ export default class NewUserProfile extends Component {
                   </div>
                 </div>
               </div>
-              <div styleName='info-followers'>
-                <div styleName='info-followers-count'>{userProfile.getIn([ 'profile', 'profile', 'followerCount' ])}</div>
-                <div styleName='info-followers-text'>Followers</div>
-              </div>
-              <div styleName='info-following'>
-                <div styleName='info-following-count'>{userProfile.getIn([ 'profile', 'profile', 'followingCount' ])}</div>
-                <div styleName='info-following-text'>Following</div>
-              </div>
-              <div
-                styleName='info-follow-btn'
-                onClick={this.onSubscribeClick.bind(this)}>
-                Follow
-              </div>
-              <div styleName='info-share-wrapper'>
-                <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>
-                  <div>Facebook</div>
-                  <div>Twitter</div>
-                </DropdownMenu>
+              <div styleName='info-right'>
+                <div styleName='info-followers'>
+                  <div styleName='info-followers-count'>{userProfile.getIn([ 'profile', 'profile', 'followerCount' ])}</div>
+                  <div styleName='info-followers-text'>Followers</div>
+                </div>
+                <div styleName='info-following'>
+                  <div styleName='info-following-count'>{userProfile.getIn([ 'profile', 'profile', 'followingCount' ])}</div>
+                  <div styleName='info-following-text'>Following</div>
+                </div>
+                <div
+                    styleName='info-follow-btn'
+                    onClick={this.onSubscribeClick.bind(this)}>
+                  {isMobile ? <i><IconCheck/></i> : 'Follow'}
+                </div>
+                <div styleName='info-share-wrapper'>
+                  <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>
+                    <div>Facebook</div>
+                    <div>Twitter</div>
+                  </DropdownMenu>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div styleName='nav-wrapper'>
+        <div styleName='nav-wrapper responsive-container'>
           <div styleName='nav'>
             <Link
               activeClassName={styles['nav-item-active']}
@@ -140,7 +158,7 @@ export default class NewUserProfile extends Component {
               </Link>}
           </div>
         </div>
-        <div styleName='content'>
+        <div styleName='content responsive-container'>
           {children}
         </div>
       </section>
