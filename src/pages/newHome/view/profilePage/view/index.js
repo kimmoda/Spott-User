@@ -39,15 +39,15 @@ export default class NewUserProfile extends Component {
     this.handleScroll = ::this.handleScroll;
     this.state = {
       isScrolledToInfo: false,
-      isMobile: false
+      isMobile: false,
+      infoContainerHeight: null
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
-    this.infoContainerHeight = null;
     this.isScrolledToInfo = false;
   }
 
   componentDidMount () {
-    this.infoContainerHeight = this.infoContainer.clientHeight;
+    this.setState({ infoContainerHeight: this.infoContainer.clientHeight});
     window.addEventListener('scroll', this.handleScroll);
     this.props.loadUserProfile({ uuid: this.props.params.userId });
     this.checkIfMobile();
@@ -72,7 +72,7 @@ export default class NewUserProfile extends Component {
 
   handleResize () {
     this.checkIfMobile();
-
+    this.setState({ infoContainerHeight: this.infoContainer.clientHeight});
   }
 
   checkIfMobile () {
@@ -94,13 +94,13 @@ export default class NewUserProfile extends Component {
   render () {
     const { children, currentLocale, userProfile, currentUserId } = this.props;
     const { userId } = this.props.params;
-    const { isScrolledToInfo, isMobile } = this.state;
+    const { isScrolledToInfo, isMobile, infoContainerHeight } = this.state;
 
     return (
       <section styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
-        <div ref={(ref) => { this.infoContainer = ref; }} styleName='info-wrapper'>
-          <div className={isScrolledToInfo && styles['info-sticky']} styleName='info responsive-container'>
+        <div style={{ height: infoContainerHeight }} styleName='info-wrapper'>
+          <div ref={(ref) => { this.infoContainer = ref; }} className={isScrolledToInfo && styles['info-sticky']} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div
