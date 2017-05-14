@@ -104,7 +104,7 @@ export default class Sidebar extends Component {
   }
 
   render () {
-    const { product, onBackClick, onProductClick, t } = this.props;
+    const { product, onBackClick, onProductClick, t, currentLocale } = this.props;
 
     return (
       <div styleName='sidebar'>
@@ -132,7 +132,9 @@ export default class Sidebar extends Component {
           )}
         </div>
         <div styleName='sidebar-panel'>
-          <Link styleName='sidebar-brand' to='#'>{product.getIn([ 'brand', 'name' ])}</Link>
+          <Link styleName='sidebar-brand' to={`/${currentLocale}/topic/BRAND%7C${product.getIn([ 'brand', 'uuid' ])}`}>
+            {product.getIn([ 'brand', 'name' ])}
+          </Link>
           <div styleName='sidebar-title2'>{product.get('longName')}</div>
           <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
           <div styleName='sidebar-options'>

@@ -44,13 +44,13 @@ export default class NewUserWishlistProduct extends Component {
   }
 
   render () {
-    const { item, location } = this.props;
+    const { item, location, currentLocale } = this.props;
 
     return (
       <div styleName='product' onClick={this.onProductClick}>
         {this.state.isProductModalOpen && <ProductModal location={location} productId={item.get('uuid')} onClose={this.onProductModalClose}/>}
         <div style={{ backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=264&height=264)` }} styleName='product-image'/>
-        <Link styleName='product-brand' to='#'>
+        <Link styleName='product-brand' to={`/${currentLocale}/topic/BRAND%7C${item.getIn([ 'brand', 'uuid' ])}`}>
           {item.getIn([ 'brand', 'name' ])}
         </Link>
         <div styleName='product-title'>
