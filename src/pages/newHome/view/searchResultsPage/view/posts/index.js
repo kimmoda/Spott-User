@@ -49,12 +49,12 @@ export default class SearchResultsPosts extends Component {
   }
 
   render () {
-    const { posts } = this.props;
+    const { posts, location } = this.props;
 
     return (
       <div styleName='cards-wrapper'>
         <div styleName='cards'>
-          <Cards loadMore={this.loadMore} spotts={posts}/>
+          <Cards loadMore={this.loadMore} location={location} spotts={posts}/>
         </div>
       </div>
     );

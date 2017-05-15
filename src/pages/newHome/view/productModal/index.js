@@ -22,6 +22,7 @@ export default class ProductModal extends Component {
     clearSidebarProducts: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     loadSidebarProduct: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     productId: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
@@ -49,6 +50,8 @@ export default class ProductModal extends Component {
   }
 
   render () {
+    const { location } = this.props;
+
     return (
       <ReactModal
         className={styles['modal-content']}
@@ -56,7 +59,7 @@ export default class ProductModal extends Component {
         overlayClassName={styles['modal-overlay']}
         onRequestClose={this.onCloseHandler}>
         <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
-        <Sidebars singleMode onSidebarClose={this.onCloseHandler}/>
+        <Sidebars location={location} singleMode onSidebarClose={this.onCloseHandler}/>
       </ReactModal>
     );
   }

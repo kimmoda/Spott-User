@@ -19,6 +19,7 @@ export default class NewUserLoves extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadUserLovedPosts: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired
     }),
@@ -28,24 +29,30 @@ export default class NewUserLoves extends Component {
 
   constructor (props) {
     super(props);
+    this.loadMore = ::this.loadMore;
   }
 
   componentDidMount () {
-    this.props.loadUserLovedPosts({ uuid: this.props.params.userId });
+    this.props.loadUserLovedPosts({ uuid: this.props.params.userId, page: this.props.userProfile.getIn([ 'lovedPosts', 'page' ]) || 0 });
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.params.userId && nextProps.params.userId !== this.props.params.userId) {
-      this.props.loadUserLovedPosts({ uuid: nextProps.params.userId });
+      this.props.loadUserLovedPosts({ uuid: nextProps.params.userId, page: nextProps.userProfile.getIn([ 'lovedPosts', 'page' ]) || 0 });
     }
   }
+
+  loadMore (page) {
+    this.props.loadUserLovedPosts({ uuid: this.props.params.userId, page });
+  }
+
   render () {
-    const { userProfile } = this.props;
+    const { userProfile, location } = this.props;
 
     return (
       <div styleName='loves-wrapper'>
         <div styleName='loves'>
-          {userProfile.getIn([ 'lovedPosts', 'data' ]) && <Cards spotts={userProfile.get('lovedPosts')}/>}
+          {userProfile.getIn([ 'lovedPosts', 'data' ]) && <Cards loadMore={this.loadMore} location={location} spotts={userProfile.get('lovedPosts')}/>}
         </div>
       </div>
     );

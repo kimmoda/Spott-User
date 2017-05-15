@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push as routerPush } from 'react-router-redux';
 import { Link } from 'react-router';
 import localized from '../../../../../_common/localized';
 import { searchResultsSelector } from '../../../../selectors';
@@ -44,7 +45,7 @@ export default class SearchResultsPeople extends Component {
   }
 
   render () {
-    const { persons, currentUserId } = this.props;
+    const { persons, currentUserId, location } = this.props;
     return (
       <div styleName='peoples'>
         <div styleName='peoples-content'>
@@ -52,7 +53,8 @@ export default class SearchResultsPeople extends Component {
             <SearchResultsUser
               currentUserId={currentUserId}
               item={item}
-              key={`search_user_${index}_${item.get('uuid')}`}/>
+              key={`search_user_${index}_${item.get('uuid')}`}
+              location={location}/>
           )}
         </div>
       </div>
@@ -63,7 +65,8 @@ export default class SearchResultsPeople extends Component {
 @localized
 @connect(null, (dispatch) => ({
   removeUserFollowing: bindActionCreators(actions.removeUserFollowing, dispatch),
-  setUserFollowing: bindActionCreators(actions.setUserFollowing, dispatch)
+  setUserFollowing: bindActionCreators(actions.setUserFollowing, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 class SearchResultsUser extends Component {
@@ -71,7 +74,9 @@ class SearchResultsUser extends Component {
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
     item: PropTypes.any.isRequired,
+    location: PropTypes.object.isRequired,
     removeUserFollowing: PropTypes.func.isRequired,
+    routerPush: PropTypes.func.isRequired,
     setUserFollowing: PropTypes.func.isRequired
   };
 
@@ -89,27 +94,31 @@ class SearchResultsUser extends Component {
   }
 
   async onFollowClick (following) {
-    const userId = this.props.item.get('uuid');
     const currentUserId = this.props.currentUserId;
-    this.setState({
-      following: !this.state.following
-    });
-    try {
-      if (following) {
-        await this.props.removeUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
-      } else {
-        await this.props.setUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
-      }
-    } catch (error) {
+    if (currentUserId) {
+      const userId = this.props.item.get('uuid');
       this.setState({
         following: !this.state.following
       });
-      throw error;
+      try {
+        if (following) {
+          await this.props.removeUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
+        } else {
+          await this.props.setUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
+        }
+      } catch (error) {
+        this.setState({
+          following: !this.state.following
+        });
+        throw error;
+      }
+    } else {
+      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location && `${this.props.location.pathname}${this.props.location.search}`) || '/') } });
     }
   }
 
   render () {
-    const { currentLocale, item, currentUserId } = this.props;
+    const { currentLocale, item } = this.props;
     const { following } = this.state;
     return (
       <div styleName='people'>
@@ -123,13 +132,12 @@ class SearchResultsUser extends Component {
             {`${item.getIn([ 'profile', 'firstName' ])} ${item.getIn([ 'profile', 'lastName' ])}`}
           </div>
         </Link>
-        {currentUserId &&
-          <div
-            className={following && styles['people-follow-active']}
-            styleName='people-follow'
-            onClick={this.onFollowClick.bind(this, following)}>
-            {following ? 'Following' : 'Follow'}
-          </div>}
+        <div
+          className={following && styles['people-follow-active']}
+          styleName='people-follow'
+          onClick={this.onFollowClick.bind(this, following)}>
+          {following ? 'Following' : 'Follow'}
+        </div>
       </div>
     );
   }

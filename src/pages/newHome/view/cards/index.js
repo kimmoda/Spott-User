@@ -15,18 +15,19 @@ export default class Cards extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     loadMore: PropTypes.func,
+    location: PropTypes.object.isRequired,
     spotts: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired
   };
 
   render () {
-    const { spotts, loadMore } = this.props;
+    const { spotts, loadMore, location } = this.props;
 
     return (
       <div>
         <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true, gutter: 32 }}>
           {spotts.get('data') && spotts.get('data').valueSeq().map((item, index) =>
-            <Card item={item} key={`home_card_${item.get('uuid')}_${index}`} spottId={item.get('uuid')} />
+            <Card item={item} key={`home_card_${item.get('uuid')}_${index}`} location={location} spottId={item.get('uuid')} />
           )}
         </Masonry>
         {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') &&

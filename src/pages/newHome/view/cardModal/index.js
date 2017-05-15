@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReactModal from 'react-modal';
 import { Link } from 'react-router';
+import { push as routerPush } from 'react-router-redux';
 import localized from '../../../_common/localized';
 import { IconHeart, IconForward, IconClose } from '../icons';
 import CardMarkers from '../cardMarkers';
@@ -26,6 +27,7 @@ const styles = require('./index.scss');
   loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch),
   loadSpottDetails: bindActionCreators(actions.loadSpottDetails, dispatch),
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch),
   setSpottLover: bindActionCreators(actions.setSpottLover, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
@@ -33,10 +35,13 @@ export default class CardModal extends Component {
   static propTypes = {
     clearSidebarProducts: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
+    currentUserId: PropTypes.string,
     imageThumb: PropTypes.object.isRequired,
     loadSidebarProduct: PropTypes.func.isRequired,
     loadSpottDetails: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
+    routerPush: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
     sidebarMarker: PropTypes.any,
     sidebarProducts: PropTypes.any.isRequired,
@@ -95,15 +100,19 @@ export default class CardModal extends Component {
   }
 
   onLoveClick (spottId, loved) {
-    if (loved) {
-      this.props.removeSpottLover({ uuid: spottId });
+    if (this.props.currentUserId) {
+      if (loved) {
+        this.props.removeSpottLover({ uuid: spottId });
+      } else {
+        this.props.setSpottLover({ uuid: spottId });
+      }
     } else {
-      this.props.setSpottLover({ uuid: spottId });
+      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location && this.props.location.pathname) || '/') } });
     }
   }
 
   render () {
-    const { imageThumb, spott, sidebarProducts, currentLocale } = this.props;
+    const { imageThumb, spott, sidebarProducts, currentLocale, location } = this.props;
 
     return (
       <ReactModal
@@ -184,12 +193,12 @@ export default class CardModal extends Component {
               <div styleName='spotts'>
                 <div styleName='spotts-title'>Similar Spotts</div>
                 <div styleName='spotts-list'>
-                  <Cards spotts={spott.get('similar')}/>
+                  <Cards location={location} spotts={spott.get('similar')}/>
                 </div>
               </div>}
           </div>
         </div>
-        <Sidebars onSidebarClose={this.onSidebarClose}/>
+        <Sidebars location={location} onSidebarClose={this.onSidebarClose}/>
       </ReactModal>
     );
   }
