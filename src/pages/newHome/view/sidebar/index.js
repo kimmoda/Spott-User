@@ -119,7 +119,7 @@ export default class Sidebar extends Component {
           </div>
         </div>
         <div styleName='sidebar-image'>
-          {this.state.currentImage && <ImageLoader autoHeight={true} imgOriginal={this.state.currentImage} width={424}/>}
+          {this.state.currentImage && <ImageLoader autoHeight={'true'} imgOriginal={this.state.currentImage} width={424}/>}
         </div>
         <div styleName='sidebar-photos'>
           {product.get('images') && product.get('images').map((item, index) =>

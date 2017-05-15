@@ -47,7 +47,7 @@ export default class NewUserProfile extends Component {
   }
 
   componentDidMount () {
-    this.setState({ infoContainerHeight: this.infoContainer.clientHeight});
+    this.getContainerHeight();
     window.addEventListener('scroll', this.handleScroll);
     this.props.loadUserProfile({ uuid: this.props.params.userId });
     this.checkIfMobile();
@@ -72,7 +72,7 @@ export default class NewUserProfile extends Component {
 
   handleResize () {
     this.checkIfMobile();
-    this.setState({ infoContainerHeight: this.infoContainer.clientHeight});
+    this.getContainerHeight();
   }
 
   checkIfMobile () {
@@ -81,6 +81,10 @@ export default class NewUserProfile extends Component {
     } else {
       this.setState({ isMobile: false });
     }
+  }
+
+  getContainerHeight () {
+    this.setState({ infoContainerHeight: this.infoContainer.clientHeight });
   }
 
   onSubscribeClick (topicId, subscribed) {
@@ -100,7 +104,7 @@ export default class NewUserProfile extends Component {
       <section styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
         <div style={{ height: infoContainerHeight }} styleName='info-wrapper'>
-          <div ref={(ref) => { this.infoContainer = ref; }} className={isScrolledToInfo && styles['info-sticky']} styleName='info responsive-container'>
+          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainer = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div
@@ -127,8 +131,8 @@ export default class NewUserProfile extends Component {
                   <div styleName='info-following-text'>Following</div>
                 </div>
                 <div
-                    styleName='info-follow-btn'
-                    onClick={this.onSubscribeClick.bind(this)}>
+                  styleName='info-follow-btn'
+                  onClick={this.onSubscribeClick.bind(this)}>
                   {isMobile ? <i><IconCheck/></i> : 'Follow'}
                 </div>
                 <div styleName='info-share-wrapper'>

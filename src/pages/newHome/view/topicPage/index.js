@@ -55,7 +55,7 @@ export default class NewTopic extends Component {
       filterSecondVal: 'Popular',
       filterSecondVals: [ 'Test 3', 'Test 4', 'Test 5' ],
       isMobile: false,
-      infoContainerHeight : null
+      infoContainerHeight: null
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
     this.isScrolledToInfo = false;
@@ -63,8 +63,8 @@ export default class NewTopic extends Component {
 
   componentDidMount () {
     this.props.loadTopicDetails({ uuid: this.props.params.topicId, page: this.props.topicSpotts.get('page') || 0 });
-    this.setState({ infoContainerHeight : this.infoContainer.clientHeight});
     this.checkIfMobile();
+    this.getContainerHeight();
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleResize.bind(this));
   }
@@ -89,7 +89,11 @@ export default class NewTopic extends Component {
 
   handleResize () {
     this.checkIfMobile();
-    this.setState({ infoContainerHeight : this.infoContainer.clientHeight});
+    this.getContainerHeight();
+  }
+
+  getContainerHeight () {
+    this.setState({ infoContainerHeight: this.infoContainer.clientHeight });
   }
 
   checkIfMobile () {
@@ -131,6 +135,18 @@ export default class NewTopic extends Component {
     }
   }
 
+  renderButtonCaption (isMobile, topic) {
+    let content = '';
+    if (isMobile) {
+      content = <i><IconCheck/></i>;
+    } else if (topic.get('subscribed')) {
+      content = 'Subscribed';
+    } else {
+      content = 'Subscribe';
+    }
+    return content;
+  }
+
   render () {
     const { topic, topicRelated, topicSpotts } = this.props;
     const { isScrolledToInfo, isMobile, infoContainerHeight } = this.state;
@@ -138,7 +154,7 @@ export default class NewTopic extends Component {
       <section styleName='wrapper'>
         {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200')` }} styleName='poster'/>}
         <div style={{ height: infoContainerHeight }} styleName='info-wrapper'>
-          <div ref={(ref) => { this.infoContainer = ref; }} className={isScrolledToInfo && styles['info-sticky']} styleName='info responsive-container'>
+          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainer = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div style={{ backgroundImage: `url('${topic.getIn([ 'profileImage', 'url' ])}?width=48&height=72')` }} styleName='info-image'/>
@@ -153,10 +169,10 @@ export default class NewTopic extends Component {
                   <div styleName='info-subscribers-text'>Subscribers</div>
                 </div>
                 <div
-                    className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
-                    styleName='info-subscribe-btn'
-                    onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
-                  {isMobile ? <i><IconCheck/></i> : topic.get('subscribed') ? 'Subscribed' : 'Subscribe'}
+                  className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
+                  styleName='info-subscribe-btn'
+                  onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
+                  {this.renderButtonCaption(isMobile, topic)}
                 </div>
                 <div styleName='info-share-wrapper'>
                   <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>

@@ -177,7 +177,7 @@ export default class Header extends Component {
     const isLoading = this.props.searchSuggestions.get('isLoading');
 
     return (
-      <div {...rest} className={styles['search-suggestions'] + ' ' + styles['responsive-container']}>
+      <div {...rest} className={`${styles['search-suggestions']} ${styles['responsive-container']}`}>
         { suggestions && value
           ? children
           : value && isInputFocused &&

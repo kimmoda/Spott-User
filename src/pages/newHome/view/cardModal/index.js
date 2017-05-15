@@ -132,7 +132,7 @@ export default class CardModal extends Component {
                 <i><IconClose/></i>
               </div>
               <div styleName='image'>
-                {spott.get('image') && <ImageLoader autoHeight={true} imgOriginal={spott.get('image')} imgThumb={imageThumb} width={592} widthThumb={280}/>}
+                {spott.get('image') && <ImageLoader autoHeight={'true'} imgOriginal={spott.get('image')} imgThumb={imageThumb} width={592} widthThumb={280}/>}
                 {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')} onMarkerClick={this.onProductClick}/>}
                 {spott.get('personMarkers') &&
                   <div styleName='persons'>

@@ -10,11 +10,11 @@ const styles = require('./index.scss');
 export default class ImageLoader extends Component {
 
   static propTypes = {
+    autoHeight: PropTypes.string,
     imgOriginal: PropTypes.object.isRequired,
     imgThumb: PropTypes.object,
     width: PropTypes.number.isRequired,
-    widthThumb: PropTypes.number,
-    autoHeight: PropTypes.boolean
+    widthThumb: PropTypes.number
   };
 
   constructor (props) {

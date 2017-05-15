@@ -35,15 +35,15 @@ export default class Sidebars extends Component {
     this.onProductClick = ::this.onProductClick;
   }
 
+  closeSidebar () {
+    this.props.onSidebarClose();
+  }
+
   async onBackClick (productId) {
     await this.props.removeSidebarProduct({ uuid: productId });
     if (!this.props.sidebarProducts.get('data').size) {
       this.props.onSidebarClose();
     }
-  }
-
-  closeSidebar () {
-    this.props.onSidebarClose();
   }
 
   onProductClick (productId) {
