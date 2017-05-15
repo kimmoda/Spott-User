@@ -124,7 +124,7 @@ export default class Sidebar extends Component {
         <div styleName='sidebar-photos'>
           {product.get('images') && product.get('images').map((item, index) =>
             <div
-              className={this.state.currentImage === item.get('url') && styles['sidebar-photo-active']}
+              className={this.state.currentImage && this.state.currentImage.get('url') === item.get('url') && styles['sidebar-photo-active']}
               key={`sidebar_photo_${index}`}
               style={{ backgroundImage: `url('${item.get('url')}?width=80&height=80'` }}
               styleName='sidebar-photo'
