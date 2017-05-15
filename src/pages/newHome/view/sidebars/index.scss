@@ -3,11 +3,8 @@
 
 .sidebars {
   position: absolute;
-  box-shadow: $boxShadowBlurer;
-  overflow-y: auto;
-  overflow-x: hidden;
   height: 100%;
-  width: 100%;
+  width: gridSmallWidth(5);
   right: 0;
   top: 0;
   z-index: 100;
@@ -20,11 +17,15 @@
   top: 0;
   left: 0;
   z-index: 100;
+  display: none;
 }
 .sidebars-content {
   position: absolute;
+  box-shadow: $boxShadowBlurer;
+  overflow-y: auto;
+  overflow-x: hidden;
   height: 100%;
-  width: gridSmallWidth(5);;
+  width: gridSmallWidth(5);
   right: 0;
   top: 0;
   z-index: 200;
@@ -143,8 +144,14 @@
 }
 //phone view
 @media (max-width: $phoneBreakpoint) {
+  .sidebars {
+    width: 100%;
+  }
   .sidebars-content {
     max-width: 320px;
     width: calc(100% - 56px);
+  }
+  .overlay {
+    display: block;
   }
 }
