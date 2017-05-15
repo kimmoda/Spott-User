@@ -159,7 +159,7 @@ export function IconCheck () {
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
         <g fill="none" fillRule="evenodd">
           <path d="M0 0h18v18H0z"/>
-          <path fill="#A7A6A9" fillRule="nonzero" d="M6.646 9.236a1 1 0 0 0-1.292 1.528l3.208 2.712 4.761-6.909a1 1 0 1 0-1.646-1.134l-3.509 5.09-1.522-1.287z"/>
+          <path className='fill' fill="#A7A6A9" fillRule="nonzero" d="M6.646 9.236a1 1 0 0 0-1.292 1.528l3.208 2.712 4.761-6.909a1 1 0 1 0-1.646-1.134l-3.509 5.09-1.522-1.287z"/>
         </g>
       </svg>
   )

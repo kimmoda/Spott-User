@@ -54,6 +54,7 @@ $desktopBreakpoint: 1200px;
 $tabletLandscapeBreakpoint: 900px;
 $tabletPortraitBreakpoint: 600px;
 $phoneBreakpoint: 599px;
+
 // pass variables to react component
 :export {
   cssHeaderHeight: $headerHeight;

@@ -12,6 +12,15 @@
   position: relative;
   background-size: cover;
   background-position: 50%;
+  @media (max-width: $desktopBreakpoint) {
+    height: 380px;
+  }
+  @media (max-width: $tabletLandscapeBreakpoint) {
+    height: 280px;
+  }
+  @media (max-width: $phoneBreakpoint) {
+    height: 180px;
+  }
 }
 
 .info-wrapper {
@@ -118,20 +127,43 @@
 
 .info-follow-btn {
   @include btnMedium;
-  margin-left: 16px;
+  margin-left: 56px;
+  span {
+    display: block;
+  }
+  i {
+    display: none;
+  }
+  @media (max-width: $tabletLandscapeBreakpoint) {
+    margin-left: auto;
+  }
+  @media (max-width: $phoneBreakpoint) {
+    padding: 7px;
+    margin-left: auto;
+    span {
+      display: none;
+    }
+    i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+    }
+  }
 }
 
-.info-subscribe-btn-subscribed {
-  @include btnMedium;
+.info-follow-btn-active {
   @include btnPink;
-}
-
-.info-share-wrapper {
-  margin-left: 32px;
-}
-
-.info-share {
-  @include btnMediumRound(true);
+  @media (max-width: $phoneBreakpoint) {
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
+  }
 }
 
 .nav-wrapper {
@@ -194,9 +226,6 @@
   .info-right {
     margin-top: 24px;
   }
-  .info-follow-btn {
-    margin-left: auto;
-  }
 }
 //phone view
 @media (max-width: $phoneBreakpoint) {
@@ -221,8 +250,5 @@
     font-size: 12px;
     line-height: 1.17;
     letter-spacing: 0.4px;
-  }
-  .info-follow-btn {
-    padding: 0 9px;
   }
 }
