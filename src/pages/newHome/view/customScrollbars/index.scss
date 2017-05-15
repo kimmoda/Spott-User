@@ -18,3 +18,22 @@
   z-index: 300;
   overflow: visible;
 }
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1) {
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .custom-scrollbar {
+    width: 100% !important;
+  }
+}
+

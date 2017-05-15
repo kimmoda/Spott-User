@@ -94,7 +94,9 @@ export default class NewTopic extends Component {
   }
 
   getContainerHeight () {
-    this.setState({ infoContainerHeight: this.infoChildContainer.clientHeight });
+    if (this.infoChildContainer) {
+      this.setState({ infoContainerHeight: this.infoChildContainer.clientHeight });
+    }
   }
 
   checkIfMobile () {
