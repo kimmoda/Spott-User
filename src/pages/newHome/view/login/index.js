@@ -13,6 +13,7 @@ import { validateLoginForm } from './validateForm';
 import { FormInput } from '../form';
 import { authenticationErrorSelector, authenticationIsLoadingSelector } from '../../../app/selector';
 import FacebookLoginButton from './facebookLoginButton';
+import { IconClose } from '../icons';
 
 const styles = require('./index.scss');
 
@@ -86,6 +87,7 @@ export default class NewLogin extends Component {
         isOpen
         overlayClassName={styles['modal-overlay']}
         onRequestClose={this.onClose}>
+        <div styleName='modal-close'><i onClick={this.onClose}><IconClose /></i></div>
         <form className='form' onSubmit={handleSubmit(this.onSubmit)}>
           <div className='form-title'>
             Log in

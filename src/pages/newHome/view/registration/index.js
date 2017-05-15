@@ -14,6 +14,7 @@ import { validateRegistrationForm } from './validateForm';
 import { FormInput, FormRadio, FormSelect, FormCheckbox } from '../form';
 import { registrationFacebookErrorSelector, registrationFacebookIsLoadingSelector } from '../../../app/selector';
 import FacebookRegisterButton from './facebookRegisterButton';
+import { IconClose } from '../icons';
 
 const styles = require('./index.scss');
 
@@ -89,6 +90,7 @@ export default class NewRegistration extends Component {
         isOpen
         overlayClassName={styles['modal-overlay']}
         onRequestClose={this.onClose}>
+        <div styleName='modal-close'><i onClick={this.onClose}><IconClose /></i></div>
         <form className='form' onSubmit={handleSubmit(this.onSubmit)}>
           <div className='form-title'>
             Sign up

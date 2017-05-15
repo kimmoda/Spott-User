@@ -1,4 +1,5 @@
 @import "../vars";
+@import "../responsive";
 
 // pass variables to react component
 :export {
@@ -31,10 +32,10 @@
   width: 21px;
   height: 21px;
   position: absolute;
-  top: 50px;
+  top: -20px;
   right: 50px;
   transition: transform 0.5s ease;
-  z-index: 10;
+  z-index: 2000;
   i {
     :global {
       .fill {
@@ -75,11 +76,13 @@
 
 .main-sidebar-active {
   transform: translateX(0);
+  z-index: 200;
 }
 
 .main-sidebar-inactive {
   transform: translateX(0);
   transition: transform 0.4s ease;
+  z-index: 300;
 }
 
 .main-sidebar-wrapper {
@@ -90,7 +93,6 @@
   transition: transform 0.5s 0.2s ease;
   height: auto;
   width: 100%;
-  position: relative;
   will-change: transform;
   margin-bottom: 100px;
 }
@@ -109,8 +111,13 @@
   border-radius: 4px;
   background-color: $colorWhite;
   box-shadow: $boxShadowBlurer;
-  position: relative;
   z-index: 10;
+  .image-loaded {
+    height: initial !important;
+    img {
+      height: auto !important;
+    }
+  }
 }
 
 .image {
@@ -327,4 +334,50 @@
 .spotts-list {
   width: 100%;
   margin: 30px 0 30px 0;
+}
+
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1) {
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .card {
+    width: 100%;
+    max-width: 343px;
+    position: relative;
+  }
+  .main {
+    padding-top: 32px;
+  }
+  .modal-close {
+    width: 16px;
+    height: 16px;
+    top: 20px;
+    right: 20px;
+    i {
+      :global {
+        .fill {
+          fill: white;
+        }
+      }
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  .main-sidebar-wrapper {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }

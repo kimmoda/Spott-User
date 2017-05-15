@@ -111,9 +111,7 @@ export default class CardModal extends Component {
         isOpen
         overlayClassName={styles['modal-overlay']}
         onRequestClose={this.onCloseHandler}>
-        <div styleName='modal-close' onClick={this.onCloseHandler}>
-          <i><IconClose/></i>
-        </div>
+
         <div className={sidebarProducts.get('data').size ? styles['main-sidebar-active'] : styles['main-sidebar-inactive']}
              styleName='main'>
           <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
@@ -121,8 +119,11 @@ export default class CardModal extends Component {
                styleName='main-sidebar-wrapper'>
             <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
             <div styleName='card'>
+              <div styleName='modal-close' onClick={this.onCloseHandler}>
+                <i><IconClose/></i>
+              </div>
               <div styleName='image'>
-                {spott.get('image') && <ImageLoader imgOriginal={spott.get('image')} imgThumb={imageThumb} width={592} widthThumb={280}/>}
+                {spott.get('image') && <ImageLoader autoHeight={true} imgOriginal={spott.get('image')} imgThumb={imageThumb} width={592} widthThumb={280}/>}
                 {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')} onMarkerClick={this.onProductClick}/>}
                 {spott.get('personMarkers') &&
                   <div styleName='persons'>

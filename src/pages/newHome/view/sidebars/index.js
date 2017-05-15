@@ -41,6 +41,10 @@ export default class Sidebars extends Component {
     }
   }
 
+  closeSidebar () {
+    this.props.onSidebarClose();
+  }
+
   onProductClick (productId) {
     this.props.loadSidebarProduct({ uuid: productId });
   }
@@ -50,29 +54,32 @@ export default class Sidebars extends Component {
 
     return (
     <div className={!singleMode && (sidebarProducts.get('data').size ? styles['sidebars-active'] : styles['sidebars-inactive'])} styleName='sidebars'>
-        <ReactCSSTransitionGroup
-          transitionAppear
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-          transitionName={{
-            appear: styles['sidebar-appear'],
-            appearActive: styles['sidebar-appear-active'],
-            enter: sidebarProducts.get('data').size > 1 ? styles['sidebar-enter'] : styles['sidebar-enter-first'],
-            enterActive: styles['sidebar-enter-active'],
-            leave: sidebarProducts.get('data').size ? styles['sidebar-leave'] : styles['sidebar-leave-all'],
-            leaveActive: styles['sidebar-leave-active']
-          }}>
-          {sidebarProducts.get('data') && sidebarProducts.get('data').map((product, index) =>
-            <CustomScrollbars key={`scroll_sidebar_${index}`}>
-              <Sidebar
-                key={`sidebar_${index}`}
-                product={product}
-                onBackClick={this.onBackClick}
-                onProductClick={this.onProductClick}/>
-            </CustomScrollbars>
-          )}
-        </ReactCSSTransitionGroup>
+        <div styleName='overlay' onClick={this.closeSidebar.bind(this)}/>
+        <div styleName='sidebars-content'>
+          <ReactCSSTransitionGroup
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+            transitionName={{
+              appear: styles['sidebar-appear'],
+              appearActive: styles['sidebar-appear-active'],
+              enter: sidebarProducts.get('data').size > 1 ? styles['sidebar-enter'] : styles['sidebar-enter-first'],
+              enterActive: styles['sidebar-enter-active'],
+              leave: sidebarProducts.get('data').size ? styles['sidebar-leave'] : styles['sidebar-leave-all'],
+              leaveActive: styles['sidebar-leave-active']
+            }}>
+            {sidebarProducts.get('data') && sidebarProducts.get('data').map((product, index) =>
+              <CustomScrollbars key={`scroll_sidebar_${index}`}>
+                <Sidebar
+                  key={`sidebar_${index}`}
+                  product={product}
+                  onBackClick={this.onBackClick}
+                  onProductClick={this.onProductClick}/>
+              </CustomScrollbars>
+            )}
+          </ReactCSSTransitionGroup>
+        </div>
     </div>
     );
   }

@@ -1,4 +1,5 @@
 @import "../vars";
+@import "../responsive";
 
 // pass variables to react component
 :export {
@@ -6,13 +7,13 @@
 }
 
 .sidebar {
-  width: gridSmallWidth(5);
   background-color: $colorWhite;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 300;
   min-height: 100vh;
+  width: 100%;
 }
 
 .sidebar-header {
@@ -74,11 +75,7 @@
 }
 
 .sidebar-image {
-  width: gridSmallWidth(5);
   overflow: hidden;
-  img {
-    width: gridSmallWidth(5);
-  }
 }
 
 .sidebar-photos {
@@ -213,4 +210,25 @@
 
 .sidebar-similar {
   @include product;
+}
+
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1) {
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .sidebar-title {
+    max-width: 200px;
+    font-size: 14px;
+  }
 }
