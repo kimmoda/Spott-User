@@ -85,6 +85,7 @@ export default class NewTopic extends Component {
     this.setState({
       isScrolledToInfo: this.infoContainer.offsetTop <= window.scrollY + this.headerHeight + 30
     });
+    this.getContainerHeight();
   }
 
   handleResize () {
@@ -93,7 +94,7 @@ export default class NewTopic extends Component {
   }
 
   getContainerHeight () {
-    this.setState({ infoContainerHeight: this.infoContainer.clientHeight });
+    this.setState({ infoContainerHeight: this.infoChildContainer.clientHeight });
   }
 
   checkIfMobile () {
@@ -153,8 +154,8 @@ export default class NewTopic extends Component {
     return (
       <section styleName='wrapper'>
         {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200')` }} styleName='poster'/>}
-        <div style={{ height: infoContainerHeight }} styleName='info-wrapper'>
-          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainer = ref; }} styleName='info responsive-container'>
+        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: infoContainerHeight }} styleName='info-wrapper'>
+          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div style={{ backgroundImage: `url('${topic.getIn([ 'profileImage', 'url' ])}?width=48&height=72')` }} styleName='info-image'/>
