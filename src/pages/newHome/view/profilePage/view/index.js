@@ -84,7 +84,7 @@ export default class NewUserProfile extends Component {
   }
 
   getContainerHeight () {
-    this.setState({ infoContainerHeight: this.infoContainer.clientHeight });
+    this.setState({ infoContainerHeight: this.infoChildContainer.clientHeight });
   }
 
   onSubscribeClick (topicId, subscribed) {
@@ -103,8 +103,8 @@ export default class NewUserProfile extends Component {
     return (
       <section styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
-        <div style={{ height: infoContainerHeight }} styleName='info-wrapper'>
-          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainer = ref; }} styleName='info responsive-container'>
+        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: infoContainerHeight }} styleName='info-wrapper'>
+          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div

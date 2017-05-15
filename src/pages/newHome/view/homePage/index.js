@@ -58,7 +58,7 @@ export default class NewHome extends Component {
           </div>
         </div>
         <div styleName='cards responsive-container'>
-          <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true, gutter: 16 }}>
+          <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true, gutter: 32 }}>
             {isAuthenticated && spottsSubscribed.get('data') && spottsSubscribed.get('data').map((item, index) => {
               if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
                 promotedIndex++;
