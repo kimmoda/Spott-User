@@ -84,7 +84,9 @@ export default class NewUserProfile extends Component {
   }
 
   getContainerHeight () {
-    this.setState({ infoContainerHeight: this.infoChildContainer.clientHeight });
+    if (this.infoChildContainer) {
+      this.setState({ infoContainerHeight: this.infoChildContainer.clientHeight });
+    }
   }
 
   onSubscribeClick (topicId, subscribed) {
