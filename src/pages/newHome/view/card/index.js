@@ -40,7 +40,8 @@ export default class Card extends Component {
     spottDetails: PropTypes.any.isRequired,
     spottId: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
-    userId: PropTypes.string
+    userId: PropTypes.string,
+    width: PropTypes.number.isRequired
   };
 
   constructor (props) {
@@ -110,14 +111,14 @@ export default class Card extends Component {
   }
 
   render () {
-    const { item, currentLocale, spottDetails, location } = this.props;
+    const { item, currentLocale, spottDetails, location, width } = this.props;
     const { loved, loverCount } = this.state;
 
     return (
       <div styleName='card'>
         {this.state.isCardModalOpen && <CardModal imageThumb={item.get('image')} location={location} sidebarMarker={this.state.sidebarMarker} spottId={item.get('uuid')} onClose={this.onCardModalClose}/>}
         <div styleName='image' onClick={this.onCardClick}>
-          <ImageLoader imgOriginal={item.get('image')} width={280}/>
+          <ImageLoader imgOriginal={item.get('image')} width={width}/>
           {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onImageClick={this.onCardClick} onMarkerClick={this.onCardMarkerClick}/>}
           {spottDetails.get('personMarkers') &&
             <div styleName='persons'>
@@ -138,13 +139,13 @@ export default class Card extends Component {
           <div styleName='description'>
             {item.get('comment')}
           </div>
-          <div styleName='topic-links'>
+          {width >= 280 && <div styleName='topic-links'>
             {item.get('topics').map((topic, index) =>
               <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${topic.get('uuid')}`}>{topic.get('text')}</Link>
             )}
-          </div>
+          </div>}
         </div>
-        <div styleName='footer'>
+        {width >= 280 && <div styleName='footer'>
           <div styleName='click-overlay' onClick={this.onCardClick}/>
           <div
             className={loved && styles['likes-liked']}
@@ -159,7 +160,7 @@ export default class Card extends Component {
           <Link styleName='share' to='#'>
             <i><IconForward/></i>
           </Link>
-        </div>
+        </div>}
       </div>
     );
   }

@@ -84,6 +84,8 @@
 .description {
   @include smallRegular($colorGrayDark);
   margin-top: 7px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .topic-links {
@@ -126,4 +128,10 @@
   @include btnSmallRound($icon: true);
   margin-left: auto;
   position: relative;
+}
+
+@media (max-width: 425px) {
+  .card {
+    margin-bottom: 16px;
+  }
 }

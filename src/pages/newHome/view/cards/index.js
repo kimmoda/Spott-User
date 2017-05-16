@@ -20,14 +20,45 @@ export default class Cards extends Component {
     t: PropTypes.func.isRequired
   };
 
+  constructor (props) {
+    super(props);
+    this.state = {
+      width: 280
+    };
+  }
+
+  componentDidMount () {
+    window.addEventListener('resize', this.handleResize.bind(this));
+    this.getWidth();
+  }
+
+  handleResize () {
+    this.getWidth();
+  }
+
+  getWidth () {
+    if (this.cardsContainer) {
+      if (window.outerWidth <= 640 && window.outerWidth > 425) {
+        console.log('step1', this.cardsContainer);
+        this.setState({ width: (this.cardsContainer.clientWidth - 64) / 2 });
+      } else if (window.outerWidth <= 425) {
+        console.log('step2', this.cardsContainer);
+        this.setState({ width: (this.cardsContainer.clientWidth - 32) / 2 });
+      } else {
+        this.setState({ width: 280 });
+      }
+    }
+  }
+
   render () {
     const { spotts, loadMore, location } = this.props;
+    const { width } = this.state;
 
     return (
-      <div>
-        <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true, gutter: 32 }}>
+      <div ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-wrapper' >
+        <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true }}>
           {spotts.get('data') && spotts.get('data').valueSeq().map((item, index) =>
-            <Card item={item} key={`home_card_${item.get('uuid')}_${index}`} location={location} spottId={item.get('uuid')} />
+          <div key={`home_card_${item.get('uuid')}_${index}`} styleName='card-selector'><Card item={item} key={`home_card_${item.get('uuid')}_${index}`} location={location} spottId={item.get('uuid')} width={width} /></div>
           )}
         </Masonry>
         {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') &&

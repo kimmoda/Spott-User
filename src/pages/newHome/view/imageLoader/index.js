@@ -33,6 +33,7 @@ export default class ImageLoader extends Component {
 
   render () {
     const { imgThumb, imgOriginal, width, widthThumb, autoHeight } = this.props;
+    const imageWidth = parseInt(width, 10);
 
     return (
       <div
@@ -42,12 +43,12 @@ export default class ImageLoader extends Component {
         {imgThumb &&
         <img
           height={autoHeight ? 'auto' : imgThumb.getIn([ 'dimension', 'height' ]) * (width / imgThumb.getIn([ 'dimension', 'width' ]))}
-          src={`${imgThumb.get('url')}?width=${widthThumb || width}`}
+          src={`${imgThumb.get('url')}?width=${widthThumb || imageWidth}`}
           styleName='image-thumb'/>}
         {imgOriginal &&
         <img
           height={autoHeight ? 'auto' : imgOriginal.getIn([ 'dimension', 'height' ]) * (width / imgOriginal.getIn([ 'dimension', 'width' ]))}
-          src={`${imgOriginal.get('url')}?width=${width}`}
+          src={`${imgOriginal.get('url')}?width=${imageWidth}`}
           styleName='image-original'
           onLoad={this.onImageLoaded}/>}
       </div>

@@ -35,11 +35,34 @@ export default class NewHome extends Component {
 
   constructor (props) {
     super(props);
+    this.state = {
+      width: 280
+    };
   }
 
   componentDidMount () {
     this.props.loadSpottsList(Boolean(this.props.isAuthenticated), this.props.spotts.get('page') ? this.props.spotts.get('page') : 0);
     this.props.loadTrendingTopics();
+    window.addEventListener('resize', this.handleResize.bind(this));
+    this.getWidth();
+  }
+
+  handleResize () {
+    this.getWidth();
+  }
+
+  getWidth () {
+    if (this.cardsContainer) {
+      if (window.outerWidth <= 640 && window.outerWidth > 425) {
+        console.log('step1', this.cardsContainer);
+        this.setState({ width: (this.cardsContainer.clientWidth - 64) / 2 });
+      } else if (window.outerWidth <= 425) {
+        console.log('step2', this.cardsContainer);
+        this.setState({ width: (this.cardsContainer.clientWidth - 32) / 2 });
+      } else {
+        this.setState({ width: 280 });
+      }
+    }
   }
 
   loadMore (page) {
@@ -48,6 +71,7 @@ export default class NewHome extends Component {
 
   render () {
     const { trendingTopics, spotts, spottsSubscribed, spottsPromoted, isAuthenticated, location } = this.props;
+    const { width } = this.state;
     let promotedIndex = 0;
     return (
       <section styleName='wrapper'>
@@ -58,28 +82,31 @@ export default class NewHome extends Component {
           </div>
         </div>
         <div styleName='cards responsive-container'>
-          <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true, gutter: 32 }}>
-            {isAuthenticated && spottsSubscribed.get('data') && spottsSubscribed.get('data').map((item, index) => {
-              if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
-                promotedIndex++;
-                return [
-                  <Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')}/>,
-                  <Card item={spottsPromoted.getIn([ 'data', promotedIndex - 1 ])} key={`home_card_${index}`} location={location} spottId={spottsPromoted.getIn([ 'data', promotedIndex - 1, 'uuid' ])}/>
-                ];
-              }
-              return (<Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')}/>);
-            })}
-            {(!isAuthenticated || (!spottsSubscribed.get('data') || spottsSubscribed.get('data').size <= 5)) && spotts.get('data') && spotts.get('data').valueSeq().map((item, index) => {
-              if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
-                promotedIndex++;
-                return [
-                  <Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')}/>,
-                  <Card item={spottsPromoted.getIn([ 'data', promotedIndex - 1 ])} key={`home_card_${index}`} location={location} spottId={spottsPromoted.getIn([ 'data', promotedIndex - 1, 'uuid' ])}/>
-                ];
-              }
-              return (<Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')}/>);
-            })}
-          </Masonry>
+          <div ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-wrapper'>
+            <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true }}>
+              {isAuthenticated && spottsSubscribed.get('data') && spottsSubscribed.get('data').map((item, index) => {
+                if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
+                  promotedIndex++;
+                  return [
+
+                    <div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width} /></div>,
+                    <div key={`home_card_${index}`} location={location} styleName='card-selector'><Card item={spottsPromoted.getIn([ 'data', promotedIndex - 1 ])} key={`home_card_${index}`} location={location} spottId={spottsPromoted.getIn([ 'data', promotedIndex - 1, 'uuid' ])} width={width} /></div>
+                  ];
+                }
+                return (<div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width}/></div>);
+              })}
+              {(!isAuthenticated || (!spottsSubscribed.get('data') || spottsSubscribed.get('data').size <= 5)) && spotts.get('data') && spotts.get('data').valueSeq().map((item, index) => {
+                if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
+                  promotedIndex++;
+                  return [
+                    <div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width}/></div>,
+                    <div key={`home_card_${index}`} styleName='card-selector'><Card item={spottsPromoted.getIn([ 'data', promotedIndex - 1 ])} key={`home_card_${index}`} location={location} spottId={spottsPromoted.getIn([ 'data', promotedIndex - 1, 'uuid' ])} width={width}/></div>
+                  ];
+                }
+                return (<div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width} /></div>);
+              })}
+            </Masonry>
+          </div>
         </div>
         {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') && spotts.get('totalResultCount') > spotts.get('pageSize') && spotts.get('page') + 1 !== spotts.get('pageCount')) &&
           <div styleName='load-more responsive-element' onClick={this.loadMore.bind(this, spotts.get('page') + 1)}>Load more...</div>}

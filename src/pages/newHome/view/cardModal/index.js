@@ -183,14 +183,14 @@ export default class CardModal extends Component {
               </div>
             </div>
             {Boolean(spott.getIn([ 'relatedTopics', 'data' ]) && spott.getIn([ 'relatedTopics', 'data' ]).size) &&
-              <div styleName='topics'>
+              <div styleName='topics responsive-container'>
                 <div styleName='topics-content'>
                   <div styleName='topics-title'>Related Topics</div>
                   <Topics items={spott.get('relatedTopics')}/>
                 </div>
               </div>}
             {Boolean(spott.getIn([ 'similar', 'data' ]) && spott.getIn([ 'similar', 'data' ]).size) &&
-              <div styleName='spotts'>
+              <div styleName='spotts responsive-container'>
                 <div styleName='spotts-title'>Similar Spotts</div>
                 <div styleName='spotts-list'>
                   <Cards location={location} spotts={spott.get('similar')}/>

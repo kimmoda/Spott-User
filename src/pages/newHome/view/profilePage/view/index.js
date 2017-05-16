@@ -76,10 +76,12 @@ export default class NewUserProfile extends Component {
   }
 
   checkIfMobile () {
-    if (window.innerWidth < 600) {
-      this.setState({ isMobile: true });
-    } else {
-      this.setState({ isMobile: false });
+    if (this.mainContainer) {
+      if (window.innerWidth < 600) {
+        this.setState({ isMobile: true });
+      } else {
+        this.setState({ isMobile: false });
+      }
     }
   }
 
@@ -103,7 +105,7 @@ export default class NewUserProfile extends Component {
     const { isScrolledToInfo, isMobile, infoContainerHeight } = this.state;
 
     return (
-      <section styleName='wrapper'>
+      <section ref={(ref) => { this.mainContainer = ref; }} styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
         <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: infoContainerHeight }} styleName='info-wrapper'>
           <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
