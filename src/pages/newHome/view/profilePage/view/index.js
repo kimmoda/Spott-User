@@ -4,9 +4,9 @@ import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
-import DropdownMenu from '../../dropdownMenu';
+import { push as routerPush } from 'react-router-redux';
 import localized from '../../../../_common/localized';
-import { IconForward, IconAvatar, IconCheck } from '../../icons';
+import { IconAvatar, IconCheck } from '../../icons';
 import * as actions from '../../../actions';
 import { userProfileDetailsSelector } from '../../../selectors';
 
@@ -16,8 +16,9 @@ const { cssHeaderHeight } = require('../../vars.scss');
 @localized
 @connect(userProfileDetailsSelector, (dispatch) => ({
   loadUserProfile: bindActionCreators(actions.loadUserProfile, dispatch),
-  removeTopicSubscriber: bindActionCreators(actions.removeTopicSubscriber, dispatch),
-  setTopicSubscriber: bindActionCreators(actions.setTopicSubscriber, dispatch)
+  removeUserFollowing: bindActionCreators(actions.removeUserFollowing, dispatch),
+  setUserFollowing: bindActionCreators(actions.setUserFollowing, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class NewUserProfile extends Component {
@@ -26,42 +27,54 @@ export default class NewUserProfile extends Component {
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
     loadUserProfile: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     params: PropTypes.shape({
       userId: PropTypes.string.isRequired
     }),
-    removeTopicSubscriber: PropTypes.func.isRequired,
-    setTopicSubscriber: PropTypes.func.isRequired,
+    removeUserFollowing: PropTypes.func.isRequired,
+    routerPush: PropTypes.func.isRequired,
+    setUserFollowing: PropTypes.func.isRequired,
     userProfile: PropTypes.any.isRequired
   };
 
   constructor (props) {
     super(props);
     this.handleScroll = ::this.handleScroll;
+    this.handleResize = ::this.handleResize;
     this.state = {
       isScrolledToInfo: false,
-      isMobile: false,
-      infoContainerHeight: null
+      following: this.props.userProfile.getIn([ 'profile', 'profile', 'followingUser' ])
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
-    this.isScrolledToInfo = false;
+    this.infoContainerHeight = null;
   }
 
   componentDidMount () {
-    this.getContainerHeight();
+    this.infoContainerHeight = this.infoContainerChild.clientHeight;
     window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('resize', this.handleResize);
     this.props.loadUserProfile({ uuid: this.props.params.userId });
-    this.checkIfMobile();
-    window.addEventListener('resize', this.handleResize.bind(this));
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.params.userId && nextProps.params.userId !== this.props.params.userId) {
       this.props.loadUserProfile({ uuid: nextProps.params.userId });
     }
+    this.state = {
+      following: nextProps.userProfile.getIn([ 'profile', 'profile', 'followingUser' ])
+    };
   }
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  handleResize () {
+    if (this.infoContainerChild.clientHeight !== this.infoContainerHeight) {
+      this.infoContainerHeight = this.infoContainerChild.clientHeight;
+      this.forceUpdate();
+    }
   }
 
   handleScroll () {
@@ -76,39 +89,23 @@ export default class NewUserProfile extends Component {
   }
 
   checkIfMobile () {
-    if (this.mainContainer) {
-      if (window.innerWidth < 600) {
-        this.setState({ isMobile: true });
-      } else {
-        this.setState({ isMobile: false });
-      }
-    }
-  }
-
-  getContainerHeight () {
-    if (this.infoChildContainer) {
-      this.setState({ infoContainerHeight: this.infoChildContainer.clientHeight });
-    }
-  }
-
-  onSubscribeClick (topicId, subscribed) {
-    if (subscribed) {
-      this.props.removeTopicSubscriber({ uuid: topicId });
+    if (window.innerWidth < 600) {
+      this.setState({ isMobile: true });
     } else {
-      this.props.setTopicSubscriber({ uuid: topicId });
+      this.setState({ isMobile: false });
     }
   }
 
   render () {
     const { children, currentLocale, userProfile, currentUserId } = this.props;
     const { userId } = this.props.params;
-    const { isScrolledToInfo, isMobile, infoContainerHeight } = this.state;
+    const { isScrolledToInfo, following } = this.state;
 
     return (
-      <section ref={(ref) => { this.mainContainer = ref; }} styleName='wrapper'>
+      <section styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
-        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: infoContainerHeight }} styleName='info-wrapper'>
-          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
+        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
+          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainerChild = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div
@@ -134,17 +131,14 @@ export default class NewUserProfile extends Component {
                   <div styleName='info-following-count'>{userProfile.getIn([ 'profile', 'profile', 'followingCount' ])}</div>
                   <div styleName='info-following-text'>Following</div>
                 </div>
-                <div
-                  styleName='info-follow-btn'
-                  onClick={this.onSubscribeClick.bind(this)}>
-                  {isMobile ? <i><IconCheck/></i> : 'Follow'}
-                </div>
-                <div styleName='info-share-wrapper'>
-                  <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>
-                    <div>Facebook</div>
-                    <div>Twitter</div>
-                  </DropdownMenu>
-                </div>
+                {userId !== currentUserId &&
+                  <div
+                    className={following && styles['info-follow-btn-active']}
+                    styleName='info-follow-btn'
+                    onClick={this.onFollowClick.bind(this, following)}>
+                    <span>{following ? 'Following' : 'Follow'}</span>
+                    <i><IconCheck/></i>
+                  </div>}
               </div>
             </div>
           </div>
