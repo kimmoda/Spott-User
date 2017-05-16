@@ -47,6 +47,7 @@ export default class NewTopic extends Component {
     this.handleScroll = ::this.handleScroll;
     this.onFilterClick = ::this.onFilterClick;
     this.onFilterSecondClick = ::this.onFilterSecondClick;
+    this.handleResize = ::this.handleResize;
     this.loadMore = ::this.loadMore;
     this.state = {
       isScrolledToInfo: false,
@@ -66,7 +67,7 @@ export default class NewTopic extends Component {
     this.checkIfMobile();
     this.getContainerHeight();
     window.addEventListener('scroll', this.handleScroll);
-    window.addEventListener('resize', this.handleResize.bind(this));
+    window.addEventListener('resize', this.handleResize);
   }
 
   componentWillReceiveProps (nextProps) {

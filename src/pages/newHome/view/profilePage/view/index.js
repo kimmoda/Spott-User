@@ -83,16 +83,27 @@ export default class NewUserProfile extends Component {
     });
   }
 
-  handleResize () {
-    this.checkIfMobile();
-    this.getContainerHeight();
-  }
-
-  checkIfMobile () {
-    if (window.innerWidth < 600) {
-      this.setState({ isMobile: true });
+  async onFollowClick (following) {
+    const currentUserId = this.props.currentUserId;
+    if (currentUserId) {
+      const userId = this.props.params.userId;
+      this.setState({
+        following: !this.state.following
+      });
+      try {
+        if (following) {
+          await this.props.removeUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
+        } else {
+          await this.props.setUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
+        }
+      } catch (error) {
+        this.setState({
+          following: !this.state.following
+        });
+        throw error;
+      }
     } else {
-      this.setState({ isMobile: false });
+      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location && `${this.props.location.pathname}${this.props.location.search}`) || '/') } });
     }
   }
 
@@ -100,7 +111,7 @@ export default class NewUserProfile extends Component {
     const { children, currentLocale, userProfile, currentUserId } = this.props;
     const { userId } = this.props.params;
     const { isScrolledToInfo, following } = this.state;
-
+    console.log(this.infoContainerHeight);
     return (
       <section styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}

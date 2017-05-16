@@ -35,6 +35,7 @@ export default class NewHome extends Component {
 
   constructor (props) {
     super(props);
+    this.handleResize = ::this.handleResize;
     this.state = {
       width: 280
     };
@@ -43,7 +44,7 @@ export default class NewHome extends Component {
   componentDidMount () {
     this.props.loadSpottsList(Boolean(this.props.isAuthenticated), this.props.spotts.get('page') ? this.props.spotts.get('page') : 0);
     this.props.loadTrendingTopics();
-    window.addEventListener('resize', this.handleResize.bind(this));
+    window.addEventListener('resize', this.handleResize);
     this.getWidth();
   }
 
@@ -54,10 +55,8 @@ export default class NewHome extends Component {
   getWidth () {
     if (this.cardsContainer) {
       if (window.outerWidth <= 640 && window.outerWidth > 425) {
-        console.log('step1', this.cardsContainer);
         this.setState({ width: (this.cardsContainer.clientWidth - 64) / 2 });
       } else if (window.outerWidth <= 425) {
-        console.log('step2', this.cardsContainer);
         this.setState({ width: (this.cardsContainer.clientWidth - 32) / 2 });
       } else {
         this.setState({ width: 280 });
