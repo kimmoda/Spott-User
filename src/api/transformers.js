@@ -23,7 +23,10 @@ export function transformUser ({ uuid, userName, profile }) {
     gender: profile.gender ? profile.gender : null,
     dayOfBirth: moment(profile.dateOfBirth).get('date'),
     monthOfBirth: moment(profile.dateOfBirth).get('month'),
-    yearOfBirth: moment(profile.dateOfBirth).get('year')
+    yearOfBirth: moment(profile.dateOfBirth).get('year'),
+    languages: profile.languages,
+    currency: profile.currency ? profile.currency : null,
+    contentRegions: profile.contentRegions ? profile.contentRegions : null
   };
 }
 

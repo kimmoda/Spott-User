@@ -8,8 +8,8 @@ import Error404 from './pages/error404';
 import Mobile from './pages/mobile';
 import Privacy from './pages/privacy';
 import Redirect from './pages/redirect';
-import ResetPassword from './pages/resetPassword';
-import ResetPasswordSuccess from './pages/resetPassword/success';
+// import ResetPassword from './pages/resetPassword';
+// import ResetPasswordSuccess from './pages/resetPassword/success';
 // import SeriesProducts from './pages/series/view/products';
 // import SeriesScenes from './pages/series/view/scenes';
 import Terms from './pages/terms';
@@ -31,6 +31,7 @@ import NewUserWishlist from './pages/newHome/view/profilePage/view/wishlist';
 import SearchResults from './pages/newHome/view/searchResultsPage/view';
 import SearchResultsPosts from './pages/newHome/view/searchResultsPage/view/posts';
 import SearchResultsPeople from './pages/newHome/view/searchResultsPage/view/people';
+import NewResetPassword from './pages/newHome/view/resetPassword';
 
 /**
  * The application routes
@@ -113,14 +114,13 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
         <Route component={Mobile} path='mobile/download' standalone/>
-        <Route component={ResetPassword} noSignInButtonInHeader path='resetpassword'/>
-        <Route component={ResetPasswordSuccess} noSignInButtonInHeader path='resetpassword/success'/>
-        <Route component={ChangePassword} noSignInButtonInHeader path='user/changepwd'/>
 
         <IndexRoute component={NewHome} newDesign onEnter={goToDownloadPage}/>
         <Route component={NewTopic} newDesign path='topic/:topicId'/>
         <Route component={NewLogin} newDesign path='login'/>
         <Route component={NewRegistration} newDesign path='registration'/>
+        <Route component={NewResetPassword} newDesign path='resetpassword'/>
+        <Route component={ChangePassword} newDesign path='user/changepwd'/>
         <Route component={SearchResults} newDesign path='search'>
           <IndexRedirect to='posts'/>
           <Route component={SearchResultsPosts} newDesign path='posts'/>
