@@ -1,4 +1,5 @@
 @import "../../../vars";
+@import "../../../responsive";
 
 .content-profile {
   padding: 24px;
@@ -113,4 +114,34 @@
 .user-form-submit-btn {
   @include btnMedium;
   @include btnPink;
+}
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1){
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .user-photos {
+    display: block;
+  }
+  .user-avatar {
+    margin-bottom: 30px;
+  }
+  .bg-image {
+    width: 100%;
+    max-width: 250px;
+  }
+  .user-form-wrapper {
+    width: 100%;
+    max-width: 360px;
+  }
 }

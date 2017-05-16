@@ -19,18 +19,34 @@ export default class NewUserSettingsPage extends Component {
   static propTypes = {
     children: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
+    history: PropTypes.object,
     t: PropTypes.func.isRequired
+  };
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   };
 
   constructor (props) {
     super(props);
+    this.handleChange = ::this.handleChange;
+    this.state = {
+      currentPage: `/${this.props.currentLocale}/user/settings`
+    };
+  }
+
+  handleChange (event) {
+    this.setState({ currentPage: event.target.value });
+    console.log(this);
+    this.context.router.push(event.target.value);
   }
 
   render () {
     const { children, currentLocale } = this.props;
+    const { currentPage } = this.state;
 
     return (
-      <section styleName='wrapper'>
+      <section styleName='wrapper responsive-container'>
         <div styleName='content-wrapper'>
           <nav styleName='nav'>
             <ul styleName='nav-list'>
@@ -44,6 +60,11 @@ export default class NewUserSettingsPage extends Component {
                 <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/subscriptions`}>Manage Subscriptions</Link>
               </li>
             </ul>
+            <select value={currentPage} onChange={this.handleChange}>
+              <option value={`/${currentLocale}/user/settings`}>Profile</option>
+              <option value={`/${currentLocale}/user/account`}>Account</option>
+              <option value={`/${currentLocale}/user/subscriptions`}>Manage Subscriptions</option>
+            </select>
           </nav>
           <section styleName='content'>
             {children}

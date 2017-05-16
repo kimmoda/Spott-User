@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import localized from '../../../../../_common/localized';
 import * as actions from '../../../../actions';
 import { userSettingsDetailsSelector } from '../../../../selectors';
+import { IconCheck } from '../../../icons';
 
 const styles = require('./index.scss');
 
@@ -64,7 +65,7 @@ export default class NewUserSubscriptions extends Component {
                 </Link>
                 <div styleName='topic-type'>{item.get('sourceType')}</div>
               </div>
-              <button styleName='topic-btn' onClick={this.onSubscribeClick.bind(this, item.get('uuid'))}>Subscribed</button>
+              <button styleName='topic-btn' onClick={this.onSubscribeClick.bind(this, item.get('uuid'))}><span>Subscribed</span><i><IconCheck /></i></button>
             </div>
           )}
         </div>

@@ -10,7 +10,6 @@ const styles = require('./index.scss');
 export default class ImageLoader extends Component {
 
   static propTypes = {
-    autoHeight: PropTypes.string,
     imgOriginal: PropTypes.object.isRequired,
     imgThumb: PropTypes.object,
     width: PropTypes.number.isRequired,
@@ -32,23 +31,23 @@ export default class ImageLoader extends Component {
   }
 
   render () {
-    const { imgThumb, imgOriginal, width, widthThumb, autoHeight } = this.props;
+    const { imgThumb, imgOriginal, width, widthThumb } = this.props;
     const imageWidth = parseInt(width, 10);
 
     return (
       <div
         className={this.state.loaded && styles['image-loaded']}
-        style={{ height: autoHeight ? 'auto' : imgOriginal.getIn([ 'dimension', 'height' ]) * (width / imgOriginal.getIn([ 'dimension', 'width' ])) }}
+        style={{ height: imgOriginal.getIn([ 'dimension', 'height' ]) * (width / imgOriginal.getIn([ 'dimension', 'width' ])) }}
         styleName='image'>
         {imgThumb &&
         <img
-          height={autoHeight ? 'auto' : imgThumb.getIn([ 'dimension', 'height' ]) * (width / imgThumb.getIn([ 'dimension', 'width' ]))}
           src={`${imgThumb.get('url')}?width=${widthThumb || imageWidth}`}
+          style={{ height: imgThumb.getIn([ 'dimension', 'height' ]) * (width / imgThumb.getIn([ 'dimension', 'width' ])) }}
           styleName='image-thumb'/>}
         {imgOriginal &&
         <img
-          height={autoHeight ? 'auto' : imgOriginal.getIn([ 'dimension', 'height' ]) * (width / imgOriginal.getIn([ 'dimension', 'width' ]))}
           src={`${imgOriginal.get('url')}?width=${imageWidth}`}
+          style={{ height: imgOriginal.getIn([ 'dimension', 'height' ]) * (width / imgOriginal.getIn([ 'dimension', 'width' ])) }}
           styleName='image-original'
           onLoad={this.onImageLoaded}/>}
       </div>

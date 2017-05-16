@@ -94,6 +94,13 @@
 .info-subscribe-btn {
   @include btnMedium;
   margin-left: 16.5px;
+  span {
+    display: block;
+  }
+  i {
+    line-height: 10px;
+    display: none;
+  }
 }
 
 .info-subscribe-btn-subscribed {
@@ -216,8 +223,21 @@
   .info-subscribers {
     display: none;
   }
-  .info-subscribe-btn-subscribed, .info-subscribe-btn {
+  .info-subscribe-btn-subscribed {
     padding: 0 9px;
+  }
+  .info-subscribe-btn {
+    padding: 0 9px;
+    span {
+      display: none;
+    }
+    i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+    }
   }
   .info-share-wrapper {
     margin-left: 16px;

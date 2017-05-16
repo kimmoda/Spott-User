@@ -1,5 +1,5 @@
 @import "../../../vars";
-
+@import "../../../responsive";
 .account {
   display: block;
 }
@@ -76,4 +76,24 @@
   @include btnMedium;
   display: block;
   max-width: 127px;
+}
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1){
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .form-row-shrink {
+    max-width: 360px;
+    width: 100%;
+  }
 }

@@ -134,23 +134,6 @@
   i {
     display: none;
   }
-  @media (max-width: $tabletLandscapeBreakpoint) {
-    margin-left: auto;
-  }
-  @media (max-width: $phoneBreakpoint) {
-    padding: 7px;
-    margin-left: auto;
-    span {
-      display: none;
-    }
-    i {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 18px;
-      height: 18px;
-    }
-  }
 }
 
 .info-follow-btn-active {
@@ -226,6 +209,9 @@
   .info-right {
     margin-top: 24px;
   }
+  .info-follow-btn {
+    margin-left: auto;
+  }
 }
 //phone view
 @media (max-width: $phoneBreakpoint) {
@@ -250,5 +236,19 @@
     font-size: 12px;
     line-height: 1.17;
     letter-spacing: 0.4px;
+  }
+  .info-follow-btn {
+    padding: 7px;
+    margin-left: auto;
+    span {
+      display: none;
+    }
+    i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+    }
   }
 }

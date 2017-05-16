@@ -44,12 +44,19 @@ export default class Sidebar extends Component {
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
     this.onBuyClick = ::this.onBuyClick;
     this.onWishlistClick = ::this.onWishlistClick;
+    this.handleResize = ::this.handleResize;
 
     this.state = {
       currentImage: null,
       inUserWishList: null,
-      wishListCount: null
+      wishListCount: null,
+      width: 280
     };
+  }
+
+  componentDidMount () {
+    window.addEventListener('resize', this.handleResize);
+    this.getWidth();
   }
 
   componentWillReceiveProps (nextProps) {
@@ -59,6 +66,16 @@ export default class Sidebar extends Component {
         inUserWishList: nextProps.product.get('inUserWishList'),
         wishListCount: nextProps.product.get('wishListCount')
       });
+    }
+  }
+
+  handleResize () {
+    this.getWidth();
+  }
+
+  getWidth () {
+    if (this.imageContainer) {
+      this.setState({ width: this.imageContainer.clientWidth });
     }
   }
 
@@ -105,6 +122,7 @@ export default class Sidebar extends Component {
 
   render () {
     const { product, onBackClick, onProductClick, t, currentLocale } = this.props;
+    const { width } = this.state;
 
     return (
       <div styleName='sidebar'>
@@ -118,8 +136,8 @@ export default class Sidebar extends Component {
             <i><IconClose/></i>
           </div>
         </div>
-        <div styleName='sidebar-image'>
-          {this.state.currentImage && <ImageLoader autoHeight={'true'} imgOriginal={this.state.currentImage} width={424}/>}
+        <div ref={(ref) => { this.imageContainer = ref; }} styleName='sidebar-image'>
+          {this.state.currentImage && <ImageLoader imgOriginal={this.state.currentImage} width={width}/>}
         </div>
         <div styleName='sidebar-photos'>
           {product.get('images') && product.get('images').map((item, index) =>

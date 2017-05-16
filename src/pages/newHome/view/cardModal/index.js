@@ -57,8 +57,11 @@ export default class CardModal extends Component {
     this.onProductClick = ::this.onProductClick;
     this.onSidebarClose = ::this.onSidebarClose;
     this.onWrapperClick = ::this.onWrapperClick;
-
+    this.handleResize = ::this.handleResize;
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
+    this.state = {
+      width: 280
+    };
   }
 
   componentWillMount () {
@@ -71,10 +74,22 @@ export default class CardModal extends Component {
   componentDidMount () {
     this._originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    window.addEventListener('resize', this.handleResize);
+    this.getWidth();
   }
 
   componentWillUnmount () {
     document.body.style.overflow = this._originalOverflow;
+  }
+
+  handleResize () {
+    this.getWidth();
+  }
+
+  getWidth () {
+    if (this.imageContainer) {
+      this.setState({ width: this.imageContainer.clientWidth });
+    }
   }
 
   onCloseHandler () {
@@ -113,6 +128,7 @@ export default class CardModal extends Component {
 
   render () {
     const { imageThumb, spott, sidebarProducts, currentLocale, location } = this.props;
+    const { width } = this.state;
 
     return (
       <ReactModal
@@ -131,8 +147,8 @@ export default class CardModal extends Component {
               <div styleName='modal-close' onClick={this.onCloseHandler}>
                 <i><IconClose/></i>
               </div>
-              <div styleName='image'>
-                {spott.get('image') && <ImageLoader autoHeight={'true'} imgOriginal={spott.get('image')} imgThumb={imageThumb} width={592} widthThumb={280}/>}
+              <div ref={(ref) => { this.imageContainer = ref; }} styleName='image'>
+                {spott.get('image') && <ImageLoader imgOriginal={spott.get('image')} imgThumb={imageThumb} width={width} widthThumb={280}/>}
                 {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')} onMarkerClick={this.onProductClick}/>}
                 {spott.get('personMarkers') &&
                   <div styleName='persons'>

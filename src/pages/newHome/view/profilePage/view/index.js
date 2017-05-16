@@ -111,7 +111,6 @@ export default class NewUserProfile extends Component {
     const { children, currentLocale, userProfile, currentUserId } = this.props;
     const { userId } = this.props.params;
     const { isScrolledToInfo, following } = this.state;
-    console.log(this.infoContainerHeight);
     return (
       <section styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}

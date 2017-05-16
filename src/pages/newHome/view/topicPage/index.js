@@ -55,7 +55,6 @@ export default class NewTopic extends Component {
       filterVals: [ 'Test 1', 'Test 2', 'Test 3' ],
       filterSecondVal: 'Popular',
       filterSecondVals: [ 'Test 3', 'Test 4', 'Test 5' ],
-      isMobile: false,
       infoContainerHeight: null
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
@@ -64,7 +63,6 @@ export default class NewTopic extends Component {
 
   componentDidMount () {
     this.props.loadTopicDetails({ uuid: this.props.params.topicId, page: this.props.topicSpotts.get('page') || 0 });
-    this.checkIfMobile();
     this.getContainerHeight();
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleResize);
@@ -90,21 +88,12 @@ export default class NewTopic extends Component {
   }
 
   handleResize () {
-    this.checkIfMobile();
     this.getContainerHeight();
   }
 
   getContainerHeight () {
     if (this.infoChildContainer) {
       this.setState({ infoContainerHeight: this.infoChildContainer.clientHeight });
-    }
-  }
-
-  checkIfMobile () {
-    if (window.innerWidth < 600) {
-      this.setState({ isMobile: true });
-    } else {
-      this.setState({ isMobile: false });
     }
   }
 
@@ -139,21 +128,9 @@ export default class NewTopic extends Component {
     }
   }
 
-  renderButtonCaption (isMobile, topic) {
-    let content = '';
-    if (isMobile) {
-      content = <i><IconCheck/></i>;
-    } else if (topic.get('subscribed')) {
-      content = 'Subscribed';
-    } else {
-      content = 'Subscribe';
-    }
-    return content;
-  }
-
   render () {
     const { topic, topicRelated, topicSpotts } = this.props;
-    const { isScrolledToInfo, isMobile, infoContainerHeight } = this.state;
+    const { isScrolledToInfo, infoContainerHeight } = this.state;
     return (
       <section styleName='wrapper'>
         {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200')` }} styleName='poster'/>}
@@ -176,7 +153,8 @@ export default class NewTopic extends Component {
                   className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
                   styleName='info-subscribe-btn'
                   onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
-                  {this.renderButtonCaption(isMobile, topic)}
+                  <span>{topic.get('subscribed') ? 'Subscribed' : 'Subscribe'}</span>
+                  <i><IconCheck /></i>
                 </div>
                 <div styleName='info-share-wrapper'>
                   <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>
