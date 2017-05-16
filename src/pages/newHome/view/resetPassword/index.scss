@@ -1,0 +1,104 @@
+@import "../vars";
+@import "../responsive";
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.modal-overlay {
+  background-color: $overlayColorBlack;
+  z-index: 5000;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  overflow: hidden;
+  display: flex;
+  max-width: 400px;
+  width: 100%;
+  backface-visibility: hidden;
+  height: auto;
+  border-radius: 4px;
+  background-color: $colorWhite;
+  padding: 24px 24px 32px 24px;
+}
+
+.modal-close {
+  cursor: pointer;
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  transition: transform 0.5s ease;
+  z-index: 10;
+  i {
+    :global {
+      .fill {
+        fill: white;
+      }
+    }
+    svg {
+      width: 21px;
+      height: 21px;
+    }
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.reset-text {
+  @include bodyRegular($colorGrayDark);
+  margin: 24px 0 4px 0;
+}
+
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1) {
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .modal-content {
+    margin: 32px auto 0 auto;
+    position: relative;
+    max-width: 343px;
+    width: 100%;
+  }
+  .modal-overlay {
+    padding: 0 16px;
+  }
+  .modal-close {
+    right: 23.7px;
+    top: 23.7px;
+    i {
+      :global {
+        .fill {
+          fill: #a7a6a9;
+        }
+      }
+      svg {
+        width: 16.6px;
+        height: 16.6px;
+      }
+    }
+  }
+}

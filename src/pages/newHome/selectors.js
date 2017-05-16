@@ -131,6 +131,7 @@ export const userSettingsDetailsSelector = createStructuredSelector({
 export const userAccountDetailsSelector = createStructuredSelector({
   userId: currentUserIdSelector,
   currentUserProfile: currentUserProfileSelector,
+  initialValues: currentUserProfileSelector,
   token: authenticationTokenSelector
 });
 

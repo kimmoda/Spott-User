@@ -1,3 +1,4 @@
+import { SubmissionError } from 'redux-form';
 import { get, post, del } from './request';
 import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList } from './transformers';
 
@@ -147,6 +148,15 @@ export async function updateUserBackground (baseUrl, authenticationToken, locale
 export async function updateUserPassword (baseUrl, authenticationToken, locale, data) {
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/register/changepassword`, data);
   return body;
+}
+
+export async function resetUserPassword (baseUrl, authenticationToken, locale, data) {
+  try {
+    const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/register/resetpassword`, data);
+    return body;
+  } catch (error) {
+    throw new SubmissionError({ _error: error.body.message });
+  }
 }
 
 export async function setUserFollowing (baseUrl, authenticationToken, locale, { uuid, data }) {

@@ -113,7 +113,15 @@ export default class NewLogin extends Component {
               submitFailed={submitFailed}
               type='password'/>
           </div>
-          <div styleName='forgot-password'>Forgot your password?</div>
+          <Link
+            styleName='forgot-password'
+            to={this.props.location.state && this.props.location.state.modal
+              ? {
+                pathname: `/${currentLocale}/resetpassword`,
+                state: { modal: true, returnTo: this.props.location.state.returnTo }
+              } : `/${currentLocale}/resetpassword`}>
+            Forgot your password?
+          </Link>
           {errorSubmit && <div className='form-error'>{t(errorSubmit)}</div>}
           <button className='form-submit' type='submit'>Log in</button>
           <div styleName='new-user'>

@@ -55,14 +55,17 @@ export default class NewUserSettings extends Component {
   }
 
   async onSubmit (values) {
+    const userProfile = this.props.currentUserProfile;
     const data = {
       profile: {
-        email: this.props.currentUserProfile.get('email'),
+        email: userProfile.get('email'),
         firstName: values.get('firstName'),
         lastName: values.get('lastName'),
         description: values.get('description'),
         gender: values.get('gender'),
-        dateOfBirth: moment(`${values.get('yearOfBirth')} ${parseInt(values.get('monthOfBirth'), 10) + 1} ${values.get('dayOfBirth')} 0:00 +0000`, 'YYYY M D HH:mm Z')
+        dateOfBirth: moment(`${values.get('yearOfBirth')} ${parseInt(values.get('monthOfBirth'), 10) + 1} ${values.get('dayOfBirth')} 0:00 +0000`, 'YYYY M D HH:mm Z'),
+        languages: userProfile.get('languages') ? userProfile.get('languages').toJS() : [],
+        currency: userProfile.get('currency') ? userProfile.get('currency').toJS() : {}
       }
     };
     try {
