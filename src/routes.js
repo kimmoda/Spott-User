@@ -32,6 +32,7 @@ import SearchResults from './pages/newHome/view/searchResultsPage/view';
 import SearchResultsPosts from './pages/newHome/view/searchResultsPage/view/posts';
 import SearchResultsPeople from './pages/newHome/view/searchResultsPage/view/people';
 import NewResetPassword from './pages/newHome/view/resetPassword';
+import CardModal from './pages/newHome/view/cardModal';
 
 /**
  * The application routes
@@ -121,6 +122,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={NewRegistration} newDesign path='registration'/>
         <Route component={NewResetPassword} newDesign path='resetpassword'/>
         <Route component={ChangePassword} newDesign path='user/changepwd'/>
+        <Route component={CardModal} newDesign path='spott/:spottTitle/:spottId'/>
         <Route component={SearchResults} newDesign path='search'>
           <IndexRedirect to='posts'/>
           <Route component={SearchResultsPosts} newDesign path='posts'/>

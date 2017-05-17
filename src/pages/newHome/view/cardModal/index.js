@@ -36,19 +36,28 @@ export default class CardModal extends Component {
     clearSidebarProducts: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
-    imageThumb: PropTypes.object.isRequired,
     loadSidebarProduct: PropTypes.func.isRequired,
     loadSpottDetails: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      state: PropTypes.shape({
+        modal: PropTypes.bool,
+        imageThumb: PropTypes.object,
+        returnTo: PropTypes.string,
+        sidebarMarker: PropTypes.any
+      })
+    }).isRequired,
+    params: PropTypes.shape({
+      spottId: PropTypes.string.isRequired,
+      spottTitle: PropTypes.string.isRequired
+    }).isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
-    sidebarMarker: PropTypes.any,
     sidebarProducts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
-    spottId: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func
   };
 
   constructor (props) {
@@ -65,9 +74,9 @@ export default class CardModal extends Component {
   }
 
   componentWillMount () {
-    this.props.loadSpottDetails({ uuid: this.props.spottId });
-    if (this.props.sidebarMarker) {
-      this.props.loadSidebarProduct({ uuid: this.props.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: this.props.sidebarMarker.get('relevance') });
+    this.props.loadSpottDetails({ uuid: this.props.params.spottId });
+    if (this.props.location.state && this.props.location.state.sidebarMarker) {
+      this.props.loadSidebarProduct({ uuid: this.props.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: this.props.location.state.sidebarMarker.get('relevance') });
     }
   }
 
@@ -76,6 +85,16 @@ export default class CardModal extends Component {
     document.body.style.overflow = 'hidden';
     window.addEventListener('resize', this.handleResize);
     this.getWidth();
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.params.spottId && nextProps.params.spottId && this.props.params.spottId !== nextProps.params.spottId) {
+      this.props.loadSpottDetails({ uuid: nextProps.params.spottId });
+      if (nextProps.location.state && nextProps.location.state.sidebarMarker) {
+        this.props.loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
+      }
+      this.getWidth();
+    }
   }
 
   componentWillUnmount () {
@@ -95,8 +114,10 @@ export default class CardModal extends Component {
   onCloseHandler () {
     if (this.props.sidebarProducts.get('data').size) {
       this.props.clearSidebarProducts();
-    } else {
+    } else if (this.props.onClose) {
       this.props.onClose();
+    } else {
+      this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || `/${this.props.currentLocale}/`);
     }
   }
 
@@ -127,9 +148,10 @@ export default class CardModal extends Component {
   }
 
   render () {
-    const { imageThumb, spott, sidebarProducts, currentLocale, location } = this.props;
+    const { spott, sidebarProducts, currentLocale, location } = this.props;
+    const imageThumb = this.props.location.state && this.props.location.state.imageThumb ? this.props.location.state.imageThumb : null;
     const { width } = this.state;
-
+    console.log(spott.get('image'));
     return (
       <ReactModal
         className={styles['modal-content']}
@@ -148,7 +170,7 @@ export default class CardModal extends Component {
                 <i><IconClose/></i>
               </div>
               <div ref={(ref) => { this.imageContainer = ref; }} styleName='image'>
-                {spott.get('image') && <ImageLoader imgOriginal={spott.get('image')} imgThumb={imageThumb} width={width} widthThumb={280}/>}
+                {spott.get('image') && <ImageLoader imgOriginal={spott.get('image')} imgThumb={imageThumb ? imageThumb : spott.get('image')} width={width} widthThumb={80}/>}
                 {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')} onMarkerClick={this.onProductClick}/>}
                 {spott.get('personMarkers') &&
                   <div styleName='persons'>

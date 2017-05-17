@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../../../_common/localized';
 import { IconHeart, IconForward } from '../icons';
-import CardModal from '../cardModal';
 import CardMarkers from '../cardMarkers';
 import Users from '../users/index';
 import * as actions from '../../actions';
@@ -46,9 +45,7 @@ export default class Card extends Component {
 
   constructor (props) {
     super(props);
-    this.onCardClick = ::this.onCardClick;
     this.onCardMarkerClick = ::this.onCardMarkerClick;
-    this.onCardModalClose = ::this.onCardModalClose;
     this.state = {
       isCardModalOpen: false,
       sidebarProductId: null,
@@ -72,20 +69,28 @@ export default class Card extends Component {
     }
   }
 
-  onCardClick () {
-    this.setState({ isCardModalOpen: true });
-  }
-
-  onCardMarkerClick (marker) {
-    this.setState({
-      isCardModalOpen: true,
-      sidebarMarker: marker
+  showSpott (event) {
+    this.props.routerPush({
+      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/ /g, '-')}/${this.props.item.get('uuid')}`,
+      state: {
+        modal: true,
+        returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),
+        imageThumb: this.props.item.get('image')
+      }
     });
   }
 
-  onCardModalClose () {
-    this.setState({
-      isCardModalOpen: false
+  onCardMarkerClick (marker, event) {
+    console.log('mark-click', event);
+    event.stopPropagation();
+    this.props.routerPush({
+      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/ /g, '-')}/${this.props.item.get('uuid')}`,
+      state: {
+        modal: true,
+        returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),
+        imageThumb: this.props.item.get('image'),
+        sidebarMarker: marker
+      }
     });
   }
 
@@ -111,15 +116,14 @@ export default class Card extends Component {
   }
 
   render () {
-    const { item, currentLocale, spottDetails, location, width } = this.props;
+    const { item, currentLocale, spottDetails, width } = this.props;
     const { loved, loverCount } = this.state;
 
     return (
       <div styleName='card'>
-        {this.state.isCardModalOpen && <CardModal imageThumb={item.get('image')} location={location} sidebarMarker={this.state.sidebarMarker} spottId={item.get('uuid')} onClose={this.onCardModalClose}/>}
-        <div styleName='image' onClick={this.onCardClick}>
+        <div styleName='image' onClick={(event) => this.showSpott(event)}>
           <ImageLoader imgOriginal={item.get('image')} width={width}/>
-          {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onImageClick={this.onCardClick} onMarkerClick={this.onCardMarkerClick}/>}
+          {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onImageClick={(event) => this.showSpott(event)} onMarkerClick={this.onCardMarkerClick}/>}
           {spottDetails.get('personMarkers') &&
             <div styleName='persons'>
               {spottDetails.get('personMarkers').map((person) =>
@@ -133,7 +137,7 @@ export default class Card extends Component {
             </div>}
         </div>
         <div styleName='content'>
-          <div styleName='click-overlay' onClick={this.onCardClick}/>
+          <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
           {item.get('promoted') && <div styleName='reason'>Promoted</div>}
           <h3 styleName='title'>{item.get('title')}</h3>
           <div styleName='description'>
@@ -146,7 +150,7 @@ export default class Card extends Component {
           </div>}
         </div>
         {width >= 280 && <div styleName='footer'>
-          <div styleName='click-overlay' onClick={this.onCardClick}/>
+          <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
           <div
             className={loved && styles['likes-liked']}
             styleName='likes'
