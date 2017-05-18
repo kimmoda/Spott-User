@@ -154,9 +154,10 @@ export default class Sidebar extends Component {
           )}
         </div>
         <div styleName='sidebar-panel'>
+          {product && product.getIn([ 'brand', 'name' ]) &&
           <Link styleName='sidebar-brand' to={`/${currentLocale}/topic/${product.getIn([ 'brand', 'name' ]).replace(/\W+/g, '-')}/BRAND%7C${product.getIn([ 'brand', 'uuid' ])}`}>
             {product.getIn([ 'brand', 'name' ])}
-          </Link>
+          </Link> }
           <div styleName='sidebar-title2'>{product.get('longName')}</div>
           <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
           <div styleName='sidebar-options'>
