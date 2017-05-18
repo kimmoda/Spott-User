@@ -56,11 +56,11 @@ export default class NewUserSubscriptions extends Component {
               <Link
                 style={{ backgroundImage: `url('${item.getIn([ 'profileImage', 'url' ])}?width=68&height=38')` }}
                 styleName='topic-image'
-                to={`/${currentLocale}/topic/${item.get('text').replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/${item.get('uuid')}`}/>
+                to={`/${currentLocale}/topic/${item.get('text').replace(/\W+/g, '-')}/${item.get('uuid')}`}/>
               <div styleName='topic-dscr'>
                 <Link
                   styleName='topic-title'
-                  to={`/${currentLocale}/topic/${item.get('text').replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/${item.get('uuid')}`}>
+                  to={`/${currentLocale}/topic/${item.get('text').replace(/\W+/g, '-')}/${item.get('uuid')}`}>
                   {item.get('text')}
                 </Link>
                 <div styleName='topic-type'>{item.get('sourceType')}</div>

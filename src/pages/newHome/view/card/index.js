@@ -71,7 +71,7 @@ export default class Card extends Component {
 
   showSpott (event) {
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/${this.props.item.get('uuid')}`,
+      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/\W+/g, '-')}/${this.props.item.get('uuid')}`,
       state: {
         modal: true,
         returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
@@ -83,7 +83,7 @@ export default class Card extends Component {
     console.log('mark-click', event);
     event.stopPropagation();
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/${this.props.item.get('uuid')}`,
+      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/\W+/g, '-')}/${this.props.item.get('uuid')}`,
       state: {
         modal: true,
         returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),
@@ -130,7 +130,7 @@ export default class Card extends Component {
                   style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
                   styleName='person'
                   title={person.getIn([ 'character', 'name' ])}
-                  to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>
+                  to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/\W+/g, '-')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>
               )}
             </div>}
         </div>
@@ -143,7 +143,7 @@ export default class Card extends Component {
           </div>
           {width >= 280 && <div styleName='topic-links'>
             {item.get('topics').map((topic, index) =>
-              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${topic.get('text').replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/${topic.get('uuid')}`}>{topic.get('text')}</Link>
+              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${topic.get('text').replace(/\W+/g, '-')}/${topic.get('uuid')}`}>{topic.get('text')}</Link>
             )}
           </div>}
         </div>

@@ -50,7 +50,7 @@ export default class NewUserWishlistProduct extends Component {
       <div styleName='product' onClick={this.onProductClick}>
         {this.state.isProductModalOpen && <ProductModal location={location} productId={item.get('uuid')} onClose={this.onProductModalClose}/>}
         <div style={{ backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=264&height=264)` }} styleName='product-image'/>
-        <Link styleName='product-brand' to={`/${currentLocale}/topic/${item.getIn([ 'brand', 'name' ]).replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/BRAND%7C${item.getIn([ 'brand', 'uuid' ])}`}>
+        <Link styleName='product-brand' to={`/${currentLocale}/topic/${item.getIn([ 'brand', 'name' ]).replace(/\W+/g, '-')}/BRAND%7C${item.getIn([ 'brand', 'uuid' ])}`}>
           {item.getIn([ 'brand', 'name' ])}
         </Link>
         <div styleName='product-title'>
