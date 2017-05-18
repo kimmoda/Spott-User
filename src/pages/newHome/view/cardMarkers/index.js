@@ -28,7 +28,7 @@ export default class CardMarkers extends Component {
             key={`marker_${index}`}
             style={{ top: `${item.getIn([ 'point', 'y' ])}%`, left: `${item.getIn([ 'point', 'x' ])}%` }}
             styleName='marker'
-            onClick={() => onMarkerClick(item)}>
+            onClick={(e) => onMarkerClick(item, e)}>
             <div styleName='marker-wrapper'>
               <div styleName='marker-content'>
                 <div style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=48&height=48')` }} styleName='marker-image'/>
