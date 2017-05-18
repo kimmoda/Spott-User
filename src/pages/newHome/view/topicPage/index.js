@@ -123,7 +123,6 @@ export default class NewTopic extends Component {
         this.props.setTopicSubscriber({ uuid: topicId });
       }
     } else {
-      console.log(this.props.location);
       this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location && this.props.location.pathname) || '/') } });
     }
   }

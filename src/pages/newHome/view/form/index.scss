@@ -1,4 +1,5 @@
 @import "../vars";
+@import "react-select";
 
 .input {
   @include bodyRegular;
@@ -30,6 +31,13 @@
 .checkbox-error {
   border: 1px solid $colorOrange;
   padding: 2px;
+}
+
+.select {
+  @include bodyRegular;
+  width: 100%;
+  height: 32px;
+  border-radius: 3px;
 }
 
 :global {

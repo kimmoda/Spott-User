@@ -57,6 +57,7 @@ export default class NewUserAccount extends Component {
   }
 
   async onSubmit (values) {
+    console.log(values.toJS());
     const data = {
       profile: {
         email: values.get('email'),
@@ -67,7 +68,7 @@ export default class NewUserAccount extends Component {
         dateOfBirth: moment(`${values.get('yearOfBirth')} ${parseInt(values.get('monthOfBirth'), 10) + 1} ${values.get('dayOfBirth')} 0:00 +0000`, 'YYYY M D HH:mm Z'),
         languages: [
           {
-            uuid: values.get('language')
+            uuid: values.get('languages')
           }
         ],
         currency: {
@@ -76,7 +77,7 @@ export default class NewUserAccount extends Component {
       }
     };
     try {
-      await this.props.updateUserProfile({ uuid: this.props.userId, data });
+      // await this.props.updateUserProfile({ uuid: this.props.userId, data });
       this.state = {
         emailInputVisible: false
       };
@@ -138,7 +139,7 @@ export default class NewUserAccount extends Component {
                 <label className='form-label form-label-required'>Primary Language</label>
                 <Field
                   component={FormSelect}
-                  name='language'
+                  name='languages'
                   options={[ { value: 'nl', label: 'Nederlands' }, { value: 'en', label: 'English' }, { value: 'fr', label: 'Français' } ]}
                   submitFailed={submitFailed}/>
               </div>
@@ -167,8 +168,9 @@ export default class NewUserAccount extends Component {
                 <label className='form-label'>Local Content</label>
                 <Field
                   component={FormSelect}
+                  multiple
                   name='content'
-                  options={[ { value: 'nl', label: 'Dutch' }, { value: 'en', label: 'English' }, { value: 'fr', label: 'Français' } ]}
+                  options={[ { value: 'BE', label: 'Belgium' }, { value: 'GB', label: 'United Kingdom' }, { value: 'FR', label: 'France' } ]}
                   submitFailed={submitFailed}/>
               </div>
             </div>
@@ -178,8 +180,9 @@ export default class NewUserAccount extends Component {
                 <label className='form-label'>Preferred Shopping Regions</label>
                 <Field
                   component={FormSelect}
-                  name='shopContent'
-                  options={[ { value: 'nl', label: 'Dutch' }, { value: 'en', label: 'English' }, { value: 'fr', label: 'French' } ]}
+                  multiple
+                  name='shoppingCountries'
+                  options={[ { value: 'BE', label: 'Belgium' }, { value: 'GB', label: 'United Kingdom' }, { value: 'FR', label: 'France' } ]}
                   submitFailed={submitFailed}/>
               </div>
             </div>

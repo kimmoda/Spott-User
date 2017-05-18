@@ -87,9 +87,8 @@ export default class NewHome extends Component {
                 if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
                   promotedIndex++;
                   return [
-
                     <div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width} /></div>,
-                    <div key={`home_card_${index}`} location={location} styleName='card-selector'><Card item={spottsPromoted.getIn([ 'data', promotedIndex - 1 ])} key={`home_card_${index}`} location={location} spottId={spottsPromoted.getIn([ 'data', promotedIndex - 1, 'uuid' ])} width={width} /></div>
+                    <div key={`home_card_${index}`} styleName='card-selector'><Card item={spottsPromoted.getIn([ 'data', promotedIndex - 1 ])} key={`home_card_${index}`} location={location} spottId={spottsPromoted.getIn([ 'data', promotedIndex - 1, 'uuid' ])} width={width} /></div>
                   ];
                 }
                 return (<div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width}/></div>);

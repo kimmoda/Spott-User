@@ -3,7 +3,7 @@ import { get, post, del } from './request';
 import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=10`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=20`);
   return body;
 }
 
