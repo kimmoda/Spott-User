@@ -98,6 +98,7 @@ export default class CardModal extends Component {
 
   componentWillUnmount () {
     document.body.style.overflow = this._originalOverflow;
+    window.removeEventListener('resize', this.handleResize);
   }
 
   handleResize () {
@@ -177,7 +178,7 @@ export default class CardModal extends Component {
                         style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
                         styleName='person'
                         title={person.getIn([ 'character', 'name' ])}
-                        to={`/${currentLocale}/topic/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>
+                        to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>
                     )}
                   </div>}
               </div>
@@ -200,7 +201,7 @@ export default class CardModal extends Component {
                 </div>
                 <div styleName='topic-links'>
                   {spott.get('topics') && spott.get('topics').map((topic, index) =>
-                    <Link key={`m_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${topic.get('uuid')}`}>{topic.get('text')}</Link>
+                    <Link key={`m_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${topic.get('text').replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/${topic.get('uuid')}`}>{topic.get('text')}</Link>
                   )}
                 </div>
               </div>

@@ -33,6 +33,10 @@ export default class Cards extends Component {
     this.getWidth();
   }
 
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
   handleResize () {
     this.getWidth();
   }
