@@ -42,7 +42,6 @@ export default class CardModal extends Component {
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
         modal: PropTypes.bool,
-        imageThumb: PropTypes.object,
         returnTo: PropTypes.string,
         sidebarMarker: PropTypes.any
       })
@@ -149,9 +148,7 @@ export default class CardModal extends Component {
 
   render () {
     const { spott, sidebarProducts, currentLocale, location } = this.props;
-    const imageThumb = this.props.location.state && this.props.location.state.imageThumb ? this.props.location.state.imageThumb : null;
     const { width } = this.state;
-    console.log(spott.get('image'));
     return (
       <ReactModal
         className={styles['modal-content']}
@@ -170,7 +167,7 @@ export default class CardModal extends Component {
                 <i><IconClose/></i>
               </div>
               <div ref={(ref) => { this.imageContainer = ref; }} styleName='image'>
-                {spott.get('image') && <ImageLoader imgOriginal={spott.get('image')} imgThumb={imageThumb ? imageThumb : spott.get('image')} width={width} widthThumb={80}/>}
+                {spott.get('image') && <ImageLoader imgOriginal={spott.get('image')} imgThumb={spott.get('image')} width={width} widthThumb={280}/>}
                 {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')} onMarkerClick={this.onProductClick}/>}
                 {spott.get('personMarkers') &&
                   <div styleName='persons'>

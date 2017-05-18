@@ -74,8 +74,7 @@ export default class Card extends Component {
       pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/ /g, '-')}/${this.props.item.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),
-        imageThumb: this.props.item.get('image')
+        returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
       }
     });
   }
@@ -88,7 +87,6 @@ export default class Card extends Component {
       state: {
         modal: true,
         returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),
-        imageThumb: this.props.item.get('image'),
         sidebarMarker: marker
       }
     });

@@ -30,10 +30,6 @@ export default class ImageLoader extends Component {
     });
   }
 
-  componentWillUnmount () {
-    console.log('image unload !!!! unmount');
-  }
-
   render () {
     const { imgThumb, imgOriginal, width, widthThumb } = this.props;
     const imageWidth = parseInt(width, 10);
