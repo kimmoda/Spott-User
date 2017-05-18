@@ -78,6 +78,7 @@ export default class NewTopic extends Component {
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
   }
 
   handleScroll () {

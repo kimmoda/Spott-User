@@ -69,6 +69,10 @@ export default class Sidebar extends Component {
     }
   }
 
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
   handleResize () {
     this.getWidth();
   }

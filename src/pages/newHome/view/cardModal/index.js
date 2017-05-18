@@ -98,6 +98,7 @@ export default class CardModal extends Component {
 
   componentWillUnmount () {
     document.body.style.overflow = this._originalOverflow;
+    window.removeEventListener('resize', this.handleResize);
   }
 
   handleResize () {
