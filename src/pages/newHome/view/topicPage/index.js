@@ -32,6 +32,7 @@ export default class NewTopic extends Component {
     loadTopicSpottsMore: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     params: PropTypes.shape({
+      topicTitle: PropTypes.string.isRequired,
       topicId: PropTypes.string.isRequired
     }),
     removeTopicSubscriber: PropTypes.func.isRequired,

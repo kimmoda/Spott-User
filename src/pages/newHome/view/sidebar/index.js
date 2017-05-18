@@ -154,7 +154,7 @@ export default class Sidebar extends Component {
           )}
         </div>
         <div styleName='sidebar-panel'>
-          <Link styleName='sidebar-brand' to={`/${currentLocale}/topic/BRAND%7C${product.getIn([ 'brand', 'uuid' ])}`}>
+          <Link styleName='sidebar-brand' to={`/${currentLocale}/topic/${product.getIn([ 'brand', 'name' ]).replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/BRAND%7C${product.getIn([ 'brand', 'uuid' ])}`}>
             {product.getIn([ 'brand', 'name' ])}
           </Link>
           <div styleName='sidebar-title2'>{product.get('longName')}</div>

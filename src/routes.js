@@ -117,7 +117,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Mobile} path='mobile/download' standalone/>
 
         <IndexRoute component={NewHome} newDesign onEnter={goToDownloadPage}/>
-        <Route component={NewTopic} newDesign path='topic/:topicId'/>
+        <Route component={NewTopic} newDesign path='topic/:topicTitle/:topicId'/>
         <Route component={NewLogin} newDesign path='login'/>
         <Route component={NewRegistration} newDesign path='registration'/>
         <Route component={NewResetPassword} newDesign path='resetpassword'/>
