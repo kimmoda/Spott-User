@@ -23,7 +23,7 @@ export default class Topics extends Component {
     const { currentLocale, item } = this.props;
 
     return (
-      <Link styleName='topic' to={`/${currentLocale}/topic/${item.get('text').replace(/ +/g, '-').replace(/\.+/g, '-').replace(/%+/g, '')}/${item.get('uuid')}`}>
+      <Link styleName='topic' to={`/${currentLocale}/topic/${item.get('text').replace(/\W+/g, '-')}/${item.get('uuid')}`}>
         <div
           style={{ backgroundImage: `url(${item.getIn([ 'profileImage', 'url' ])})` }}
           styleName='topic-image'/>
