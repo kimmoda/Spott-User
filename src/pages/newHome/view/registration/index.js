@@ -12,18 +12,16 @@ import localized from '../../../_common/localized';
 import * as actions from '../../../register/actions';
 import { validateRegistrationForm } from './validateForm';
 import { FormInput, FormRadio, FormSelect, FormCheckbox } from '../form';
-import { registrationFacebookErrorSelector, registrationFacebookIsLoadingSelector } from '../../../app/selector';
 import FacebookRegisterButton from './facebookRegisterButton';
 import { IconClose } from '../icons';
+import * as newActions from '../../actions';
+import { registrationFormSelector } from '../../selectors';
 
 const styles = require('./index.scss');
 
 @localized
-@connect((state, ownProps) => ({
-  facebookError: registrationFacebookErrorSelector(state),
-  facebookIsLoading: registrationFacebookIsLoadingSelector(state)
-}),
-(dispatch) => ({
+@connect(registrationFormSelector, (dispatch) => ({
+  loadRegistrationFormDefaults: bindActionCreators(newActions.loadRegistrationFormDefaults, dispatch),
   submit: bindActionCreators(actions.submit, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
 }))
@@ -39,6 +37,7 @@ export default class NewRegistration extends Component {
     facebookError: PropTypes.any,
     facebookIsLoading: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    loadRegistrationFormDefaults: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -50,6 +49,8 @@ export default class NewRegistration extends Component {
     submit: PropTypes.func.isRequired,
     submitFailed: PropTypes.bool,
     submitting: PropTypes.bool.isRequired,
+    systemCountries: PropTypes.object.isRequired,
+    systemLanguages: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired
   };
 
@@ -62,6 +63,7 @@ export default class NewRegistration extends Component {
   componentDidMount () {
     this._originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    this.props.loadRegistrationFormDefaults();
   }
 
   componentWillUnmount () {
@@ -82,8 +84,7 @@ export default class NewRegistration extends Component {
   }
 
   render () {
-    const { error, handleSubmit, t, submitFailed, currentLocale, facebookIsLoading, facebookError, submitting } = this.props;
-
+    const { error, handleSubmit, t, submitFailed, currentLocale, facebookIsLoading, facebookError, submitting, systemCountries, systemLanguages } = this.props;
     return (
       <ReactModal
         className={styles['modal-content']}
@@ -185,15 +186,23 @@ export default class NewRegistration extends Component {
             <Field
               component={FormSelect}
               name='country'
-              options={[ { value: 'Belgium', label: 'Belgium' } ]}
+              options={
+                Boolean(systemCountries.get('data') && systemCountries.get('data').size) && systemCountries.get('data').toJS().map((item) => {
+                  return { value: item.uuid, label: item.name };
+                })
+              }
               submitFailed={submitFailed}/>
           </div>
           <div className='form-row'>
             <label className='form-label'>Language</label>
             <Field
               component={FormSelect}
-              name='country'
-              options={[ { value: 'nl', label: 'Dutch' }, { value: 'en', label: 'English' }, { value: 'fr', label: 'French' } ]}
+              name='language'
+              options={
+                Boolean(systemLanguages.get('data') && systemLanguages.get('data').size) && systemLanguages.get('data').toJS().map((item) => {
+                  return { value: item.uuid, label: item.name };
+                })
+              }
               submitFailed={submitFailed}/>
           </div>
           <div className='form-row'>

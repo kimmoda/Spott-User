@@ -4,7 +4,6 @@ import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm, Field } from 'redux-form/immutable';
-import moment from 'moment';
 import { Link } from 'react-router';
 import localized from '../../../../../_common/localized';
 import * as actions from '../../../../actions';
@@ -46,18 +45,10 @@ export default class NewUserAccount extends Component {
 
   constructor (props) {
     super(props);
-
     this.onSubmit = ::this.onSubmit;
-    this.onEmailChangeClick = ::this.onEmailChangeClick;
-    this.onPasswordChangeClick = ::this.onPasswordChangeClick;
-
-    this.state = {
-      emailInputVisible: false
-    };
   }
 
   async onSubmit (values) {
-    console.log(values.toJS());
     const data = {
       profile: {
         email: values.get('email'),
@@ -65,19 +56,26 @@ export default class NewUserAccount extends Component {
         lastName: values.get('lastName'),
         description: values.get('description'),
         gender: values.get('gender'),
-        dateOfBirth: moment(`${values.get('yearOfBirth')} ${parseInt(values.get('monthOfBirth'), 10) + 1} ${values.get('dayOfBirth')} 0:00 +0000`, 'YYYY M D HH:mm Z'),
+        dateOfBirth: values.get('dateOfBirth'),
         languages: [
           {
-            uuid: values.get('languages')
+            uuid: values.get('languagesForm')
           }
         ],
         currency: {
-          code: values.get('currency')
-        }
+          code: values.get('currencyForm')
+        },
+        shoppingCountries: values.get('shoppingCountriesForm').map((item) => { return { uuid: item }; }),
+        contentRegions: values.get('contentRegionsForm').map((item) => {
+          return {
+            country: { uuid: item.split('-')[0] },
+            language: { uuid: item.split('-')[1] }
+          };
+        })
       }
     };
     try {
-      // await this.props.updateUserProfile({ uuid: this.props.userId, data });
+      await this.props.updateUserProfile({ uuid: this.props.userId, data });
       this.state = {
         emailInputVisible: false
       };
@@ -87,21 +85,8 @@ export default class NewUserAccount extends Component {
     }
   }
 
-  onEmailChangeClick () {
-    this.setState({
-      emailInputVisible: true
-    });
-  }
-
-  onPasswordChangeClick () {
-    this.setState({
-      passwordInputVisible: !this.state.passwordInputVisible
-    });
-  }
-
   render () {
-    const { submitFailed, submitting, currentUserProfile, handleSubmit, currentLocale, location } = this.props;
-    const { emailInputVisible } = this.state;
+    const { submitFailed, submitting, handleSubmit, currentLocale, location } = this.props;
 
     return (
       <div styleName='account'>
@@ -111,18 +96,12 @@ export default class NewUserAccount extends Component {
             <div styleName='block'>
               <div styleName='form-row form-row-shrink'>
                 <label className='form-label form-label-required'>Email Address</label>
-                <div style={{ display: emailInputVisible ? 'block' : 'none' }} styleName='password-input'>
-                  <Field
-                    component={FormInput}
-                    name='email'
-                    placeholder='Type new email'
-                    submitFailed={submitFailed}
-                    type='email'/>
-                </div>
-                <div style={{ display: emailInputVisible ? 'none' : 'flex' }} styleName='email'>
-                  <div styleName='email-text'>{currentUserProfile.get('email') || currentUserProfile.get('username')}</div>
-                  <div styleName='email-change' onClick={this.onEmailChangeClick}>Change email</div>
-                </div>
+                <Field
+                  component={FormInput}
+                  name='email'
+                  placeholder='Type new email'
+                  submitFailed={submitFailed}
+                  type='email'/>
               </div>
               <div styleName='form-row form-row-shrink'>
                 <label className='form-label'>Password</label>
@@ -139,16 +118,16 @@ export default class NewUserAccount extends Component {
                 <label className='form-label form-label-required'>Primary Language</label>
                 <Field
                   component={FormSelect}
-                  name='languages'
-                  options={[ { value: 'nl', label: 'Nederlands' }, { value: 'en', label: 'English' }, { value: 'fr', label: 'Français' } ]}
+                  name='languagesForm'
+                  options={[ { value: 'nl', label: 'Nederlands' }, { value: 'en', label: 'English', clearableValue: false }, { value: 'fr', label: 'Français' } ]}
                   submitFailed={submitFailed}/>
               </div>
               <div styleName='form-row form-row-shrink'>
                 <label className='form-label form-label-required'>Currency</label>
                 <Field
                   component={FormSelect}
-                  name='currency'
-                  options={[ { value: 'EUR', label: 'Euro € (EUR)' }, { value: 'USD', label: 'US Dollar $ (USD)' } ]}
+                  name='currencyForm'
+                  options={[ { value: 'EUR', label: 'Euro € (EUR)', clearableValue: false }, { value: 'USD', label: 'US Dollar $ (USD)' } ]}
                   submitFailed={submitFailed}/>
               </div>
             </div>
@@ -169,8 +148,18 @@ export default class NewUserAccount extends Component {
                 <Field
                   component={FormSelect}
                   multiple
-                  name='content'
-                  options={[ { value: 'BE', label: 'Belgium' }, { value: 'GB', label: 'United Kingdom' }, { value: 'FR', label: 'France' } ]}
+                  name='contentRegionsForm'
+                  options={[
+                    { value: 'BE-de', label: 'Belgium (Deutch)', clearableValue: false },
+                    { value: 'BE-fr', label: 'Belgium (Français)' },
+                    { value: 'BE-nl', label: 'Belgium (Nederlands)' },
+                    { value: 'BE-en', label: 'Belgium (English)' },
+                    { value: 'FR-fr', label: 'France' },
+                    { value: 'DE-de', label: 'Germany' },
+                    { value: 'GB-en', label: 'United Kingdom' },
+                    { value: 'BR-pt', label: 'Brazil' },
+                    { value: 'US-en', label: 'United States' }
+                  ]}
                   submitFailed={submitFailed}/>
               </div>
             </div>
@@ -181,8 +170,15 @@ export default class NewUserAccount extends Component {
                 <Field
                   component={FormSelect}
                   multiple
-                  name='shoppingCountries'
-                  options={[ { value: 'BE', label: 'Belgium' }, { value: 'GB', label: 'United Kingdom' }, { value: 'FR', label: 'France' } ]}
+                  name='shoppingCountriesForm'
+                  options={[
+                    { value: 'BE', label: 'Belgium', clearableValue: false },
+                    { value: 'FR', label: 'France' },
+                    { value: 'DE', label: 'Germany' },
+                    { value: 'GB', label: 'United Kingdom' },
+                    { value: 'BR', label: 'Brazil' },
+                    { value: 'US', label: 'United States' }
+                  ]}
                   submitFailed={submitFailed}/>
               </div>
             </div>

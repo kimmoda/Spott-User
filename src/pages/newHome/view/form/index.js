@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import Select from 'react-select';
+import Immutable, { fromJS } from 'immutable';
 import localized from '../../../_common/localized';
 
 const styles = require('./index.scss');
@@ -105,9 +106,10 @@ export class FormSelect extends Component {
           options={options}
           required
           styleName='select'
+          value={Immutable.Iterable.isIterable(input.value) ? input.value.toJS() : input.value}
           onBlur={() => {
             if (multiple) {
-              return input.onBlur([ ...input.value ]);
+              return input.onBlur(Immutable.Iterable.isIterable(input.value) ? [ ...input.value ] : fromJS(input.value));
             }
             return input.onBlur(input.value);
           }}

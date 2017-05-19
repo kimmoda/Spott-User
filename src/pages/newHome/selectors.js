@@ -159,3 +159,17 @@ export const searchResultsSelector = createStructuredSelector({
   posts: searchPostsSelector,
   persons: searchPersonsSelector
 });
+
+export const registrationFacebookErrorSelector = (state) => state.getIn([ 'app', 'registration', 'error' ]);
+export const registrationFacebookIsLoadingSelector = (state) => state.getIn([ 'app', 'registration', 'isLoading' ]);
+const registrationFormDefaultsSelector = (state) => state.getIn([ 'newHome', 'registrationFormDefaults' ]);
+const systemLanguagesSelector = (state) => state.getIn([ 'newHome', 'systemLanguages' ]);
+const systemCountriesSelector = (state) => state.getIn([ 'newHome', 'systemCountries' ]);
+
+export const registrationFormSelector = createStructuredSelector({
+  systemLanguages: systemLanguagesSelector,
+  systemCountries: systemCountriesSelector,
+  initialValues: registrationFormDefaultsSelector,
+  facebookError: registrationFacebookErrorSelector,
+  facebookIsLoading: registrationFacebookIsLoadingSelector
+});

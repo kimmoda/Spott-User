@@ -24,10 +24,14 @@ export function transformUser ({ uuid, userName, profile }) {
     dayOfBirth: moment(profile.dateOfBirth).get('date'),
     monthOfBirth: moment(profile.dateOfBirth).get('month'),
     yearOfBirth: moment(profile.dateOfBirth).get('year'),
-    languages: profile.languages ? profile.languages[0].uuid : null,
-    currency: profile.currency ? profile.currency.code : null,
-    shoppingCountries: profile.shoppingCountries ? profile.shoppingCountries.map((item) => item.uuid) : null
-    // contentRegions: profile.contentRegions ? profile.contentRegions : null
+    languages: profile.languages ? profile.languages : null,
+    languagesForm: profile.languages ? profile.languages[0].uuid : null,
+    currency: profile.currency ? profile.currency : null,
+    currencyForm: profile.currency ? profile.currency.code : null,
+    shoppingCountries: profile.shoppingCountries ? profile.shoppingCountries : null,
+    shoppingCountriesForm: profile.shoppingCountries ? profile.shoppingCountries.map((item) => item.uuid) : null,
+    contentRegions: profile.contentRegions ? profile.contentRegions : null,
+    contentRegionsForm: profile.contentRegions ? profile.contentRegions.map((item) => `${item.country.uuid}-${item.language.uuid}`) : null
   };
 }
 
