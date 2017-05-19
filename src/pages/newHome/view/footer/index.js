@@ -46,8 +46,8 @@ export default class Footer extends Component {
                   <Link styleName='footer-nav-link' to='#'>Contact</Link>
                 </div>
                 <div styleName='footer-nav'>
-                  <Link styleName='footer-nav-link' to='#'>Terms</Link>
-                  <Link styleName='footer-nav-link' to='#'>Privacy</Link>
+                  <Link styleName='footer-nav-link' to={`/${currentLocale}/terms`}>Terms</Link>
+                  <Link styleName='footer-nav-link' to={`/${currentLocale}/privacy`}>Privacy</Link>
                   <Link styleName='footer-nav-link' to='#'>Business</Link>
                 </div>
               </nav>
