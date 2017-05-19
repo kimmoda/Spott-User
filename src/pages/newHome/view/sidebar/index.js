@@ -30,7 +30,20 @@ export default class Sidebar extends Component {
     currentUserId: PropTypes.string,
     isAuthenticated: PropTypes.string,
     loadUserWishlist: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      state: PropTypes.shape({
+        modal: PropTypes.bool,
+        returnTo: PropTypes.string,
+        sidebarMarker: PropTypes.any
+      })
+    }).isRequired,
+    params: PropTypes.shape({
+      spottId: PropTypes.string,
+      spottTitle: PropTypes.string,
+      productTitle: PropTypes.string,
+      complexId: PropTypes.string
+    }).isRequired,
     product: PropTypes.any.isRequired,
     removeProductFromWishlist: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
@@ -201,7 +214,7 @@ export default class Sidebar extends Component {
                     key={`product_${index}`}
                     style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=80&height=80'` }}
                     styleName='sidebar-similar'
-                    onClick={onProductClick.bind(this, item.get('uuid'))}/>
+                    onClick={onProductClick.bind(this, item.get('uuid'), item.get('shortName'))}/>
                 )}
               </Tiles>
             </div>

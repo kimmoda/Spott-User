@@ -47,8 +47,10 @@ export default class CardModal extends Component {
       })
     }).isRequired,
     params: PropTypes.shape({
-      spottId: PropTypes.string.isRequired,
-      spottTitle: PropTypes.string.isRequired
+      spottId: PropTypes.string,
+      spottTitle: PropTypes.string,
+      productTitle: PropTypes.string,
+      complexId: PropTypes.string
     }).isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
@@ -73,9 +75,15 @@ export default class CardModal extends Component {
   }
 
   componentWillMount () {
-    this.props.loadSpottDetails({ uuid: this.props.params.spottId });
-    if (this.props.location.state && this.props.location.state.sidebarMarker) {
-      this.props.loadSidebarProduct({ uuid: this.props.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: this.props.location.state.sidebarMarker.get('relevance') });
+    if (this.props.params.spottId) {
+      this.props.loadSpottDetails({ uuid: this.props.params.spottId });
+      if (this.props.location.state && this.props.location.state.sidebarMarker) {
+        this.props.loadSidebarProduct({ uuid: this.props.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: this.props.location.state.sidebarMarker.get('relevance') });
+      }
+    } else if (this.props.params.complexId) {
+      const ids = this.props.params.complexId.split('_');
+      this.props.loadSpottDetails({ uuid: ids[0] });
+      this.props.loadSidebarProduct({ uuid: ids[1] });
     }
   }
 
@@ -87,10 +95,21 @@ export default class CardModal extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props.params.spottId && nextProps.params.spottId && this.props.params.spottId !== nextProps.params.spottId) {
+    if ((this.props.params.spottId && nextProps.params.spottId && this.props.params.spottId !== nextProps.params.spottId) || (this.props.params.complexId && nextProps.params.spottId)) {
       this.props.loadSpottDetails({ uuid: nextProps.params.spottId });
       if (nextProps.location.state && nextProps.location.state.sidebarMarker) {
         this.props.loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
+      }
+      this.getWidth();
+    }
+
+    if ((this.props.params.complexId && nextProps.params.complexId && this.props.params.complexId !== nextProps.params.complexId) || (this.props.params.spottId && nextProps.params.complexId)) {
+      const ids = nextProps.params.complexId.split('_');
+      this.props.loadSpottDetails({ uuid: ids[0] });
+      if (nextProps.location.state && nextProps.location.state.sidebarMarker) {
+        this.props.loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
+      } else {
+        this.props.loadSidebarProduct({ uuid: ids[1] });
       }
       this.getWidth();
     }
@@ -114,6 +133,7 @@ export default class CardModal extends Component {
   onCloseHandler () {
     if (this.props.sidebarProducts.get('data').size) {
       this.props.clearSidebarProducts();
+      this.props.routerPush((this.props.params && `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${this.props.params.complexId.split('_')[0]}`) || `/${this.props.currentLocale}/`);
     } else if (this.props.onClose) {
       this.props.onClose();
     } else {
@@ -122,11 +142,24 @@ export default class CardModal extends Component {
   }
 
   onProductClick (marker) {
-    this.props.loadSidebarProduct({ uuid: marker.getIn([ 'product', 'uuid' ]), relevance: marker.get('relevance') });
+    this.props.routerPush({
+      pathname: `/${this.props.currentLocale}/spott/${this.props.spott.get('title').replace(/\W+/g, '-')}/${marker.getIn([ 'product', 'shortName' ]).replace(/\W+/g, '-')}/${this.props.spott.get('uuid')}_${ marker.getIn([ 'product', 'uuid' ])}`,
+      state: {
+        modal: true,
+        returnTo: (this.props.location.pathname || '/')
+      }
+    });
   }
 
   onSidebarClose () {
     this.props.clearSidebarProducts();
+    this.props.routerPush({
+      pathname: `/${this.props.currentLocale}/spott/${this.props.spott.get('title').replace(/\W+/g, '-')}/${this.props.spott.get('uuid')}`,
+      state: {
+        modal: true,
+        returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
+      }
+    });
   }
 
   onWrapperClick (e) {
@@ -148,8 +181,9 @@ export default class CardModal extends Component {
   }
 
   render () {
-    const { spott, sidebarProducts, currentLocale, location } = this.props;
+    const { spott, sidebarProducts, currentLocale, location, params } = this.props;
     const { width } = this.state;
+
     return (
       <ReactModal
         className={styles['modal-content']}
@@ -234,7 +268,7 @@ export default class CardModal extends Component {
               </div>}
           </div>
         </div>
-        <Sidebars location={location} onSidebarClose={this.onSidebarClose}/>
+        <Sidebars location={location} params={params} routerPush={routerPush} onSidebarClose={this.onSidebarClose}/>
       </ReactModal>
     );
   }
