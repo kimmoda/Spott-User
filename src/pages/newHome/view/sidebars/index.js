@@ -20,9 +20,24 @@ const styles = require('./index.scss');
 @CSSModules(styles, { allowMultiple: true })
 export default class Sidebars extends Component {
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     loadSidebarProduct: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      state: PropTypes.shape({
+        modal: PropTypes.bool,
+        returnTo: PropTypes.string,
+        sidebarMarker: PropTypes.any
+      })
+    }).isRequired,
+    params: PropTypes.shape({
+      spottId: PropTypes.string,
+      spottTitle: PropTypes.string,
+      productTitle: PropTypes.string,
+      complexId: PropTypes.string
+    }).isRequired,
     removeSidebarProduct: PropTypes.func.isRequired,
+    routerPush: PropTypes.func.isRequired,
     sidebarProducts: PropTypes.any.isRequired,
     singleMode: PropTypes.bool,
     t: PropTypes.func.isRequired,
@@ -41,17 +56,23 @@ export default class Sidebars extends Component {
 
   async onBackClick (productId) {
     await this.props.removeSidebarProduct({ uuid: productId });
-    if (!this.props.sidebarProducts.get('data').size) {
-      this.props.onSidebarClose();
-    }
+    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || (this.props.params && `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${this.props.params.complexId.split('_')[0]}`) || this.props.currentLocale && `/${this.props.currentLocale}/`);
   }
 
-  onProductClick (productId) {
+  onProductClick (productId, productName) {
     this.props.loadSidebarProduct({ uuid: productId });
+    const spottId = this.props.params.complexId.split('_')[0];
+    this.props.routerPush({
+      pathname: `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${productName.replace(/\W+/g, '-')}/${spottId}_${productId}`,
+      state: {
+        modal: true,
+        returnTo: (this.props.location.pathname || '/')
+      }
+    });
   }
 
   render () {
-    const { sidebarProducts, singleMode, location } = this.props;
+    const { sidebarProducts, singleMode, location, params } = this.props;
 
     return (
     <div className={!singleMode && (sidebarProducts.get('data').size ? styles['sidebars-active'] : styles['sidebars-inactive'])} styleName='sidebars'>
@@ -75,6 +96,7 @@ export default class Sidebars extends Component {
                 <Sidebar
                   key={`sidebar_${index}`}
                   location={location}
+                  params={params}
                   product={product}
                   onBackClick={this.onBackClick}
                   onProductClick={this.onProductClick}/>
