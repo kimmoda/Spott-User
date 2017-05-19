@@ -63,7 +63,7 @@ export default class SearchResults extends Component {
               activeClassName={styles['nav-item-active']}
               styleName='nav-item'
               to={`/${currentLocale}/search/posts?q=${location.query.q}`}>
-              Posts
+              Spotts
             </Link>
             <Link
               activeClassName={styles['nav-item-active']}

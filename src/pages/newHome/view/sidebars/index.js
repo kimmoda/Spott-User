@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push as routerPush } from 'react-router-redux';
 import CSSModules from 'react-css-modules';
 import localized from '../../../_common/localized';
 import Sidebar from '../sidebar/index';
@@ -15,6 +16,7 @@ const styles = require('./index.scss');
 @localized
 @connect(sidebarProductsSelector, (dispatch) => ({
   loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch),
   removeSidebarProduct: bindActionCreators(actions.removeSidebarProduct, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
@@ -56,14 +58,16 @@ export default class Sidebars extends Component {
 
   async onBackClick (productId) {
     await this.props.removeSidebarProduct({ uuid: productId });
-    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || (this.props.params && `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${this.props.params.complexId.split('_')[0]}`) || this.props.currentLocale && `/${this.props.currentLocale}/`);
+    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || (this.props.params && `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${this.props.params.complexId.split('}{')[0].replace('{', '')}`) || `/${this.props.currentLocale}/`);
   }
 
   onProductClick (productId, productName) {
+    console.log(productId);
     this.props.loadSidebarProduct({ uuid: productId });
-    const spottId = this.props.params.complexId.split('_')[0];
+    const spottId = this.props.params.complexId.split('}{')[0].replace('{', '');
+    console.log(this.props.location.pathname, `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${productName.replace(/\W+/g, '-')}/{${spottId}}{${productId}}`);
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${productName.replace(/\W+/g, '-')}/${spottId}_${productId}`,
+      pathname: `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${productName.replace(/\W+/g, '-')}/{${spottId}}{${productId}}`,
       state: {
         modal: true,
         returnTo: (this.props.location.pathname || '/')

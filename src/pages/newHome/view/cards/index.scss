@@ -19,6 +19,10 @@
   }
 }
 
+.cards-container {
+  margin: auto;
+}
+
 .card-selector {
   width: 316px;
   padding: 0 16px;
@@ -27,6 +31,9 @@
   }
 }
 
+.left-align {
+  margin: initial !important;
+}
 //phone view
 @media (max-width: 650px) {
   .card-selector {
@@ -36,6 +43,9 @@
     & > div {
       width: 100% !important;
     }
+  }
+  .left-align {
+    margin: auto !important;
   }
 }
 

@@ -80,11 +80,10 @@ export default class Card extends Component {
   }
 
   onCardMarkerClick (marker, event) {
-    console.log('mark-click');
     event.stopPropagation();
 
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/\W+/g, '-')}/${marker.getIn([ 'product', 'shortName' ]).replace(/\W+/g, '-')}/${this.props.item.get('uuid')}_${marker.getIn([ 'product', 'uuid' ])}`,
+      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/\W+/g, '-')}/${marker.getIn([ 'product', 'shortName' ]).replace(/\W+/g, '-')}/{${this.props.item.get('uuid')}}_{${marker.getIn([ 'product', 'uuid' ])}}`,
       state: {
         modal: true,
         returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),

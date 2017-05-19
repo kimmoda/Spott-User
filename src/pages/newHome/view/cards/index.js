@@ -24,7 +24,8 @@ export default class Cards extends Component {
     super(props);
     this.handleResize = ::this.handleResize;
     this.state = {
-      width: 280
+      cardWidth: 280,
+      cardContainerWidth: 0
     };
   }
 
@@ -42,26 +43,31 @@ export default class Cards extends Component {
   }
 
   getWidth () {
-    if (this.cardsContainer) {
+    if (this.cardsWrapper) {
       if (window.outerWidth <= 640 && window.outerWidth > 425) {
-        this.setState({ width: (this.cardsContainer.clientWidth - 64) / 2 });
+        this.setState({ cardWidth: (this.cardsWrapper.clientWidth - 64) / 2 });
       } else if (window.outerWidth <= 425) {
-        this.setState({ width: (this.cardsContainer.clientWidth - 32) / 2 });
+        this.setState({ cardWidth: (this.cardsWrapper.clientWidth - 32) / 2 });
       } else {
-        this.setState({ width: 280 });
+        this.setState({ cardWidth: 280 });
       }
+    }
+
+    if (this.cardsContainer) {
+      this.setState({ cardContainerWidth: this.cardsContainer.masonry.element.clientWidth });
+      console.log(this.state.width, this.state.width*4, this.state.cardContainerWidth);
     }
   }
 
   render () {
     const { spotts, loadMore, location } = this.props;
-    const { width } = this.state;
+    const { cardWidth, cardContainerWidth } = this.state;
 
     return (
-      <div ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-wrapper' >
-        <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true }}>
+      <div ref={(ref) => { this.cardsWrapper = ref; }} styleName='cards-wrapper' >
+        <Masonry className={cardContainerWidth < cardWidth * 4 && cardWidth === 280 && styles['left-align']} disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true }} ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-container' >
           {spotts.get('data') && spotts.get('data').valueSeq().map((item, index) =>
-          <div key={`home_card_${item.get('uuid')}_${index}`} styleName='card-selector'><Card item={item} key={`home_card_${item.get('uuid')}_${index}`} location={location} spottId={item.get('uuid')} width={width} /></div>
+          <div key={`home_card_${item.get('uuid')}_${index}`} styleName='card-selector'><Card item={item} key={`home_card_${item.get('uuid')}_${index}`} location={location} spottId={item.get('uuid')} width={cardWidth} /></div>
           )}
         </Masonry>
         {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') &&
