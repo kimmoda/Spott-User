@@ -56,7 +56,6 @@ export default class NewUserSettings extends Component {
 
   async onSubmit (values) {
     const userProfile = this.props.currentUserProfile;
-    console.log(userProfile.get('currency'));
     const data = {
       profile: {
         email: userProfile.get('email'),

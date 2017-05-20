@@ -122,7 +122,7 @@ export default class NewLogin extends Component {
               } : `/${currentLocale}/resetpassword`}>
             Forgot your password?
           </Link>
-          {errorSubmit && <div className='form-error'>{t(errorSubmit)}</div>}
+          {Boolean(errorSubmit && typeof errorSubmit === 'string') && <div className='form-error'>{t(errorSubmit)}</div>}
           <button className='form-submit' type='submit'>Log in</button>
           <div styleName='new-user'>
             New User?

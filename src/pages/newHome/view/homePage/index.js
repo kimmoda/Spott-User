@@ -22,6 +22,7 @@ const styles = require('./index.scss');
 export default class NewHome extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
+    feedSpotts: PropTypes.array.isRequired,
     isAuthenticated: PropTypes.string,
     loadSpottsList: PropTypes.func.isRequired,
     loadTrendingTopics: PropTypes.func.isRequired,
@@ -73,9 +74,8 @@ export default class NewHome extends Component {
   }
 
   render () {
-    const { trendingTopics, spotts, spottsSubscribed, spottsPromoted, isAuthenticated, location } = this.props;
+    const { trendingTopics, spotts, location, feedSpotts } = this.props;
     const { width } = this.state;
-    let promotedIndex = 0;
     return (
       <section styleName='wrapper'>
         <div styleName='topics responsive-container'>
@@ -87,26 +87,11 @@ export default class NewHome extends Component {
         <div styleName='cards responsive-container'>
           <div ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-wrapper'>
             <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true }}>
-              {isAuthenticated && spottsSubscribed.get('data') && spottsSubscribed.get('data').map((item, index) => {
-                if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
-                  promotedIndex++;
-                  return [
-                    <div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width} /></div>,
-                    <div key={`home_card_${index}`} styleName='card-selector'><Card item={spottsPromoted.getIn([ 'data', promotedIndex - 1 ])} key={`home_card_${index}`} location={location} spottId={spottsPromoted.getIn([ 'data', promotedIndex - 1, 'uuid' ])} width={width} /></div>
-                  ];
-                }
-                return (<div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width}/></div>);
-              })}
-              {(!isAuthenticated || (!spottsSubscribed.get('data') || spottsSubscribed.get('data').size <= 5)) && spotts.get('data') && spotts.get('data').valueSeq().map((item, index) => {
-                if ((index + 1) % 2 === 0 && spottsPromoted.getIn([ 'data', promotedIndex ])) {
-                  promotedIndex++;
-                  return [
-                    <div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width}/></div>,
-                    <div key={`home_card_${index}`} styleName='card-selector'><Card item={spottsPromoted.getIn([ 'data', promotedIndex - 1 ])} key={`home_card_${index}`} location={location} spottId={spottsPromoted.getIn([ 'data', promotedIndex - 1, 'uuid' ])} width={width}/></div>
-                  ];
-                }
-                return (<div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'><Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width} /></div>);
-              })}
+              {feedSpotts.map((item, index) =>
+                <div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'>
+                  <Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width}/>
+                </div>
+              )}
             </Masonry>
           </div>
         </div>

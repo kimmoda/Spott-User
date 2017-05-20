@@ -30,7 +30,9 @@ export default function newHomeReducer (state = Map({
   users: Map(),
   registrationFormDefaults: null,
   systemLanguages: Map(),
-  systemCountries: Map()
+  systemCountries: Map(),
+  systemContentRegions: Map(),
+  systemCurrencies: Map()
 }), action) {
   switch (action.type) {
     case actions.GET_TRENDING_TOPICS_START:
@@ -251,6 +253,20 @@ export default function newHomeReducer (state = Map({
       return state.setIn([ 'systemLanguages' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_LANGUAGES_ERROR:
       return state.mergeIn([ 'systemLanguages' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_CONTENT_REGIONS_START:
+      return state.mergeIn([ 'systemContentRegions' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_CONTENT_REGIONS_SUCCESS:
+      return state.setIn([ 'systemContentRegions' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_CONTENT_REGIONS_ERROR:
+      return state.mergeIn([ 'systemContentRegions' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_CURRENCIES_START:
+      return state.mergeIn([ 'systemCurrencies' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_CURRENCIES_SUCCESS:
+      return state.setIn([ 'systemCurrencies' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_CURRENCIES_ERROR:
+      return state.mergeIn([ 'systemCurrencies' ], Map({ _error: action.error, _status: ERROR }));
 
     default:
       return state;

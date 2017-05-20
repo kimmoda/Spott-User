@@ -4,6 +4,7 @@ import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
+import { List } from 'immutable';
 import { Link } from 'react-router';
 import ReactModal from 'react-modal';
 import { reduxForm, Field } from 'redux-form/immutable';
@@ -105,13 +106,13 @@ export default class NewRegistration extends Component {
             <div className='form-join-fields'>
               <Field
                 component={FormInput}
-                name='firstname'
+                name='firstName'
                 placeholder='First name'
                 submitFailed={submitFailed}
                 type='text'/>
               <Field
                 component={FormInput}
-                name='lastname'
+                name='lastName'
                 placeholder='Last name'
                 submitFailed={submitFailed}
                 type='text'/>
@@ -143,19 +144,22 @@ export default class NewRegistration extends Component {
                 label='Male'
                 name='gender'
                 submitFailed={submitFailed}
-                value='0'/>
+                type='radio'
+                value='MALE'/>
               <Field
                 component={FormRadio}
                 label='Female'
                 name='gender'
                 submitFailed={submitFailed}
-                value='1'/>
+                type='radio'
+                value='FEMALE'/>
               <Field
                 component={FormRadio}
                 label='Unspecified'
                 name='gender'
                 submitFailed={submitFailed}
-                value='2'/>
+                type='radio'
+                value='UNKNOWN'/>
             </div>
           </div>
           <div className='form-row'>
@@ -164,20 +168,26 @@ export default class NewRegistration extends Component {
               <Field
                 component={FormSelect}
                 emptyOption
-                name='day'
-                options={new Array(31).fill(1).map((item, index) => { return { value: index + 1, label: index + 1 }; })}
+                name='dayOfBirth'
+                options={new Array(31).fill(1).map((item, index) => {
+                  return { value: index + 1, label: index + 1 };
+                })}
                 submitFailed={submitFailed}/>
               <Field
                 component={FormSelect}
                 emptyOption
-                name='month'
-                options={moment.months().map((item, index) => { return { value: index + 1, label: item }; })}
+                name='monthOfBirth'
+                options={moment.months().map((item, index) => {
+                  return { value: index, label: item };
+                })}
                 submitFailed={submitFailed}/>
               <Field
                 component={FormSelect}
                 emptyOption
-                name='year'
-                options={new Array(moment().format('YYYY') - 1920 + 1).fill(1).map((item, index) => { return { value: 1920 + index, label: 1920 + index }; })}
+                name='yearOfBirth'
+                options={new Array(moment().format('YYYY') - 1920 + 1).fill(1).map((item, index) => {
+                  return { value: 1920 + index, label: 1920 + index };
+                })}
                 submitFailed={submitFailed}/>
             </div>
           </div>
@@ -186,11 +196,7 @@ export default class NewRegistration extends Component {
             <Field
               component={FormSelect}
               name='country'
-              options={
-                Boolean(systemCountries.get('data') && systemCountries.get('data').size) && systemCountries.get('data').toJS().map((item) => {
-                  return { value: item.uuid, label: item.name };
-                })
-              }
+              options={systemCountries.get('data', List()).toJS().map((item) => { return { value: item.uuid, label: item.name }; })}
               submitFailed={submitFailed}/>
           </div>
           <div className='form-row'>
@@ -198,11 +204,7 @@ export default class NewRegistration extends Component {
             <Field
               component={FormSelect}
               name='language'
-              options={
-                Boolean(systemLanguages.get('data') && systemLanguages.get('data').size) && systemLanguages.get('data').toJS().map((item) => {
-                  return { value: item.uuid, label: item.name };
-                })
-              }
+              options={systemLanguages.get('data', List()).toJS().map((item) => { return { value: item.uuid, label: item.name }; })}
               submitFailed={submitFailed}/>
           </div>
           <div className='form-row'>

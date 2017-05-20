@@ -187,6 +187,10 @@ export const GET_DEFAULT_CURRENCY_START = 'NEW/GET_DEFAULT_CURRENCY_START';
 export const GET_DEFAULT_CURRENCY_SUCCESS = 'NEW/GET_DEFAULT_CURRENCY_SUCCESS';
 export const GET_DEFAULT_CURRENCY_ERROR = 'NEW/GET_DEFAULT_CURRENCY_ERROR';
 
+export const GET_CURRENCIES_START = 'NEW/GET_CURRENCIES_START';
+export const GET_CURRENCIES_SUCCESS = 'NEW/GET_CURRENCIES_SUCCESS';
+export const GET_CURRENCIES_ERROR = 'NEW/GET_CURRENCIES_ERROR';
+
 export const GET_DEFAULT_LANGUAGE_START = 'NEW/GET_DEFAULT_LANGUAGE_START';
 export const GET_DEFAULT_LANGUAGE_SUCCESS = 'NEW/GET_DEFAULT_LANGUAGE_SUCCESS';
 export const GET_DEFAULT_LANGUAGE_ERROR = 'NEW/GET_DEFAULT_LANGUAGE_ERROR';
@@ -196,6 +200,14 @@ export const GET_LANGUAGES_SUCCESS = 'NEW/GET_LANGUAGES_SUCCESS';
 export const GET_LANGUAGES_ERROR = 'NEW/GET_LANGUAGES_ERROR';
 
 export const SET_REGISTRATION_DEFAULTS = 'NEW/SET_REGISTRATION_DEFAULTS';
+
+export const GET_DEFAULT_CONTENT_REGION_START = 'NEW/GET_DEFAULT_CONTENT_REGION_START';
+export const GET_DEFAULT_CONTENT_REGION_SUCCESS = 'NEW/GET_DEFAULT_CONTENT_REGION_SUCCESS';
+export const GET_DEFAULT_CONTENT_REGION_ERROR = 'NEW/GET_DEFAULT_CONTENT_REGION_ERROR';
+
+export const GET_CONTENT_REGIONS_START = 'NEW/GET_CONTENT_REGIONS_START';
+export const GET_CONTENT_REGIONS_SUCCESS = 'NEW/GET_CONTENT_REGIONS_SUCCESS';
+export const GET_CONTENT_REGIONS_ERROR = 'NEW/GET_CONTENT_REGIONS_ERROR';
 
 // Actions creators
 // ////////////////
@@ -406,7 +418,13 @@ export const loadDefaultCurrency = makeApiActionCreator(api.getDefaultCurrency, 
 
 export const loadDefaultLanguage = makeApiActionCreator(api.getDefaultLanguage, GET_DEFAULT_LANGUAGE_START, GET_DEFAULT_LANGUAGE_SUCCESS, GET_DEFAULT_LANGUAGE_ERROR);
 
+export const loadCurrencies = makeApiActionCreator(api.getCurrencies, GET_CURRENCIES_START, GET_CURRENCIES_SUCCESS, GET_CURRENCIES_ERROR);
+
 export const loadLanguages = makeApiActionCreator(api.getLanguages, GET_LANGUAGES_START, GET_LANGUAGES_SUCCESS, GET_LANGUAGES_ERROR);
+
+export const loadDefaultContentRegion = makeApiActionCreator(api.getDefaultContentRegion, GET_DEFAULT_CONTENT_REGION_START, GET_DEFAULT_CONTENT_REGION_SUCCESS, GET_DEFAULT_CONTENT_REGION_SUCCESS);
+
+export const loadContentRegions = makeApiActionCreator(api.getContentRegions, GET_CONTENT_REGIONS_START, GET_CONTENT_REGIONS_SUCCESS, GET_CONTENT_REGIONS_ERROR);
 
 export function loadRegistrationFormDefaults () {
   return async (dispatch, getState) => {
@@ -422,6 +440,20 @@ export function loadRegistrationFormDefaults () {
         },
         type: SET_REGISTRATION_DEFAULTS
       });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+}
+
+export function loadProfileFormValues () {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadLanguages());
+      dispatch(loadCountries());
+      dispatch(loadContentRegions());
+      dispatch(loadCurrencies());
     } catch (error) {
       console.log(error);
       throw error;

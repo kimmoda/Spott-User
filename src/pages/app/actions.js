@@ -50,21 +50,22 @@ export function checkUserDefaults (data) {
         data.user.currencyForm = data.user.currency.uuid;
         isChanged = true;
       }
+      if (!data.user.language) {
+        const defaultLanguage = await dispatch(newActions.loadDefaultLanguage());
+        data.user.language = defaultLanguage;
+        data.user.languageForm = defaultLanguage.uuid;
+        isChanged = true;
+      }
       if (!data.user.languages || !data.user.languages.length) {
         const defaultLanguage = await dispatch(newActions.loadDefaultLanguage());
         data.user.languages = [ defaultLanguage ];
-        data.user.languagesForm = defaultLanguage.uuid;
+        data.user.languagesForm = [ defaultLanguage.uuid ];
         isChanged = true;
       }
       if (!data.user.contentRegions || !data.user.contentRegions.length) {
-        const defaultCountry = await dispatch(newActions.loadDefaultCountry());
-        data.user.contentRegions = [
-          {
-            country: defaultCountry,
-            language: data.user.languages[0]
-          }
-        ];
-        data.user.contentRegionsForm = [ `${defaultCountry.uuid}-${data.user.languages[0].uuid}` ];
+        const defaultContentRegion = await dispatch(newActions.loadDefaultContentRegion());
+        data.user.contentRegions = [ defaultContentRegion ];
+        data.user.contentRegionsForm = [ `${defaultContentRegion.country.uuid}-${defaultContentRegion.language.uuid}` ];
         isChanged = true;
       }
       if (!data.user.shoppingCountries || !data.user.shoppingCountries.length) {
@@ -92,7 +93,7 @@ export function doLogin ({ email, password }) {
       dispatch({ data: newData, type: LOGIN_SUCCESS });
       storage.setItem('session', JSON.stringify(newData));
       if (isChanged) {
-        dispatch(newActions.updateUserProfile({ uuid: newData.user.id, data: { profile: newData.user } }));
+        dispatch(newActions.updateUserProfileWrapper({ uuid: newData.user.id, data: { profile: newData.user } }));
       }
       /*
       if (data.user.id) {

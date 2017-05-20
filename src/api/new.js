@@ -222,6 +222,11 @@ export async function getDefaultCurrency (baseUrl, authenticationToken, locale) 
   }
 }
 
+export async function getCurrencies (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/currencies`);
+  return body;
+}
+
 export async function getDefaultLanguage (baseUrl, authenticationToken, locale) {
   try {
     const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/languages/default`);
@@ -233,5 +238,28 @@ export async function getDefaultLanguage (baseUrl, authenticationToken, locale) 
 
 export async function getLanguages (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/languages`);
+  return body;
+}
+
+export async function getDefaultContentRegion (baseUrl, authenticationToken, locale) {
+  try {
+    const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/contentRegions/default`);
+    return body;
+  } catch (error) {
+    return {
+      country: {
+        uuid: 'BE',
+        name: 'Belgium'
+      },
+      language: {
+        uuid: 'nl',
+        name: 'Nederlands'
+      }
+    };
+  }
+}
+
+export async function getContentRegions (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/contentRegions`);
   return body;
 }

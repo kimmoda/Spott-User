@@ -5,16 +5,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { Link } from 'react-router';
+import { List } from 'immutable';
 import localized from '../../../../../_common/localized';
 import * as actions from '../../../../actions';
 import { userAccountDetailsSelector } from '../../../../selectors';
 import { validateAccountForm } from '../../validateForm';
-import { FormSelect, FormCheckbox, FormInput } from '../../../form';
+import { FormSelect, FormInput } from '../../../form';
 
 const styles = require('./index.scss');
 
 @localized
 @connect(userAccountDetailsSelector, (dispatch) => ({
+  loadProfileFormValues: bindActionCreators(actions.loadProfileFormValues, dispatch),
   updateUserProfile: bindActionCreators(actions.updateUserProfileWrapper, dispatch)
 }))
 @reduxForm({
@@ -28,6 +30,7 @@ export default class NewUserAccount extends Component {
     currentUserProfile: PropTypes.any.isRequired,
     error: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
+    loadProfileFormValues: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -37,6 +40,10 @@ export default class NewUserAccount extends Component {
     }).isRequired,
     submitFailed: PropTypes.bool,
     submitting: PropTypes.bool.isRequired,
+    systemContentRegions: PropTypes.object.isRequired,
+    systemCountries: PropTypes.object.isRequired,
+    systemCurrencies: PropTypes.object.isRequired,
+    systemLanguages: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
     token: PropTypes.string.isRequired,
     updateUserProfile: PropTypes.func.isRequired,
@@ -48,6 +55,10 @@ export default class NewUserAccount extends Component {
     this.onSubmit = ::this.onSubmit;
   }
 
+  componentDidMount () {
+    this.props.loadProfileFormValues();
+  }
+
   async onSubmit (values) {
     const data = {
       profile: {
@@ -57,11 +68,12 @@ export default class NewUserAccount extends Component {
         description: values.get('description'),
         gender: values.get('gender'),
         dateOfBirth: values.get('dateOfBirth'),
-        languages: [
+        language: [
           {
-            uuid: values.get('languagesForm')
+            uuid: values.get('languageForm')
           }
         ],
+        languages: values.get('languagesForm').map((item) => { return { uuid: item }; }),
         currency: {
           code: values.get('currencyForm')
         },
@@ -86,7 +98,7 @@ export default class NewUserAccount extends Component {
   }
 
   render () {
-    const { submitFailed, submitting, handleSubmit, currentLocale, location } = this.props;
+    const { submitFailed, submitting, handleSubmit, currentLocale, location, systemContentRegions, systemCountries, systemLanguages, systemCurrencies } = this.props;
 
     return (
       <div styleName='account'>
@@ -118,8 +130,17 @@ export default class NewUserAccount extends Component {
                 <label className='form-label form-label-required'>Primary Language</label>
                 <Field
                   component={FormSelect}
+                  name='languageForm'
+                  options={systemLanguages.get('data', List()).toJS().map((item) => { return { value: item.uuid, label: item.name }; })}
+                  submitFailed={submitFailed}/>
+              </div>
+              <div styleName='form-row form-row-shrink'>
+                <label className='form-label form-label-required'>Other languages</label>
+                <Field
+                  component={FormSelect}
+                  multiple
                   name='languagesForm'
-                  options={[ { value: 'nl', label: 'Nederlands' }, { value: 'en', label: 'English', clearableValue: false }, { value: 'fr', label: 'Français' } ]}
+                  options={systemLanguages.get('data', List()).toJS().map((item) => { return { value: item.uuid, label: item.name }; })}
                   submitFailed={submitFailed}/>
               </div>
               <div styleName='form-row form-row-shrink'>
@@ -127,39 +148,29 @@ export default class NewUserAccount extends Component {
                 <Field
                   component={FormSelect}
                   name='currencyForm'
-                  options={[ { value: 'EUR', label: 'Euro € (EUR)', clearableValue: false }, { value: 'USD', label: 'US Dollar $ (USD)' } ]}
+                  options={systemCurrencies.get('data', List()).toJS().map((item) => {
+                    return {
+                      value: item.code,
+                      label: `${item.description} (${item.symbol})`
+                    };
+                  })}
                   submitFailed={submitFailed}/>
               </div>
             </div>
             <div styleName='block'>
               <h3 styleName='block-title'>Content Regions</h3>
               <div styleName='form-row'>
-                <label className='form-label'>International Content</label>
-                <div className='form-checkbox'>
-                  <Field
-                    component={FormCheckbox}
-                    label={"I'm interested in international content"}
-                    name='intcontent'
-                    submitFailed={submitFailed}/>
-                </div>
-              </div>
-              <div styleName='form-row'>
                 <label className='form-label'>Local Content</label>
                 <Field
                   component={FormSelect}
                   multiple
                   name='contentRegionsForm'
-                  options={[
-                    { value: 'BE-de', label: 'Belgium (Deutch)', clearableValue: false },
-                    { value: 'BE-fr', label: 'Belgium (Français)' },
-                    { value: 'BE-nl', label: 'Belgium (Nederlands)' },
-                    { value: 'BE-en', label: 'Belgium (English)' },
-                    { value: 'FR-fr', label: 'France' },
-                    { value: 'DE-de', label: 'Germany' },
-                    { value: 'GB-en', label: 'United Kingdom' },
-                    { value: 'BR-pt', label: 'Brazil' },
-                    { value: 'US-en', label: 'United States' }
-                  ]}
+                  options={systemContentRegions.get('data', List()).toJS().map((item) => {
+                    return {
+                      value: `${item.country.uuid}-${item.language.uuid}`,
+                      label: `${item.country.name} (${item.language.name})`
+                    };
+                  })}
                   submitFailed={submitFailed}/>
               </div>
             </div>
@@ -171,14 +182,7 @@ export default class NewUserAccount extends Component {
                   component={FormSelect}
                   multiple
                   name='shoppingCountriesForm'
-                  options={[
-                    { value: 'BE', label: 'Belgium', clearableValue: false },
-                    { value: 'FR', label: 'France' },
-                    { value: 'DE', label: 'Germany' },
-                    { value: 'GB', label: 'United Kingdom' },
-                    { value: 'BR', label: 'Brazil' },
-                    { value: 'US', label: 'United States' }
-                  ]}
+                  options={systemCountries.get('data', List()).toJS().map((item) => { return { value: item.uuid, label: item.name }; })}
                   submitFailed={submitFailed}/>
               </div>
             </div>
