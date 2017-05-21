@@ -11,12 +11,12 @@ export async function getUser (baseUrl, authenticationToken, locale, { userId })
   return transformUser(body);
 }
 
-export function register (baseUrl, { email, firstname, lastname, password, dateOfBirth, gender }) {
-  return post(null, null, `${baseUrl}/v003/user/users/register/username`, { email, firstName: firstname, lastName: lastname, password, dateOfBirth, gender });
+export function register (baseUrl, data) {
+  return post(null, null, `${baseUrl}/v004/user/users/register/username`, data);
 }
 
 export function registerWithFacebook (baseUrl, { email, firstname, lastname, facebookAccessToken, facebookId, dateOfBirth, facebookGender }) {
-  return post(null, null, `${baseUrl}/v003/user/users/register/facebook`, { email, firstName: firstname, lastName: lastname, facebookAccessToken, facebookId, dateOfBirth, facebookGender });
+  return post(null, null, `${baseUrl}/v004/user/users/register/facebook`, { email, firstName: firstname, lastName: lastname, facebookAccessToken, facebookId, dateOfBirth, facebookGender });
 }
 
 export async function resetPassword (baseUrl, { email }) {

@@ -3,7 +3,7 @@ import { get, post, del } from './request';
 import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=10`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=20`);
   return body;
 }
 
@@ -196,5 +196,70 @@ export async function getSearchHistory (baseUrl, authenticationToken, locale) {
 
 export async function removeSearchHistory (baseUrl, authenticationToken, locale) {
   const { body } = await del(authenticationToken, locale, `${baseUrl}/v004/search/history`);
+  return body;
+}
+
+export async function getDefaultCountry (baseUrl, authenticationToken, locale) {
+  try {
+    const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/countries/default`);
+    return body;
+  } catch (error) {
+    return { uuid: 'BE', name: 'Belgium' };
+  }
+}
+
+export async function getCountries (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/countries`);
+  return body;
+}
+
+export async function getDefaultCurrency (baseUrl, authenticationToken, locale) {
+  try {
+    const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/currencies/default`);
+    return body;
+  } catch (error) {
+    return { code: 'EUR', description: 'Euro', symbol: '€' };
+  }
+}
+
+export async function getCurrencies (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/currencies`);
+  return body;
+}
+
+export async function getDefaultLanguage (baseUrl, authenticationToken, locale) {
+  try {
+    const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/languages/default`);
+    return body;
+  } catch (error) {
+    return { uuid: 'en', name: 'English' };
+  }
+}
+
+export async function getLanguages (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/languages`);
+  return body;
+}
+
+export async function getDefaultContentRegion (baseUrl, authenticationToken, locale) {
+  try {
+    const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/contentRegions/default`);
+    return body;
+  } catch (error) {
+    return {
+      country: {
+        uuid: 'BE',
+        name: 'Belgium'
+      },
+      language: {
+        uuid: 'nl',
+        name: 'Nederlands'
+      }
+    };
+  }
+}
+
+export async function getContentRegions (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/contentRegions`);
   return body;
 }

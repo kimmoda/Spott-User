@@ -1,5 +1,6 @@
 import { createStructuredSelector, createSelector } from 'reselect';
 import { createEntityByIdSelector, createEntitiesByListSelector } from '../../data/selector';
+import { List } from 'immutable';
 import * as _ from 'lodash';
 
 export const authenticationTokenSelector = (state) => state.getIn([ 'app', 'authentication', 'authenticationToken' ]);
@@ -44,36 +45,44 @@ const step = 2;
 const homeSpottsSelector = createSelector(
   spottsSelector,
   (spotts) => {
-    return spotts.get('data') && spotts.get('data')
-      .map((item, idx) => ((idx + 1) % step) === 0 ? [ item, null ] : [ item ])
-      .reduce((acc, item) => [ ...acc, ...item ], []);
+    return spotts.get('data', new List()).toArray();
   }
 );
 
-/*
 const homeSpottsSubscribedSelector = createSelector(
   spottsSubscribedSelector,
   (spottsSubscribed) => {
-    return spottsSubscribed.get('data') && spottsSubscribed.get('data')
-        .map((item, idx) => ((idx + 1) % step) === 0 ? [ item, null ] : [ item ])
-        .reduce((acc, item) => [ ...acc, ...item ], []);
+    return spottsSubscribed.get('data', new List()).toArray();
   }
 );
-*/
+
+const homeSpottsJoinedSelector = createSelector(
+  homeSpottsSelector,
+  homeSpottsSubscribedSelector,
+  (spotts = [], spottsSubscribed = []) => {
+    return [ ..._.defaultTo(spotts, []), ..._.defaultTo(spottsSubscribed, []) ];
+  }
+);
 
 const homeSpottsPromotedSelector = createSelector(
   spottsPromotedSelector,
   (spottsPromoted) => {
-    return spottsPromoted.get('data') && spottsPromoted.get('data')
-      .reduce((acc, item) => [ ...acc, ...(new Array(step)).fill(null), item ], []);
+    return spottsPromoted.get('data', new List()).toArray();
   }
 );
 
 const homeFeedSelector = createSelector(
-  homeSpottsSelector,
+  homeSpottsJoinedSelector,
   homeSpottsPromotedSelector,
   (homeSpotts, homeSpottsPromoted) => {
-    return _.zip(homeSpotts, homeSpottsPromoted).map((item) => item[0] || item[1]).filter((item) => item);
+    const advCount = Math.floor(homeSpotts.length / step);
+    const preparedSpotts = homeSpotts
+      .map((item, idx) => ((idx + 1) % step) === 0 ? [ item, null ] : [ item ])
+      .reduce((acc, item) => [ ...acc, ...item ], []);
+    const preparedPromoted = homeSpottsPromoted
+      .filter((_item, idx) => idx < advCount)
+      .reduce((acc, item) => [ ...acc, ...(new Array(step)).fill(null), item ], []);
+    return _.zip(preparedSpotts, preparedPromoted).map((item) => item[0] || item[1]).filter((item) => item);
   }
 );
 
@@ -128,11 +137,20 @@ export const userSettingsDetailsSelector = createStructuredSelector({
   subscriptions: userSubscriptionsSelector
 });
 
+const systemLanguagesSelector = (state) => state.getIn([ 'newHome', 'systemLanguages' ]);
+const systemCountriesSelector = (state) => state.getIn([ 'newHome', 'systemCountries' ]);
+const systemCurrenciesSelector = (state) => state.getIn([ 'newHome', 'systemCurrencies' ]);
+const systemContentRegionsSelector = (state) => state.getIn([ 'newHome', 'systemContentRegions' ]);
+
 export const userAccountDetailsSelector = createStructuredSelector({
   userId: currentUserIdSelector,
   currentUserProfile: currentUserProfileSelector,
   initialValues: currentUserProfileSelector,
-  token: authenticationTokenSelector
+  token: authenticationTokenSelector,
+  systemLanguages: systemLanguagesSelector,
+  systemCountries: systemCountriesSelector,
+  systemCurrencies: systemCurrenciesSelector,
+  systemContentRegions: systemContentRegionsSelector
 });
 
 export const usersEntitiesSelector = (state) => state.getIn([ 'newHome', 'users' ]);
@@ -158,4 +176,16 @@ export const searchResultsSelector = createStructuredSelector({
   topics: searchTopicsSelector,
   posts: searchPostsSelector,
   persons: searchPersonsSelector
+});
+
+export const registrationFacebookErrorSelector = (state) => state.getIn([ 'app', 'registration', 'error' ]);
+export const registrationFacebookIsLoadingSelector = (state) => state.getIn([ 'app', 'registration', 'isLoading' ]);
+const registrationFormDefaultsSelector = (state) => state.getIn([ 'newHome', 'registrationFormDefaults' ]);
+
+export const registrationFormSelector = createStructuredSelector({
+  systemLanguages: systemLanguagesSelector,
+  systemCountries: systemCountriesSelector,
+  initialValues: registrationFormDefaultsSelector,
+  facebookError: registrationFacebookErrorSelector,
+  facebookIsLoading: registrationFacebookIsLoadingSelector
 });

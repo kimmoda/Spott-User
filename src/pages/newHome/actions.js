@@ -175,6 +175,40 @@ export const REMOVE_SEARCH_HISTORY_START = 'NEW/REMOVE_SEARCH_HISTORY_START';
 export const REMOVE_SEARCH_HISTORY_SUCCESS = 'NEW/REMOVE_SEARCH_HISTORY_SUCCESS';
 export const REMOVE_SEARCH_HISTORY_ERROR = 'NEW/REMOVE_SEARCH_HISTORY_ERROR';
 
+export const GET_DEFAULT_COUNTRY_START = 'NEW/GET_DEFAULT_COUNTRY_START';
+export const GET_DEFAULT_COUNTRY_SUCCESS = 'NEW/GET_DEFAULT_COUNTRY_SUCCESS';
+export const GET_DEFAULT_COUNTRY_ERROR = 'NEW/GET_DEFAULT_COUNTRY_ERROR';
+
+export const GET_COUNTRIES_START = 'NEW/GET_COUNTRIES_START';
+export const GET_COUNTRIES_SUCCESS = 'NEW/GET_COUNTRIES_SUCCESS';
+export const GET_COUNTRIES_ERROR = 'NEW/GET_COUNTRIES_ERROR';
+
+export const GET_DEFAULT_CURRENCY_START = 'NEW/GET_DEFAULT_CURRENCY_START';
+export const GET_DEFAULT_CURRENCY_SUCCESS = 'NEW/GET_DEFAULT_CURRENCY_SUCCESS';
+export const GET_DEFAULT_CURRENCY_ERROR = 'NEW/GET_DEFAULT_CURRENCY_ERROR';
+
+export const GET_CURRENCIES_START = 'NEW/GET_CURRENCIES_START';
+export const GET_CURRENCIES_SUCCESS = 'NEW/GET_CURRENCIES_SUCCESS';
+export const GET_CURRENCIES_ERROR = 'NEW/GET_CURRENCIES_ERROR';
+
+export const GET_DEFAULT_LANGUAGE_START = 'NEW/GET_DEFAULT_LANGUAGE_START';
+export const GET_DEFAULT_LANGUAGE_SUCCESS = 'NEW/GET_DEFAULT_LANGUAGE_SUCCESS';
+export const GET_DEFAULT_LANGUAGE_ERROR = 'NEW/GET_DEFAULT_LANGUAGE_ERROR';
+
+export const GET_LANGUAGES_START = 'NEW/GET_LANGUAGES_START';
+export const GET_LANGUAGES_SUCCESS = 'NEW/GET_LANGUAGES_SUCCESS';
+export const GET_LANGUAGES_ERROR = 'NEW/GET_LANGUAGES_ERROR';
+
+export const SET_REGISTRATION_DEFAULTS = 'NEW/SET_REGISTRATION_DEFAULTS';
+
+export const GET_DEFAULT_CONTENT_REGION_START = 'NEW/GET_DEFAULT_CONTENT_REGION_START';
+export const GET_DEFAULT_CONTENT_REGION_SUCCESS = 'NEW/GET_DEFAULT_CONTENT_REGION_SUCCESS';
+export const GET_DEFAULT_CONTENT_REGION_ERROR = 'NEW/GET_DEFAULT_CONTENT_REGION_ERROR';
+
+export const GET_CONTENT_REGIONS_START = 'NEW/GET_CONTENT_REGIONS_START';
+export const GET_CONTENT_REGIONS_SUCCESS = 'NEW/GET_CONTENT_REGIONS_SUCCESS';
+export const GET_CONTENT_REGIONS_ERROR = 'NEW/GET_CONTENT_REGIONS_ERROR';
+
 // Actions creators
 // ////////////////
 
@@ -375,3 +409,54 @@ export const loadSearchPostsMore = makeApiActionCreator(api.getSearchPosts, GET_
 export const loadSearchPersons = makeApiActionCreator(api.getSearchPersons, GET_SEARCH_PERSONS_START, GET_SEARCH_PERSONS_SUCCESS, GET_SEARCH_PERSONS_ERROR);
 
 export const loadSearchTopics = makeApiActionCreator(api.getSearchTopics, GET_SEARCH_TOPICS_START, GET_SEARCH_TOPICS_SUCCESS, GET_SEARCH_TOPICS_ERROR);
+
+export const loadDefaultCountry = makeApiActionCreator(api.getDefaultCountry, GET_DEFAULT_COUNTRY_START, GET_DEFAULT_COUNTRY_SUCCESS, GET_DEFAULT_COUNTRY_ERROR);
+
+export const loadCountries = makeApiActionCreator(api.getCountries, GET_COUNTRIES_START, GET_COUNTRIES_SUCCESS, GET_COUNTRIES_ERROR);
+
+export const loadDefaultCurrency = makeApiActionCreator(api.getDefaultCurrency, GET_DEFAULT_CURRENCY_START, GET_DEFAULT_CURRENCY_SUCCESS, GET_DEFAULT_CURRENCY_ERROR);
+
+export const loadDefaultLanguage = makeApiActionCreator(api.getDefaultLanguage, GET_DEFAULT_LANGUAGE_START, GET_DEFAULT_LANGUAGE_SUCCESS, GET_DEFAULT_LANGUAGE_ERROR);
+
+export const loadCurrencies = makeApiActionCreator(api.getCurrencies, GET_CURRENCIES_START, GET_CURRENCIES_SUCCESS, GET_CURRENCIES_ERROR);
+
+export const loadLanguages = makeApiActionCreator(api.getLanguages, GET_LANGUAGES_START, GET_LANGUAGES_SUCCESS, GET_LANGUAGES_ERROR);
+
+export const loadDefaultContentRegion = makeApiActionCreator(api.getDefaultContentRegion, GET_DEFAULT_CONTENT_REGION_START, GET_DEFAULT_CONTENT_REGION_SUCCESS, GET_DEFAULT_CONTENT_REGION_SUCCESS);
+
+export const loadContentRegions = makeApiActionCreator(api.getContentRegions, GET_CONTENT_REGIONS_START, GET_CONTENT_REGIONS_SUCCESS, GET_CONTENT_REGIONS_ERROR);
+
+export function loadRegistrationFormDefaults () {
+  return async (dispatch, getState) => {
+    try {
+      await dispatch(loadLanguages());
+      await dispatch(loadCountries());
+      const defaultCountry = await dispatch(loadDefaultCountry());
+      const defaultLanguage = await dispatch(loadDefaultLanguage());
+      return dispatch({
+        data: {
+          country: defaultCountry.uuid,
+          language: defaultLanguage.uuid
+        },
+        type: SET_REGISTRATION_DEFAULTS
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+}
+
+export function loadProfileFormValues () {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(loadLanguages());
+      dispatch(loadCountries());
+      dispatch(loadContentRegions());
+      dispatch(loadCurrencies());
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+}

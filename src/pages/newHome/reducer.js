@@ -27,7 +27,12 @@ export default function newHomeReducer (state = Map({
     posts: Map({ data: OrderedMap() })
   }),
   searchHistory: Map(),
-  users: Map()
+  users: Map(),
+  registrationFormDefaults: null,
+  systemLanguages: Map(),
+  systemCountries: Map(),
+  systemContentRegions: Map(),
+  systemCurrencies: Map()
 }), action) {
   switch (action.type) {
     case actions.GET_TRENDING_TOPICS_START:
@@ -231,6 +236,37 @@ export default function newHomeReducer (state = Map({
       return state.setIn([ 'users', action.uuid, 'wishlist' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_USER_WISHLIST_ERROR:
       return state.mergeIn([ 'users', action.uuid, 'wishlist' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.SET_REGISTRATION_DEFAULTS:
+      return state.set('registrationFormDefaults', Map({ ...action.data }));
+
+    case actions.GET_COUNTRIES_START:
+      return state.mergeIn([ 'systemCountries' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_COUNTRIES_SUCCESS:
+      return state.setIn([ 'systemCountries' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_COUNTRIES_ERROR:
+      return state.mergeIn([ 'systemCountries' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_LANGUAGES_START:
+      return state.mergeIn([ 'systemLanguages' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_LANGUAGES_SUCCESS:
+      return state.setIn([ 'systemLanguages' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_LANGUAGES_ERROR:
+      return state.mergeIn([ 'systemLanguages' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_CONTENT_REGIONS_START:
+      return state.mergeIn([ 'systemContentRegions' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_CONTENT_REGIONS_SUCCESS:
+      return state.setIn([ 'systemContentRegions' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_CONTENT_REGIONS_ERROR:
+      return state.mergeIn([ 'systemContentRegions' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_CURRENCIES_START:
+      return state.mergeIn([ 'systemCurrencies' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_CURRENCIES_SUCCESS:
+      return state.setIn([ 'systemCurrencies' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_CURRENCIES_ERROR:
+      return state.mergeIn([ 'systemCurrencies' ], Map({ _error: action.error, _status: ERROR }));
 
     default:
       return state;

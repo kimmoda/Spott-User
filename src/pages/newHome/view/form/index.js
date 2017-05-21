@@ -1,6 +1,8 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
+import Select from 'react-select';
+import Immutable, { fromJS } from 'immutable';
 import localized from '../../../_common/localized';
 
 const styles = require('./index.scss');
@@ -81,6 +83,7 @@ export class FormSelect extends Component {
     emptyOption: PropTypes.bool,
     input: PropTypes.any.isRequired,
     meta: PropTypes.any.isRequired,
+    multiple: PropTypes.bool,
     options: PropTypes.any.isRequired,
     placeholder: PropTypes.string,
     required: PropTypes.bool,
@@ -89,21 +92,33 @@ export class FormSelect extends Component {
 
   render () {
     const { touched, error } = this.props.meta;
-    const { input, autoFocus, placeholder, required, submitFailed, options, emptyOption } = this.props;
+    const { input, autoFocus, submitFailed, options, multiple } = this.props;
     return (
       <div>
-        <select
+        <Select
+          {...input}
           autoFocus={autoFocus}
-          className={submitFailed && touched && error && styles['input-error']}
-          placeholder={placeholder}
-          required={required}
-          styleName='input'
-          {...input}>
-          {emptyOption && <option/>}
-          {options.map((item, index) =>
-            <option key={`select_${item.value}_${index}`} value={item.value}>{item.label}</option>
-          )}
-        </select>
+          cache={false}
+          className={submitFailed && touched && error ? styles['input-error'] : ''}
+          clearable={false}
+          isLoading={false}
+          multi={multiple}
+          options={options}
+          required
+          styleName='select'
+          value={Immutable.Iterable.isIterable(input.value) ? input.value.toJS() : input.value}
+          onBlur={() => {
+            if (multiple) {
+              return input.onBlur(Immutable.Iterable.isIterable(input.value) ? [ ...input.value ] : fromJS(input.value));
+            }
+            return input.onBlur(input.value);
+          }}
+          onChange={(internalValue) => {
+            if (multiple) {
+              return input.onChange(internalValue.map((p) => p.value));
+            }
+            return input.onChange(internalValue.value);
+          }}/>
         {submitFailed && touched && error && error !== 'err' && <div>{error}</div>}
       </div>
     );

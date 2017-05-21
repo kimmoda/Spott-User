@@ -2,17 +2,27 @@ import { apiBaseUrlSelector } from '../app/selector';
 import * as usersApi from '../../api/users';
 import { doLogin, doTryLoginFacebook } from '../app/actions';
 import { SubmissionError } from 'redux-form/immutable';
+import moment from 'moment';
 
 export const REGISTER_USER_START = 'REGISTER_USER_START';
 export function submit (values) {
   return async (dispatch, getState) => {
     try {
-      const { dateOfBirth, firstname, gender, lastname, email, password } = values.toJS();
+      const { firstName, gender, lastName, email, password, language, dayOfBirth, monthOfBirth, yearOfBirth } = values.toJS();
       dispatch({ type: REGISTER_USER_START });
       // Perform API call
       const state = getState();
       const apiBaseUrl = apiBaseUrlSelector(state);
-      await usersApi.register(apiBaseUrl, { dateOfBirth, email, gender, firstname, lastname, password });
+      const data = {
+        firstName,
+        lastName,
+        email,
+        password,
+        dateOfBirth: moment(`${yearOfBirth} ${parseInt(monthOfBirth, 10) + 1} ${dayOfBirth} 0:00 +0000`, 'YYYY M D HH:mm Z'),
+        gender,
+        languages: [ language ]
+      };
+      await usersApi.register(apiBaseUrl, data);
       // Automatically log in
       await dispatch(doLogin({ email, password }));
     } catch (error) {

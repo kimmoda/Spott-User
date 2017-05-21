@@ -65,7 +65,9 @@ export default class NewUserSettings extends Component {
         gender: values.get('gender'),
         dateOfBirth: moment(`${values.get('yearOfBirth')} ${parseInt(values.get('monthOfBirth'), 10) + 1} ${values.get('dayOfBirth')} 0:00 +0000`, 'YYYY M D HH:mm Z'),
         languages: userProfile.get('languages') ? userProfile.get('languages').toJS() : [],
-        currency: userProfile.get('currency') ? userProfile.get('currency').toJS() : {}
+        currency: userProfile.get('currency') ? userProfile.get('currency').toJS() : {},
+        shoppingCountries: userProfile.get('shoppingCountries') ? userProfile.get('shoppingCountries').toJS() : [],
+        contentRegions: userProfile.get('contentRegions') ? userProfile.get('contentRegions').toJS() : []
       }
     };
     try {
