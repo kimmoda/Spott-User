@@ -55,7 +55,6 @@ export default class Cards extends Component {
 
     if (this.cardsContainer) {
       this.setState({ cardContainerWidth: this.cardsContainer.masonry.element.clientWidth });
-      console.log(this.state.width, this.state.width*4, this.state.cardContainerWidth);
     }
   }
 
