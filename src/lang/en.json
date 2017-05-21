@@ -344,5 +344,13 @@
     "orderDetails": "Order Details",
     "houseNumber": "House Number",
     "editCard": "Edit Card"
+  },
+  "topic": {
+    "COMMERCIAL": "Commercial",
+    "MOVIE": "Movie",
+    "TV_SERIE": "Tv show",
+    "CHARACTER": "Character",
+    "MANUAL": "",
+    "BRAND": "Brand"
   }
 }

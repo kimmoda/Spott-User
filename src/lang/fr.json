@@ -344,5 +344,13 @@
     "orderDetails": "Détails de commande",
     "houseNumber": "Numéro de maison",
     "editCard": "Modifier la carte"
+  },
+  "topic": {
+    "COMMERCIAL": "Spot publicitaire",
+    "MOVIE": "Film",
+    "TV_SERIE": "Show télévisé",
+    "CHARACTER": "Character",
+    "MANUAL": "",
+    "BRAND": "Marque"
   }
 }

@@ -344,5 +344,13 @@
     "orderDetails": "Details van bestelling",
     "houseNumber": "Huisnummer",
     "editCard": "Kaart aanpassen"
+  },
+  "topic": {
+    "COMMERCIAL": "TV-spot",
+    "MOVIE": "Film",
+    "TV_SERIE": "Tv show",
+    "CHARACTER": "Personage",
+    "MANUAL": "",
+    "BRAND": "Merk"
   }
 }
