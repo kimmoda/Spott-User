@@ -352,5 +352,13 @@
     "CHARACTER": "Character",
     "MANUAL": "",
     "BRAND": "Brand"
+  },
+  "search": {
+    "spotts": {
+      "noResults": "Unfortunately, we weren’t able to find Spotts for your request. Please try again!"
+    },
+    "people": {
+      "noResults": "Unfortunately, we weren’t able to find people for your request. Please try again!"
+    }
   }
 }

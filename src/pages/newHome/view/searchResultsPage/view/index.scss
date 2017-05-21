@@ -85,3 +85,9 @@
   padding: 32px;
   box-shadow: $boxShadowBlur;
 }
+
+.no-results {
+  @include headlineMedium;
+  text-align: center;
+  padding: 50px 0 50px 0;
+}

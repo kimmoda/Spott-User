@@ -26,7 +26,8 @@ export default class SearchResultsPosts extends Component {
         q: PropTypes.string
       })
     }),
-    posts: PropTypes.any.isRequired
+    posts: PropTypes.any.isRequired,
+    t: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -49,12 +50,15 @@ export default class SearchResultsPosts extends Component {
   }
 
   render () {
-    const { posts, location } = this.props;
+    const { posts, location, t } = this.props;
 
     return (
       <div styleName='cards-wrapper'>
         <div styleName='cards'>
-          <Cards loadMore={this.loadMore} location={location} spotts={posts}/>
+          {Boolean(posts.get('data') && posts.get('data').size) &&
+            <Cards loadMore={this.loadMore} location={location} spotts={posts}/>}
+          {Boolean(posts.get('data') && !posts.get('data').size) &&
+            <div styleName='no-results'>{t('search.spotts.noResults')}</div>}
         </div>
       </div>
     );

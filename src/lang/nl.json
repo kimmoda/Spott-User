@@ -352,5 +352,13 @@
     "CHARACTER": "Personage",
     "MANUAL": "",
     "BRAND": "Merk"
+  },
+  "search": {
+    "spotts": {
+      "noResults": "Helaas! Wij vonden geen Spotts voor jouw zoekopdracht. Probeer gerust opnieuw!"
+    },
+    "people": {
+      "noResults": "Helaas! Wij vonden geen personen voor jouw zoekopdracht. Probeer gerust opnieuw!"
+    }
   }
 }

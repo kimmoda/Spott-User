@@ -25,7 +25,8 @@ export default class SearchResultsPeople extends Component {
         q: PropTypes.string
       })
     }),
-    persons: PropTypes.any.isRequired
+    persons: PropTypes.any.isRequired,
+    t: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -43,18 +44,21 @@ export default class SearchResultsPeople extends Component {
   }
 
   render () {
-    const { persons, currentUserId, location } = this.props;
+    const { persons, currentUserId, location, t } = this.props;
     return (
       <div styleName='peoples'>
-        <div styleName='peoples-content'>
-          {Boolean(persons.get('data') && persons.get('data').size) && persons.get('data').map((item, index) =>
-            <UserListItem
-              currentUserId={currentUserId}
-              item={item}
-              key={`search_user_${index}_${item.get('uuid')}`}
-              location={location}/>
-          )}
-        </div>
+        {Boolean(persons.get('data') && persons.get('data').size) &&
+          <div styleName='peoples-content'>
+            {persons.get('data').map((item, index) =>
+              <UserListItem
+                currentUserId={currentUserId}
+                item={item}
+                key={`search_user_${index}_${item.get('uuid')}`}
+                location={location}/>
+            )}
+          </div>}
+        {Boolean(persons.get('data') && !persons.get('data').size) &&
+          <div styleName='no-results'>{t('search.people.noResults')}</div>}
       </div>
     );
   }
