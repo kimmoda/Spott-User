@@ -237,6 +237,20 @@ export default function newHomeReducer (state = Map({
     case actions.GET_USER_WISHLIST_ERROR:
       return state.mergeIn([ 'users', action.uuid, 'wishlist' ], Map({ _error: action.error, _status: ERROR }));
 
+    case actions.GET_USER_FOLLOWERS_START:
+      return state.mergeIn([ 'users', action.uuid, 'followers' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_USER_FOLLOWERS_SUCCESS:
+      return state.setIn([ 'users', action.uuid, 'followers' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_USER_FOLLOWERS_ERROR:
+      return state.mergeIn([ 'users', action.uuid, 'followers' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_USER_FOLLOWING_START:
+      return state.mergeIn([ 'users', action.uuid, 'following' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_USER_FOLLOWING_SUCCESS:
+      return state.setIn([ 'users', action.uuid, 'following' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_USER_FOLLOWING_ERROR:
+      return state.mergeIn([ 'users', action.uuid, 'following' ], Map({ _error: action.error, _status: ERROR }));
+
     case actions.SET_REGISTRATION_DEFAULTS:
       return state.set('registrationFormDefaults', Map({ ...action.data }));
 

@@ -1,6 +1,6 @@
 import { SubmissionError } from 'redux-form';
 import { get, post, del } from './request';
-import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList } from './transformers';
+import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList, transformFollowersList } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=20`);
@@ -167,6 +167,16 @@ export async function setUserFollowing (baseUrl, authenticationToken, locale, { 
 export async function removeUserFollowing (baseUrl, authenticationToken, locale, { uuid, data }) {
   const { body } = await del(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/following`, data);
   return body;
+}
+
+export async function getUserFollowers (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/followedBy`);
+  return transformFollowersList(body);
+}
+
+export async function getUserFollowing (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/following`);
+  return transformFollowersList(body);
 }
 
 export async function getSearchSuggestions (baseUrl, authenticationToken, locale, { searchString }) {

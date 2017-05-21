@@ -154,7 +154,7 @@ export const userAccountDetailsSelector = createStructuredSelector({
 });
 
 export const usersEntitiesSelector = (state) => state.getIn([ 'newHome', 'users' ]);
-const userProfileUuidSelector = (state, props) => props.params.userId;
+const userProfileUuidSelector = (state, props) => props.params && props.params.userId || props.userId;
 const userProfileSelector = createEntityByIdSelector(usersEntitiesSelector, userProfileUuidSelector);
 
 export const userProfileDetailsSelector = createStructuredSelector({
