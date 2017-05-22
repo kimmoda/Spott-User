@@ -88,14 +88,11 @@ export default class NewHome extends Component {
   }
 
   loadMoreVisibility () {
-    const { spotts: s, spottsSubscribed: ss, spottsPromoted: sp } = this.props;
+    const { spotts: s, spottsSubscribed: ss } = this.props;
     if (s.get('data').size && s.get('_status') !== FETCHING && s.get('page') + 1 < s.get('pageCount')) {
       return true;
     }
     if (ss.get('data').size && ss.get('_status') !== FETCHING && ss.get('page') + 1 < ss.get('pageCount')) {
-      return true;
-    }
-    if (sp.get('data').size && sp.get('_status') !== FETCHING && sp.get('page') + 1 < sp.get('pageCount')) {
       return true;
     }
     return false;
