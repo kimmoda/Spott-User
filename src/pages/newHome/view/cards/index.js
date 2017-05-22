@@ -23,9 +23,10 @@ export default class Cards extends Component {
   constructor (props) {
     super(props);
     this.handleResize = ::this.handleResize;
+    this.handleLayoutComplete = ::this.handleLayoutComplete;
     this.state = {
       cardWidth: 280,
-      cardContainerWidth: 0
+      cardCount: 0
     };
   }
 
@@ -52,19 +53,21 @@ export default class Cards extends Component {
         this.setState({ cardWidth: 280 });
       }
     }
+  }
 
-    if (this.cardsContainer) {
-      this.setState({ cardContainerWidth: this.cardsContainer.masonry.element.clientWidth });
+  handleLayoutComplete (laidOutItems) {
+    if (this.state.cardCount !== laidOutItems.length) {
+      this.setState({ cardCount: laidOutItems.length });
     }
   }
 
   render () {
     const { spotts, loadMore, location } = this.props;
-    const { cardWidth, cardContainerWidth } = this.state;
+    const { cardWidth, cardCount } = this.state;
 
     return (
       <div ref={(ref) => { this.cardsWrapper = ref; }} styleName='cards-wrapper' >
-        <Masonry className={cardContainerWidth < cardWidth * 4 && cardWidth === 280 && styles['left-align']} disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true }} ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-container' >
+        <Masonry className={cardCount < 4 && cardWidth === 280 && styles['left-align']} disableImagesLoaded options={{isFitWidth: true }} ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-container' onLayoutComplete={laidOutItems => this.handleLayoutComplete(laidOutItems)}>
           {spotts.get('data') && spotts.get('data').valueSeq().map((item, index) =>
           <div key={`home_card_${item.get('uuid')}_${index}`} styleName='card-selector'><Card item={item} key={`home_card_${item.get('uuid')}_${index}`} location={location} spottId={item.get('uuid')} width={cardWidth} /></div>
           )}
