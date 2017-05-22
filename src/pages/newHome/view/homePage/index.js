@@ -37,13 +37,21 @@ export default class NewHome extends Component {
   constructor (props) {
     super(props);
     this.handleResize = ::this.handleResize;
+    this.loadMore = ::this.loadMore;
+    this.loadMoreVisibility = ::this.loadMoreVisibility;
     this.state = {
       width: 280
     };
   }
 
   componentDidMount () {
-    this.props.loadSpottsList(Boolean(this.props.isAuthenticated), this.props.spotts.get('page') ? this.props.spotts.get('page') : 0);
+    const { spotts, spottsSubscribed, spottsPromoted } = this.props;
+    const pages = {
+      spottsPage: spotts.get('page', 0),
+      spottsSubscribedPage: spottsSubscribed.get('page', 0),
+      spottsPromotedPage: spottsPromoted.get('page', 0)
+    };
+    this.props.loadSpottsList(Boolean(this.props.isAuthenticated), pages);
     this.props.loadTrendingTopics();
     window.addEventListener('resize', this.handleResize);
     this.getWidth();
@@ -69,12 +77,32 @@ export default class NewHome extends Component {
     }
   }
 
-  loadMore (page) {
-    this.props.loadSpottsList(Boolean(this.props.isAuthenticated), page);
+  loadMore () {
+    const { spotts: s, spottsSubscribed: ss, spottsPromoted: sp } = this.props;
+    const pages = {
+      spottsPage: s.get('page', -1) + 1 < s.get('pageCount') ? s.get('page', -1) + 1 : -1,
+      spottsSubscribedPage: ss.get('page', -1) + 1 < ss.get('pageCount') ? ss.get('page', -1) + 1 : -1,
+      spottsPromotedPage: sp.get('page', -1) + 1 < sp.get('pageCount') ? sp.get('page', -1) + 1 : -1
+    };
+    this.props.loadSpottsList(Boolean(this.props.isAuthenticated), pages);
+  }
+
+  loadMoreVisibility () {
+    const { spotts: s, spottsSubscribed: ss, spottsPromoted: sp } = this.props;
+    if (s.get('data').size && s.get('_status') !== FETCHING && s.get('page') + 1 < s.get('pageCount')) {
+      return true;
+    }
+    if (ss.get('data').size && ss.get('_status') !== FETCHING && ss.get('page') + 1 < ss.get('pageCount')) {
+      return true;
+    }
+    if (sp.get('data').size && sp.get('_status') !== FETCHING && sp.get('page') + 1 < sp.get('pageCount')) {
+      return true;
+    }
+    return false;
   }
 
   render () {
-    const { trendingTopics, spotts, location, feedSpotts } = this.props;
+    const { trendingTopics, location, feedSpotts } = this.props;
     const { width } = this.state;
     return (
       <section styleName='wrapper'>
@@ -86,7 +114,7 @@ export default class NewHome extends Component {
         </div>
         <div styleName='cards responsive-container'>
           <div ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-wrapper'>
-            <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true }}>
+            <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true, horizontalOrder: true }}>
               {feedSpotts.map((item, index) =>
                 <div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'>
                   <Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width}/>
@@ -95,8 +123,7 @@ export default class NewHome extends Component {
             </Masonry>
           </div>
         </div>
-        {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') && spotts.get('totalResultCount') > spotts.get('pageSize') && spotts.get('page') + 1 !== spotts.get('pageCount')) &&
-          <div styleName='load-more responsive-element' onClick={this.loadMore.bind(this, spotts.get('page') + 1)}>Load more...</div>}
+        {this.loadMoreVisibility() && <div styleName='load-more responsive-element' onClick={this.loadMore}>Load more...</div>}
       </section>
     );
   }

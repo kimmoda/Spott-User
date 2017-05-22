@@ -252,18 +252,20 @@ export const loadSpottsSubscribedList = makeApiActionCreator(api.getSpottsSubscr
 
 export const loadSpottsPromotedList = makeApiActionCreator(api.getSpottsPromotedList, GET_SPOTTS_PROMOTED_LIST_START, GET_SPOTTS_PROMOTED_LIST_SUCCESS, GET_SPOTTS_PROMOTED_LIST_ERROR);
 
-export function loadSpottsListWrapper (isAuthenticated, page = 0) {
+export function loadSpottsListWrapper (isAuthenticated, { spottsPage, spottsSubscribedPage, spottsPromotedPage }) {
   return async (dispatch, getState) => {
     try {
       if (isAuthenticated) {
-        const result = await dispatch(loadSpottsSubscribedList());
-        if (result.data.length <= 5) {
-          dispatch(loadSpottsList(page));
+        const spottsSubscribed = spottsSubscribedPage === -1 ? null : await dispatch(loadSpottsSubscribedList(spottsSubscribedPage));
+        if (!spottsSubscribed || spottsSubscribed.meta.page + 1 >= spottsSubscribed.meta.pageCount) {
+          await dispatch(loadSpottsList(spottsPage));
         }
       } else {
-        dispatch(loadSpottsList(page));
+        dispatch(loadSpottsList(spottsPage));
       }
-      dispatch(loadSpottsPromotedList());
+      if (spottsPromotedPage !== -1) {
+        dispatch(loadSpottsPromotedList(spottsPromotedPage));
+      }
     } catch (error) {
       console.log(error);
     }

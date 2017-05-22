@@ -57,10 +57,10 @@ const homeSpottsSubscribedSelector = createSelector(
 );
 
 const homeSpottsJoinedSelector = createSelector(
-  homeSpottsSelector,
   homeSpottsSubscribedSelector,
-  (spotts = [], spottsSubscribed = []) => {
-    return [ ..._.defaultTo(spotts, []), ..._.defaultTo(spottsSubscribed, []) ];
+  homeSpottsSelector,
+  (spottsSubscribed = [], spotts = []) => {
+    return [ ..._.defaultTo(spottsSubscribed, []), ..._.defaultTo(spotts, []) ];
   }
 );
 

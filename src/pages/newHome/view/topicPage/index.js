@@ -154,12 +154,13 @@ export default class NewTopic extends Component {
                     styleName='info-image info-image-square'/>}
                 <div styleName='info-header'>
                   <h2 styleName='info-title'>{topic.get('text')}</h2>
-                  <div styleName='info-type'>
-                    {topic.get('sourceType') === 'MEDIUM'
-                      ? t(`topic.${topic.getIn([ 'medium', 'type' ])}`)
-                      : t(`topic.${topic.get('sourceType')}`)
-                    }
-                  </div>
+                  {topic.get('sourceType') &&
+                    <div styleName='info-type'>
+                      {topic.get('sourceType') === 'MEDIUM'
+                        ? t(`topic.${topic.getIn([ 'medium', 'type' ])}`)
+                        : t(`topic.${topic.get('sourceType')}`)
+                      }
+                    </div>}
                 </div>
               </div>
               <div styleName='info-right'>
