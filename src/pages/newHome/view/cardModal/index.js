@@ -180,16 +180,6 @@ export default class CardModal extends Component {
     }
   }
 
-  showSpott (event) {
-    //this.props.routerPush({
-    //  pathname: `/${this.props.currentLocale}/spott/${this.props.spott.get('title').replace(/\W+/g, '-')}/${this.props.spott.get('uuid')}`,
-    //  state: {
-    //    modal: true,
-    //    returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
-    //  }
-    //});
-  }
-
   render () {
     const { spott, sidebarProducts, currentLocale, location, params } = this.props;
     const { width } = this.state;
@@ -211,7 +201,7 @@ export default class CardModal extends Component {
               <div styleName='modal-close' onClick={this.onCloseHandler}>
                 <i><IconClose/></i>
               </div>
-              <div ref={(ref) => { this.imageContainer = ref; }} styleName='image' onClick={(event) => this.showSpott(event)}>
+              <div ref={(ref) => { this.imageContainer = ref; }} styleName='image'>
                 {spott.get('image') && <ImageLoader imgOriginal={spott.get('image')} imgThumb={spott.get('image')} width={width} widthThumb={280}/>}
                 {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')} onMarkerClick={this.onProductClick}/>}
                 {spott.get('personMarkers') &&

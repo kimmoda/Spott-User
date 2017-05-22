@@ -62,10 +62,8 @@ export default class Sidebars extends Component {
   }
 
   onProductClick (productId, productName) {
-    console.log(productId);
     this.props.loadSidebarProduct({ uuid: productId });
     const spottId = this.props.params.complexId.split('}{')[0].replace('{', '');
-    console.log(this.props.location.pathname, `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${productName.replace(/\W+/g, '-')}/{${spottId}}{${productId}}`);
     this.props.routerPush({
       pathname: `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${productName.replace(/\W+/g, '-')}/{${spottId}}{${productId}}`,
       state: {
