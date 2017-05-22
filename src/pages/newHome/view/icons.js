@@ -165,6 +165,28 @@ export function IconCheck () {
   )
 }
 
+export function IconFacebook () {
+  return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+        <g fill="none" fillRule="evenodd">
+          <path d="M0 0h18v18H0z"/>
+          <path className='fill' fill="#A7A6A9" fillRule="nonzero" d="M18 17.007a.993.993 0 0 1-.993.993H12.42v-6.97h2.34l.35-2.717h-2.69V6.579c0-.787.218-1.323 1.346-1.323h1.439v-2.43a19.143 19.143 0 0 0-2.096-.108c-2.074 0-3.494 1.266-3.494 3.591v2.004H7.269v2.716h2.346V18H.993A.993.993 0 0 1 0 17.007V.993C0 .445.445 0 .993 0h16.014c.548 0 .993.445.993.993v16.014"/>
+        </g>
+      </svg>
+  )
+}
+
+export function IconTwitter () {
+  return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+        <g fill="none" fillRule="evenodd">
+          <path d="M0 0h18v18H0z"/>
+          <path className='fill' fill="#A7A6A9" fillRule="nonzero" d="M17.504 2.28a7.243 7.243 0 0 1-2.347.926A3.626 3.626 0 0 0 12.462 2C10.424 2 8.77 3.711 8.77 5.822c0 .3.032.59.095.87-3.069-.16-5.79-1.68-7.612-3.994a3.917 3.917 0 0 0-.5 1.923c0 1.325.652 2.496 1.643 3.181a3.601 3.601 0 0 1-1.674-.477v.047c0 1.853 1.273 3.397 2.964 3.748-.31.089-.636.134-.973.134a3.53 3.53 0 0 1-.695-.068c.47 1.518 1.833 2.623 3.45 2.653A7.25 7.25 0 0 1 0 15.423a10.213 10.213 0 0 0 5.661 1.716c6.793 0 10.507-5.823 10.507-10.873 0-.167-.003-.333-.01-.496A7.618 7.618 0 0 0 18 3.792a7.153 7.153 0 0 1-2.12.602 3.81 3.81 0 0 0 1.624-2.114"/>
+        </g>
+      </svg>
+  )
+}
+
 export function IconGallery() {
   return (
     <svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg">

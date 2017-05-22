@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
+import { IconFacebook, IconTwitter } from '../icons';
 
 const styles = require('./index.scss');
 
@@ -57,6 +58,10 @@ export default class Footer extends Component {
             <div styleName='footer-sub-col'>
               <div styleName='footer-follow'>
                 Follow us on social media
+              </div>
+              <div styleName='footer-socials'>
+                <a href='https://www.facebook.com/Spott.it/?fref=ts'> <i><IconFacebook /></i></a>
+                <a href='https://twitter.com/SpottBE_nl'> <i><IconTwitter /></i></a>
               </div>
             </div>
             <div styleName='footer-sub-col'>

@@ -71,6 +71,13 @@
   @include bodyMedium($colorGray);
   display: block;
 }
+.footer-socials {
+  margin-top: 10px;
+  display: inline-flex;
+  a {
+    margin-right: 16px;
+  }
+}
 
 .footer-nav-link {
   @include bodyRegular($colorGray);
