@@ -38,6 +38,7 @@ export default class NewTopic extends Component {
     removeTopicSubscriber: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     setTopicSubscriber: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
     topic: PropTypes.any.isRequired,
     topicRelated: PropTypes.any.isRequired,
     topicSpotts: PropTypes.any.isRequired
@@ -130,7 +131,7 @@ export default class NewTopic extends Component {
   }
 
   render () {
-    const { topic, topicRelated, topicSpotts } = this.props;
+    const { topic, topicRelated, topicSpotts, t } = this.props;
     const { isScrolledToInfo, infoContainerHeight } = this.state;
     return (
       <section styleName='wrapper'>
@@ -139,10 +140,27 @@ export default class NewTopic extends Component {
           <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
-                <div style={{ backgroundImage: `url('${topic.getIn([ 'profileImage', 'url' ])}?width=48&height=72')` }} styleName='info-image'/>
+                {topic.get('sourceType') === 'BRAND' &&
+                  <div
+                    style={{ backgroundImage: `url('${topic.getIn([ 'brand', 'logo', 'url' ])}?width=48&height=48')` }}
+                    styleName='info-image info-image-square'/>}
+                {topic.get('sourceType') === 'MEDIUM' &&
+                  <div
+                    style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'posterImage', 'url' ])}?width=48&height=72')` }}
+                    styleName='info-image'/>}
+                {topic.get('sourceType') === 'CHARACTER' &&
+                  <div
+                    style={{ backgroundImage: `url('${topic.getIn([ 'character', 'avatar', 'url' ])}?width=48&height=48')` }}
+                    styleName='info-image info-image-square'/>}
                 <div styleName='info-header'>
                   <h2 styleName='info-title'>{topic.get('text')}</h2>
-                  <div styleName='info-type'>{topic.get('sourceType')}</div>
+                  {topic.get('sourceType') &&
+                    <div styleName='info-type'>
+                      {topic.get('sourceType') === 'MEDIUM'
+                        ? t(`topic.${topic.getIn([ 'medium', 'type' ])}`)
+                        : t(`topic.${topic.get('sourceType')}`)
+                      }
+                    </div>}
                 </div>
               </div>
               <div styleName='info-right'>

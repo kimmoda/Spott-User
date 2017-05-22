@@ -1,4 +1,4 @@
-import { Map, List, OrderedMap, fromJS } from 'immutable';
+import { Map, List, OrderedMap, fromJS, Iterable } from 'immutable';
 import * as actions from './actions';
 import { FETCHING, ERROR, LOADED } from '../../data/statusTypes';
 
@@ -8,8 +8,8 @@ export default function newHomeReducer (state = Map({
   topicSpotts: Map({ data: OrderedMap() }),
   topicRelated: Map(),
   spotts: Map({ data: OrderedMap() }),
-  spottsSubscribed: Map(),
-  spottsPromoted: Map(),
+  spottsSubscribed: Map({ data: OrderedMap() }),
+  spottsPromoted: Map({ data: OrderedMap() }),
   currentSpott: Map(),
   spottLovers: Map(),
   currentProduct: Map(),
@@ -87,21 +87,36 @@ export default function newHomeReducer (state = Map({
     case actions.GET_SPOTTS_LIST_START:
       return state.mergeIn([ 'spotts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_SPOTTS_LIST_SUCCESS:
-      return state.mergeIn([ 'spotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'spotts', 'data' ], fromJS(action.data.data));
+      return state
+        .mergeIn([ 'spotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .mergeIn([ 'spotts', 'data' ], fromJS(action.data.data, (key, value) => {
+          const isIndexed = Iterable.isIndexed(value);
+          return isIndexed ? value.toList() : value.toOrderedMap();
+        }));
     case actions.GET_SPOTTS_LIST_ERROR:
       return state.mergeIn([ 'spotts' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.GET_SPOTTS_SUBSCRIBED_LIST_START:
       return state.mergeIn([ 'spottsSubscribed' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_SPOTTS_SUBSCRIBED_LIST_SUCCESS:
-      return state.set('spottsSubscribed', fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state
+        .mergeIn([ 'spottsSubscribed' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .mergeIn([ 'spottsSubscribed', 'data' ], fromJS(action.data.data, (key, value) => {
+          const isIndexed = Iterable.isIndexed(value);
+          return isIndexed ? value.toList() : value.toOrderedMap();
+        }));
     case actions.GET_SPOTTS_SUBSCRIBED_LIST_ERROR:
       return state.mergeIn([ 'spottsSubscribed' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.GET_SPOTTS_PROMOTED_LIST_START:
       return state.mergeIn([ 'spottsPromoted' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_SPOTTS_PROMOTED_LIST_SUCCESS:
-      return state.set('spottsPromoted', fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state
+        .mergeIn([ 'spottsPromoted' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .mergeIn([ 'spottsPromoted', 'data' ], fromJS(action.data.data, (key, value) => {
+          const isIndexed = Iterable.isIndexed(value);
+          return isIndexed ? value.toList() : value.toOrderedMap();
+        }));
     case actions.GET_SPOTTS_PROMOTED_LIST_ERROR:
       return state.mergeIn([ 'spottsPromoted' ], Map({ _error: action.error, _status: ERROR }));
 
@@ -236,6 +251,20 @@ export default function newHomeReducer (state = Map({
       return state.setIn([ 'users', action.uuid, 'wishlist' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_USER_WISHLIST_ERROR:
       return state.mergeIn([ 'users', action.uuid, 'wishlist' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_USER_FOLLOWERS_START:
+      return state.mergeIn([ 'users', action.uuid, 'followers' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_USER_FOLLOWERS_SUCCESS:
+      return state.setIn([ 'users', action.uuid, 'followers' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_USER_FOLLOWERS_ERROR:
+      return state.mergeIn([ 'users', action.uuid, 'followers' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_USER_FOLLOWING_START:
+      return state.mergeIn([ 'users', action.uuid, 'following' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_USER_FOLLOWING_SUCCESS:
+      return state.setIn([ 'users', action.uuid, 'following' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_USER_FOLLOWING_ERROR:
+      return state.mergeIn([ 'users', action.uuid, 'following' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.SET_REGISTRATION_DEFAULTS:
       return state.set('registrationFormDefaults', Map({ ...action.data }));

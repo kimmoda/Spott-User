@@ -130,6 +130,14 @@ export const REMOVE_USER_FOLLOWING_START = 'NEW/REMOVE_USER_FOLLOWING_START';
 export const REMOVE_USER_FOLLOWING_SUCCESS = 'NEW/REMOVE_USER_FOLLOWING_SUCCESS';
 export const REMOVE_USER_FOLLOWING_ERROR = 'NEW/REMOVE_USER_FOLLOWING_ERROR';
 
+export const GET_USER_FOLLOWERS_START = 'NEW/GET_USER_FOLLOWERS_START';
+export const GET_USER_FOLLOWERS_SUCCESS = 'NEW/GET_USER_FOLLOWERS_SUCCESS';
+export const GET_USER_FOLLOWERS_ERROR = 'NEW/GET_USER_FOLLOWERS_ERROR';
+
+export const GET_USER_FOLLOWING_START = 'NEW/GET_USER_FOLLOWING_START';
+export const GET_USER_FOLLOWING_SUCCESS = 'NEW/GET_USER_FOLLOWING_SUCCESS';
+export const GET_USER_FOLLOWING_ERROR = 'NEW/GET_USER_FOLLOWING_ERROR';
+
 export const GET_USER_LOVED_POSTS_START = 'NEW/GET_USER_LOVED_POSTS_START';
 export const GET_USER_LOVED_POSTS_SUCCESS = 'NEW/GET_USER_LOVED_POSTS_SUCCESS';
 export const GET_USER_LOVED_POSTS_ERROR = 'NEW/GET_USER_LOVED_POSTS_ERROR';
@@ -244,18 +252,20 @@ export const loadSpottsSubscribedList = makeApiActionCreator(api.getSpottsSubscr
 
 export const loadSpottsPromotedList = makeApiActionCreator(api.getSpottsPromotedList, GET_SPOTTS_PROMOTED_LIST_START, GET_SPOTTS_PROMOTED_LIST_SUCCESS, GET_SPOTTS_PROMOTED_LIST_ERROR);
 
-export function loadSpottsListWrapper (isAuthenticated, page = 0) {
+export function loadSpottsListWrapper (isAuthenticated, { spottsPage, spottsSubscribedPage, spottsPromotedPage }) {
   return async (dispatch, getState) => {
     try {
       if (isAuthenticated) {
-        const result = await dispatch(loadSpottsSubscribedList());
-        if (result.data.length <= 5) {
-          dispatch(loadSpottsList(page));
+        const spottsSubscribed = spottsSubscribedPage === -1 ? null : await dispatch(loadSpottsSubscribedList(spottsSubscribedPage));
+        if (!spottsSubscribed || spottsSubscribed.meta.page + 1 >= spottsSubscribed.meta.pageCount) {
+          await dispatch(loadSpottsList(spottsPage));
         }
       } else {
-        dispatch(loadSpottsList(page));
+        dispatch(loadSpottsList(spottsPage));
       }
-      dispatch(loadSpottsPromotedList());
+      if (spottsPromotedPage !== -1) {
+        dispatch(loadSpottsPromotedList(spottsPromotedPage));
+      }
     } catch (error) {
       console.log(error);
     }
@@ -379,6 +389,10 @@ export const resetUserPassword = makeApiActionCreator(api.resetUserPassword, RES
 export const setUserFollowing = makeApiActionCreator(api.setUserFollowing, SET_USER_FOLLOWING_START, SET_USER_FOLLOWING_SUCCESS, SET_USER_FOLLOWING_ERROR);
 
 export const removeUserFollowing = makeApiActionCreator(api.removeUserFollowing, REMOVE_USER_FOLLOWING_START, REMOVE_USER_FOLLOWING_SUCCESS, REMOVE_USER_FOLLOWING_ERROR);
+
+export const loadUserFollowers = makeApiActionCreator(api.getUserFollowers, GET_USER_FOLLOWERS_START, GET_USER_FOLLOWERS_SUCCESS, GET_USER_FOLLOWERS_ERROR);
+
+export const loadUserFollowing = makeApiActionCreator(api.getUserFollowing, GET_USER_FOLLOWING_START, GET_USER_FOLLOWING_SUCCESS, GET_USER_FOLLOWING_ERROR);
 
 export const loadUserSubscriptions = makeApiActionCreator(api.getUserSubscriptions, GET_USER_SUBSCRIPTIONS_START, GET_USER_SUBSCRIPTIONS_SUCCESS, GET_USER_SUBSCRIPTIONS_ERROR);
 

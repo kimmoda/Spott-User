@@ -344,5 +344,21 @@
     "orderDetails": "Details van bestelling",
     "houseNumber": "Huisnummer",
     "editCard": "Kaart aanpassen"
+  },
+  "topic": {
+    "COMMERCIAL": "TV-spot",
+    "MOVIE": "Film",
+    "TV_SERIE": "Tv show",
+    "CHARACTER": "Personage",
+    "MANUAL": "",
+    "BRAND": "Merk"
+  },
+  "search": {
+    "spotts": {
+      "noResults": "Helaas! Wij vonden geen Spotts voor jouw zoekopdracht. Probeer gerust opnieuw!"
+    },
+    "people": {
+      "noResults": "Helaas! Wij vonden geen personen voor jouw zoekopdracht. Probeer gerust opnieuw!"
+    }
   }
 }

@@ -57,10 +57,10 @@ const homeSpottsSubscribedSelector = createSelector(
 );
 
 const homeSpottsJoinedSelector = createSelector(
-  homeSpottsSelector,
   homeSpottsSubscribedSelector,
-  (spotts = [], spottsSubscribed = []) => {
-    return [ ..._.defaultTo(spotts, []), ..._.defaultTo(spottsSubscribed, []) ];
+  homeSpottsSelector,
+  (spottsSubscribed = [], spotts = []) => {
+    return [ ..._.defaultTo(spottsSubscribed, []), ..._.defaultTo(spotts, []) ];
   }
 );
 
@@ -154,7 +154,7 @@ export const userAccountDetailsSelector = createStructuredSelector({
 });
 
 export const usersEntitiesSelector = (state) => state.getIn([ 'newHome', 'users' ]);
-const userProfileUuidSelector = (state, props) => props.params.userId;
+const userProfileUuidSelector = (state, props) => props.params && props.params.userId || props.userId;
 const userProfileSelector = createEntityByIdSelector(usersEntitiesSelector, userProfileUuidSelector);
 
 export const userProfileDetailsSelector = createStructuredSelector({

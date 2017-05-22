@@ -344,3 +344,19 @@ export function transformPersonsList (data) {
     data: data.data.map((item) => item.user)
   };
 }
+
+export function transformFollowersList (data) {
+  return {
+    data: data.data.map((item) => {
+      return {
+        profile: {
+          avatar: item.avatar,
+          firstName: item.firstName,
+          lastName: item.lastName,
+          followingUser: item.following
+        },
+        uuid: item.user.uuid
+      };
+    })
+  };
+}

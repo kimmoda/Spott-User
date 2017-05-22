@@ -9,6 +9,7 @@ import localized from '../../../../_common/localized';
 import { IconAvatar, IconCheck } from '../../icons';
 import * as actions from '../../../actions';
 import { userProfileDetailsSelector } from '../../../selectors';
+import UsersModal from './usersModal';
 
 const styles = require('./index.scss');
 const { cssHeaderHeight } = require('../../vars.scss');
@@ -16,6 +17,8 @@ const { cssHeaderHeight } = require('../../vars.scss');
 @localized
 @connect(userProfileDetailsSelector, (dispatch) => ({
   loadUserProfile: bindActionCreators(actions.loadUserProfile, dispatch),
+  loadUserFollowers: bindActionCreators(actions.loadUserFollowers, dispatch),
+  loadUserFollowing: bindActionCreators(actions.loadUserFollowing, dispatch),
   removeUserFollowing: bindActionCreators(actions.removeUserFollowing, dispatch),
   setUserFollowing: bindActionCreators(actions.setUserFollowing, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
@@ -26,6 +29,8 @@ export default class NewUserProfile extends Component {
     children: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
+    loadUserFollowers: PropTypes.func.isRequired,
+    loadUserFollowing: PropTypes.func.isRequired,
     loadUserProfile: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     params: PropTypes.shape({
@@ -41,9 +46,15 @@ export default class NewUserProfile extends Component {
     super(props);
     this.handleScroll = ::this.handleScroll;
     this.handleResize = ::this.handleResize;
+    this.showFollowersModal = ::this.showFollowersModal;
+    this.closeFollowersModal = ::this.closeFollowersModal;
+    this.showFollowingModal = ::this.showFollowingModal;
+    this.closeFollowingModal = ::this.closeFollowingModal;
     this.state = {
       isScrolledToInfo: false,
-      following: this.props.userProfile.getIn([ 'profile', 'profile', 'followingUser' ])
+      following: this.props.userProfile.getIn([ 'profile', 'profile', 'followingUser' ]),
+      isFollowersModalOpen: false,
+      isFollowingModalOpen: false
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
     this.infoContainerHeight = null;
@@ -56,13 +67,20 @@ export default class NewUserProfile extends Component {
     this.props.loadUserProfile({ uuid: this.props.params.userId });
   }
 
-  componentWillReceiveProps (nextProps) {
+  async componentWillReceiveProps (nextProps) {
     if (nextProps.params.userId && nextProps.params.userId !== this.props.params.userId) {
-      this.props.loadUserProfile({ uuid: nextProps.params.userId });
+      this.setState({
+        isFollowersModalOpen: false,
+        isFollowingModalOpen: false
+      });
+      await this.props.loadUserProfile({ uuid: nextProps.params.userId });
+      this.setState({
+        isScrolledToInfo: false
+      });
     }
-    this.state = {
+    this.setState({
       following: nextProps.userProfile.getIn([ 'profile', 'profile', 'followingUser' ])
-    };
+    });
   }
 
   componentWillUnmount () {
@@ -80,6 +98,30 @@ export default class NewUserProfile extends Component {
   handleScroll () {
     this.setState({
       isScrolledToInfo: this.infoContainer.offsetTop <= window.scrollY + this.headerHeight + 30
+    });
+  }
+
+  showFollowersModal () {
+    this.setState({
+      isFollowersModalOpen: true
+    });
+  }
+
+  closeFollowersModal () {
+    this.setState({
+      isFollowersModalOpen: false
+    });
+  }
+
+  showFollowingModal () {
+    this.setState({
+      isFollowingModalOpen: true
+    });
+  }
+
+  closeFollowingModal () {
+    this.setState({
+      isFollowingModalOpen: false
     });
   }
 
@@ -108,9 +150,9 @@ export default class NewUserProfile extends Component {
   }
 
   render () {
-    const { children, currentLocale, userProfile, currentUserId } = this.props;
+    const { children, currentLocale, userProfile, currentUserId, location, loadUserFollowing, loadUserFollowers } = this.props;
     const { userId } = this.props.params;
-    const { isScrolledToInfo, following } = this.state;
+    const { isScrolledToInfo, following, isFollowersModalOpen, isFollowingModalOpen } = this.state;
     return (
       <section styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
@@ -133,14 +175,25 @@ export default class NewUserProfile extends Component {
                 </div>
               </div>
               <div styleName='info-right'>
-                <div styleName='info-followers'>
+                <div styleName='info-followers' onClick={userProfile.getIn([ 'profile', 'profile', 'followerCount' ]) && this.showFollowersModal}>
                   <div styleName='info-followers-count'>{userProfile.getIn([ 'profile', 'profile', 'followerCount' ])}</div>
                   <div styleName='info-followers-text'>Followers</div>
                 </div>
-                <div styleName='info-following'>
+                {isFollowersModalOpen &&
+                  <UsersModal
+                    loadUsers={loadUserFollowers}
+                    location={location} userId={userId}
+                    onClose={this.closeFollowersModal}/>}
+                <div styleName='info-following' onClick={userProfile.getIn([ 'profile', 'profile', 'followingCount' ]) && this.showFollowingModal}>
                   <div styleName='info-following-count'>{userProfile.getIn([ 'profile', 'profile', 'followingCount' ])}</div>
                   <div styleName='info-following-text'>Following</div>
                 </div>
+                {isFollowingModalOpen &&
+                  <UsersModal
+                    followingListMode
+                    loadUsers={loadUserFollowing}
+                    location={location} userId={userId}
+                    onClose={this.closeFollowingModal}/>}
                 {userId !== currentUserId &&
                   <div
                     className={following && styles['info-follow-btn-active']}

@@ -344,5 +344,21 @@
     "orderDetails": "Détails de commande",
     "houseNumber": "Numéro de maison",
     "editCard": "Modifier la carte"
+  },
+  "topic": {
+    "COMMERCIAL": "Spot publicitaire",
+    "MOVIE": "Film",
+    "TV_SERIE": "Show télévisé",
+    "CHARACTER": "Character",
+    "MANUAL": "",
+    "BRAND": "Marque"
+  },
+  "search": {
+    "spotts": {
+      "noResults": "Malheureusement! Nous n’avons pas trouvé de Spotts pour votre recherche. Essayez à nouveau!"
+    },
+    "people": {
+      "noResults": "Malheureusement! Nous n’avons pas trouvé de personnes pour votre recherche. Essayez à nouveau!"
+    }
   }
 }

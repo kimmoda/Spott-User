@@ -63,10 +63,15 @@
   background-position: 50%;
   overflow: hidden;
   border-radius: 4px;
+  margin-right: $gutterSmallWidth;
+}
+
+.info-image-square {
+  width: 48px;
+  height: 48px;
 }
 
 .info-header {
-  margin-left: $gutterSmallWidth;
 }
 
 .info-title {

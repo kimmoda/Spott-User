@@ -344,5 +344,21 @@
     "orderDetails": "Order Details",
     "houseNumber": "House Number",
     "editCard": "Edit Card"
+  },
+  "topic": {
+    "COMMERCIAL": "Commercial",
+    "MOVIE": "Movie",
+    "TV_SERIE": "Tv show",
+    "CHARACTER": "Character",
+    "MANUAL": "",
+    "BRAND": "Brand"
+  },
+  "search": {
+    "spotts": {
+      "noResults": "Unfortunately, we weren’t able to find Spotts for your request. Please try again!"
+    },
+    "people": {
+      "noResults": "Unfortunately, we weren’t able to find people for your request. Please try again!"
+    }
   }
 }
