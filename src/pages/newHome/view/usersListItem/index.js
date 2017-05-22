@@ -13,6 +13,7 @@ const styles = require('./index.scss');
 
 @localized
 @connect(null, (dispatch) => ({
+  loadUserProfile: bindActionCreators(actions.loadUserProfile, dispatch),
   removeUserFollowing: bindActionCreators(actions.removeUserFollowing, dispatch),
   setUserFollowing: bindActionCreators(actions.setUserFollowing, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
@@ -23,10 +24,12 @@ export default class UserListItem extends Component {
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
     item: PropTypes.any.isRequired,
+    loadUserProfile: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     removeUserFollowing: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
-    setUserFollowing: PropTypes.func.isRequired
+    setUserFollowing: PropTypes.func.isRequired,
+    updateUserProfileOnAction: PropTypes.bool
   };
 
   constructor (props) {
@@ -43,9 +46,9 @@ export default class UserListItem extends Component {
   }
 
   async onFollowClick (following) {
-    const currentUserId = this.props.currentUserId;
+    const { currentUserId, updateUserProfileOnAction, loadUserProfile } = this.props;
+    const userId = this.props.item.get('uuid');
     if (currentUserId) {
-      const userId = this.props.item.get('uuid');
       this.setState({
         following: !this.state.following
       });
@@ -54,6 +57,9 @@ export default class UserListItem extends Component {
           await this.props.removeUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
         } else {
           await this.props.setUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
+        }
+        if (updateUserProfileOnAction) {
+          loadUserProfile({ uuid: currentUserId });
         }
       } catch (error) {
         this.setState({

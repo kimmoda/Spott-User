@@ -47,7 +47,7 @@ export default class UsersModal extends Component {
   }
 
   render () {
-    const { userProfile, currentUserId, followingListMode } = this.props;
+    const { userProfile, currentUserId, userId, followingListMode } = this.props;
     const usersList = followingListMode ? userProfile.getIn([ 'following', 'data' ], []) : userProfile.getIn([ 'followers', 'data' ], []);
 
     return (
@@ -65,7 +65,8 @@ export default class UsersModal extends Component {
                 currentUserId={currentUserId}
                 item={item}
                 key={`search_user_${index}_${item.get('uuid')}`}
-                location={location}/>
+                location={location}
+                updateUserProfileOnAction={Boolean(currentUserId && currentUserId === userId)}/>
             )}
           </div>
         </div>
