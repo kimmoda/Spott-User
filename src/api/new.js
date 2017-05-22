@@ -53,7 +53,7 @@ export async function getSpottsSubscribedList (baseUrl, authenticationToken, loc
 }
 
 export async function getSpottsPromotedList (baseUrl, authenticationToken, locale, page = 0) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/promoted?page=${page}&pageSize=200`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/promoted?page=${page}&pageSize=2`);
   return transformSpottsList(body);
 }
 

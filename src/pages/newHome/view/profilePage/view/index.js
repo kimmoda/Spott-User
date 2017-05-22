@@ -52,7 +52,6 @@ export default class NewUserProfile extends Component {
     this.closeFollowingModal = ::this.closeFollowingModal;
     this.state = {
       isScrolledToInfo: false,
-      following: this.props.userProfile.getIn([ 'profile', 'profile', 'followingUser' ]),
       isFollowersModalOpen: false,
       isFollowingModalOpen: false
     };
@@ -78,9 +77,6 @@ export default class NewUserProfile extends Component {
         isScrolledToInfo: false
       });
     }
-    this.setState({
-      following: nextProps.userProfile.getIn([ 'profile', 'profile', 'followingUser' ])
-    });
   }
 
   componentWillUnmount () {
@@ -127,21 +123,16 @@ export default class NewUserProfile extends Component {
 
   async onFollowClick (following) {
     const currentUserId = this.props.currentUserId;
+    const userId = this.props.params.userId;
     if (currentUserId) {
-      const userId = this.props.params.userId;
-      this.setState({
-        following: !this.state.following
-      });
       try {
         if (following) {
           await this.props.removeUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
         } else {
           await this.props.setUserFollowing({ uuid: currentUserId, data: { uuid: userId } });
         }
+        this.props.loadUserProfile({ uuid: userId });
       } catch (error) {
-        this.setState({
-          following: !this.state.following
-        });
         throw error;
       }
     } else {
@@ -152,7 +143,7 @@ export default class NewUserProfile extends Component {
   render () {
     const { children, currentLocale, userProfile, currentUserId, location, loadUserFollowing, loadUserFollowers } = this.props;
     const { userId } = this.props.params;
-    const { isScrolledToInfo, following, isFollowersModalOpen, isFollowingModalOpen } = this.state;
+    const { isScrolledToInfo, isFollowersModalOpen, isFollowingModalOpen } = this.state;
     return (
       <section styleName='wrapper'>
         {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
@@ -196,10 +187,10 @@ export default class NewUserProfile extends Component {
                     onClose={this.closeFollowingModal}/>}
                 {userId !== currentUserId &&
                   <div
-                    className={following && styles['info-follow-btn-active']}
+                    className={userProfile.getIn([ 'profile', 'profile', 'followingUser' ], false) && styles['info-follow-btn-active']}
                     styleName='info-follow-btn'
-                    onClick={this.onFollowClick.bind(this, following)}>
-                    <span>{following ? 'Following' : 'Follow'}</span>
+                    onClick={this.onFollowClick.bind(this, userProfile.getIn([ 'profile', 'profile', 'followingUser' ], false))}>
+                    <span>{userProfile.getIn([ 'profile', 'profile', 'followingUser' ], false) ? 'Following' : 'Follow'}</span>
                     <i><IconCheck/></i>
                   </div>}
               </div>

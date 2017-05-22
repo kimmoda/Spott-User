@@ -258,7 +258,7 @@ export function loadSpottsListWrapper (isAuthenticated, { spottsPage, spottsSubs
       if (isAuthenticated) {
         const spottsSubscribed = spottsSubscribedPage === -1 ? null : await dispatch(loadSpottsSubscribedList(spottsSubscribedPage));
         if (!spottsSubscribed || spottsSubscribed.meta.page + 1 >= spottsSubscribed.meta.pageCount) {
-          await dispatch(loadSpottsList(spottsPage));
+          dispatch(loadSpottsList(spottsPage));
         }
       } else {
         dispatch(loadSpottsList(spottsPage));
