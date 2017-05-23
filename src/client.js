@@ -120,8 +120,13 @@ async function boot () {
   const session = storage.getItem('session');
 
   if (session) {
-    const sessionData = JSON.parse(session);
-    store.dispatch({ data: sessionData, type: LOGIN_SUCCESS });
+    try {
+      const sessionData = JSON.parse(session);
+      Reflect.deleteProperty(sessionData, 'initialValues');
+      store.dispatch({ data: sessionData, type: LOGIN_SUCCESS });
+    } catch (e) {
+      console.log(e);
+    }
     /*
     if (sessionData.ubAuthenticationToken) {
       store.dispatch(initBasketData());

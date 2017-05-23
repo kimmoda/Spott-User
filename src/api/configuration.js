@@ -19,9 +19,11 @@ export async function login (baseUrl, { email: emailIn, password }) {
   try {
     // TODO: localize! Server should return proper error message to display to the user.
     const { body } = await request.post(null, 'nl', `${baseUrl}/v004/security/login`, { userName: emailIn, password });
+    const transformedUser = transformUser(body.user);
     return {
       authenticationToken: body.authenticationToken,
-      user: transformUser(body.user)
+      user: transformedUser.profile,
+      initialValues: transformedUser.initialValues
     };
   } catch (error) {
     if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
@@ -35,9 +37,11 @@ export async function loginFacebook (baseUrl, { facebookAccessToken }) {
   try {
     // TODO: localize! Server should return proper error message to display to the user.
     const { body } = await request.post(null, 'nl', `${baseUrl}/v003/security/login`, { facebookAccessToken });
+    const transformedUser = transformUser(body.user);
     return {
       authenticationToken: body.authenticationToken,
-      user: transformUser(body.user)
+      user: transformedUser.profile,
+      initialValues: transformedUser.initialValues
     };
   } catch (error) {
     if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {

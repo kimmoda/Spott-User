@@ -13,6 +13,7 @@ import {
 function authentication (state = fromJS({
   isLoading: false,
   user: {},
+  initialValues: null,
   authenticationToken: null,
   ubAuthenticationToken: null
 }), action) {
@@ -26,16 +27,22 @@ function authentication (state = fromJS({
         .set('error', null)
         .set('isLoginModalOpen', false)
         .set('isLoading', false)
-        .merge(fromJS(action.data));
+        .merge(fromJS(action.data))
+        .set('initialValues', action.data.initialValues ? Map({ ...action.data.initialValues }) : null);
     case newActions.UPDATE_USER_PROFILE_SUCCESS:
       return state
-        .mergeIn([ 'user' ], fromJS(action.data));
+        .mergeIn([ 'user' ], fromJS(action.data.profile))
+        .set('initialValues', Map({ ...action.data.initialValues }));
     case newActions.UPDATE_USER_AVATAR_SUCCESS:
       return state
-        .mergeIn([ 'user' ], fromJS(action.data));
+        .mergeIn([ 'user' ], fromJS(action.data.profile));
     case newActions.UPDATE_USER_BACKGROUND_SUCCESS:
       return state
-        .mergeIn([ 'user' ], fromJS(action.data));
+        .mergeIn([ 'user' ], fromJS(action.data.profile));
+    case newActions.SET_USER_PROFILE_ACCOUNT:
+      return state
+        .mergeIn([ 'user' ], fromJS(action.data.profile))
+        .set('initialValues', Map({ ...action.data.initialValues }));
     case actions.LOGIN_FAILURE:
       return state
         .set('error', action.error)
@@ -44,7 +51,8 @@ function authentication (state = fromJS({
       return state
         .set('authenticationToken', null)
         .set('ubAuthenticationToken', null)
-        .set('user', Map({}));
+        .set('user', Map({}))
+        .set('initialValues', null);
     case ubActions.LOAD_UB_TOKEN_SUCCESS:
       return state
         .set('ubAuthenticationToken', action.data);

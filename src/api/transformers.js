@@ -8,32 +8,42 @@ function stripDomain (url) {
 
 export function transformUser ({ uuid, userName, profile }) {
   return {
-    avatar: profile.avatar ? profile.avatar : null,
-    dateOfBirth: profile.dateOfBirth,
-    email: profile.email ? profile.email : null,
-    firstName: profile.firstName,
-    followerCount: profile.followerCount,
-    followingCount: profile.followingCount,
-    id: uuid,
-    lastName: profile.lastName,
-    picture: profile.picture ? profile.picture : null,
-    tagline: profile.tagLine,
-    username: userName,
-    description: profile.description ? profile.description : null,
-    gender: profile.gender ? profile.gender : null,
-    dayOfBirth: moment(profile.dateOfBirth).get('date'),
-    monthOfBirth: moment(profile.dateOfBirth).get('month'),
-    yearOfBirth: moment(profile.dateOfBirth).get('year'),
-    language: profile.language ? profile.language : null,
-    languageForm: profile.language ? profile.language.uuid : null,
-    languages: profile.languages ? profile.languages : null,
-    languagesForm: profile.languages ? profile.languages.map((item) => item.uuid) : null,
-    currency: profile.currency ? profile.currency : null,
-    currencyForm: profile.currency ? profile.currency.code : null,
-    shoppingCountries: profile.shoppingCountries ? profile.shoppingCountries : null,
-    shoppingCountriesForm: profile.shoppingCountries ? profile.shoppingCountries.map((item) => item.uuid) : null,
-    contentRegions: profile.contentRegions ? profile.contentRegions : null,
-    contentRegionsForm: profile.contentRegions ? profile.contentRegions.map((item) => `${item.country.uuid}-${item.language.uuid}`) : null
+    profile: {
+      avatar: profile.avatar ? profile.avatar : null,
+      dateOfBirth: profile.dateOfBirth,
+      email: profile.email ? profile.email : null,
+      firstName: profile.firstName,
+      followerCount: profile.followerCount,
+      followingCount: profile.followingCount,
+      id: uuid,
+      lastName: profile.lastName,
+      picture: profile.picture ? profile.picture : null,
+      tagline: profile.tagLine,
+      username: userName,
+      description: profile.description ? profile.description : null,
+      gender: profile.gender ? profile.gender : null,
+      languages: profile.languages ? profile.languages : null,
+      currency: profile.currency ? profile.currency : null,
+      shoppingCountries: profile.shoppingCountries ? profile.shoppingCountries : null,
+      contentRegions: profile.contentRegions ? profile.contentRegions : null
+    },
+    initialValues: {
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email ? profile.email : null,
+      description: profile.description ? profile.description : null,
+      gender: profile.gender ? profile.gender : null,
+      dayOfBirth: moment(profile.dateOfBirth).get('date'),
+      monthOfBirth: moment(profile.dateOfBirth).get('month'),
+      yearOfBirth: moment(profile.dateOfBirth).get('year'),
+      currencyForm: profile.currency ? profile.currency.code : null,
+      languageForm: profile.languages ? profile.languages[0].uuid : null,
+      languagesForm: profile.languages ? profile.languages
+        .map((item) => item.uuid)
+        .filter((item) => item !== profile.languages[0].uuid) : null,
+      shoppingCountriesForm: profile.shoppingCountries ? profile.shoppingCountries.map((item) => item.uuid) : null,
+      contentRegionsForm: profile.contentRegions ? profile.contentRegions.map((item) => `${item.country.uuid}-${item.language.uuid}`) : null
+    }
   };
 }
 

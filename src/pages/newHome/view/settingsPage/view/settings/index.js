@@ -15,6 +15,7 @@ const styles = require('./index.scss');
 
 @localized
 @connect(userSettingsDetailsSelector, (dispatch) => ({
+  loadUserProfileAccount: bindActionCreators(actions.loadUserProfileAccountWrapper, dispatch),
   updateUserAvatar: bindActionCreators(actions.updateUserAvatar, dispatch),
   updateUserBackground: bindActionCreators(actions.updateUserBackground, dispatch),
   updateUserProfile: bindActionCreators(actions.updateUserProfileWrapper, dispatch)
@@ -27,10 +28,10 @@ const styles = require('./index.scss');
 export default class NewUserSettings extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
-    currentUserProfile: PropTypes.any.isRequired,
+    currentUserProfile: PropTypes.any,
     error: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
-    initialValues: PropTypes.any.isRequired,
+    loadUserProfileAccount: PropTypes.func.isRequired,
     submitFailed: PropTypes.bool,
     submitting: PropTypes.bool.isRequired,
     t: PropTypes.func.isRequired,
@@ -54,6 +55,25 @@ export default class NewUserSettings extends Component {
     };
   }
 
+  async componentDidMount () {
+    if (this.props.userId) {
+      this.props.loadUserProfileAccount({ uuid: this.props.userId });
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.currentUserProfile.getIn([ 'avatar', 'url' ]) !== this.props.currentUserProfile.getIn([ 'avatar', 'url' ])) {
+      this.setState({
+        avatarPreviewUrl: nextProps.currentUserProfile.getIn([ 'avatar', 'url' ])
+      });
+    }
+    if (nextProps.currentUserProfile.getIn([ 'picture', 'url' ]) !== this.props.currentUserProfile.getIn([ 'picture', 'url' ])) {
+      this.setState({
+        backgroundPreviewUrl: nextProps.currentUserProfile.getIn([ 'picture', 'url' ])
+      });
+    }
+  }
+
   async onSubmit (values) {
     const userProfile = this.props.currentUserProfile;
     const data = {
@@ -64,18 +84,24 @@ export default class NewUserSettings extends Component {
         description: values.get('description'),
         gender: values.get('gender'),
         dateOfBirth: moment(`${values.get('yearOfBirth')} ${parseInt(values.get('monthOfBirth'), 10) + 1} ${values.get('dayOfBirth')} 0:00 +0000`, 'YYYY M D HH:mm Z'),
-        languages: userProfile.get('languages') ? userProfile.get('languages').toJS() : [],
-        currency: userProfile.get('currency') ? userProfile.get('currency').toJS() : {},
-        shoppingCountries: userProfile.get('shoppingCountries') ? userProfile.get('shoppingCountries').toJS() : [],
-        contentRegions: userProfile.get('contentRegions') ? userProfile.get('contentRegions').toJS() : []
+        languages: userProfile.get('languages', []),
+        currency: userProfile.get('currency', {}),
+        shoppingCountries: userProfile.get('shoppingCountries', []),
+        contentRegions: userProfile.get('contentRegions', [])
       }
     };
     try {
       if (this.state.avatarFile) {
         await this.props.updateUserAvatar({ uuid: this.props.userId, data: { data: this.state.avatarFile } });
+        this.setState({
+          avatarFile: null
+        });
       }
       if (this.state.backgroundFile) {
         await this.props.updateUserBackground({ uuid: this.props.userId, data: { data: this.state.backgroundFile } });
+        this.setState({
+          backgroundFile: null
+        });
       }
       this.props.updateUserProfile({ uuid: this.props.userId, data });
     } catch (e) {
@@ -89,13 +115,15 @@ export default class NewUserSettings extends Component {
     const reader = new FileReader();
     const file = e.target.files[0];
 
-    reader.onloadend = () => {
-      this.setState({
-        avatarFile: reader.result.split(',')[1],
-        avatarPreviewUrl: reader.result
-      });
-    };
-    reader.readAsDataURL(file);
+    if (file) {
+      reader.onloadend = () => {
+        this.setState({
+          avatarFile: reader.result.split(',')[1],
+          avatarPreviewUrl: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   onBackgroundChange (e) {
@@ -103,13 +131,15 @@ export default class NewUserSettings extends Component {
     const reader = new FileReader();
     const file = e.target.files[0];
 
-    reader.onloadend = () => {
-      this.setState({
-        backgroundFile: reader.result.split(',')[1],
-        backgroundPreviewUrl: reader.result
-      });
-    };
-    reader.readAsDataURL(file);
+    if (file) {
+      reader.onloadend = () => {
+        this.setState({
+          backgroundFile: reader.result.split(',')[1],
+          backgroundPreviewUrl: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   render () {

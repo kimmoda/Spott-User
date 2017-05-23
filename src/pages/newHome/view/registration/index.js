@@ -85,7 +85,7 @@ export default class NewRegistration extends Component {
   }
 
   render () {
-    const { error, handleSubmit, t, submitFailed, currentLocale, facebookIsLoading, facebookError, submitting, systemCountries, systemLanguages } = this.props;
+    const { error, handleSubmit, t, submitFailed, currentLocale, facebookIsLoading, facebookError, submitting, systemLanguages } = this.props;
     return (
       <ReactModal
         className={styles['modal-content']}
@@ -191,6 +191,7 @@ export default class NewRegistration extends Component {
                 submitFailed={submitFailed}/>
             </div>
           </div>
+          {/*
           <div className='form-row'>
             <label className='form-label'>Country</label>
             <Field
@@ -199,6 +200,7 @@ export default class NewRegistration extends Component {
               options={systemCountries.get('data', List()).toJS().map((item) => { return { value: item.uuid, label: item.name }; })}
               submitFailed={submitFailed}/>
           </div>
+           */}
           <div className='form-row'>
             <label className='form-label'>Language</label>
             <Field
