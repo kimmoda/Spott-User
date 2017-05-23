@@ -1,5 +1,6 @@
 import { Map, List, OrderedMap, fromJS, Iterable } from 'immutable';
 import * as actions from './actions';
+import * as oldActions from '../app/actions';
 import { FETCHING, ERROR, LOADED } from '../../data/statusTypes';
 
 export default function newHomeReducer (state = Map({
@@ -119,6 +120,15 @@ export default function newHomeReducer (state = Map({
         }));
     case actions.GET_SPOTTS_PROMOTED_LIST_ERROR:
       return state.mergeIn([ 'spottsPromoted' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.CLEAR_SPOTTS_LIST:
+      return state.set('spotts', Map({ _error: null, _status: FETCHING, data: OrderedMap() }));
+    case oldActions.LOGIN_SUCCESS:
+      return state.set('spotts', Map({ _error: null, _status: FETCHING, data: OrderedMap() }));
+    case oldActions.LOGOUT_SUCCESS:
+      return state
+        .set('spotts', Map({ _error: null, _status: FETCHING, data: OrderedMap() }))
+        .set('spottsSubscribed', Map({ _error: null, _status: FETCHING, data: OrderedMap() }));
 
     case actions.LOAD_SPOTT_START:
       return state.set('currentSpott', Map({ uuid: action.uuid }));

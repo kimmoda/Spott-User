@@ -47,6 +47,8 @@ export const GET_SPOTTS_PROMOTED_LIST_START = 'NEW/GET_SPOTTS_PROMOTED_LIST_STAR
 export const GET_SPOTTS_PROMOTED_LIST_SUCCESS = 'NEW/GET_SPOTTS_PROMOTED_LIST_SUCCESS';
 export const GET_SPOTTS_PROMOTED_LIST_ERROR = 'NEW/GET_SPOTTS_PROMOTED_LIST_ERROR';
 
+export const CLEAR_SPOTTS_LIST = 'NEW/CLEAR_SPOTTS_LIST';
+
 export const LOAD_SPOTT_START = 'NEW/LOAD_SPOTT_START';
 export const LOAD_SPOTT_ERROR = 'NEW/LOAD_SPOTT_ERROR';
 
@@ -275,6 +277,12 @@ export function loadSpottsListWrapper (isAuthenticated, { spottsPage, spottsSubs
     } catch (error) {
       console.log(error);
     }
+  };
+}
+
+export function clearSpottsList () {
+  return async (dispatch, getState) => {
+    dispatch({ type: CLEAR_SPOTTS_LIST });
   };
 }
 

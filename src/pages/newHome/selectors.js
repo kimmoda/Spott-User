@@ -42,7 +42,7 @@ export const sidebarProductsSelector = createStructuredSelector({
   sidebarProducts: createEntitiesByListSelector(sidebarProductsListSelector, productEntitiesSelector)
 });
 
-const step = 2;
+const step = 5;
 const homeSpottsSelector = createSelector(
   spottsSelector,
   (spotts) => {
