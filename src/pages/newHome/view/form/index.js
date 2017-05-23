@@ -2,7 +2,6 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import Select from 'react-select';
-import Immutable, { fromJS } from 'immutable';
 import localized from '../../../_common/localized';
 
 const styles = require('./index.scss');
@@ -92,7 +91,8 @@ export class FormSelect extends Component {
 
   render () {
     const { touched, error } = this.props.meta;
-    const { input, autoFocus, submitFailed, options, multiple } = this.props;
+    const { input, autoFocus, submitFailed, options, multiple, required } = this.props;
+
     return (
       <div>
         <Select
@@ -104,12 +104,12 @@ export class FormSelect extends Component {
           isLoading={false}
           multi={multiple}
           options={options}
-          required
+          required={required}
           styleName='select'
-          value={Immutable.Iterable.isIterable(input.value) ? input.value.toJS() : input.value}
+          value={input.value}
           onBlur={() => {
             if (multiple) {
-              return input.onBlur(Immutable.Iterable.isIterable(input.value) ? [ ...input.value ] : fromJS(input.value));
+              return input.onBlur([ ...input.value ]);
             }
             return input.onBlur(input.value);
           }}

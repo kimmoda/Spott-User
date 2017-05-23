@@ -3,16 +3,18 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push as routerPush } from 'react-router-redux';
 import { Link } from 'react-router';
 import localized from '../../../../_common/localized';
 import * as actions from '../../../actions';
-import { topicDetailsSelector } from '../../../selectors';
+import { userAccountDetailsSelector } from '../../../selectors';
 
 const styles = require('./index.scss');
 
 @localized
-@connect(topicDetailsSelector, (dispatch) => ({
-  loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch)
+@connect(userAccountDetailsSelector, (dispatch) => ({
+  loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class NewUserSettingsPage extends Component {
@@ -20,11 +22,10 @@ export default class NewUserSettingsPage extends Component {
     children: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
     history: PropTypes.object,
-    t: PropTypes.func.isRequired
-  };
-
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    routerPush: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
+    userId: PropTypes.string
   };
 
   constructor (props) {
@@ -33,12 +34,14 @@ export default class NewUserSettingsPage extends Component {
     this.state = {
       currentPage: `/${this.props.currentLocale}/user/settings`
     };
+    if (!this.props.userId) {
+      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { returnTo: ((this.props.location && this.props.location.pathname) || '/') } });
+    }
   }
 
   handleChange (event) {
     this.setState({ currentPage: event.target.value });
-    console.log(this);
-    this.context.router.push(event.target.value);
+    this.props.routerPush({ pathname: event.target.value });
   }
 
   render () {

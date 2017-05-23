@@ -102,6 +102,12 @@ export const GET_USER_PROFILE_START = 'NEW/GET_USER_PROFILE_START';
 export const GET_USER_PROFILE_SUCCESS = 'NEW/GET_USER_PROFILE_SUCCESS';
 export const GET_USER_PROFILE_ERROR = 'NEW/GET_USER_PROFILE_ERROR';
 
+export const GET_USER_PROFILE_ACCOUNT_START = 'NEW/GET_USER_PROFILE_ACCOUNT_START';
+export const GET_USER_PROFILE_ACCOUNT_SUCCESS = 'NEW/GET_USER_PROFILE_ACCOUNT_SUCCESS';
+export const GET_USER_PROFILE_ACCOUNT_ERROR = 'NEW/GET_USER_PROFILE_ACCOUNT_ERROR';
+
+export const SET_USER_PROFILE_ACCOUNT = 'NEW/SET_USER_PROFILE_ACCOUNT';
+
 export const UPDATE_USER_PROFILE_START = 'NEW/UPDATE_USER_PROFILE_START';
 export const UPDATE_USER_PROFILE_SUCCESS = 'NEW/UPDATE_USER_PROFILE_SUCCESS';
 export const UPDATE_USER_PROFILE_ERROR = 'NEW/UPDATE_USER_PROFILE_ERROR';
@@ -368,7 +374,8 @@ export function updateUserProfileWrapper ({ uuid, data }) {
       const session = JSON.parse(storage.getItem('session'));
       const body = {
         authenticationToken: session.authenticationToken,
-        user
+        user: user.profile,
+        initialValues: user.initialValues
       };
       storage.setItem('session', JSON.stringify(body));
     } catch (error) {
@@ -444,13 +451,12 @@ export function loadRegistrationFormDefaults () {
   return async (dispatch, getState) => {
     try {
       await dispatch(loadLanguages());
-      await dispatch(loadCountries());
-      const defaultCountry = await dispatch(loadDefaultCountry());
+      // await dispatch(loadCountries());
+      // const defaultCountry = await dispatch(loadDefaultCountry());
       const defaultLanguage = await dispatch(loadDefaultLanguage());
       return dispatch({
         data: {
-          country: defaultCountry.uuid,
-          language: defaultLanguage.uuid
+          language: defaultLanguage ? defaultLanguage.uuid : null
         },
         type: SET_REGISTRATION_DEFAULTS
       });
@@ -468,6 +474,45 @@ export function loadProfileFormValues () {
       dispatch(loadCountries());
       dispatch(loadContentRegions());
       dispatch(loadCurrencies());
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+}
+
+export const loadUserProfileAccount = makeApiActionCreator(api.getUserProfileAccount, GET_USER_PROFILE_ACCOUNT_START, GET_USER_PROFILE_ACCOUNT_SUCCESS, GET_USER_PROFILE_ACCOUNT_ERROR);
+
+export function loadUserProfileAccountWrapper ({ uuid }) {
+  return async (dispatch, getState) => {
+    try {
+      const userProfile = await dispatch(loadUserProfileAccount({ uuid }));
+      if (!userProfile.profile.currency) {
+        const defaultCurrency = await dispatch(loadDefaultCurrency());
+        defaultCurrency && (userProfile.initialValues.currencyForm = defaultCurrency.uuid);
+      }
+      if (!userProfile.profile.languages || !userProfile.profile.languages.length) {
+        const defaultLanguage = await dispatch(loadDefaultLanguage());
+        defaultLanguage && (userProfile.initialValues.languageForm = defaultLanguage.uuid);
+      }
+      if (!userProfile.profile.contentRegions || !userProfile.profile.contentRegions.length) {
+        const defaultContentRegion = await dispatch(loadDefaultContentRegion());
+        defaultContentRegion && (userProfile.initialValues.contentRegionsForm = [ `${defaultContentRegion.country.uuid}-${defaultContentRegion.language.uuid}` ]);
+      }
+      if (!userProfile.profile.shoppingCountries || !userProfile.profile.shoppingCountries.length) {
+        const defaultShoppingCountry = await dispatch(loadDefaultCountry());
+        defaultShoppingCountry && (userProfile.initialValues.shoppingCountriesForm = [ defaultShoppingCountry.uuid ]);
+      }
+
+      const session = storage.getItem('session');
+      const sessionData = JSON.parse(session);
+      sessionData.user = userProfile.profile;
+      storage.setItem('session', JSON.stringify(sessionData));
+
+      return dispatch({
+        data: userProfile,
+        type: SET_USER_PROFILE_ACCOUNT
+      });
     } catch (error) {
       console.log(error);
       throw error;

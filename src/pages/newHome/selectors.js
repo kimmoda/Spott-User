@@ -9,6 +9,7 @@ export const currentUserFirstnameSelector = (state) => state.getIn([ 'app', 'aut
 export const currentUserLastnameSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'lastname' ]);
 export const currentUserIdSelector = (state) => state.getIn([ 'app', 'authentication', 'user', 'id' ]);
 export const currentUserProfileSelector = (state) => state.getIn([ 'app', 'authentication', 'user' ]);
+export const currentUserProfileInitialValuesSelector = (state) => state.getIn([ 'app', 'authentication', 'initialValues' ]);
 
 export const trendingTopicsSelector = (state) => state.getIn([ 'newHome', 'trendingTopics' ]);
 export const topicSelector = (state) => state.getIn([ 'newHome', 'topic' ]);
@@ -133,7 +134,7 @@ export const userSubscriptionsSelector = (state) => state.getIn([ 'newHome', 'pr
 export const userSettingsDetailsSelector = createStructuredSelector({
   userId: currentUserIdSelector,
   currentUserProfile: currentUserProfileSelector,
-  initialValues: currentUserProfileSelector,
+  initialValues: currentUserProfileInitialValuesSelector,
   subscriptions: userSubscriptionsSelector
 });
 
@@ -145,7 +146,7 @@ const systemContentRegionsSelector = (state) => state.getIn([ 'newHome', 'system
 export const userAccountDetailsSelector = createStructuredSelector({
   userId: currentUserIdSelector,
   currentUserProfile: currentUserProfileSelector,
-  initialValues: currentUserProfileSelector,
+  initialValues: currentUserProfileInitialValuesSelector,
   token: authenticationTokenSelector,
   systemLanguages: systemLanguagesSelector,
   systemCountries: systemCountriesSelector,

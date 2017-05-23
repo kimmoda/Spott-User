@@ -17,6 +17,7 @@ const styles = require('./index.scss');
 @localized
 @connect(userAccountDetailsSelector, (dispatch) => ({
   loadProfileFormValues: bindActionCreators(actions.loadProfileFormValues, dispatch),
+  loadUserProfileAccount: bindActionCreators(actions.loadUserProfileAccountWrapper, dispatch),
   updateUserProfile: bindActionCreators(actions.updateUserProfileWrapper, dispatch)
 }))
 @reduxForm({
@@ -31,6 +32,7 @@ export default class NewUserAccount extends Component {
     error: PropTypes.any,
     handleSubmit: PropTypes.func.isRequired,
     loadProfileFormValues: PropTypes.func.isRequired,
+    loadUserProfileAccount: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -45,7 +47,7 @@ export default class NewUserAccount extends Component {
     systemCurrencies: PropTypes.object.isRequired,
     systemLanguages: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
-    token: PropTypes.string.isRequired,
+    token: PropTypes.string,
     updateUserProfile: PropTypes.func.isRequired,
     userId: PropTypes.string
   };
@@ -55,11 +57,20 @@ export default class NewUserAccount extends Component {
     this.onSubmit = ::this.onSubmit;
   }
 
-  componentDidMount () {
-    this.props.loadProfileFormValues();
+  async componentDidMount () {
+    if (this.props.userId) {
+      await this.props.loadProfileFormValues();
+      this.props.loadUserProfileAccount({ uuid: this.props.userId });
+    }
   }
 
   async onSubmit (values) {
+    const primaryLanguage = [ { uuid: values.get('languageForm') } ];
+    const otherLanguages = values.get('languagesForm')
+      .map((item) => { return { uuid: item }; })
+      .filter((item) => item.uuid !== values.get('languageForm'));
+    const allLanguages = primaryLanguage.concat(otherLanguages);
+
     const data = {
       profile: {
         email: values.get('email'),
@@ -67,13 +78,8 @@ export default class NewUserAccount extends Component {
         lastName: values.get('lastName'),
         description: values.get('description'),
         gender: values.get('gender'),
-        dateOfBirth: values.get('dateOfBirth'),
-        language: [
-          {
-            uuid: values.get('languageForm')
-          }
-        ],
-        languages: values.get('languagesForm').map((item) => { return { uuid: item }; }),
+        dateOfBirth: this.prop.userProfile.get('dateOfBirth'),
+        languages: allLanguages,
         currency: {
           code: values.get('currencyForm')
         },
@@ -88,9 +94,6 @@ export default class NewUserAccount extends Component {
     };
     try {
       await this.props.updateUserProfile({ uuid: this.props.userId, data });
-      this.state = {
-        emailInputVisible: false
-      };
     } catch (e) {
       console.log(e);
       throw e;
@@ -132,10 +135,11 @@ export default class NewUserAccount extends Component {
                   component={FormSelect}
                   name='languageForm'
                   options={systemLanguages.get('data', List()).toJS().map((item) => { return { value: item.uuid, label: item.name }; })}
+                  required
                   submitFailed={submitFailed}/>
               </div>
               <div styleName='form-row form-row-shrink'>
-                <label className='form-label form-label-required'>Other languages</label>
+                <label className='form-label'>Other languages</label>
                 <Field
                   component={FormSelect}
                   multiple
@@ -154,6 +158,7 @@ export default class NewUserAccount extends Component {
                       label: `${item.description} (${item.symbol})`
                     };
                   })}
+                  required
                   submitFailed={submitFailed}/>
               </div>
             </div>

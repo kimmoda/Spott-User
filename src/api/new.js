@@ -110,6 +110,11 @@ export async function getUserProfile (baseUrl, authenticationToken, locale, { uu
   return body;
 }
 
+export async function getUserProfileAccount (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}`);
+  return transformUser(body);
+}
+
 export async function getUserLovesPosts (baseUrl, authenticationToken, locale, { uuid, page }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/lovedPosts?page=${page}&pageSize=20`);
   return transformSpottsList(body);
@@ -214,7 +219,7 @@ export async function getDefaultCountry (baseUrl, authenticationToken, locale) {
     const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/countries/default`);
     return body;
   } catch (error) {
-    return { uuid: 'BE', name: 'Belgium' };
+    return null;
   }
 }
 
@@ -228,7 +233,7 @@ export async function getDefaultCurrency (baseUrl, authenticationToken, locale) 
     const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/currencies/default`);
     return body;
   } catch (error) {
-    return { code: 'EUR', description: 'Euro', symbol: '€' };
+    return null;
   }
 }
 
@@ -242,7 +247,7 @@ export async function getDefaultLanguage (baseUrl, authenticationToken, locale) 
     const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/languages/default`);
     return body;
   } catch (error) {
-    return { uuid: 'en', name: 'English' };
+    return null;
   }
 }
 
@@ -256,16 +261,7 @@ export async function getDefaultContentRegion (baseUrl, authenticationToken, loc
     const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/system/contentRegions/default`);
     return body;
   } catch (error) {
-    return {
-      country: {
-        uuid: 'BE',
-        name: 'Belgium'
-      },
-      language: {
-        uuid: 'nl',
-        name: 'Nederlands'
-      }
-    };
+    return null;
   }
 }
 
