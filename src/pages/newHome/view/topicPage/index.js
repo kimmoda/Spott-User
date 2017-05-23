@@ -186,7 +186,7 @@ export default class NewTopic extends Component {
           </div>
         </div>
         {Boolean(topicRelated && topicRelated.get('data') && topicRelated.get('data').size) &&
-          <div styleName='topics'>
+          <div styleName='topics responsive-container'>
             <div styleName='topics-content'>
               <div styleName='topics-title'>Related Topics</div>
               <Topics items={topicRelated} />
@@ -217,7 +217,7 @@ export default class NewTopic extends Component {
           </div>
         </div>
         */}
-        <div styleName='cards-wrapper'>
+        <div styleName='cards-wrapper responsive-container'>
           <div styleName='cards'>
             <Cards loadMore={this.loadMore} location={location} spotts={topicSpotts}/>
           </div>

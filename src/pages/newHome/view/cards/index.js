@@ -67,7 +67,8 @@ export default class Cards extends Component {
 
     return (
       <div ref={(ref) => { this.cardsWrapper = ref; }} styleName='cards-wrapper' >
-        <Masonry className={cardCount < 4 && cardWidth === 280 && styles['left-align']} disableImagesLoaded options={{isFitWidth: true }} ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-container' onLayoutComplete={laidOutItems => this.handleLayoutComplete(laidOutItems)}>
+        <Masonry className={cardCount < 4 && cardWidth === 280 && styles['left-align']} disableImagesLoaded options={{ isFitWidth: true }} ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-container'
+          onLayoutComplete={(laidOutItems) => this.handleLayoutComplete(laidOutItems)}>
           {spotts.get('data') && spotts.get('data').valueSeq().map((item, index) =>
           <div key={`home_card_${item.get('uuid')}_${index}`} styleName='card-selector'><Card item={item} key={`home_card_${item.get('uuid')}_${index}`} location={location} spottId={item.get('uuid')} width={cardWidth} /></div>
           )}

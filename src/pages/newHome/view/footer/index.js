@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
-import { IconFacebook, IconTwitter } from '../icons';
+import { IconFacebook, IconTwitter, IconInstagram } from '../icons';
 
 const styles = require('./index.scss');
 
@@ -42,14 +42,9 @@ export default class Footer extends Component {
             <div styleName='footer-sub-col'>
               <nav styleName='footer-navs'>
                 <div styleName='footer-nav'>
-                  <Link styleName='footer-nav-link' to='#'>About</Link>
-                  <Link styleName='footer-nav-link' to='#'>Help</Link>
-                  <Link styleName='footer-nav-link' to='#'>Contact</Link>
-                </div>
-                <div styleName='footer-nav'>
                   <Link styleName='footer-nav-link' to={`/${currentLocale}/terms`}>Terms</Link>
                   <Link styleName='footer-nav-link' to={`/${currentLocale}/privacy`}>Privacy</Link>
-                  <Link styleName='footer-nav-link' to='#'>Business</Link>
+                  <Link styleName='footer-nav-link' to={`/${currentLocale}/cookies`}>Cookie policy</Link>
                 </div>
               </nav>
             </div>
@@ -61,7 +56,9 @@ export default class Footer extends Component {
               </div>
               <div styleName='footer-socials'>
                 <a href='https://www.facebook.com/Spott.it/?fref=ts'> <i><IconFacebook /></i></a>
-                <a href='https://twitter.com/SpottBE_nl'> <i><IconTwitter /></i></a>
+                {currentLocale === 'fr' && <a href='https://twitter.com/SpottBE_fr'> <i><IconTwitter /></i></a>}
+                {currentLocale !== 'fr' && <a href='https://twitter.com/SpottBE_nl'> <i><IconTwitter /></i></a>}
+                <a href='https://www.instagram.com/spott_be/?hl=nl'> <i><IconInstagram /></i></a>
               </div>
             </div>
             <div styleName='footer-sub-col'>
