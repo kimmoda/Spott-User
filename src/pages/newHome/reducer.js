@@ -122,13 +122,13 @@ export default function newHomeReducer (state = Map({
       return state.mergeIn([ 'spottsPromoted' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.CLEAR_SPOTTS_LIST:
-      return state.set('spotts', Map({ _error: null, _status: FETCHING, data: OrderedMap() }));
+      return state.set('spotts', Map({ _error: null, _status: LOADED, data: OrderedMap() }));
     case oldActions.LOGIN_SUCCESS:
-      return state.set('spotts', Map({ _error: null, _status: FETCHING, data: OrderedMap() }));
+      return state.set('spotts', Map({ _error: null, _status: LOADED, data: OrderedMap() }));
     case oldActions.LOGOUT_SUCCESS:
       return state
-        .set('spotts', Map({ _error: null, _status: FETCHING, data: OrderedMap() }))
-        .set('spottsSubscribed', Map({ _error: null, _status: FETCHING, data: OrderedMap() }));
+        .set('spotts', Map({ _error: null, _status: LOADED, data: OrderedMap() }))
+        .set('spottsSubscribed', Map({ _error: null, _status: LOADED, data: OrderedMap() }));
 
     case actions.LOAD_SPOTT_START:
       return state.set('currentSpott', Map({ uuid: action.uuid }));

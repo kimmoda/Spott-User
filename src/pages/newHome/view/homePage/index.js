@@ -46,15 +46,15 @@ export default class NewHome extends Component {
   }
 
   componentDidMount () {
-    this.loadData(Boolean(this.props.isAuthenticated));
+    this.loadData(this.props);
     this.props.loadTrendingTopics();
     window.addEventListener('resize', this.handleResize);
     this.getWidth();
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!this.props.isAuthenticated && nextProps.isAuthenticated) {
-      this.loadData(Boolean(nextProps.isAuthenticated));
+    if (nextProps.isAuthenticated !== this.props.isAuthenticated) {
+      this.loadData(nextProps);
     }
   }
 
@@ -62,14 +62,14 @@ export default class NewHome extends Component {
     window.removeEventListener('resize', this.handleResize);
   }
 
-  loadData (isAuthenticated) {
-    const { spotts, spottsSubscribed, spottsPromoted } = this.props;
+  loadData (props) {
+    const { spotts, spottsSubscribed, spottsPromoted, isAuthenticated } = props;
     const pages = {
       spottsPage: spotts.get('page', 0),
       spottsSubscribedPage: spottsSubscribed.get('page', 0),
       spottsPromotedPage: spottsPromoted.get('page', 0)
     };
-    this.props.loadSpottsList(isAuthenticated, pages);
+    this.props.loadSpottsList(Boolean(isAuthenticated), pages);
   }
 
   handleResize () {
