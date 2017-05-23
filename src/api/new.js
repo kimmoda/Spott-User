@@ -42,6 +42,11 @@ export async function removeTopicSubscriber (baseUrl, authenticationToken, local
   return body;
 }
 
+export async function trackTopicEvent (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/viewEvents`);
+  return body;
+}
+
 export async function getSpottsList (baseUrl, authenticationToken, locale, page = 0) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=${page}&pageSize=4&subscriptionBased=false`);
   return transformSpottsList(body);
@@ -87,6 +92,11 @@ export async function removeSpottLover (baseUrl, authenticationToken, locale, { 
   return body;
 }
 
+export async function trackSpottEvent (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/viewEvents`);
+  return body;
+}
+
 export async function getProduct (baseUrl, authenticationToken, locale, { uuid, relevance }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}`);
   if (relevance) {
@@ -97,6 +107,16 @@ export async function getProduct (baseUrl, authenticationToken, locale, { uuid, 
 
 export async function getProductSimilar (baseUrl, authenticationToken, locale, { uuid }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/similar`);
+  return body;
+}
+
+export async function trackImpressionEvent (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/impressionEvents`);
+  return body;
+}
+
+export async function trackProductEvent (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/viewEvents`);
   return body;
 }
 

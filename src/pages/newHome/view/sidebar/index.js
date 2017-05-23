@@ -20,7 +20,8 @@ const styles = require('./index.scss');
   addProductToWishlist: bindActionCreators(actions.addProductToWishlist, dispatch),
   loadUserWishlist: bindActionCreators(actions.loadUserWishlist, dispatch),
   removeProductFromWishlist: bindActionCreators(actions.removeProductFromWishlist, dispatch),
-  routerPush: bindActionCreators(routerPush, dispatch)
+  routerPush: bindActionCreators(routerPush, dispatch),
+  trackImpressionEvent: bindActionCreators(actions.trackImpressionEvent, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class Sidebar extends Component {
@@ -48,6 +49,7 @@ export default class Sidebar extends Component {
     removeProductFromWishlist: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
+    trackImpressionEvent: PropTypes.func.isRequired,
     onBackClick: PropTypes.func.isRequired,
     onProductClick: PropTypes.func.isRequired
   };
@@ -137,6 +139,10 @@ export default class Sidebar extends Component {
     form.remove();
   }
 
+  onProductLoad (item) {
+    this.props.trackImpressionEvent(item.get('uuid'));
+  }
+
   render () {
     const { product, onBackClick, onProductClick, t, currentLocale } = this.props;
     const { width } = this.state;
@@ -214,7 +220,9 @@ export default class Sidebar extends Component {
                     key={`product_${index}`}
                     style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=80&height=80'` }}
                     styleName='sidebar-similar'
-                    onClick={onProductClick.bind(this, item.get('uuid'), item.get('shortName'))}/>
+                    onClick={onProductClick.bind(this, item.get('uuid'), item.get('shortName'))}>
+                    <img src={`${item.getIn([ 'image', 'url' ])}?width=80&height=80`} styleName='tracking' onLoad={this.onProductLoad.bind(this, item)}/>
+                  </div>
                 )}
               </Tiles>
             </div>

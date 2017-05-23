@@ -32,7 +32,13 @@ export default function newHomeReducer (state = Map({
   systemLanguages: Map(),
   systemCountries: Map(),
   systemContentRegions: Map(),
-  systemCurrencies: Map()
+  systemCurrencies: Map(),
+  tracking: Map({
+    topics: Map(),
+    spotts: Map(),
+    impressions: Map(),
+    products: Map()
+  })
 }), action) {
   switch (action.type) {
     case actions.GET_TRENDING_TOPICS_START:
@@ -296,6 +302,34 @@ export default function newHomeReducer (state = Map({
       return state.setIn([ 'systemCurrencies' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_CURRENCIES_ERROR:
       return state.mergeIn([ 'systemCurrencies' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.TRACK_TOPIC_EVENT_START:
+      return state.mergeIn([ 'tracking', 'topics' ], Map({ _error: null, _status: FETCHING }));
+    case actions.TRACK_TOPIC_EVENT_SUCCESS:
+      return state.setIn([ 'tracking', 'topics' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.TRACK_TOPIC_EVENT_ERROR:
+      return state.mergeIn([ 'tracking', 'topics' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.TRACK_SPOTT_EVENT_START:
+      return state.mergeIn([ 'tracking', 'spotts' ], Map({ _error: null, _status: FETCHING }));
+    case actions.TRACK_SPOTT_EVENT_SUCCESS:
+      return state.setIn([ 'tracking', 'spotts' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.TRACK_SPOTT_EVENT_ERROR:
+      return state.mergeIn([ 'tracking', 'spotts' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.TRACK_IMPRESSION_EVENT_START:
+      return state.mergeIn([ 'tracking', 'impressions' ], Map({ _error: null, _status: FETCHING }));
+    case actions.TRACK_IMPRESSION_EVENT_SUCCESS:
+      return state.setIn([ 'tracking', 'impressions' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.TRACK_IMPRESSION_EVENT_ERROR:
+      return state.mergeIn([ 'tracking', 'impressions' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.TRACK_PRODUCT_EVENT_START:
+      return state.mergeIn([ 'tracking', 'products' ], Map({ _error: null, _status: FETCHING }));
+    case actions.TRACK_PRODUCT_EVENT_SUCCESS:
+      return state.setIn([ 'tracking', 'products' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.TRACK_PRODUCT_EVENT_ERROR:
+      return state.mergeIn([ 'tracking', 'products' ], Map({ _error: action.error, _status: ERROR }));
 
     default:
       return state;

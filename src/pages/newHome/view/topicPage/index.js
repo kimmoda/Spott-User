@@ -21,6 +21,7 @@ const { cssHeaderHeight } = require('../vars.scss');
   loadTopicSpottsMore: bindActionCreators(actions.loadTopicSpottsMore, dispatch),
   removeTopicSubscriber: bindActionCreators(actions.removeTopicSubscriber, dispatch),
   setTopicSubscriber: bindActionCreators(actions.setTopicSubscriber, dispatch),
+  trackTopicEvent: bindActionCreators(actions.trackTopicEvent, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
@@ -41,7 +42,8 @@ export default class NewTopic extends Component {
     t: PropTypes.func.isRequired,
     topic: PropTypes.any.isRequired,
     topicRelated: PropTypes.any.isRequired,
-    topicSpotts: PropTypes.any.isRequired
+    topicSpotts: PropTypes.any.isRequired,
+    trackTopicEvent: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -65,6 +67,7 @@ export default class NewTopic extends Component {
 
   componentDidMount () {
     this.props.loadTopicDetails({ uuid: this.props.params.topicId, page: this.props.topicSpotts.get('page') || 0 });
+    this.props.trackTopicEvent({ uuid: this.props.params.topicId });
     this.getContainerHeight();
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleResize);
@@ -75,6 +78,7 @@ export default class NewTopic extends Component {
     const { topicId: nextTopicId } = nextProps.params;
     if (topicId !== nextTopicId) {
       this.props.loadTopicDetails({ uuid: nextTopicId, page: nextProps.topicSpotts.get('page') || 0 });
+      this.props.trackTopicEvent({ uuid: nextTopicId });
     }
   }
 

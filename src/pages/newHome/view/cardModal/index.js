@@ -28,7 +28,10 @@ const styles = require('./index.scss');
   loadSpottDetails: bindActionCreators(actions.loadSpottDetails, dispatch),
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch),
-  setSpottLover: bindActionCreators(actions.setSpottLover, dispatch)
+  setSpottLover: bindActionCreators(actions.setSpottLover, dispatch),
+  trackImpressionEvent: bindActionCreators(actions.trackImpressionEvent, dispatch),
+  trackSpottEvent: bindActionCreators(actions.trackSpottEvent, dispatch),
+  trackProductEvent: bindActionCreators(actions.trackProductEvent, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class CardModal extends Component {
@@ -58,6 +61,9 @@ export default class CardModal extends Component {
     sidebarProducts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired,
+    trackImpressionEvent: PropTypes.func.isRequired,
+    trackProductEvent: PropTypes.func.isRequired,
+    trackSpottEvent: PropTypes.func.isRequired,
     onClose: PropTypes.func
   };
 
@@ -65,6 +71,7 @@ export default class CardModal extends Component {
     super(props);
     this.onCloseHandler = ::this.onCloseHandler;
     this.onProductClick = ::this.onProductClick;
+    this.onProductLoad = ::this.onProductLoad;
     this.onSidebarClose = ::this.onSidebarClose;
     this.onWrapperClick = ::this.onWrapperClick;
     this.handleResize = ::this.handleResize;
@@ -80,10 +87,12 @@ export default class CardModal extends Component {
       if (this.props.location.state && this.props.location.state.sidebarMarker) {
         this.props.loadSidebarProduct({ uuid: this.props.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: this.props.location.state.sidebarMarker.get('relevance') });
       }
+      this.props.trackSpottEvent(this.props.params.spottId);
     } else if (this.props.params.complexId) {
       const ids = this.props.params.complexId.split('}{');
       this.props.loadSpottDetails({ uuid: ids[0].replace('{', '') });
       this.props.loadSidebarProduct({ uuid: ids[1].replace('}', '') });
+      this.props.trackProductEvent(ids[1].replace('}', ''));
     }
   }
 
@@ -101,6 +110,7 @@ export default class CardModal extends Component {
         this.props.loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
       }
       this.getWidth();
+      this.props.trackSpottEvent(nextProps.params.spottId);
     }
 
     if ((this.props.params.complexId && nextProps.params.complexId && this.props.params.complexId !== nextProps.params.complexId) || (this.props.params.spottId && nextProps.params.complexId)) {
@@ -112,6 +122,7 @@ export default class CardModal extends Component {
         this.props.loadSidebarProduct({ uuid: ids[1].replace('}', '') });
       }
       this.getWidth();
+      this.props.trackProductEvent(ids[1].replace('}', ''));
     }
   }
 
@@ -180,6 +191,10 @@ export default class CardModal extends Component {
     }
   }
 
+  onProductLoad (item) {
+    this.props.trackImpressionEvent(item.getIn([ 'product', 'uuid' ]));
+  }
+
   render () {
     const { spott, sidebarProducts, currentLocale, location, params } = this.props;
     const { width } = this.state;
@@ -224,7 +239,9 @@ export default class CardModal extends Component {
                       key={`product_${index}`}
                       style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80')` }}
                       styleName='product'
-                      onClick={this.onProductClick.bind(this, item)}/>
+                      onClick={this.onProductClick.bind(this, item)} >
+                      <img src={`${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80`} styleName='tracking' onLoad={this.onProductLoad.bind(this, item)}/>
+                    </div>
                   )}
                 </Tiles>}
               </div>

@@ -343,7 +343,9 @@
     }
   }
 }
-
+.tracking {
+  display: none;
+}
 
 //large desktop view
 @media (min-width: $lgDesktopBreakpoint) {
