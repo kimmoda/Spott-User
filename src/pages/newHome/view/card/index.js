@@ -133,6 +133,7 @@ export default class Card extends Component {
                   to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/\W+/g, '-')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>
               )}
             </div>}
+          {item.get('imageSource') && <div styleName='spott-image-source'>{item.get('imageSource')}</div>}
         </div>
         <div styleName='content'>
           <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
