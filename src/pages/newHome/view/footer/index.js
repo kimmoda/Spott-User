@@ -3,6 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
+import { localesHash, locales } from '../../../../locales';
+import Dropdown from '../../../_common/dropdown';
+import { Button } from '../../../_common/buildingBlocks';
 import { IconFacebook, IconTwitter, IconInstagram } from '../icons';
 
 const styles = require('./index.scss');
@@ -20,6 +23,12 @@ export default class Footer extends Component {
 
   constructor (props) {
     super(props);
+  }
+
+  changeLocale (locale, e) {
+    e.preventDefault();
+    // Full refresh the page with the new locale in the url.
+    window.location.replace(window.location.href.replace(`/${this.props.currentLocale}`, `/${locale}`));
   }
 
   render () {
@@ -46,6 +55,19 @@ export default class Footer extends Component {
                   <Link styleName='footer-nav-link' to={`/${currentLocale}/privacy`}>Privacy</Link>
                   <Link styleName='footer-nav-link' to={`/${currentLocale}/cookies`}>Cookie policy</Link>
                 </div>
+                <div styleName='footer-nav'>
+                  <div styleName='language-selection'>
+                    <Dropdown
+                      button={
+                      <div>
+                        <span>{localesHash[currentLocale]}</span>
+                        <span>&nbsp;▾</span>
+                      </div>}
+                      key='languageSelection'>
+                      {locales.map((locale) => (<Button className={currentLocale === locale && styles.selected} key={locale} styleName='menu-item' onClick={this.changeLocale.bind(this, locale)}>{localesHash[locale]}</Button>))}
+                    </Dropdown>
+                  </div>
+                </div>
               </nav>
             </div>
           </div>
@@ -57,7 +79,8 @@ export default class Footer extends Component {
               <div styleName='footer-socials'>
                 <a href='https://www.facebook.com/Spott.it/?fref=ts'> <i><IconFacebook /></i></a>
                 {currentLocale === 'fr' && <a href='https://twitter.com/SpottBE_fr'> <i><IconTwitter /></i></a>}
-                {currentLocale !== 'fr' && <a href='https://twitter.com/SpottBE_nl'> <i><IconTwitter /></i></a>}
+                {currentLocale === 'nl' && <a href='https://twitter.com/SpottBE_nl'> <i><IconTwitter /></i></a>}
+                {currentLocale === 'en' && <a href='https://twitter.com/Spott_eng'> <i><IconTwitter /></i></a>}
                 <a href='https://www.instagram.com/spott_be/?hl=nl'> <i><IconInstagram /></i></a>
               </div>
             </div>
