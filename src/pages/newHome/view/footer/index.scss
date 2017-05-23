@@ -89,6 +89,43 @@
 .footer-copyright {
   @include smallRegular($colorGray);
 }
+
+.language-selection {
+  @include bodyRegular($colorGray);
+  & > div {
+    max-width: 120px;
+    text-align: center;
+    width: 100%;
+    z-index: 200 !important;
+    & > div {
+      left: 0;
+      bottom: 20px;
+      width: 120px;
+      background-color: $colorGray !important;
+      border-radius: 0.25em;
+      border: 1px solid $colorGray !important;
+      button {
+        background-color: #38353c !important;
+      }
+    }
+    & > a {
+      @include bodyRegular($colorGray);
+      width: 100%;
+    }
+  }
+  .menu-item {
+    color: white;
+    border-color: $colorGrayDark !important;
+    border-radius: 0.25em !important;
+    width: 100%;
+    &:hover {
+      background-color: $colorGray !important;
+    }
+  }
+  .selected {
+    background-color: $colorGray !important;
+  }
+}
 //large desktop view
 @media (min-width: $lgDesktopBreakpoint) {
 
@@ -107,6 +144,14 @@
   }
   .footer-wrapper {
     margin-bottom: 32px;
+  }
+  .language-selection {
+    & > div {
+      & > div {
+        bottom: initial;
+        top: 20px;
+      }
+    }
   }
 }
 //phone view
