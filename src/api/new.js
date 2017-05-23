@@ -48,17 +48,17 @@ export async function trackTopicEvent (baseUrl, authenticationToken, locale, { u
 }
 
 export async function getSpottsList (baseUrl, authenticationToken, locale, page = 0) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=${page}&pageSize=4&subscriptionBased=false`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=${page}&pageSize=10&subscriptionBased=false`);
   return transformSpottsList(body);
 }
 
 export async function getSpottsSubscribedList (baseUrl, authenticationToken, locale, page = 0) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=${page}&pageSize=4&subscriptionBased=true`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/feed?page=${page}&pageSize=10&subscriptionBased=true`);
   return transformSpottsList(body);
 }
 
 export async function getSpottsPromotedList (baseUrl, authenticationToken, locale, page = 0) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/promoted?page=${page}&pageSize=2`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/searches/promoted?page=${page}&pageSize=5`);
   return transformSpottsList(body);
 }
 

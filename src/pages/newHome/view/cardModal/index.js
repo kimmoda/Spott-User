@@ -230,6 +230,7 @@ export default class CardModal extends Component {
                         to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/\W+/g, '-')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>
                     )}
                   </div>}
+                {spott.get('imageSource') && <div styleName='spott-image-source'>{spott.get('imageSource')}</div>}
               </div>
               <div styleName='products'>
                 {spott.get('productMarkers') && <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={spott.get('productMarkers').size}>
