@@ -394,6 +394,13 @@ export default (state = fromJS({
     case newActions.GET_PRODUCT_SIMILAR_ERROR:
       return fetchError(state, [ 'entities', 'newProducts', action.uuid, 'similar' ], action.error);
 
+    case newActions.GET_PRODUCT_SPOTTS_START:
+      return fetchStart(state, [ 'entities', 'newProducts', action.uuid, 'spotts' ]);
+    case newActions.GET_PRODUCT_SPOTTS_SUCCESS:
+      return fetchSuccess(state, [ 'entities', 'newProducts', action.uuid, 'spotts' ], action.data);
+    case newActions.GET_PRODUCT_SPOTTS_ERROR:
+      return fetchError(state, [ 'entities', 'newProducts', action.uuid, 'spotts' ], action.error);
+
     // Uninteresting actions
     // ---------------------
 

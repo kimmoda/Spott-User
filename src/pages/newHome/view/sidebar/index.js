@@ -103,6 +103,16 @@ export default class Sidebar extends Component {
     window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.product.get('shareUrl'))}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
   }
 
+  showSpott (uuid, title) {
+    this.props.routerPush({
+      pathname: `/${this.props.currentLocale}/spott/${title.replace(/\W+/g, '-')}/${uuid}`,
+      state: {
+        modal: true,
+        returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
+      }
+    });
+  }
+
   onImageClick (url) {
     this.setState({
       currentImage: url
@@ -213,6 +223,24 @@ export default class Sidebar extends Component {
             <div styleName='sidebar-panel-title'>Description</div>
             <div styleName='sidebar-description'>
               {product.get('description')}
+            </div>
+          </div>}
+        {Boolean(product.getIn([ 'spotts', 'data' ]) && product.getIn([ 'spotts', 'data' ]).size) &&
+          <div styleName='sidebar-panel'>
+            <div styleName='sidebar-panel-title'>Also seen in</div>
+            <div styleName='sidebar-seens'>
+              <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={product.getIn([ 'spotts', 'data' ]).size}>
+                {product.getIn([ 'spotts', 'data' ]).map((item, index) =>
+                  <div
+                    key={`spott_${index}`}
+                    style={{
+                      backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?height=80'`,
+                      minWidth: item.getIn([ 'image', 'dimension', 'width' ], 80) * (80 / item.getIn([ 'image', 'dimension', 'height' ], 1))
+                    }}
+                    styleName='sidebar-seen'
+                    onClick={this.showSpott.bind(this, item.get('uuid'), item.get('title'))}/>
+                )}
+              </Tiles>
             </div>
           </div>}
         {Boolean(product.getIn([ 'similar', 'data' ]) && product.getIn([ 'similar', 'data' ]).size) &&

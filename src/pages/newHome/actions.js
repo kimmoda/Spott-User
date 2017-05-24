@@ -87,6 +87,10 @@ export const GET_PRODUCT_SIMILAR_START = 'NEW/GET_PRODUCT_SIMILAR_START';
 export const GET_PRODUCT_SIMILAR_SUCCESS = 'NEW/GET_PRODUCT_SIMILAR_SUCCESS';
 export const GET_PRODUCT_SIMILAR_ERROR = 'NEW/GET_PRODUCT_SIMILAR_ERROR';
 
+export const GET_PRODUCT_SPOTTS_START = 'NEW/GET_PRODUCT_SPOTTS_START';
+export const GET_PRODUCT_SPOTTS_SUCCESS = 'NEW/GET_PRODUCT_SPOTTS_SUCCESS';
+export const GET_PRODUCT_SPOTTS_ERROR = 'NEW/GET_PRODUCT_SPOTTS_ERROR';
+
 export const LOAD_SIDEBAR_PRODUCT_START = 'NEW/LOAD_SIDEBAR_PRODUCT_START';
 export const LOAD_SIDEBAR_PRODUCT_ERROR = 'NEW/LOAD_SIDEBAR_PRODUCT_ERROR';
 
@@ -342,6 +346,8 @@ export const loadProduct = makeApiActionCreator(api.getProduct, GET_PRODUCT_STAR
 
 export const loadProductSimilar = makeApiActionCreator(api.getProductSimilar, GET_PRODUCT_SIMILAR_START, GET_PRODUCT_SIMILAR_SUCCESS, GET_PRODUCT_SIMILAR_ERROR);
 
+export const loadProductSpotts = makeApiActionCreator(api.getProductSpotts, GET_PRODUCT_SPOTTS_START, GET_PRODUCT_SPOTTS_SUCCESS, GET_PRODUCT_SPOTTS_ERROR);
+
 export function loadProductDetails ({ uuid }) {
   return async (dispatch, getState) => {
     try {
@@ -360,6 +366,7 @@ export function loadSidebarProduct ({ uuid, relevance }) {
       dispatch({ type: LOAD_SIDEBAR_PRODUCT_START, uuid });
       await dispatch(loadProduct({ uuid, relevance }));
       dispatch(loadProductSimilar({ uuid }));
+      dispatch(loadProductSpotts({ uuid }));
     } catch (error) {
       return dispatch({ type: LOAD_SIDEBAR_PRODUCT_ERROR, uuid, error });
     }

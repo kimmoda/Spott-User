@@ -110,6 +110,11 @@ export async function getProductSimilar (baseUrl, authenticationToken, locale, {
   return body;
 }
 
+export async function getProductSpotts (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/posts`);
+  return body;
+}
+
 export async function trackImpressionEvent (baseUrl, authenticationToken, locale, { uuid }) {
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/impressionEvents`);
   return body;
