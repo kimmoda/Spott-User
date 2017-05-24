@@ -6,15 +6,6 @@ export const validateUserForm = (values) => {
   if (!values.get('lastName') || !values.get('lastName').trim().match(/^.+$/)) {
     errors.lastName = 'err';
   }
-  if (!values.get('dayOfBirth')) {
-    errors.dayOfBirth = 'err';
-  }
-  if (!values.get('monthOfBirth')) {
-    errors.dayOfBirth = 'err';
-  }
-  if (!values.get('yearOfBirth')) {
-    errors.dayOfBirth = 'err';
-  }
   return errors;
 };
 

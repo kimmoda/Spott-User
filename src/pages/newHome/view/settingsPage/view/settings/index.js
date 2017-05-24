@@ -213,7 +213,7 @@ export default class NewUserSettings extends Component {
               </div>
             </div>
             <div styleName='user-form-row'>
-              <label className='form-label form-label-required'>Date of birth</label>
+              <label className='form-label'>Date of birth</label>
               <div className='form-join-3-fields'>
                 <Field
                   component={FormSelect}
