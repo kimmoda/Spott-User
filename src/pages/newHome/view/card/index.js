@@ -129,13 +129,22 @@ export default class Card extends Component {
           {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onImageClick={(event) => this.showSpott(event)} onMarkerClick={this.onCardMarkerClick}/>}
           {spottDetails.get('personMarkers') &&
             <div styleName='persons'>
-              {spottDetails.get('personMarkers').map((person) =>
-                <Link
+              {spottDetails.get('personMarkers').map((person) => {
+                if (person.get('person', null)) {
+                  return <Link
+                    key={`person_marker_${person.get('uuid')}`}
+                    style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=32&height=32)` }}
+                    styleName='person'
+                    title={person.getIn([ 'person', 'name' ])}
+                    to={`/${currentLocale}/topic/${person.getIn([ 'person', 'name' ]).replace(/\W+/g, '-')}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`}/>;
+                }
+                return <Link
                   key={`person_marker_${person.get('uuid')}`}
                   style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
                   styleName='person'
                   title={person.getIn([ 'character', 'name' ])}
-                  to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/\W+/g, '-')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>
+                  to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/\W+/g, '-')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>;
+              }
               )}
             </div>}
           {item.get('imageSource') && <div styleName='spott-image-source'>{item.get('imageSource')}</div>}

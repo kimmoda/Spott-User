@@ -350,6 +350,7 @@
     "MOVIE": "Movie",
     "TV_SERIE": "Tv show",
     "CHARACTER": "Character",
+    "PERSON": "Person",
     "MANUAL": "",
     "BRAND": "Brand"
   },
