@@ -4,12 +4,13 @@ import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Masonry from 'react-masonry-component';
+import VisibilitySensor from 'react-visibility-sensor';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
 import Card from '../card';
 import * as actions from '../../actions';
 import { newHomeSelector } from '../../selectors';
-import { FETCHING } from '../../../../data/statusTypes';
+import { FETCHING, LOADED } from '../../../../data/statusTypes';
 
 const styles = require('./index.scss');
 
@@ -39,9 +40,12 @@ export default class NewHome extends Component {
     this.handleResize = ::this.handleResize;
     this.loadData = ::this.loadData;
     this.loadMore = ::this.loadMore;
+    this.loadOnScroll = ::this.loadOnScroll;
     this.loadMoreVisibility = ::this.loadMoreVisibility;
+    this.handleLoadSpotts = ::this.handleLoadSpotts;
     this.state = {
-      width: 280
+      width: 280,
+      lazyLoadMode: true
     };
   }
 
@@ -55,6 +59,7 @@ export default class NewHome extends Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.isAuthenticated !== this.props.isAuthenticated) {
       this.loadData(nextProps);
+      this.setState({ lazyLoadMode: true });
     }
   }
 
@@ -89,6 +94,21 @@ export default class NewHome extends Component {
   }
 
   loadMore () {
+    this.handleLoadSpotts();
+  }
+
+  loadOnScroll (isVisible) {
+    const { spotts: s, spottsSubscribed: ss } = this.props;
+    const { lazyLoadMode } = this.state;
+    if (isVisible && lazyLoadMode && (ss.get('_status') === LOADED || s.get('_status') === LOADED) && (ss.get('data').size + s.get('data').size < 15)) {
+      this.handleLoadSpotts();
+    }
+    if (ss.get('data').size + s.get('data').size > 15) {
+      this.setState({ lazyLoadMode: false });
+    }
+  }
+
+  handleLoadSpotts () {
     const { spotts: s, spottsSubscribed: ss, spottsPromoted: sp } = this.props;
     const pages = {
       spottsPage: s.get('page', -1) + 1 < s.get('pageCount') ? s.get('page', -1) + 1 : -1,
@@ -100,6 +120,10 @@ export default class NewHome extends Component {
 
   loadMoreVisibility () {
     const { spotts: s, spottsSubscribed: ss } = this.props;
+    const { lazyLoadMode } = this.state;
+    if (lazyLoadMode) {
+      return false;
+    }
     if (s.get('data').size && s.get('_status') !== FETCHING && s.get('page') + 1 < s.get('pageCount')) {
       return true;
     }
@@ -111,7 +135,7 @@ export default class NewHome extends Component {
 
   render () {
     const { trendingTopics, location, feedSpotts } = this.props;
-    const { width } = this.state;
+    const { width, lazyLoadMode } = this.state;
     return (
       <section styleName='wrapper'>
         <div styleName='topics responsive-container'>
@@ -131,6 +155,7 @@ export default class NewHome extends Component {
             </Masonry>
           </div>
         </div>
+        <VisibilitySensor active={lazyLoadMode} delayedCall intervalDelay={1000} onChange={this.loadOnScroll}/>
         {this.loadMoreVisibility() && <div styleName='load-more responsive-element' onClick={this.loadMore}>Load more...</div>}
       </section>
     );

@@ -284,10 +284,10 @@ export function loadSpottsListWrapper (isAuthenticated, { spottsPage, spottsSubs
     try {
       if (isAuthenticated) {
         const spottsSubscribed = spottsSubscribedPage === -1 ? null : await dispatch(loadSpottsSubscribedList(spottsSubscribedPage));
-        if (!spottsSubscribed || spottsSubscribed.meta.page + 1 >= spottsSubscribed.meta.pageCount) {
+        if ((!spottsSubscribed || spottsSubscribed.meta.page + 1 >= spottsSubscribed.meta.pageCount) && spottsPage !== -1) {
           dispatch(loadSpottsList(spottsPage));
         }
-      } else {
+      } else if (spottsPage !== -1) {
         dispatch(loadSpottsList(spottsPage));
       }
       if (spottsPromotedPage !== -1) {
