@@ -147,7 +147,7 @@ export default function newHomeReducer (state = Map({
       return state.mergeIn([ 'currentProduct' ], Map({ _error: action.error }));
 
     case actions.LOAD_SIDEBAR_PRODUCT_START:
-      return state.updateIn([ 'sidebarProducts', 'data' ], (data) => data.find((item) => item === action.uuid) ? data : data.push(action.uuid));
+      return state.updateIn([ 'sidebarProducts', 'data' ], (data) => data.push(action.uuid));
     case actions.LOAD_SIDEBAR_PRODUCT_ERROR:
       return state.mergeIn([ 'sidebarProducts' ], Map({ _error: action.error }));
 
