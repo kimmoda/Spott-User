@@ -79,6 +79,11 @@ export default class Card extends Component {
     });
   }
 
+  shareSpott (event) {
+    event.preventDefault();
+    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.spottDetails.get('shareUrl'))}&title=Discover ${this.props.spottDetails.get('title')} now on Spott`, 'name', 'width=600,height=400');
+  }
+
   onCardMarkerClick (marker, event) {
     event.stopPropagation();
 
@@ -160,9 +165,9 @@ export default class Card extends Component {
           <div styleName='users'>
             {spottDetails.getIn([ 'lovers', 'data' ]) && <Users items={spottDetails.getIn([ 'lovers', 'data' ])} maxNum={5}/>}
           </div>
-          <Link styleName='share' to='#'>
+          <div styleName='share' onClick={(event) => this.shareSpott(event)}>
             <i><IconForward/></i>
-          </Link>
+          </div>
         </div>}
       </div>
     );

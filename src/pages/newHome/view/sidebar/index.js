@@ -98,6 +98,11 @@ export default class Sidebar extends Component {
     }
   }
 
+  shareProduct (event) {
+    event.preventDefault();
+    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.product.get('shareUrl'))}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
+  }
+
   onImageClick (url) {
     this.setState({
       currentImage: url
@@ -199,7 +204,7 @@ export default class Sidebar extends Component {
              <Users large maxNum={8} />
            </div>
           */}
-          <div styleName='sidebar-share'>
+          <div styleName='sidebar-share' onClick={(event) => this.shareProduct(event)}>
             <i><IconForward/></i>
           </div>
         </div>

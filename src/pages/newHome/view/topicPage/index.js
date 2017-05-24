@@ -4,11 +4,10 @@ import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
-import DropdownMenu from '../dropdownMenu';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
 import Cards from '../cards';
-import { IconForward, IconCheck } from '../icons';
+import { IconCheck } from '../icons';
 import * as actions from '../../actions';
 import { topicDetailsSelector } from '../../selectors';
 
@@ -178,12 +177,6 @@ export default class NewTopic extends Component {
                   onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
                   <span>{topic.get('subscribed') ? 'Subscribed' : 'Subscribe'}</span>
                   <i><IconCheck /></i>
-                </div>
-                <div styleName='info-share-wrapper'>
-                  <DropdownMenu alignLeft trigger={<div className={styles['info-share']}><i><IconForward/></i></div>}>
-                    <div>Facebook</div>
-                    <div>Twitter</div>
-                  </DropdownMenu>
                 </div>
               </div>
             </div>
