@@ -77,11 +77,11 @@ export default class Footer extends Component {
                 Follow us on social media
               </div>
               <div styleName='footer-socials'>
-                <a href='https://www.facebook.com/Spott.it/?fref=ts'> <i><IconFacebook /></i></a>
-                {currentLocale === 'fr' && <a href='https://twitter.com/SpottBE_fr'> <i><IconTwitter /></i></a>}
-                {currentLocale === 'nl' && <a href='https://twitter.com/SpottBE_nl'> <i><IconTwitter /></i></a>}
-                {currentLocale === 'en' && <a href='https://twitter.com/Spott_eng'> <i><IconTwitter /></i></a>}
-                <a href='https://www.instagram.com/spott_be/?hl=nl'> <i><IconInstagram /></i></a>
+                <a href='https://www.facebook.com/Spott.it/?fref=ts' target='_blan'> <i><IconFacebook /></i></a>
+                {currentLocale === 'fr' && <a href='https://twitter.com/SpottBE_fr' target='_blank'> <i><IconTwitter /></i></a>}
+                {currentLocale === 'nl' && <a href='https://twitter.com/SpottBE_nl' target='_blank'> <i><IconTwitter /></i></a>}
+                {currentLocale === 'en' && <a href='https://twitter.com/Spott_eng' target='_blank'> <i><IconTwitter /></i></a>}
+                <a href='https://www.instagram.com/spott_be/?hl=nl' target='_blank'> <i><IconInstagram /></i></a>
               </div>
             </div>
             <div styleName='footer-sub-col'>
