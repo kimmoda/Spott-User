@@ -141,6 +141,11 @@ export default class CardModal extends Component {
     }
   }
 
+  shareSpott (event) {
+    event.preventDefault();
+    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.spott.get('shareUrl'))}&title=Discover ${this.props.spott.get('title')} now on Spott`, 'name', 'width=600,height=400');
+  }
+
   onCloseHandler () {
     if (this.props.sidebarProducts.get('data').size) {
       this.props.clearSidebarProducts();
@@ -265,9 +270,9 @@ export default class CardModal extends Component {
                 <div styleName='users'>
                   {spott.getIn([ 'lovers', 'data' ]) && <Users items={spott.getIn([ 'lovers', 'data' ])} large maxNum={16}/>}
                 </div>
-                <Link styleName='moar' to='#'>
+                <div styleName='moar' onClick={(event) => this.shareSpott(event)}>
                   <i><IconForward/></i>
-                </Link>
+                </div>
               </div>
             </div>
             {Boolean(spott.getIn([ 'relatedTopics', 'data' ]) && spott.getIn([ 'relatedTopics', 'data' ]).size) &&
