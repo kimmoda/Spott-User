@@ -2,7 +2,6 @@
 /* eslint no-param-reassign: 0 */
 import { fromJS, List, Map } from 'immutable';
 import * as actions from './actions';
-import * as newActions from '../pages/newHome/actions';
 import { FETCHING, UPDATING, ERROR, LOADED } from './statusTypes';
 import { LOGOUT_SUCCESS } from '../pages/app/actions';
 
@@ -73,9 +72,7 @@ export default (state = fromJS({
     scenes: {},
     users: {},
     tvGuideEntries: {},
-    wishlists: {},
-    spotts: {},
-    newProducts: {}
+    wishlists: {}
   },
   relations: {
     characterHasProducts: {},
@@ -335,71 +332,6 @@ export default (state = fromJS({
       return fetchListSuccess(state, 'tvGuideEntries', 'tvGuideEntries', action.data);
     case actions.TV_GUIDE_ENTRIES_FETCH_ERROR:
       return fetchListError(state, 'tvGuideEntries', action.error);
-
-    // new API actions
-
-    case newActions.GET_SPOTT_START:
-      return fetchStart(state, [ 'entities', 'spotts', action.uuid ]);
-    case newActions.GET_SPOTT_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid ], action.data);
-    case newActions.GET_SPOTT_ERROR:
-      return fetchError(state, [ 'entities', 'spotts', action.uuid ], action.error);
-
-    case newActions.GET_SPOTT_RELATED_TOPICS_START:
-      return fetchStart(state, [ 'entities', 'spotts', action.uuid, 'relatedTopics' ]);
-    case newActions.GET_SPOTT_RELATED_TOPICS_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid, 'relatedTopics' ], action.data);
-    case newActions.GET_SPOTT_RELATED_TOPICS_ERROR:
-      return fetchError(state, [ 'entities', 'spotts', action.uuid, 'relatedTopics' ], action.error);
-
-    case newActions.GET_SPOTT_SIMILAR_START:
-      return fetchStart(state, [ 'entities', 'spotts', action.uuid, 'similar' ]);
-    case newActions.GET_SPOTT_SIMILAR_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid, 'similar' ], action.data);
-    case newActions.GET_SPOTT_SIMILAR_ERROR:
-      return fetchError(state, [ 'entities', 'spotts', action.uuid, 'similar' ], action.error);
-
-    case newActions.GET_SPOTT_LOVERS_START:
-      return fetchStart(state, [ 'entities', 'spotts', action.uuid, 'lovers' ]);
-    case newActions.GET_SPOTT_LOVERS_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid, 'lovers' ], action.data);
-    case newActions.GET_SPOTT_LOVERS_ERROR:
-      return fetchError(state, [ 'entities', 'spotts', action.uuid, 'lovers' ], action.error);
-
-    case newActions.SET_SPOTT_LOVER_START:
-      return fetchStart(state, [ 'entities', 'spotts', action.uuid ]);
-    case newActions.SET_SPOTT_LOVER_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid ], action.data);
-    case newActions.SET_SPOTT_LOVER_ERROR:
-      return fetchError(state, [ 'entities', 'spotts', action.uuid ], action.error);
-
-    case newActions.REMOVE_SPOTT_LOVER_START:
-      return fetchStart(state, [ 'entities', 'spotts', action.uuid ]);
-    case newActions.REMOVE_SPOTT_LOVER_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'spotts', action.uuid ], action.data);
-    case newActions.REMOVE_SPOTT_LOVER_ERROR:
-      return fetchError(state, [ 'entities', 'spotts', action.uuid ], action.error);
-
-    case newActions.GET_PRODUCT_START:
-      return fetchStart(state, [ 'entities', 'newProducts', action.uuid ]);
-    case newActions.GET_PRODUCT_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'newProducts', action.uuid ], action.data);
-    case newActions.GET_PRODUCT_ERROR:
-      return fetchError(state, [ 'entities', 'newProducts', action.uuid ], action.error);
-
-    case newActions.GET_PRODUCT_SIMILAR_START:
-      return fetchStart(state, [ 'entities', 'newProducts', action.uuid, 'similar' ]);
-    case newActions.GET_PRODUCT_SIMILAR_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'newProducts', action.uuid, 'similar' ], action.data);
-    case newActions.GET_PRODUCT_SIMILAR_ERROR:
-      return fetchError(state, [ 'entities', 'newProducts', action.uuid, 'similar' ], action.error);
-
-    case newActions.GET_PRODUCT_SPOTTS_START:
-      return fetchStart(state, [ 'entities', 'newProducts', action.uuid, 'spotts' ]);
-    case newActions.GET_PRODUCT_SPOTTS_SUCCESS:
-      return fetchSuccess(state, [ 'entities', 'newProducts', action.uuid, 'spotts' ], action.data);
-    case newActions.GET_PRODUCT_SPOTTS_ERROR:
-      return fetchError(state, [ 'entities', 'newProducts', action.uuid, 'spotts' ], action.error);
 
     // Uninteresting actions
     // ---------------------
