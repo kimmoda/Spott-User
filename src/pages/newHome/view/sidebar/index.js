@@ -195,10 +195,11 @@ export default class Sidebar extends Component {
           <div styleName='sidebar-title2'>{product.get('longName')}</div>
           <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
           <div styleName='sidebar-options'>
-            {(product.get('available') || typeof product.get('available') === 'undefined')
-              ? <div styleName='sidebar-add' onClick={this.onBuyClick}>{t('productDetail.buyNow')}</div>
-              : <div styleName='sidebar-add-unavailable' onClick={this.onBuyClick}>{t('productDetail.outOfStock')}</div>
-            }
+            <button disabled={!product.get('available')} styleName='sidebar-add' onClick={this.onBuyClick}>
+              {Boolean(!product.get('available')) && t('productDetail.outOfStock')}
+              {Boolean(product.get('available') && product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('productDetail.buyNow')}
+              {Boolean(product.get('available') && !product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('productDetail.moreInfo')}
+            </button>
           </div>
         </div>
         <div styleName='sidebar-footer'>
