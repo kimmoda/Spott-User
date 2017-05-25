@@ -22,7 +22,7 @@ export const spottsSubscribedSelector = (state) => state.getIn([ 'newHome', 'spo
 export const spottsPromotedSelector = (state) => state.getIn([ 'newHome', 'spottsPromoted' ]);
 
 export const currentSpottUuidSelector = (state) => state.getIn([ 'newHome', 'currentSpott', 'uuid' ]);
-export const spottEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'spotts' ]);
+export const spottEntitiesSelector = (state) => state.getIn([ 'newHome', 'spottsDetails' ]);
 export const spottSelector = createEntityByIdSelector(spottEntitiesSelector, currentSpottUuidSelector);
 
 const spottCardUuidSelector = (state, props) => props.spottId;
@@ -32,7 +32,7 @@ export const spottCardDetailsSelector = createStructuredSelector({
   userId: currentUserIdSelector
 });
 
-export const productEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'newProducts' ]);
+export const productEntitiesSelector = (state) => state.getIn([ 'newHome', 'productsDetails' ]);
 
 export const currentProductUuidSelector = (state) => state.getIn([ 'newHome', 'currentProduct', 'uuid' ]);
 export const productSelector = createEntityByIdSelector(productEntitiesSelector, currentProductUuidSelector);
@@ -189,4 +189,8 @@ export const registrationFormSelector = createStructuredSelector({
   initialValues: registrationFormDefaultsSelector,
   facebookError: registrationFacebookErrorSelector,
   facebookIsLoading: registrationFacebookIsLoadingSelector
+});
+
+export const usersLikesModalSelector = createStructuredSelector({
+  currentUserId: currentUserIdSelector
 });

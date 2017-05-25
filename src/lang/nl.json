@@ -159,7 +159,8 @@
     "noMoreFromBrand": "No [[]] producten gevonden",
     "outOfStock": "Niet beschikbaar",
     "addToBasket": "In winkelwagen",
-    "buyOnStore": "Kopen op winkel"
+    "buyOnStore": "Kopen op winkel",
+    "moreInfo": "Meer info"
   },
   "profile": {
     "header": {

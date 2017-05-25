@@ -197,6 +197,7 @@ $phoneBreakpoint: 599px;
     border: solid 1px $colorGrayLight;
     color: $colorGray;
     opacity: 0.5;
+    cursor: not-allowed!important;
     i {
       :global {
         .fill {

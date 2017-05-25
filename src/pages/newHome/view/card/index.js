@@ -119,7 +119,7 @@ export default class Card extends Component {
   }
 
   render () {
-    const { item, currentLocale, spottDetails, width } = this.props;
+    const { item, currentLocale, spottDetails, width, location } = this.props;
     const { loved, loverCount } = this.state;
 
     return (
@@ -172,7 +172,12 @@ export default class Card extends Component {
             <span>{loverCount}</span>
           </div>
           <div styleName='users'>
-            {spottDetails.getIn([ 'lovers', 'data' ]) && <Users items={spottDetails.getIn([ 'lovers', 'data' ])} maxNum={5}/>}
+            {spottDetails.getIn([ 'lovers', 'data' ]) &&
+              <Users
+                items={spottDetails.getIn([ 'lovers', 'data' ])}
+                location={location}
+                maxNum={5}
+                spottId={spottDetails.get('uuid')}/>}
           </div>
           <div styleName='share' onClick={(event) => this.shareSpott(event)}>
             <i><IconForward/></i>

@@ -11,10 +11,12 @@ export default function newHomeReducer (state = Map({
   spotts: Map({ data: OrderedMap() }),
   spottsSubscribed: Map({ data: OrderedMap() }),
   spottsPromoted: Map({ data: OrderedMap() }),
+  spottsDetails: Map(),
   currentSpott: Map(),
   spottLovers: Map(),
   currentProduct: Map(),
   sidebarProducts: Map({ data: List() }),
+  productsDetails: Map(),
   profile: Map({ subscriptions: Map() }),
   searchSuggestions: Map({
     isLoading: false,
@@ -140,6 +142,69 @@ export default function newHomeReducer (state = Map({
       return state.set('currentSpott', Map({ uuid: action.uuid }));
     case actions.LOAD_SPOTT_ERROR:
       return state.mergeIn([ 'currentSpott' ], Map({ _error: action.error }));
+
+    case actions.GET_SPOTT_START:
+      return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_SPOTT_SUCCESS:
+      return state.setIn([ 'spottsDetails', action.uuid ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_SPOTT_ERROR:
+      return state.mergeIn([ 'spottsDetails', action.uuid ], action.error);
+
+    case actions.GET_SPOTT_RELATED_TOPICS_START:
+      return state.mergeIn([ 'spottsDetails', action.uuid, 'relatedTopics' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_SPOTT_RELATED_TOPICS_SUCCESS:
+      return state.setIn([ 'spottsDetails', action.uuid, 'relatedTopics' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_SPOTT_RELATED_TOPICS_ERROR:
+      return state.mergeIn([ 'spottsDetails', action.uuid, 'relatedTopics' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_SPOTT_SIMILAR_START:
+      return state.mergeIn([ 'spottsDetails', action.uuid, 'similar' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_SPOTT_SIMILAR_SUCCESS:
+      return state.setIn([ 'spottsDetails', action.uuid, 'similar' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_SPOTT_SIMILAR_ERROR:
+      return state.mergeIn([ 'spottsDetails', action.uuid, 'similar' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_SPOTT_LOVERS_START:
+      return state.mergeIn([ 'spottsDetails', action.uuid, 'lovers' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_SPOTT_LOVERS_SUCCESS:
+      return state.setIn([ 'spottsDetails', action.uuid, 'lovers' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_SPOTT_LOVERS_ERROR:
+      return state.mergeIn([ 'spottsDetails', action.uuid, 'lovers' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.SET_SPOTT_LOVER_START:
+      return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: null, _status: FETCHING }));
+    case actions.SET_SPOTT_LOVER_SUCCESS:
+      return state.setIn([ 'spottsDetails', action.uuid ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.SET_SPOTT_LOVER_ERROR:
+      return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.REMOVE_SPOTT_LOVER_START:
+      return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: null, _status: FETCHING }));
+    case actions.REMOVE_SPOTT_LOVER_SUCCESS:
+      return state.setIn([ 'spottsDetails', action.uuid ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.REMOVE_SPOTT_LOVER_ERROR:
+      return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_PRODUCT_START:
+      return state.mergeIn([ 'productsDetails', action.uuid ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_PRODUCT_SUCCESS:
+      return state.setIn([ 'productsDetails', action.uuid ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_PRODUCT_ERROR:
+      return state.mergeIn([ 'productsDetails', action.uuid ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_PRODUCT_SIMILAR_START:
+      return state.mergeIn([ 'productsDetails', action.uuid, 'similar' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_PRODUCT_SIMILAR_SUCCESS:
+      return state.setIn([ 'productsDetails', action.uuid, 'similar' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_PRODUCT_SIMILAR_ERROR:
+      return state.mergeIn([ 'productsDetails', action.uuid, 'similar' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_PRODUCT_SPOTTS_START:
+      return state.mergeIn([ 'productsDetails', action.uuid, 'spotts' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_PRODUCT_SPOTTS_SUCCESS:
+      return state.setIn([ 'productsDetailss', action.uuid, 'spotts' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_PRODUCT_SPOTTS_ERROR:
+      return state.mergeIn([ 'productsDetails', action.uuid, 'spotts' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.LOAD_PRODUCT_START:
       return state.set('currentProduct', Map({ uuid: action.uuid }));

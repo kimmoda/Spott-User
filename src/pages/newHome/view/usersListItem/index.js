@@ -35,13 +35,13 @@ export default class UserListItem extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      following: this.props.item.getIn([ 'profile', 'followingUser' ])
+      following: this.props.item.get('followingUser')
     };
   }
 
   componentWillReceiveProps (nextProps) {
     this.state = {
-      following: nextProps.item.getIn([ 'profile', 'followingUser' ])
+      following: nextProps.item.get('followingUser')
     };
   }
 
@@ -79,12 +79,12 @@ export default class UserListItem extends Component {
       <div styleName='people'>
         <Link styleName='people-left' to={`/${currentLocale}/profile/${item.get('uuid')}`}>
           <div
-            style={{ backgroundImage: item.getIn([ 'profile', 'avatar', 'url' ]) ? `url(${item.getIn([ 'profile', 'avatar', 'url' ])}?height=32&width=32)` : null }}
+            style={{ backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?height=32&width=32)` : null }}
             styleName='people-avatar'>
-            {!item.getIn([ 'profile', 'avatar', 'url' ]) && <IconAvatar/>}
+            {!item.getIn([ 'avatar', 'url' ]) && <IconAvatar/>}
           </div>
           <div styleName='people-name'>
-            {`${item.getIn([ 'profile', 'firstName' ])} ${item.getIn([ 'profile', 'lastName' ])}`}
+            {`${item.get('firstName')} ${item.get('lastName')}`}
           </div>
         </Link>
         {currentUserId !== item.get('uuid') &&

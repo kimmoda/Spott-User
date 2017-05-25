@@ -159,7 +159,8 @@
     "noMoreFromBrand": "Aucun [[]] produits trouvés",
     "outOfStock": "Non disponible",
     "addToBasket": "Ajouter au panier",
-    "buyOnStore": "Acheter en magasin"
+    "buyOnStore": "Acheter en magasin",
+    "moreInfo": "Plus d’info"
   },
   "profile": {
     "header": {
