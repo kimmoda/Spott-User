@@ -351,7 +351,15 @@ export function transformSpottsList (data) {
 
 export function transformPersonsList (data) {
   return {
-    data: data.data.map((item) => item.user)
+    data: data.data.map((item) => {
+      return {
+        avatar: item.user.profile.avatar,
+        firstName: item.user.profile.firstName,
+        lastName: item.user.profile.lastName,
+        followingUser: item.user.profile.followingUser,
+        uuid: item.user.uuid
+      };
+    })
   };
 }
 
@@ -359,12 +367,10 @@ export function transformFollowersList (data) {
   return {
     data: data.data.map((item) => {
       return {
-        profile: {
-          avatar: item.avatar,
-          firstName: item.firstName,
-          lastName: item.lastName,
-          followingUser: item.following
-        },
+        avatar: item.avatar,
+        firstName: item.firstName,
+        lastName: item.lastName,
+        followingUser: item.following,
         uuid: item.user.uuid
       };
     })

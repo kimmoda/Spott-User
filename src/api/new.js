@@ -73,8 +73,8 @@ export async function getSpottRelatedTopics (baseUrl, authenticationToken, local
 }
 
 export async function getSpottLovers (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/lovers`);
-  return body;
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/lovers?pageSize=20`);
+  return transformFollowersList(body);
 }
 
 export async function getSpottSimilar (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {

@@ -190,3 +190,7 @@ export const registrationFormSelector = createStructuredSelector({
   facebookError: registrationFacebookErrorSelector,
   facebookIsLoading: registrationFacebookIsLoadingSelector
 });
+
+export const usersLikesModalSelector = createStructuredSelector({
+  currentUserId: currentUserIdSelector
+});

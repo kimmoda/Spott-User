@@ -277,7 +277,13 @@ export default class CardModal extends Component {
                   <span>{spott.get('loverCount')}</span>
                 </div>
                 <div styleName='users'>
-                  {spott.getIn([ 'lovers', 'data' ]) && <Users items={spott.getIn([ 'lovers', 'data' ])} large maxNum={16}/>}
+                  {spott.getIn([ 'lovers', 'data' ]) &&
+                    <Users
+                      items={spott.getIn([ 'lovers', 'data' ])}
+                      large
+                      location={location}
+                      maxNum={16}
+                      spottId={spott.get('uuid')}/>}
                 </div>
                 <div styleName='moar' onClick={(event) => this.shareSpott(event)}>
                   <i><IconForward/></i>
