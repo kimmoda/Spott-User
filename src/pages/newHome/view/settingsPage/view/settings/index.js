@@ -10,6 +10,9 @@ import * as actions from '../../../../actions';
 import { userSettingsDetailsSelector } from '../../../../selectors';
 import { validateUserForm } from '../../validateForm';
 import { FormInput, FormRadio, FormSelect } from '../../../form';
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/scale.css';
 
 const styles = require('./index.scss');
 
@@ -104,8 +107,20 @@ export default class NewUserSettings extends Component {
         });
       }
       this.props.updateUserProfile({ uuid: this.props.userId, data });
+      Alert.success(<div><p style={{ color: '#27AE60' }}>Success</p><p>Your settings were saved</p></div>, {
+        position: 'top',
+        effect: 'scale',
+        timeout: 3000,
+        offset: 10
+      });
     } catch (e) {
       console.log(e);
+      Alert.success(<div><p style={{ color: '#e74c3c' }}>Error</p><p>Your settings were NOT saved</p></div>, {
+        position: 'top',
+        effect: 'scale',
+        timeout: 3000,
+        offset: 10
+      });
       throw e;
     }
   }
@@ -148,6 +163,9 @@ export default class NewUserSettings extends Component {
 
     return (
       <div styleName='content-profile'>
+        <div styleName='alert-container'>
+          <Alert stack={{ limit: 1 }} />
+        </div>
         <h2 styleName='content-title'>Profile</h2>
         <div styleName='user-photos'>
           <div styleName='user-avatar'>
