@@ -11,6 +11,7 @@ import * as actions from '../../../../actions';
 import { userAccountDetailsSelector } from '../../../../selectors';
 import { validateAccountForm } from '../../validateForm';
 import { FormSelect, FormInput } from '../../../form';
+import Notifier from '../../../alert';
 
 const styles = require('./index.scss');
 
@@ -93,9 +94,11 @@ export default class NewUserAccount extends Component {
       }
     };
     try {
+      this.alert.success('success', 'Your account was saved.');
       await this.props.updateUserProfile({ uuid: this.props.userId, data });
     } catch (e) {
       console.log(e);
+      this.alert.success('error', 'Your account was NOT saved.');
       throw e;
     }
   }
@@ -105,6 +108,7 @@ export default class NewUserAccount extends Component {
 
     return (
       <div styleName='account'>
+        <Notifier ref={(ref) => { this.alert = ref; }}/>
         <h2 styleName='title'>Account</h2>
         <form className='form' styleName='form' onSubmit={handleSubmit(this.onSubmit)}>
           <div styleName='blocks'>
