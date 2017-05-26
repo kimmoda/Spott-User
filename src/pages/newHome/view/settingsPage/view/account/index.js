@@ -79,7 +79,7 @@ export default class NewUserAccount extends Component {
         lastName: values.get('lastName'),
         description: values.get('description'),
         gender: values.get('gender'),
-        dateOfBirth: this.prop.userProfile.get('dateOfBirth'),
+        dateOfBirth: this.props.currentUserProfile.get('dateOfBirth'),
         languages: allLanguages,
         currency: {
           code: values.get('currencyForm')
