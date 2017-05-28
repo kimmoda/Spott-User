@@ -174,14 +174,14 @@ export default function newHomeReducer (state = Map({
     case actions.SET_SPOTT_LOVER_START:
       return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: null, _status: FETCHING }));
     case actions.SET_SPOTT_LOVER_SUCCESS:
-      return state.setIn([ 'spottsDetails', action.uuid ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state.mergeIn([ 'spottsDetails', action.uuid ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.SET_SPOTT_LOVER_ERROR:
       return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.REMOVE_SPOTT_LOVER_START:
       return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: null, _status: FETCHING }));
     case actions.REMOVE_SPOTT_LOVER_SUCCESS:
-      return state.setIn([ 'spottsDetails', action.uuid ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state.mergeIn([ 'spottsDetails', action.uuid ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.REMOVE_SPOTT_LOVER_ERROR:
       return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: action.error, _status: ERROR }));
 
@@ -202,7 +202,7 @@ export default function newHomeReducer (state = Map({
     case actions.GET_PRODUCT_SPOTTS_START:
       return state.mergeIn([ 'productsDetails', action.uuid, 'spotts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_PRODUCT_SPOTTS_SUCCESS:
-      return state.setIn([ 'productsDetailss', action.uuid, 'spotts' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state.setIn([ 'productsDetails', action.uuid, 'spotts' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_PRODUCT_SPOTTS_ERROR:
       return state.mergeIn([ 'productsDetails', action.uuid, 'spotts' ], Map({ _error: action.error, _status: ERROR }));
 
