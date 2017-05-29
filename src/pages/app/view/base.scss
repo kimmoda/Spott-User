@@ -15,7 +15,9 @@
     background: #cf315b;
     color: #fff;
   }
-
+  img::selection {
+    background: transparent;
+  }
   /* Custom scrollbar */
 
   /*
