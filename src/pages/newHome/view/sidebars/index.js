@@ -37,7 +37,7 @@ export default class Sidebars extends Component {
       spottTitle: PropTypes.string,
       productTitle: PropTypes.string,
       complexId: PropTypes.string
-    }).isRequired,
+    }),
     removeSidebarProduct: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     sidebarProducts: PropTypes.any.isRequired,

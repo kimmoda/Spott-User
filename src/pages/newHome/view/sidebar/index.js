@@ -44,7 +44,7 @@ export default class Sidebar extends Component {
       spottTitle: PropTypes.string,
       productTitle: PropTypes.string,
       complexId: PropTypes.string
-    }).isRequired,
+    }),
     product: PropTypes.any.isRequired,
     removeProductFromWishlist: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
@@ -161,6 +161,12 @@ export default class Sidebar extends Component {
   render () {
     const { product, onBackClick, onProductClick, t, currentLocale } = this.props;
     const { width } = this.state;
+    const spottId = this.props.params && this.props.params.complexId
+      ? this.props.params.complexId.split('}{')[0].replace('{', '')
+      : null;
+    const productSpotts = product.getIn([ 'spotts', 'data' ]) && product.getIn([ 'spotts', 'data' ]).size
+      ? product.getIn([ 'spotts', 'data' ]).filter((item) => item.get('uuid') !== spottId)
+      : null;
 
     return (
       <div styleName='sidebar'>
@@ -226,12 +232,12 @@ export default class Sidebar extends Component {
               {product.get('description')}
             </div>
           </div>}
-        {Boolean(product.getIn([ 'spotts', 'data' ]) && product.getIn([ 'spotts', 'data' ]).size) &&
+        {Boolean(productSpotts && productSpotts.size) &&
           <div styleName='sidebar-panel'>
             <div styleName='sidebar-panel-title'>Also seen in</div>
             <div styleName='sidebar-seens'>
-              <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={product.getIn([ 'spotts', 'data' ]).size}>
-                {product.getIn([ 'spotts', 'data' ]).map((item, index) =>
+              <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={productSpotts.size}>
+                {productSpotts.map((item, index) =>
                   <div
                     key={`spott_${index}`}
                     style={{
