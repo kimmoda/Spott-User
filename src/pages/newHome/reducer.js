@@ -101,7 +101,8 @@ export default function newHomeReducer (state = Map({
         .mergeIn([ 'spotts', 'data' ], fromJS(action.data.data, (key, value) => {
           const isIndexed = Iterable.isIndexed(value);
           return isIndexed ? value.toList() : value.toOrderedMap();
-        }));
+        }))
+        .mergeDeepIn([ 'spottsDetails' ], fromJS(action.data.data));
     case actions.GET_SPOTTS_LIST_ERROR:
       return state.mergeIn([ 'spotts' ], Map({ _error: action.error, _status: ERROR }));
 
@@ -113,7 +114,8 @@ export default function newHomeReducer (state = Map({
         .mergeIn([ 'spottsSubscribed', 'data' ], fromJS(action.data.data, (key, value) => {
           const isIndexed = Iterable.isIndexed(value);
           return isIndexed ? value.toList() : value.toOrderedMap();
-        }));
+        }))
+        .mergeDeepIn([ 'spottsDetails' ], fromJS(action.data.data));
     case actions.GET_SPOTTS_SUBSCRIBED_LIST_ERROR:
       return state.mergeIn([ 'spottsSubscribed' ], Map({ _error: action.error, _status: ERROR }));
 
@@ -125,7 +127,8 @@ export default function newHomeReducer (state = Map({
         .mergeIn([ 'spottsPromoted', 'data' ], fromJS(action.data.data, (key, value) => {
           const isIndexed = Iterable.isIndexed(value);
           return isIndexed ? value.toList() : value.toOrderedMap();
-        }));
+        }))
+        .mergeDeepIn([ 'spottsDetails' ], fromJS(action.data.data));
     case actions.GET_SPOTTS_PROMOTED_LIST_ERROR:
       return state.mergeIn([ 'spottsPromoted' ], Map({ _error: action.error, _status: ERROR }));
 
@@ -280,14 +283,20 @@ export default function newHomeReducer (state = Map({
     case actions.GET_SEARCH_POSTS_START:
       return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_SEARCH_POSTS_SUCCESS:
-      return state.mergeIn([ 'searchResults', 'posts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).setIn([ 'searchResults', 'posts', 'data' ], fromJS(action.data.data).toOrderedMap());
+      return state
+        .mergeIn([ 'searchResults', 'posts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .setIn([ 'searchResults', 'posts', 'data' ], fromJS(action.data.data).toOrderedMap())
+        .mergeDeepIn([ 'spottsDetails' ], fromJS(action.data.data));
     case actions.GET_SEARCH_POSTS_ERROR:
       return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.GET_SEARCH_POSTS_MORE_START:
       return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_SEARCH_POSTS_MORE_SUCCESS:
-      return state.mergeIn([ 'searchResults', 'posts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'searchResults', 'posts', 'data' ], fromJS(action.data.data));
+      return state
+        .mergeIn([ 'searchResults', 'posts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .mergeIn([ 'searchResults', 'posts', 'data' ], fromJS(action.data.data))
+        .mergeDeepIn([ 'spottsDetails' ], fromJS(action.data.data));
     case actions.GET_SEARCH_POSTS_MORE_ERROR:
       return state.mergeIn([ 'searchResults', 'posts' ], Map({ _error: action.error, _status: ERROR }));
 
@@ -322,7 +331,10 @@ export default function newHomeReducer (state = Map({
     case actions.GET_USER_LOVED_POSTS_START:
       return state.mergeIn([ 'users', action.uuid, 'lovedPosts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_USER_LOVED_POSTS_SUCCESS:
-      return state.mergeIn([ 'users', action.uuid, 'lovedPosts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'users', action.uuid, 'lovedPosts', 'data' ], fromJS(action.data.data).toOrderedMap());
+      return state
+        .mergeIn([ 'users', action.uuid, 'lovedPosts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .mergeIn([ 'users', action.uuid, 'lovedPosts', 'data' ], fromJS(action.data.data).toOrderedMap())
+        .mergeDeepIn([ 'spottsDetails' ], fromJS(action.data.data));
     case actions.GET_USER_LOVED_POSTS_ERROR:
       return state.mergeIn([ 'users', action.uuid, 'lovedPosts' ], Map({ _error: action.error, _status: ERROR }));
 

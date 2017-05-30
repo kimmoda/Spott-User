@@ -1,0 +1,366 @@
+{
+  "_common": {
+    "unknown": "Een onbekende fout trad op.",
+    "tvGuideTiles": {
+      "now": "Nu",
+      "today": "Vandaag",
+      "tomorrow": "Morgen",
+      "h": "u"
+    },
+    "episodeTiles": {
+      "episode": "Seizoen %(season)i – Aflevering %(episode)i"
+    },
+    "footer": {
+      "cookies": "Cookiebeleid",
+      "copyright": "Copyright © 2015–2016 Appiness nv",
+      "privacy": "Privacy",
+      "terms": "Voorwaarden",
+      "language": "Gebruik Spott in [[]]"
+    },
+    "header": {
+      "login": "Aanmelden",
+      "logout": "Afmelden",
+      "home": "Home"
+    },
+    "sceneTiles": {
+      "sceneFromCommercial": "Scène uit [[%(commercial)s]]",
+      "sceneFromEpisode": "Scène uit seizoen [[%(season)i]] – Aflevering [[%(episode)i]]",
+      "sceneFromMovie": "Scène uit [[%(movie)s]]"
+    }
+  },
+  "resetPassword": {
+    "alreadySendMail": "Er is reeds een e-mail verstuurd. Controleer je e-mail voor verdere instructies.",
+    "email": "Je e-mailadres",
+    "emailLabel": "Geef je e-mail in om je wachtwoord opnieuw in te stellen.",
+    "invalidEmail": "Ongeldig e-mailadres.",
+    "submitButton": "Verzenden",
+    "title": "Wachtwoord opnieuw instellen"
+  },
+  "resetPasswordSuccess": {
+    "title": "Gelukt!",
+    "text": "Je wachtwoord is opnieuw ingesteld. Controleer je e-mail voor verdere instructies.",
+    "submitButton": "Klaar"
+  },
+  "changePassword": {
+    "successMessage": "Uw wachtwoord is veranderd!",
+    "errorMessage": "Er is een fout opgetreden tijdens de poging om uw wachtwoord te wijzigen :(",
+    "newPasswordPlaceholder": "Voer uw nieuw wachtwoord in",
+    "confirmPasswordPlaceholder": "Bevestig wachtwoord",
+    "title": "Wijzig uw Spott wachtwoord",
+    "passwordLengthError": "Dit wachtwoord is niet lang genoeg!",
+    "passwordMatchError": "Wachtwoorden stemmen niet overeen!",
+    "submitButton": "Verander wachtwoord"
+  },
+  "confirmedNewsletter": {
+    "enjoy": "Geniet van Spott,",
+    "spottTeam": "Het Spott team",
+    "thankYou": "Dank u voor uw registratie op de Spott nieuwsbrief! [[klik hier]] om te starten en Spott te downloaden op uw mobiele telefoon.",
+    "title": "Hoera!"
+  },
+  "error404": {
+    "pageDoesNotExist": "De door u opgevraagde pagina bestaat niet.",
+    "returnToSpott": "Keer terug naar Spott.it",
+    "somethingWentWrong": "Er ging iets mis!",
+    "title": "Whoops!"
+  },
+  "home": {
+    "downloadApp": {
+      "title": "Kijk. Klik. Ontdek.",
+      "subtitle": "Live op je mobiele toestel",
+      "availability": "Beschikbaar voor iOS & Android",
+      "downloadButton": "Download"
+    },
+    "tvGuide": {
+      "title": "Kijk TV met Spott",
+      "empty": "Deze lijst is momenteel leeg."
+    },
+    "newEpisodes": {
+      "title": "Nieuwe afleveringen",
+      "empty": "Deze lijst is momenteel leeg."
+    },
+    "newScenesForYou": {
+      "title": "Nieuwe scènes voor u"
+    },
+    "popularNearYou": {
+      "title": "Populair rondom u"
+    },
+    "popularProducts": {
+      "title": "Populaire producten",
+      "empty": "Deze lijst is momenteel leeg."
+    },
+    "recentlyAdded": {
+      "browseButton": "Blader",
+      "highlight": "Nu beschikbaar op Spott",
+      "moreFiftyShades": "Meer Vijftig Tinten",
+      "title": "Recent toegevoegd"
+    },
+    "recentlyAddedToWishlist": {
+      "title": "Recent toegevoegd aan de verlanglijst",
+      "empty": "U heeft nog geen items toegevoegd aan uw verlanglijst."
+    },
+    "search": {
+      "info": "Spott staat u toe om producten te vinden in de dingen die u bekijkt",
+      "placeholder": "Zoek naar TV shows, films, personages of merken",
+      "title": "Televisie is nu uw favoriete winkel",
+      "loadingResults": "Resultaten laden...",
+      "noResults": "Oeps! We kunnen geen resultaten vinden voor de ingegeven zoekopdracht"
+    },
+    "topSellingProducts": {
+      "title": "Best verkochte producten"
+    }
+  },
+  "redirect": {
+    "redirecting": "Omleiden..."
+  },
+  "login": {
+    "title": "Log in",
+    "email": "Je e-mailadres",
+    "password": "Je wachtwoord",
+    "logInWithFacebookButton": "Log in met Facebook",
+    "submitButton": "Aanmelden",
+    "newUser": "Nieuwe gebruiker?",
+    "createAccount": "Registreer je",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "invalid": "E-mail/wachtwoord combinatie is niet correct.",
+    "invalidFacebook": "Je Facebook account is niet gelinkt aan een Spott account. Registreer [[hier]]."
+  },
+  "register": {
+    "title": "Registratie",
+    "registerWithFacebookButton": "Registreer je met Facebook",
+    "submitButton": "Verzend",
+    "firstname": "Je voornaam",
+    "lastname": "Je achternaam",
+    "email": "E-mailadres",
+    "dateOfBirth": "Je geboortedatum",
+    "gender": {
+      "label": "Geslacht",
+      "MALE": "Man",
+      "FEMALE": "Vrouw"
+    },
+    "password": "Je wachtwoord",
+    "passwordRepeat": "Bevestig je wachtwoord",
+    "existingUser": "Je hebt reeds een account",
+    "logIn": "Log in",
+    "userAlreadyExist": "Er is reeds een Spott gebruiker met dit e-mailadres.",
+    "agree": "Ik heb [[]] gelezen en goedgekeurd, ",
+    "terms": "de voorwaarden",
+    "facebookError": "Niet genoeg informatie, geef uw e-mailadres via Facebook of registreer zonder Facebook.",
+    "facebookErrorAlreadyExists": "Je bent al geregistreerd zonder Facebook. Meld je aan met het e-mailadres en wachtwoord van uw Spott account."
+  },
+  "productDetail": {
+    "buyNow": "Koop nu",
+    "by": "Van %(brandName)s",
+    "noSimilar": "Geen gelijkaardige producten gevonden.",
+    "similarProducts": "Gelijkaardige producten",
+    "unavailable": "Dit product is niet beschikbaar.",
+    "notExist": "Dit product bestaat niet meer. Onze excuses hiervoor.​",
+    "product": "Product",
+    "moreFromBrand": "Meer [[]] producten",
+    "noMoreFromBrand": "No [[]] producten gevonden",
+    "outOfStock": "Niet beschikbaar",
+    "addToBasket": "In winkelwagen",
+    "buyOnStore": "Kopen op winkel",
+    "moreInfo": "Meer info"
+  },
+  "profile": {
+    "header": {
+      "followers": {
+        "zero":  "[[0]] volgers",
+        "one":   "[[1]] volger",
+        "other": "[[%(count)s]] volgers"
+      },
+      "following": {
+        "zero":  "[[0]] volgend",
+        "one":   "[[1]] volgend",
+        "other": "[[%(count)s]] volgend"
+      }
+    },
+    "menu": {
+      "savedScenes": "Bewaarde Scènes",
+      "wishlists": "Verlanglijsten"
+    },
+    "savedScenes": {
+      "empty": "Deze lijst is leeg."
+    },
+    "wishlists": {
+      "empty": "U heeft nog geen verlanglijst.",
+      "unnamedWishlist": "Verlanglijst",
+      "editWishlist": "Bewerken verlanglijst",
+      "delete": "Verwijder",
+      "cancel": "Annuleer",
+      "save": "Bewaar",
+      "privateList": "Privé lijst"
+    },
+    "wishlistProducts": {
+      "empty": "Deze verlanglijst is leeg.",
+      "private": "Deze verlanglijst is privé, de eigenaar moet hem publiek maken om hem zichtbaar te maken.",
+      "notExist": "Deze verlanglijst bestaat niet meer. Onze excuses hiervoor.​"
+    },
+    "wishlistButton": {
+      "alreadyExist": "Verlanglijst bestaat al",
+      "addToList": "Toevoegen aan lijst",
+      "create": "Creëren",
+      "createNewList": "Maak een nieuwe lijst"
+    },
+    "notExist": "Deze profielpagina bestaat niet meer. Onze excuses hiervoor.​"
+  },
+  "medium": {
+    "COMMERCIAL": "TV-spot",
+    "MOVIE": "Film",
+    "TV_SERIE": "Tv show",
+    "topProducts": {
+      "empty": "Momenteel zijn er geen top producten om te tonen.",
+      "title": "Top %(title)s producten"
+    },
+    "topUserProducts": {
+      "empty": "Er zijn geen producten voor jou gekozen.",
+      "title": "Gekozen voor jou"
+    },
+    "episodes": {
+      "empty": "Er zijn geen afleveringen beschikbaar."
+    },
+    "recentEpisodes": {
+      "empty": "Er zijn geen afleveringen beschikbaar.",
+      "title": "Recente Afleveringen"
+    },
+    "seasons": {
+      "empty": "Er zijn geen seizoenen beschikbaar."
+    },
+    "scenes": {
+      "tabName": "Scènes",
+      "empty": "Er zijn geen scènes beschikbaar.",
+      "sceneFrom": "Scène uit: [[]]",
+      "sceneFromEpisode": "Aflevering %(episode)i – %(title)s",
+      "sceneFromEpisodeShort": "Aflevering %(episode)i"
+    },
+    "products": {
+      "empty": "Momenteel zijn er geen producten om te tonen."
+    }
+  },
+  "character": {
+    "CHARACTER": "Personage",
+    "products": {
+      "empty": "Er zijn momenteel geen producten voor dit personage.",
+      "title": "Producten"
+    }
+  },
+  "scene": {
+    "sceneFrom": "Scène uit",
+    "save": "Bewaar",
+    "unsave": "Bewaard"
+  },
+  "cookies": {
+    "moreInfo": "Deze website maakt gebruik van cookies om uw gebruikservaring te verbeteren. [[Meer info]]",
+    "policy": "Wij hebben onze [[gebruiksvoorwaarden]] en [[privacybeleid]] aangepast.",
+    "continue": "Verdergaan"
+  },
+  "relevance": {
+    "EXACT": "Exacte overeenkomst",
+    "MEDIUM": "Middelmatige overeenkomst",
+    "LOW": "Lage overeenkomst"
+  },
+  "common": {
+    "empty": "Er is niets om te tonen momenteel.",
+    "notExist": "Dit bestaat niet meer. Onze excuses hiervoor.",
+    "overview": "Overzicht",
+    "products": "Producten",
+    "return": "Keer terug naar de homepagina.",
+    "share": "Delen",
+    "unexpected": "Een onverwachts probleem doet zich voor. Onze excuses voor het ongemak.",
+    "follow": "Volgen",
+    "unfollow": "Ontvolgen",
+    "followers": {
+      "zero":  "[[0]] volgers",
+      "one":   "[[1]] volger",
+      "other": "[[%(count)s]] volgers"
+    },
+    "from": "Uit"
+  },
+  "basket": {
+    "myBasket": "Mijn Winkelwagen",
+    "emptyBasket": "Uw winkelwagen is leeg",
+    "total": "Totaal",
+    "checkoutDetails": "Details Check-out",
+    "personalInfo": "Persoonlijke informatie",
+    "deliveryMethod": "Leveringswijze",
+    "paymentMethod": "Betalingswijze",
+    "placeOrder": "Bestelling plaatsen",
+    "mobileNumber": "Mobiel nummer",
+    "save": "Opslaan",
+    "mobileVerify": "Na het invullen van uw GSM-nummer, zal u een pincode via SMS ontvangen. Deze pincode dient u hierna in te vullen. Op het einde van uw bestelling zal u een SMS ontvangen met een link om uw bestelling af te ronden.",
+    "shippingAddress": "Afleveradres",
+    "addNewAddress": "Nieuw adres toevoegen",
+    "editAddress": "Adres wijzigen",
+    "country": "Land",
+    "title": "Titel",
+    "firstName": "Voornaam",
+    "lastName": "Familienaam",
+    "company": "Bedrijf",
+    "streetAddress": "Straat",
+    "additionalInfo": "Extra informatie",
+    "city": "Stad",
+    "postalCode": "Postcode",
+    "selectPaymentMethod": "Selecteer betalingswijze",
+    "addNewCard": "Nieuwe kaart toevoegen",
+    "creditCardNumber": "Kredietkaartnummer",
+    "nameOnCard": "Naam op kaart",
+    "billingAddress": "Factureringsadres",
+    "pinSentTo": "Gelieve de pincode in te geven die verzonden is naar ",
+    "confirm": "Bevestigen",
+    "thankYou": "Bedankt!",
+    "yourOrderPlaced": "Uw order is geplaatst bij de retailer",
+    "whatsNext": "Wat nu:",
+    "whenOrderBeenProcessed": "U ontvangt een bevestigingsmail van de retailer zodra uw bestelling in orde is.",
+    "3dSecure": "Uw bank kan een verificatie vragen voor uw betaling en zal hiervoor uw 3D-secure wachtwoord nodig hebben. In dit geval zal u zodra een SMS ontvangen.",
+    "myOrders": "Mijn bestellingen",
+    "wantReturnOrder": "Wilt u dit order terugzenden?",
+    "returnOrderDescription": "Deze shop vereist een login voor aankopen. Dus wij creëerden een account voor uw bestelling. Het is mogelijk dat u zich opnieuw moet inloggen op dit account om terug te keren naar deze bestelling. Gelieve in dat geval uw login details hieronder in te vullen.",
+    "returnOrderDescriptionBottom": "Terugzendingen worden behandeld door de shop zelf en hun voorwaarden gelden op uw bestelling.",
+    "yourShopLogin": "Uw shop account login",
+    "cancel": "Annuleer",
+    "password": "Wachtwoord",
+    "shop": "Shop",
+    "noOrderHistory": "Geen bestellingshistorie",
+    "details": "Details",
+    "noFinishedOrders": "U hebt nog geen beëindigde bestellingen",
+    "enterPin": "Geef pincode in",
+    "pinCode": "Pincode",
+    "remove": "Verwijderen",
+    "change": "verandering",
+    "add": "Toevoegen",
+    "continue": "Verderzetten",
+    "edit": "Wijzigen",
+    "orderPlaced": "Bestelling geplaatst",
+    "deliveryAddress": "Afleveradres",
+    "startShopping": "Start het shoppen",
+    "youHaventPurchases": "U heeft nog geen bestellingen geplaatst",
+    "noOrderDetails": "Geen details van bestelling",
+    "usernameEmail": "Gebruikersnaam / e-mail",
+    "expirationDate": "Vervaldatum",
+    "browseSomeScenes": "Scrol door de verschillende scènes om de populaire producten te vinden",
+    "viewOrderHistory": "Bekijk bestellingshistorie",
+    "enterCVC": "Gelieve de 3-cijferige CVC code in te geven",
+    "countryCode": "Landnummer",
+    "weUseUB": "De Universal Basket check-out wordt gebruikt om uw bestelling veilig te plaatsen bij de retailers. Wanneer u klikt op 'Bestelling plaatsen', gaat u akkoord met de [[Universal Basket Voorwaarden]].",
+    "orderDetails": "Details van bestelling",
+    "houseNumber": "Huisnummer",
+    "editCard": "Kaart aanpassen"
+  },
+  "topic": {
+    "COMMERCIAL": "TV-spot",
+    "MOVIE": "Film",
+    "TV_SERIE": "Tv show",
+    "CHARACTER": "Personage",
+    "PERSON": "Persoon",
+    "MANUAL": "",
+    "BRAND": "Merk"
+  },
+  "search": {
+    "spotts": {
+      "noResults": "Helaas! Wij vonden geen Spotts voor jouw zoekopdracht. Probeer gerust opnieuw!"
+    },
+    "people": {
+      "noResults": "Helaas! Wij vonden geen personen voor jouw zoekopdracht. Probeer gerust opnieuw!"
+    }
+  }
+}

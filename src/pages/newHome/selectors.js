@@ -194,3 +194,8 @@ export const registrationFormSelector = createStructuredSelector({
 export const usersLikesModalSelector = createStructuredSelector({
   currentUserId: currentUserIdSelector
 });
+
+export const spottUsersSelector = createStructuredSelector({
+  isAuthenticated: authenticationTokenSelector,
+  currentUserProfile: currentUserProfileSelector
+});

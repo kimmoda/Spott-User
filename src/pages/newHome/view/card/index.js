@@ -49,8 +49,8 @@ export default class Card extends Component {
     this.state = {
       isCardModalOpen: false,
       sidebarProductId: null,
-      loved: this.props.item.get('loved'),
-      loverCount: this.props.item.get('loverCount')
+      loved: this.props.spottDetails.get('loved'),
+      loverCount: this.props.spottDetails.get('loverCount')
     };
   }
 
@@ -61,10 +61,10 @@ export default class Card extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.spottId !== this.props.spottId) {
+    if (nextProps.spottId !== this.props.spottId || nextProps.spottDetails.get('loverCount') !== this.props.spottDetails.get('loverCount')) {
       this.setState({
-        loved: nextProps.item.get('loved'),
-        loverCount: nextProps.item.get('loverCount')
+        loved: nextProps.spottDetails.get('loved'),
+        loverCount: nextProps.spottDetails.get('loverCount')
       });
     }
   }
@@ -112,7 +112,7 @@ export default class Card extends Component {
         });
         await this.props.setSpottLover({ uuid: spottId });
       }
-      this.props.loadSpottLovers({ uuid: spottId });
+      // this.props.loadSpottLovers({ uuid: spottId });
     } else {
       this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location && `${this.props.location.pathname}${this.props.location.search}`) || '/') } });
     }
@@ -174,9 +174,10 @@ export default class Card extends Component {
           <div styleName='users'>
             {spottDetails.getIn([ 'lovers', 'data' ]) &&
               <Users
+                isSpottLoved={loved}
                 items={spottDetails.getIn([ 'lovers', 'data' ])}
                 location={location}
-                maxNum={5}
+                maxNum={6}
                 spottId={spottDetails.get('uuid')}/>}
           </div>
           <div styleName='share' onClick={(event) => this.shareSpott(event)}>

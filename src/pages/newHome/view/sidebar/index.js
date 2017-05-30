@@ -196,9 +196,9 @@ export default class Sidebar extends Component {
           <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
           <div styleName='sidebar-options'>
             <button disabled={!product.get('available')} styleName='sidebar-add' onClick={this.onBuyClick}>
-              {Boolean(!product.get('available')) && t('productDetail.outOfStock')}
-              {Boolean(product.get('available') && product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('productDetail.buyNow')}
-              {Boolean(product.get('available') && !product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('productDetail.moreInfo')}
+              {Boolean(!product.get('available')) && t('product.outOfStock')}
+              {Boolean(product.get('available') && product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('product.buyNow')}
+              {Boolean(product.get('available') && !product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('product.moreInfo')}
             </button>
           </div>
         </div>

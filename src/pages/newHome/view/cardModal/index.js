@@ -210,7 +210,6 @@ export default class CardModal extends Component {
         isOpen
         overlayClassName={styles['modal-overlay']}
         onRequestClose={this.onCloseHandler}>
-
         <div className={sidebarProducts.get('data').size ? styles['main-sidebar-active'] : styles['main-sidebar-inactive']}
              styleName='main'>
           <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
@@ -279,6 +278,7 @@ export default class CardModal extends Component {
                 <div styleName='users'>
                   {spott.getIn([ 'lovers', 'data' ]) &&
                     <Users
+                      isSpottLoved={spott.get('loved')}
                       items={spott.getIn([ 'lovers', 'data' ])}
                       large
                       location={location}

@@ -1,0 +1,349 @@
+{
+  "_common": {
+    "unknown": "An unknown error occurred.",
+    "tvGuideTiles": {
+      "now": "Now",
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "h": "h"
+    },
+    "episodeTiles": {
+      "episode": "Season %(season)i – Episode %(episode)i"
+    },
+    "footer": {
+      "cookies": "Cookie policy",
+      "copyright": "Copyright © 2015–2016 Appiness nv",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "language": "Use Spott in [[]]"
+    },
+    "header": {
+      "login": "Sign In",
+      "logout": "Log Out",
+      "home": "Home"
+    },
+    "sceneTiles": {
+      "sceneFromCommercial": "Scene from [[%(commercial)s]]",
+      "sceneFromEpisode": "Scene from Season [[%(season)i]] – Episode [[%(episode)i]]",
+      "sceneFromMovie": "Scene from [[%(movie)s]]"
+    }
+  },
+  "resetPassword": {
+    "alreadySendMail": "E-mail was already send. Please check your e-mail for further instructions.",
+    "email": "Your Email",
+    "emailLabel": "Enter your e-mail to reset your password.",
+    "invalidEmail": "Invalid e-mail.",
+    "submitButton": "Reset",
+    "title": "Reset Password"
+  },
+  "resetPasswordSuccess": {
+    "title": "Success!",
+    "text": "Your password has been successfully reset. Please check your e-mail for further instructions.",
+    "submitButton": "Done"
+  },
+  "changePassword": {
+    "successMessage": "Your password has been changed!",
+    "errorMessage": "We encountered an error while trying to change your password :(",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "title": "Change your Spott password",
+    "passwordLengthError": "This password isn't long enough!",
+    "passwordMatchError": "Passwords don't match!",
+    "submitButton": "Change Password"
+  },
+  "confirmedNewsletter": {
+    "enjoy": "Enjoy using Spott,",
+    "spottTeam": "the Spott team",
+    "thankYou": "Thank you for registering to the Spott newsletter! [[click here]] for getting started, and downloading Spott onto your mobile.",
+    "title": "Hurray!"
+  },
+  "error404": {
+    "pageDoesNotExist": "The page you requested doesn't exist.",
+    "returnToSpott": "Return to Spott.it",
+    "somethingWentWrong": "Something went wrong!",
+    "title": "Whoops!"
+  },
+  "home": {
+    "downloadApp": {
+      "title": "Explore while you watch",
+      "subtitle": "Live on your mobile devices",
+      "availability": "Available for iOS & Android",
+      "downloadButton": "Download"
+    },
+    "tvGuide": {
+      "title": "Watch TV with Spott",
+      "empty": "Right now, this list is empty."
+    },
+    "newEpisodes": {
+      "title": "New Episodes",
+      "empty": "Right now, this list is empty."
+    },
+    "newScenesForYou": {
+      "title": "New Scenes for You"
+    },
+    "popularNearYou": {
+      "title": "Popular Near You"
+    },
+    "popularProducts": {
+      "title": "Popular Products",
+      "empty": "Right now, this list is empty."
+    },
+    "recentlyAdded": {
+      "browseButton": "Browse",
+      "highlight": "Now available on Spott",
+      "moreFiftyShades": "More Fifty Shades",
+      "title": "Recently Added"
+    },
+    "recentlyAddedToWishlist": {
+      "title": "Recently Added to Wishlist",
+      "empty": "You have not yet added items to your wishlists."
+    },
+    "search": {
+      "info": "Spott allows you to find products in the things you watch",
+      "placeholder": "Search for TV shows, movies, characters or brands",
+      "title": "Television is now your favourite shop",
+      "loadingResults": "Loading results...",
+      "noResults": "Oops! We couldn't find results for your exact search"
+    },
+    "topSellingProducts": {
+      "title": "Top Selling Products"
+    }
+  },
+  "redirect": {
+    "redirecting": "Redirecting..."
+  },
+  "login": {
+    "title": "Log In",
+    "email": "Your Email",
+    "password": "Your Password",
+    "logInWithFacebookButton": "Log in with Facebook",
+    "submitButton": "Log in",
+    "newUser": "New user?",
+    "createAccount": "Create an account",
+    "forgotPassword": "Forgot password?",
+    "invalid": "Email/password combination is incorrect.",
+    "invalidFacebook": "Your Facebook account is not linked to a Spott account. Register [[here]]."
+  },
+  "register": {
+    "title": "Create Account",
+    "registerWithFacebookButton": "Register with Facebook",
+    "submitButton": "Create",
+    "firstname": "Your First Name",
+    "lastname": "Your Last Name",
+    "email": "Your Email",
+    "dateOfBirth": "Your Birthdate",
+    "gender": {
+      "label": "Your Gender",
+      "MALE": "Male",
+      "FEMALE": "Female"
+    },
+    "password": "Choose a Password",
+    "passwordRepeat": "Retype Password",
+    "existingUser": "You already have an account",
+    "logIn": "Log in",
+    "userAlreadyExist": "There is already a Spott user registered with this email.",
+    "agree": "I’ve read and agree the [[]]",
+    "terms": "terms and conditions",
+    "facebookError": "Not enough information, please provide your email address through Facebook or register without Facebook.",
+    "facebookErrorAlreadyExists": "You are already registered without Facebook. Login with the email address and password of your Spott account."
+  },
+  "productDetail": {
+    "buyNow": "Buy Now",
+    "by": "By %(brandName)s",
+    "noSimilar": "No similar items found.",
+    "similarProducts": "Similar Items",
+    "unavailable": "This product is unavailable.",
+    "notExist": "This product doesn’t seem to exist anymore. We’re sorry for the inconvenience.​",
+    "product": "Product",
+    "moreFromBrand": "More [[]] Products",
+    "noMoreFromBrand": "No [[]] Products found",
+    "outOfStock": "Not available",
+    "addToBasket": "Add to basket",
+    "buyOnStore": "Buy on store",
+    "moreInfo": "More info"
+  },
+  "profile": {
+    "header": {
+      "followers": {
+        "zero":  "Followers [[0]]",
+        "one":   "Followers [[1]]",
+        "other": "Followers [[%(count)s]]"
+      },
+      "following": {
+        "zero":  "Following [[0]] ",
+        "one":   "Following [[1]]",
+        "other": "Following [[%(count)s]]"
+      }
+    },
+    "menu": {
+      "savedScenes": "Saved scenes",
+      "wishlists": "Wishlists"
+    },
+    "savedScenes": {
+      "empty": "This list is empty."
+    },
+    "wishlists": {
+      "empty": "You have no wishlists yet.",
+      "unnamedWishlist": "Wishlist",
+      "editWishlist": "Edit Wishlist",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "save": "Save",
+      "privateList": "Private list"
+    },
+    "wishlistProducts": {
+      "empty": "This wishlist is empty.",
+      "private": "This wishlist is set to private, the owner must set it to public to make it visible.",
+      "notExist": "This wishlist doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+    },
+    "wishlistButton": {
+      "alreadyExist": "Wishlist already exists",
+      "addToList": "Add to list",
+      "create": "Create",
+      "createNewList": "Create new list"
+    },
+    "notExist": "This user profile doesn’t seem to exist anymore. We’re sorry for the inconvenience.​"
+  },
+  "medium": {
+    "COMMERCIAL": "Commercial",
+    "MOVIE": "Movie",
+    "TV_SERIE": "Tv show",
+    "topProducts": {
+      "empty": "There are no top products to show right now.",
+      "title": "Top %(title)s Products"
+    },
+    "topUserProducts": {
+      "empty": "There are no top products for you right now.",
+      "title": "Picked For You"
+    },
+    "episodes": {
+      "empty": "There are no episodes available."
+    },
+    "recentEpisodes": {
+      "empty": "There are no episodes available.",
+      "title": "Recent Episodes"
+    },
+    "seasons": {
+      "empty": "There are no seasons available."
+    },
+    "scenes": {
+      "tabName": "Scenes",
+      "empty": "There are no scenes available.",
+      "sceneFrom": "Scene from: [[]]",
+      "sceneFromEpisode": "Episode %(episode)i - %(title)s",
+      "sceneFromEpisodeShort": "Episode %(episode)i"
+    },
+    "products": {
+      "empty": "There are no products for you right now."
+    }
+  },
+  "character": {
+    "CHARACTER": "Character",
+    "products": {
+      "empty": "There are no products related to this character right now.",
+      "title": "Products"
+    }
+  },
+  "scene": {
+    "sceneFrom": "Scene from",
+    "save": "Save",
+    "unsave": "Saved"
+  },
+  "cookies": {
+    "moreInfo": "This website uses cookies to enhance your user experience. [[More info]]",
+    "policy": "We adapted our [[terms]] and [[privacy regulations]].",
+    "continue": "Continue"
+  },
+  "relevance": {
+    "EXACT": "Exact match",
+    "MEDIUM": "Medium match",
+    "LOW": "Low match"
+  },
+  "common": {
+    "empty": "There is nothing to display right now.",
+    "notExist": "This resource doesn't exist anymore. We're sorry for the inconvenience.",
+    "overview": "Overview",
+    "products": "Products",
+    "return": "Return to home.",
+    "share": "Share",
+    "unexpected": "An unexpected error occurred. We're sorry for the inconvenience.",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": {
+      "zero":  "Followers [[0]]",
+      "one":   "Followers [[1]]",
+      "other": "Followers [[%(count)s]]"
+    },
+    "from": "From"
+  },
+  "basket": {
+    "myBasket": "My Basket",
+    "emptyBasket": "There are no items in your basket yet",
+    "total": "Total",
+    "checkoutDetails": "Checkout Details",
+    "personalInfo": "Personal Info",
+    "deliveryMethod": "Delivery Method",
+    "paymentMethod": "Payment method",
+    "placeOrder": "Place order",
+    "mobileNumber": "Mobile number",
+    "save": "Save",
+    "mobileVerify": "You will receive a PIN via SMS after filling out your mobile number. The next step is to fill in this code. At the end of your order you will receive an SMS with a link to complete your order.",
+    "shippingAddress": "Shipping Address",
+    "addNewAddress": "Add New Address",
+    "editAddress": "Edit Address",
+    "country": "Country",
+    "title": "Title",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "company": "Company",
+    "streetAddress": "Street Address",
+    "additionalInfo": "Additional Info",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "selectPaymentMethod": "Select Payment Method",
+    "addNewCard": "Add New Card",
+    "creditCardNumber": "Credit Card Number",
+    "nameOnCard": "Name on Card",
+    "billingAddress": "Billing Address",
+    "pinSentTo": "Enter the pin-code that has been sent to ",
+    "confirm": "Confirm",
+    "thankYou": "Thank you!",
+    "yourOrderPlaced": "Your order is being placed with the retailer",
+    "whatsNext": "What's next:",
+    "whenOrderBeenProcessed": "When your order has been processed, you will receive a confirmation email from the retailer.",
+    "3dSecure": "Your bank may require payment verification and request your 3D-Secure passcode. In this case we'll send you an SMS shortly.",
+    "myOrders": "My Orders",
+    "wantReturnOrder": "Want to return this order?",
+    "returnOrderDescription": "This shop required a sign up for purchasing. So we created an account for you for you order. It might be required that you login to this account if you want to return this order. If this is the case, please use the login details below.",
+    "returnOrderDescriptionBottom": "Returns get handled by the shop as if you bought on their site directly and their conditions apply.",
+    "yourShopLogin": "Your shop account login",
+    "cancel": "Cancel",
+    "password": "Password",
+    "shop": "Shop",
+    "noOrderHistory": "No Order History",
+    "details": "Details",
+    "noFinishedOrders": "You don't have any finished orders yet",
+    "enterPin": "Enter Pin",
+    "pinCode": "Pin-Code",
+    "remove": "Remove",
+    "change": "change",
+    "add": "Add",
+    "continue": "Continue",
+    "edit": "Edit",
+    "orderPlaced": "Order Placed",
+    "deliveryAddress": "Delivery Address",
+    "startShopping": "Start shopping",
+    "youHaventPurchases": "You haven't made any purchases yet",
+    "noOrderDetails": "No Order Details",
+    "usernameEmail": "Username/e-mail",
+    "expirationDate": "Expiration Date",
+    "browseSomeScenes": "Browse some scenes to find popular products",
+    "viewOrderHistory": "View Order History",
+    "enterCVC": "Enter 3-digit CVC Code",
+    "countryCode": "Country code",
+    "weUseUB": "We use UB Checkout to securely place your order at the retailers. By tapping ‘Place Orders’, you agree to the [[UB Terms]].",
+    "orderDetails": "Order Details",
+    "houseNumber": "House Number",
+    "editCard": "Edit Card"
+  }
+}

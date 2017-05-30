@@ -1,366 +1,134 @@
 {
-  "_common": {
-    "unknown": "Une erreur inconnue s’est passée.",
-    "tvGuideTiles": {
-      "now": "Maintenant",
-      "today": "Aujourd'hui",
-      "tomorrow": "Demain",
-      "h": "h"
+  "common": {
+    "account": "Account",
+    "bio": "Bio",
+    "change": "+Changer",
+    "currency": "Currency",
+    "dateOfBirth": "+Date de naissance",
+    "description": "Description",
+    "email": "+E-mail",
+    "emailAddress": "Email address",
+    "female": "+Féminin",
+    "firstName": "+Prénom",
+    "followers": {
+      "zero":  "[[0]] abonné(e)s",
+      "one":   "[[1]] abonné(e)",
+      "other": "[[%(count)s]] abonné(e)s"
     },
-    "episodeTiles": {
-      "episode": "Saison %(season)i – Épisode %(episode)i"
+    "following": {
+      "zero":  "[[0]] abonnements",
+      "one":   "[[1]] abonnement",
+      "other": "[[%(count)s]] abonnements"
     },
-    "footer": {
-      "cookies": "Politique sur les cookies",
-      "copyright": "Copyright © 2015–2016 Appiness nv",
-      "privacy": "Protection des données",
-      "terms": "Conditions Générales",
-      "language": "Utiliser Spott en [[]]"
-    },
-    "header": {
-      "login": "Connectez-vous",
-      "logout": "Se déconnecter",
-      "home": "Page d'accueil"
-    },
-    "sceneTiles": {
-      "sceneFromCommercial": "Scène de [[%(commercial)s]]",
-      "sceneFromEpisode": "Scène de la saison [[%(season)i]] –  Épisode [[%(episode)i]]",
-      "sceneFromMovie": "Scène de [[%(movie)s]]"
-    }
-  },
-  "resetPassword": {
-    "alreadySendMail": "Un e-mail a déjà été envoyé. Veuillez vérifier votre e-mail pour de plus amples instructions.",
-    "email": "Votre e-mail",
-    "emailLabel": "Saisissez votre adresse e-mail pour réinitialiser votre mot de passe.",
-    "invalidEmail": "E-mail incorrect.",
-    "submitButton": "Réinitialiser",
-    "title": "Réinitialiser mot de passe"
-  },
-  "resetPasswordSuccess": {
-    "title": "Success!",
-    "text": "Your password has been successfully reset. Please check your e-mail for further instructions.",
-    "submitButton": "Done"
-  },
-  "changePassword": {
-    "successMessage": "Votre mot de passe a été modifié!",
-    "errorMessage": "Nous avons rencontré une erreur en essayant de changer votre mot de passe :(",
-    "newPasswordPlaceholder": "Entrez votre nouveau mot de passe",
-    "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
-    "title": "Changez votre mot de passe de Spott",
-    "passwordLengthError": "Votre mot de passe est trop court!",
-    "passwordMatchError": "Les mots de passe ne correspondent pas!",
-    "submitButton": "Changez le mot de passe"
-  },
-  "confirmedNewsletter": {
-    "enjoy": "Profitez de Spott,",
-    "spottTeam": "l'équipe de Spott",
-    "thankYou": "Nous vous remercions de votre inscription à notre bulletin électronique! [[cliquez ici]] pour commencer et télécharger Spott sur votre téléphone portable.",
-    "title": "Hourra!"
-  },
-  "error404": {
-    "pageDoesNotExist": "La page demandée n'existe pas.",
-    "returnToSpott": "Retournez à Spott.it",
-    "somethingWentWrong": "Il y a eu un problème!",
-    "title": "Whoops!"
-  },
-  "home": {
-    "downloadApp": {
-      "title": "Explorez pendant que vous regardez",
-      "subtitle": "En direct sur vos appareils mobiles",
-      "availability": "Disponible pour iOS & Android",
-      "downloadButton": "Téléchargez"
-    },
-    "tvGuide": {
-      "title": "Régardez la télé avec Spott",
-      "empty": "Pour l'instant, cette liste est vide."
-    },
-    "newEpisodes": {
-      "title": "Nouveaux épisodes",
-      "empty": "Pour l'instant, cette liste est vide."
-    },
-    "newScenesForYou": {
-      "title": "Nouvelles scènes pour vous"
-    },
-    "popularNearYou": {
-      "title": "Populaire près de chez vous"
-    },
-    "popularProducts": {
-      "title": "Produits populaires",
-      "empty": "Pour l'instant, cette liste est vide."
-    },
-    "recentlyAdded": {
-      "browseButton": "Feuilletez",
-      "highlight": "Maintenant disponible sur Spott",
-      "moreFiftyShades": "More Fifty Shades",
-      "title": "Ajouté récemment"
-    },
-    "recentlyAddedToWishlist": {
-      "title": "Ajouté récemment à la liste de souhaits",
-      "empty": "Vous n'avez pas encore ajouté des articles à votre liste de souhaits."
-    },
-    "search": {
-      "info": "Spott vous permet de trouver des produits dans les choses que vous regardez",
-      "placeholder": "Recherchez des show télévisé, des films, des personnages ou des marques",
-      "title": "La télévision est maintenant votre magasin préféré",
-      "loadingResults": "Chargement des résultats...",
-      "noResults": "Oops! Désolé, aucun résultat ne correspond à votre recherche"
-    },
-    "topSellingProducts": {
-      "title": "Top des ventes"
-    }
-  },
-  "redirect": {
-    "redirecting": "Redirectionner..."
+    "follow": "+Suivez",
+    "gender": "+Sexe",
+    "home": "Page d'accueil",
+    "lastName": "+Nom",
+    "loadMore": "Load more...",
+    "localization": "Localization",
+    "logIn": "+Connectez-vous",
+    "logOut": "+Se déconnecter",
+    "loves": "Loves",
+    "male": "+Masculin",
+    "name": "+Nom",
+    "password": "+Mot de passe",
+    "people": "People",
+    "privacy": "+Protection des données",
+    "profile": "Profile",
+    "save": "+Sauver",
+    "send": "Send",
+    "settings": "Settings",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "subscribe": "Subscribe",
+    "subscribed": "Subscribed",
+    "subscribers": "Subscribers",
+    "terms": "+Conditions Générales",
+    "wishlist": "+Liste de souhaits",
+    "unspecified": "Unspecified",
+    "yourEmail": "Your e-mail address",
+    "yourPassword": "Your password"
   },
   "login": {
-    "title": "Je me connecte",
-    "email": "Votre e-mail",
-    "password": "Votre mot de passe",
-    "logInWithFacebookButton": "Je me connecte avec Facebook",
-    "submitButton": "Connectez-vous",
-    "newUser": "Nouveau utilisateur?",
-    "createAccount": "Je m'inscris",
-    "forgotPassword": "Mot de passe oublié?",
-    "invalid": "Combinaison e-mail/mot de passe est incorrect.",
-    "invalidFacebook": "Votre compte Facebook n'est pas lié à un compte Spott. Inscrivez-vous [[ici]]."
+    "logInWithFacebook": "+Je me connecte avec Facebook",
+    "newUser": "+Nouveau utilisateur?",
+    "signUpHere": "Sign up here!",
+    "createAccount": "Create an account",
+    "forgotPassword": "Forgot your password?",
+    "invalid": "+Combinaison e-mail/mot de passe est incorrect.",
+    "invalidFacebook": "+Votre compte Facebook n'est pas lié à un compte Spott. Inscrivez-vous [[ici]]."
   },
   "register": {
-    "title": "Créer un compte",
-    "registerWithFacebookButton": "Je me connecte avec Facebook",
-    "submitButton": "Continuer",
-    "firstname": "Prénom",
-    "lastname": "Nom de famille",
-    "email": "E-mail",
-    "dateOfBirth": "Date de naissance",
-    "gender": {
-      "label": "Sexe",
-      "MALE": "Masculin",
-      "FEMALE": "Féminin"
-    },
-    "password": "Mot de passe",
-    "passwordRepeat": "Confirmation du mot de passe",
-    "existingUser": "Vous avez déjà un compte",
-    "logIn": "Identifiez-vous",
-    "userAlreadyExist": "Il existe déjà un utilisateur Spott avec cet e-mail.",
-    "agree": "J'ai lu et accepté [[]]",
-    "terms": "les termes et conditions",
-    "facebookError": "Ne pas assez d'informations, veuillez donner votre adresse e-mail par Facebook ou inscrivez-vous sans Facebook.",
-    "facebookErrorAlreadyExists": "Vous êtes déjà inscrit sans Facebook. Connectez-vous avec l'adresse e-mail et mot de passe de votre compte Spott."
+    "registerWithFacebookButton": "+Je me connecte avec Facebook",
+    "confirm": "I confirm to know, understand and accept the terms and conditions and privacy statement of Appiness - Spott and to have kept a copy of it. I know that this app shows only indicative prices from third parties that do not bind Appiness.",
+    "termsAndConditions": "terms and conditions",
+    "privacyStatement": "privacy statement",
+    "haveAccount": "Already have an account?"
   },
-  "productDetail": {
-    "buyNow": "Achetez maintenant",
-    "by": "De %(brandName)s",
-    "noSimilar": "Aucun produit similaire n'a été trouvé.",
-    "similarProducts": "Produits similaires",
-    "unavailable": "Ce produit n’est pas disponible.",
-    "notExist": "Ce produit n’existe plus. Nous nous excusons pour le désagrément.​",
-    "product": "Produit",
-    "moreFromBrand": "Plus de produits [[]]",
-    "noMoreFromBrand": "Aucun [[]] produits trouvés",
-    "outOfStock": "Non disponible",
-    "addToBasket": "Ajouter au panier",
-    "buyOnStore": "Acheter en magasin",
-    "moreInfo": "Plus d’info"
+  "forgotPassword": {
+    "forgotPassword": "+Mot de passe oublié",
+    "dontPanic": "Don’t panic! We’ll send the password reset instructions to your e-mail address.",
+    "emailSent!": "E-mail has been sent!",
+    "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions."
   },
-  "profile": {
-    "header": {
-      "followers": {
-        "zero":  "[[0]] abonné(e)s",
-        "one":   "[[1]] abonné(e)",
-        "other": "[[%(count)s]] abonné(e)s"
-      },
-      "following": {
-        "zero":  "[[0]] abonnements",
-        "one":   "[[1]] abonnement",
-        "other": "[[%(count)s]] abonnements"
-      }
+  "search": {
+    "recentSearches": "Recent searches",
+    "clearSearchHistory": "Clear search history",
+    "topicsForYou": "Topics for you",
+    "searchForInspiration": "Search for inspiration",
+    "spotts": {
+      "noResults": "+Malheureusement! Nous n’avons pas trouvé de Spotts pour votre recherche. Essayez à nouveau!"
     },
-    "menu": {
-      "savedScenes": "Scènes sauvés",
-      "wishlists": "Listes de souhaits"
+    "people": {
+      "noResults": "+Malheureusement! Nous n’avons pas trouvé de personnes pour votre recherche. Essayez à nouveau!"
     },
-    "savedScenes": {
-      "empty": "Cette liste est vide."
-    },
-    "wishlists": {
-      "empty": "Vous n'avez pas encore des listes de souhaits.",
-      "unnamedWishlist": "Liste de souhaits",
-      "editWishlist": "Modifier la liste de souhaits",
-      "delete": "Effacer",
-      "cancel": "Annuler",
-      "save": "Sauver",
-      "privateList": "Liste privée"
-    },
-    "wishlistProducts": {
-      "empty": "Cette liste de souhaits est vide.",
-      "private": "Cette liste de souhaits est privée, le propriétaire doit rendre publique la liste de souhaits afin de pouvoir visualiser.",
-      "notExist": "Cette liste de souhaits n’existe plus, nous nous excusons pour le désagrément."
-    },
-    "wishlistButton": {
-      "alreadyExist": "Liste de souhaits déjà existante",
-      "addToList": "Ajouter à la liste",
-      "create": "Créer",
-      "createNewList": "Créer une nouvelle liste"
-    },
-    "notExist": "Ce profil de la personne n’existe plus, nous nous excusons pour le désagrément.​"
+    "loadingResults": "Chargement des résultats...",
+    "noResults": "Oops! Désolé, aucun résultat ne correspond à votre recherche"
   },
-  "medium": {
-    "COMMERCIAL": "Spot publicitaire",
-    "MOVIE": "Film",
-    "TV_SERIE": "Show télévisé",
-    "topProducts": {
-      "empty": "Il n'y a pas de produits populaires à visualiser pour l'instant.",
-      "title": "Produits %(title)s populaires"
-    },
-    "topUserProducts": {
-      "empty": "Il n'y a pas de produits populaires pour vous en ce moment.",
-      "title": "Selectionné pour vous"
-    },
-    "episodes": {
-      "empty": "Il n'y a pas d'épisodes disponibles."
-    },
-    "recentEpisodes": {
-      "empty": "Il n'y a pas d'épisodes disponibles.",
-      "title": "Derniers épisodes"
-    },
-    "seasons": {
-      "empty": "Il n'y a pas de seasons disponibles."
-    },
-    "scenes": {
-      "tabName": "Scènes",
-      "empty": "Il n'y a pas de scènes disponibles.",
-      "sceneFrom": "Scène de: [[]]",
-      "sceneFromEpisode": "Épisode %(episode)i – %(title)s",
-      "sceneFromEpisodeShort": "Épisode %(episode)i"
-    },
-    "products": {
-      "empty": "Il n'y a pas de produits à ce moment."
-    }
+  "topic": {
+    "COMMERCIAL": "+Spot publicitaire",
+    "MOVIE": "+Film",
+    "TV_SERIE": "+Show télévisé",
+    "CHARACTER": "+Character",
+    "PERSON": "+La personne",
+    "MANUAL": "",
+    "BRAND": "+Marque",
+    "trendingTopics": "Trending Topics",
+    "relatedTopics": "Related Topics"
   },
-  "character": {
-    "CHARACTER": "Character",
-    "products": {
-      "empty": "Actuellement il n'y a pas de produits liés à ce personnage.",
-      "title": "Produits"
-    }
+  "spott": {
+    "similarSpotts": "Similar Spotts"
   },
-  "scene": {
-    "sceneFrom": "Scène de",
-    "save": "Sauver",
-    "unsave": "Sauvé"
+  "userMenu": {
+    "myProfile": "My profile"
   },
-  "cookies": {
-    "moreInfo": "Ce site utilise des cookies pour améliorer votre expérience d’utilisateur. [[Plus d’info]]",
-    "policy": "Nous avons adaptés nos [[conditions générales]] et notre [[protection des données]].",
-    "continue": "Continuez"
+  "userSettings": {
+    "manageSubscriptions": "Manage Subscriptions",
+    "changePhoto": "Change photo",
+    "changeBackground": "Change background",
+    "otherLanguages": "Other languages",
+    "contentRegions": "Content Regions",
+    "localContent": "Local Content",
+    "shopRegions": "Shop Regions",
+    "preferredShoppingRegions": "Preferred Shopping Regions"
+  },
+  "footer": {
+    "cookiePolicy": "+Politique sur les cookies",
+    "copyright": "Spott 2017 Appiness, Hertshage 10, 9300 Aalst, Belgium",
+    "followUs": "Follow us on social media",
+    "spottDscr": "Spott allows you to find products in the things you watch"
+  },
+  "product": {
+    "similarItems": "Similar Items",
+    "alsoSeenIn": "Also seen in",
+    "buyNow": "+Achetez maintenant",
+    "unavailable": "+Ce produit n’est pas disponible.",
+    "outOfStock": "+Non disponible",
+    "moreInfo": "+Plus d’info"
   },
   "relevance": {
     "EXACT": "Correspondance exacte",
     "MEDIUM": "Correspondance moyenne",
     "LOW": "Correspondance basse"
-  },
-  "common": {
-    "empty": "Il n'y rien à afficher pour l'instant.",
-    "notExist": "La ressource n’existe plus. Nous nous excusons pour le désagrément.",
-    "overview": "La vue générale",
-    "products": "Produits",
-    "return": "Retournez à la page d’accueil.",
-    "share": "Partager",
-    "unexpected": "Une erreur inattendue s'est produite. Nous nous excusons pour le désagrément.",
-    "follow": "Suivez",
-    "unfollow": "Désabonne",
-    "followers": {
-      "zero":  "Abonnés [[0]]",
-      "one":   "Abonnés [[1]]",
-      "other": "Abonnés [[%(count)s]]"
-    },
-    "from": "De"
-  },
-  "basket": {
-    "myBasket": "Mon Panier",
-    "emptyBasket": "Votre panier est vide",
-    "total": "Total",
-    "checkoutDetails": "Détails de commande",
-    "personalInfo": "Identification",
-    "deliveryMethod": "Mode de livraison",
-    "paymentMethod": "Mode de paiement",
-    "placeOrder": "Confirmer la commande",
-    "mobileNumber": "Numéro de téléphone mobile",
-    "save": "Enregistrer",
-    "mobileVerify": "Après avoir rempli votre numéro mobile, vous recevrez un code PIN via SMS. Entrez ce code PIN à l'étape suivante. A la fin de votre commande, vous recevrez un SMS avec un lien pour compléter votre commande.",
-    "shippingAddress": "Adresse de livraison",
-    "addNewAddress": "Ajouter une nouvelle adresse",
-    "editAddress": "Modifier l'adresse",
-    "country": "Pays",
-    "title": "Civilité",
-    "firstName": "Prénom",
-    "lastName": "Nom",
-    "company": "Entreprise",
-    "streetAddress": "Rue",
-    "additionalInfo": "Informations complémentaires",
-    "city": "Ville",
-    "postalCode": "Code postal",
-    "selectPaymentMethod": "Sélecter le moyen de paiement",
-    "addNewCard": "Ajouter une nouvelle carte",
-    "creditCardNumber": "Numéro du carte de crédit",
-    "nameOnCard": "Nom sur la carte",
-    "billingAddress": "Adresse de la facturation",
-    "pinSentTo": "Veuillez entrer le code PIN envoyé au ",
-    "confirm": "Confirmer",
-    "thankYou": "Merci!",
-    "yourOrderPlaced": "Votre commande a été placée avec le détaillant",
-    "whatsNext": "Et après:",
-    "whenOrderBeenProcessed": "Lorsque votre commande a été traitée, vous recevrez un e-mail de confirmation du détaillant.",
-    "3dSecure": "Votre banque peut exiger une vérification des paiements et demander votre code d'accès 3D-Secure. Dans ce cas, nous vous enverrons bientôt un SMS.",
-    "myOrders": "Mes commandes",
-    "wantReturnOrder": "Voulez-vous renvoyer cet article?",
-    "returnOrderDescription": "Cette boutique nécessitait un abonnement pour l'achat. Nous avons donc créé un compte pour vous pour votre commande. Il peut être nécessaire de vous connecter à ce compte si vous souhaitez retourner cette commande. Si tel est le cas, veuillez utiliser les informations de connexion ci-dessous.",
-    "returnOrderDescriptionBottom": "Les retours sont traités par la boutique comme si vous les avez achetés directement sur leur site et que leurs conditions s'appliquent.",
-    "yourShopLogin": "Login de votre compte",
-    "cancel": "Annuler",
-    "password": "Mot de passe",
-    "shop": "Boutique",
-    "noOrderHistory": "Pas d'histoire des commandes",
-    "details": "Détails",
-    "noFinishedOrders": "Vous n'avez pas encore de commandes terminées",
-    "enterPin": "Entrer le Pin",
-    "pinCode": "Code PIN",
-    "remove": "Retirer",
-    "change": "changer",
-    "add": "Ajouter",
-    "continue": "Continuer",
-    "edit": "Modifier",
-    "orderPlaced": "Commande passée",
-    "deliveryAddress": "Adresse de livraison",
-    "startShopping": "Commencer le shopping",
-    "youHaventPurchases": "Vous n'avez pas encore placer des commandes",
-    "noOrderDetails": "Pas de détails de commande",
-    "usernameEmail": "Nom d'utilisateur / e-mail",
-    "expirationDate": "Date d'expiration",
-    "browseSomeScenes": "Parcourez des scènes pour trouver des produits populaires",
-    "viewOrderHistory": "Afficher l'historique des commandes",
-    "enterCVC": "Entrez le code CVC à 3 chiffres",
-    "countryCode": "Code pays",
-    "weUseUB": "Nous utilisons le check-out du Universal Basket pour passer votre commande chez les détaillants en toute sécurité. En tapotant 'Confirmer la commande', vous acceptez les [[Conditions de l'Universal Basket]].",
-    "orderDetails": "Détails de commande",
-    "houseNumber": "Numéro de maison",
-    "editCard": "Modifier la carte"
-  },
-  "topic": {
-    "COMMERCIAL": "Spot publicitaire",
-    "MOVIE": "Film",
-    "TV_SERIE": "Show télévisé",
-    "CHARACTER": "Character",
-    "PERSON": "La personne",
-    "MANUAL": "",
-    "BRAND": "Marque"
-  },
-  "search": {
-    "spotts": {
-      "noResults": "Malheureusement! Nous n’avons pas trouvé de Spotts pour votre recherche. Essayez à nouveau!"
-    },
-    "people": {
-      "noResults": "Malheureusement! Nous n’avons pas trouvé de personnes pour votre recherche. Essayez à nouveau!"
-    }
   }
 }

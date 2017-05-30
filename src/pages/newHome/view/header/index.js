@@ -183,9 +183,9 @@ export default class Header extends Component {
           : value && isInputFocused &&
           <span className={styles['search-suggestions-helper']}>
             { isLoading || value !== prevValue
-              ? <span>{t('home.search.loadingResults')}</span>
+              ? <span>{t('search.loadingResults')}</span>
               : <span>
-                  {t('home.search.noResults')}
+                  {t('search.noResults')}
                 </span>
             }
           </span>
@@ -214,7 +214,7 @@ export default class Header extends Component {
         <header className={this.state.isInputFocused && styles['header-search-active']} styleName='header responsive-container '>
           <div styleName='header-wrapper'>
             <Link styleName='logo' to={`/${currentLocale}/`}>
-              <img alt={t('_common.header.home')} src={spottLogo}/>
+              <img alt={t('common.home')} src={spottLogo}/>
             </Link>
             <div className={this.state.isInputFocused && styles['search-active']} styleName='search'>
               <div className={this.state.isInputFocused && (`${styles['search-wrapper-active']} ${styles['responsive-container']}`)} styleName='search-wrapper'>
