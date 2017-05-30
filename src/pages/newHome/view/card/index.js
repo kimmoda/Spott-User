@@ -74,7 +74,7 @@ export default class Card extends Component {
       pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/\W+/g, '-')}/${this.props.item.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) && !this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi))? this.props.location.state.returnTo : this.props.location.pathname) || '/')
+        returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) && !this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
       }
     });
   }

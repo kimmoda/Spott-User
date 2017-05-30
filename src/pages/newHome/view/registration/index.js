@@ -237,7 +237,7 @@ export default class NewRegistration extends Component {
                   pathname: `/${currentLocale}/login`,
                   state: { modal: true, returnTo: this.props.location.state.returnTo }
                 } : `/${currentLocale}/login`}>
-              {t('register.logIn')}
+              {t('common.logIn')}
             </Link>
           </div>
         </form>
