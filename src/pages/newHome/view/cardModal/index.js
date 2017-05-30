@@ -87,6 +87,9 @@ export default class CardModal extends Component {
       if (this.props.location.state && this.props.location.state.sidebarMarker) {
         this.props.loadSidebarProduct({ uuid: this.props.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: this.props.location.state.sidebarMarker.get('relevance') });
       }
+      if (this.props.sidebarProducts.get('data').size) {
+        this.props.clearSidebarProducts();
+      }
       this.props.trackSpottEvent(this.props.params.spottId);
     } else if (this.props.params.complexId) {
       const ids = this.props.params.complexId.split('}{');
@@ -110,6 +113,9 @@ export default class CardModal extends Component {
         this.props.loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
       }
       this.getWidth();
+      if (this.props.sidebarProducts.get('data').size) {
+        this.props.clearSidebarProducts();
+      }
       this.props.trackSpottEvent(nextProps.params.spottId);
     }
 
@@ -173,7 +179,7 @@ export default class CardModal extends Component {
       pathname: `/${this.props.currentLocale}/spott/${this.props.spott.get('title').replace(/\W+/g, '-')}/${this.props.spott.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
+        returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
       }
     });
   }

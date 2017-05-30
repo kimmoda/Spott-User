@@ -74,7 +74,7 @@ export default class Card extends Component {
       pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/\W+/g, '-')}/${this.props.item.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
+        returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) && !this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi))? this.props.location.state.returnTo : this.props.location.pathname) || '/')
       }
     });
   }
@@ -91,7 +91,7 @@ export default class Card extends Component {
       pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/\W+/g, '-')}/${marker.getIn([ 'product', 'shortName' ]).replace(/\W+/g, '-')}/{${this.props.item.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
       state: {
         modal: true,
-        returnTo: ((this.props.location && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+\/[\w\-\/]+/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),
+        returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),
         sidebarMarker: marker
       }
     });
