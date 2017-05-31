@@ -2,14 +2,14 @@
   "common": {
     "account": "Account",
     "bio": "Bio",
-    "change": "Changer",
+    "change": "+Changer",
     "currency": "Currency",
-    "dateOfBirth": "Date de naissance",
+    "dateOfBirth": "+Date de naissance",
     "description": "Description",
-    "email": "E-mail",
+    "email": "+E-mail",
     "emailAddress": "Email address",
-    "female": "Féminin",
-    "firstName": "Prénom",
+    "female": "+Féminin",
+    "firstName": "+Prénom",
     "followers": {
       "zero":  "[[0]] abonné(e)s",
       "one":   "[[1]] abonné(e)",
@@ -20,22 +20,22 @@
       "one":   "[[1]] abonnement",
       "other": "[[%(count)s]] abonnements"
     },
-    "follow": "Suivez",
-    "gender": "Sexe",
+    "follow": "+Suivez",
+    "gender": "+Sexe",
     "home": "Page d'accueil",
-    "lastName": "Nom",
+    "lastName": "+Nom",
     "loadMore": "Load more...",
     "localization": "Localization",
-    "logIn": "Connectez-vous",
-    "logOut": "Se déconnecter",
+    "logIn": "+Connectez-vous",
+    "logOut": "+Se déconnecter",
     "loves": "Loves",
-    "male": "Masculin",
-    "name": "Nom",
-    "password": "Mot de passe",
+    "male": "+Masculin",
+    "name": "+Nom",
+    "password": "+Mot de passe",
     "people": "People",
-    "privacy": "Protection des données",
+    "privacy": "+Protection des données",
     "profile": "Profile",
-    "save": "Sauver",
+    "save": "+Sauver",
     "send": "Send",
     "settings": "Settings",
     "signIn": "Sign in",
@@ -43,30 +43,30 @@
     "subscribe": "Subscribe",
     "subscribed": "Subscribed",
     "subscribers": "Subscribers",
-    "terms": "Conditions Générales",
-    "wishlist": "Liste de souhaits",
+    "terms": "+Conditions Générales",
+    "wishlist": "+Liste de souhaits",
     "unspecified": "Unspecified",
     "yourEmail": "Your e-mail address",
     "yourPassword": "Your password"
   },
   "login": {
-    "logInWithFacebook": "Je me connecte avec Facebook",
-    "newUser": "Nouveau utilisateur?",
+    "logInWithFacebook": "+Je me connecte avec Facebook",
+    "newUser": "+Nouveau utilisateur?",
     "signUpHere": "Sign up here!",
     "createAccount": "Create an account",
     "forgotPassword": "Forgot your password?",
-    "invalid": "Combinaison e-mail/mot de passe est incorrect.",
-    "invalidFacebook": "Votre compte Facebook n'est pas lié à un compte Spott. Inscrivez-vous [[ici]]."
+    "invalid": "+Combinaison e-mail/mot de passe est incorrect.",
+    "invalidFacebook": "+Votre compte Facebook n'est pas lié à un compte Spott. Inscrivez-vous [[ici]]."
   },
   "register": {
-    "registerWithFacebookButton": "Je me connecte avec Facebook",
+    "registerWithFacebookButton": "+Je me connecte avec Facebook",
     "confirm": "I confirm to know, understand and accept the terms and conditions and privacy statement of Appiness - Spott and to have kept a copy of it. I know that this app shows only indicative prices from third parties that do not bind Appiness.",
     "termsAndConditions": "terms and conditions",
     "privacyStatement": "privacy statement",
     "haveAccount": "Already have an account?"
   },
   "forgotPassword": {
-    "forgotPassword": "Mot de passe oublié",
+    "forgotPassword": "+Mot de passe oublié",
     "dontPanic": "Don’t panic! We’ll send the password reset instructions to your e-mail address.",
     "emailSent!": "E-mail has been sent!",
     "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions."
@@ -77,22 +77,22 @@
     "topicsForYou": "Topics for you",
     "searchForInspiration": "Search for inspiration",
     "spotts": {
-      "noResults": "Malheureusement! Nous n’avons pas trouvé de Spotts pour votre recherche. Essayez à nouveau!"
+      "noResults": "+Malheureusement! Nous n’avons pas trouvé de Spotts pour votre recherche. Essayez à nouveau!"
     },
     "people": {
-      "noResults": "Malheureusement! Nous n’avons pas trouvé de personnes pour votre recherche. Essayez à nouveau!"
+      "noResults": "+Malheureusement! Nous n’avons pas trouvé de personnes pour votre recherche. Essayez à nouveau!"
     },
     "loadingResults": "Chargement des résultats...",
     "noResults": "Oops! Désolé, aucun résultat ne correspond à votre recherche"
   },
   "topic": {
-    "COMMERCIAL": "Spot publicitaire",
-    "MOVIE": "Film",
-    "TV_SERIE": "Show télévisé",
-    "CHARACTER": "Character",
-    "PERSON": "La personne",
+    "COMMERCIAL": "+Spot publicitaire",
+    "MOVIE": "+Film",
+    "TV_SERIE": "+Show télévisé",
+    "CHARACTER": "+Character",
+    "PERSON": "+La personne",
     "MANUAL": "",
-    "BRAND": "Marque",
+    "BRAND": "+Marque",
     "trendingTopics": "Trending Topics",
     "relatedTopics": "Related Topics"
   },
@@ -113,7 +113,7 @@
     "preferredShoppingRegions": "Preferred Shopping Regions"
   },
   "footer": {
-    "cookiePolicy": "Politique sur les cookies",
+    "cookiePolicy": "+Politique sur les cookies",
     "copyright": "Spott 2017 Appiness, Hertshage 10, 9300 Aalst, Belgium",
     "followUs": "Follow us on social media",
     "spottDscr": "Spott allows you to find products in the things you watch"
@@ -121,10 +121,10 @@
   "product": {
     "similarItems": "Similar Items",
     "alsoSeenIn": "Also seen in",
-    "buyNow": "Achetez maintenant",
-    "unavailable": "Ce produit n’est pas disponible.",
-    "outOfStock": "Non disponible",
-    "moreInfo": "Plus d’info"
+    "buyNow": "+Achetez maintenant",
+    "unavailable": "+Ce produit n’est pas disponible.",
+    "outOfStock": "+Non disponible",
+    "moreInfo": "+Plus d’info"
   },
   "relevance": {
     "EXACT": "Correspondance exacte",
