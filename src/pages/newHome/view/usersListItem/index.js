@@ -29,6 +29,7 @@ export default class UserListItem extends Component {
     removeUserFollowing: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     setUserFollowing: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
     updateUserProfileOnAction: PropTypes.bool
   };
 
@@ -73,7 +74,7 @@ export default class UserListItem extends Component {
   }
 
   render () {
-    const { currentLocale, item, currentUserId } = this.props;
+    const { currentLocale, item, currentUserId, t } = this.props;
     const { following } = this.state;
     return (
       <div styleName='people'>
@@ -92,7 +93,7 @@ export default class UserListItem extends Component {
             className={following && styles['people-follow-active']}
             styleName='people-follow'
             onClick={this.onFollowClick.bind(this, following)}>
-            <span>{following ? 'Following' : 'Follow'}</span>
+            <span>{following ? t('common.following') : t('common.follow')}</span>
             <i><IconCheck/></i>
           </div>}
       </div>

@@ -169,13 +169,13 @@ export default class NewTopic extends Component {
               <div styleName='info-right'>
                 <div styleName='info-subscribers'>
                   <div styleName='info-subscribers-count'>{topic.get('subscriberCount')}</div>
-                  <div styleName='info-subscribers-text'>Subscribers</div>
+                  <div styleName='info-subscribers-text'>{t('common.subscribers')}</div>
                 </div>
                 <div
                   className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
                   styleName='info-subscribe-btn'
                   onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
-                  <span>{topic.get('subscribed') ? 'Subscribed' : 'Subscribe'}</span>
+                  <span>{topic.get('subscribed') ? t('common.subscribed') : t('common.subscribe')}</span>
                   <i><IconCheck /></i>
                 </div>
               </div>
@@ -185,7 +185,7 @@ export default class NewTopic extends Component {
         {Boolean(topicRelated && topicRelated.get('data') && topicRelated.get('data').size) &&
           <div styleName='topics responsive-container'>
             <div styleName='topics-content'>
-              <div styleName='topics-title'>Related Topics</div>
+              <div styleName='topics-title'>{t('topic.relatedTopics')}</div>
               <Topics items={topicRelated} />
             </div>
           </div>}

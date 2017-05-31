@@ -52,7 +52,7 @@ export default class UsersLikesModal extends Component {
   }
 
   render () {
-    const { currentUserId, usersList } = this.props;
+    const { currentUserId, usersList, t } = this.props;
 
     return (
       <ReactModal
@@ -62,7 +62,7 @@ export default class UsersLikesModal extends Component {
         onRequestClose={this.props.onClose}>
         <div styleName='modal-close' onClick={this.props.onClose}><i><IconClose/></i></div>
         <div styleName='content'>
-          <div styleName='title'>Users</div>
+          <div styleName='title'>{t('common.people')}</div>
           <div styleName='modal-users-list'>
             {usersList.map((item, index) =>
               <UserListItem

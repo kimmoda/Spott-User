@@ -227,14 +227,14 @@ export default class Sidebar extends Component {
         </div>
         {product.get('description') &&
           <div styleName='sidebar-panel'>
-            <div styleName='sidebar-panel-title'>Description</div>
+            <div styleName='sidebar-panel-title'>{t('common.description')}</div>
             <div styleName='sidebar-description'>
               {product.get('description')}
             </div>
           </div>}
         {Boolean(productSpotts && productSpotts.size) &&
           <div styleName='sidebar-panel'>
-            <div styleName='sidebar-panel-title'>Also seen in</div>
+            <div styleName='sidebar-panel-title'>{t('product.alsoSeenIn')}</div>
             <div styleName='sidebar-seens'>
               <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={productSpotts.size}>
                 {productSpotts.map((item, index) =>
@@ -252,7 +252,7 @@ export default class Sidebar extends Component {
           </div>}
         {Boolean(product.getIn([ 'similar', 'data' ]) && product.getIn([ 'similar', 'data' ]).size) &&
           <div styleName='sidebar-panel'>
-            <div styleName='sidebar-panel-title'>Similar Items</div>
+            <div styleName='sidebar-panel-title'>{t('product.similarItems')}</div>
             <div styleName='sidebar-similars'>
               <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={product.getIn([ 'similar', 'data' ]).size}>
                 {product.getIn([ 'similar', 'data' ]).map((item, index) =>
