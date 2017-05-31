@@ -39,6 +39,7 @@ export default class NewUserProfile extends Component {
     removeUserFollowing: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     setUserFollowing: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
     userProfile: PropTypes.any.isRequired
   };
 
@@ -141,7 +142,7 @@ export default class NewUserProfile extends Component {
   }
 
   render () {
-    const { children, currentLocale, userProfile, currentUserId, location, loadUserFollowing, loadUserFollowers } = this.props;
+    const { children, currentLocale, userProfile, currentUserId, location, loadUserFollowing, loadUserFollowers, t } = this.props;
     const { userId } = this.props.params;
     const { isScrolledToInfo, isFollowersModalOpen, isFollowingModalOpen } = this.state;
     return (
@@ -168,7 +169,7 @@ export default class NewUserProfile extends Component {
               <div styleName='info-right'>
                 <div styleName='info-followers' onClick={userProfile.getIn([ 'profile', 'profile', 'followerCount' ]) && this.showFollowersModal}>
                   <div styleName='info-followers-count'>{userProfile.getIn([ 'profile', 'profile', 'followerCount' ])}</div>
-                  <div styleName='info-followers-text'>Followers</div>
+                  <div styleName='info-followers-text'>{t('common.followers')}</div>
                 </div>
                 {isFollowersModalOpen &&
                   <UsersModal
@@ -177,7 +178,7 @@ export default class NewUserProfile extends Component {
                     onClose={this.closeFollowersModal}/>}
                 <div styleName='info-following' onClick={userProfile.getIn([ 'profile', 'profile', 'followingCount' ]) && this.showFollowingModal}>
                   <div styleName='info-following-count'>{userProfile.getIn([ 'profile', 'profile', 'followingCount' ])}</div>
-                  <div styleName='info-following-text'>Following</div>
+                  <div styleName='info-following-text'>{t('common.following')}</div>
                 </div>
                 {isFollowingModalOpen &&
                   <UsersModal
@@ -190,7 +191,7 @@ export default class NewUserProfile extends Component {
                     className={userProfile.getIn([ 'profile', 'profile', 'followingUser' ], false) && styles['info-follow-btn-active']}
                     styleName='info-follow-btn'
                     onClick={this.onFollowClick.bind(this, userProfile.getIn([ 'profile', 'profile', 'followingUser' ], false))}>
-                    <span>{userProfile.getIn([ 'profile', 'profile', 'followingUser' ], false) ? 'Following' : 'Follow'}</span>
+                    <span>{userProfile.getIn([ 'profile', 'profile', 'followingUser' ], false) ? t('common.following') : t('common.follow')}</span>
                     <i><IconCheck/></i>
                   </div>}
               </div>
@@ -203,14 +204,14 @@ export default class NewUserProfile extends Component {
               activeClassName={styles['nav-item-active']}
               styleName='nav-item'
               to={`/${currentLocale}/profile/${userId}/loves`}>
-              Loves
+              {t('common.loves')}
             </Link>
             {userId === currentUserId &&
               <Link
                 activeClassName={styles['nav-item-active']}
                 styleName='nav-item'
                 to={`/${currentLocale}/profile/${userId}/wishlist`}>
-                Wishlist
+                {t('common.wishlist')}
               </Link>}
           </div>
         </div>

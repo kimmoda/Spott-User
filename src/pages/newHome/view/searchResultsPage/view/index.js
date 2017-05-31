@@ -28,6 +28,7 @@ export default class SearchResults extends Component {
     }),
     persons: PropTypes.any.isRequired,
     posts: PropTypes.any.isRequired,
+    t: PropTypes.func.isRequired,
     topics: PropTypes.any.isRequired
   };
 
@@ -46,14 +47,14 @@ export default class SearchResults extends Component {
   }
 
   render () {
-    const { topics, currentLocale, children, location } = this.props;
+    const { topics, currentLocale, children, location, t } = this.props;
 
     return (
       <section styleName='wrapper'>
         {Boolean(topics.get('data') && topics.get('data').size) &&
         <div styleName='topics'>
           <div styleName='topics-content'>
-            <div styleName='topics-title'>Related Topics</div>
+            <div styleName='topics-title'>{t('topic.relatedTopics')}</div>
             <Topics items={topics} />
           </div>
         </div>}
@@ -63,13 +64,13 @@ export default class SearchResults extends Component {
               activeClassName={styles['nav-item-active']}
               styleName='nav-item'
               to={`/${currentLocale}/search/posts?q=${location.query.q}`}>
-              Spotts
+              {t('common.spotts')}
             </Link>
             <Link
               activeClassName={styles['nav-item-active']}
               styleName='nav-item'
               to={`/${currentLocale}/search/people?q=${location.query.q}`}>
-              People
+              {t('common.people')}
             </Link>
           </div>
         </div>

@@ -134,13 +134,13 @@ export default class NewHome extends Component {
   }
 
   render () {
-    const { trendingTopics, location, feedSpotts } = this.props;
+    const { trendingTopics, location, feedSpotts, t } = this.props;
     const { width, lazyLoadMode } = this.state;
     return (
       <section styleName='wrapper'>
         <div styleName='topics responsive-container'>
           <div styleName='topics-content'>
-            <div styleName='topics-title'>Trending Topics</div>
+            <div styleName='topics-title'>{t('topic.trendingTopics')}</div>
             <Topics items={trendingTopics} />
           </div>
         </div>
@@ -156,7 +156,7 @@ export default class NewHome extends Component {
           </div>
         </div>
         <VisibilitySensor active={lazyLoadMode} delayedCall intervalDelay={1000} onChange={this.loadOnScroll}/>
-        {this.loadMoreVisibility() && <div styleName='load-more responsive-element' onClick={this.loadMore}>Load more...</div>}
+        {this.loadMoreVisibility() && <div styleName='load-more responsive-element' onClick={this.loadMore}>{t('common.loadMore')}</div>}
       </section>
     );
   }

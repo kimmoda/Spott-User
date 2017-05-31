@@ -10,19 +10,12 @@
     "emailAddress": "Email address",
     "female": "Female",
     "firstName": "First name",
-    "followers": {
-      "zero":  "Followers [[0]]",
-      "one":   "Followers [[1]]",
-      "other": "Followers [[%(count)s]]"
-    },
-    "following": {
-      "zero":  "Following [[0]] ",
-      "one":   "Following [[1]]",
-      "other": "Following [[%(count)s]]"
-    },
+    "followers": "Followers",
+    "following": "Following",
     "follow": "Follow",
     "gender": "Gender",
     "home": "Home",
+    "language": "Language",
     "lastName": "Last name",
     "loadMore": "Load more...",
     "localization": "Localization",
@@ -35,11 +28,13 @@
     "people": "People",
     "privacy": "Privacy",
     "profile": "Profile",
+    "promoted": "Promoted",
     "save": "Save",
     "send": "Send",
     "settings": "Settings",
     "signIn": "Sign in",
     "signUp": "Sign up",
+    "spotts": "Spotts",
     "subscribe": "Subscribe",
     "subscribed": "Subscribed",
     "subscribers": "Subscribers",
@@ -68,7 +63,7 @@
   "forgotPassword": {
     "forgotPassword": "Forgot password",
     "dontPanic": "Don’t panic! We’ll send the password reset instructions to your e-mail address.",
-    "emailSent!": "E-mail has been sent!",
+    "emailSent": "E-mail has been sent!",
     "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions."
   },
   "search": {
@@ -110,11 +105,13 @@
     "contentRegions": "Content Regions",
     "localContent": "Local Content",
     "shopRegions": "Shop Regions",
-    "preferredShoppingRegions": "Preferred Shopping Regions"
+    "preferredShoppingRegions": "Preferred Shopping Regions",
+    "primaryLanguage": "Primary Language",
+    "aboutYou": "About you..."
   },
   "footer": {
     "cookiePolicy": "Cookie policy",
-    "copyright": "Spott 2017 Appiness, Hertshage 10, 9300 Aalst, Belgium",
+    "copyright": "Appiness, Hertshage 10, 9300 Aalst, Belgium",
     "followUs": "Follow us on social media",
     "spottDscr": "Spott allows you to find products in the things you watch"
   },

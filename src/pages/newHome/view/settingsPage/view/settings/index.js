@@ -146,25 +146,25 @@ export default class NewUserSettings extends Component {
   }
 
   render () {
-    const { submitFailed, submitting, handleSubmit } = this.props;
+    const { submitFailed, submitting, handleSubmit, t } = this.props;
     const { avatarPreviewUrl, backgroundPreviewUrl } = this.state;
 
     return (
       <div styleName='content-profile'>
         <Notifier ref={(ref) => { this.alert = ref; }}/>
-        <h2 styleName='content-title'>Profile</h2>
+        <h2 styleName='content-title'>{t('common.profile')}</h2>
         <div styleName='user-photos'>
           <div styleName='user-avatar'>
             <div style={{ backgroundImage: `url(${avatarPreviewUrl})` }} styleName='avatar-image'/>
             <label styleName='avatar-link'>
-              Change photo
+              {t('userSettings.changePhoto')}
               <input type='file' onChange={this.onAvatarChange}/>
             </label>
           </div>
           <div styleName='user-bg'>
             <div style={{ backgroundImage: `url(${backgroundPreviewUrl})` }} styleName='bg-image'/>
             <label styleName='bg-link'>
-              Change background
+              {t('userSettings.changeBackground')}
               <input type='file' onChange={this.onBackgroundChange}/>
             </label>
           </div>
@@ -172,44 +172,44 @@ export default class NewUserSettings extends Component {
         <form className='form' styleName='user-form' onSubmit={handleSubmit(this.onSubmit)}>
           <div styleName='user-form-wrapper'>
             <div styleName='user-form-row'>
-              <label className='form-label form-label-required'>Name</label>
+              <label className='form-label form-label-required'>{t('common.name')}</label>
               <div className='form-join-fields'>
                 <Field
                   component={FormInput}
                   name='firstName'
-                  placeholder='First name'
+                  placeholder={t('common.firstName')}
                   submitFailed={submitFailed}
                   type='text'/>
                 <Field
                   component={FormInput}
                   name='lastName'
-                  placeholder='Last name'
+                  placeholder={t('common.lastName')}
                   submitFailed={submitFailed}
                   type='text'/>
               </div>
             </div>
             <div styleName='user-form-row'>
-              <label className='form-label'>Bio</label>
+              <label className='form-label'>{t('common.bio')}</label>
               <Field
                 component={FormInput}
                 name='description'
-                placeholder='About you...'
+                placeholder={t('userSettings.aboutYou')}
                 submitFailed={submitFailed}
                 type='text'/>
             </div>
             <div styleName='user-form-high-row'>
-              <label className='form-label'>Gender</label>
+              <label className='form-label'>{t('common.gender')}</label>
               <div className='form-radios'>
                 <Field
                   component={FormRadio}
-                  label='Male'
+                  label={t('common.male')}
                   name='gender'
                   submitFailed={submitFailed}
                   type='radio'
                   value='MALE'/>
                 <Field
                   component={FormRadio}
-                  label='Female'
+                  label={t('common.female')}
                   name='gender'
                   submitFailed={submitFailed}
                   type='radio'
@@ -217,7 +217,7 @@ export default class NewUserSettings extends Component {
               </div>
             </div>
             <div styleName='user-form-row'>
-              <label className='form-label'>Date of birth</label>
+              <label className='form-label'>{t('common.dateOfBirth')}</label>
               <div className='form-join-3-fields'>
                 <Field
                   component={FormSelect}
@@ -248,7 +248,7 @@ export default class NewUserSettings extends Component {
           </div>
           <div styleName='user-form-submit'>
             <button disabled={submitting} styleName='user-form-submit-btn' type='submit'>
-              Save
+              {t('common.save')}
             </button>
           </div>
         </form>

@@ -47,7 +47,7 @@ export default class UsersModal extends Component {
   }
 
   render () {
-    const { userProfile, currentUserId, userId, followingListMode } = this.props;
+    const { userProfile, currentUserId, userId, followingListMode, t } = this.props;
     const usersList = followingListMode ? userProfile.getIn([ 'following', 'data' ], []) : userProfile.getIn([ 'followers', 'data' ], []);
 
     return (
@@ -58,7 +58,7 @@ export default class UsersModal extends Component {
         onRequestClose={this.props.onClose}>
         <div styleName='modal-close' onClick={this.props.onClose}><i><IconClose/></i></div>
         <div styleName='content'>
-          <div styleName='title'>{followingListMode ? 'Following' : 'Followers'}</div>
+          <div styleName='title'>{followingListMode ? t('common.following') : t('common.followers')}</div>
           <div styleName='followers'>
             {usersList.map((item, index) =>
               <UserListItem

@@ -90,26 +90,26 @@ export default class NewLogin extends Component {
         <div styleName='modal-close'><i onClick={this.onClose}><IconClose /></i></div>
         <form className='form' onSubmit={handleSubmit(this.onSubmit)}>
           <div className='form-title'>
-            Log in
+            {t('common.logIn')}
           </div>
           <div styleName='facebook-btn-wrapper'>
             <FacebookLoginButton onClose={this.onClose}/>
           </div>
           <div className='form-row'>
-            <label className='form-label'>E-mail</label>
+            <label className='form-label'>{t('common.email')}</label>
             <Field
               component={FormInput}
               name='email'
-              placeholder='Your e-mail address'
+              placeholder={t('common.yourEmail')}
               submitFailed={submitFailed}
               type='email'/>
           </div>
           <div className='form-row'>
-            <label className='form-label'>Password</label>
+            <label className='form-label'>{t('common.password')}</label>
             <Field
               component={FormInput}
               name='password'
-              placeholder='Your password'
+              placeholder={t('common.yourPassword')}
               submitFailed={submitFailed}
               type='password'/>
           </div>
@@ -120,12 +120,12 @@ export default class NewLogin extends Component {
                 pathname: `/${currentLocale}/resetpassword`,
                 state: { modal: true, returnTo: this.props.location.state.returnTo }
               } : `/${currentLocale}/resetpassword`}>
-            Forgot your password?
+            {t('login.forgotPassword')}
           </Link>
           {Boolean(errorSubmit && typeof errorSubmit === 'string') && <div className='form-error'>{t(errorSubmit)}</div>}
-          <button className='form-submit' type='submit'>Log in</button>
+          <button className='form-submit' type='submit'>{t('common.logIn')}</button>
           <div styleName='new-user'>
-            New User?
+            {t('login.newUser')}
             <Link
               styleName='sign-up'
               to={this.props.location.state && this.props.location.state.modal
@@ -133,7 +133,7 @@ export default class NewLogin extends Component {
                   pathname: `/${currentLocale}/registration`,
                   state: { modal: true, returnTo: this.props.location.state.returnTo }
                 } : `/${currentLocale}/registration`}>
-              Sign up here!
+              {t('login.signUpHere')}
             </Link>
           </div>
         </form>

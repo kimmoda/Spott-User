@@ -119,7 +119,7 @@ export default class Card extends Component {
   }
 
   render () {
-    const { item, currentLocale, spottDetails, width, location } = this.props;
+    const { item, currentLocale, spottDetails, width, location, t } = this.props;
     const { loved, loverCount } = this.state;
 
     return (
@@ -151,7 +151,7 @@ export default class Card extends Component {
         </div>
         <div styleName='content'>
           <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
-          {item.get('promoted') && <div styleName='reason'>Promoted</div>}
+          {item.get('promoted') && <div styleName='reason'>{t('common.promoted')}</div>}
           <h3 styleName='title'>{item.get('title')}</h3>
           <div styleName='description'>
             {item.get('comment')}

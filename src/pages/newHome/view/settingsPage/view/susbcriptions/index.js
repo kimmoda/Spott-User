@@ -45,13 +45,13 @@ export default class NewUserSubscriptions extends Component {
   }
 
   render () {
-    const { currentLocale, subscriptions } = this.props;
+    const { currentLocale, subscriptions, t } = this.props;
 
     return (
       <div styleName='subscriptions'>
-        <h2 styleName='title'>Manage Subscriptions</h2>
+        <h2 styleName='title'>{t('userSettings.manageSubscriptions')}</h2>
         <div styleName='topics-list'>
-          { subscriptions.get('data') && subscriptions.get('data').map((item, index) =>
+          {subscriptions.get('data') && subscriptions.get('data').map((item, index) =>
             <div key={`user_subs_${index}`} styleName='topic'>
               <Link
                 style={{ backgroundImage: `url('${item.getIn([ 'profileImage', 'url' ])}?width=68&height=38')` }}
@@ -65,7 +65,10 @@ export default class NewUserSubscriptions extends Component {
                 </Link>
                 <div styleName='topic-type'>{item.get('sourceType')}</div>
               </div>
-              <button styleName='topic-btn' onClick={this.onSubscribeClick.bind(this, item.get('uuid'))}><span>Subscribed</span><i><IconCheck /></i></button>
+              <button styleName='topic-btn' onClick={this.onSubscribeClick.bind(this, item.get('uuid'))}>
+                <span>{t('common.subscribed')}</span>
+                <i><IconCheck/></i>
+              </button>
             </div>
           )}
         </div>

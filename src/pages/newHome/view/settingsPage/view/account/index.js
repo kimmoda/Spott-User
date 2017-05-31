@@ -104,37 +104,37 @@ export default class NewUserAccount extends Component {
   }
 
   render () {
-    const { submitFailed, submitting, handleSubmit, currentLocale, location, systemContentRegions, systemCountries, systemLanguages, systemCurrencies } = this.props;
+    const { submitFailed, submitting, handleSubmit, currentLocale, location, systemContentRegions, systemCountries, systemLanguages, systemCurrencies, t } = this.props;
 
     return (
       <div styleName='account'>
         <Notifier ref={(ref) => { this.alert = ref; }}/>
-        <h2 styleName='title'>Account</h2>
+        <h2 styleName='title'>{t('common.account')}</h2>
         <form className='form' styleName='form' onSubmit={handleSubmit(this.onSubmit)}>
           <div styleName='blocks'>
             <div styleName='block'>
               <div styleName='form-row form-row-shrink'>
-                <label className='form-label form-label-required'>Email Address</label>
+                <label className='form-label form-label-required'>{t('common.emailAddress')}</label>
                 <Field
                   component={FormInput}
                   name='email'
-                  placeholder='Type new email'
+                  placeholder={t('common.yourEmail')}
                   submitFailed={submitFailed}
                   type='email'/>
               </div>
               <div styleName='form-row form-row-shrink'>
-                <label className='form-label'>Password</label>
+                <label className='form-label'>{t('common.password')}</label>
                 <Link
                   styleName='password-change'
                   to={{ pathname: `/${currentLocale}/resetpassword`, state: { modal: true, returnTo: location.pathname } }}>
-                  Change...
+                  {t('common.change')}...
                 </Link>
               </div>
             </div>
             <div styleName='block'>
-              <h3 styleName='block-title'>Localization</h3>
+              <h3 styleName='block-title'>{t('common.localization')}</h3>
               <div styleName='form-row form-row-shrink'>
-                <label className='form-label form-label-required'>Primary Language</label>
+                <label className='form-label form-label-required'>{t('userSettings.primaryLanguage')}</label>
                 <Field
                   component={FormSelect}
                   name='languageForm'
@@ -143,7 +143,7 @@ export default class NewUserAccount extends Component {
                   submitFailed={submitFailed}/>
               </div>
               <div styleName='form-row form-row-shrink'>
-                <label className='form-label'>Other languages</label>
+                <label className='form-label'>{t('userSettings.otherLanguages')}</label>
                 <Field
                   component={FormSelect}
                   multiple
@@ -152,7 +152,7 @@ export default class NewUserAccount extends Component {
                   submitFailed={submitFailed}/>
               </div>
               <div styleName='form-row form-row-shrink'>
-                <label className='form-label form-label-required'>Currency</label>
+                <label className='form-label form-label-required'>{t('common.currency')}</label>
                 <Field
                   component={FormSelect}
                   name='currencyForm'
@@ -167,9 +167,9 @@ export default class NewUserAccount extends Component {
               </div>
             </div>
             <div styleName='block'>
-              <h3 styleName='block-title'>Content Regions</h3>
+              <h3 styleName='block-title'>{t('userSettings.contentRegions')}</h3>
               <div styleName='form-row'>
-                <label className='form-label'>Local Content</label>
+                <label className='form-label'>{t('userSettings.localContent')}</label>
                 <Field
                   component={FormSelect}
                   multiple
@@ -184,9 +184,9 @@ export default class NewUserAccount extends Component {
               </div>
             </div>
             <div styleName='block'>
-              <h3 styleName='block-title'>Shop Regions</h3>
+              <h3 styleName='block-title'>{t('userSettings.shopRegions')}</h3>
               <div styleName='form-row'>
-                <label className='form-label'>Preferred Shopping Regions</label>
+                <label className='form-label'>{t('userSettings.preferredShoppingRegions')}</label>
                 <Field
                   component={FormSelect}
                   multiple
@@ -198,7 +198,7 @@ export default class NewUserAccount extends Component {
           </div>
           <div styleName='form-submit'>
             <button disabled={submitting} styleName='form-submit-btn' type='submit'>
-              Save
+              {t('common.save')}
             </button>
           </div>
         </form>

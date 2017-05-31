@@ -10,19 +10,12 @@
     "emailAddress": "Email address",
     "female": "+Féminin",
     "firstName": "+Prénom",
-    "followers": {
-      "zero":  "[[0]] abonné(e)s",
-      "one":   "[[1]] abonné(e)",
-      "other": "[[%(count)s]] abonné(e)s"
-    },
-    "following": {
-      "zero":  "[[0]] abonnements",
-      "one":   "[[1]] abonnement",
-      "other": "[[%(count)s]] abonnements"
-    },
+    "followers": "+Abonné(e)s",
+    "following": "+Abonnements",
     "follow": "+Suivez",
     "gender": "+Sexe",
     "home": "Page d'accueil",
+    "language": "+La langue",
     "lastName": "+Nom",
     "loadMore": "Load more...",
     "localization": "Localization",
@@ -35,11 +28,13 @@
     "people": "People",
     "privacy": "+Protection des données",
     "profile": "Profile",
+    "promoted": "+Promu",
     "save": "+Sauver",
     "send": "Send",
     "settings": "Settings",
     "signIn": "Sign in",
     "signUp": "Sign up",
+    "spotts": "Spotts",
     "subscribe": "Subscribe",
     "subscribed": "Subscribed",
     "subscribers": "Subscribers",
@@ -68,7 +63,7 @@
   "forgotPassword": {
     "forgotPassword": "+Mot de passe oublié",
     "dontPanic": "Don’t panic! We’ll send the password reset instructions to your e-mail address.",
-    "emailSent!": "E-mail has been sent!",
+    "emailSent": "E-mail has been sent!",
     "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions."
   },
   "search": {
@@ -110,11 +105,13 @@
     "contentRegions": "Content Regions",
     "localContent": "Local Content",
     "shopRegions": "Shop Regions",
-    "preferredShoppingRegions": "Preferred Shopping Regions"
+    "preferredShoppingRegions": "Preferred Shopping Regions",
+    "primaryLanguage": "+Langue principale",
+    "aboutYou": "+Au propos de vous..."
   },
   "footer": {
     "cookiePolicy": "+Politique sur les cookies",
-    "copyright": "Spott 2017 Appiness, Hertshage 10, 9300 Aalst, Belgium",
+    "copyright": "Appiness, Hertshage 10, 9300 Aalst, Belgium",
     "followUs": "Follow us on social media",
     "spottDscr": "Spott allows you to find products in the things you watch"
   },

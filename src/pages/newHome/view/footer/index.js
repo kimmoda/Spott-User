@@ -44,16 +44,16 @@ export default class Footer extends Component {
                   <img alt={t('_common.header.home')} src={spottGrayLogo}/>
                 </Link>
                 <div styleName='footer-dsc'>
-                  Spott allows you to find products in the things you watch.
+                  {t('footer.spottDscr')}
                 </div>
               </div>
             </div>
             <div styleName='footer-sub-col'>
               <nav styleName='footer-navs'>
                 <div styleName='footer-nav'>
-                  <Link styleName='footer-nav-link' to={`/${currentLocale}/terms`}>Terms</Link>
-                  <Link styleName='footer-nav-link' to={`/${currentLocale}/privacy`}>Privacy</Link>
-                  <Link styleName='footer-nav-link' to={`/${currentLocale}/cookies`}>Cookie policy</Link>
+                  <Link styleName='footer-nav-link' to={`/${currentLocale}/terms`}>{t('common.terms')}</Link>
+                  <Link styleName='footer-nav-link' to={`/${currentLocale}/privacy`}>{t('common.privacy')}</Link>
+                  <Link styleName='footer-nav-link' to={`/${currentLocale}/cookies`}>{t('footer.cookiePolicy')}</Link>
                 </div>
                 <div styleName='footer-nav'>
                   <div styleName='language-selection'>
@@ -74,10 +74,10 @@ export default class Footer extends Component {
           <div styleName='footer-main-col'>
             <div styleName='footer-sub-col'>
               <div styleName='footer-follow'>
-                Follow us on social media
+                {t('footer.followUs')}
               </div>
               <div styleName='footer-socials'>
-                <a href='https://www.facebook.com/Spott.it/?fref=ts' target='_blan'> <i><IconFacebook /></i></a>
+                <a href='https://www.facebook.com/Spott.it/?fref=ts' target='_blank'> <i><IconFacebook /></i></a>
                 {currentLocale === 'fr' && <a href='https://twitter.com/SpottBE_fr' target='_blank'> <i><IconTwitter /></i></a>}
                 {currentLocale === 'nl' && <a href='https://twitter.com/SpottBE_nl' target='_blank'> <i><IconTwitter /></i></a>}
                 {currentLocale === 'en' && <a href='https://twitter.com/Spott_eng' target='_blank'> <i><IconTwitter /></i></a>}
@@ -87,7 +87,7 @@ export default class Footer extends Component {
             <div styleName='footer-sub-col'>
               <div styleName='footer-copyright'>
                 © Spott 2017<br/>
-                Appiness, Hertshage 10, 9300 Aalst, Belgium
+                {t('footer.copyright')}
               </div>
             </div>
           </div>

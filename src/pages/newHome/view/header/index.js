@@ -206,7 +206,7 @@ export default class Header extends Component {
       onSearchClose: this.onSearchClose,
       onFocus: this.onFocus,
       onKeyDown: this.onKeyDown,
-      placeholder: 'Search for inspiration'
+      placeholder: t('search.searchForInspiration')
     };
 
     return (
@@ -250,15 +250,15 @@ export default class Header extends Component {
                       <DropdownMenu alignLeft trigger={<div className={styles['user-dropdown']}>
                         <i><IconArrow3/></i>
                       </div>}>
-                        <Link to={`/${currentLocale}/profile/${currentUserId}`}>My profile</Link>
-                        <Link to={`/${currentLocale}/user/settings`}>Settings</Link>
+                        <Link to={`/${currentLocale}/profile/${currentUserId}`}>{t('userMenu.myProfile')}</Link>
+                        <Link to={`/${currentLocale}/user/settings`}>{t('common.settings')}</Link>
                         <DropdownDivider/>
-                        <div onClick={this.onLogoutClick}>Log Out</div>
+                        <div onClick={this.onLogoutClick}>{t('common.logOut')}</div>
                       </DropdownMenu>
                     </div>
                   </div>
                 : <Link styleName='sign-in' to={{ pathname: `/${currentLocale}/login`, state: { modal: true, returnTo: this.props.location.pathname } }}>
-                    Sign in
+                    {t('common.signIn')}
                   </Link>
               }
             </div>
@@ -268,7 +268,7 @@ export default class Header extends Component {
           <div styleName='search-results-wrapper'>
             {Boolean(searchHistory && searchHistory.get('data') && searchHistory.get('data').size) &&
             <div styleName='recent-searches'>
-              <h2 styleName='recent-searches-title'>Recent searches</h2>
+              <h2 styleName='recent-searches-title'>{t('search.recentSearches')}</h2>
               <div styleName='recent-searches-items'>
                 {searchHistory.get('data').filter((item) => item.get('query') !== 'undefined').map((item, index) =>
                   <Link
@@ -279,10 +279,10 @@ export default class Header extends Component {
                   </Link>
                 )}
               </div>
-              <div styleName='recent-searches-clear' onClick={this.onSearchHistoryClearClick}>Clear search history</div>
+              <div styleName='recent-searches-clear' onClick={this.onSearchHistoryClearClick}>{t('search.clearSearchHistory')}</div>
             </div>}
             <div styleName='search-topics'>
-              <div styleName='search-topics-title'>Topics for you</div>
+              <div styleName='search-topics-title'>{t('search.topicsForYou')}</div>
               <Topics items={trendingTopics} />
             </div>
           </div>

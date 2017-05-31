@@ -81,7 +81,7 @@ export default class NewResetPassword extends Component {
   }
 
   render () {
-    const { handleSubmit, submitFailed, error } = this.props;
+    const { handleSubmit, submitFailed, error, t } = this.props;
     const { resetSuccessful, isModalOpen } = this.state;
 
     return (
@@ -94,34 +94,33 @@ export default class NewResetPassword extends Component {
         {resetSuccessful
           ? <div className='form'>
               <div className='form-title'>
-                E-mail has been sent!
+                {t('forgotPassword.emailSent')}
               </div>
               <div styleName='reset-text'>
-                Your password has been successfully reset.<br/>
-                Please check your e-mail for further instructions.
+                {t('forgotPassword.successfullyReset')}
               </div>
               <div className='form-submit' onClick={this.onLoginClick}>
-                Log in
+                {t('common.logIn')}
               </div>
             </div>
           : <form className='form' onSubmit={handleSubmit(this.onSubmit)}>
               <div className='form-title'>
-                Forgot password
+                {t('forgotPassword.forgotPassword')}
               </div>
               <div styleName='reset-text'>
-                Don’t panic! We’ll send the password reset instructions to your e-mail address.
+                {t('forgotPassword.dontPanic')}
               </div>
               <div className='form-row'>
-                <label className='form-label form-label-required'>Your e-mail</label>
+                <label className='form-label form-label-required'>{t('common.youEmail')}</label>
                 <Field
                   component={FormInput}
                   name='email'
-                  placeholder='Your e-mail address'
+                  placeholder={t('common.youEmail')}
                   submitFailed={submitFailed}
                   type='email'/>
               </div>
               {error && <div className='form-error'>{error}</div>}
-              <button className='form-submit' type='submit'>Send</button>
+              <button className='form-submit' type='submit'>{t('common.send')}</button>
             </form>
         }
       </ReactModal>

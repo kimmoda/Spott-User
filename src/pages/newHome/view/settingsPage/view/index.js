@@ -45,7 +45,7 @@ export default class NewUserSettingsPage extends Component {
   }
 
   render () {
-    const { children, currentLocale } = this.props;
+    const { children, currentLocale, t } = this.props;
     const { currentPage } = this.state;
 
     return (
@@ -54,19 +54,19 @@ export default class NewUserSettingsPage extends Component {
           <nav styleName='nav'>
             <ul styleName='nav-list'>
               <li styleName='nav-item'>
-                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/settings`}>Profile</Link>
+                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/settings`}>{t('common.profile')}</Link>
               </li>
               <li styleName='nav-item'>
-                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/account`}>Account</Link>
+                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/account`}>{t('common.account')}</Link>
               </li>
               <li styleName='nav-item'>
-                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/subscriptions`}>Manage Subscriptions</Link>
+                <Link activeClassName={styles['nav-link-active']} styleName='nav-link' to={`/${currentLocale}/user/subscriptions`}>{t('userSettings.manageSubscriptions')}</Link>
               </li>
             </ul>
             <select value={currentPage} onChange={this.handleChange}>
-              <option value={`/${currentLocale}/user/settings`}>Profile</option>
-              <option value={`/${currentLocale}/user/account`}>Account</option>
-              <option value={`/${currentLocale}/user/subscriptions`}>Manage Subscriptions</option>
+              <option value={`/${currentLocale}/user/settings`}>{t('common.profile')}</option>
+              <option value={`/${currentLocale}/user/account`}>{t('common.account')}</option>
+              <option value={`/${currentLocale}/user/subscriptions`}>{t('userSettings.manageSubscriptions')}</option>
             </select>
           </nav>
           <section styleName='content'>

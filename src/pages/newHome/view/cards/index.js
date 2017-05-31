@@ -62,7 +62,7 @@ export default class Cards extends Component {
   }
 
   render () {
-    const { spotts, loadMore, location } = this.props;
+    const { spotts, loadMore, location, t } = this.props;
     const { cardWidth, cardCount } = this.state;
 
     return (
@@ -76,7 +76,7 @@ export default class Cards extends Component {
         {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') &&
           spotts.get('totalResultCount') > spotts.get('pageSize') &&
           spotts.get('page') + 1 !== spotts.get('pageCount')) &&
-          <div styleName='load-more' onClick={loadMore.bind(this, spotts.get('page') + 1)}>Load more...</div>
+          <div styleName='load-more' onClick={loadMore.bind(this, spotts.get('page') + 1)}>{t('common.loadMore')}</div>
         }
       </div>
     );

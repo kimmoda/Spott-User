@@ -207,7 +207,7 @@ export default class CardModal extends Component {
   }
 
   render () {
-    const { spott, sidebarProducts, currentLocale, location, params } = this.props;
+    const { spott, sidebarProducts, currentLocale, location, params, t } = this.props;
     const { width } = this.state;
 
     return (
@@ -299,13 +299,13 @@ export default class CardModal extends Component {
             {Boolean(spott.getIn([ 'relatedTopics', 'data' ]) && spott.getIn([ 'relatedTopics', 'data' ]).size) &&
               <div styleName='topics responsive-container'>
                 <div styleName='topics-content'>
-                  <div styleName='topics-title'>Related Topics</div>
+                  <div styleName='topics-title'>{t('topic.relatedTopics')}</div>
                   <Topics items={spott.get('relatedTopics')}/>
                 </div>
               </div>}
             {Boolean(spott.getIn([ 'similar', 'data' ]) && spott.getIn([ 'similar', 'data' ]).size) &&
               <div styleName='spotts responsive-container'>
-                <div styleName='spotts-title'>Similar Spotts</div>
+                <div styleName='spotts-title'>{t('spott.similarSpotts')}</div>
                 <div styleName='spotts-list'>
                   <Cards location={location} spotts={spott.get('similar')}/>
                 </div>

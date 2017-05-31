@@ -95,67 +95,67 @@ export default class NewRegistration extends Component {
         <div styleName='modal-close'><i onClick={this.onClose}><IconClose /></i></div>
         <form className='form' onSubmit={handleSubmit(this.onSubmit)}>
           <div className='form-title'>
-            Sign up
+            {t('common.signUp')}
           </div>
           <div styleName='facebook-btn-wrapper'>
             <FacebookRegisterButton disabled={facebookIsLoading} onClose={this.onClose} />
           </div>
           {facebookError && typeof facebookError === 'string' && <div className='form-error'>{t(facebookError)}</div>}
           <div className='form-row'>
-            <label className='form-label form-label-required'>Name</label>
+            <label className='form-label form-label-required'>{t('common.name')}</label>
             <div className='form-join-fields'>
               <Field
                 component={FormInput}
                 name='firstName'
-                placeholder='First name'
+                placeholder={t('common.firstName')}
                 submitFailed={submitFailed}
                 type='text'/>
               <Field
                 component={FormInput}
                 name='lastName'
-                placeholder='Last name'
+                placeholder={t('common.lastName')}
                 submitFailed={submitFailed}
                 type='text'/>
             </div>
           </div>
           <div className='form-row'>
-            <label className='form-label form-label-required'>E-mail</label>
+            <label className='form-label form-label-required'>{t('common.email')}</label>
             <Field
               component={FormInput}
               name='email'
-              placeholder='Your e-mail address'
+              placeholder={t('common.yourEmail')}
               submitFailed={submitFailed}
               type='email'/>
           </div>
           <div className='form-row'>
-            <label className='form-label form-label-required'>Password</label>
+            <label className='form-label form-label-required'>{t('common.password')}</label>
             <Field
               component={FormInput}
               name='password'
-              placeholder='Your password'
+              placeholder={t('common.yourPassword')}
               submitFailed={submitFailed}
               type='password'/>
           </div>
           <div className='form-row'>
-            <label className='form-label'>Gender</label>
+            <label className='form-label'>{t('common.gender')}</label>
             <div className='form-radios'>
               <Field
                 component={FormRadio}
-                label='Male'
+                label={t('common.male')}
                 name='gender'
                 submitFailed={submitFailed}
                 type='radio'
                 value='MALE'/>
               <Field
                 component={FormRadio}
-                label='Female'
+                label={t('common.female')}
                 name='gender'
                 submitFailed={submitFailed}
                 type='radio'
                 value='FEMALE'/>
               <Field
                 component={FormRadio}
-                label='Unspecified'
+                label={t('common.unspecified')}
                 name='gender'
                 submitFailed={submitFailed}
                 type='radio'
@@ -163,7 +163,7 @@ export default class NewRegistration extends Component {
             </div>
           </div>
           <div className='form-row'>
-            <label className='form-label'>Date of birth</label>
+            <label className='form-label'>{t('common.dateOfBirth')}</label>
             <div className='form-join-3-fields'>
               <Field
                 component={FormSelect}
@@ -202,7 +202,7 @@ export default class NewRegistration extends Component {
           </div>
            */}
           <div className='form-row'>
-            <label className='form-label'>Language</label>
+            <label className='form-label'>{t('common.language')}</label>
             <Field
               component={FormSelect}
               name='language'
@@ -213,10 +213,7 @@ export default class NewRegistration extends Component {
             <div className='form-checkbox-tiny'>
               <Field
                 component={FormCheckbox}
-                label='I confirm to know, understand and accept the terms and
-                conditions and privacy statement of Appiness - Spott and to
-                have kept a copy of it. I know that this app shows only
-                indicative prices from third parties that do not bind Appiness.'
+                label={t('register.confirm')}
                 name='terms'
                 submitFailed={submitFailed}/>
             </div>
@@ -226,10 +223,10 @@ export default class NewRegistration extends Component {
             className='form-submit'
             disabled={facebookIsLoading || submitting}
             type='submit'>
-            Sign up
+            {t('common.signUp')}
           </button>
           <div styleName='new-user'>
-            Already have an account?
+            {t('register.haveAccount')}
             <Link
               styleName='sign-up'
               to={this.props.location.state && this.props.location.state.modal
