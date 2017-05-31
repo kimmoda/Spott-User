@@ -2,14 +2,14 @@
   "common": {
     "account": "Account",
     "bio": "Bio",
-    "change": "+Verandering",
+    "change": "Verandering",
     "currency": "Currency",
-    "dateOfBirth": "+Je geboortedatum",
+    "dateOfBirth": "Je geboortedatum",
     "description": "Description",
-    "email": "+e-mailadres",
+    "email": "e-mailadres",
     "emailAddress": "Email address",
-    "female": "+Vrouw",
-    "firstName": "+Je voornaam",
+    "female": "Vrouw",
+    "firstName": "Je voornaam",
     "followers": {
       "zero":  "[[0]] volgers",
       "one":   "[[1]] volger",
@@ -20,22 +20,22 @@
       "one":   "[[1]] volgend",
       "other": "[[%(count)s]] volgend"
     },
-    "follow": "+Volgen",
-    "gender": "+Geslacht",
+    "follow": "Volgen",
+    "gender": "Geslacht",
     "home": "Home",
-    "lastName": "+Je achternaam",
+    "lastName": "Je achternaam",
     "loadMore": "Load more...",
     "localization": "Localization",
-    "logIn": "+Aanmelden",
-    "logOut": "+Afmelden",
+    "logIn": "Aanmelden",
+    "logOut": "Afmelden",
     "loves": "Loves",
-    "male": "+Man",
-    "name": "+Naam",
-    "password": "+Wachtwoord",
+    "male": "Man",
+    "name": "Naam",
+    "password": "Wachtwoord",
     "people": "People",
-    "privacy": "+Privacy",
+    "privacy": "Privacy",
     "profile": "Profile",
-    "save": "+Bewaar",
+    "save": "Bewaar",
     "send": "Send",
     "settings": "Settings",
     "signIn": "Sign in",
@@ -43,30 +43,30 @@
     "subscribe": "Subscribe",
     "subscribed": "Subscribed",
     "subscribers": "Subscribers",
-    "terms": "+Voorwaarden",
-    "wishlist": "+Verlanglijst",
+    "terms": "Voorwaarden",
+    "wishlist": "Verlanglijst",
     "unspecified": "Unspecified",
     "yourEmail": "Your e-mail address",
     "yourPassword": "Your password"
   },
   "login": {
-    "logInWithFacebook": "+Log in met Facebook",
-    "newUser": "+Nieuwe gebruiker?",
+    "logInWithFacebook": "Log in met Facebook",
+    "newUser": "Nieuwe gebruiker?",
     "signUpHere": "Sign up here!",
     "createAccount": "Create an account",
     "forgotPassword": "Forgot your password?",
-    "invalid": "+E-mail/wachtwoord combinatie is niet correct.",
-    "invalidFacebook": "+Je Facebook account is niet gelinkt aan een Spott account. Registreer [[hier]]."
+    "invalid": "E-mail/wachtwoord combinatie is niet correct.",
+    "invalidFacebook": "Je Facebook account is niet gelinkt aan een Spott account. Registreer [[hier]]."
   },
   "register": {
-    "registerWithFacebookButton": "+Registreer je met Facebook",
+    "registerWithFacebookButton": "Registreer je met Facebook",
     "confirm": "I confirm to know, understand and accept the terms and conditions and privacy statement of Appiness - Spott and to have kept a copy of it. I know that this app shows only indicative prices from third parties that do not bind Appiness.",
     "termsAndConditions": "terms and conditions",
     "privacyStatement": "privacy statement",
     "haveAccount": "Already have an account?"
   },
   "forgotPassword": {
-    "forgotPassword": "+Wachtwoord vergeten",
+    "forgotPassword": "Wachtwoord vergeten",
     "dontPanic": "Don’t panic! We’ll send the password reset instructions to your e-mail address.",
     "emailSent!": "E-mail has been sent!",
     "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions."
@@ -77,22 +77,22 @@
     "topicsForYou": "Topics for you",
     "searchForInspiration": "Search for inspiration",
     "spotts": {
-      "noResults": "+Helaas! Wij vonden geen Spotts voor jouw zoekopdracht. Probeer gerust opnieuw!"
+      "noResults": "Helaas! Wij vonden geen Spotts voor jouw zoekopdracht. Probeer gerust opnieuw!"
     },
     "people": {
-      "noResults": "+Helaas! Wij vonden geen personen voor jouw zoekopdracht. Probeer gerust opnieuw!"
+      "noResults": "Helaas! Wij vonden geen personen voor jouw zoekopdracht. Probeer gerust opnieuw!"
     },
     "loadingResults": "Resultaten laden...",
     "noResults": "Oeps! We kunnen geen resultaten vinden voor de ingegeven zoekopdracht"
   },
   "topic": {
-    "COMMERCIAL": "+TV-spot",
-    "MOVIE": "+Film",
-    "TV_SERIE": "+Tv show",
-    "CHARACTER": "+Personage",
-    "PERSON": "+Persoon",
+    "COMMERCIAL": "TV-spot",
+    "MOVIE": "Film",
+    "TV_SERIE": "Tv show",
+    "CHARACTER": "Personage",
+    "PERSON": "Persoon",
     "MANUAL": "",
-    "BRAND": "+Merk",
+    "BRAND": "Merk",
     "trendingTopics": "Trending Topics",
     "relatedTopics": "Related Topics"
   },
@@ -113,7 +113,7 @@
     "preferredShoppingRegions": "Preferred Shopping Regions"
   },
   "footer": {
-    "cookiePolicy": "+Cookiebeleid",
+    "cookiePolicy": "Cookiebeleid",
     "copyright": "Spott 2017 Appiness, Hertshage 10, 9300 Aalst, Belgium",
     "followUs": "Follow us on social media",
     "spottDscr": "Spott allows you to find products in the things you watch"
@@ -121,10 +121,10 @@
   "product": {
     "similarItems": "Similar Items",
     "alsoSeenIn": "Also seen in",
-    "buyNow": "+Koop nu",
-    "unavailable": "+Dit product is niet beschikbaar.",
-    "outOfStock": "+Niet beschikbaar",
-    "moreInfo": "+Meer info"
+    "buyNow": "Koop nu",
+    "unavailable": "Dit product is niet beschikbaar.",
+    "outOfStock": "Niet beschikbaar",
+    "moreInfo": "Meer info"
   },
   "relevance": {
     "EXACT": "Exacte overeenkomst",
