@@ -94,7 +94,8 @@
     min-width: 26px;
     height: 26px;
     min-height: 26px;
-    border: solid 2px $colorWhite;
+    border-right: solid 2px $colorWhite;
+    border-left: solid 2px $colorWhite;
     border-radius: 50%;
     background-size: cover;
     position: relative;
@@ -136,7 +137,8 @@
     min-width: 32px;
     height: 32px;
     min-height: 32px;
-    border: solid 2px $colorWhite;
+    border-right: solid 2px $colorWhite;
+    border-left: solid 2px $colorWhite;
     border-radius: 50%;
     background-size: cover;
     position: relative;
