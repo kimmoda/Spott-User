@@ -441,7 +441,7 @@ export const addProductToWishlist = makeApiActionCreator(api.addProductToWishlis
 
 export const removeProductFromWishlist = makeApiActionCreator(api.removeProductFromWishlist, REMOVE_PRODUCT_FROM_WISHLIST_START, REMOVE_PRODUCT_FROM_WISHLIST_SUCCESS, REMOVE_PRODUCT_FROM_WISHLIST_ERROR);
 
-export const getSearchSuggestions = makeApiActionCreator(api.getSearchSuggestions, SEARCH_SUGGESTIONS_FETCH_START, SEARCH_SUGGESTIONS_FETCH_SUCCESS, SEARCH_SUGGESTIONS_FETCH_ERROR);
+export const loadSearchSuggestions = makeApiActionCreator(api.getSearchSuggestions, SEARCH_SUGGESTIONS_FETCH_START, SEARCH_SUGGESTIONS_FETCH_SUCCESS, SEARCH_SUGGESTIONS_FETCH_ERROR);
 
 export function clearSearchSuggestions () {
   return (dispatch, getState) => {
@@ -449,7 +449,7 @@ export function clearSearchSuggestions () {
   };
 }
 
-export const getSearchHistory = makeApiActionCreator(api.getSearchHistory, GET_SEARCH_HISTORY_START, GET_SEARCH_HISTORY_SUCCESS, GET_SEARCH_HISTORY_ERROR);
+export const loadSearchHistory = makeApiActionCreator(api.getSearchHistory, GET_SEARCH_HISTORY_START, GET_SEARCH_HISTORY_SUCCESS, GET_SEARCH_HISTORY_ERROR);
 
 export const removeSearchHistory = makeApiActionCreator(api.removeSearchHistory, REMOVE_SEARCH_HISTORY_START, REMOVE_SEARCH_HISTORY_SUCCESS, REMOVE_SEARCH_HISTORY_ERROR);
 

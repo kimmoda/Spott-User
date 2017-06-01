@@ -24,9 +24,9 @@ const spottLogo = require('./spott.svg');
 
 @localized
 @connect(newHeaderSelector, (dispatch) => ({
-  getSearchHistory: bindActionCreators(actions.getSearchHistory, dispatch),
-  getSearchSuggestions: bindActionCreators(actions.getSearchSuggestions, dispatch),
   clearSearchSuggestions: bindActionCreators(actions.clearSearchSuggestions, dispatch),
+  loadSearchHistory: bindActionCreators(actions.loadSearchHistory, dispatch),
+  loadSearchSuggestions: bindActionCreators(actions.loadSearchSuggestions, dispatch),
   loadTrendingTopics: bindActionCreators(actions.loadTrendingTopics, dispatch),
   logout: bindActionCreators(appActions.doLogout, dispatch),
   removeSearchHistory: bindActionCreators(actions.removeSearchHistory, dispatch),
@@ -41,9 +41,9 @@ export default class Header extends Component {
     currentUserFirstname: PropTypes.string,
     currentUserId: PropTypes.string,
     currentUserLastname: PropTypes.string,
-    getSearchHistory: PropTypes.func.isRequired,
-    getSearchSuggestions: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.string,
+    loadSearchHistory: PropTypes.func.isRequired,
+    loadSearchSuggestions: PropTypes.func.isRequired,
     loadTrendingTopics: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired,
@@ -82,7 +82,8 @@ export default class Header extends Component {
   }
 
   componentDidMount () {
-    this.props.getSearchHistory();
+    this.props.isAuthenticated && this.props.loadSearchHistory();
+    this.props.loadTrendingTopics();
   }
 
   componentWillReceiveProps (nextProps) {
@@ -90,6 +91,12 @@ export default class Header extends Component {
       this.state = {
         searchValue: nextProps.location.query && nextProps.location.query.q ? nextProps.location.query.q : ''
       };
+    }
+    if (nextProps.isAuthenticated && !this.props.isAuthenticated) {
+      this.props.loadSearchHistory();
+    }
+    if (!nextProps.isAuthenticated && this.props.isAuthenticated) {
+      this.props.removeSearchHistory();
     }
   }
 
@@ -141,7 +148,7 @@ export default class Header extends Component {
   onSuggestionsFetchRequested ({ value }) {
     if (value !== this.state.prevSearchValue) {
       this.setState({ prevSearchValue: value });
-      this.props.getSearchSuggestions({ searchString: value });
+      this.props.loadSearchSuggestions({ searchString: value });
     }
   }
 

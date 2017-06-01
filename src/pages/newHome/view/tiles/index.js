@@ -23,6 +23,7 @@ export default class Tiles extends Component {
     super(props);
     this.onMoveLeft = ::this.onMoveLeft;
     this.onMoveRight = ::this.onMoveRight;
+    this.calcTilesInContainer = ::this.calcTilesInContainer;
     this.state = {
       tileIndex: 0,
       translateOffset: 0,
@@ -32,18 +33,30 @@ export default class Tiles extends Component {
     };
     this.tilesWidths = [];
     this.elsInContainerCount = 0;
+    this.tilesContainerWidth = 0;
   }
 
   componentDidMount () {
+    this.tilesContainerWidth = this.tilesContainer.clientWidth;
+    this.calcTilesInContainer();
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.tilesContainerWidth !== this.tilesContainer.clientWidth) {
+      this.tilesContainerWidth = this.tilesContainer.clientWidth;
+      this.calcTilesInContainer();
+    }
+  }
+
+  calcTilesInContainer () {
     this.tilesWidths = new Array(this.props.tilesCount).fill(1).map((item, index) => {
       return ReactDOM.findDOMNode(this.refs[index]).clientWidth + this.props.tileOffsetWidth;
     });
-
     let width = this.tilesContainer.clientWidth;
     let elsCount = 0;
     this.tilesWidths.map((elWidth) => {
       width -= elWidth;
-      Math.round(width / elWidth) >= 0 && elsCount++;
+      (width / elWidth) >= 0 && elsCount++;
     });
     this.elsInContainerCount = elsCount;
     this.forceUpdate();
