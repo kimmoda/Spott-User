@@ -111,11 +111,11 @@ export default class NewResetPassword extends Component {
                 {t('forgotPassword.dontPanic')}
               </div>
               <div className='form-row'>
-                <label className='form-label form-label-required'>{t('common.youEmail')}</label>
+                <label className='form-label form-label-required'>{t('common.yourEmail')}</label>
                 <Field
                   component={FormInput}
                   name='email'
-                  placeholder={t('common.youEmail')}
+                  placeholder={t('common.yourEmail')}
                   submitFailed={submitFailed}
                   type='email'/>
               </div>

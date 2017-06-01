@@ -58,7 +58,8 @@
     "confirm": "I confirm to know, understand and accept the terms and conditions and privacy statement of Appiness - Spott and to have kept a copy of it. I know that this app shows only indicative prices from third parties that do not bind Appiness.",
     "termsAndConditions": "terms and conditions",
     "privacyStatement": "privacy statement",
-    "haveAccount": "Already have an account?"
+    "haveAccount": "Already have an account?",
+    "userAlreadyExist": "There is already a Spott user registered with this email."
   },
   "forgotPassword": {
     "forgotPassword": "Forgot password",
