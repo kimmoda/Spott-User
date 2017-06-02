@@ -28,6 +28,7 @@ export default class NewHome extends Component {
     loadSpottsList: PropTypes.func.isRequired,
     loadTrendingTopics: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     spotts: PropTypes.any.isRequired,
     spottsPromoted: PropTypes.any.isRequired,
     spottsSubscribed: PropTypes.any.isRequired,
@@ -134,7 +135,7 @@ export default class NewHome extends Component {
   }
 
   render () {
-    const { trendingTopics, location, feedSpotts, t } = this.props;
+    const { trendingTopics, location, feedSpotts, t, params } = this.props;
     const { width, lazyLoadMode } = this.state;
     return (
       <section styleName='wrapper'>
@@ -149,7 +150,13 @@ export default class NewHome extends Component {
             <Masonry disableImagesLoaded options={{ transitionDuration: 100, isFitWidth: true, horizontalOrder: true }}>
               {feedSpotts.map((item, index) =>
                 <div key={`home_card_${index}_${item.get('uuid')}`} styleName='card-selector'>
-                  <Card item={item} key={`home_card_${index}_${item.get('uuid')}`} location={location} spottId={item.get('uuid')} width={width}/>
+                  <Card
+                    item={item}
+                    key={`home_card_${index}_${item.get('uuid')}`}
+                    location={location}
+                    params={params}
+                    spottId={item.get('uuid')}
+                    width={width}/>
                 </div>
               )}
             </Masonry>

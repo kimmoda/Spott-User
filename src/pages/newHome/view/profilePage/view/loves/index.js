@@ -47,12 +47,17 @@ export default class NewUserLoves extends Component {
   }
 
   render () {
-    const { userProfile, location } = this.props;
+    const { userProfile, location, params } = this.props;
 
     return (
       <div styleName='loves-wrapper'>
         <div styleName='loves'>
-          {userProfile.getIn([ 'lovedPosts', 'data' ]) && <Cards loadMore={this.loadMore} location={location} spotts={userProfile.get('lovedPosts')}/>}
+          {userProfile.getIn([ 'lovedPosts', 'data' ]) &&
+            <Cards
+              loadMore={this.loadMore}
+              location={location}
+              params={params}
+              spotts={userProfile.get('lovedPosts')}/>}
         </div>
       </div>
     );

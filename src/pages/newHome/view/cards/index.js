@@ -16,6 +16,7 @@ export default class Cards extends Component {
     currentLocale: PropTypes.string.isRequired,
     loadMore: PropTypes.func,
     location: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     spotts: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired
   };
@@ -62,7 +63,7 @@ export default class Cards extends Component {
   }
 
   render () {
-    const { spotts, loadMore, location, t } = this.props;
+    const { spotts, loadMore, location, t, params } = this.props;
     const { cardWidth, cardCount } = this.state;
 
     return (
@@ -70,7 +71,15 @@ export default class Cards extends Component {
         <Masonry className={cardCount < 4 && cardWidth === 280 && styles['left-align']} disableImagesLoaded options={{ isFitWidth: true }} ref={(ref) => { this.cardsContainer = ref; }} styleName='cards-container'
           onLayoutComplete={(laidOutItems) => this.handleLayoutComplete(laidOutItems)}>
           {spotts.get('data') && spotts.get('data').valueSeq().map((item, index) =>
-          <div key={`home_card_${item.get('uuid')}_${index}`} styleName='card-selector'><Card item={item} key={`home_card_${item.get('uuid')}_${index}`} location={location} spottId={item.get('uuid')} width={cardWidth} /></div>
+          <div key={`home_card_${item.get('uuid')}_${index}`} styleName='card-selector'>
+            <Card
+              item={item}
+              key={`home_card_${item.get('uuid')}_${index}`}
+              location={location}
+              params={params}
+              spottId={item.get('uuid')}
+              width={cardWidth} />
+          </div>
           )}
         </Masonry>
         {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') &&

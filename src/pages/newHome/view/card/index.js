@@ -13,6 +13,7 @@ import * as actions from '../../actions';
 import { spottCardDetailsSelector } from '../../selectors';
 import ImageLoader from '../imageLoader/index';
 import { LOADED } from '../../../../data/statusTypes';
+import { slugify } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -33,6 +34,7 @@ export default class Card extends Component {
     loadSpottCardDetails: PropTypes.func.isRequired,
     loadSpottLovers: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
@@ -70,11 +72,12 @@ export default class Card extends Component {
   }
 
   showSpott (event) {
+    console.log(this.props.params);
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/\W+/g, '-')}/${this.props.item.get('uuid')}`,
+      pathname: `/${this.props.currentLocale}/spott/${slugify(this.props.item.get('title', ''))}/${this.props.item.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) && !this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
+        returnTo: ((this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) && !this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
       }
     });
   }
@@ -88,7 +91,7 @@ export default class Card extends Component {
     event.stopPropagation();
 
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${this.props.item.get('title').replace(/\W+/g, '-')}/${marker.getIn([ 'product', 'shortName' ]).replace(/\W+/g, '-')}/{${this.props.item.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
+      pathname: `/${this.props.currentLocale}/spott/${slugify(this.props.item.get('title', ''))}/${slugify(marker.getIn([ 'product', 'shortName' ], ''))}/{${this.props.item.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
       state: {
         modal: true,
         returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),

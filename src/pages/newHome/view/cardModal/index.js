@@ -307,7 +307,10 @@ export default class CardModal extends Component {
               <div styleName='spotts responsive-container'>
                 <div styleName='spotts-title'>{t('spott.similarSpotts')}</div>
                 <div styleName='spotts-list'>
-                  <Cards location={location} spotts={spott.get('similar')}/>
+                  <Cards
+                    location={location}
+                    params={params}
+                    spotts={spott.get('similar')}/>
                 </div>
               </div>}
           </div>

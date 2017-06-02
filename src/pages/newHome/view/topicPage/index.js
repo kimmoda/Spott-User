@@ -134,7 +134,7 @@ export default class NewTopic extends Component {
   }
 
   render () {
-    const { topic, topicRelated, topicSpotts, t } = this.props;
+    const { topic, topicRelated, topicSpotts, t, params } = this.props;
     const { isScrolledToInfo, infoContainerHeight } = this.state;
     return (
       <section styleName='wrapper'>
@@ -216,7 +216,11 @@ export default class NewTopic extends Component {
         */}
         <div styleName='cards-wrapper responsive-container'>
           <div styleName='cards'>
-            <Cards loadMore={this.loadMore} location={location} spotts={topicSpotts}/>
+            <Cards
+              loadMore={this.loadMore}
+              location={location}
+              params={params}
+              spotts={topicSpotts}/>
           </div>
         </div>
       </section>
