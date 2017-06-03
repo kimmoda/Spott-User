@@ -18,6 +18,7 @@ import Tiles from '../tiles';
 import * as actions from '../../actions';
 import { spottDetailsSelector } from '../../selectors';
 import Cards from '../cards/index';
+import { slugify } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -63,8 +64,7 @@ export default class CardModal extends Component {
     t: PropTypes.func.isRequired,
     trackImpressionEvent: PropTypes.func.isRequired,
     trackProductEvent: PropTypes.func.isRequired,
-    trackSpottEvent: PropTypes.func.isRequired,
-    onClose: PropTypes.func
+    trackSpottEvent: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -73,7 +73,6 @@ export default class CardModal extends Component {
     this.onProductClick = ::this.onProductClick;
     this.onProductLoad = ::this.onProductLoad;
     this.onSidebarClose = ::this.onSidebarClose;
-    this.onWrapperClick = ::this.onWrapperClick;
     this.handleResize = ::this.handleResize;
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
     this.state = {
@@ -107,25 +106,22 @@ export default class CardModal extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if ((this.props.params.spottId && nextProps.params.spottId && this.props.params.spottId !== nextProps.params.spottId) || (this.props.params.complexId && nextProps.params.spottId)) {
-      this.props.loadSpottDetails({ uuid: nextProps.params.spottId });
-      if (nextProps.location.state && nextProps.location.state.sidebarMarker) {
-        this.props.loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
-      }
+    const { params, loadSidebarProduct, loadSpottDetails, location, clearSidebarProducts } = this.props;
+    if ((params.spottId && nextProps.params.spottId && params.spottId !== nextProps.params.spottId) || (params.complexId && nextProps.params.spottId)) {
+      clearSidebarProducts();
+      loadSpottDetails({ uuid: nextProps.params.spottId });
       this.getWidth();
-      if (this.props.sidebarProducts.get('data').size) {
-        this.props.clearSidebarProducts();
-      }
       this.props.trackSpottEvent(nextProps.params.spottId);
     }
 
-    if ((this.props.params.complexId && nextProps.params.complexId && this.props.params.complexId !== nextProps.params.complexId) || (this.props.params.spottId && nextProps.params.complexId)) {
+    if ((params.complexId && nextProps.params.complexId && params.complexId !== nextProps.params.complexId) || (params.spottId && nextProps.params.complexId)) {
       const ids = nextProps.params.complexId.split('}{');
-      this.props.loadSpottDetails({ uuid: ids[0].replace('{', '') });
       if (nextProps.location.state && nextProps.location.state.sidebarMarker) {
-        this.props.loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
-      } else {
-        this.props.loadSidebarProduct({ uuid: ids[1].replace('}', '') });
+        loadSpottDetails({ uuid: ids[0].replace('{', '') });
+        loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
+      } else if (location.action === 'POP') {
+        loadSpottDetails({ uuid: ids[0].replace('{', '') });
+        loadSidebarProduct({ uuid: ids[1].replace('}', '') });
       }
       this.getWidth();
       this.props.trackProductEvent(ids[1].replace('}', ''));
@@ -135,6 +131,7 @@ export default class CardModal extends Component {
   componentWillUnmount () {
     document.body.style.overflow = this._originalOverflow;
     window.removeEventListener('resize', this.handleResize);
+    this.props.clearSidebarProducts();
   }
 
   handleResize () {
@@ -153,41 +150,46 @@ export default class CardModal extends Component {
   }
 
   onCloseHandler () {
-    if (this.props.sidebarProducts.get('data').size) {
-      this.props.clearSidebarProducts();
-      this.props.routerPush((this.props.params && `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${this.props.params.complexId.split('}{')[0].replace('{', '')}`) || `/${this.props.currentLocale}/`);
-    } else if (this.props.onClose) {
-      this.props.onClose();
+    const { currentLocale, location, routerPush: routePush, clearSidebarProducts, sidebarProducts, spott } = this.props;
+    const spottPath = `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`;
+    if (sidebarProducts.get('data').size) {
+      clearSidebarProducts();
+      this.props.routerPush({
+        pathname: spottPath,
+        state: {
+          modal: true,
+          returnTo: (location.state && location.state.returnTo) || '/',
+          returnToProduct: spottPath
+        }
+      });
     } else {
-      this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || `/${this.props.currentLocale}/`);
+      routePush((location.state && location.state.returnTo) || '/');
     }
   }
 
   onProductClick (marker) {
+    const { currentLocale, location, spott } = this.props;
+    this.props.loadSidebarProduct({ uuid: marker.getIn([ 'product', 'uuid' ]), relevance: marker.get('relevance') });
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${this.props.spott.get('title').replace(/\W+/g, '-')}/${marker.getIn([ 'product', 'shortName' ]).replace(/\W+/g, '-')}/{${this.props.spott.get('uuid')}}{${ marker.getIn([ 'product', 'uuid' ])}}`,
+      pathname: `/${currentLocale}/spott/${slugify(spott.get('title'))}/${slugify(marker.getIn([ 'product', 'shortName' ]))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
       state: {
         modal: true,
-        returnTo: (this.props.location.pathname || '/')
+        returnTo: (location.state && location.state.returnTo) || '/',
+        returnToProduct: location.pathname
       }
     });
   }
 
   onSidebarClose () {
+    const { currentLocale, location, spott, params } = this.props;
     this.props.clearSidebarProducts();
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${this.props.spott.get('title').replace(/\W+/g, '-')}/${this.props.spott.get('uuid')}`,
+      pathname: `/${currentLocale}/spott/${slugify(spott.get('title'))}/${spott.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
+        returnTo: ((location.state && params.complexId ? location.state.returnTo : location.pathname) || '/')
       }
     });
-  }
-
-  onWrapperClick (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.onClose();
   }
 
   onLoveClick (spottId, loved) {

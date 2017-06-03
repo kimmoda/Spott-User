@@ -72,12 +72,13 @@ export default class Card extends Component {
   }
 
   showSpott (event) {
-    console.log(this.props.params);
+    const { location, params, currentLocale, item: spott } = this.props;
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${slugify(this.props.item.get('title', ''))}/${this.props.item.get('uuid')}`,
+      pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: ((this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) && !this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
+        returnTo: location.state && (params.spottId || params.complexId) ? location.state.returnTo : location.pathname,
+        returnToProduct: location.pathname
       }
     });
   }
@@ -89,12 +90,15 @@ export default class Card extends Component {
 
   onCardMarkerClick (marker, event) {
     event.stopPropagation();
-
+    const { location, params, currentLocale, item: spott } = this.props;
+    const spottPath = `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`;
+    const productPath = `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${slugify(marker.getIn([ 'product', 'shortName' ], ''))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`;
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${slugify(this.props.item.get('title', ''))}/${slugify(marker.getIn([ 'product', 'shortName' ], ''))}/{${this.props.item.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
+      pathname: productPath,
       state: {
         modal: true,
-        returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/'),
+        returnTo: location.state && params.complexId ? location.state.returnTo : location.pathname,
+        returnToProduct: location.state && params.complexId ? location.pathname : spottPath,
         sidebarMarker: marker
       }
     });
@@ -139,14 +143,14 @@ export default class Card extends Component {
                     style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=32&height=32)` }}
                     styleName='person'
                     title={person.getIn([ 'person', 'name' ])}
-                    to={`/${currentLocale}/topic/${person.getIn([ 'person', 'name' ]).replace(/\W+/g, '-')}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`}/>;
+                    to={`/${currentLocale}/topic/${slugify(person.getIn([ 'person', 'name' ], ''))}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`}/>;
                 }
                 return <Link
                   key={`person_marker_${person.get('uuid')}`}
                   style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
                   styleName='person'
                   title={person.getIn([ 'character', 'name' ])}
-                  to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/\W+/g, '-')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>;
+                  to={`/${currentLocale}/topic/${slugify(person.getIn([ 'character', 'name' ], ''))}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>;
               }
               )}
             </div>}
@@ -161,7 +165,7 @@ export default class Card extends Component {
           </div>
           {width >= 280 && <div styleName='topic-links'>
             {item.get('topics').map((topic, index) =>
-              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${topic.get('text').replace(/\W+/g, '-')}/${topic.get('uuid')}`}>{topic.get('text')}</Link>
+              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${slugify(topic.get('text', ''))}/${topic.get('uuid')}`}>{topic.get('text')}</Link>
             )}
           </div>}
         </div>

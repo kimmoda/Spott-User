@@ -1,6 +1,8 @@
 import { makeApiActionCreator } from '../../data/actions';
 import * as api from '../../api/new';
 import { getLocalStorage } from '../../utils';
+import { spottSelector } from './selectors';
+import { LOADED } from '../../data/statusTypes';
 
 const storage = getLocalStorage();
 
@@ -321,10 +323,11 @@ export function loadSpottDetails ({ uuid }) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: LOAD_SPOTT_START, uuid });
-      await dispatch(loadSpott({ uuid }));
-      dispatch(loadSpottRelatedTopics({ uuid }));
-      dispatch(loadSpottSimilar({ uuid }));
-      dispatch(loadSpottLovers({ uuid }));
+      const spott = spottSelector(getState());
+      spott.get('_status') !== LOADED && await dispatch(loadSpott({ uuid }));
+      spott.getIn([ 'relatedTopics', '_status' ], null) !== LOADED && dispatch(loadSpottRelatedTopics({ uuid }));
+      spott.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadSpottSimilar({ uuid }));
+      spott.getIn([ 'lovers', '_status' ], null) !== LOADED && dispatch(loadSpottLovers({ uuid }));
     } catch (error) {
       return dispatch({ type: LOAD_SPOTT_ERROR, uuid, error });
     }

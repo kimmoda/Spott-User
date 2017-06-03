@@ -10,6 +10,7 @@ import Sidebar from '../sidebar/index';
 import CustomScrollbars from '../customScrollbars';
 import * as actions from '../../actions';
 import { sidebarProductsSelector } from '../../selectors';
+import { slugify } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -57,18 +58,28 @@ export default class Sidebars extends Component {
   }
 
   async onBackClick (productId) {
+    const { location } = this.props;
     await this.props.removeSidebarProduct({ uuid: productId });
-    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || (this.props.params && `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${this.props.params.complexId.split('}{')[0].replace('{', '')}`) || `/${this.props.currentLocale}/`);
+    this.props.routerPush({
+      pathname: (location.state && (location.state.returnToProduct || location.state.returnTo)) || '/',
+      state: {
+        modal: true,
+        returnTo: (location.state && location.state.returnTo) || '/',
+        returnToProduct: (location.state && location.state.returnToProduct) || '/'
+      }
+    });
   }
 
   onProductClick (productId, productName) {
+    const { currentLocale, location, params } = this.props;
     this.props.loadSidebarProduct({ uuid: productId });
     const spottId = this.props.params.complexId.split('}{')[0].replace('{', '');
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${productName.replace(/\W+/g, '-')}/{${spottId}}{${productId}}`,
+      pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(productName)}/{${spottId}}{${productId}}`,
       state: {
         modal: true,
-        returnTo: (this.props.location.pathname || '/')
+        returnTo: (location.state && location.state.returnTo) || '/',
+        returnToProduct: location.pathname
       }
     });
   }
