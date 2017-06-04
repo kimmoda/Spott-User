@@ -362,7 +362,7 @@ export function loadSidebarProduct ({ uuid, relevance }) {
     try {
       dispatch({ type: LOAD_SIDEBAR_PRODUCT_START, uuid });
       const product = productSelector(getState(), { params: { productId: uuid } });
-      product.get('_status') !== LOADED && await dispatch(loadProduct({ uuid, relevance }));
+      (product.get('_status') !== LOADED || (!product.get('relevance') && relevance)) && await dispatch(loadProduct({ uuid, relevance }));
       product.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadProductSimilar({ uuid }));
       product.getIn([ 'spotts', '_status' ], null) !== LOADED && dispatch(loadProductSpotts({ uuid }));
     } catch (error) {

@@ -11,6 +11,7 @@ import { locales } from '../../../locales';
 import { appSelector } from '../selector';
 
 import NewDesign from '../../newHome/view';
+import NewHomePage from '../../newHome/view/homePage';
 
 require('./reset.css');
 require('./fonts/index.css');
@@ -121,12 +122,13 @@ export default class App extends Component {
   componentWillReceiveProps (nextProps) {
     const oldLocation = this.props.location;
     const nextLocation = nextProps.location;
+    const modalPage = this.props.routes.reduce((acc, curr) => typeof curr.modalPage === 'undefined' ? acc : curr.modalPage, false);
     // Log next view if necessary
     if (nextLocation.pathname !== oldLocation.pathname) {
       pageView(nextLocation.pathname);
     }
     // if we changed routes and we now have a "modal route", save the old children
-    if (nextLocation.key !== oldLocation.key && // This is another route
+    if (!modalPage && nextLocation.key !== oldLocation.key && // This is another route
         // The next state is a modal
         nextLocation.state && nextLocation.state.modal &&
         // The previous state was NOT a modal (otherwise we keep the previous children from the most top modal)
@@ -136,13 +138,14 @@ export default class App extends Component {
   }
 
   render () {
-    const { acceptCookies, children, location, routes } = this.props;
+    const { acceptCookies, children, location, routes, params } = this.props;
     // Show the cookies note if the user did not accept the cookies policy.
     const showCookies = !acceptCookies && routes.reduce((acc, curr) => typeof curr.showCookies === 'undefined' ? acc : curr.showCookies, true);
     const standalone = routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
     const floating = routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
     const noSignInButtonInHeader = routes.reduce((acc, curr) => typeof curr.noSignInButtonInHeader === 'undefined' ? acc : curr.noSignInButtonInHeader, false);
     const newDesign = routes.reduce((acc, curr) => typeof curr.newDesign === 'undefined' ? acc : curr.newDesign, false);
+    const modalPage = routes.reduce((acc, curr) => typeof curr.modalPage === 'undefined' ? acc : curr.modalPage, false);
     if (!newDesign && location.state && location.state.modal && this.previousChildren) {
       // Render containing page (previousChildren) and modal (children)
       return (
@@ -162,6 +165,16 @@ export default class App extends Component {
           <div>
             <HrefLang location={location} />
             <NewDesign location={location}>{this.previousChildren}</NewDesign>
+            <div>{children}</div>
+            {showCookies && <Cookies />}
+          </div>
+        );
+      }
+      if ((!location.state && modalPage) || (location.state && modalPage && !this.previousChildren)) {
+        return (
+          <div>
+            <HrefLang location={location} />
+            <NewDesign location={location}><NewHomePage location={location} params={params}/></NewDesign>
             <div>{children}</div>
             {showCookies && <Cookies />}
           </div>

@@ -77,8 +77,7 @@ export default class Card extends Component {
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: location.state && params.spottId ? location.state.returnTo : location.pathname,
-        returnToProduct: location.pathname
+        returnTo: location.state && params.spottId ? location.state.returnTo : location.pathname
       }
     });
   }
@@ -90,16 +89,14 @@ export default class Card extends Component {
 
   onCardMarkerClick (marker, event) {
     event.stopPropagation();
-    const { location, params, currentLocale, item: spott } = this.props;
-    const spottPath = `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`;
+    const { location, currentLocale, item: spott } = this.props;
     const productPath = `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${slugify(marker.getIn([ 'product', 'shortName' ], ''))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`;
     this.props.routerPush({
       pathname: productPath,
       state: {
         modal: true,
-        returnTo: location.state && params.productId ? location.state.returnTo : location.pathname,
-        returnToProduct: location.state && params.productId ? location.pathname : spottPath,
-        sidebarMarker: marker
+        returnTo: location.state && location.state.returnTo ? location.state.returnTo : location.pathname,
+        productRelevance: marker.get('relevance')
       }
     });
   }

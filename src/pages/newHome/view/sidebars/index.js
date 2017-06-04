@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { push as routerPush } from 'react-router-redux';
+import { push as routerPush, goBack as routerGoBack } from 'react-router-redux';
 import CSSModules from 'react-css-modules';
 import localized from '../../../_common/localized';
 import Sidebar from '../sidebar/index';
@@ -17,6 +17,7 @@ const styles = require('./index.scss');
 @localized
 @connect(sidebarProductsSelector, (dispatch) => ({
   loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch),
+  routerGoBack: bindActionCreators(routerGoBack, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch),
   removeSidebarProduct: bindActionCreators(actions.removeSidebarProduct, dispatch)
 }))
@@ -29,8 +30,7 @@ export default class Sidebars extends Component {
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
         modal: PropTypes.bool,
-        returnTo: PropTypes.string,
-        sidebarMarker: PropTypes.any
+        returnTo: PropTypes.string
       })
     }).isRequired,
     params: PropTypes.shape({
@@ -40,6 +40,7 @@ export default class Sidebars extends Component {
       productTitle: PropTypes.string
     }),
     removeSidebarProduct: PropTypes.func.isRequired,
+    routerGoBack: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     sidebarProducts: PropTypes.any.isRequired,
     singleMode: PropTypes.bool,
@@ -59,15 +60,18 @@ export default class Sidebars extends Component {
 
   async onBackClick (productId) {
     const { location } = this.props;
-    await this.props.removeSidebarProduct({ uuid: productId });
-    this.props.routerPush({
-      pathname: (location.state && (location.state.returnToProduct || location.state.returnTo)) || '/',
-      state: {
-        modal: true,
-        returnTo: (location.state && location.state.returnTo) || '/',
-        returnToProduct: (location.state && location.state.returnToProduct) || '/'
-      }
-    });
+    if (location.state && !location.state.productRelevance) {
+      this.props.routerGoBack();
+    } else {
+      await this.props.removeSidebarProduct({ uuid: productId });
+      this.props.routerPush({
+        pathname: `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${this.props.params.spottId}`,
+        state: {
+          modal: true,
+          returnTo: (location.state && location.state.returnTo) || '/'
+        }
+      });
+    }
   }
 
   onProductClick (productId, productName) {
@@ -77,8 +81,7 @@ export default class Sidebars extends Component {
       pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(productName)}/{${params.spottId}}{${productId}}`,
       state: {
         modal: true,
-        returnTo: (location.state && location.state.returnTo) || '/',
-        returnToProduct: location.pathname
+        returnTo: (location.state && location.state.returnTo) || '/'
       }
     });
   }

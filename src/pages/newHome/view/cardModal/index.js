@@ -28,6 +28,7 @@ const styles = require('./index.scss');
   loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch),
   loadSpottDetails: bindActionCreators(actions.loadSpottDetails, dispatch),
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
+  removeSidebarProduct: bindActionCreators(actions.removeSidebarProduct, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch),
   setSpottLover: bindActionCreators(actions.setSpottLover, dispatch),
   trackImpressionEvent: bindActionCreators(actions.trackImpressionEvent, dispatch),
@@ -47,7 +48,7 @@ export default class CardModal extends Component {
       state: PropTypes.shape({
         modal: PropTypes.bool,
         returnTo: PropTypes.string,
-        sidebarMarker: PropTypes.any
+        productRelevance: PropTypes.any
       })
     }).isRequired,
     params: PropTypes.shape({
@@ -56,6 +57,7 @@ export default class CardModal extends Component {
       productId: PropTypes.string,
       productTitle: PropTypes.string
     }).isRequired,
+    removeSidebarProduct: PropTypes.func.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
@@ -80,51 +82,48 @@ export default class CardModal extends Component {
     };
   }
 
-  componentWillMount () {
-    const { params, loadSidebarProduct, loadSpottDetails, location, clearSidebarProducts, sidebarProducts, trackSpottEvent, trackProductEvent } = this.props;
-    if (sidebarProducts.get('data').size) {
-      clearSidebarProducts();
-    }
-    if (params.spottId && !params.productId) {
-      loadSpottDetails({ uuid: params.spottId });
-      if (location.state && location.state.sidebarMarker) {
-        loadSidebarProduct({ uuid: location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: location.state.sidebarMarker.get('relevance') });
-      }
-      trackSpottEvent(this.props.params.spottId);
-    } else if (params.spottId && params.productId) {
-      loadSpottDetails({ uuid: params.spottId });
-      loadSidebarProduct({ uuid: params.productId });
+  componentDidMount () {
+    const { params, loadSidebarProduct, loadSpottDetails, location, trackSpottEvent, trackProductEvent } = this.props;
+    loadSpottDetails({ uuid: params.spottId });
+    if (params.productId) {
+      loadSidebarProduct({ uuid: params.productId, relevance: location.state && location.state.productRelevance });
       trackProductEvent(params.productId);
     }
-  }
-
-  componentDidMount () {
     this._originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     window.addEventListener('resize', this.handleResize);
     this.getWidth();
+    trackSpottEvent(this.props.params.spottId);
   }
 
   componentWillReceiveProps (nextProps) {
-    const { params, loadSidebarProduct, loadSpottDetails, location, clearSidebarProducts, trackProductEvent, trackSpottEvent } = this.props;
-    if ((params.spottId && nextProps.params.spottId && params.spottId !== nextProps.params.spottId) || (params.productId && !nextProps.params.productId)) {
+    const { params, loadSidebarProduct, loadSpottDetails, clearSidebarProducts, trackProductEvent, trackSpottEvent, sidebarProducts, removeSidebarProduct } = this.props;
+    if (params.spottId !== nextProps.params.spottId || (params.productId && !nextProps.params.productId)) {
       clearSidebarProducts();
       loadSpottDetails({ uuid: nextProps.params.spottId });
-      this.getWidth();
       trackSpottEvent(nextProps.params.spottId);
     }
-
     if ((params.productId && nextProps.params.productId && params.productId !== nextProps.params.productId) || (!params.productId && nextProps.params.productId)) {
-      if (nextProps.location.state && nextProps.location.state.sidebarMarker) {
-        loadSpottDetails({ uuid: nextProps.params.spottId });
-        loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
-      } else if (location.action === 'POP') {
-        loadSpottDetails({ uuid: nextProps.params.spottId });
-        loadSidebarProduct({ uuid: nextProps.params.productId });
+      if (nextProps.location.state && nextProps.location.state.productRelevance && nextProps.location.action !== 'POP') {
+        loadSidebarProduct({
+          uuid: nextProps.params.productId,
+          relevance: nextProps.location.state.productRelevance
+        });
       }
-      this.getWidth();
-      trackProductEvent(nextProps.params.productId);
+      if (nextProps.location.action === 'POP') {
+        params.spottId !== nextProps.params.spottId && loadSpottDetails({ uuid: nextProps.params.spottId });
+        if (sidebarProducts.get('data').find((item) => item.get('uuid') === nextProps.params.productId)) {
+          removeSidebarProduct({ uuid: params.productId });
+        } else {
+          loadSidebarProduct({
+            uuid: nextProps.params.productId,
+            relevance: nextProps.location.state && nextProps.location.state.productRelevance
+          });
+          trackProductEvent(nextProps.params.productId);
+        }
+      }
     }
+    this.getWidth();
   }
 
   componentWillUnmount () {
@@ -157,8 +156,7 @@ export default class CardModal extends Component {
         pathname: spottPath,
         state: {
           modal: true,
-          returnTo: (location.state && location.state.returnTo) || '/',
-          returnToProduct: spottPath
+          returnTo: (location.state && location.state.returnTo) || '/'
         }
       });
     } else {
@@ -173,8 +171,7 @@ export default class CardModal extends Component {
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title'))}/${slugify(marker.getIn([ 'product', 'shortName' ]))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
       state: {
         modal: true,
-        returnTo: (location.state && location.state.returnTo) || '/',
-        returnToProduct: location.pathname
+        returnTo: (location.state && location.state.returnTo) || '/'
       }
     });
   }
