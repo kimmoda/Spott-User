@@ -53,8 +53,8 @@ export default class CardModal extends Component {
     params: PropTypes.shape({
       spottId: PropTypes.string,
       spottTitle: PropTypes.string,
-      productTitle: PropTypes.string,
-      complexId: PropTypes.string
+      productId: PropTypes.string,
+      productTitle: PropTypes.string
     }).isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
@@ -81,20 +81,20 @@ export default class CardModal extends Component {
   }
 
   componentWillMount () {
-    if (this.props.params.spottId) {
-      this.props.loadSpottDetails({ uuid: this.props.params.spottId });
-      if (this.props.location.state && this.props.location.state.sidebarMarker) {
-        this.props.loadSidebarProduct({ uuid: this.props.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: this.props.location.state.sidebarMarker.get('relevance') });
+    const { params, loadSidebarProduct, loadSpottDetails, location, clearSidebarProducts, sidebarProducts, trackSpottEvent, trackProductEvent } = this.props;
+    if (sidebarProducts.get('data').size) {
+      clearSidebarProducts();
+    }
+    if (params.spottId && !params.productId) {
+      loadSpottDetails({ uuid: params.spottId });
+      if (location.state && location.state.sidebarMarker) {
+        loadSidebarProduct({ uuid: location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: location.state.sidebarMarker.get('relevance') });
       }
-      if (this.props.sidebarProducts.get('data').size) {
-        this.props.clearSidebarProducts();
-      }
-      this.props.trackSpottEvent(this.props.params.spottId);
-    } else if (this.props.params.complexId) {
-      const ids = this.props.params.complexId.split('}{');
-      this.props.loadSpottDetails({ uuid: ids[0].replace('{', '') });
-      this.props.loadSidebarProduct({ uuid: ids[1].replace('}', '') });
-      this.props.trackProductEvent(ids[1].replace('}', ''));
+      trackSpottEvent(this.props.params.spottId);
+    } else if (params.spottId && params.productId) {
+      loadSpottDetails({ uuid: params.spottId });
+      loadSidebarProduct({ uuid: params.productId });
+      trackProductEvent(params.productId);
     }
   }
 
@@ -106,25 +106,24 @@ export default class CardModal extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { params, loadSidebarProduct, loadSpottDetails, location, clearSidebarProducts } = this.props;
-    if ((params.spottId && nextProps.params.spottId && params.spottId !== nextProps.params.spottId) || (params.complexId && nextProps.params.spottId)) {
+    const { params, loadSidebarProduct, loadSpottDetails, location, clearSidebarProducts, trackProductEvent, trackSpottEvent } = this.props;
+    if ((params.spottId && nextProps.params.spottId && params.spottId !== nextProps.params.spottId) || (params.productId && !nextProps.params.productId)) {
       clearSidebarProducts();
       loadSpottDetails({ uuid: nextProps.params.spottId });
       this.getWidth();
-      this.props.trackSpottEvent(nextProps.params.spottId);
+      trackSpottEvent(nextProps.params.spottId);
     }
 
-    if ((params.complexId && nextProps.params.complexId && params.complexId !== nextProps.params.complexId) || (params.spottId && nextProps.params.complexId)) {
-      const ids = nextProps.params.complexId.split('}{');
+    if ((params.productId && nextProps.params.productId && params.productId !== nextProps.params.productId) || (!params.productId && nextProps.params.productId)) {
       if (nextProps.location.state && nextProps.location.state.sidebarMarker) {
-        loadSpottDetails({ uuid: ids[0].replace('{', '') });
+        loadSpottDetails({ uuid: nextProps.params.spottId });
         loadSidebarProduct({ uuid: nextProps.location.state.sidebarMarker.getIn([ 'product', 'uuid' ]), relevance: nextProps.location.state.sidebarMarker.get('relevance') });
       } else if (location.action === 'POP') {
-        loadSpottDetails({ uuid: ids[0].replace('{', '') });
-        loadSidebarProduct({ uuid: ids[1].replace('}', '') });
+        loadSpottDetails({ uuid: nextProps.params.spottId });
+        loadSidebarProduct({ uuid: nextProps.params.productId });
       }
       this.getWidth();
-      this.props.trackProductEvent(ids[1].replace('}', ''));
+      trackProductEvent(nextProps.params.productId);
     }
   }
 
@@ -187,7 +186,7 @@ export default class CardModal extends Component {
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title'))}/${spott.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: ((location.state && params.complexId ? location.state.returnTo : location.pathname) || '/')
+        returnTo: ((location.state && params.productId ? location.state.returnTo : location.pathname) || '/')
       }
     });
   }

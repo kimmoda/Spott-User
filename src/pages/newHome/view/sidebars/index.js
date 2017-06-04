@@ -36,8 +36,8 @@ export default class Sidebars extends Component {
     params: PropTypes.shape({
       spottId: PropTypes.string,
       spottTitle: PropTypes.string,
-      productTitle: PropTypes.string,
-      complexId: PropTypes.string
+      productId: PropTypes.string,
+      productTitle: PropTypes.string
     }),
     removeSidebarProduct: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
@@ -73,9 +73,8 @@ export default class Sidebars extends Component {
   onProductClick (productId, productName) {
     const { currentLocale, location, params } = this.props;
     this.props.loadSidebarProduct({ uuid: productId });
-    const spottId = this.props.params.complexId.split('}{')[0].replace('{', '');
     this.props.routerPush({
-      pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(productName)}/{${spottId}}{${productId}}`,
+      pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(productName)}/{${params.spottId}}{${productId}}`,
       state: {
         modal: true,
         returnTo: (location.state && location.state.returnTo) || '/',

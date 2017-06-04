@@ -21,7 +21,7 @@ export const spottsSelector = (state) => state.getIn([ 'newHome', 'spotts' ]);
 export const spottsSubscribedSelector = (state) => state.getIn([ 'newHome', 'spottsSubscribed' ]);
 export const spottsPromotedSelector = (state) => state.getIn([ 'newHome', 'spottsPromoted' ]);
 
-export const currentSpottUuidSelector = (state) => state.getIn([ 'newHome', 'currentSpott', 'uuid' ]);
+export const currentSpottUuidSelector = (state, props) => props.params && props.params.spottId;
 export const spottEntitiesSelector = (state) => state.getIn([ 'newHome', 'spottsDetails' ]);
 export const spottSelector = createEntityByIdSelector(spottEntitiesSelector, currentSpottUuidSelector);
 
@@ -34,7 +34,7 @@ export const spottCardDetailsSelector = createStructuredSelector({
 
 export const productEntitiesSelector = (state) => state.getIn([ 'newHome', 'productsDetails' ]);
 
-export const currentProductUuidSelector = (state) => state.getIn([ 'newHome', 'currentProduct', 'uuid' ]);
+export const currentProductUuidSelector = (state, props) => props.params && props.params.productId;
 export const productSelector = createEntityByIdSelector(productEntitiesSelector, currentProductUuidSelector);
 
 export const sidebarProductsListSelector = (state) => state.getIn([ 'newHome', 'sidebarProducts' ]);

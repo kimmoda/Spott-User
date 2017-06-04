@@ -123,7 +123,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={NewResetPassword} newDesign path='resetpassword'/>
         <Route component={ChangePassword} newDesign path='user/changepwd'/>
         <Route component={CardModal} newDesign path='spott/:spottTitle/:spottId'/>
-        <Route component={CardModal} newDesign path='spott/:spottTitle/:productTitle/:complexId'/>
+        <Route component={CardModal} newDesign path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
+        <Route component={CardModal} newDesign path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
         <Route component={SearchResults} newDesign path='search'>
           <IndexRedirect to='posts'/>
           <Route component={SearchResultsPosts} newDesign path='posts'/>

@@ -1,7 +1,7 @@
 import { makeApiActionCreator } from '../../data/actions';
 import * as api from '../../api/new';
 import { getLocalStorage } from '../../utils';
-import { spottSelector } from './selectors';
+import { spottSelector, productSelector } from './selectors';
 import { LOADED } from '../../data/statusTypes';
 
 const storage = getLocalStorage();
@@ -51,9 +51,6 @@ export const GET_SPOTTS_PROMOTED_LIST_ERROR = 'NEW/GET_SPOTTS_PROMOTED_LIST_ERRO
 
 export const CLEAR_SPOTTS_LIST = 'NEW/CLEAR_SPOTTS_LIST';
 
-export const LOAD_SPOTT_START = 'NEW/LOAD_SPOTT_START';
-export const LOAD_SPOTT_ERROR = 'NEW/LOAD_SPOTT_ERROR';
-
 export const GET_SPOTT_START = 'NEW/GET_SPOTT_START';
 export const GET_SPOTT_SUCCESS = 'NEW/GET_SPOTT_SUCCESS';
 export const GET_SPOTT_ERROR = 'NEW/GET_SPOTT_ERROR';
@@ -77,9 +74,6 @@ export const SET_SPOTT_LOVER_ERROR = 'NEW/SET_SPOTT_LOVER_ERROR';
 export const REMOVE_SPOTT_LOVER_START = 'NEW/REMOVE_SPOTT_LOVER_START';
 export const REMOVE_SPOTT_LOVER_SUCCESS = 'NEW/REMOVE_SPOTT_LOVER_SUCCESS';
 export const REMOVE_SPOTT_LOVER_ERROR = 'NEW/REMOVE_SPOTT_LOVER_ERROR';
-
-export const LOAD_PRODUCT_START = 'NEW/LOAD_PRODUCT_START';
-export const LOAD_PRODUCT_ERROR = 'NEW/LOAD_PRODUCT_ERROR';
 
 export const GET_PRODUCT_START = 'NEW/GET_PRODUCT_START';
 export const GET_PRODUCT_SUCCESS = 'NEW/GET_PRODUCT_SUCCESS';
@@ -322,14 +316,14 @@ export const removeSpottLover = makeApiActionCreator(api.removeSpottLover, REMOV
 export function loadSpottDetails ({ uuid }) {
   return async (dispatch, getState) => {
     try {
-      dispatch({ type: LOAD_SPOTT_START, uuid });
-      const spott = spottSelector(getState());
+      const spott = spottSelector(getState(), { params: { spottId: uuid } });
       spott.get('_status') !== LOADED && await dispatch(loadSpott({ uuid }));
       spott.getIn([ 'relatedTopics', '_status' ], null) !== LOADED && dispatch(loadSpottRelatedTopics({ uuid }));
       spott.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadSpottSimilar({ uuid }));
       spott.getIn([ 'lovers', '_status' ], null) !== LOADED && dispatch(loadSpottLovers({ uuid }));
     } catch (error) {
-      return dispatch({ type: LOAD_SPOTT_ERROR, uuid, error });
+      console.log(error);
+      throw error;
     }
   };
 }
@@ -340,7 +334,8 @@ export function loadSpottCardDetails ({ uuid }) {
       await dispatch(loadSpott({ uuid }));
       dispatch(loadSpottLovers({ uuid }));
     } catch (error) {
-      return dispatch({ type: LOAD_SPOTT_ERROR, uuid, error });
+      console.log(error);
+      throw error;
     }
   };
 }
@@ -354,11 +349,10 @@ export const loadProductSpotts = makeApiActionCreator(api.getProductSpotts, GET_
 export function loadProductDetails ({ uuid }) {
   return async (dispatch, getState) => {
     try {
-      dispatch({ type: LOAD_PRODUCT_START, uuid });
       await dispatch(loadProduct({ uuid }));
       dispatch(loadProductSimilar({ uuid }));
     } catch (error) {
-      return dispatch({ type: LOAD_PRODUCT_ERROR, uuid, error });
+      throw error;
     }
   };
 }
@@ -367,9 +361,10 @@ export function loadSidebarProduct ({ uuid, relevance }) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: LOAD_SIDEBAR_PRODUCT_START, uuid });
-      await dispatch(loadProduct({ uuid, relevance }));
-      dispatch(loadProductSimilar({ uuid }));
-      dispatch(loadProductSpotts({ uuid }));
+      const product = productSelector(getState(), { params: { productId: uuid } });
+      product.get('_status') !== LOADED && await dispatch(loadProduct({ uuid, relevance }));
+      product.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadProductSimilar({ uuid }));
+      product.getIn([ 'spotts', '_status' ], null) !== LOADED && dispatch(loadProductSpotts({ uuid }));
     } catch (error) {
       return dispatch({ type: LOAD_SIDEBAR_PRODUCT_ERROR, uuid, error });
     }

@@ -77,7 +77,7 @@ export default class Card extends Component {
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: location.state && (params.spottId || params.complexId) ? location.state.returnTo : location.pathname,
+        returnTo: location.state && params.spottId ? location.state.returnTo : location.pathname,
         returnToProduct: location.pathname
       }
     });
@@ -97,8 +97,8 @@ export default class Card extends Component {
       pathname: productPath,
       state: {
         modal: true,
-        returnTo: location.state && params.complexId ? location.state.returnTo : location.pathname,
-        returnToProduct: location.state && params.complexId ? location.pathname : spottPath,
+        returnTo: location.state && params.productId ? location.state.returnTo : location.pathname,
+        returnToProduct: location.state && params.productId ? location.pathname : spottPath,
         sidebarMarker: marker
       }
     });

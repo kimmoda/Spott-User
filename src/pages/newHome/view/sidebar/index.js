@@ -42,8 +42,8 @@ export default class Sidebar extends Component {
     params: PropTypes.shape({
       spottId: PropTypes.string,
       spottTitle: PropTypes.string,
-      productTitle: PropTypes.string,
-      complexId: PropTypes.string
+      productId: PropTypes.string,
+      productTitle: PropTypes.string
     }),
     product: PropTypes.any.isRequired,
     removeProductFromWishlist: PropTypes.func.isRequired,
@@ -62,9 +62,9 @@ export default class Sidebar extends Component {
     this.handleResize = ::this.handleResize;
 
     this.state = {
-      currentImage: null,
-      inUserWishList: null,
-      wishListCount: null,
+      currentImage: this.props.product.getIn([ 'images', '0' ], null),
+      inUserWishList: this.props.product.get('inUserWishList', false),
+      wishListCount: this.props.product.get('wishListCount', 0),
       width: 280
     };
   }
@@ -161,9 +161,7 @@ export default class Sidebar extends Component {
   render () {
     const { product, onBackClick, onProductClick, t, currentLocale } = this.props;
     const { width } = this.state;
-    const spottId = this.props.params && this.props.params.complexId
-      ? this.props.params.complexId.split('}{')[0].replace('{', '')
-      : null;
+    const spottId = this.props.params && this.props.params.spottId;
     const productSpotts = product.getIn([ 'spotts', 'data' ]) && product.getIn([ 'spotts', 'data' ]).size
       ? product.getIn([ 'spotts', 'data' ]).filter((item) => item.get('uuid') !== spottId)
       : null;

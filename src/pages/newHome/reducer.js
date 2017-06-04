@@ -12,9 +12,7 @@ export default function newHomeReducer (state = Map({
   spottsSubscribed: Map({ data: OrderedMap() }),
   spottsPromoted: Map({ data: OrderedMap() }),
   spottsDetails: Map(),
-  currentSpott: Map(),
   spottLovers: Map(),
-  currentProduct: Map(),
   sidebarProducts: Map({ data: List() }),
   productsDetails: Map(),
   profile: Map({ subscriptions: Map() }),
@@ -141,11 +139,6 @@ export default function newHomeReducer (state = Map({
         .set('spotts', Map({ _error: null, _status: LOADED, data: OrderedMap() }))
         .set('spottsSubscribed', Map({ _error: null, _status: LOADED, data: OrderedMap() }));
 
-    case actions.LOAD_SPOTT_START:
-      return state.set('currentSpott', Map({ uuid: action.uuid }));
-    case actions.LOAD_SPOTT_ERROR:
-      return state.mergeIn([ 'currentSpott' ], Map({ _error: action.error }));
-
     case actions.GET_SPOTT_START:
       return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_SPOTT_SUCCESS:
@@ -208,11 +201,6 @@ export default function newHomeReducer (state = Map({
       return state.setIn([ 'productsDetails', action.uuid, 'spotts' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_PRODUCT_SPOTTS_ERROR:
       return state.mergeIn([ 'productsDetails', action.uuid, 'spotts' ], Map({ _error: action.error, _status: ERROR }));
-
-    case actions.LOAD_PRODUCT_START:
-      return state.set('currentProduct', Map({ uuid: action.uuid }));
-    case actions.LOAD_PRODUCT_ERROR:
-      return state.mergeIn([ 'currentProduct' ], Map({ _error: action.error }));
 
     case actions.LOAD_SIDEBAR_PRODUCT_START:
       return state.updateIn([ 'sidebarProducts', 'data' ], (data) => data.push(action.uuid));
