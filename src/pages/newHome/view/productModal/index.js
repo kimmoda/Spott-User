@@ -14,7 +14,8 @@ const styles = require('./index.scss');
 @localized
 @connect(null, (dispatch) => ({
   clearSidebarProducts: bindActionCreators(actions.clearSidebarProducts, dispatch),
-  loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch)
+  loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch),
+  trackProductImpression: bindActionCreators(actions.trackProductImpression, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class ProductModal extends Component {
@@ -25,6 +26,7 @@ export default class ProductModal extends Component {
     location: PropTypes.object.isRequired,
     productId: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
+    trackProductImpression: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
   };
 
@@ -33,10 +35,11 @@ export default class ProductModal extends Component {
     this.onCloseHandler = ::this.onCloseHandler;
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     this._originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    this.props.loadSidebarProduct({ uuid: this.props.productId });
+    await this.props.loadSidebarProduct({ uuid: this.props.productId });
+    this.props.trackProductImpression({ uuid: this.props.productId });
   }
 
   componentWillUnmount () {

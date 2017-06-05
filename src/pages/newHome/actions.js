@@ -548,7 +548,7 @@ export function loadUserProfileAccountWrapper ({ uuid }) {
   };
 }
 
-export const trackTopicEvent = makeApiActionCreator(api.trackTopicEvent, TRACK_TOPIC_EVENT_START, TRACK_TOPIC_EVENT_SUCCESS, TRACK_TOPIC_EVENT_ERROR);
-export const trackSpottEvent = makeApiActionCreator(api.trackSpottEvent, TRACK_SPOTT_EVENT_START, TRACK_SPOTT_EVENT_SUCCESS, TRACK_SPOTT_EVENT_ERROR);
-export const trackImpressionEvent = makeApiActionCreator(api.trackImpressionEvent, TRACK_IMPRESSION_EVENT_START, TRACK_IMPRESSION_EVENT_SUCCESS, TRACK_IMPRESSION_EVENT_ERROR);
-export const trackProductEvent = makeApiActionCreator(api.trackProductEvent, TRACK_PRODUCT_EVENT_START, TRACK_PRODUCT_EVENT_SUCCESS, TRACK_PRODUCT_EVENT_ERROR);
+export const trackTopicView = makeApiActionCreator(api.trackTopicView, TRACK_TOPIC_EVENT_START, TRACK_TOPIC_EVENT_SUCCESS, TRACK_TOPIC_EVENT_ERROR);
+export const trackSpottView = makeApiActionCreator(api.trackSpottView, TRACK_SPOTT_EVENT_START, TRACK_SPOTT_EVENT_SUCCESS, TRACK_SPOTT_EVENT_ERROR);
+export const trackProductImpression = makeApiActionCreator(api.trackProductImpression, TRACK_IMPRESSION_EVENT_START, TRACK_IMPRESSION_EVENT_SUCCESS, TRACK_IMPRESSION_EVENT_ERROR);
+export const trackProductView = makeApiActionCreator(api.trackProductView, TRACK_PRODUCT_EVENT_START, TRACK_PRODUCT_EVENT_SUCCESS, TRACK_PRODUCT_EVENT_ERROR);

@@ -17,6 +17,7 @@ import { changeLocale, downloadPageShowed } from './pages/app/actions';
 import { locales } from './locales';
 import { currentLocaleSelector, isDownloadPageShowedSelector } from './pages/app/selector';
 // import { updateLocale as updateUbLocale } from './pages/basket/actions';
+import { trackTopicView, trackSpottView, trackProductView } from './pages/newHome/actions';
 import NewHome from './pages/newHome/view/homePage';
 import NewTopic from './pages/newHome/view/topicPage';
 import NewLogin from './pages/newHome/view/login';
@@ -117,14 +118,43 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Mobile} path='mobile/download' standalone/>
 
         <IndexRoute component={NewHome} newDesign />
-        <Route component={NewTopic} newDesign path='topic/:topicTitle/:topicId'/>
+        <Route
+          component={NewTopic}
+          newDesign
+          path='topic/:topicTitle/:topicId'
+          onEnter={({ params: { topicId } }) => {
+            topicId && dispatch(trackTopicView({ uuid: topicId }));
+          }}/>
         <Route component={NewLogin} newDesign path='login'/>
         <Route component={NewRegistration} newDesign path='registration'/>
         <Route component={NewResetPassword} newDesign path='resetpassword'/>
         <Route component={ChangePassword} newDesign path='user/changepwd'/>
-        <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:spottId'/>
-        <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
-        <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
+        <Route
+          component={CardModal}
+          modalPage
+          newDesign
+          path='spott/:spottTitle/:spottId'
+          onEnter={({ params: { spottId } }) => {
+            spottId && dispatch(trackSpottView({ uuid: spottId }));
+          }}/>
+        <Route
+          component={CardModal}
+          modalPage
+          newDesign
+          path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'
+          onEnter={({ params: { spottId, productId } }) => {
+            spottId && dispatch(trackSpottView({ uuid: spottId }));
+            productId && dispatch(trackProductView({ uuid: productId }));
+          }}/>
+        <Route
+          component={CardModal}
+          modalPage
+          newDesign
+          path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'
+          onEnter={({ params: { spottId, productId } }) => {
+            spottId && dispatch(trackSpottView({ uuid: spottId }));
+            productId && dispatch(trackProductView({ uuid: productId }));
+          }}/>
         <Route component={SearchResults} newDesign path='search'>
           <IndexRedirect to='posts'/>
           <Route component={SearchResultsPosts} newDesign path='posts'/>

@@ -18,6 +18,7 @@ import Tiles from '../tiles';
 import * as actions from '../../actions';
 import { spottDetailsSelector } from '../../selectors';
 import Cards from '../cards/index';
+import ProductImpressionSensor from '../productImpressionSensor';
 import { slugify } from '../../../../utils';
 
 const styles = require('./index.scss');
@@ -30,10 +31,7 @@ const styles = require('./index.scss');
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
   removeSidebarProduct: bindActionCreators(actions.removeSidebarProduct, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch),
-  setSpottLover: bindActionCreators(actions.setSpottLover, dispatch),
-  trackImpressionEvent: bindActionCreators(actions.trackImpressionEvent, dispatch),
-  trackSpottEvent: bindActionCreators(actions.trackSpottEvent, dispatch),
-  trackProductEvent: bindActionCreators(actions.trackProductEvent, dispatch)
+  setSpottLover: bindActionCreators(actions.setSpottLover, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class CardModal extends Component {
@@ -63,17 +61,13 @@ export default class CardModal extends Component {
     setSpottLover: PropTypes.func.isRequired,
     sidebarProducts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
-    t: PropTypes.func.isRequired,
-    trackImpressionEvent: PropTypes.func.isRequired,
-    trackProductEvent: PropTypes.func.isRequired,
-    trackSpottEvent: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired
   };
 
   constructor (props) {
     super(props);
     this.onCloseHandler = ::this.onCloseHandler;
     this.onProductClick = ::this.onProductClick;
-    this.onProductLoad = ::this.onProductLoad;
     this.onSidebarClose = ::this.onSidebarClose;
     this.handleResize = ::this.handleResize;
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
@@ -83,25 +77,22 @@ export default class CardModal extends Component {
   }
 
   componentDidMount () {
-    const { params, loadSidebarProduct, loadSpottDetails, location, trackSpottEvent, trackProductEvent } = this.props;
+    const { params, loadSidebarProduct, loadSpottDetails, location } = this.props;
     loadSpottDetails({ uuid: params.spottId });
     if (params.productId) {
       loadSidebarProduct({ uuid: params.productId, relevance: location.state && location.state.productRelevance });
-      trackProductEvent(params.productId);
     }
     this._originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     window.addEventListener('resize', this.handleResize);
     this.getWidth();
-    trackSpottEvent(this.props.params.spottId);
   }
 
   componentWillReceiveProps (nextProps) {
-    const { params, loadSidebarProduct, loadSpottDetails, clearSidebarProducts, trackProductEvent, trackSpottEvent, sidebarProducts, removeSidebarProduct } = this.props;
+    const { params, loadSidebarProduct, loadSpottDetails, clearSidebarProducts, sidebarProducts, removeSidebarProduct } = this.props;
     if (params.spottId !== nextProps.params.spottId || (params.productId && !nextProps.params.productId)) {
       clearSidebarProducts();
       loadSpottDetails({ uuid: nextProps.params.spottId });
-      trackSpottEvent(nextProps.params.spottId);
     }
     if ((params.productId && nextProps.params.productId && params.productId !== nextProps.params.productId) || (!params.productId && nextProps.params.productId)) {
       if (nextProps.location.state && nextProps.location.state.productRelevance && nextProps.location.action !== 'POP') {
@@ -119,7 +110,6 @@ export default class CardModal extends Component {
             uuid: nextProps.params.productId,
             relevance: nextProps.location.state && nextProps.location.state.productRelevance
           });
-          trackProductEvent(nextProps.params.productId);
         }
       }
     }
@@ -200,10 +190,6 @@ export default class CardModal extends Component {
     }
   }
 
-  onProductLoad (item) {
-    this.props.trackImpressionEvent(item.getIn([ 'product', 'uuid' ]));
-  }
-
   render () {
     const { spott, sidebarProducts, currentLocale, location, params, t } = this.props;
     const { width } = this.state;
@@ -252,14 +238,14 @@ export default class CardModal extends Component {
               <div styleName='products'>
                 {spott.get('productMarkers') && <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={spott.get('productMarkers').size}>
                   {spott.get('productMarkers').map((item, index) =>
-                    <div
-                      className={item.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
-                      key={`product_${index}`}
-                      style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80')` }}
-                      styleName='product'
-                      onClick={this.onProductClick.bind(this, item)} >
-                      <img src={`${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80`} styleName='tracking' onLoad={this.onProductLoad.bind(this, item)}/>
-                    </div>
+                    <ProductImpressionSensor key={`product_${index}`} productId={item.getIn([ 'product', 'uuid' ])}>
+                      <div
+                        className={item.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
+                        key={`product_${index}`}
+                        style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80')` }}
+                        styleName='product'
+                        onClick={this.onProductClick.bind(this, item)}/>
+                    </ProductImpressionSensor>
                   )}
                 </Tiles>}
               </div>

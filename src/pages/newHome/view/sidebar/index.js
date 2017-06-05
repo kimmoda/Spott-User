@@ -12,6 +12,7 @@ import { formatPrice } from '../../../_common/buildingBlocks';
 import * as actions from '../../actions';
 import { sidebarSelector } from '../../selectors';
 import ImageLoader from '../imageLoader/index';
+import ProductImpressionSensor from '../productImpressionSensor';
 
 const styles = require('./index.scss');
 
@@ -20,8 +21,7 @@ const styles = require('./index.scss');
   addProductToWishlist: bindActionCreators(actions.addProductToWishlist, dispatch),
   loadUserWishlist: bindActionCreators(actions.loadUserWishlist, dispatch),
   removeProductFromWishlist: bindActionCreators(actions.removeProductFromWishlist, dispatch),
-  routerPush: bindActionCreators(routerPush, dispatch),
-  trackImpressionEvent: bindActionCreators(actions.trackImpressionEvent, dispatch)
+  routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class Sidebar extends Component {
@@ -49,7 +49,6 @@ export default class Sidebar extends Component {
     removeProductFromWishlist: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
-    trackImpressionEvent: PropTypes.func.isRequired,
     onBackClick: PropTypes.func.isRequired,
     onProductClick: PropTypes.func.isRequired
   };
@@ -154,10 +153,6 @@ export default class Sidebar extends Component {
     form.remove();
   }
 
-  onProductLoad (item) {
-    this.props.trackImpressionEvent(item.get('uuid'));
-  }
-
   render () {
     const { product, onBackClick, onProductClick, t, currentLocale } = this.props;
     const { width } = this.state;
@@ -254,13 +249,13 @@ export default class Sidebar extends Component {
             <div styleName='sidebar-similars'>
               <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={product.getIn([ 'similar', 'data' ]).size}>
                 {product.getIn([ 'similar', 'data' ]).map((item, index) =>
-                  <div
-                    key={`product_${index}`}
-                    style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=80&height=80'` }}
-                    styleName='sidebar-similar'
-                    onClick={onProductClick.bind(this, item.get('uuid'), item.get('shortName'))}>
-                    <img src={`${item.getIn([ 'image', 'url' ])}?width=80&height=80`} styleName='tracking' onLoad={this.onProductLoad.bind(this, item)}/>
-                  </div>
+                  <ProductImpressionSensor key={`product_imp_${index}`} productId={item.get('uuid')}>
+                    <div
+                      key={`product_${index}`}
+                      style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=80&height=80'` }}
+                      styleName='sidebar-similar'
+                      onClick={onProductClick.bind(this, item.get('uuid'), item.get('shortName'))}/>
+                  </ProductImpressionSensor>
                 )}
               </Tiles>
             </div>

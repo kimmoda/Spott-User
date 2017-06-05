@@ -8,6 +8,7 @@ import localized from '../../../../../_common/localized';
 import { formatPrice } from '../../../../../_common/buildingBlocks';
 import * as actions from '../../../../actions';
 import ProductModal from '../../../productModal';
+import ProductImpressionSensor from '../../../productImpressionSensor';
 
 const styles = require('./index.scss');
 
@@ -47,19 +48,21 @@ export default class NewUserWishlistProduct extends Component {
     const { item, location, currentLocale } = this.props;
 
     return (
-      <div styleName='product' onClick={this.onProductClick}>
-        {this.state.isProductModalOpen && <ProductModal location={location} productId={item.get('uuid')} onClose={this.onProductModalClose}/>}
-        <div style={{ backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=264&height=264)` }} styleName='product-image'/>
-        <Link styleName='product-brand' to={`/${currentLocale}/topic/${item.getIn([ 'brand', 'name' ]).replace(/\W+/g, '-')}/BRAND%7C${item.getIn([ 'brand', 'uuid' ])}`}>
-          {item.getIn([ 'brand', 'name' ])}
-        </Link>
-        <div styleName='product-title'>
-          {item.get('shortName')}
+      <ProductImpressionSensor productId={item.get('uuid')}>
+        <div styleName='product' onClick={this.onProductClick}>
+          {this.state.isProductModalOpen && <ProductModal location={location} productId={item.get('uuid')} onClose={this.onProductModalClose}/>}
+          <div style={{ backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=264&height=264)` }} styleName='product-image'/>
+          <Link styleName='product-brand' to={`/${currentLocale}/topic/${item.getIn([ 'brand', 'name' ]).replace(/\W+/g, '-')}/BRAND%7C${item.getIn([ 'brand', 'uuid' ])}`}>
+            {item.getIn([ 'brand', 'name' ])}
+          </Link>
+          <div styleName='product-title'>
+            {item.get('shortName')}
+          </div>
+          <div styleName='product-price'>
+            {formatPrice(item.get('price'))}
+          </div>
         </div>
-        <div styleName='product-price'>
-          {formatPrice(item.get('price'))}
-        </div>
-      </div>
+      </ProductImpressionSensor>
     );
   }
 }
