@@ -60,10 +60,11 @@ export default class Sidebar extends Component {
     this.onWishlistClick = ::this.onWishlistClick;
     this.handleResize = ::this.handleResize;
 
+    const { product } = this.props;
     this.state = {
-      currentImage: this.props.product.getIn([ 'images', '0' ], null),
-      inUserWishList: this.props.product.get('inUserWishList', false),
-      wishListCount: this.props.product.get('wishListCount', 0),
+      currentImage: product ? product.getIn([ 'images', '0' ], null) : null,
+      inUserWishList: product ? product.get('inUserWishList', false) : false,
+      wishListCount: product ? product.get('wishListCount', 0) : 0,
       width: 280
     };
   }
@@ -99,6 +100,7 @@ export default class Sidebar extends Component {
 
   shareProduct (event) {
     event.preventDefault();
+    // console.log(this.props.product.get('shareUrl'));
     window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.product.get('shareUrl'))}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
   }
 
@@ -157,7 +159,7 @@ export default class Sidebar extends Component {
     const { product, onBackClick, onProductClick, t, currentLocale } = this.props;
     const { width } = this.state;
     const spottId = this.props.params && this.props.params.spottId;
-    const productSpotts = product.getIn([ 'spotts', 'data' ]) && product.getIn([ 'spotts', 'data' ]).size
+    const productSpotts = product && product.getIn([ 'spotts', 'data' ]) && product.getIn([ 'spotts', 'data' ]).size
       ? product.getIn([ 'spotts', 'data' ]).filter((item) => item.get('uuid') !== spottId)
       : null;
 
@@ -169,7 +171,7 @@ export default class Sidebar extends Component {
             styleName='sidebar-title'>
             {product.get('shortName')}
           </div>
-          <div styleName='sidebar-close' onClick={onBackClick.bind(this, product.get('uuid'))}>
+          <div styleName='sidebar-close' onClick={onBackClick}>
             <i><IconClose/></i>
           </div>
         </div>

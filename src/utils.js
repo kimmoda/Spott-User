@@ -132,3 +132,13 @@ export function equals ( x, y ) {
   }
   return true;
 }
+
+export function getDetailsDcFromLinks (links) {
+  const getQueryString = (field, url) => {
+    const reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    const string = reg.exec(url);
+    return string ? string[1] : null;
+  };
+  const detailsUrl = links.find((item) => item.rel === 'details');
+  return detailsUrl && detailsUrl.href ? getQueryString('dc', detailsUrl.href) : null;
+}

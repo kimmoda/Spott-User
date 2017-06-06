@@ -87,10 +87,13 @@ export async function removeSpottLover (baseUrl, authenticationToken, locale, { 
   return body;
 }
 
-export async function getProduct (baseUrl, authenticationToken, locale, { uuid, relevance }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}`);
+export async function getProduct (baseUrl, authenticationToken, locale, { uuid, relevance, dc }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}?dc=${dc}`);
   if (relevance) {
     body.relevance = relevance;
+  }
+  if (dc) {
+    body.dc = dc;
   }
   return body;
 }

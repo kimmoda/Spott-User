@@ -13,7 +13,7 @@ import * as actions from '../../actions';
 import { spottCardDetailsSelector } from '../../selectors';
 import ImageLoader from '../imageLoader/index';
 import { LOADED } from '../../../../data/statusTypes';
-import { slugify } from '../../../../utils';
+import { slugify, getDetailsDcFromLinks } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -90,13 +90,13 @@ export default class Card extends Component {
   onCardMarkerClick (marker, event) {
     event.stopPropagation();
     const { location, currentLocale, item: spott } = this.props;
-    const productPath = `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${slugify(marker.getIn([ 'product', 'shortName' ], ''))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`;
     this.props.routerPush({
-      pathname: productPath,
+      pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${slugify(marker.getIn([ 'product', 'shortName' ], ''))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
       state: {
         modal: true,
         returnTo: location.state && location.state.returnTo ? location.state.returnTo : location.pathname,
-        productRelevance: marker.get('relevance')
+        productRelevance: marker.get('relevance'),
+        dc: getDetailsDcFromLinks(marker.getIn([ 'product', 'links' ]).toJS())
       }
     });
   }

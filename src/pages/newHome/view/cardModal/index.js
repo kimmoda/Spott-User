@@ -19,7 +19,7 @@ import * as actions from '../../actions';
 import { spottDetailsSelector } from '../../selectors';
 import Cards from '../cards/index';
 import ProductImpressionSensor from '../productImpressionSensor';
-import { slugify } from '../../../../utils';
+import { slugify, getDetailsDcFromLinks } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -27,6 +27,7 @@ const styles = require('./index.scss');
 @connect(spottDetailsSelector, (dispatch) => ({
   clearSidebarProducts: bindActionCreators(actions.clearSidebarProducts, dispatch),
   loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch),
+  loadSpottAndSidebarProduct: bindActionCreators(actions.loadSpottAndSidebarProduct, dispatch),
   loadSpottDetails: bindActionCreators(actions.loadSpottDetails, dispatch),
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
   removeSidebarProduct: bindActionCreators(actions.removeSidebarProduct, dispatch),
@@ -40,6 +41,7 @@ export default class CardModal extends Component {
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
     loadSidebarProduct: PropTypes.func.isRequired,
+    loadSpottAndSidebarProduct: PropTypes.func.isRequired,
     loadSpottDetails: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
@@ -77,10 +79,11 @@ export default class CardModal extends Component {
   }
 
   componentDidMount () {
-    const { params, loadSidebarProduct, loadSpottDetails, location } = this.props;
-    loadSpottDetails({ uuid: params.spottId });
+    const { params, loadSpottDetails, loadSpottAndSidebarProduct } = this.props;
     if (params.productId) {
-      loadSidebarProduct({ uuid: params.productId, relevance: location.state && location.state.productRelevance });
+      loadSpottAndSidebarProduct({ spottId: params.spottId, productId: params.productId });
+    } else {
+      loadSpottDetails({ uuid: params.spottId });
     }
     this._originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -89,28 +92,25 @@ export default class CardModal extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { params, loadSidebarProduct, loadSpottDetails, clearSidebarProducts, sidebarProducts, removeSidebarProduct } = this.props;
-    if (params.spottId !== nextProps.params.spottId || (params.productId && !nextProps.params.productId)) {
+    const { params, loadSidebarProduct, loadSpottDetails, clearSidebarProducts, sidebarProducts, removeSidebarProduct, loadSpottAndSidebarProduct } = this.props;
+    if (params.spottId !== nextProps.params.spottId) {
       clearSidebarProducts();
-      loadSpottDetails({ uuid: nextProps.params.spottId });
-    }
-    if ((params.productId && nextProps.params.productId && params.productId !== nextProps.params.productId) || (!params.productId && nextProps.params.productId)) {
-      if (nextProps.location.state && nextProps.location.state.productRelevance && nextProps.location.action !== 'POP') {
+      if (nextProps.params.productId) {
+        loadSpottAndSidebarProduct({ spottId: nextProps.params.spottId, productId: nextProps.params.productId });
+      } else {
+        loadSpottDetails({ uuid: nextProps.params.spottId });
+      }
+    } else if (params.productId !== nextProps.params.productId) {
+      if (!nextProps.params.productId) {
+        clearSidebarProducts();
+      } else if (sidebarProducts.getIn([ 'data', -2, 'uuid' ], null) === nextProps.params.productId && params.productId) {
+        removeSidebarProduct({ uuid: params.productId });
+      } else {
         loadSidebarProduct({
           uuid: nextProps.params.productId,
-          relevance: nextProps.location.state.productRelevance
+          relevance: nextProps.location.state && nextProps.location.state.productRelevance,
+          dc: nextProps.location.state && nextProps.location.state.dc
         });
-      }
-      if (nextProps.location.action === 'POP') {
-        params.spottId !== nextProps.params.spottId && loadSpottDetails({ uuid: nextProps.params.spottId });
-        if (sidebarProducts.get('data').find((item) => item.get('uuid') === nextProps.params.productId)) {
-          removeSidebarProduct({ uuid: params.productId });
-        } else {
-          loadSidebarProduct({
-            uuid: nextProps.params.productId,
-            relevance: nextProps.location.state && nextProps.location.state.productRelevance
-          });
-        }
       }
     }
     this.getWidth();
@@ -138,10 +138,9 @@ export default class CardModal extends Component {
   }
 
   onCloseHandler () {
-    const { currentLocale, location, routerPush: routePush, clearSidebarProducts, sidebarProducts, spott } = this.props;
+    const { currentLocale, location, routerPush: routePush, sidebarProducts, spott } = this.props;
     const spottPath = `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`;
     if (sidebarProducts.get('data').size) {
-      clearSidebarProducts();
       this.props.routerPush({
         pathname: spottPath,
         state: {
@@ -156,19 +155,19 @@ export default class CardModal extends Component {
 
   onProductClick (marker) {
     const { currentLocale, location, spott } = this.props;
-    this.props.loadSidebarProduct({ uuid: marker.getIn([ 'product', 'uuid' ]), relevance: marker.get('relevance') });
     this.props.routerPush({
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title'))}/${slugify(marker.getIn([ 'product', 'shortName' ]))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
       state: {
         modal: true,
-        returnTo: (location.state && location.state.returnTo) || '/'
+        returnTo: (location.state && location.state.returnTo) || '/',
+        productRelevance: marker.get('relevance'),
+        dc: getDetailsDcFromLinks(marker.getIn([ 'product', 'links' ]).toJS())
       }
     });
   }
 
   onSidebarClose () {
     const { currentLocale, location, spott, params } = this.props;
-    this.props.clearSidebarProducts();
     this.props.routerPush({
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title'))}/${spott.get('uuid')}`,
       state: {

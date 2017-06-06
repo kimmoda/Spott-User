@@ -58,14 +58,20 @@ export default class Sidebars extends Component {
     this.props.onSidebarClose();
   }
 
-  async onBackClick (productId) {
-    const { location } = this.props;
-    if (location.state && !location.state.productRelevance) {
-      this.props.routerGoBack();
-    } else {
-      await this.props.removeSidebarProduct({ uuid: productId });
+  onBackClick () {
+    const { location, currentLocale, params, sidebarProducts } = this.props;
+    const previousProduct = sidebarProducts.getIn([ 'data', -2 ], null);
+    if (previousProduct && previousProduct.get('uuid') !== params.productId) {
       this.props.routerPush({
-        pathname: `/${this.props.currentLocale}/spott/${this.props.params.spottTitle}/${this.props.params.spottId}`,
+        pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(previousProduct.get('shortName'))}/{${params.spottId}}{${previousProduct.get('uuid')}}`,
+        state: {
+          modal: true,
+          returnTo: (location.state && location.state.returnTo) || '/'
+        }
+      });
+    } else {
+      this.props.routerPush({
+        pathname: `/${currentLocale}/spott/${params.spottTitle}/${params.spottId}`,
         state: {
           modal: true,
           returnTo: (location.state && location.state.returnTo) || '/'
@@ -90,7 +96,7 @@ export default class Sidebars extends Component {
     const { sidebarProducts, singleMode, location, params } = this.props;
 
     return (
-    <div className={!singleMode && (sidebarProducts.get('data').size ? styles['sidebars-active'] : styles['sidebars-inactive'])} styleName='sidebars'>
+      <div className={!singleMode && (sidebarProducts.getIn([ 'data', '0' ]) ? styles['sidebars-active'] : styles['sidebars-inactive'])} styleName='sidebars'>
         <div styleName='overlay' onClick={this.closeSidebar.bind(this)}/>
         <div styleName='sidebars-content'>
           <ReactCSSTransitionGroup
@@ -106,7 +112,7 @@ export default class Sidebars extends Component {
               leave: sidebarProducts.get('data').size ? styles['sidebar-leave'] : styles['sidebar-leave-all'],
               leaveActive: styles['sidebar-leave-active']
             }}>
-            {sidebarProducts.get('data') && sidebarProducts.get('data').map((product, index) =>
+            {sidebarProducts.getIn([ 'data', '0' ]) && sidebarProducts.get('data').map((product, index) =>
               <CustomScrollbars key={`scroll_sidebar_${index}`}>
                 <Sidebar
                   key={`sidebar_${index}`}
@@ -119,7 +125,7 @@ export default class Sidebars extends Component {
             )}
           </ReactCSSTransitionGroup>
         </div>
-    </div>
+      </div>
     );
   }
 }

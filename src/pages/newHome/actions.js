@@ -1,6 +1,6 @@
 import { makeApiActionCreator } from '../../data/actions';
 import * as api from '../../api/new';
-import { getLocalStorage } from '../../utils';
+import { getLocalStorage, getDetailsDcFromLinks } from '../../utils';
 import { spottSelector, productSelector } from './selectors';
 import { LOADED } from '../../data/statusTypes';
 
@@ -317,10 +317,11 @@ export function loadSpottDetails ({ uuid }) {
   return async (dispatch, getState) => {
     try {
       const spott = spottSelector(getState(), { params: { spottId: uuid } });
-      spott.get('_status') !== LOADED && await dispatch(loadSpott({ uuid }));
+      const result = spott.get('_status') === LOADED ? spott.toJS() : await dispatch(loadSpott({ uuid }));
       spott.getIn([ 'relatedTopics', '_status' ], null) !== LOADED && dispatch(loadSpottRelatedTopics({ uuid }));
       spott.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadSpottSimilar({ uuid }));
       spott.getIn([ 'lovers', '_status' ], null) !== LOADED && dispatch(loadSpottLovers({ uuid }));
+      return result;
     } catch (error) {
       console.log(error);
       throw error;
@@ -357,16 +358,34 @@ export function loadProductDetails ({ uuid }) {
   };
 }
 
-export function loadSidebarProduct ({ uuid, relevance }) {
+export function loadSidebarProduct ({ uuid, relevance, dc = '' }) {
   return async (dispatch, getState) => {
     try {
       dispatch({ type: LOAD_SIDEBAR_PRODUCT_START, uuid });
       const product = productSelector(getState(), { params: { productId: uuid } });
-      (product.get('_status') !== LOADED || (!product.get('relevance') && relevance)) && await dispatch(loadProduct({ uuid, relevance }));
-      product.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadProductSimilar({ uuid }));
+      if (product.get('_status') !== LOADED || (!product.get('relevance') && relevance) || (dc && product.get('dc') !== dc)) {
+        await dispatch(loadProduct({ uuid, relevance, dc }));
+        await dispatch(loadProductSpotts({ uuid }));
+        await dispatch(loadProductSimilar({ uuid }));
+      }
       product.getIn([ 'spotts', '_status' ], null) !== LOADED && dispatch(loadProductSpotts({ uuid }));
+      product.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadProductSimilar({ uuid }));
     } catch (error) {
       return dispatch({ type: LOAD_SIDEBAR_PRODUCT_ERROR, uuid, error });
+    }
+  };
+}
+
+export function loadSpottAndSidebarProduct ({ spottId, productId }) {
+  return async (dispatch, getState) => {
+    try {
+      const spott = await dispatch(loadSpottDetails({ uuid: spottId }));
+      const currentProductMarker = spott.productMarkers && spott.productMarkers.find((item) => item.product.uuid === productId);
+      const relevance = currentProductMarker && currentProductMarker.relevance ? currentProductMarker.relevance : null;
+      const dc = currentProductMarker && currentProductMarker.product ? getDetailsDcFromLinks(currentProductMarker.product.links) : null;
+      dispatch(loadSidebarProduct({ uuid: productId, relevance, dc }));
+    } catch (error) {
+      throw error;
     }
   };
 }
