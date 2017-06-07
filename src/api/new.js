@@ -59,6 +59,10 @@ export async function getSpottsPromotedList (baseUrl, authenticationToken, local
 
 export async function getSpott (baseUrl, authenticationToken, locale, { uuid }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}`);
+  const { body: shareBody } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/share`);
+  if (shareBody) {
+    body.share = shareBody;
+  }
   return body;
 }
 
@@ -89,11 +93,15 @@ export async function removeSpottLover (baseUrl, authenticationToken, locale, { 
 
 export async function getProduct (baseUrl, authenticationToken, locale, { uuid, relevance, dc }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}?dc=${dc}`);
+  const { body: shareBody } = await get(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/share`);
   if (relevance) {
     body.relevance = relevance;
   }
   if (dc) {
     body.dc = dc;
+  }
+  if (shareBody) {
+    body.share = shareBody;
   }
   return body;
 }

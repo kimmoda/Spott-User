@@ -20,6 +20,7 @@ import { spottDetailsSelector } from '../../selectors';
 import Cards from '../cards/index';
 import ProductImpressionSensor from '../productImpressionSensor';
 import { slugify, getDetailsDcFromLinks } from '../../../../utils';
+import FacebookShareData from '../../../_common/facebookShareData';
 
 const styles = require('./index.scss');
 
@@ -192,6 +193,7 @@ export default class CardModal extends Component {
   render () {
     const { spott, sidebarProducts, currentLocale, location, params, t } = this.props;
     const { width } = this.state;
+    const share = spott.get('share');
 
     return (
       <ReactModal
@@ -298,6 +300,12 @@ export default class CardModal extends Component {
               </div>}
           </div>
         </div>
+        {share &&
+          <FacebookShareData
+            description={share.get('description')}
+            imageUrl={share.getIn([ 'image', 'url' ])}
+            title={share.get('title')}
+            url={window.location.href}/>}
         <Sidebars location={location} params={params} onSidebarClose={this.onSidebarClose}/>
       </ReactModal>
     );

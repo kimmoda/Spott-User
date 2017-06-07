@@ -13,6 +13,7 @@ import * as actions from '../../actions';
 import { sidebarSelector } from '../../selectors';
 import ImageLoader from '../imageLoader/index';
 import ProductImpressionSensor from '../productImpressionSensor';
+import FacebookShareData from '../../../_common/facebookShareData';
 
 const styles = require('./index.scss');
 
@@ -162,6 +163,7 @@ export default class Sidebar extends Component {
     const productSpotts = product && product.getIn([ 'spotts', 'data' ]) && product.getIn([ 'spotts', 'data' ]).size
       ? product.getIn([ 'spotts', 'data' ]).filter((item) => item.get('uuid') !== spottId)
       : null;
+    const share = product.get('share');
 
     return (
       <div styleName='sidebar'>
@@ -262,6 +264,12 @@ export default class Sidebar extends Component {
               </Tiles>
             </div>
           </div>}
+        {share &&
+          <FacebookShareData
+            description={share.get('description')}
+            imageUrl={share.getIn([ 'image', 'url' ])}
+            title={share.get('title')}
+            url={window.location.href}/>}
       </div>
     );
   }
