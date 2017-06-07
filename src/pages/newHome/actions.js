@@ -381,8 +381,10 @@ export function loadSpottAndSidebarProduct ({ spottId, productId }) {
     try {
       const spott = await dispatch(loadSpottDetails({ uuid: spottId }));
       const currentProductMarker = spott.productMarkers && spott.productMarkers.find((item) => item.product.uuid === productId);
+      const firstMarker = spott.productMarkers && spott.productMarkers.length && spott.productMarkers[0];
       const relevance = currentProductMarker && currentProductMarker.relevance ? currentProductMarker.relevance : null;
-      const dc = currentProductMarker && currentProductMarker.product ? getDetailsDcFromLinks(currentProductMarker.product.links) : null;
+      const dc = (currentProductMarker && getDetailsDcFromLinks(currentProductMarker.product.links)) ||
+        firstMarker && firstMarker.product && getDetailsDcFromLinks(firstMarker.product.links) || null;
       dispatch(loadSidebarProduct({ uuid: productId, relevance, dc }));
     } catch (error) {
       throw error;

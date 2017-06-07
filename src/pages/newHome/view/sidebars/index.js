@@ -66,7 +66,8 @@ export default class Sidebars extends Component {
         pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(previousProduct.get('shortName'))}/{${params.spottId}}{${previousProduct.get('uuid')}}`,
         state: {
           modal: true,
-          returnTo: (location.state && location.state.returnTo) || '/'
+          returnTo: (location.state && location.state.returnTo) || '/',
+          dc: location.state && location.state.dc
         }
       });
     } else {
@@ -80,14 +81,14 @@ export default class Sidebars extends Component {
     }
   }
 
-  onProductClick (productId, productName) {
+  onProductClick (productId, productName, dc = null) {
     const { currentLocale, location, params } = this.props;
-    this.props.loadSidebarProduct({ uuid: productId });
     this.props.routerPush({
       pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(productName)}/{${params.spottId}}{${productId}}`,
       state: {
         modal: true,
-        returnTo: (location.state && location.state.returnTo) || '/'
+        returnTo: (location.state && location.state.returnTo) || '/',
+        dc: (location.state && location.state.dc) || dc
       }
     });
   }
