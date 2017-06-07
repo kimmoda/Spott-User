@@ -303,7 +303,9 @@ export default class CardModal extends Component {
         {share &&
           <FacebookShareData
             description={share.get('description')}
+            imageHeight={share.getIn([ 'image', 'dimension', 'height' ])}
             imageUrl={share.getIn([ 'image', 'url' ])}
+            imageWidth={share.getIn([ 'image', 'dimension', 'width' ])}
             title={share.get('title')}
             url={window.location.href}/>}
         <Sidebars location={location} params={params} onSidebarClose={this.onSidebarClose}/>

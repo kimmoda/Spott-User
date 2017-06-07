@@ -291,17 +291,17 @@ export async function trackTopicView (baseUrl, authenticationToken, locale, { uu
   return body;
 }
 
-export async function trackSpottView (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/viewEvents`);
+export async function trackSpottView (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/viewEvents?dc=${dc}`);
   return body;
 }
 
-export async function trackProductImpression (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/impressionEvents`);
+export async function trackProductImpression (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/impressionEvents?dc=${dc}`);
   return body;
 }
 
-export async function trackProductView (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/viewEvents`);
+export async function trackProductView (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/viewEvents?dc=${dc}`);
   return body;
 }

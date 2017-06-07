@@ -13,6 +13,7 @@ export default class ProductImpressionSensor extends Component {
     active: PropTypes.bool,
     children: PropTypes.node.isRequired,
     delay: PropTypes.number,
+    productDc: PropTypes.string,
     productId: PropTypes.string,
     productImpression: PropTypes.func.isRequired
   };
@@ -25,7 +26,7 @@ export default class ProductImpressionSensor extends Component {
   handleVisibilitySensor (isVisible) {
     if (isVisible && this.props.productId) {
       // console.log('Impression!');
-      this.props.productImpression({ uuid: this.props.productId });
+      this.props.productImpression({ uuid: this.props.productId, dc: this.props.productDc ? this.props.productDc : null });
     }
   }
 
