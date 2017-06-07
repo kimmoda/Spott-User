@@ -63,17 +63,20 @@ export default class NewTopic extends Component {
   }
 
   componentDidMount () {
-    this.props.loadTopicDetails({ uuid: this.props.params.topicId, page: this.props.topicSpotts.get('page') || 0 });
+    const { location, params, topicSpotts, loadTopicDetails } = this.props;
+    const dc = location.state && location.state.dc || '';
+    loadTopicDetails({ uuid: params.topicId, page: topicSpotts.get('page') || 0, dc });
     this.getContainerHeight();
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleResize);
   }
 
   componentWillReceiveProps (nextProps) {
+    const dc = nextProps.location.state && nextProps.location.state.dc || '';
     const { topicId } = this.props.params;
     const { topicId: nextTopicId } = nextProps.params;
     if (topicId !== nextTopicId) {
-      this.props.loadTopicDetails({ uuid: nextTopicId, page: nextProps.topicSpotts.get('page') || 0 });
+      this.props.loadTopicDetails({ uuid: nextTopicId, page: nextProps.topicSpotts.get('page') || 0, dc });
     }
   }
 

@@ -22,11 +22,11 @@ export default class Topics extends Component {
     return (
       <div>
         {Boolean(items && items.get('_status') === LOADED) &&
-        <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={items.get('data').size}>
-          {items.get('data').map((item, index) =>
-            <Topic item={item} key={`topic_${index}`}/>
-          )}
-        </Tiles>}
+          <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={items.get('data').size}>
+            {items.get('data').map((item, index) =>
+              <Topic item={item} key={`topic_${index}`}/>
+            )}
+          </Tiles>}
       </div>
     );
   }

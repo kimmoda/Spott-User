@@ -8,6 +8,7 @@ import localized from '../../../../../_common/localized';
 import * as actions from '../../../../actions';
 import { userSettingsDetailsSelector } from '../../../../selectors';
 import { IconCheck } from '../../../icons';
+import { slugify, getDetailsDcFromLinks } from '../../../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -56,11 +57,17 @@ export default class NewUserSubscriptions extends Component {
               <Link
                 style={{ backgroundImage: `url('${item.getIn([ 'profileImage', 'url' ])}?width=68&height=38')` }}
                 styleName='topic-image'
-                to={`/${currentLocale}/topic/${item.get('text').replace(/\W+/g, '-')}/${item.get('uuid')}`}/>
+                to={{
+                  pathname: `/${currentLocale}/topic/${slugify(item.get('text', ''))}/${item.get('uuid')}`,
+                  state: { dc: getDetailsDcFromLinks(item.get('links').toJS()) }
+                }}/>
               <div styleName='topic-dscr'>
                 <Link
                   styleName='topic-title'
-                  to={`/${currentLocale}/topic/${item.get('text').replace(/\W+/g, '-')}/${item.get('uuid')}`}>
+                  to={{
+                    pathname: `/${currentLocale}/topic/${slugify(item.get('text', ''))}/${item.get('uuid')}`,
+                    state: { dc: getDetailsDcFromLinks(item.get('links').toJS()) }
+                  }}>
                   {item.get('text')}
                 </Link>
                 <div styleName='topic-type'>{item.get('sourceType')}</div>

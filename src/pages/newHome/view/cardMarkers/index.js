@@ -17,19 +17,6 @@ export default class CardMarkers extends Component {
 
   constructor (props) {
     super(props);
-    this.onMarkerHover = ::this.onMarkerHover;
-    this.onMarkerBlur = ::this.onMarkerBlur;
-    this.state = {
-      markerHovered: false
-    };
-  }
-
-  onMarkerHover () {
-    !this.state.markerHovered && this.setState({ markerHovered: true });
-  }
-
-  onMarkerBlur () {
-    this.state.markerHovered && this.setState({ markerHovered: false });
   }
 
   render () {
@@ -81,7 +68,7 @@ class CardMarker extends Component {
         styleName='marker'
         onClick={(e) => onMarkerClick(item, e)}>
         <div styleName='marker-wrapper' onMouseEnter={this.onMarkerHover} onMouseLeave={this.onMarkerBlur}>
-          <ProductImpressionSensor active={this.state.markerHovered} delay={300} productId={item.getIn([ 'product', 'uuid' ])}>
+          <ProductImpressionSensor active={this.state.markerHovered} delay={300} productId={item.getIn([ 'product', 'uuid' ])} productLinks={item.getIn([ 'product', 'links' ])}>
             <div styleName='marker-content'>
               <div style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=48&height=48')` }} styleName='marker-image'/>
               <div styleName='marker-right'>

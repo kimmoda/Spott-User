@@ -3,6 +3,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 import { trackProductImpression } from '../../actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getDetailsDcFromLinks } from '../../../../utils';
 
 @connect(null, (dispatch) => ({
   productImpression: bindActionCreators(trackProductImpression, dispatch)
@@ -13,10 +14,9 @@ export default class ProductImpressionSensor extends Component {
     active: PropTypes.bool,
     children: PropTypes.node.isRequired,
     delay: PropTypes.number,
-    productDc: PropTypes.string,
-    productDetailsUrl: PropTypes.string,
     productId: PropTypes.string,
-    productImpression: PropTypes.func.isRequired
+    productImpression: PropTypes.func.isRequired,
+    productLinks: PropTypes.any
   };
 
   constructor (props) {
@@ -27,7 +27,8 @@ export default class ProductImpressionSensor extends Component {
   handleVisibilitySensor (isVisible) {
     if (isVisible && this.props.productId) {
       // console.log('Impression!');
-      this.props.productImpression({ uuid: this.props.productId, dc: this.props.productDc ? this.props.productDc : null });
+      const dc = this.props.productLinks ? getDetailsDcFromLinks(this.props.productLinks.toJS()) : '';
+      this.props.productImpression({ uuid: this.props.productId, dc });
     }
   }
 

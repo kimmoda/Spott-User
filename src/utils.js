@@ -140,5 +140,7 @@ export function getDetailsDcFromLinks (links) {
     return string ? string[1] : null;
   };
   const detailsUrl = links.find((item) => item.rel === 'details');
-  return detailsUrl && detailsUrl.href ? getQueryString('dc', detailsUrl.href) : null;
+  const viewUrl = links.find((item) => item.rel === 'viewEvent');
+  const link = detailsUrl || viewUrl || null;
+  return (link && link.href && getQueryString('dc', link.href)) || '';
 }

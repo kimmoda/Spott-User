@@ -57,8 +57,9 @@ export default class Card extends Component {
   }
 
   componentDidMount () {
-    if (this.props.spottDetails.get('_status') !== LOADED) {
-      this.props.loadSpottCardDetails({ uuid: this.props.spottId });
+    const { spottId, item: spott, spottDetails, loadSpottCardDetails } = this.props;
+    if (spottDetails.get('_status') !== LOADED) {
+      loadSpottCardDetails({ uuid: spottId, dc: getDetailsDcFromLinks(spott.get('links').toJS()) });
     }
   }
 
@@ -77,7 +78,8 @@ export default class Card extends Component {
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: location.state && params.spottId ? location.state.returnTo : location.pathname
+        returnTo: location.state && params.spottId ? location.state.returnTo : location.pathname,
+        spottDc: getDetailsDcFromLinks(spott.get('links').toJS())
       }
     });
   }
@@ -96,7 +98,8 @@ export default class Card extends Component {
         modal: true,
         returnTo: location.state && location.state.returnTo ? location.state.returnTo : location.pathname,
         productRelevance: marker.get('relevance'),
-        dc: getDetailsDcFromLinks(marker.getIn([ 'product', 'links' ]).toJS())
+        dc: getDetailsDcFromLinks(marker.getIn([ 'product', 'links' ]).toJS()),
+        spottDc: getDetailsDcFromLinks(spott.get('links').toJS())
       }
     });
   }
@@ -162,7 +165,15 @@ export default class Card extends Component {
           </div>
           {width >= 280 && <div styleName='topic-links'>
             {item.get('topics').map((topic, index) =>
-              <Link key={`c_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${slugify(topic.get('text', ''))}/${topic.get('uuid')}`}>{topic.get('text')}</Link>
+              <Link
+                key={`c_topic_${index}_${topic.get('uuid')}`}
+                styleName='topic-link'
+                to={{
+                  pathname: `/${currentLocale}/topic/${slugify(topic.get('text', ''))}/${topic.get('uuid')}`,
+                  state: { dc: getDetailsDcFromLinks(topic.get('links').toJS()) }
+                }}>
+                {topic.get('text')}
+              </Link>
             )}
           </div>}
         </div>

@@ -14,6 +14,7 @@ import { sidebarSelector } from '../../selectors';
 import ImageLoader from '../imageLoader/index';
 import ProductImpressionSensor from '../productImpressionSensor';
 import FacebookShareData from '../../../_common/facebookShareData';
+import { slugify, getDetailsDcFromLinks } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -192,9 +193,14 @@ export default class Sidebar extends Component {
         </div>
         <div styleName='sidebar-panel'>
           {product && product.getIn([ 'brand', 'name' ]) &&
-          <Link styleName='sidebar-brand' to={`/${currentLocale}/topic/${product.getIn([ 'brand', 'name' ]).replace(/\W+/g, '-')}/BRAND%7C${product.getIn([ 'brand', 'uuid' ])}`}>
-            {product.getIn([ 'brand', 'name' ])}
-          </Link> }
+            <Link
+              styleName='sidebar-brand'
+              to={{
+                pathname: `/${currentLocale}/topic/${slugify(product.getIn([ 'brand', 'name' ]))}/BRAND%7C${product.getIn([ 'brand', 'uuid' ])}`,
+                state: { dc: getDetailsDcFromLinks(product.getIn([ 'brand', 'links' ]).toJS()) }
+              }}>
+              {product.getIn([ 'brand', 'name' ])}
+            </Link>}
           <div styleName='sidebar-title2'>{product.get('longName')}</div>
           <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
           <div styleName='sidebar-options'>
@@ -253,7 +259,7 @@ export default class Sidebar extends Component {
             <div styleName='sidebar-similars'>
               <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={product.getIn([ 'similar', 'data' ]).size}>
                 {product.getIn([ 'similar', 'data' ]).map((item, index) =>
-                  <ProductImpressionSensor key={`product_imp_${index}`} productId={item.get('uuid')}>
+                  <ProductImpressionSensor key={`product_imp_${index}`} productId={item.get('uuid')} productLinks={product.get('links')}>
                     <div
                       key={`product_${index}`}
                       style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=80&height=80'` }}

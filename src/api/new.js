@@ -7,8 +7,8 @@ export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
   return body;
 }
 
-export async function getTopic (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}`);
+export async function getTopic (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}?dc=${dc}`);
   return body;
 }
 
@@ -57,11 +57,14 @@ export async function getSpottsPromotedList (baseUrl, authenticationToken, local
   return transformSpottsList(body);
 }
 
-export async function getSpott (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}`);
+export async function getSpott (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}?dc=${dc}`);
   const { body: shareBody } = await get(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/share`);
   if (shareBody) {
     body.share = shareBody;
+  }
+  if (dc) {
+    body.dc = dc;
   }
   return body;
 }
@@ -286,8 +289,8 @@ export async function getContentRegions (baseUrl, authenticationToken, locale) {
   return body;
 }
 
-export async function trackTopicView (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/viewEvents`);
+export async function trackTopicView (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/viewEvents?dc=${dc}`);
   return body;
 }
 

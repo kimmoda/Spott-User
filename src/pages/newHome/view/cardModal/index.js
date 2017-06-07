@@ -21,6 +21,7 @@ import Cards from '../cards/index';
 import ProductImpressionSensor from '../productImpressionSensor';
 import { slugify, getDetailsDcFromLinks } from '../../../../utils';
 import FacebookShareData from '../../../_common/facebookShareData';
+import { LOADED } from '../../../../data/statusTypes';
 
 const styles = require('./index.scss');
 
@@ -33,7 +34,8 @@ const styles = require('./index.scss');
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
   removeSidebarProduct: bindActionCreators(actions.removeSidebarProduct, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch),
-  setSpottLover: bindActionCreators(actions.setSpottLover, dispatch)
+  setSpottLover: bindActionCreators(actions.setSpottLover, dispatch),
+  trackSpottView: bindActionCreators(actions.trackSpottView, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class CardModal extends Component {
@@ -49,7 +51,9 @@ export default class CardModal extends Component {
       state: PropTypes.shape({
         modal: PropTypes.bool,
         returnTo: PropTypes.string,
-        productRelevance: PropTypes.any
+        productRelevance: PropTypes.any,
+        dc: PropTypes.any,
+        spottDc: PropTypes.any
       })
     }).isRequired,
     params: PropTypes.shape({
@@ -64,7 +68,8 @@ export default class CardModal extends Component {
     setSpottLover: PropTypes.func.isRequired,
     sidebarProducts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    trackSpottView: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -80,12 +85,14 @@ export default class CardModal extends Component {
   }
 
   componentDidMount () {
-    const { params, loadSpottDetails, loadSpottAndSidebarProduct } = this.props;
+    const { params, loadSpottDetails, loadSpottAndSidebarProduct, location, trackSpottView } = this.props;
+    const spottDc = location.state && location.state.spottDc || '';
     if (params.productId) {
-      loadSpottAndSidebarProduct({ spottId: params.spottId, productId: params.productId });
+      loadSpottAndSidebarProduct({ spottId: params.spottId, productId: params.productId, spottDc });
     } else {
-      loadSpottDetails({ uuid: params.spottId });
+      loadSpottDetails({ uuid: params.spottId, dc: spottDc });
     }
+    trackSpottView({ uuid: params.spottId, dc: spottDc });
     this._originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     window.addEventListener('resize', this.handleResize);
@@ -93,14 +100,23 @@ export default class CardModal extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { params, loadSidebarProduct, loadSpottDetails, clearSidebarProducts, sidebarProducts, removeSidebarProduct, loadSpottAndSidebarProduct } = this.props;
+    const { params, loadSidebarProduct, loadSpottDetails, clearSidebarProducts, sidebarProducts, removeSidebarProduct, loadSpottAndSidebarProduct, trackSpottView } = this.props;
+    const spottDc = nextProps.location.state && nextProps.location.state.spottDc || '';
     if (params.spottId !== nextProps.params.spottId) {
       clearSidebarProducts();
       if (nextProps.params.productId) {
-        loadSpottAndSidebarProduct({ spottId: nextProps.params.spottId, productId: nextProps.params.productId });
+        loadSpottAndSidebarProduct({
+          spottId: nextProps.params.spottId,
+          productId: nextProps.params.productId,
+          spottDc
+        });
       } else {
-        loadSpottDetails({ uuid: nextProps.params.spottId });
+        loadSpottDetails({
+          uuid: nextProps.params.spottId,
+          dc: spottDc
+        });
       }
+      trackSpottView({ uuid: nextProps.params.spottId, dc: spottDc });
     } else if (params.productId !== nextProps.params.productId) {
       if (!nextProps.params.productId) {
         clearSidebarProducts();
@@ -145,7 +161,8 @@ export default class CardModal extends Component {
         pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
         state: {
           modal: true,
-          returnTo: (location.state && location.state.returnTo) || '/'
+          returnTo: (location.state && location.state.returnTo) || '/',
+          spottDc: getDetailsDcFromLinks(spott.get('links').toJS())
         }
       });
     } else {
@@ -161,7 +178,8 @@ export default class CardModal extends Component {
         modal: true,
         returnTo: (location.state && location.state.returnTo) || '/',
         productRelevance: marker.get('relevance'),
-        dc: getDetailsDcFromLinks(marker.getIn([ 'product', 'links' ]).toJS())
+        dc: getDetailsDcFromLinks(marker.getIn([ 'product', 'links' ]).toJS()),
+        spottDc: getDetailsDcFromLinks(spott.get('links').toJS())
       }
     });
   }
@@ -172,7 +190,8 @@ export default class CardModal extends Component {
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title'))}/${spott.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: ((location.state && params.productId ? location.state.returnTo : location.pathname) || '/')
+        returnTo: ((location.state && params.productId ? location.state.returnTo : location.pathname) || '/'),
+        spottDc: getDetailsDcFromLinks(spott.get('links').toJS())
       }
     });
   }
@@ -193,6 +212,11 @@ export default class CardModal extends Component {
     const { spott, sidebarProducts, currentLocale, location, params, t } = this.props;
     const { width } = this.state;
     const share = spott.get('share');
+    const isReady = spott.get('_status') === LOADED &&
+      (!sidebarProducts.get('data').find((item) => item && item.get('_status') !== LOADED)) &&
+      spott.getIn([ 'relatedTopics', '_status' ]) === LOADED &&
+      spott.getIn([ 'lovers', '_status' ]) === LOADED &&
+      spott.getIn([ 'similar', '_status' ]) === LOADED;
 
     return (
       <ReactModal
@@ -238,7 +262,7 @@ export default class CardModal extends Component {
               <div styleName='products'>
                 {spott.get('productMarkers') && <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={spott.get('productMarkers').size}>
                   {spott.get('productMarkers').map((item, index) =>
-                    <ProductImpressionSensor key={`product_${index}`} productId={item.getIn([ 'product', 'uuid' ])}>
+                    <ProductImpressionSensor active={isReady} delay={2000} key={`product_${index}`} productId={item.getIn([ 'product', 'uuid' ])} productLinks={item.getIn([ 'product', 'links' ])}>
                       <div
                         className={item.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
                         key={`product_${index}`}
@@ -256,7 +280,15 @@ export default class CardModal extends Component {
                 </div>
                 <div styleName='topic-links'>
                   {spott.get('topics') && spott.get('topics').map((topic, index) =>
-                    <Link key={`m_topic_${index}_${topic.get('uuid')}`} styleName='topic-link' to={`/${currentLocale}/topic/${topic.get('text').replace(/\W+/g, '-')}/${topic.get('uuid')}`}>{topic.get('text')}</Link>
+                    <Link
+                      key={`m_topic_${index}_${topic.get('uuid')}`}
+                      styleName='topic-link'
+                      to={{
+                        pathname: `/${currentLocale}/topic/${slugify(topic.get('text', ''))}/${topic.get('uuid')}`,
+                        state: { dc: getDetailsDcFromLinks(topic.get('links').toJS()) }
+                      }}>
+                      {topic.get('text')}
+                    </Link>
                   )}
                 </div>
               </div>

@@ -48,7 +48,7 @@ export default class NewUserWishlistProduct extends Component {
     const { item, location, currentLocale } = this.props;
 
     return (
-      <ProductImpressionSensor productId={item.get('uuid')}>
+      <ProductImpressionSensor productId={item.get('uuid')} productLinks={item.get('links')}>
         <div styleName='product' onClick={this.onProductClick}>
           {this.state.isProductModalOpen && <ProductModal location={location} productId={item.get('uuid')} onClose={this.onProductModalClose}/>}
           <div style={{ backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=264&height=264)` }} styleName='product-image'/>

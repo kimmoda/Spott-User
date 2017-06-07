@@ -243,6 +243,11 @@ export const TRACK_PRODUCT_EVENT_ERROR = 'NEW/TRACK_PRODUCT_EVENT_ERROR';
 // Actions creators
 // ////////////////
 
+export const trackTopicView = makeApiActionCreator(api.trackTopicView, TRACK_TOPIC_EVENT_START, TRACK_TOPIC_EVENT_SUCCESS, TRACK_TOPIC_EVENT_ERROR);
+export const trackSpottView = makeApiActionCreator(api.trackSpottView, TRACK_SPOTT_EVENT_START, TRACK_SPOTT_EVENT_SUCCESS, TRACK_SPOTT_EVENT_ERROR);
+export const trackProductImpression = makeApiActionCreator(api.trackProductImpression, TRACK_IMPRESSION_EVENT_START, TRACK_IMPRESSION_EVENT_SUCCESS, TRACK_IMPRESSION_EVENT_ERROR);
+export const trackProductView = makeApiActionCreator(api.trackProductView, TRACK_PRODUCT_EVENT_START, TRACK_PRODUCT_EVENT_SUCCESS, TRACK_PRODUCT_EVENT_ERROR);
+
 export const loadTrendingTopics = makeApiActionCreator(api.getTrendingTopics, GET_TRENDING_TOPICS_START, GET_TRENDING_TOPICS_SUCCESS, GET_TRENDING_TOPICS_ERROR);
 
 export const loadTopic = makeApiActionCreator(api.getTopic, GET_TOPIC_START, GET_TOPIC_SUCCESS, GET_TOPIC_ERROR);
@@ -257,10 +262,10 @@ export const setTopicSubscriber = makeApiActionCreator(api.setTopicSubscriber, S
 
 export const removeTopicSubscriber = makeApiActionCreator(api.removeTopicSubscriber, REMOVE_TOPIC_SUBSCRIBER_START, REMOVE_TOPIC_SUBSCRIBER_SUCCESS, REMOVE_TOPIC_SUBSCRIBER_ERROR);
 
-export function loadTopicDetails ({ uuid }) {
+export function loadTopicDetails ({ uuid, dc = '' }) {
   return async (dispatch, getState) => {
     try {
-      dispatch(loadTopic({ uuid }));
+      dispatch(loadTopic({ uuid, dc }));
       dispatch(loadTopicSpotts({ uuid }));
       dispatch(loadTopicRelated({ uuid }));
     } catch (error) {
@@ -313,11 +318,11 @@ export const setSpottLover = makeApiActionCreator(api.setSpottLover, SET_SPOTT_L
 
 export const removeSpottLover = makeApiActionCreator(api.removeSpottLover, REMOVE_SPOTT_LOVER_START, REMOVE_SPOTT_LOVER_SUCCESS, REMOVE_SPOTT_LOVER_ERROR);
 
-export function loadSpottDetails ({ uuid }) {
+export function loadSpottDetails ({ uuid, dc = '' }) {
   return async (dispatch, getState) => {
     try {
       const spott = spottSelector(getState(), { params: { spottId: uuid } });
-      const result = spott.get('_status') === LOADED ? spott.toJS() : await dispatch(loadSpott({ uuid }));
+      const result = spott.get('_status') === LOADED ? spott.toJS() : await dispatch(loadSpott({ uuid, dc }));
       spott.getIn([ 'relatedTopics', '_status' ], null) !== LOADED && dispatch(loadSpottRelatedTopics({ uuid }));
       spott.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadSpottSimilar({ uuid }));
       spott.getIn([ 'lovers', '_status' ], null) !== LOADED && dispatch(loadSpottLovers({ uuid }));
@@ -329,10 +334,10 @@ export function loadSpottDetails ({ uuid }) {
   };
 }
 
-export function loadSpottCardDetails ({ uuid }) {
+export function loadSpottCardDetails ({ uuid, dc = '' }) {
   return async (dispatch, getState) => {
     try {
-      await dispatch(loadSpott({ uuid }));
+      await dispatch(loadSpott({ uuid, dc }));
       dispatch(loadSpottLovers({ uuid }));
     } catch (error) {
       console.log(error);
@@ -370,16 +375,17 @@ export function loadSidebarProduct ({ uuid, relevance, dc = '' }) {
       }
       product.getIn([ 'spotts', '_status' ], null) !== LOADED && dispatch(loadProductSpotts({ uuid }));
       product.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadProductSimilar({ uuid }));
+      dispatch(trackProductView({ uuid, dc }));
     } catch (error) {
       return dispatch({ type: LOAD_SIDEBAR_PRODUCT_ERROR, uuid, error });
     }
   };
 }
 
-export function loadSpottAndSidebarProduct ({ spottId, productId }) {
+export function loadSpottAndSidebarProduct ({ spottId, productId, spottDc = '' }) {
   return async (dispatch, getState) => {
     try {
-      const spott = await dispatch(loadSpottDetails({ uuid: spottId }));
+      const spott = await dispatch(loadSpottDetails({ uuid: spottId, dc: spottDc }));
       const currentProductMarker = spott.productMarkers && spott.productMarkers.find((item) => item.product.uuid === productId);
       const firstMarker = spott.productMarkers && spott.productMarkers.length && spott.productMarkers[0];
       const relevance = currentProductMarker && currentProductMarker.relevance ? currentProductMarker.relevance : null;
@@ -568,8 +574,3 @@ export function loadUserProfileAccountWrapper ({ uuid }) {
     }
   };
 }
-
-export const trackTopicView = makeApiActionCreator(api.trackTopicView, TRACK_TOPIC_EVENT_START, TRACK_TOPIC_EVENT_SUCCESS, TRACK_TOPIC_EVENT_ERROR);
-export const trackSpottView = makeApiActionCreator(api.trackSpottView, TRACK_SPOTT_EVENT_START, TRACK_SPOTT_EVENT_SUCCESS, TRACK_SPOTT_EVENT_ERROR);
-export const trackProductImpression = makeApiActionCreator(api.trackProductImpression, TRACK_IMPRESSION_EVENT_START, TRACK_IMPRESSION_EVENT_SUCCESS, TRACK_IMPRESSION_EVENT_ERROR);
-export const trackProductView = makeApiActionCreator(api.trackProductView, TRACK_PRODUCT_EVENT_START, TRACK_PRODUCT_EVENT_SUCCESS, TRACK_PRODUCT_EVENT_ERROR);
