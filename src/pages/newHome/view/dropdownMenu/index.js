@@ -13,6 +13,7 @@ export default class OurDropdownMenu extends Component {
 
   static propTypes = {
     alignLeft: PropTypes.bool,
+    alignTop: PropTypes.bool,
     children: PropTypes.node.isRequired,
     trigger: PropTypes.node.isRequired
   };
@@ -35,12 +36,15 @@ export default class OurDropdownMenu extends Component {
   }
 
   render () {
-    const { children, trigger, alignLeft } = this.props;
+    const { children, trigger, alignLeft, alignTop } = this.props;
+    const cx = alignLeft && styles['dropdown-container-left'] ||
+      alignTop && styles['dropdown-container-top'] ||
+      styles['dropdown-container'];
 
     const menuOptions = {
       isOpen: this.state.isMenuOpen,
       close: this.close,
-      className: alignLeft ? styles['dropdown-container-left'] : styles['dropdown-container'],
+      className: cx,
       toggle: <div onClick={this.toggle}>{trigger}</div>,
       enterTimeout: 1,
       leaveTimeout: 1

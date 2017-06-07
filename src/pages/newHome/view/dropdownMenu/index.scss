@@ -46,6 +46,22 @@
   }
 }
 
+.dropdown-container-top {
+  position: relative;
+  user-select: none;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  :global {
+    .dd-menu-items {
+      position: absolute;
+      bottom: 23px;
+      right: -5px;
+      z-index: 110;
+    }
+  }
+}
+
 .dropdown-divider {
   height: 1px;
   width: 100%;
@@ -103,6 +119,9 @@
         margin-top: -4px;
         top: 0;
       }
+    }
+    .selected {
+      background-color: $colorGrayLighter;
     }
   }
 }

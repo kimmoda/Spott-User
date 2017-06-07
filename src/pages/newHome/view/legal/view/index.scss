@@ -1,0 +1,118 @@
+@import "../../vars";
+@import "../../responsive";
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px $offsetWidth 40px $offsetWidth;
+}
+
+.content-wrapper {
+  max-width: gridWidth(10);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+}
+
+.nav {
+  width: gridWidth(3);
+  margin-right: $gutterWidth;
+  padding: 24px;
+  box-sizing: border-box;
+  ul {
+    display: block;
+  }
+  select {
+    display: none;
+  }
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.nav-link {
+  @include titleRegular($colorGray);
+  text-decoration: none;
+}
+
+.nav-link-active {
+  @include titleMedium($colorPink);
+}
+
+.content {
+  width: gridWidth(7);
+  background-color: $colorWhite;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: $boxShadowBlur;
+  padding: 24px;
+}
+
+.select-input {
+  @include bodyRegular;
+  width: 100%;
+  height: 32px;
+  border-radius: 3px;
+  background-color: $colorWhite;
+  border: 1px solid $colorGrayLight;
+  outline: none;
+  padding-left: 12px;
+  padding-right: 12px;
+  &:focus {
+    border: solid 1px $colorGray;
+  }
+  &:disabled {
+    border: solid 1px $colorGrayLight;
+    background-color: $colorGrayWhite;
+  }
+  &::placeholder {
+    color: $colorGray;
+  }
+}
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1){
+  .content-wrapper {
+    display: block;
+  }
+  .content {
+    width: 100%;
+  }
+  .nav {
+    width: 100%;
+    padding: 0 0 24px 0;
+  }
+  .wrapper {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .nav {
+    ul {
+      display: none;
+    }
+    select {
+      display: block;
+      width: 100%;
+    }
+  }
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+
+}

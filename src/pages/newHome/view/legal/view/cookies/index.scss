@@ -1,0 +1,168 @@
+@import "../../../vars";
+
+.content {
+  @include smallRegular($colorGrayDark);
+  :global {
+    h1 {
+      @include headlineMedium;
+      margin-bottom: 24px;
+    }
+
+    a {
+      color: $colorPink;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    p {
+      margin-bottom: 8px;
+    }
+
+    ul {
+      margin-top: 24px;
+      li {
+        counter-reset: none !important;
+        counter-increment: none !important;
+        margin-bottom: 5px !important;
+        &:before {
+          content: "" !important;
+        }
+      }
+
+      &.list__stripes {
+        li {
+          margin-bottom: 24px !important;
+          margin-left: 22px;
+          &:before {
+            content: "-" !important;
+          }
+          @media (max-width: $phoneBreakpoint) {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+
+    ol {
+      list-style-type: none;
+      counter-reset: heading;
+      counter-reset: item;
+      margin-top: 24px;
+      padding: 0;
+
+      li {
+        display: table;
+        counter-increment: heading;
+        margin: 0 0 8px 0;
+        word-wrap: break-word;
+
+        &:before {
+          content: counters(heading, ".") ". ";
+          display: table-cell;
+          padding-right: .6em;
+        }
+
+        &.list__heading {
+          @include bodyMedium;
+          margin-top: 24px;
+        }
+      }
+
+      ol {
+        padding-left: 22px;
+        margin-bottom: 24px;
+
+        @media (max-width: $phoneBreakpoint) {
+          padding-left: 0;
+        }
+
+        li {
+          counter-increment: item;
+
+          &:before {
+            content: counter(heading) "." counter(item) " ";
+          }
+        }
+
+        ol {
+          padding-left: 22px;
+          counter-reset: alphabet;
+          list-style-type: lower-alpha;
+
+          @media (max-width: $phoneBreakpoint) {
+            padding-left: 0;
+          }
+
+          li {
+            counter-increment: alphabet;
+
+            &:before {
+              content: "(" counter(alphabet, lower-alpha) ")";
+            }
+          }
+        }
+      }
+
+      p {
+        margin-left: 22px;
+        @media (max-width: $phoneBreakpoint) {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .cookie__container {
+      padding-left: 1.2em;
+      @media (max-width: $phoneBreakpoint) {
+        padding-left: 0;
+        margin-left: -12px;
+      }
+    }
+
+    .cookie {
+      border: 1px solid #221f26;
+      padding: 10px;
+      border-top: none;
+
+      .cookie__3 {
+        padding: 10px 0;
+
+        @media (max-width: 768px) {
+          float: left;
+          width: 53%;
+          margin-right: 2%;
+
+          &:first-of-type {
+            width: 18%;
+            margin-right: 5%;
+          }
+
+          &:last-of-type {
+            width: 18%;
+            margin-right: 0;
+          }
+        }
+      }
+
+      &.cookie__first {
+        border-top: 1px solid #221f26;
+
+        .cookie__3:first-child {
+          display: none;
+
+          @media (max-width: 768px) {
+            display: block;
+            visibility: hidden;
+          }
+        }
+      }
+
+      &:last-of-type {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+
