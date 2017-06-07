@@ -128,5 +128,10 @@
     "EXACT": "Correspondance exacte",
     "MEDIUM": "Correspondance moyenne",
     "LOW": "Correspondance basse"
+  },
+  "cookies": {
+    "moreInfo": "Ce site utilise des cookies pour améliorer votre expérience d’utilisateur. [[Plus d’info]]",
+    "policy": "Nous avons adaptés nos [[conditions générales]] et notre [[protection des données]].",
+    "continue": "Continuez"
   }
 }

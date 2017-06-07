@@ -140,10 +140,9 @@ export default class CardModal extends Component {
 
   onCloseHandler () {
     const { currentLocale, location, routerPush: routePush, sidebarProducts, spott } = this.props;
-    const spottPath = `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`;
     if (sidebarProducts.get('data').size) {
       this.props.routerPush({
-        pathname: spottPath,
+        pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
         state: {
           modal: true,
           returnTo: (location.state && location.state.returnTo) || '/'

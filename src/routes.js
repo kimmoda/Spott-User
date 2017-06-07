@@ -111,9 +111,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     return (
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
         <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
-        <Route component={Privacy} path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
-        <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
-        <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Privacy} newDesign path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Terms} newDesign path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Cookies} newDesign path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
         <Route component={Mobile} path='mobile/download' standalone/>
 

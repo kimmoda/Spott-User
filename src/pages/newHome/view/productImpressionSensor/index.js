@@ -14,6 +14,7 @@ export default class ProductImpressionSensor extends Component {
     children: PropTypes.node.isRequired,
     delay: PropTypes.number,
     productDc: PropTypes.string,
+    productDetailsUrl: PropTypes.string,
     productId: PropTypes.string,
     productImpression: PropTypes.func.isRequired
   };

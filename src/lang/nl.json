@@ -128,5 +128,10 @@
     "EXACT": "Exacte overeenkomst",
     "MEDIUM": "Middelmatige overeenkomst",
     "LOW": "Lage overeenkomst"
+  },
+  "cookies": {
+    "moreInfo": "Deze website maakt gebruik van cookies om uw gebruikservaring te verbeteren. [[Meer info]]",
+    "policy": "Wij hebben onze [[gebruiksvoorwaarden]] en [[privacybeleid]] aangepast.",
+    "continue": "Verdergaan"
   }
 }

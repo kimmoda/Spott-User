@@ -128,5 +128,10 @@
     "EXACT": "Exact match",
     "MEDIUM": "Medium match",
     "LOW": "Low match"
+  },
+  "cookies": {
+    "moreInfo": "This website uses cookies to enhance your user experience. [[More info]]",
+    "policy": "We adapted our [[terms]] and [[privacy regulations]].",
+    "continue": "Continue"
   }
 }
