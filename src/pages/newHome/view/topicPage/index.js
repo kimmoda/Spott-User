@@ -137,7 +137,7 @@ export default class NewTopic extends Component {
     const { isScrolledToInfo, infoContainerHeight } = this.state;
     return (
       <section styleName='wrapper'>
-        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200')` }} styleName='poster'/>}
+        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200&height=480')` }} styleName='poster'/>}
         <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: infoContainerHeight }} styleName='info-wrapper'>
           <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
@@ -153,6 +153,10 @@ export default class NewTopic extends Component {
                 {topic.get('sourceType') === 'CHARACTER' &&
                   <div
                     style={{ backgroundImage: `url('${topic.getIn([ 'character', 'avatar', 'url' ])}?width=48&height=48')` }}
+                    styleName='info-image info-image-square'/>}
+                {topic.get('sourceType') === 'PERSON' &&
+                  <div
+                    style={{ backgroundImage: `url('${topic.getIn([ 'person', 'avatar', 'url' ])}?width=48&height=48')` }}
                     styleName='info-image info-image-square'/>}
                 <div styleName='info-header'>
                   <h2 styleName='info-title'>{topic.get('text')}</h2>

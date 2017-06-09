@@ -147,7 +147,7 @@ export default class NewUserProfile extends Component {
     const { isScrolledToInfo, isFollowersModalOpen, isFollowingModalOpen } = this.state;
     return (
       <section styleName='wrapper'>
-        {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200')` }} styleName='poster'/>}
+        {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200&height=480')` }} styleName='poster'/>}
         <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
           <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainerChild = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>

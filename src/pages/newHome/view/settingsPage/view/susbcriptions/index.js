@@ -55,7 +55,7 @@ export default class NewUserSubscriptions extends Component {
           {subscriptions.get('data') && subscriptions.get('data').map((item, index) =>
             <div key={`user_subs_${index}`} styleName='topic'>
               <Link
-                style={{ backgroundImage: `url('${item.getIn([ 'profileImage', 'url' ])}?width=68&height=38')` }}
+                style={{ backgroundImage: `url('${item.getIn([ 'icon', 'url' ])}?width=68&height=38')` }}
                 styleName='topic-image'
                 to={{
                   pathname: `/${currentLocale}/topic/${slugify(item.get('text', ''))}/${item.get('uuid')}`,
