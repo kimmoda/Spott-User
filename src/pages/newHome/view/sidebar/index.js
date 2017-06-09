@@ -173,7 +173,6 @@ export default class Sidebar extends Component {
       ? product.getIn([ 'spotts', 'data' ]).filter((item) => item.get('uuid') !== spottId)
       : null;
     const share = product.get('share');
-    const txt = "Cette belle entièrement viabilisé orange tourne disque PHILIPS a été inspecté et testé pour un ordre de marche et est encore en bon état de fonctionnement!\n\n\nCe tourne-disque est également alimenté par piles";
 
     return (
       <div styleName='sidebar'>

@@ -101,10 +101,10 @@ export default class NewHome extends Component {
   loadOnScroll (isVisible) {
     const { spotts: s, spottsSubscribed: ss } = this.props;
     const { lazyLoadMode } = this.state;
-    if (isVisible && lazyLoadMode && (ss.get('_status') === LOADED || s.get('_status') === LOADED) && (ss.get('data').size + s.get('data').size < 15)) {
+    if (isVisible && lazyLoadMode && (ss.get('_status') === LOADED || s.get('_status') === LOADED) && (ss.get('data').size + s.get('data').size < 21)) {
       this.handleLoadSpotts();
     }
-    if (ss.get('data').size + s.get('data').size > 15) {
+    if (ss.get('data').size + s.get('data').size >= 21) {
       this.setState({ lazyLoadMode: false });
     }
   }
@@ -162,7 +162,7 @@ export default class NewHome extends Component {
             </Masonry>
           </div>
         </div>
-        <VisibilitySensor active={lazyLoadMode} delayedCall intervalDelay={1000} onChange={this.loadOnScroll}/>
+        <VisibilitySensor active={lazyLoadMode} delay={500} delayedCall onChange={this.loadOnScroll}/>
         {this.loadMoreVisibility() && <div styleName='load-more responsive-element' onClick={this.loadMore}>{t('common.loadMore')}</div>}
       </section>
     );

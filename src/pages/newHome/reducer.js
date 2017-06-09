@@ -74,14 +74,20 @@ export default function newHomeReducer (state = Map({
     case actions.SET_TOPIC_SUBSCRIBER_START:
       return state.mergeIn([ 'topic' ], Map({ _error: null, _status: FETCHING }));
     case actions.SET_TOPIC_SUBSCRIBER_SUCCESS:
-      return state.set('topic', fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state
+        .set('topic', fromJS({ ...action.data, _error: null, _status: LOADED }))
+        .set('spotts', Map({ _error: null, _status: LOADED, data: OrderedMap() }))
+        .set('spottsSubscribed', Map({ _error: null, _status: LOADED, data: OrderedMap() }));
     case actions.SET_TOPIC_SUBSCRIBER_ERROR:
       return state.mergeIn([ 'topic' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.REMOVE_TOPIC_SUBSCRIBER_START:
       return state.mergeIn([ 'topic' ], Map({ _error: null, _status: FETCHING }));
     case actions.REMOVE_TOPIC_SUBSCRIBER_SUCCESS:
-      return state.set('topic', fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state
+        .set('topic', fromJS({ ...action.data, _error: null, _status: LOADED }))
+        .set('spotts', Map({ _error: null, _status: LOADED, data: OrderedMap() }))
+        .set('spottsSubscribed', Map({ _error: null, _status: LOADED, data: OrderedMap() }));
     case actions.REMOVE_TOPIC_SUBSCRIBER_ERROR:
       return state.mergeIn([ 'topic' ], Map({ _error: action.error, _status: ERROR }));
 
