@@ -21,6 +21,7 @@ const styles = require('./index.scss');
 @localized
 @connect(sidebarSelector, (dispatch) => ({
   addProductToWishlist: bindActionCreators(actions.addProductToWishlist, dispatch),
+  clearSidebarProducts: bindActionCreators(actions.clearSidebarProducts, dispatch),
   loadUserWishlist: bindActionCreators(actions.loadUserWishlist, dispatch),
   removeProductFromWishlist: bindActionCreators(actions.removeProductFromWishlist, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
@@ -29,6 +30,7 @@ const styles = require('./index.scss');
 export default class Sidebar extends Component {
   static propTypes = {
     addProductToWishlist: PropTypes.func.isRequired,
+    clearSidebarProducts: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
     isAuthenticated: PropTypes.string,
@@ -52,7 +54,8 @@ export default class Sidebar extends Component {
     routerPush: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     onBackClick: PropTypes.func.isRequired,
-    onProductClick: PropTypes.func.isRequired
+    onProductClick: PropTypes.func.isRequired,
+    onSidebarClose: PropTypes.func
   };
 
   constructor (props) {
@@ -107,11 +110,16 @@ export default class Sidebar extends Component {
   }
 
   showSpott (uuid, title) {
+    const { currentLocale, location, clearSidebarProducts, params, onSidebarClose } = this.props;
+    if (!params || !params.spottId) {
+      onSidebarClose && onSidebarClose();
+      clearSidebarProducts();
+    }
     this.props.routerPush({
-      pathname: `/${this.props.currentLocale}/spott/${title.replace(/\W+/g, '-')}/${uuid}`,
+      pathname: `/${currentLocale}/spott/${slugify(title)}/${uuid}`,
       state: {
         modal: true,
-        returnTo: ((this.props.location && this.props.location.state && this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-\/]+/gi)) && !this.props.location.pathname.match(new RegExp(/\/spott\/[\w\-\&]+\/[\w\-]+\/%7B/gi)) ? this.props.location.state.returnTo : this.props.location.pathname) || '/')
+        returnTo: ((location.state && location.state.returnTo ? location.state.returnTo : location.pathname) || '/')
       }
     });
   }

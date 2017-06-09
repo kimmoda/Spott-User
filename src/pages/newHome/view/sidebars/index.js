@@ -59,25 +59,29 @@ export default class Sidebars extends Component {
   }
 
   onBackClick () {
-    const { location, currentLocale, params, sidebarProducts } = this.props;
-    const previousProduct = sidebarProducts.getIn([ 'data', -2 ], null);
-    if (previousProduct && previousProduct.get('uuid') !== params.productId) {
-      this.props.routerPush({
-        pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(previousProduct.get('shortName'))}/{${params.spottId}}{${previousProduct.get('uuid')}}`,
-        state: {
-          modal: true,
-          returnTo: (location.state && location.state.returnTo) || '/',
-          dc: location.state && location.state.dc
-        }
-      });
+    const { location, currentLocale, params, sidebarProducts, onSidebarClose } = this.props;
+    if (params && params.spottId) {
+      const previousProduct = sidebarProducts.getIn([ 'data', -2 ], null);
+      if (previousProduct && previousProduct.get('uuid') !== params.productId) {
+        this.props.routerPush({
+          pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(previousProduct.get('shortName'))}/{${params.spottId}}{${previousProduct.get('uuid')}}`,
+          state: {
+            modal: true,
+            returnTo: (location.state && location.state.returnTo) || '/',
+            dc: location.state && location.state.dc
+          }
+        });
+      } else {
+        this.props.routerPush({
+          pathname: `/${currentLocale}/spott/${params.spottTitle}/${params.spottId}`,
+          state: {
+            modal: true,
+            returnTo: (location.state && location.state.returnTo) || '/'
+          }
+        });
+      }
     } else {
-      this.props.routerPush({
-        pathname: `/${currentLocale}/spott/${params.spottTitle}/${params.spottId}`,
-        state: {
-          modal: true,
-          returnTo: (location.state && location.state.returnTo) || '/'
-        }
-      });
+      onSidebarClose && onSidebarClose();
     }
   }
 
@@ -94,7 +98,7 @@ export default class Sidebars extends Component {
   }
 
   render () {
-    const { sidebarProducts, singleMode, location, params } = this.props;
+    const { sidebarProducts, singleMode, location, params, onSidebarClose } = this.props;
 
     return (
       <div className={!singleMode && (sidebarProducts.getIn([ 'data', '0' ]) ? styles['sidebars-active'] : styles['sidebars-inactive'])} styleName='sidebars'>
@@ -121,7 +125,8 @@ export default class Sidebars extends Component {
                   params={params}
                   product={product}
                   onBackClick={this.onBackClick}
-                  onProductClick={this.onProductClick}/>
+                  onProductClick={this.onProductClick}
+                  onSidebarClose={onSidebarClose}/>
               </CustomScrollbars>
             )}
           </ReactCSSTransitionGroup>
