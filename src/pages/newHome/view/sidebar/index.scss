@@ -173,6 +173,12 @@
 
 .sidebar-description {
   @include bodyRegular($colorGrayDark);
+  &>div {
+    margin-bottom: 16px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .sidebar-seens {

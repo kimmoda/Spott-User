@@ -173,6 +173,7 @@ export default class Sidebar extends Component {
       ? product.getIn([ 'spotts', 'data' ]).filter((item) => item.get('uuid') !== spottId)
       : null;
     const share = product.get('share');
+    const txt = "Cette belle entièrement viabilisé orange tourne disque PHILIPS a été inspecté et testé pour un ordre de marche et est encore en bon état de fonctionnement!\n\n\nCe tourne-disque est également alimenté par piles";
 
     return (
       <div styleName='sidebar'>
@@ -247,7 +248,7 @@ export default class Sidebar extends Component {
           <div styleName='sidebar-panel'>
             <div styleName='sidebar-panel-title'>{t('common.description')}</div>
             <div styleName='sidebar-description'>
-              {product.get('description')}
+              {product.get('description').split('\n').map((e, i) => <div key={`txt_br_${i}`}>{e}</div>)}
             </div>
           </div>}
         {Boolean(productSpotts && productSpotts.size) &&
