@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm, Field } from 'redux-form/immutable';
 import moment from 'moment';
+// import Cropper from 'react-cropper';
+// import 'cropperjs/dist/cropper.css';
 import localized from '../../../../../_common/localized';
 import * as actions from '../../../../actions';
 import { userSettingsDetailsSelector } from '../../../../selectors';

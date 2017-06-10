@@ -7,6 +7,7 @@ import localized from '../../../../../_common/localized';
 import { searchResultsSelector } from '../../../../selectors';
 import * as actions from '../../../../actions';
 import UserListItem from '../../../usersListItem';
+import { LOADED } from '../../../../../../data/statusTypes';
 
 const styles = require('../index.scss');
 
@@ -57,7 +58,7 @@ export default class SearchResultsPeople extends Component {
                 location={location}/>
             )}
           </div>}
-        {Boolean(persons.get('data') && !persons.get('data').size) &&
+        {Boolean(persons.get('data') && !persons.get('data').size && persons.get('_status') === LOADED) &&
           <div styleName='no-results'>{t('search.people.noResults')}</div>}
       </div>
     );

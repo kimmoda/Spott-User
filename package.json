@@ -73,6 +73,7 @@
     "react-addons-css-transition-group": "^15.4.2",
     "react-autosuggest": "^7.0.1",
     "react-cookie": "^0.4.8",
+    "react-cropper": "^0.12.0",
     "react-css-modules": "^4.1.0",
     "react-custom-scrollbars": "^4.0.2",
     "react-dd-menu": "^2.0.0",

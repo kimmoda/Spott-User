@@ -7,6 +7,7 @@ import localized from '../../../../../_common/localized';
 import Cards from '../../../cards';
 import { searchResultsSelector } from '../../../../selectors';
 import * as actions from '../../../../actions';
+import { LOADED } from '../../../../../../data/statusTypes';
 
 const styles = require('../index.scss');
 
@@ -62,7 +63,7 @@ export default class SearchResultsPosts extends Component {
               location={location}
               params={params}
               spotts={posts}/>}
-          {Boolean(posts.get('data') && !posts.get('data').size) &&
+          {Boolean(posts.get('data') && !posts.get('data').size && posts.get('_status') === LOADED) &&
             <div styleName='no-results'>{t('search.spotts.noResults')}</div>}
         </div>
       </div>

@@ -78,7 +78,7 @@ export default class Card extends Component {
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
       state: {
         modal: true,
-        returnTo: location.state && params.spottId ? location.state.returnTo : location.pathname,
+        returnTo: location.state && params.spottId ? location.state.returnTo : `${location.pathname}${location.search}`,
         spottDc: getDetailsDcFromLinks(spott.get('links').toJS())
       }
     });
@@ -96,7 +96,7 @@ export default class Card extends Component {
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${slugify(marker.getIn([ 'product', 'shortName' ], ''))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
       state: {
         modal: true,
-        returnTo: location.state && location.state.returnTo ? location.state.returnTo : location.pathname,
+        returnTo: location.state && location.state.returnTo ? location.state.returnTo : `${location.pathname}${location.search}`,
         productRelevance: marker.get('relevance'),
         dc: getDetailsDcFromLinks(marker.getIn([ 'product', 'links' ]).toJS()),
         spottDc: getDetailsDcFromLinks(spott.get('links').toJS())

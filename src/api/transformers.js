@@ -351,7 +351,7 @@ export function transformSpottsList (data) {
 
 export function transformPersonsList (data) {
   return {
-    data: data.data.map((item) => {
+    data: data.data.filter((item) => item.user).map((item) => {
       return {
         avatar: item.user.profile.avatar,
         firstName: item.user.profile.firstName,
