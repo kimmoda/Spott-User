@@ -172,7 +172,7 @@ export default class Card extends Component {
                   pathname: `/${currentLocale}/topic/${slugify(topic.get('text', ''))}/${topic.get('uuid')}`,
                   state: { dc: getDetailsDcFromLinks(topic.get('links').toJS()) }
                 }}>
-                {topic.get('text')}
+                {topic.get('text').trim()}
               </Link>
             )}
           </div>}

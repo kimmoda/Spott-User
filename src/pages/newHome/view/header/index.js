@@ -282,7 +282,7 @@ export default class Header extends Component {
                     key={`search_history_item_${index}`}
                     styleName='recent-searches-item'
                     to={`/${currentLocale}/search/posts?q=${item.get('query')}`}>
-                    {item.get('query')}
+                    {item.get('query').trim()}
                   </Link>
                 )}
               </div>

@@ -214,7 +214,7 @@ export default class Sidebar extends Component {
                 pathname: `/${currentLocale}/topic/${slugify(product.getIn([ 'brand', 'name' ]))}/BRAND%7C${product.getIn([ 'brand', 'uuid' ])}`,
                 state: { dc: getDetailsDcFromLinks(product.getIn([ 'brand', 'links' ]).toJS()) }
               }}>
-              {product.getIn([ 'brand', 'name' ])}
+              {product.getIn([ 'brand', 'name' ]).trim()}
             </Link>}
           <div styleName='sidebar-title2'>{product.get('longName')}</div>
           <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
