@@ -351,13 +351,28 @@ export function transformSpottsList (data) {
 
 export function transformPersonsList (data) {
   return {
-    data: data.data.filter((item) => item.user).map((item) => {
+    size: data.data ? data.data.length : 0,
+    users: data.data.filter((item) => item.user).map((item) => {
       return {
         avatar: item.user.profile.avatar,
         firstName: item.user.profile.firstName,
         lastName: item.user.profile.lastName,
         followingUser: item.user.profile.followingUser,
         uuid: item.user.uuid
+      };
+    }),
+    actors: data.data.filter((item) => item.actor).map((item) => {
+      return {
+        avatar: item.actor.avatar,
+        name: item.actor.name,
+        uuid: item.actor.uuid
+      };
+    }),
+    characters: data.data.filter((item) => item.character).map((item) => {
+      return {
+        avatar: item.character.avatar,
+        name: item.character.name,
+        uuid: item.character.uuid
       };
     })
   };
