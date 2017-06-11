@@ -5,14 +5,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm, Field } from 'redux-form/immutable';
 import moment from 'moment';
-// import Cropper from 'react-cropper';
-// import 'cropperjs/dist/cropper.css';
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
+import ReactModal from 'react-modal';
 import localized from '../../../../../_common/localized';
 import * as actions from '../../../../actions';
 import { userSettingsDetailsSelector } from '../../../../selectors';
 import { validateUserForm } from '../../validateForm';
 import { FormInput, FormRadio, FormSelect } from '../../../form';
 import Notifier from '../../../alert';
+import { IconClose, IconReload } from '../../../icons';
 
 const styles = require('./index.scss');
 
@@ -49,12 +51,18 @@ export default class NewUserSettings extends Component {
     this.onSubmit = ::this.onSubmit;
     this.onAvatarChange = ::this.onAvatarChange;
     this.onBackgroundChange = ::this.onBackgroundChange;
+    this.onCropperClose = ::this.onCropperClose;
+    this.cropperRotate = ::this.cropperRotate;
+    this.cropperReset = ::this.cropperReset;
+    this.cropperSave = ::this.cropperSave;
 
     this.state = {
       avatarFile: null,
       avatarPreviewUrl: this.props.currentUserProfile.getIn([ 'avatar', 'url' ]),
       backgroundFile: null,
-      backgroundPreviewUrl: this.props.currentUserProfile.getIn([ 'picture', 'url' ])
+      backgroundPreviewUrl: this.props.currentUserProfile.getIn([ 'picture', 'url' ]),
+      isCropperOpen: false,
+      cropperData: null
     };
   }
 
@@ -73,6 +81,34 @@ export default class NewUserSettings extends Component {
     if (nextProps.currentUserProfile.getIn([ 'picture', 'url' ]) !== this.props.currentUserProfile.getIn([ 'picture', 'url' ])) {
       this.setState({
         backgroundPreviewUrl: nextProps.currentUserProfile.getIn([ 'picture', 'url' ])
+      });
+    }
+  }
+
+  cropperRotate () {
+    this.refs.cropper.rotate(90);
+  }
+
+  cropperReset () {
+    this.refs.cropper.reset();
+  }
+
+  cropperSave () {
+    if (this.state.cropperData.imageType === 'avatar') {
+      const dataUrl = this.refs.cropper.getCroppedCanvas({ width: 100, height: 100 }).toDataURL('image/jpeg', 0.8);
+      this.setState({
+        avatarPreviewUrl: dataUrl,
+        avatarFile: dataUrl.split(',')[1],
+        isCropperOpen: false,
+        cropperData: null
+      });
+    } else {
+      const dataUrl = this.refs.cropper.getCroppedCanvas({ width: 1500, height: 400 }).toDataURL('image/jpeg', 0.8);
+      this.setState({
+        backgroundPreviewUrl: dataUrl,
+        backgroundFile: dataUrl.split(',')[1],
+        isCropperOpen: false,
+        cropperData: null
       });
     }
   }
@@ -121,10 +157,14 @@ export default class NewUserSettings extends Component {
     const file = e.target.files[0];
 
     if (file) {
+      e.target.value = '';
       reader.onloadend = () => {
         this.setState({
-          avatarFile: reader.result.split(',')[1],
-          avatarPreviewUrl: reader.result
+          cropperData: {
+            url: reader.result,
+            imageType: 'avatar'
+          },
+          isCropperOpen: true
         });
       };
       reader.readAsDataURL(file);
@@ -137,23 +177,64 @@ export default class NewUserSettings extends Component {
     const file = e.target.files[0];
 
     if (file) {
+      e.target.value = '';
       reader.onloadend = () => {
         this.setState({
-          backgroundFile: reader.result.split(',')[1],
-          backgroundPreviewUrl: reader.result
+          cropperData: {
+            url: reader.result,
+            imageType: 'background'
+          },
+          isCropperOpen: true
         });
       };
       reader.readAsDataURL(file);
     }
   }
 
+  onCropperClose () {
+    this.setState({ isCropperOpen: false });
+  }
+
   render () {
     const { submitFailed, submitting, handleSubmit, t } = this.props;
-    const { avatarPreviewUrl, backgroundPreviewUrl } = this.state;
+    const { avatarPreviewUrl, backgroundPreviewUrl, isCropperOpen, cropperData } = this.state;
 
     return (
       <div styleName='content-profile'>
         <Notifier ref={(ref) => { this.alert = ref; }}/>
+        {isCropperOpen && <ReactModal
+          className={styles['modal-content']}
+          isOpen
+          overlayClassName={styles['modal-overlay']}
+          onRequestClose={this.onCropperClose}>
+          <div styleName='modal-close' onClick={this.onCropperClose}><i><IconClose/></i></div>
+          <div styleName='content'>
+            <div styleName='cropper-title'>
+              {t('common.editImage')}
+            </div>
+            <div styleName='cropper'>
+              <Cropper
+                aspectRatio={cropperData.imageType === 'avatar' ? 1 : null}
+                checkOrientation
+                ref='cropper'
+                rotatable
+                scalable
+                src={cropperData.url}
+                style={{ maxHeight: 300, width: '100%' }}/>
+            </div>
+            <div styleName='cropper-buttons'>
+              <div styleName='cropper-rotate' onClick={this.cropperRotate}>
+                <i><IconReload/></i>
+              </div>
+              <div styleName='cropper-reset' onClick={this.cropperReset}>
+                {t('common.reset')}
+              </div>
+              <div styleName='cropper-save' onClick={this.cropperSave}>
+                {t('common.save')}
+              </div>
+            </div>
+          </div>
+        </ReactModal>}
         <h2 styleName='content-title'>{t('common.profile')}</h2>
         <div styleName='user-photos'>
           <div styleName='user-avatar'>

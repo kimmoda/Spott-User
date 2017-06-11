@@ -11,6 +11,7 @@
 
 .user-photos {
   display: flex;
+  flex-wrap: wrap;
   margin-top: 32px;
 }
 
@@ -20,6 +21,7 @@
   flex-wrap: wrap;
   width: 96px;
   margin-right: 40px;
+  text-align: center;
 }
 
 .avatar-image {
@@ -116,6 +118,98 @@
   @include btnPink;
 }
 
+.modal-overlay {
+  background-color: $overlayColorBlack;
+  z-index: 5000;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-content {
+  overflow: hidden;
+  display: flex;
+  max-width: 400px;
+  width: 100%;
+  backface-visibility: hidden;
+  height: auto;
+  border-radius: 4px;
+  background-color: $colorWhite;
+  margin: 96px auto 0 auto;
+}
+
+.modal-close {
+  cursor: pointer;
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  transition: transform 0.5s ease;
+  z-index: 10;
+  i {
+    :global {
+      .fill {
+        fill: white;
+      }
+    }
+    svg {
+      width: 21px;
+      height: 21px;
+    }
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.content {
+  width: 100%;
+}
+
+.cropper-title {
+  @include headlineMedium;
+  padding: 24px;
+}
+
+.cropper {
+  padding: 0 24px 32px 24px;
+}
+
+.cropper-buttons {
+  border-top: 1px solid $colorGrayLighter;
+  margin-top: 24px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cropper-rotate {
+  @include btnMedium;
+  i {
+    :global {
+      .fill {
+        fill: $colorGray;
+      }
+    }
+  }
+  width: 32px;
+  margin-right: 16px;
+}
+
+.cropper-reset {
+  @include btnMedium;
+  margin-right: 16px;
+}
+
+.cropper-save {
+  @include btnMedium;
+  @include btnPink;
+}
+
 //large desktop view
 @media (min-width: $lgDesktopBreakpoint) {
 
@@ -130,18 +224,55 @@
 }
 //phone view
 @media (max-width: $phoneBreakpoint) {
-  .user-photos {
-    display: block;
-  }
   .user-avatar {
-    margin-bottom: 30px;
+    margin: 0 40px 32px 0;
+  }
+  .user-bg {
+    width: 100%;
   }
   .bg-image {
     width: 100%;
-    max-width: 250px;
   }
   .user-form-wrapper {
     width: 100%;
-    max-width: 360px;
+  }
+  .cropper-buttons {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 12px;
+  }
+  .cropper-rotate {
+    margin-right: 0;
+  }
+  .cropper-reset {
+    margin-right: 0;
+    max-width: 110px;
+  }
+  .cropper-save {
+    max-width: 82px;
+  }
+  .modal-content {
+    margin: 32px auto 0 auto;
+    position: relative;
+    max-width: 343px;
+    width: 100%;
+  }
+  .modal-overlay {
+    padding: 0 16px;
+  }
+  .modal-close {
+    right: 23.7px;
+    top: 23.7px;
+    i {
+      :global {
+        .fill {
+          fill: #a7a6a9;
+        }
+      }
+      svg {
+        width: 16.6px;
+        height: 16.6px;
+      }
+    }
   }
 }
