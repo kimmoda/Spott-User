@@ -27,7 +27,8 @@ import resetPassword from './pages/resetPassword/reducer';
 import home from './pages/home/reducer';
 import basket from './pages/basket/reducer';
 import newHome from './pages/newHome/reducer';
-import { getLocalStorage, isServer } from './utils';
+// import { getLocalStorage, isServer } from './utils';
+import { getLocalStorage } from './utils';
 
 // Enable some stuff during development to ease debugging
 if (process.env.NODE_ENV !== 'production') {
@@ -94,6 +95,7 @@ export function createOurStore (theHistory, reducers, initialState) {
 
 async function boot () {
   // Make sure theoplayer is accessible.
+  /*
   if (!isServer()) {
     const a = document.createElement('script');
     const b = document.getElementsByTagName('script')[0];
@@ -101,6 +103,7 @@ async function boot () {
     a.type = 'text/javascript';
     b.parentNode.insertBefore(a, b);
   }
+  */
   // Create redux store
   const initialState = fromJS({});
   const store = createOurStore(browserHistory, rootReducer, initialState);

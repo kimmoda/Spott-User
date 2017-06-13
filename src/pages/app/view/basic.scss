@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
+
+:global {
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+  }
+  body {
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+  }
+}
