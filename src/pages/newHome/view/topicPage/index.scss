@@ -83,8 +83,8 @@
 }
 
 .info-subscribers {
-  @include btnMedium;
-  @include btnWhite;
+  padding: 0 22.5px;
+  display: flex;
 }
 
 .info-subscribers-count {
