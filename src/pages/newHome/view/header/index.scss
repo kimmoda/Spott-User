@@ -34,11 +34,56 @@
   img {
     height: 34px;
     width: 110px;
+    @media (max-width: $phoneBreakpoint) {
+      width: 86px;
+    }
   }
 }
 
 .header-right {
   display: flex;
+}
+
+.languages-bar {
+  display: flex;
+  align-items: center;
+}
+
+.language-dropdown {
+  @include bodyRegular($colorGray);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  i {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    transform: rotate(90deg);
+    svg {
+      width: 6.5px;
+      height: 10px;
+    }
+    :global {
+      .fill {
+        fill: $colorGrayDark;
+      }
+    }
+  }
+  span {
+    display: block;
+    @media (max-width: $phoneBreakpoint) {
+      display: none;
+    }
+  }
+  strong {
+    font-weight: inherit;
+    text-transform: uppercase;
+    display: none;
+    @media (max-width: $phoneBreakpoint) {
+      display: block;
+    }
+  }
 }
 
 .user-bar {
@@ -111,6 +156,11 @@
   @include btnPink;
   position: relative;
   z-index: 100;
+  margin-left: $gutterWidth;
+  @media (max-width: $phoneBreakpoint) {
+    margin-left: $gutterSmallWidth;
+    padding: 0 8px;
+  }
 }
 
 .search {
@@ -146,6 +196,10 @@
     .react-autosuggest__container {
       width: 100%;
     }
+  }
+  @media (max-width: $phoneBreakpoint) {
+    margin-left: 40%;
+    transform: translateX(-40%);
   }
 }
 

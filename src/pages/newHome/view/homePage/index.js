@@ -98,6 +98,7 @@ export default class NewHome extends Component {
     this.handleLoadSpotts();
   }
 
+  /*
   loadOnScroll (isVisible) {
     const { spotts: s, spottsSubscribed: ss } = this.props;
     const { lazyLoadMode } = this.state;
@@ -106,6 +107,14 @@ export default class NewHome extends Component {
     }
     if (ss.get('data').size + s.get('data').size >= 21) {
       this.setState({ lazyLoadMode: false });
+    }
+  }
+  */
+
+  loadOnScroll (isVisible) {
+    const { spotts: s, spottsSubscribed: ss } = this.props;
+    if (isVisible && ((ss.get('data').size && ss.get('_status') === LOADED) || (s.get('data').size && s.get('_status') === LOADED))) {
+      this.handleLoadSpotts();
     }
   }
 

@@ -90,31 +90,6 @@
   @include smallRegular($colorGray);
 }
 
-.language-dropdown {
-  @include bodyRegular($colorGray);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  i {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-    transform: rotate(90deg);
-    svg {
-      width: 6.5px;
-      height: 10px;
-    }
-    :global {
-      .fill {
-        fill: $colorGrayDark;
-      }
-    }
-  }
-  .selected {
-    background-color: $colorGrayLighter;
-  }
-}
 //large desktop view
 @media (min-width: $lgDesktopBreakpoint) {
 
@@ -133,14 +108,6 @@
   }
   .footer-wrapper {
     margin-bottom: 32px;
-  }
-  .language-selection {
-    & > div {
-      & > div {
-        bottom: initial;
-        top: 20px;
-      }
-    }
   }
 }
 //phone view

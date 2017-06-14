@@ -17,6 +17,7 @@ import * as appActions from '../../../app/actions';
 import { newHeaderSelector } from '../../selectors';
 import AutocompleteListItem from './autocompleteListItem';
 import AutocompleteInput from './autocompleteInput';
+import { localesHash, locales } from '../../../../locales';
 
 const styles = require('./index.scss');
 
@@ -102,6 +103,11 @@ export default class Header extends Component {
 
   getSuggestionValue (suggestion) {
     return this.state.searchValue;
+  }
+
+  changeLocale (locale, e) {
+    e.preventDefault();
+    window.location.replace(window.location.href.replace(`/${this.props.currentLocale}`, `/${locale}`));
   }
 
   onBlur () {
@@ -240,6 +246,25 @@ export default class Header extends Component {
               </div>
             </div>
             <div styleName='header-right'>
+              <div styleName='languages-bar'>
+                <DropdownMenu
+                  alignLeft
+                  trigger={
+                    <div className={styles['language-dropdown']}>
+                      <span>{localesHash[currentLocale]}</span>
+                      <strong>{currentLocale}</strong>
+                      <i><IconArrow3/></i>
+                    </div>
+                  }>
+                  {locales.map((locale) =>
+                    <div
+                      className={currentLocale === locale ? 'selected' : null}
+                      key={locale} onClick={this.changeLocale.bind(this, locale)}>
+                      {localesHash[locale]}
+                    </div>
+                  )}
+                </DropdownMenu>
+              </div>
               {isAuthenticated
                 ? <div styleName='user-bar'>
                     {/*

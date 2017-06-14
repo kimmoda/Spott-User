@@ -3,9 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../../../_common/localized';
-import { localesHash, locales } from '../../../../locales';
-import { IconFacebook, IconTwitter, IconInstagram, IconArrow3 } from '../icons';
-import DropdownMenu from '../dropdownMenu';
+import { IconFacebook, IconTwitter, IconInstagram } from '../icons';
 
 const styles = require('./index.scss');
 
@@ -22,12 +20,6 @@ export default class Footer extends Component {
 
   constructor (props) {
     super(props);
-  }
-
-  changeLocale (locale, e) {
-    e.preventDefault();
-    // Full refresh the page with the new locale in the url.
-    window.location.replace(window.location.href.replace(`/${this.props.currentLocale}`, `/${locale}`));
   }
 
   render () {
@@ -53,11 +45,6 @@ export default class Footer extends Component {
                   <Link styleName='footer-nav-link' to={`/${currentLocale}/terms`}>{t('common.terms')}</Link>
                   <Link styleName='footer-nav-link' to={`/${currentLocale}/privacy`}>{t('common.privacy')}</Link>
                   <Link styleName='footer-nav-link' to={`/${currentLocale}/cookies`}>{t('footer.cookiePolicy')}</Link>
-                </div>
-                <div styleName='footer-nav'>
-                  <DropdownMenu alignTop trigger={<div className={styles['language-dropdown']}>{localesHash[currentLocale]}<i><IconArrow3/></i></div>}>
-                    {locales.map((locale) => (<div className={currentLocale === locale ? 'selected' : null} key={locale} onClick={this.changeLocale.bind(this, locale)}>{localesHash[locale]}</div>))}
-                  </DropdownMenu>
                 </div>
               </nav>
             </div>
