@@ -29,7 +29,7 @@ export default class Topics extends Component {
         state: { dc: getDetailsDcFromLinks(item.get('links').toJS()) }
       }}>
         <div
-          style={{ backgroundImage: `url(${item.getIn([ 'icon', 'url' ])}?width=160&height=90)` }}
+          style={{ backgroundImage: `url(${item.getIn([ 'profileImage', 'url' ])}?width=160&height=90)` }}
           styleName='topic-image'/>
         <div styleName='topic-overlay'/>
         <div styleName='topic-title'>{item.get('text')}</div>
