@@ -22,7 +22,7 @@ export function transformUser ({ uuid, userName, profile }) {
       username: userName,
       description: profile.description ? profile.description : null,
       gender: profile.gender ? profile.gender : null,
-      languages: profile.languages ? profile.languages : null,
+      languages: profile.languages && profile.languages.length ? profile.languages : null,
       currency: profile.currency ? profile.currency : null,
       shoppingCountries: profile.shoppingCountries ? profile.shoppingCountries : null,
       contentRegions: profile.contentRegions ? profile.contentRegions : null
@@ -37,8 +37,8 @@ export function transformUser ({ uuid, userName, profile }) {
       monthOfBirth: moment(profile.dateOfBirth).get('month'),
       yearOfBirth: moment(profile.dateOfBirth).get('year'),
       currencyForm: profile.currency ? profile.currency.code : null,
-      languageForm: profile.languages ? profile.languages[0].uuid : null,
-      languagesForm: profile.languages ? profile.languages
+      languageForm: profile.languages && profile.languages.length ? profile.languages[0].uuid : null,
+      languagesForm: profile.languages && profile.languages.length ? profile.languages
         .map((item) => item.uuid)
         .filter((item) => item !== profile.languages[0].uuid) : null,
       shoppingCountriesForm: profile.shoppingCountries ? profile.shoppingCountries.map((item) => item.uuid) : null,
