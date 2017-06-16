@@ -121,9 +121,9 @@ export default class NewHome extends Component {
   handleLoadSpotts () {
     const { spotts: s, spottsSubscribed: ss, spottsPromoted: sp } = this.props;
     const pages = {
-      spottsPage: s.get('page', -1) + 1 < s.get('pageCount') ? s.get('page', -1) + 1 : -1,
-      spottsSubscribedPage: ss.get('page', -1) + 1 < ss.get('pageCount') ? ss.get('page', -1) + 1 : -1,
-      spottsPromotedPage: sp.get('page', -1) + 1 < sp.get('pageCount') ? sp.get('page', -1) + 1 : -1
+      spottsPage: s.get('page', -1) + 1 < s.get('pageCount', 1) ? s.get('page', -1) + 1 : -1,
+      spottsSubscribedPage: ss.get('page', -1) + 1 < ss.get('pageCount', 1) ? ss.get('page', -1) + 1 : -1,
+      spottsPromotedPage: sp.get('page', -1) + 1 < sp.get('pageCount', 1) ? sp.get('page', -1) + 1 : -1
     };
     this.props.loadSpottsList(Boolean(this.props.isAuthenticated), pages);
   }

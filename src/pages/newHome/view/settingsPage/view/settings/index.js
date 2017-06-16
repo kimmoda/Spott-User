@@ -214,7 +214,7 @@ export default class NewUserSettings extends Component {
             </div>
             <div styleName='cropper'>
               <Cropper
-                aspectRatio={cropperData.imageType === 'avatar' ? 1 : null}
+                aspectRatio={cropperData.imageType === 'avatar' ? 1 : 2.6}
                 checkOrientation
                 ref='cropper'
                 rotatable
