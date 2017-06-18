@@ -12,6 +12,7 @@ export const currentUserProfileSelector = (state) => state.getIn([ 'app', 'authe
 export const currentUserProfileInitialValuesSelector = (state) => state.getIn([ 'app', 'authentication', 'initialValues' ]);
 
 export const trendingTopicsSelector = (state) => state.getIn([ 'newHome', 'trendingTopics' ]);
+export const trendingSeriesSelector = (state) => state.getIn([ 'newHome', 'trendingSeries' ]);
 export const topicSelector = (state) => state.getIn([ 'newHome', 'topic' ]);
 export const topicSpottsSelector = (state) => state.getIn([ 'newHome', 'topicSpotts' ]);
 export const topicRelatedSelector = (state) => state.getIn([ 'newHome', 'topicRelated' ]);
@@ -89,6 +90,7 @@ const homeFeedSelector = createSelector(
 
 export const newHomeSelector = createStructuredSelector({
   isAuthenticated: authenticationTokenSelector,
+  trendingSeries: trendingSeriesSelector,
   trendingTopics: trendingTopicsSelector,
   spotts: spottsSelector,
   spottsSubscribed: spottsSubscribedSelector,

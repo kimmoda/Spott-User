@@ -17,6 +17,7 @@ const styles = require('./index.scss');
 @localized
 @connect(newHomeSelector, (dispatch) => ({
   loadSpottsList: bindActionCreators(actions.loadSpottsListWrapper, dispatch),
+  loadTrendingSeries: bindActionCreators(actions.loadTrendingSeries, dispatch),
   loadTrendingTopics: bindActionCreators(actions.loadTrendingTopics, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
@@ -26,6 +27,7 @@ export default class NewHome extends Component {
     feedSpotts: PropTypes.array.isRequired,
     isAuthenticated: PropTypes.string,
     loadSpottsList: PropTypes.func.isRequired,
+    loadTrendingSeries: PropTypes.func.isRequired,
     loadTrendingTopics: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -33,6 +35,7 @@ export default class NewHome extends Component {
     spottsPromoted: PropTypes.any.isRequired,
     spottsSubscribed: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired,
+    trendingSeries: PropTypes.any.isRequired,
     trendingTopics: PropTypes.any.isRequired
   };
 
@@ -46,13 +49,15 @@ export default class NewHome extends Component {
     this.handleLoadSpotts = ::this.handleLoadSpotts;
     this.state = {
       width: 280,
-      lazyLoadMode: true
+      lazyLoadMode: true,
+      topicsTabIndex: 0
     };
   }
 
   componentDidMount () {
     this.loadData(this.props);
     this.props.loadTrendingTopics();
+    this.props.loadTrendingSeries();
     window.addEventListener('resize', this.handleResize);
     this.getWidth();
   }
@@ -143,15 +148,41 @@ export default class NewHome extends Component {
     return false;
   }
 
+  setTopicsTabIndex (index) {
+    this.setState({ topicsTabIndex: index });
+  }
+
   render () {
-    const { trendingTopics, location, feedSpotts, t, params } = this.props;
-    const { width, lazyLoadMode } = this.state;
+    const { trendingTopics, trendingSeries, location, feedSpotts, t, params } = this.props;
+    const { width, lazyLoadMode, topicsTabIndex } = this.state;
     return (
       <section styleName='wrapper'>
+        <div styleName='topics-nav-wrapper responsive-container'>
+          <div styleName='topics-nav'>
+            <div
+              className={topicsTabIndex === 0 ? styles['topics-nav-item-active'] : null}
+              styleName='topics-nav-item'
+              onClick={this.setTopicsTabIndex.bind(this, 0)}>
+              {t('topic.trendingTopics')}
+            </div>
+            <div
+              className={topicsTabIndex === 1 ? styles['topics-nav-item-active'] : null}
+              styleName='topics-nav-item'
+              onClick={this.setTopicsTabIndex.bind(this, 1)}>
+              {t('topic.series')}
+            </div>
+          </div>
+        </div>
         <div styleName='topics responsive-container'>
-          <div styleName='topics-content'>
-            <div styleName='topics-title'>{t('topic.trendingTopics')}</div>
-            <Topics items={trendingTopics} />
+          <div
+            className={topicsTabIndex === 0 ? styles['topics-content-active'] : null}
+            styleName='topics-content'>
+            <Topics items={trendingTopics}/>
+          </div>
+          <div
+            className={topicsTabIndex === 1 ? styles['topics-content-active'] : null}
+            styleName='topics-content'>
+            <Topics items={trendingSeries}/>
           </div>
         </div>
         <div styleName='cards responsive-container'>

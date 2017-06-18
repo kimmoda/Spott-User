@@ -5,6 +5,7 @@ import { FETCHING, ERROR, LOADED } from '../../data/statusTypes';
 
 export default function newHomeReducer (state = Map({
   trendingTopics: Map(),
+  trendingSeries: Map(),
   topic: Map(),
   topicSpotts: Map({ data: OrderedMap() }),
   topicRelated: Map(),
@@ -42,6 +43,13 @@ export default function newHomeReducer (state = Map({
       return state.set('trendingTopics', fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_TRENDING_TOPICS_ERROR:
       return state.mergeIn([ 'trendingTopics' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_TRENDING_SERIES_START:
+      return state.mergeIn([ 'trendingSeries' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_TRENDING_SERIES_SUCCESS:
+      return state.set('trendingSeries', fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.GET_TRENDING_SERIES_ERROR:
+      return state.mergeIn([ 'trendingSeries' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.GET_TOPIC_START:
       return state.mergeIn([ 'topic' ], Map({ _error: null, _status: FETCHING }));

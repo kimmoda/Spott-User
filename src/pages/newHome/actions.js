@@ -13,6 +13,10 @@ export const GET_TRENDING_TOPICS_START = 'NEW/GET_TRENDING_TOPICS_START';
 export const GET_TRENDING_TOPICS_SUCCESS = 'NEW/GET_TRENDING_TOPICS_SUCCESS';
 export const GET_TRENDING_TOPICS_ERROR = 'NEW/GET_TRENDING_TOPICS_ERROR';
 
+export const GET_TRENDING_SERIES_START = 'NEW/GET_TRENDING_SERIES_START';
+export const GET_TRENDING_SERIES_SUCCESS = 'NEW/GET_TRENDING_SERIES_SUCCESS';
+export const GET_TRENDING_SERIES_ERROR = 'NEW/GET_TRENDING_SERIES_ERROR';
+
 export const GET_TOPIC_START = 'NEW/GET_TOPIC_START';
 export const GET_TOPIC_SUCCESS = 'NEW/GET_TOPIC_SUCCESS';
 export const GET_TOPIC_ERROR = 'NEW/GET_TOPIC_ERROR';
@@ -249,6 +253,8 @@ export const trackProductImpression = makeApiActionCreator(api.trackProductImpre
 export const trackProductView = makeApiActionCreator(api.trackProductView, TRACK_PRODUCT_EVENT_START, TRACK_PRODUCT_EVENT_SUCCESS, TRACK_PRODUCT_EVENT_ERROR);
 
 export const loadTrendingTopics = makeApiActionCreator(api.getTrendingTopics, GET_TRENDING_TOPICS_START, GET_TRENDING_TOPICS_SUCCESS, GET_TRENDING_TOPICS_ERROR);
+
+export const loadTrendingSeries = makeApiActionCreator(api.getTrendingSeries, GET_TRENDING_SERIES_START, GET_TRENDING_SERIES_SUCCESS, GET_TRENDING_SERIES_ERROR);
 
 export const loadTopic = makeApiActionCreator(api.getTopic, GET_TOPIC_START, GET_TOPIC_SUCCESS, GET_TOPIC_ERROR);
 

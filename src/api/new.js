@@ -3,7 +3,12 @@ import { get, post, del } from './request';
 import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList, transformFollowersList } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=20`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=30`);
+  return body;
+}
+
+export async function getTrendingSeries (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/searches/topics?page=0&pageSize=30`);
   return body;
 }
 
