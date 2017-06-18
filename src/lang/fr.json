@@ -10,6 +10,7 @@
     "email": "E-mail",
     "emailAddress": "Adresse e-mail",
     "female": "Féminin",
+    "findYourStyle": "Trouvez votre style",
     "firstName": "Prénom",
     "followers": "Abonné(e)s",
     "following": "Abonnements",
@@ -74,6 +75,7 @@
     "clearSearchHistory": "Effacer l'historique",
     "topicsForYou": "Sujets pour vous",
     "searchForInspiration": "Recherche d'inspiration",
+    "search": "Recherche",
     "spotts": {
       "noResults": "Malheureusement! Nous n’avons pas trouvé de Spotts pour votre recherche. Essayez à nouveau!"
     },

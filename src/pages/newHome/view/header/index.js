@@ -219,7 +219,7 @@ export default class Header extends Component {
       onSearchClose: this.onSearchClose,
       onFocus: this.onFocus,
       onKeyDown: this.onKeyDown,
-      placeholder: t('search.searchForInspiration')
+      placeholder: t('search.search')
     };
 
     return (
@@ -229,6 +229,9 @@ export default class Header extends Component {
             <Link styleName='logo' to={`/${currentLocale}/`}>
               <img alt={t('common.home')} src={spottLogo}/>
             </Link>
+            <h2 styleName='find-style'>
+              {t('common.findYourStyle')}
+            </h2>
             <div className={this.state.isInputFocused && styles['search-active']} styleName='search'>
               <div className={this.state.isInputFocused && (`${styles['search-wrapper-active']} ${styles['responsive-container']}`)} styleName='search-wrapper'>
                 <Autosuggest

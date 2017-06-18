@@ -10,6 +10,7 @@
     "email": "E-mail",
     "emailAddress": "Email address",
     "female": "Female",
+    "findYourStyle": "Find your style",
     "firstName": "First name",
     "followers": "Followers",
     "following": "Following",
@@ -74,6 +75,7 @@
     "clearSearchHistory": "Clear search history",
     "topicsForYou": "Topics for you",
     "searchForInspiration": "Search for inspiration",
+    "search": "Search",
     "spotts": {
       "noResults": "Unfortunately, we weren’t able to find Spotts for your request. Please try again!"
     },
