@@ -10,7 +10,6 @@
     "email": "E-mail",
     "emailAddress": "Email address",
     "female": "Female",
-    "findYourStyle": "Find your style",
     "firstName": "First name",
     "followers": "Followers",
     "following": "Following",
@@ -71,6 +70,7 @@
     "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions."
   },
   "search": {
+    "findYourStyle": "Find your style",
     "recentSearches": "Recent searches",
     "clearSearchHistory": "Clear search history",
     "topicsForYou": "Topics for you",

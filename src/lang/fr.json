@@ -10,7 +10,6 @@
     "email": "E-mail",
     "emailAddress": "Adresse e-mail",
     "female": "Féminin",
-    "findYourStyle": "Trouvez votre style",
     "firstName": "Prénom",
     "followers": "Abonné(e)s",
     "following": "Abonnements",
@@ -71,6 +70,7 @@
     "successfullyReset": "Votre mot de passe a été réinitialisé avec succès. Vérifiez votre email pour obtenir d'autres instructions."
   },
   "search": {
+    "findYourStyle": "Trouvez votre style",
     "recentSearches": "Recherches récentes",
     "clearSearchHistory": "Effacer l'historique",
     "topicsForYou": "Sujets pour vous",

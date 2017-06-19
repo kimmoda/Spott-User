@@ -40,15 +40,6 @@
   }
 }
 
-.find-style {
-  @include headlineMedium($colorPink);
-  display: block;
-  margin-left: auto;
-  @media (max-width: $tabletLandscapeBreakpoint) {
-    display: none;
-  }
-}
-
 .header-right {
   display: flex;
 }
@@ -175,13 +166,12 @@
 .search {
   display: block;
   height: 34px;
+  width: 100%;
+  position: absolute;
+  z-index: 0;
   background-color: rgba(255, 255, 255, 0);
   transition: background 0.3s ease;
-  margin-left: auto;
-  margin-right: $gutterWidth;
-  @media (max-width: $phoneBreakpoint) {
-    margin-right: $gutterSmallWidth;
-  }
+  left: 0;
 }
 
 .search-active {
@@ -189,16 +179,18 @@
   z-index: 120;
   height: $headerHeight;
   width: 100%;
-  position: absolute;
   left: 0;
 }
 
 .search-wrapper {
+  position: absolute;
   display: flex;
   align-items: center;
   height: 34px;
   transition: margin-left 0.3s ease, width 0s ease;
-  width: 143px;
+  width: 230px;
+  margin-left: 50%;
+  transform: translateX(-50%);
   :global {
     .react-autosuggest__container {
       width: 100%;
@@ -452,9 +444,12 @@
 }
 //tablet portrait view
 @media (max-width: $tabletLandscapeBreakpoint - 1){
+  .search-wrapper {
+    width: 100px;
+  }
   .recent-searches, .search-topics {
     width: 100%;
-    padding: 0;
+    padding: 0px;
   }
   .search-topics {
     margin-top: 40px;

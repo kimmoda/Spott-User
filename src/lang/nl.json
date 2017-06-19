@@ -10,7 +10,6 @@
     "email": "E-mail",
     "emailAddress": "E-mailadres",
     "female": "Vrouw",
-    "findYourStyle": "Find your style",
     "firstName": "Je voornaam",
     "followers": "Volgers",
     "following": "Volgend",
@@ -71,6 +70,7 @@
     "successfullyReset": "Jouw wachtwoord is succesvol gereset. Gelieve jouw e-mail te bekijken voor verdere instructies."
   },
   "search": {
+    "findYourStyle": "Find your style",
     "recentSearches": "Recente zoekopdrachten",
     "clearSearchHistory": "Zoekgeschiedenis verwijderen",
     "topicsForYou": "Onderwerpen voor jou",
