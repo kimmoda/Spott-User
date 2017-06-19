@@ -144,19 +144,19 @@ export default class NewTopic extends Component {
               <div styleName='info-left'>
                 {topic.get('sourceType') === 'BRAND' &&
                   <div
-                    style={{ backgroundImage: `url('${topic.getIn([ 'brand', 'logo', 'url' ])}?width=48&height=48')` }}
+                    style={{ backgroundImage: `url('${topic.getIn([ 'brand', 'logo', 'url' ])}?width=160&height=160')` }}
                     styleName='info-image info-image-square'/>}
                 {topic.get('sourceType') === 'MEDIUM' &&
                   <div
-                    style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'posterImage', 'url' ])}?width=48&height=72')` }}
+                    style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'posterImage', 'url' ])}?width=160&height=160')` }}
                     styleName='info-image'/>}
                 {topic.get('sourceType') === 'CHARACTER' &&
                   <div
-                    style={{ backgroundImage: `url('${topic.getIn([ 'character', 'avatar', 'url' ])}?width=48&height=48')` }}
+                    style={{ backgroundImage: `url('${topic.getIn([ 'character', 'avatar', 'url' ])}?width=160&height=160')` }}
                     styleName='info-image info-image-square'/>}
                 {topic.get('sourceType') === 'PERSON' &&
                   <div
-                    style={{ backgroundImage: `url('${topic.getIn([ 'person', 'avatar', 'url' ])}?width=48&height=48')` }}
+                    style={{ backgroundImage: `url('${topic.getIn([ 'person', 'avatar', 'url' ])}?width=160&height=160')` }}
                     styleName='info-image info-image-square'/>}
                 <div styleName='info-header'>
                   <h2 styleName='info-title'>{topic.get('text')}</h2>

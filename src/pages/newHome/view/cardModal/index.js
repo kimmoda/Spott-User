@@ -250,14 +250,14 @@ export default class CardModal extends Component {
                       if (person.get('person', null)) {
                         return <Link
                           key={`person_marker_${person.get('uuid')}`}
-                          style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=32&height=32)` }}
+                          style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=90&height=90)` }}
                           styleName='person'
                           title={person.getIn([ 'person', 'name' ])}
                           to={`/${currentLocale}/topic/${person.getIn([ 'person', 'name' ]).replace(/\W+/g, '-')}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`}/>;
                       }
                       return <Link
                         key={`person_marker_${person.get('uuid')}`}
-                        style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
+                        style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=90&height=90)` }}
                         styleName='person'
                         title={person.getIn([ 'character', 'name' ])}
                         to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/\W+/g, '-')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>;
@@ -273,7 +273,7 @@ export default class CardModal extends Component {
                       <div
                         className={item.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
                         key={`product_${index}`}
-                        style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80')` }}
+                        style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=160&height=160')` }}
                         styleName='product'
                         onClick={this.onProductClick.bind(this, item)}/>
                     </ProductImpressionSensor>

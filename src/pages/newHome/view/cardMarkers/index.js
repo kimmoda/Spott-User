@@ -70,7 +70,7 @@ class CardMarker extends Component {
         <div styleName='marker-wrapper' onMouseEnter={this.onMarkerHover} onMouseLeave={this.onMarkerBlur}>
           <ProductImpressionSensor active={this.state.markerHovered} delay={300} productId={item.getIn([ 'product', 'uuid' ])} productLinks={item.getIn([ 'product', 'links' ])}>
             <div styleName='marker-content'>
-              <div style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=48&height=48')` }} styleName='marker-image'/>
+              <div style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80')` }} styleName='marker-image'/>
               <div styleName='marker-right'>
                 <div
                   className={item.get('relevance') === 'EXACT' ? styles['marker-rel-exact'] : styles['marker-rel-medium']}

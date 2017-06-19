@@ -143,14 +143,14 @@ export default class Card extends Component {
                 if (person.get('person', null)) {
                   return <Link
                     key={`person_marker_${person.get('uuid')}`}
-                    style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=32&height=32)` }}
+                    style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=90&height=90)` }}
                     styleName='person'
                     title={person.getIn([ 'person', 'name' ])}
                     to={`/${currentLocale}/topic/${slugify(person.getIn([ 'person', 'name' ], ''))}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`}/>;
                 }
                 return <Link
                   key={`person_marker_${person.get('uuid')}`}
-                  style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=32&height=32)` }}
+                  style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=90&height=90)` }}
                   styleName='person'
                   title={person.getIn([ 'character', 'name' ])}
                   to={`/${currentLocale}/topic/${slugify(person.getIn([ 'character', 'name' ], ''))}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>;

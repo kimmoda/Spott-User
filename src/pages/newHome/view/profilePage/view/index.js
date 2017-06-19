@@ -153,7 +153,7 @@ export default class NewUserProfile extends Component {
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div
-                  style={{ backgroundImage: userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ]) ? `url('${userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ])}?width=48&height=48')` : null }}
+                  style={{ backgroundImage: userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ]) ? `url('${userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ])}?width=64&height=64')` : null }}
                   styleName='info-image'>
                   {!userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ]) && <IconAvatar/>}
                 </div>

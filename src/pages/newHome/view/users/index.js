@@ -81,7 +81,7 @@ export default class Users extends Component {
                 key={`user_${currentUserProfile.get('id')}`}
                 style={{
                   zIndex: 101,
-                  backgroundImage: currentUserProfile.getIn([ 'avatar', 'url' ]) ? `url(${currentUserProfile.getIn([ 'avatar', 'url' ])}?width=26&height=26)` : null
+                  backgroundImage: currentUserProfile.getIn([ 'avatar', 'url' ]) ? `url(${currentUserProfile.getIn([ 'avatar', 'url' ])}?width=64&height=64)` : null
                 }}
                 styleName='user'
                 title={`${currentUserProfile.get('firstName')} ${currentUserProfile.get('lastName')}`}
@@ -93,7 +93,7 @@ export default class Users extends Component {
                 key={`user_${item.get('uuid')}`}
                 style={{
                   zIndex: 100 - index,
-                  backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?width=26&height=26)` : null
+                  backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?width=64&height=64)` : null
                 }}
                 styleName='user'
                 title={`${item.get('firstName')} ${item.get('lastName')}`}

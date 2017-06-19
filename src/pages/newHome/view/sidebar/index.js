@@ -259,7 +259,7 @@ export default class Sidebar extends Component {
                   <div
                     key={`spott_${index}`}
                     style={{
-                      backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?height=80'`,
+                      backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?with=160&height=160'`,
                       minWidth: item.getIn([ 'image', 'dimension', 'width' ], 80) * (80 / item.getIn([ 'image', 'dimension', 'height' ], 1))
                     }}
                     styleName='sidebar-seen'
@@ -277,7 +277,7 @@ export default class Sidebar extends Component {
                   <ProductImpressionSensor key={`product_imp_${index}`} productId={item.get('uuid')} productLinks={product.get('links')}>
                     <div
                       key={`product_${index}`}
-                      style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=80&height=80'` }}
+                      style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=160&height=160'` }}
                       styleName='sidebar-similar'
                       onClick={onProductClick.bind(this, item.get('uuid'), item.get('shortName'), product.get('dc'))}/>
                   </ProductImpressionSensor>
