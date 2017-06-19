@@ -237,8 +237,8 @@ export default class CardModal extends Component {
               <div ref={(ref) => { this.imageContainer = ref; }} styleName='image'>
                 {spott.get('image') &&
                   <ImageLoader
-                    height={600}
-                    heightThumb={400}
+                    height={Math.ceil(spott.getIn([ 'image', 'dimension', 'height' ]) * (width / spott.getIn([ 'image', 'dimension', 'width' ])))}
+                    heightThumb={Math.ceil(spott.getIn([ 'image', 'dimension', 'height' ]) * (280 / spott.getIn([ 'image', 'dimension', 'width' ])))}
                     imgOriginal={spott.get('image')}
                     imgThumb={spott.get('image')}
                     width={width}

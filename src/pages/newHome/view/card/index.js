@@ -132,7 +132,10 @@ export default class Card extends Component {
     return (
       <div styleName='card'>
         <div styleName='image' onClick={(event) => this.showSpott(event)}>
-          <ImageLoader height={400} imgOriginal={item.get('image')} width={width}/>
+          <ImageLoader
+            height={Math.ceil(item.getIn([ 'image', 'dimension', 'height' ]) * (width / item.getIn([ 'image', 'dimension', 'width' ])))}
+            imgOriginal={item.get('image')}
+            width={width}/>
           {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onImageClick={(event) => this.showSpott(event)} onMarkerClick={this.onCardMarkerClick}/>}
           {spottDetails.get('personMarkers') &&
             <div styleName='persons'>
