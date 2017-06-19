@@ -153,7 +153,7 @@ export default class NewHome extends Component {
   }
 
   render () {
-    const { trendingTopics, trendingSeries, location, feedSpotts, t, params } = this.props;
+    const { trendingSeries, trendingTopics, location, feedSpotts, t, params } = this.props;
     const { width, lazyLoadMode, topicsTabIndex } = this.state;
     return (
       <section styleName='wrapper'>
@@ -163,13 +163,13 @@ export default class NewHome extends Component {
               className={topicsTabIndex === 0 ? styles['topics-nav-item-active'] : null}
               styleName='topics-nav-item'
               onClick={this.setTopicsTabIndex.bind(this, 0)}>
-              {t('topic.trendingTopics')}
+              {t('topic.series')}
             </div>
             <div
               className={topicsTabIndex === 1 ? styles['topics-nav-item-active'] : null}
               styleName='topics-nav-item'
               onClick={this.setTopicsTabIndex.bind(this, 1)}>
-              {t('topic.series')}
+              {t('topic.trendingTopics')}
             </div>
           </div>
         </div>
@@ -177,12 +177,12 @@ export default class NewHome extends Component {
           <div
             className={topicsTabIndex === 0 ? styles['topics-content-active'] : null}
             styleName='topics-content'>
-            <Topics items={trendingTopics}/>
+            <Topics items={trendingSeries}/>
           </div>
           <div
             className={topicsTabIndex === 1 ? styles['topics-content-active'] : null}
             styleName='topics-content'>
-            <Topics items={trendingSeries}/>
+            <Topics items={trendingTopics}/>
           </div>
         </div>
         <div styleName='cards responsive-container'>
