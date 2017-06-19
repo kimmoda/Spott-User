@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>appiness.mobi</groupId>
 		<artifactId>appiness.spott.website.docker</artifactId>
-		<version>02.00.05-SNAPSHOT</version>
+		<version>02.00.05</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	<artifactId>appiness.spott.website.docker.seoserver</artifactId>
