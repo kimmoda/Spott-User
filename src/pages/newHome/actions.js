@@ -29,6 +29,22 @@ export const GET_TOPIC_SPOTTS_MORE_START = 'NEW/GET_TOPIC_SPOTTS_MORE_START';
 export const GET_TOPIC_SPOTTS_MORE_SUCCESS = 'NEW/GET_TOPIC_SPOTTS_MORE_SUCCESS';
 export const GET_TOPIC_SPOTTS_MORE_ERROR = 'NEW/GET_TOPIC_SPOTTS_MORE_ERROR';
 
+export const GET_TOPIC_SEASONS_START = 'NEW/GET_TOPIC_SEASONS_START';
+export const GET_TOPIC_SEASONS_SUCCESS = 'NEW/GET_TOPIC_SEASONS_SUCCESS';
+export const GET_TOPIC_SEASONS_ERROR = 'NEW/GET_TOPIC_SEASONS_ERROR';
+
+export const GET_TOPIC_SEASON_SPOTTS_START = 'NEW/GET_TOPIC_SEASON_SPOTTS_START';
+export const GET_TOPIC_SEASON_SPOTTS_SUCCESS = 'NEW/GET_TOPIC_SEASON_SPOTTS_SUCCESS';
+export const GET_TOPIC_SEASON_SPOTTS_ERROR = 'NEW/GET_TOPIC_SEASON_SPOTTS_ERROR';
+
+export const GET_TOPIC_SEASON_EPISODES_START = 'NEW/GET_TOPIC_SEASON_EPISODES_START';
+export const GET_TOPIC_SEASON_EPISODES_SUCCESS = 'NEW/GET_TOPIC_SEASON_EPISODES_SUCCESS';
+export const GET_TOPIC_SEASON_EPISODES_ERROR = 'NEW/GET_TOPIC_SEASON_EPISODES_ERROR';
+
+export const GET_TOPIC_SEASON_EPISODE_SPOTTS_START = 'NEW/GET_TOPIC_SEASON_EPISODE_SPOTTS_START';
+export const GET_TOPIC_SEASON_EPISODE_SPOTTS_SUCCESS = 'NEW/GET_TOPIC_SEASON_EPISODE_SPOTTS_SUCCESS';
+export const GET_TOPIC_SEASON_EPISODE_SPOTTS_ERROR = 'NEW/GET_TOPIC_SEASON_EPISODE_SPOTTS_ERROR';
+
 export const GET_TOPIC_RELATED_START = 'NEW/GET_TOPIC_RELATED_START';
 export const GET_TOPIC_RELATED_SUCCESS = 'NEW/GET_TOPIC_RELATED_SUCCESS';
 export const GET_TOPIC_RELATED_ERROR = 'NEW/GET_TOPIC_RELATED_ERROR';
@@ -262,6 +278,14 @@ export const loadTopicSpotts = makeApiActionCreator(api.getTopicSpotts, GET_TOPI
 
 export const loadTopicSpottsMore = makeApiActionCreator(api.getTopicSpotts, GET_TOPIC_SPOTTS_MORE_START, GET_TOPIC_SPOTTS_MORE_SUCCESS, GET_TOPIC_SPOTTS_MORE_ERROR);
 
+export const loadTopicSeasons = makeApiActionCreator(api.getTvSeriesSeasons, GET_TOPIC_SEASONS_START, GET_TOPIC_SEASONS_SUCCESS, GET_TOPIC_SEASONS_ERROR);
+
+export const loadTopicSeasonSpotts = makeApiActionCreator(api.getTvSeriesPosts, GET_TOPIC_SEASON_SPOTTS_START, GET_TOPIC_SEASON_SPOTTS_SUCCESS, GET_TOPIC_SEASON_SPOTTS_ERROR);
+
+export const loadTopicSeasonEpisodes = makeApiActionCreator(api.getTvSeriesSeasonEpisodes, GET_TOPIC_SEASON_EPISODES_START, GET_TOPIC_SEASON_EPISODES_SUCCESS, GET_TOPIC_SEASON_EPISODES_ERROR);
+
+export const loadTopicSeasonEpisodeSpotts = makeApiActionCreator(api.getTvSeriesPosts, GET_TOPIC_SEASON_EPISODE_SPOTTS_START, GET_TOPIC_SEASON_EPISODE_SPOTTS_SUCCESS, GET_TOPIC_SEASON_EPISODE_SPOTTS_ERROR);
+
 export const loadTopicRelated = makeApiActionCreator(api.getTopicRelated, GET_TOPIC_RELATED_START, GET_TOPIC_RELATED_SUCCESS, GET_TOPIC_RELATED_ERROR);
 
 export const setTopicSubscriber = makeApiActionCreator(api.setTopicSubscriber, SET_TOPIC_SUBSCRIBER_START, SET_TOPIC_SUBSCRIBER_SUCCESS, SET_TOPIC_SUBSCRIBER_ERROR);
@@ -271,8 +295,10 @@ export const removeTopicSubscriber = makeApiActionCreator(api.removeTopicSubscri
 export function loadTopicDetails ({ uuid, dc = '' }) {
   return async (dispatch, getState) => {
     try {
-      dispatch(loadTopic({ uuid, dc }));
-      dispatch(loadTopicSpotts({ uuid }));
+      const topicData = await dispatch(loadTopic({ uuid, dc }));
+      if (topicData.sourceType === 'MEDIUM' && topicData.medium && topicData.medium.type === 'TV_SERIE') {
+        dispatch(loadTopicSeasons({ uuid: topicData.medium.uuid }));
+      }
       dispatch(loadTopicRelated({ uuid }));
     } catch (error) {
       throw error;

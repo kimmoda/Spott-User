@@ -142,23 +142,17 @@
 .cards-filters-container {
   width: 100%;
   padding: 0 $offsetWidth;
-  display: flex;
-  justify-content: center;
   background-color: $colorGrayWhite;
+  margin-top: 28px;
 }
 
 .cards-filters {
-  max-width: $maxWidth;
   margin: 0 auto;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  border-bottom: 1px solid $colorGrayLighter;
-  padding: 30px 0 30px 0;
 }
 
 .cards-filter {
-  margin: 0 24px;
+  margin: 0;
 }
 
 .cards-filter-trigger {
@@ -177,6 +171,88 @@
       }
     }
   }
+  a {
+    @include titleMedium;
+    text-decoration: none;
+  }
+}
+
+.episodes {
+  display: flex;
+  padding: 15px 0 0 0;
+  border-bottom: 1px solid $colorGrayLighter;
+}
+
+.episode {
+  position: relative;
+  display: block;
+  width: gridSmallWidth(2);
+  min-width: gridSmallWidth(2);
+  height: 90px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  &:hover {
+    .episode-title {
+      color: $colorBlack;
+    }
+    .episode-overlay {
+      &::before {
+        opacity: 0;
+      }
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+  &:active {
+    .episode-title {
+      color: $colorBlack;
+    }
+  }
+}
+
+.episode-wrapper {
+  display: block;
+  text-decoration: none;
+  padding-bottom: 32px;
+  margin-right: $gutterSmallWidth;
+}
+
+.episode-wrapper-selected {
+  border-bottom: 2px solid $colorPink;
+}
+
+.episode-image {
+  position: absolute;
+  border-radius: 4px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: 50%;
+}
+
+.episode-overlay {
+  @include overlay;
+  border-radius: 4px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  &:before {
+    border-radius: 4px;
+  }
+  &:after {
+    border-radius: 4px;
+  }
+}
+
+.episode-title {
+  @include bodyRegular($colorWhite);
+  position: absolute;
+  left: 16px;
+  bottom: 13px;
+  white-space: nowrap;
 }
 
 .cards-wrapper {

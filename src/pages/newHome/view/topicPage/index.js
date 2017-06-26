@@ -4,12 +4,15 @@ import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
+import { Link } from 'react-router';
 import localized from '../../../_common/localized';
 import Topics from '../topics';
-import Cards from '../cards';
-import { IconCheck } from '../icons';
+import { IconCheck, IconArrow3 } from '../icons';
 import * as actions from '../../actions';
 import { topicDetailsSelector } from '../../selectors';
+import DropdownMenu from '../dropdownMenu';
+import { slugify } from '../../../../utils';
+import Tiles from '../tiles';
 
 const styles = require('./index.scss');
 const { cssHeaderHeight } = require('../vars.scss');
@@ -17,6 +20,7 @@ const { cssHeaderHeight } = require('../vars.scss');
 @localized
 @connect(topicDetailsSelector, (dispatch) => ({
   loadTopicDetails: bindActionCreators(actions.loadTopicDetails, dispatch),
+  loadTopicSeasonEpisodes: bindActionCreators(actions.loadTopicSeasonEpisodes, dispatch),
   loadTopicSpottsMore: bindActionCreators(actions.loadTopicSpottsMore, dispatch),
   removeTopicSubscriber: bindActionCreators(actions.removeTopicSubscriber, dispatch),
   setTopicSubscriber: bindActionCreators(actions.setTopicSubscriber, dispatch),
@@ -25,14 +29,18 @@ const { cssHeaderHeight } = require('../vars.scss');
 @CSSModules(styles, { allowMultiple: true })
 export default class NewTopic extends Component {
   static propTypes = {
+    children: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
     loadTopicDetails: PropTypes.func.isRequired,
+    loadTopicSeasonEpisodes: PropTypes.func.isRequired,
     loadTopicSpottsMore: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     params: PropTypes.shape({
       topicTitle: PropTypes.string.isRequired,
-      topicId: PropTypes.string.isRequired
+      topicId: PropTypes.string.isRequired,
+      seasonId: PropTypes.string,
+      seasonSlug: PropTypes.string
     }),
     removeTopicSubscriber: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
@@ -40,6 +48,9 @@ export default class NewTopic extends Component {
     t: PropTypes.func.isRequired,
     topic: PropTypes.any.isRequired,
     topicRelated: PropTypes.any.isRequired,
+    topicSeasonEpisodes: PropTypes.any.isRequired,
+    topicSeasonSpotts: PropTypes.any.isRequired,
+    topicSeasons: PropTypes.any.isRequired,
     topicSpotts: PropTypes.any.isRequired
   };
 
@@ -52,10 +63,6 @@ export default class NewTopic extends Component {
     this.loadMore = ::this.loadMore;
     this.state = {
       isScrolledToInfo: false,
-      filterVal: 'Everything',
-      filterVals: [ 'Test 1', 'Test 2', 'Test 3' ],
-      filterSecondVal: 'Popular',
-      filterSecondVals: [ 'Test 3', 'Test 4', 'Test 5' ],
       infoContainerHeight: null
     };
     this.headerHeight = parseInt(cssHeaderHeight, 10);
@@ -63,9 +70,12 @@ export default class NewTopic extends Component {
   }
 
   componentDidMount () {
-    const { location, params, topicSpotts, loadTopicDetails } = this.props;
+    const { location, params, topicSpotts, loadTopicDetails, loadTopicSeasonEpisodes } = this.props;
     const dc = location.state && location.state.dc || '';
     loadTopicDetails({ uuid: params.topicId, page: topicSpotts.get('page') || 0, dc });
+    if (params.seasonId) {
+      loadTopicSeasonEpisodes({ uuid: params.seasonId });
+    }
     this.getContainerHeight();
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleResize);
@@ -73,10 +83,13 @@ export default class NewTopic extends Component {
 
   componentWillReceiveProps (nextProps) {
     const dc = nextProps.location.state && nextProps.location.state.dc || '';
-    const { topicId } = this.props.params;
-    const { topicId: nextTopicId } = nextProps.params;
+    const { topicId, seasonId } = this.props.params;
+    const { topicId: nextTopicId, seasonId: nextSeasonId } = nextProps.params;
     if (topicId !== nextTopicId) {
       this.props.loadTopicDetails({ uuid: nextTopicId, page: nextProps.topicSpotts.get('page') || 0, dc });
+    }
+    if (nextSeasonId && seasonId !== nextSeasonId) {
+      this.props.loadTopicSeasonEpisodes({ uuid: nextSeasonId });
     }
   }
 
@@ -133,8 +146,11 @@ export default class NewTopic extends Component {
   }
 
   render () {
-    const { topic, topicRelated, topicSpotts, t, params } = this.props;
+    const { topic, topicRelated, t, topicSeasons, children, currentLocale, topicSeasonEpisodes } = this.props;
+    const { topicTitle, topicId, seasonId, seasonSlug } = this.props.params;
     const { isScrolledToInfo, infoContainerHeight } = this.state;
+    const currentSeason = topicSeasons.get('data', []).find((item) => item.get('uuid') === seasonId);
+
     return (
       <section styleName='wrapper'>
         {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200&height=480')` }} styleName='poster'/>}
@@ -192,39 +208,47 @@ export default class NewTopic extends Component {
               <Topics items={topicRelated} />
             </div>
           </div>}
-        {/*
-        <div styleName='cards-filters-container'>
-          <div styleName='cards-filters'>
-            <div styleName='cards-filter'>
-              <DropdownMenu trigger={<div className={styles['cards-filter-trigger']}><div>{filterVal}</div><i><IconArrow3/></i></div>}>
-                {filterVals.map((item, index) =>
-                  <div key={`filter1_${index}`} onClick={this.onFilterClick}>{item}</div>
-                )}
-                <DropdownDivider/>
-                <DropdownNested triggerText='Nested menu'>
-                  <div>Nested menu item</div>
-                  <div>Nested menu item 2</div>
-                </DropdownNested>
-              </DropdownMenu>
+        {(topic.get('sourceType') === 'MEDIUM' && topic.getIn([ 'medium', 'type' ]) === 'TV_SERIE') &&
+          <div styleName='cards-filters-container responsive-container'>
+            <div styleName='cards-filters'>
+              <div styleName='cards-filter'>
+                <DropdownMenu trigger={
+                  <div className={styles['cards-filter-trigger']}>
+                    {seasonId ? (currentSeason && currentSeason.get('title')) : 'All seasons'}
+                    <i><IconArrow3/></i>
+                  </div>
+                }>
+                  <Link to={`/${currentLocale}/topic/${slugify(topicTitle)}/${topicId}`}>All seasons</Link>
+                  {topicSeasons.get('data', []).map((item, index) =>
+                    <Link activeClassName='selected' key={`season_${index}`} to={`/${currentLocale}/topic/${slugify(topicTitle)}/${topicId}/season/${slugify(item.get('title'))}/${item.get('uuid')}`}>
+                      {item.get('title')}
+                    </Link>
+                  )}
+                </DropdownMenu>
+              </div>
             </div>
-            <div styleName='cards-filter'>
-              <DropdownMenu trigger={<div className={styles['cards-filter-trigger']}><div>{filterSecondVal}</div><i><IconArrow3/></i></div>}>
-                {filterSecondVals.map((item, index) =>
-                  <div key={`filter2_${index}`} onClick={this.onFilterSecondClick}>{item}</div>
+            <div styleName='episodes'>
+              {topicSeasonEpisodes.get('data') && <Tiles tileOffsetWidth={16} tilesCount={topicSeasonEpisodes.get('data').size}>
+                {topicSeasonEpisodes.get('data', []).map((item, index) =>
+                  <Link
+                    activeClassName={styles['episode-wrapper-selected']}
+                    key={`episode_${index}_${item.get('uuid')}`}
+                    styleName='episode-wrapper'
+                    to={`/${currentLocale}/topic/${slugify(topicTitle)}/${topicId}/season/${seasonSlug}/${seasonId}/episode/${slugify(item.get('title', ''))}/${item.get('uuid')}`}>
+                    <div styleName='episode'>
+                      <div
+                        style={{ backgroundImage: `url(${item.getIn([ 'profileImage', 'url' ])}?width=160&height=90)` }}
+                        styleName='episode-image'/>
+                      <div styleName='episode-overlay'/>
+                      <div styleName='episode-title'>{item.get('title')}</div>
+                    </div>
+                  </Link>
                 )}
-              </DropdownMenu>
+              </Tiles>}
             </div>
-          </div>
-        </div>
-        */}
+          </div>}
         <div styleName='cards-wrapper responsive-container'>
-          <div styleName='cards'>
-            <Cards
-              loadMore={this.loadMore}
-              location={location}
-              params={params}
-              spotts={topicSpotts}/>
-          </div>
+          {children}
         </div>
       </section>
     );

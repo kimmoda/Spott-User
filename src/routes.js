@@ -22,7 +22,10 @@ import { currentLocaleSelector, isDownloadPageShowedSelector } from './pages/app
 // import { updateLocale as updateUbLocale } from './pages/basket/actions';
 import { trackTopicView } from './pages/newHome/actions';
 import NewHome from './pages/newHome/view/homePage';
-import NewTopic from './pages/newHome/view/topicPage';
+import Topic from './pages/newHome/view/topicPage';
+import TopicSpotts from './pages/newHome/view/topicPage/topicSpotts';
+import SeasonSpotts from './pages/newHome/view/topicPage/seasonSpotts';
+import EpisodeSpotts from './pages/newHome/view/topicPage/episodeSpotts';
 import NewLogin from './pages/newHome/view/login';
 import NewRegistration from './pages/newHome/view/registration';
 import NewUserSettingsPage from './pages/newHome/view/settingsPage/view';
@@ -122,13 +125,17 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
         <IndexRoute component={NewHome} newDesign />
         <Route
-          component={NewTopic}
+          component={Topic}
           newDesign
           path='topic/:topicTitle/:topicId'
           onEnter={({ params: { topicId }, location }) => {
             const dc = location.state && location.state.dc || '';
             topicId && dispatch(trackTopicView({ uuid: topicId, dc }));
-          }}/>
+          }}>
+          <IndexRoute component={TopicSpotts} newDesign/>
+          <Route component={SeasonSpotts} newDesign path='season/:seasonSlug/:seasonId'/>
+          <Route component={EpisodeSpotts} newDesign path='season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId'/>
+        </Route>
         <Route component={NewLogin} newDesign path='login'/>
         <Route component={NewRegistration} newDesign path='registration'/>
         <Route component={NewResetPassword} newDesign path='resetpassword'/>

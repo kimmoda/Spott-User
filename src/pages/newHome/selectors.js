@@ -14,6 +14,10 @@ export const currentUserProfileInitialValuesSelector = (state) => state.getIn([ 
 export const trendingTopicsSelector = (state) => state.getIn([ 'newHome', 'trendingTopics' ]);
 export const trendingSeriesSelector = (state) => state.getIn([ 'newHome', 'trendingSeries' ]);
 export const topicSelector = (state) => state.getIn([ 'newHome', 'topic' ]);
+export const topicSeasonsSelector = (state) => state.getIn([ 'newHome', 'topicSeasons' ]);
+export const topicSeasonSpottsSelector = (state) => state.getIn([ 'newHome', 'topicSeasonSpotts' ]);
+export const topicSeasonEpisodesSelector = (state) => state.getIn([ 'newHome', 'topicSeasonEpisodes' ]);
+export const topicSeasonEpisodeSpottsSelector = (state) => state.getIn([ 'newHome', 'topicSeasonEpisodeSpotts' ]);
 export const topicSpottsSelector = (state) => state.getIn([ 'newHome', 'topicSpotts' ]);
 export const topicRelatedSelector = (state) => state.getIn([ 'newHome', 'topicRelated' ]);
 export const topicSubscribersSelector = (state) => state.getIn([ 'newHome', 'topicSubscribers' ]);
@@ -121,6 +125,10 @@ export const spottDetailsSelector = createStructuredSelector({
 
 export const topicDetailsSelector = createStructuredSelector({
   topic: topicSelector,
+  topicSeasons: topicSeasonsSelector,
+  topicSeasonSpotts: topicSeasonSpottsSelector,
+  topicSeasonEpisodes: topicSeasonEpisodesSelector,
+  topicSeasonEpisodeSpotts: topicSeasonEpisodeSpottsSelector,
   topicSpotts: topicSpottsSelector,
   topicRelated: topicRelatedSelector,
   topicSubscribers: topicSubscribersSelector,

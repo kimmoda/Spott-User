@@ -340,7 +340,7 @@ export default class CardModal extends Component {
         </div>
         {share &&
           <FacebookShareData
-            description={share.get('description')}
+            description={spott.get('comment')}
             imageHeight={share.getIn([ 'image', 'dimension', 'height' ])}
             imageUrl={share.getIn([ 'image', 'url' ])}
             imageWidth={share.getIn([ 'image', 'dimension', 'width' ])}
