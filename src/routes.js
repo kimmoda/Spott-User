@@ -171,7 +171,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <IndexRedirect to={`/${getBrowserLanguage()}`} />
       {locales.map((locale) => makeLocalizedRoutes(locale))}
 
-      <Route component={Error404} path='*' showCookies={false} />
+      <Route component={Error404} newDesign path='*' showCookies={false} />
     </Route>
   );
 };

@@ -138,5 +138,11 @@
     "moreInfo": "Deze website maakt gebruik van cookies om uw gebruikservaring te verbeteren. [[Meer info]]",
     "policy": "Wij hebben onze [[gebruiksvoorwaarden]] en [[privacybeleid]] aangepast.",
     "continue": "Verdergaan"
+  },
+  "error404": {
+    "pageDoesNotExist": "De door u opgevraagde pagina bestaat niet.",
+    "returnToSpott": "Keer terug naar Spott.it",
+    "somethingWentWrong": "Er ging iets mis!",
+    "title": "Whoops!"
   }
 }

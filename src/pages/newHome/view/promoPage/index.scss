@@ -27,23 +27,23 @@
 .header-logo1 {
   background: url("logo.png") no-repeat 50% 50% #000;
   background-size: contain;
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   @media (max-width: $phoneBreakpoint) {
-    height: 80px;
-    width: 80px;
+    height: 70px;
+    width: 70px;
   }
 }
 
 .header-logo2 {
   background: url("logo2.png") no-repeat 50% 50% #000;
   background-size: contain;
-  width: 72px;
-  height: 72px;
+  width: 62px;
+  height: 62px;
   margin-left: 20px;
   @media (max-width: $phoneBreakpoint) {
-    height: 52px;
-    width: 52px;
+    height: 42px;
+    width: 42px;
   }
 }
 
