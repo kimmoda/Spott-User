@@ -40,6 +40,7 @@ import SearchResultsPosts from './pages/newHome/view/searchResultsPage/view/post
 import SearchResultsPeople from './pages/newHome/view/searchResultsPage/view/people';
 import NewResetPassword from './pages/newHome/view/resetPassword';
 import CardModal from './pages/newHome/view/cardModal';
+import PromoPage from './pages/newHome/view/promoPage';
 
 /**
  * The application routes
@@ -122,6 +123,8 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={Cookies} newDesign path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
         <Route component={Mobile} path='mobile/download' standalone/>
+
+        <Route component={PromoPage} path='douweegberts' standalone/>
 
         <IndexRoute component={NewHome} newDesign />
         <Route

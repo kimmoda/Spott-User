@@ -1,0 +1,266 @@
+@import "../vars";
+@import "../responsive";
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+.header {
+  width: 100%;
+  height: 100px;
+  padding: 20px;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  @media (max-width: $phoneBreakpoint) {
+    height: 80px;
+    padding: 15px;
+  }
+}
+
+
+.header-logo1 {
+  background: url("logo.png") no-repeat 50% 50% #000;
+  background-size: contain;
+  width: 100px;
+  height: 100px;
+  @media (max-width: $phoneBreakpoint) {
+    height: 80px;
+    width: 80px;
+  }
+}
+
+.header-logo2 {
+  background: url("logo2.png") no-repeat 50% 50% #000;
+  background-size: contain;
+  width: 72px;
+  height: 72px;
+  margin-left: 20px;
+  @media (max-width: $phoneBreakpoint) {
+    height: 52px;
+    width: 52px;
+  }
+}
+
+.banner {
+  display: block;
+  padding: 15px;
+  height: 500px;
+  width: 100%;
+  background: url("bg_border.jpg") repeat 0 0 $colorBlack;
+  background-size: 20%;
+  @media (max-width: $phoneBreakpoint) {
+    height: 250px;
+  }
+}
+
+.banner-image {
+  background: url("bg.jpg") no-repeat 50% 50% $colorBlack;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.banner-hero {
+  box-shadow: $boxShadowBlurer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: url("bg_banner.png") no-repeat 50% 50% $colorOrange;
+  padding: 30px 40px;
+  margin-right: 10%;
+  border-radius: 4px;
+  @media (max-width: $phoneBreakpoint) {
+    padding: 10px 20px;
+    margin-right: 10%;
+  }
+}
+
+.banner-logo {
+  background: url("logo.png") no-repeat 50% 50%;
+  background-size: cover;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 7px;
+  @media (max-width: $phoneBreakpoint) {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.banner-logo2 {
+  background: url("logo2.png") no-repeat 50% 50%;
+  background-size: cover;
+  width: 60px;
+  height: 60px;
+  margin-top: 7px;
+  @media (max-width: $phoneBreakpoint) {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.banner-text {
+  text-align: center;
+  b {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: $colorWhite;
+    display: block;
+    @media (max-width: $phoneBreakpoint) {
+      font-size: 18px;
+    }
+  }
+  i {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 45px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: $colorWhite;
+    display: block;
+    margin: 15px 0;
+    @media (max-width: $phoneBreakpoint) {
+      font-size: 24px;
+      margin: 0;
+    }
+  }
+  span {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: 300;
+    font-size: 34px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: $colorWhite;
+    display: block;
+    margin-top: 5px;
+    @media (max-width: $phoneBreakpoint) {
+      font-size: 18px;
+      margin-top: 0;
+      line-height: 18px;
+    }
+  }
+}
+
+.content {
+  background-color: $colorWhite;
+  padding: 15px;
+  margin: 22px 0 40px 0;
+  flex: 1;
+  @media (max-width: $phoneBreakpoint) {
+    margin: 15px 0 30px 0;
+  }
+}
+
+.content-title {
+  @include headlineMedium($colorOrange);
+  font-size: 30px;
+  @media (max-width: $phoneBreakpoint) {
+    font-size: 20px;
+  }
+}
+
+.content-dscr {
+  @include titleRegular;
+  margin-top: 10px;
+  @media (max-width: $phoneBreakpoint) {
+    font-size: 14px;
+  }
+}
+
+.form {
+  display: block;
+  margin-top: 22px;
+}
+
+.form-row {
+  display: block;
+  width: 100%;
+  margin-bottom: 16px;
+  label {
+    @include titleMedium;
+    display: block;
+    margin-bottom: 5px;
+    @media (max-width: $phoneBreakpoint) {
+      font-size: 14px;
+    }
+  }
+  input {
+    width: 100%;
+    max-width: 400px;
+    height: 32px;
+    border-radius: 3px;
+    color: $colorOrange;
+    background-color: $colorWhite;
+    border: 1px solid $colorGrayLight;
+    outline: none;
+    padding-left: 12px;
+    padding-right: 12px;
+    &:focus {
+      border: solid 1px $colorGray;
+    }
+    &::placeholder {
+      color: $colorGray;
+    }
+  }
+}
+
+.form-checkbox {
+  display: flex;
+  max-width: 600px;
+  label {
+    @include titleRegular;
+    display: block;
+    margin: -2px 0 0 5px;
+    @media (max-width: $phoneBreakpoint) {
+      font-size: 14px;
+    }
+  }
+  input {
+    width: 30px;
+  }
+}
+
+.form-button {
+  @include btnBig;
+  @include btnPink;
+  margin-top: 16px;
+}
+
+
+.footer {
+  width: 100%;
+  height: 70px;
+  padding: 20px;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+}
+
+.footer-logo1 {
+  background: url("logo.png") no-repeat 50% 50% #000;
+  background-size: contain;
+  width: 60px;
+  height: 60px;
+}
+
+.footer-logo2 {
+  background: url("logo2.png") no-repeat 50% 50% #000;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+  margin-left: 20px;
+}
+
