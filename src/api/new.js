@@ -315,7 +315,7 @@ export async function trackProductView (baseUrl, authenticationToken, locale, { 
 }
 
 export async function getTvSeriesSeasons (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/${uuid}/seasons`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/${uuid}/seasons?sortDirection=DESC`);
   return body;
 }
 
@@ -325,6 +325,6 @@ export async function getTvSeriesPosts (baseUrl, authenticationToken, locale, { 
 }
 
 export async function getTvSeriesSeasonEpisodes (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/serieSeasons/${uuid}/episodes?pageSize=50`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/serieSeasons/${uuid}/episodes?pageSize=80&sortDirection=DESC`);
   return body;
 }
