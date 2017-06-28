@@ -27,16 +27,6 @@ export async function getTopicRelated (baseUrl, authenticationToken, locale, { u
   return body;
 }
 
-export async function getTopicMediaSeasons (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/${uuid}/seasons`);
-  return body;
-}
-
-export async function getTopicMediaSeries (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/${uuid}/seasons`);
-  return body;
-}
-
 export async function setTopicSubscriber (baseUrl, authenticationToken, locale, { uuid }) {
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/subscribers`);
   return body;
@@ -319,9 +309,9 @@ export async function getTvSeriesSeasons (baseUrl, authenticationToken, locale, 
   return body;
 }
 
-export async function getTvSeriesPosts (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/media/${uuid}/posts?pageSize=30`);
-  return body;
+export async function getTvSeriesPosts (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/media/${uuid}/posts?pageSize=20&page=${page}`);
+  return transformSpottsList(body);
 }
 
 export async function getTvSeriesSeasonEpisodes (baseUrl, authenticationToken, locale, { uuid }) {

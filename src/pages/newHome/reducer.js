@@ -66,14 +66,9 @@ export default function newHomeReducer (state = Map({
       return state.mergeIn([ 'topicSpotts' ], Map({ _error: null, _status: FETCHING })).set('topicSeasonEpisodes', Map());
     case actions.GET_TOPIC_SPOTTS_SUCCESS:
       return state.mergeIn([ 'topicSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).setIn([ 'topicSpotts', 'data' ], fromJS(action.data.data).toOrderedMap());
-    case actions.GET_TOPIC_SPOTTS_ERROR:
-      return state.mergeIn([ 'topicSpotts' ], Map({ _error: action.error, _status: ERROR }));
-
-    case actions.GET_TOPIC_SPOTTS_MORE_START:
-      return state.mergeIn([ 'topicSpotts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_TOPIC_SPOTTS_MORE_SUCCESS:
       return state.mergeIn([ 'topicSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'topicSpotts', 'data' ], fromJS(action.data.data));
-    case actions.GET_TOPIC_SPOTTS_MORE_ERROR:
+    case actions.GET_TOPIC_SPOTTS_ERROR:
       return state.mergeIn([ 'topicSpotts' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.GET_TOPIC_SEASONS_START:
@@ -87,6 +82,8 @@ export default function newHomeReducer (state = Map({
       return state.mergeIn([ 'topicSeasonSpotts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_TOPIC_SEASON_SPOTTS_SUCCESS:
       return state.mergeIn([ 'topicSeasonSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).setIn([ 'topicSeasonSpotts', 'data' ], fromJS(action.data.data).toOrderedMap());
+    case actions.GET_TOPIC_SEASON_SPOTTS_MORE_SUCCESS:
+      return state.mergeIn([ 'topicSeasonSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'topicSeasonSpotts', 'data' ], fromJS(action.data.data));
     case actions.GET_TOPIC_SEASON_SPOTTS_ERROR:
       return state.mergeIn([ 'topicSeasonSpotts' ], Map({ _error: action.error, _status: ERROR }));
 
@@ -101,6 +98,8 @@ export default function newHomeReducer (state = Map({
       return state.mergeIn([ 'topicSeasonEpisodeSpotts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_TOPIC_SEASON_EPISODE_SPOTTS_SUCCESS:
       return state.mergeIn([ 'topicSeasonEpisodeSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).setIn([ 'topicSeasonEpisodeSpotts', 'data' ], fromJS(action.data.data).toOrderedMap());
+    case actions.GET_TOPIC_SEASON_EPISODE_SPOTTS_MORE_SUCCESS:
+      return state.mergeIn([ 'topicSeasonEpisodeSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'topicSeasonEpisodeSpotts', 'data' ], fromJS(action.data.data));
     case actions.GET_TOPIC_SEASON_EPISODE_SPOTTS_ERROR:
       return state.mergeIn([ 'topicSeasonEpisodeSpotts' ], Map({ _error: action.error, _status: ERROR }));
 

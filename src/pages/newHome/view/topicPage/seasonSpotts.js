@@ -13,13 +13,13 @@ const styles = require('./index.scss');
 @localized
 @connect(topicDetailsSelector, (dispatch) => ({
   loadTopicSeasonSpotts: bindActionCreators(actions.loadTopicSeasonSpotts, dispatch),
-  loadTopicSpottsMore: bindActionCreators(actions.loadTopicSpottsMore, dispatch)
+  loadTopicSeasonSpottsMore: bindActionCreators(actions.loadTopicSeasonSpottsMore, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class SeasonSpotts extends Component {
   static propTypes = {
     loadTopicSeasonSpotts: PropTypes.func.isRequired,
-    loadTopicSpottsMore: PropTypes.func.isRequired,
+    loadTopicSeasonSpottsMore: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     params: PropTypes.shape({
       seasonId: PropTypes.string.isRequired,
@@ -47,7 +47,7 @@ export default class SeasonSpotts extends Component {
   }
 
   loadMore (page) {
-    this.props.loadTopicSpottsMore({ uuid: this.props.params.seasonId, page });
+    this.props.loadTopicSeasonSpottsMore({ uuid: this.props.params.seasonId, page });
   }
 
   render () {

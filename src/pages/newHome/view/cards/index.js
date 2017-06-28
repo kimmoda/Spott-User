@@ -2,9 +2,10 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import Masonry from 'react-masonry-component';
+import VisibilitySensor from 'react-visibility-sensor';
 import localized from '../../../_common/localized';
 import Card from '../card';
-import { FETCHING } from '../../../../data/statusTypes';
+import { FETCHING, LOADED } from '../../../../data/statusTypes';
 
 const styles = require('./index.scss');
 
@@ -25,6 +26,7 @@ export default class Cards extends Component {
     super(props);
     this.handleResize = ::this.handleResize;
     this.handleLayoutComplete = ::this.handleLayoutComplete;
+    this.loadOnScroll = ::this.loadOnScroll;
     this.state = {
       cardWidth: 280,
       cardCount: 0
@@ -62,8 +64,15 @@ export default class Cards extends Component {
     }
   }
 
+  loadOnScroll (isVisible) {
+    const { spotts: s, loadMore } = this.props;
+    if (isVisible && (s.get('data').size && s.get('_status') === LOADED)) {
+      loadMore(s.get('page') + 1);
+    }
+  }
+
   render () {
-    const { spotts, loadMore, location, t, params } = this.props;
+    const { spotts, location, params } = this.props;
     const { cardWidth, cardCount } = this.state;
 
     return (
@@ -85,7 +94,7 @@ export default class Cards extends Component {
         {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') &&
           spotts.get('totalResultCount') > spotts.get('pageSize') &&
           spotts.get('page') + 1 !== spotts.get('pageCount')) &&
-          <div styleName='load-more' onClick={loadMore.bind(this, spotts.get('page') + 1)}>{t('common.loadMore')}</div>
+          <VisibilitySensor delay={500} delayedCall onChange={this.loadOnScroll}/>
         }
       </div>
     );
