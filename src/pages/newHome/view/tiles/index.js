@@ -46,6 +46,16 @@ export default class Tiles extends Component {
       this.tilesContainerWidth = this.tilesContainer.clientWidth;
       this.calcTilesInContainer();
     }
+    if (nextProps.children && this.props.children && nextProps.children[0] && this.props.children[0] && nextProps.children[0].key !== this.props.children[0].key) {
+      this.setState({
+        tileIndex: 0,
+        translateOffset: 0,
+        tilesStyle: {
+          transform: 'translateX(0px)'
+        }
+      });
+      this.calcTilesInContainer();
+    }
   }
 
   calcTilesInContainer () {
