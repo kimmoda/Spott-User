@@ -94,8 +94,8 @@ export default class NewUserAccount extends Component {
       }
     };
     try {
-      this.alert.success('success', 'Your account was saved.');
       await this.props.updateUserProfile({ uuid: this.props.userId, data });
+      this.alert.success('success', 'Your account was saved.');
     } catch (e) {
       console.log(e);
       this.alert.success('error', 'Your account was NOT saved.');
@@ -176,8 +176,8 @@ export default class NewUserAccount extends Component {
                   name='contentRegionsForm'
                   options={systemContentRegions.get('data', List()).toJS().map((item) => {
                     return {
-                      value: `${item.country.uuid}-${item.language.uuid}`,
-                      label: `${item.country.name} (${item.language.name})`
+                      value: `${item.country.uuid}-${(item.language && item.language.uuid) || 'en'}`,
+                      label: `${item.country.name} (${(item.language && item.language.name) || 'English'})`
                     };
                   })}
                   submitFailed={submitFailed}/>

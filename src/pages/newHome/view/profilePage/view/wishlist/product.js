@@ -9,6 +9,7 @@ import { formatPrice } from '../../../../../_common/buildingBlocks';
 import * as actions from '../../../../actions';
 import ProductModal from '../../../productModal';
 import ProductImpressionSensor from '../../../productImpressionSensor';
+import { getDetailsDcFromLinks, slugify } from '../../../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -52,7 +53,10 @@ export default class NewUserWishlistProduct extends Component {
         <div styleName='product' onClick={this.onProductClick}>
           {this.state.isProductModalOpen && <ProductModal location={location} productId={item.get('uuid')} onClose={this.onProductModalClose}/>}
           <div style={{ backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=264&height=264)` }} styleName='product-image'/>
-          <Link styleName='product-brand' to={`/${currentLocale}/topic/${item.getIn([ 'brand', 'name' ]).replace(/\W+/g, '-')}/BRAND%7C${item.getIn([ 'brand', 'uuid' ])}`}>
+          <Link styleName='product-brand' to={{
+            pathname: `/${currentLocale}/topic/${slugify(item.getIn([ 'brand', 'name' ], ''))}/BRAND%7C${item.getIn([ 'brand', 'uuid' ])}`,
+            state: { dc: getDetailsDcFromLinks(item.getIn([ 'brand', 'links' ]).toJS()) }
+          }}>
             {item.getIn([ 'brand', 'name' ]).trim()}
           </Link>
           <div styleName='product-title'>

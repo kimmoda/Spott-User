@@ -8,6 +8,7 @@ import localized from '../../../_common/localized';
 import { IconDots, IconAvatar } from '../icons';
 import UsersLikesModal from './usersLikesModal';
 import { spottUsersSelector } from '../../selectors';
+import { getDetailsDcFromLinks } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -63,6 +64,7 @@ export default class Users extends Component {
     const { large, maxNum, items, currentLocale, spottId, currentUserProfile, isSpottLoved } = this.props;
     const { isUsersModalOpen } = this.state;
     const maxNumRecalc = isSpottLoved ? maxNum - 1 : maxNum;
+    const currentUser = isSpottLoved && items.find((item) => item.get('uuid') === currentUserProfile.get('id'));
 
     return (
       <div styleName={large ? 'users-large' : 'users'}>
@@ -85,7 +87,10 @@ export default class Users extends Component {
                 }}
                 styleName='user'
                 title={`${currentUserProfile.get('firstName')} ${currentUserProfile.get('lastName')}`}
-                to={`/${currentLocale}/profile/${currentUserProfile.get('id')}`}>
+                to={{
+                  pathname: `/${currentLocale}/profile/${currentUserProfile.get('id')}`,
+                  state: { dc: getDetailsDcFromLinks(currentUser.get('links').toJS()) }
+                }}>
                 {!currentUserProfile.getIn([ 'avatar', 'url' ]) && <IconAvatar/>}
             </Link>}
             {items.filter((item) => item.get('uuid') !== currentUserProfile.get('id')).slice(0, maxNumRecalc).map((item, index) =>
@@ -97,7 +102,10 @@ export default class Users extends Component {
                 }}
                 styleName='user'
                 title={`${item.get('firstName')} ${item.get('lastName')}`}
-                to={`/${currentLocale}/profile/${item.get('uuid')}`}>
+                to={{
+                  pathname: `/${currentLocale}/profile/${item.get('uuid')}`,
+                  state: { dc: getDetailsDcFromLinks(item.get('links').toJS()) }
+                }}>
                 {!item.getIn([ 'avatar', 'url' ]) && <IconAvatar/>}
               </Link>
             )}

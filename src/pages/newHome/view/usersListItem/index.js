@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import localized from '../../../_common/localized';
 import { IconAvatar, IconCheck } from '../icons';
 import * as actions from '../../actions';
+import { getDetailsDcFromLinks } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -78,7 +79,10 @@ export default class UserListItem extends Component {
     const { following } = this.state;
     return (
       <div styleName='people'>
-        <Link styleName='people-left' to={`/${currentLocale}/profile/${item.get('uuid')}`}>
+        <Link styleName='people-left' to={{
+          pathname: `/${currentLocale}/profile/${item.get('uuid')}`,
+          state: { dc: getDetailsDcFromLinks(item.get('links').toJS()) }
+        }}>
           <div
             style={{ backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?height=32&width=32)` : null }}
             styleName='people-avatar'>

@@ -119,8 +119,8 @@ export async function getUserSubscriptions (baseUrl, authenticationToken, locale
   return body;
 }
 
-export async function getUserProfile (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}`);
+export async function getUserProfile (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}?dc=${dc}`);
   return body;
 }
 

@@ -61,19 +61,21 @@ export default class NewUserProfile extends Component {
   }
 
   componentDidMount () {
+    const dc = this.props.location.state && this.props.location.state.dc || '';
+    this.props.loadUserProfile({ uuid: this.props.params.userId, dc });
     this.infoContainerHeight = this.infoContainerChild.clientHeight;
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleResize);
-    this.props.loadUserProfile({ uuid: this.props.params.userId });
   }
 
   async componentWillReceiveProps (nextProps) {
+    const dc = nextProps.location.state && nextProps.location.state.dc || '';
     if (nextProps.params.userId && nextProps.params.userId !== this.props.params.userId) {
       this.setState({
         isFollowersModalOpen: false,
         isFollowingModalOpen: false
       });
-      await this.props.loadUserProfile({ uuid: nextProps.params.userId });
+      await this.props.loadUserProfile({ uuid: nextProps.params.userId, dc });
       this.setState({
         isScrolledToInfo: false
       });

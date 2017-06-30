@@ -156,7 +156,7 @@ export default class NewUserSettings extends Component {
         languages: userProfile.get('languages', []),
         currency: userProfile.get('currency', {}),
         shoppingCountries: userProfile.get('shoppingCountries', []),
-        contentRegions: userProfile.get('contentRegions', [])
+        contentRegions: userProfile.get('contentRegions').size ? userProfile.get('contentRegions') : [ { country: { uuid: 'BE' }, language: { uuid: 'nl' } } ]
       }
     };
     try {
@@ -172,11 +172,11 @@ export default class NewUserSettings extends Component {
           backgroundFile: null
         });
       }
-      this.props.updateUserProfile({ uuid: this.props.userId, data });
+      await this.props.updateUserProfile({ uuid: this.props.userId, data });
       this.alert.success('success', 'Your settings were saved.');
     } catch (e) {
       console.log(e);
-      this.alert.success('error', 'Your settings were NOT saved.');
+      this.alert.error('error', 'Your settings were NOT saved.');
       throw e;
     }
   }

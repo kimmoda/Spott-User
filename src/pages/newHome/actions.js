@@ -587,7 +587,7 @@ export function loadUserProfileAccountWrapper ({ uuid }) {
       }
       if (!userProfile.profile.contentRegions || !userProfile.profile.contentRegions.length) {
         const defaultContentRegion = await dispatch(loadDefaultContentRegion());
-        defaultContentRegion && (userProfile.initialValues.contentRegionsForm = [ `${defaultContentRegion.country.uuid}-${defaultContentRegion.language.uuid}` ]);
+        defaultContentRegion && (userProfile.initialValues.contentRegionsForm = [ `${defaultContentRegion.country.uuid}-${(defaultContentRegion.language && defaultContentRegion.language.uuid) || 'en'}` ]);
       }
       if (!userProfile.profile.shoppingCountries || !userProfile.profile.shoppingCountries.length) {
         const defaultShoppingCountry = await dispatch(loadDefaultCountry());

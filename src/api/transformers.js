@@ -42,7 +42,7 @@ export function transformUser ({ uuid, userName, profile }) {
         .map((item) => item.uuid)
         .filter((item) => item !== profile.languages[0].uuid) : null,
       shoppingCountriesForm: profile.shoppingCountries ? profile.shoppingCountries.map((item) => item.uuid) : null,
-      contentRegionsForm: profile.contentRegions ? profile.contentRegions.map((item) => `${item.country.uuid}-${item.language.uuid}`) : null
+      contentRegionsForm: profile.contentRegions ? profile.contentRegions.map((item) => `${item.country.uuid}-${(item.language && item.language.uuid) || 'en'}`) : null
     }
   };
 }
@@ -358,21 +358,24 @@ export function transformPersonsList (data) {
         firstName: item.user.profile.firstName,
         lastName: item.user.profile.lastName,
         followingUser: item.user.profile.followingUser,
-        uuid: item.user.uuid
+        uuid: item.user.uuid,
+        links: item.user.links
       };
     }),
     actors: data.data.filter((item) => item.actor).map((item) => {
       return {
         avatar: item.actor.avatar,
         name: item.actor.name,
-        uuid: item.actor.uuid
+        uuid: item.actor.uuid,
+        links: item.actor.links
       };
     }),
     characters: data.data.filter((item) => item.character).map((item) => {
       return {
         avatar: item.character.avatar,
         name: item.character.name,
-        uuid: item.character.uuid
+        uuid: item.character.uuid,
+        links: item.character.links
       };
     })
   };
@@ -386,7 +389,8 @@ export function transformFollowersList (data) {
         firstName: item.firstName,
         lastName: item.lastName,
         followingUser: item.following,
-        uuid: item.user.uuid
+        uuid: item.user.uuid,
+        links: item.user.links
       };
     })
   };
