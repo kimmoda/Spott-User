@@ -151,7 +151,7 @@ export default class CardModal extends Component {
 
   shareSpott (event) {
     event.preventDefault();
-    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.spott.get('shareUrl'))}&title=Discover ${this.props.spott.get('title')} now on Spott`, 'name', 'width=600,height=400');
+    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.spott.get('shareUrl'))}&title=Discover ${this.props.spott.get('title')} now on Spott&description=${this.props.spott.get('comment')}`, 'name', 'width=600,height=400');
   }
 
   onCloseHandler () {
