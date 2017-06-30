@@ -14,7 +14,7 @@ import { userSettingsDetailsSelector } from '../../../../selectors';
 import { validateUserForm } from '../../validateForm';
 import { FormInput, FormRadio, FormSelect } from '../../../form';
 import Notifier from '../../../alert';
-import { IconClose, IconReload } from '../../../icons';
+import { IconClose, IconReload, IconArrow4 } from '../../../icons';
 
 const styles = require('./index.scss');
 
@@ -55,6 +55,12 @@ export default class NewUserSettings extends Component {
     this.cropperRotate = ::this.cropperRotate;
     this.cropperReset = ::this.cropperReset;
     this.cropperSave = ::this.cropperSave;
+    this.cropperZoomIn = ::this.cropperZoomIn;
+    this.cropperZoomOut = ::this.cropperZoomOut;
+    this.cropperMoveLeft = ::this.cropperMoveLeft;
+    this.cropperMoveRight = ::this.cropperMoveRight;
+    this.cropperMoveTop = ::this.cropperMoveTop;
+    this.cropperMoveBottom = ::this.cropperMoveBottom;
 
     this.state = {
       avatarFile: null,
@@ -93,9 +99,33 @@ export default class NewUserSettings extends Component {
     this.refs.cropper.reset();
   }
 
+  cropperZoomIn () {
+    this.refs.cropper.zoom(0.1);
+  }
+
+  cropperZoomOut () {
+    this.refs.cropper.zoom(-0.1);
+  }
+
+  cropperMoveLeft () {
+    this.refs.cropper.move(-10, 0);
+  }
+
+  cropperMoveRight () {
+    this.refs.cropper.move(10, 0);
+  }
+
+  cropperMoveTop () {
+    this.refs.cropper.move(0, -10);
+  }
+
+  cropperMoveBottom () {
+    this.refs.cropper.move(0, 10);
+  }
+
   cropperSave () {
     if (this.state.cropperData.imageType === 'avatar') {
-      const dataUrl = this.refs.cropper.getCroppedCanvas({ width: 100, height: 100 }).toDataURL('image/jpeg', 0.8);
+      const dataUrl = this.refs.cropper.getCroppedCanvas({ width: 100, height: 100 }).toDataURL('image/jpeg', 1);
       this.setState({
         avatarPreviewUrl: dataUrl,
         avatarFile: dataUrl.split(',')[1],
@@ -103,7 +133,7 @@ export default class NewUserSettings extends Component {
         cropperData: null
       });
     } else {
-      const dataUrl = this.refs.cropper.getCroppedCanvas({ width: 1500, height: 400 }).toDataURL('image/jpeg', 0.8);
+      const dataUrl = this.refs.cropper.getCroppedCanvas({ width: 1800, height: 400 }).toDataURL('image/jpeg', 0.8);
       this.setState({
         backgroundPreviewUrl: dataUrl,
         backgroundFile: dataUrl.split(',')[1],
@@ -223,14 +253,40 @@ export default class NewUserSettings extends Component {
                 style={{ maxHeight: 300, width: '100%' }}/>
             </div>
             <div styleName='cropper-buttons'>
-              <div styleName='cropper-rotate' onClick={this.cropperRotate}>
-                <i><IconReload/></i>
+              <div styleName='cropper-buttons-row'>
+                <div styleName='cropper-rotate' onClick={this.cropperRotate}>
+                  <i><IconReload/></i>
+                </div>
+                <div styleName='cropper-buttons-group'>
+                  <div styleName='cropper-move cropper-move-left' onClick={this.cropperMoveLeft}>
+                    <i><IconArrow4/></i>
+                  </div>
+                  <div styleName='cropper-move cropper-move-right' onClick={this.cropperMoveRight}>
+                    <i><IconArrow4/></i>
+                  </div>
+                  <div styleName='cropper-move cropper-move-top' onClick={this.cropperMoveTop}>
+                    <i><IconArrow4/></i>
+                  </div>
+                  <div styleName='cropper-move cropper-move-bottom' onClick={this.cropperMoveBottom}>
+                    <i><IconArrow4/></i>
+                  </div>
+                </div>
+                <div styleName='cropper-buttons-group'>
+                  <div styleName='cropper-zoom' onClick={this.cropperZoomIn}>
+                    +
+                  </div>
+                  <div styleName='cropper-zoom' onClick={this.cropperZoomOut}>
+                    -
+                  </div>
+                </div>
               </div>
-              <div styleName='cropper-reset' onClick={this.cropperReset}>
-                {t('common.reset')}
-              </div>
-              <div styleName='cropper-save' onClick={this.cropperSave}>
-                {t('common.save')}
+              <div styleName='cropper-buttons-row'>
+                <div styleName='cropper-reset' onClick={this.cropperReset}>
+                  {t('common.reset')}
+                </div>
+                <div styleName='cropper-save' onClick={this.cropperSave}>
+                  {t('common.save')}
+                </div>
               </div>
             </div>
           </div>

@@ -183,8 +183,68 @@
   border-top: 1px solid $colorGrayLighter;
   margin-top: 24px;
   padding: 20px 24px;
+}
+
+.cropper-buttons-row {
   display: flex;
   justify-content: flex-end;
+  width: 100%;
+  &:first-child {
+    margin-bottom: 24px;
+    justify-content: space-between;
+  }
+}
+
+.cropper-buttons-group {
+  display: flex;
+}
+
+.cropper-move {
+  @include btnMedium;
+  i {
+    :global {
+      .fill {
+        fill: $colorGray;
+      }
+    }
+  }
+  width: 32px;
+  padding: 0 15px;
+  margin-right: 4px;
+}
+
+.cropper-move-left {
+  i {
+    transform: rotate(-180deg);
+  }
+}
+
+.cropper-move-right {
+  i {
+    transform: rotate(0deg);
+  }
+}
+
+.cropper-move-top {
+  i {
+    transform: rotate(-90deg);
+  }
+}
+
+.cropper-move-bottom {
+  i {
+    transform: rotate(90deg);
+  }
+}
+
+.cropper-zoom {
+  @include btnMedium;
+  width: 32px;
+  padding: 0 15px;
+  margin-right: 4px;
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .cropper-rotate {
@@ -197,7 +257,8 @@
     }
   }
   width: 32px;
-  margin-right: 16px;
+  padding: 0 15px;
+  margin-right: 4px;
 }
 
 .cropper-reset {
@@ -237,15 +298,12 @@
     width: 100%;
   }
   .cropper-buttons {
-    flex-wrap: wrap;
-    justify-content: space-between;
     padding: 20px 12px;
   }
-  .cropper-rotate {
-    margin-right: 0;
+  .cropper-buttons-row {
+    flex-wrap: wrap;
   }
   .cropper-reset {
-    margin-right: 0;
     max-width: 110px;
   }
   .cropper-save {
