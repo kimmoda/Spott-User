@@ -57,8 +57,6 @@ export default class NewTopic extends Component {
   constructor (props) {
     super(props);
     this.handleScroll = ::this.handleScroll;
-    this.onFilterClick = ::this.onFilterClick;
-    this.onFilterSecondClick = ::this.onFilterSecondClick;
     this.handleResize = ::this.handleResize;
     this.loadMore = ::this.loadMore;
     this.state = {
@@ -91,6 +89,7 @@ export default class NewTopic extends Component {
     if (nextSeasonId && seasonId !== nextSeasonId) {
       this.props.loadTopicSeasonEpisodes({ uuid: nextSeasonId });
     }
+    this.getContainerHeight();
   }
 
   componentWillUnmount () {
@@ -117,20 +116,6 @@ export default class NewTopic extends Component {
 
   loadMore (page) {
     this.props.loadTopicSpottsMore({ uuid: this.props.params.topicId, page });
-  }
-
-  onFilterClick (e) {
-    this.setState({
-      filterVals: this.state.filterVals.filter((item) => item !== e.target.innerText).concat(this.state.filterVal),
-      filterVal: e.target.innerText
-    });
-  }
-
-  onFilterSecondClick (e) {
-    this.setState({
-      filterSecondVals: this.state.filterSecondVals.filter((item) => item !== e.target.innerText).concat(this.state.filterSecondVal),
-      filterSecondVal: e.target.innerText
-    });
   }
 
   onSubscribeClick (topicId, subscribed) {
