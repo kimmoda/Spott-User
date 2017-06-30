@@ -166,8 +166,7 @@
 .search {
   display: block;
   height: 34px;
-  width: 100%;
-  position: absolute;
+  position: relative;
   z-index: 0;
   background-color: rgba(255, 255, 255, 0);
   transition: background 0.3s ease;
@@ -180,10 +179,12 @@
   height: $headerHeight;
   width: 100%;
   left: 0;
+  position: absolute;
+  top: 0;
 }
 
 .search-wrapper {
-  position: absolute;
+  position: relative;
   display: flex;
   align-items: center;
   height: 34px;
@@ -444,9 +445,6 @@
 }
 //tablet portrait view
 @media (max-width: $tabletLandscapeBreakpoint - 1){
-  .search-wrapper {
-    width: 100px;
-  }
   .recent-searches, .search-topics {
     width: 100%;
     padding: 0px;
@@ -458,8 +456,8 @@
     display: block;
   }
 }
-//phone view
-@media (max-width: $phoneBreakpoint) {
+
+@media (max-width: 800px) {
   .search-wrapper {
     width: 16px;
   }
