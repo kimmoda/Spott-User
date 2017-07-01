@@ -43,6 +43,9 @@
 
 .tiles-btn {
   @include btnSmallRound(true);
+  @media (max-width: $phoneBreakpoint) {
+    display: none;
+  }
 }
 
 .tiles-btn-right {

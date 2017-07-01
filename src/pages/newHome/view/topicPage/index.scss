@@ -11,6 +11,16 @@
   height: 480px;
   position: relative;
   background-size: cover;
+  background-position: 50%;
+  @media (max-width: $desktopBreakpoint) {
+    height: 380px;
+  }
+  @media (max-width: $tabletLandscapeBreakpoint) {
+    height: 280px;
+  }
+  @media (max-width: $phoneBreakpoint) {
+    height: 180px;
+  }
 }
 
 .info-wrapper {

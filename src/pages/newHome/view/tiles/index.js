@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import CSSModules from 'react-css-modules';
 import localized from '../../../_common/localized';
 import { IconArrow3 } from '../icons';
+import Swipeable from 'react-swipeable';
 
 const styles = require('./index.scss');
 
@@ -103,6 +104,9 @@ export default class Tiles extends Component {
     const { tilesStyle, tileIndex } = this.state;
 
     return (
+    <Swipeable
+      onSwipedLeft={this.onMoveRight}
+      onSwipedRight={this.onMoveLeft}>
       <div ref={(ref) => { this.tilesContainer = ref; }} styleName='tiles-wrapper'>
         <div className={tileIndex ? styles['tiles-btn-active'] : styles['tiles-btn-inactive']} styleName='tiles-btn-left' onClick={this.onMoveLeft}>
           <div styleName='tiles-btn'>
@@ -120,6 +124,7 @@ export default class Tiles extends Component {
           </div>
         </div>
       </div>
+    </Swipeable>
     );
   }
 }
