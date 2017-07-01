@@ -176,8 +176,8 @@ export default class NewUserAccount extends Component {
                   name='contentRegionsForm'
                   options={systemContentRegions.get('data', List()).toJS().map((item) => {
                     return {
-                      value: `${item.country.uuid}-${(item.language && item.language.uuid) || 'en'}`,
-                      label: `${item.country.name} (${(item.language && item.language.name) || 'English'})`
+                      value: `${item.country.uuid}-${item.language.uuid}`,
+                      label: `${item.country.name} (${item.language.name})`
                     };
                   })}
                   submitFailed={submitFailed}/>

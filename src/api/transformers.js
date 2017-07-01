@@ -42,7 +42,7 @@ export function transformUser ({ uuid, userName, profile }) {
         .map((item) => item.uuid)
         .filter((item) => item !== profile.languages[0].uuid) : null,
       shoppingCountriesForm: profile.shoppingCountries ? profile.shoppingCountries.map((item) => item.uuid) : null,
-      contentRegionsForm: profile.contentRegions ? profile.contentRegions.map((item) => `${item.country.uuid}-${(item.language && item.language.uuid) || 'en'}`) : null
+      contentRegionsForm: profile.contentRegions ? profile.contentRegions.map((item) => `${item.country.uuid}-${item.language.uuid}`) : null
     }
   };
 }

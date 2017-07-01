@@ -156,7 +156,7 @@ export default class NewUserSettings extends Component {
         languages: userProfile.get('languages', []),
         currency: userProfile.get('currency', {}),
         shoppingCountries: userProfile.get('shoppingCountries', []),
-        contentRegions: userProfile.get('contentRegions').size ? userProfile.get('contentRegions') : [ { country: { uuid: 'BE' }, language: { uuid: 'nl' } } ]
+        contentRegions: userProfile.get('contentRegions', [])
       }
     };
     try {
