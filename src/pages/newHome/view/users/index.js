@@ -35,17 +35,8 @@ export default class Users extends Component {
     this.showUsersModal = ::this.showUsersModal;
     this.closeUsersModal = ::this.closeUsersModal;
     this.state = {
-      isUsersModalOpen: false,
-      animateUserLoved: this.props.isSpottLoved
+      isUsersModalOpen: false
     };
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.isSpottLoved !== this.props.isSpottLoved && nextProps.isAuthenticated) {
-      this.setState({
-        animateUserLoved: nextProps.isSpottLoved
-      });
-    }
   }
 
   showUsersModal () {
@@ -64,7 +55,7 @@ export default class Users extends Component {
     const { large, maxNum, items, currentLocale, spottId, currentUserProfile, isSpottLoved } = this.props;
     const { isUsersModalOpen } = this.state;
     const maxNumRecalc = isSpottLoved ? maxNum - 1 : maxNum;
-    const currentUser = isSpottLoved && items.find((item) => item.get('uuid') === currentUserProfile.get('id'));
+    const currentUser = items.find((item) => item.get('uuid') === currentUserProfile.get('id'));
 
     return (
       <div styleName={large ? 'users-large' : 'users'}>
@@ -89,7 +80,7 @@ export default class Users extends Component {
                 title={`${currentUserProfile.get('firstName')} ${currentUserProfile.get('lastName')}`}
                 to={{
                   pathname: `/${currentLocale}/profile/${currentUserProfile.get('id')}`,
-                  state: { dc: getDetailsDcFromLinks(currentUser.get('links').toJS()) }
+                  state: { dc: currentUser ? getDetailsDcFromLinks(currentUser.get('links').toJS()) : '' }
                 }}>
                 {!currentUserProfile.getIn([ 'avatar', 'url' ]) && <IconAvatar/>}
             </Link>}
