@@ -73,6 +73,7 @@ export default class Card extends Component {
   }
 
   showSpott (event) {
+    event.stopPropagation();
     const { location, params, currentLocale, item: spott } = this.props;
     this.props.routerPush({
       pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
@@ -101,6 +102,13 @@ export default class Card extends Component {
         dc: getDetailsDcFromLinks(marker.getIn([ 'product', 'links' ]).toJS()),
         spottDc: getDetailsDcFromLinks(spott.get('links').toJS())
       }
+    });
+  }
+
+  onPersonClick (url, event) {
+    event.stopPropagation();
+    this.props.routerPush({
+      pathname: url
     });
   }
 
@@ -136,24 +144,24 @@ export default class Card extends Component {
             height={Math.ceil(item.getIn([ 'image', 'dimension', 'height' ]) * (width / item.getIn([ 'image', 'dimension', 'width' ])))}
             imgOriginal={item.get('image')}
             width={width}/>
-          {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onImageClick={(event) => this.showSpott(event)} onMarkerClick={this.onCardMarkerClick}/>}
+          {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onMarkerClick={this.onCardMarkerClick}/>}
           {spottDetails.get('personMarkers') &&
             <div styleName='persons'>
               {spottDetails.get('personMarkers').map((person) => {
                 if (person.get('person', null)) {
-                  return <Link
+                  return <div
                     key={`person_marker_${person.get('uuid')}`}
                     style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=90&height=90)` }}
                     styleName='person'
                     title={person.getIn([ 'person', 'name' ])}
-                    to={`/${currentLocale}/topic/${slugify(person.getIn([ 'person', 'name' ], ''))}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`}/>;
+                    onClick={this.onPersonClick.bind(this, `/${currentLocale}/topic/${slugify(person.getIn([ 'person', 'name' ], ''))}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`)}/>;
                 }
-                return <Link
+                return <div
                   key={`person_marker_${person.get('uuid')}`}
                   style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=90&height=90)` }}
                   styleName='person'
                   title={person.getIn([ 'character', 'name' ])}
-                  to={`/${currentLocale}/topic/${slugify(person.getIn([ 'character', 'name' ], ''))}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>;
+                  onClick={this.onPersonClick.bind(this, `/${currentLocale}/topic/${slugify(person.getIn([ 'character', 'name' ], ''))}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`)}/>;
               }
               )}
             </div>}

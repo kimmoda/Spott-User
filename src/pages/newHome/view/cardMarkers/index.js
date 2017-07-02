@@ -11,7 +11,6 @@ const styles = require('./index.scss');
 export default class CardMarkers extends Component {
   static propTypes = {
     markers: PropTypes.any.isRequired,
-    onImageClick: PropTypes.func,
     onMarkerClick: PropTypes.func
   };
 
@@ -20,10 +19,10 @@ export default class CardMarkers extends Component {
   }
 
   render () {
-    const { markers, onImageClick, onMarkerClick } = this.props;
+    const { markers, onMarkerClick } = this.props;
     return (
     <div styleName='markers-wrapper'>
-      <div styleName='markers-overlay' onClick={onImageClick}/>
+      <div styleName='markers-overlay'/>
       <div styleName='markers'>
         {markers && markers.map((item, index) =>
           <CardMarker item={item} key={`marker_${index}`} onMarkerClick={onMarkerClick}/>
