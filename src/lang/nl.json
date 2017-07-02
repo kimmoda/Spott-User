@@ -144,5 +144,15 @@
     "returnToSpott": "Keer terug naar Spott.it",
     "somethingWentWrong": "Er ging iets mis!",
     "title": "Whoops!"
+  },
+  "changePassword": {
+    "successMessage": "Uw wachtwoord is veranderd!",
+    "errorMessage": "Er is een fout opgetreden tijdens de poging om uw wachtwoord te wijzigen :(",
+    "newPasswordPlaceholder": "Voer uw nieuw wachtwoord in",
+    "confirmPasswordPlaceholder": "Bevestig wachtwoord",
+    "title": "Wijzig uw Spott wachtwoord",
+    "passwordLengthError": "Dit wachtwoord is niet lang genoeg!",
+    "passwordMatchError": "Wachtwoorden stemmen niet overeen!",
+    "submitButton": "Verander wachtwoord"
   }
 }

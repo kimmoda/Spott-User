@@ -15,9 +15,6 @@ import NewHomePage from '../../newHome/view/homePage';
 
 require('./reset.css');
 require('./basic.scss');
-// require('./fonts/index.css');
-// require('./base.scss');
-// require('./slick.css');
 
 // HrefLang Component
 // //////////////////

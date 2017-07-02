@@ -9,6 +9,7 @@ const $ = require('jquery');
 class ChangePassword extends Component {
 
   static propTypes = {
+    currentLocale: PropTypes.string.isRequired,
     location: PropTypes.shape({
       query: PropTypes.object.isRequired
     }).isRequired,
@@ -20,7 +21,7 @@ class ChangePassword extends Component {
   }
 
   componentDidMount () {
-    const { t } = this.props;
+    const { t, currentLocale } = this.props;
     $('#resetForm').submit((event) => {
       // Stop form from submitting normally
       event.preventDefault();
@@ -43,6 +44,7 @@ class ChangePassword extends Component {
             showError('changed', t('changePassword.successMessage'));
             setTimeout(() => {
               hideError('changed');
+              window.location.replace(`/${currentLocale}/login`);
             }, 3500);
           },
           error (data) {

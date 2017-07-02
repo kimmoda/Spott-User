@@ -144,5 +144,15 @@
     "returnToSpott": "Retournez à Spott.it",
     "somethingWentWrong": "Il y a eu un problème!",
     "title": "Whoops!"
+  },
+  "changePassword": {
+    "successMessage": "Votre mot de passe a été modifié!",
+    "errorMessage": "Nous avons rencontré une erreur en essayant de changer votre mot de passe :(",
+    "newPasswordPlaceholder": "Entrez votre nouveau mot de passe",
+    "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+    "title": "Changez votre mot de passe de Spott",
+    "passwordLengthError": "Votre mot de passe est trop court!",
+    "passwordMatchError": "Les mots de passe ne correspondent pas!",
+    "submitButton": "Changez le mot de passe"
   }
 }

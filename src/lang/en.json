@@ -144,5 +144,15 @@
     "returnToSpott": "Return to Spott.it",
     "somethingWentWrong": "Something went wrong!",
     "title": "Whoops!"
+  },
+  "changePassword": {
+    "successMessage": "Your password has been changed!",
+    "errorMessage": "We encountered an error while trying to change your password :(",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "title": "Change your Spott password",
+    "passwordLengthError": "This password isn't long enough!",
+    "passwordMatchError": "Passwords don't match!",
+    "submitButton": "Change Password"
   }
 }

@@ -1,6 +1,5 @@
 import { Map, fromJS } from 'immutable';
 import * as actions from './actions';
-import * as ubActions from '../basket/actions';
 import * as newActions from '../newHome/actions';
 import { combineReducers } from 'redux-immutablejs';
 import {
@@ -53,12 +52,6 @@ function authentication (state = fromJS({
         .set('ubAuthenticationToken', null)
         .set('user', Map({}))
         .set('initialValues', null);
-    case ubActions.LOAD_UB_TOKEN_SUCCESS:
-      return state
-        .set('ubAuthenticationToken', action.data);
-    case ubActions.SET_UB_TOKEN_SUCCESS:
-      return state
-        .set('ubAuthenticationToken', action.data);
     default:
       return state;
   }

@@ -19,13 +19,6 @@ import { LOGIN_SUCCESS, DOWNLOAD_PAGE_SHOWED, doInit } from './pages/app/actions
 import { getRoutes } from './routes';
 import app from './pages/app/reducer';
 import data from './data/reducer';
-import character from './pages/character/reducer';
-import productDetail from './pages/productDetail/reducer';
-import profile from './pages/profile/reducer';
-import scene from './pages/scene/reducer';
-import resetPassword from './pages/resetPassword/reducer';
-import home from './pages/home/reducer';
-import basket from './pages/basket/reducer';
 import newHome from './pages/newHome/reducer';
 // import { getLocalStorage, isServer } from './utils';
 import { getLocalStorage } from './utils';
@@ -39,16 +32,9 @@ if (process.env.NODE_ENV !== 'production') {
 // add the router reducer to the store on the 'routing' key
 const rootReducer = combineReducers({
   app,
-  character,
   data,
   form,
-  productDetail,
-  profile,
-  resetPassword,
   routing: routerReducer,
-  scene,
-  home,
-  basket,
   newHome
 });
 
@@ -65,18 +51,6 @@ export function createOurStore (theHistory, reducers, initialState) {
   middleware.push(thunkMiddleware);
   // Install react-router-redux's router middleware
   middleware.push(routerMiddleware(theHistory));
-  // Install logging middleware when not in production
-  if (__DEVELOPMENT__) {
-    /*
-    const createLogger = require('redux-logger');
-    middleware.push(createLogger({
-      // Collapse by default to preserve space in the console
-      collapsed: true,
-      // Convert Immutable state to plain JavaScript object, before logging.
-      stateTransformer: (state) => state.toJS()
-    }));
-    */
-  }
   // Construct our new createStore() function, using given middleware
   const newCreateStore = Reflect.apply(applyMiddleware, null, middleware)(createStore);
   // Create the store
@@ -130,11 +104,6 @@ async function boot () {
     } catch (e) {
       console.log(e);
     }
-    /*
-    if (sessionData.ubAuthenticationToken) {
-      store.dispatch(initBasketData());
-    }
-    */
   }
   const isDownloadPageShowed = storage.getItem('downloadPageShowed');
   if (isDownloadPageShowed) {
