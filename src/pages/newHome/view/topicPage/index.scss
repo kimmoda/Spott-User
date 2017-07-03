@@ -121,6 +121,13 @@
 .info-subscribe-btn-subscribed {
   @include btnMedium;
   @include btnPink;
+  span {
+    display: block;
+  }
+  i {
+    line-height: 10px;
+    display: none;
+  }
 }
 
 .info-share-wrapper {
