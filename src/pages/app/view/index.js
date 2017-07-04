@@ -1,14 +1,16 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Helmet from 'react-helmet';
 import { mediaQueries } from '../../_common/buildingBlocks';
 import Footer from './footer';
 import { init, pageView } from './googleAnalytics';
 import Header from './header';
-import Cookies from './cookies';
+// import Cookies from './cookies';
 import { locales } from '../../../locales';
 import { appSelector } from '../selector';
+import { acceptCookies as acceptCookiesFunc } from '../actions';
 
 import NewDesign from '../../newHome/view';
 import NewHomePage from '../../newHome/view/homePage';
@@ -93,11 +95,14 @@ const styles = {
   }
 };
 
-@connect(appSelector)
+@connect(appSelector, (dispatch) => ({
+  acceptCookiesFunc: bindActionCreators(acceptCookiesFunc, dispatch)
+}))
 @Radium
 export default class App extends Component {
   static propTypes = {
-    acceptCookies: PropTypes.number,
+    acceptCookies: PropTypes.any,
+    acceptCookiesFunc: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -139,6 +144,11 @@ export default class App extends Component {
     const { acceptCookies, children, location, routes, params } = this.props;
     // Show the cookies note if the user did not accept the cookies policy.
     const showCookies = !acceptCookies && routes.reduce((acc, curr) => typeof curr.showCookies === 'undefined' ? acc : curr.showCookies, true);
+
+    if (showCookies) {
+      this.props.acceptCookiesFunc();
+    }
+
     const standalone = routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
     const floating = routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
     const noSignInButtonInHeader = routes.reduce((acc, curr) => typeof curr.noSignInButtonInHeader === 'undefined' ? acc : curr.noSignInButtonInHeader, false);
@@ -152,7 +162,6 @@ export default class App extends Component {
           {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
           <div style={standalone ? {} : styles.footerCompensation}>{this.previousChildren}</div>
           <div>{children}</div>
-          {showCookies && <Cookies />}
           {!standalone && <Footer style={styles.footer} />}
         </div>
       );
@@ -189,7 +198,6 @@ export default class App extends Component {
         <HrefLang location={location} />
         {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
         <div style={standalone ? {} : styles.footerCompensation}>{children}</div>
-        {showCookies && <Cookies />}
         {!standalone && <Footer style={styles.footer} />}
       </div>
     );
