@@ -8,11 +8,11 @@
 	<artifactId>appiness.spott.website</artifactId>
 	<packaging>pom</packaging>
 	<name>${project.artifactId}</name>
-	<version>02.00.07</version>
+	<version>02.00.08-SNAPSHOT</version>
 
 	<scm>
 		<connection>scm:git:https://bitbucket.org/appiness/appiness.spott.website</connection>
-	  <tag>appiness.spott.website-02.00.07</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<repositories>
