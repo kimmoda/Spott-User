@@ -1,6 +1,6 @@
 import React from 'react';
 import { IndexRoute, IndexRedirect, Route } from 'react-router';
-import { isIos, isAndroid } from './pages/_common/downloadAppButtons';
+// import { isIos, isAndroid } from './pages/_common/downloadAppButtons';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
 import Cookies from './pages/newHome/view/legal/view/cookies';
@@ -9,9 +9,10 @@ import Mobile from './pages/mobile';
 import Privacy from './pages/newHome/view/legal/view/privacy';
 import Redirect from './pages/redirect';
 import Terms from './pages/newHome/view/legal/view/terms';
-import { changeLocale, downloadPageShowed } from './pages/app/actions';
+// import { changeLocale, downloadPageShowed } from './pages/app/actions';
+import { changeLocale } from './pages/app/actions';
 import { locales } from './locales';
-import { currentLocaleSelector, isDownloadPageShowedSelector } from './pages/app/selector';
+// import { currentLocaleSelector, isDownloadPageShowedSelector } from './pages/app/selector';
 import { trackTopicView } from './pages/newHome/actions';
 import NewHome from './pages/newHome/view/homePage';
 import Topic from './pages/newHome/view/topicPage';
@@ -88,6 +89,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
   }
   // Factory for localized routes
   function makeLocalizedRoutes (locale) {
+    /*
     function goToDownloadPage (state, replace) {
       const isDownloadPageShowed = isDownloadPageShowedSelector(getState());
       if ((isAndroid() || isIos()) && (!isDownloadPageShowed)) {
@@ -96,6 +98,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         replace({ pathname: `${lang}/mobile/download`, state: { returnTo: state.location.pathname } });
       }
     }
+    */
 
     // When entering a page, the locale is dispatched.
     function onLocaleEnter (state, replace) {
