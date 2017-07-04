@@ -11,9 +11,6 @@
     .markers-overlay {
       opacity: 1;
     }
-    .markers {
-      display: block;
-    }
   }
 }
 
@@ -23,7 +20,7 @@
 }
 
 .markers {
-  display: none;
+  display: block;
   position: absolute;
   top: 0;
   left: 0;
@@ -129,7 +126,5 @@
 }
 //phone view
 @media (max-width: $phoneBreakpoint) {
-  .markers-wrapper {
-    display: none;
-  }
+
 }

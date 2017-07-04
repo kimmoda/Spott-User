@@ -91,6 +91,60 @@
   z-index: 0;
 }
 
+.products {
+  margin: 6px 0 12px 0;
+  box-sizing: border-box;
+  min-height: 32px;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  & > div {
+    width: 100%;
+  }
+  @media (max-width: $phoneBreakpoint) {
+    display: none;
+  }
+}
+
+.product {
+  $size: 32px;
+  width: $size;
+  height: $size;
+  min-width: $size;
+  min-height: $size;
+  border-radius: 4px;
+  background-color: $colorGrayLight;
+  background-size: cover;
+  background-position: 50%;
+  position: relative;
+  cursor: pointer;
+  margin-right: $gutterSmallWidth / 2;
+  backface-visibility: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 4px;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+  }
+}
+
+.product-exact {
+  &:after {
+    background-color: $colorGreen;
+  }
+}
+
+.product-medium {
+  &:after {
+    background-color: $colorYellow;
+  }
+}
+
+
 .reason {
   @include smallRegular($colorGray);
   margin-bottom: 8px;

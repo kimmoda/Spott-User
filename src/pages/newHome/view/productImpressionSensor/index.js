@@ -38,7 +38,7 @@ export default class ProductImpressionSensor extends Component {
     const delayVal = typeof delay === 'undefined' ? 1000 : delay;
 
     return (
-      <VisibilitySensor active={isActive} delay={delayVal} delayedCall onChange={this.handleVisibilitySensor}>
+      <VisibilitySensor active={isActive} delayedCall intervalDelay={delayVal} onChange={this.handleVisibilitySensor}>
         { this.props.children }
       </VisibilitySensor>
     );

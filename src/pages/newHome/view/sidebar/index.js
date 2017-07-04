@@ -274,7 +274,7 @@ export default class Sidebar extends Component {
             <div styleName='sidebar-similars'>
               <Tiles tileOffsetWidth={this.tileOffsetWidth} tilesCount={product.getIn([ 'similar', 'data' ]).size}>
                 {product.getIn([ 'similar', 'data' ]).map((item, index) =>
-                  <ProductImpressionSensor key={`product_imp_${index}`} productId={item.get('uuid')} productLinks={product.get('links')}>
+                  <ProductImpressionSensor delay={2000} key={`product_imp_${index}`} productId={item.get('uuid')} productLinks={product.get('links')}>
                     <div
                       key={`product_${index}`}
                       style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=160&height=160'` }}

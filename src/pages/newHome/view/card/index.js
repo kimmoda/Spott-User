@@ -1,5 +1,5 @@
 /* eslint-disable react/no-set-state */
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PureComponent, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
@@ -14,6 +14,8 @@ import { spottCardDetailsSelector } from '../../selectors';
 import ImageLoader from '../imageLoader/index';
 import { LOADED } from '../../../../data/statusTypes';
 import { slugify, getDetailsDcFromLinks } from '../../../../utils';
+import ProductImpressionSensor from '../productImpressionSensor';
+import Tiles from '../tiles';
 
 const styles = require('./index.scss');
 
@@ -137,6 +139,8 @@ export default class Card extends Component {
     const { item, currentLocale, spottDetails, width, location, t } = this.props;
     const { loved, loverCount } = this.state;
 
+    const isReady = spottDetails.getIn([ 'lovers', '_status' ]) === LOADED;
+
     return (
       <div styleName='card'>
         <div styleName='image' onClick={(event) => this.showSpott(event)}>
@@ -169,6 +173,12 @@ export default class Card extends Component {
         </div>
         <div styleName='content'>
           <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
+          {width >= 280 && <div styleName='products'>
+            {Boolean(spottDetails.get('productMarkers') && isReady) &&
+              <CardProducts
+                productMarkers={spottDetails.get('productMarkers')}
+                onCardMarkerClick={this.onCardMarkerClick}/>}
+          </div>}
           {item.get('promoted') && <div styleName='reason'>{t('common.promoted')}</div>}
           <h3 styleName='title'>{item.get('title')}</h3>
           <div styleName='description'>
@@ -211,6 +221,38 @@ export default class Card extends Component {
           </div>
         </div>}
       </div>
+    );
+  }
+}
+
+@CSSModules(styles, { allowMultiple: true })
+class CardProducts extends PureComponent {
+
+  static propTypes = {
+    productMarkers: PropTypes.any.isRequired,
+    onCardMarkerClick: PropTypes.func.isRequired
+  };
+
+  render () {
+    const { productMarkers, onCardMarkerClick } = this.props;
+
+    return (
+      <Tiles tileOffsetWidth={16} tilesCount={productMarkers.size}>
+        {productMarkers.map((product, index) =>
+          <ProductImpressionSensor
+            delay={2000}
+            key={`product_${index}_${product.getIn([ 'product', 'uuid' ])}`}
+            productId={product.getIn([ 'product', 'uuid' ])}
+            productLinks={product.getIn([ 'product', 'links' ])}>
+            <div
+              className={product.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
+              key={`product_${index}`}
+              style={{ backgroundImage: `url('${product.getIn([ 'product', 'image', 'url' ])}?width=160&height=160')` }}
+              styleName='product'
+              onClick={onCardMarkerClick.bind(this, product)}/>
+          </ProductImpressionSensor>
+        )}
+      </Tiles>
     );
   }
 }
