@@ -164,7 +164,6 @@ export default class App extends Component {
             <HrefLang location={location} />
             <NewDesign location={location}>{this.previousChildren}</NewDesign>
             <div>{children}</div>
-            {showCookies && <Cookies />}
           </div>
         );
       }
@@ -174,7 +173,6 @@ export default class App extends Component {
             <HrefLang location={location} />
             <NewDesign location={location}><NewHomePage location={location} params={params}/></NewDesign>
             <div>{children}</div>
-            {showCookies && <Cookies />}
           </div>
         );
       }
@@ -182,7 +180,6 @@ export default class App extends Component {
         <div>
           <HrefLang location={location} />
           <NewDesign location={location}>{children}</NewDesign>
-          {showCookies && <Cookies />}
         </div>
       );
     }
