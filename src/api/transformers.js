@@ -383,6 +383,12 @@ export function transformPersonsList (data) {
 
 export function transformFollowersList (data) {
   return {
+    meta: {
+      page: data.page,
+      pageCount: data.pageCount,
+      pageSize: data.pageSize,
+      totalResultCount: data.totalResultCount
+    },
     data: data.data.map((item) => {
       return {
         avatar: item.avatar,
@@ -393,5 +399,17 @@ export function transformFollowersList (data) {
         links: item.user.links
       };
     })
+  };
+}
+
+export function transformDataPagingList (data) {
+  return {
+    meta: {
+      page: data.page,
+      pageCount: data.pageCount,
+      pageSize: data.pageSize,
+      totalResultCount: data.totalResultCount
+    },
+    data: data.data
   };
 }

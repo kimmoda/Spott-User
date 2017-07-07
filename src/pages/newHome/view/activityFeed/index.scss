@@ -1,0 +1,168 @@
+@import "../vars";
+
+
+.dd-container {
+  position: relative;
+}
+
+.dd-trigger {
+  display: block;
+}
+
+.dd-content {
+  position: absolute;
+  right: -50px;
+  top: 40px;
+}
+
+.feed-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-left: 26px;
+  i {
+    width: 13.3px;
+    height: 18.7px;
+    svg {
+      width: 13.3px;
+      height: 18.7px;
+    }
+    :global {
+      .fill {
+        fill: $colorGrayDark;
+      }
+    }
+  }
+}
+
+.feed-wrapper {
+  width: 344px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: $colorWhite;
+  box-shadow: $boxShadowBlur;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.feed-nav {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 16px 67px 0 55px;
+  border-bottom: 1px solid $colorGrayLighter;
+}
+
+.feed-nav-item {
+  @include bodyMedium($colorGray);
+  padding-bottom: 18px;
+  box-sizing: border-box;
+  transition: color 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid $colorWhite;
+  &:hover {
+    color: $colorBlack;
+    text-decoration: none;
+  }
+  span {
+    @include tinyMedium($colorWhite);
+    line-height: 14px;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background-color: $colorPink;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.feed-nav-item-active {
+  color: $colorBlack;
+  border-bottom: 2px solid $colorPink;
+  text-decoration: none;
+}
+
+.feed-tab {
+  display: none;
+  background-color: $colorWhite;
+  width: 100%;
+}
+
+.feed-tab-active {
+  display: block;
+}
+
+.user-action {
+  @include smallRegular($colorGrayDark);
+  min-height: 64px;
+  border-bottom: 1px solid $colorGrayLighter;
+  padding: 16px;
+  display: flex;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  margin-right: 18px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-size: cover;
+  background-position: 50%;
+}
+
+.user-r {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.action-text {
+  display: block;
+}
+
+.user-name {
+  @include smallMedium;
+  margin-right: 4px;
+  display: inline-block;
+}
+
+.action-type {
+  @include smallRegular($colorGrayDark);
+  display: inline-block;
+  a {
+    @include link;
+    @include smallRegular($colorBlack);
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+}
+
+.action-spott {
+  display: block;
+  margin-top: 10px;
+  width: 48px;
+  height: 56px;
+  background-size: cover;
+  background-position: 50%;
+}
+
+.action-product {
+  display: block;
+  margin-top: 10px;
+  width: 56px;
+  height: 56px;
+  background-size: cover;
+  background-position: 50%;
+}

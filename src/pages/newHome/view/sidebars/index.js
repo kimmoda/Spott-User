@@ -118,7 +118,7 @@ export default class Sidebars extends Component {
               leaveActive: styles['sidebar-leave-active']
             }}>
             {sidebarProducts.getIn([ 'data', '0' ]) && sidebarProducts.get('data').map((product, index) =>
-              <CustomScrollbars key={`scroll_sidebar_${index}`}>
+              <CustomScrollbars key={`scroll_sidebar_${index}`} style={{ position: 'absolute', top: 0, left: 0, zIndex: 300, width: '424px', overflow: 'visible' }}>
                 <Sidebar
                   key={`sidebar_${index}`}
                   location={location}

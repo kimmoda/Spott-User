@@ -18,6 +18,7 @@ import { newHeaderSelector } from '../../selectors';
 import AutocompleteListItem from './autocompleteListItem';
 import AutocompleteInput from './autocompleteInput';
 import { localesHash, locales } from '../../../../locales';
+import ActivityFeed from '../activityFeed';
 
 const styles = require('./index.scss');
 
@@ -208,7 +209,7 @@ export default class Header extends Component {
   }
 
   render () {
-    const { currentLocale, t, trendingTopics, isAuthenticated, currentUserAvatar, currentUserId, searchSuggestions, searchHistory } = this.props;
+    const { currentLocale, t, trendingTopics, isAuthenticated, currentUserAvatar, currentUserId, searchSuggestions, searchHistory, location } = this.props;
     const { searchValue } = this.state;
     const suggestions = searchSuggestions.get('items').toJS();
 
@@ -267,11 +268,7 @@ export default class Header extends Component {
               </div>
               {isAuthenticated
                 ? <div styleName='user-bar'>
-                    {/*
-                      <div styleName='user-notifications'>
-                        <i><IconLightning/></i>
-                      </div>
-                    */}
+                    <ActivityFeed location={location}/>
                     <div styleName='user-menu'>
                       <Link
                         className={styles['user-avatar']}

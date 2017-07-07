@@ -209,3 +209,12 @@ export const spottUsersSelector = createStructuredSelector({
   isAuthenticated: authenticationTokenSelector,
   currentUserProfile: currentUserProfileSelector
 });
+
+export const userFollowersSelector = (state) => state.getIn([ 'newHome', 'users', currentUserIdSelector(state), 'followers' ]);
+const userActivityFeedSelector = (state) => state.getIn([ 'newHome', 'userActivityFeed' ]);
+export const activityFeedSelector = createStructuredSelector({
+  currentUserId: currentUserIdSelector,
+  activityFeed: userActivityFeedSelector,
+  userFollowers: userFollowersSelector,
+  isAuthenticated: authenticationTokenSelector
+});

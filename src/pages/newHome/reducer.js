@@ -34,6 +34,7 @@ export default function newHomeReducer (state = Map({
   }),
   searchHistory: Map(),
   users: Map(),
+  userActivityFeed: Map({ data: List() }),
   registrationFormDefaults: null,
   systemLanguages: Map(),
   systemCountries: Map(),
@@ -375,7 +376,16 @@ export default function newHomeReducer (state = Map({
     case actions.GET_USER_FOLLOWERS_START:
       return state.mergeIn([ 'users', action.uuid, 'followers' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_USER_FOLLOWERS_SUCCESS:
-      return state.setIn([ 'users', action.uuid, 'followers' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+      return state
+        .mergeIn([ 'users', action.uuid, 'followers' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .setIn([ 'users', action.uuid, 'followers', 'data' ], fromJS(action.data.data));
+    case actions.GET_USER_FOLLOWERS_MORE_SUCCESS:
+      return state
+        .mergeIn([ 'users', action.uuid, 'followers' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .updateIn([ 'users', action.uuid, 'followers', 'data' ], (data) => {
+          const d = data ? data : List();
+          return d.concat(fromJS(action.data.data));
+        });
     case actions.GET_USER_FOLLOWERS_ERROR:
       return state.mergeIn([ 'users', action.uuid, 'followers' ], Map({ _error: action.error, _status: ERROR }));
 
@@ -385,6 +395,15 @@ export default function newHomeReducer (state = Map({
       return state.setIn([ 'users', action.uuid, 'following' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_USER_FOLLOWING_ERROR:
       return state.mergeIn([ 'users', action.uuid, 'following' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.GET_USER_ACTIVITY_FEED_START:
+      return state.mergeIn([ 'userActivityFeed' ], Map({ _error: null, _status: FETCHING }));
+    case actions.GET_USER_ACTIVITY_FEED_SUCCESS:
+      return state
+        .mergeIn([ 'userActivityFeed' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .updateIn([ 'userActivityFeed', 'data' ], (data) => data.concat(fromJS(action.data.data)));
+    case actions.GET_USER_ACTIVITY_FEED_ERROR:
+      return state.mergeIn([ 'userActivityFeed' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.SET_REGISTRATION_DEFAULTS:
       return state.set('registrationFormDefaults', Map({ ...action.data }));

@@ -22,6 +22,7 @@ const styles = require('./index.scss');
 @CSSModules(styles, { allowMultiple: true })
 export default class UserListItem extends Component {
   static propTypes = {
+    activityFeedMode: PropTypes.bool,
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
     item: PropTypes.any.isRequired,
@@ -75,10 +76,10 @@ export default class UserListItem extends Component {
   }
 
   render () {
-    const { currentLocale, item, currentUserId, t } = this.props;
+    const { currentLocale, item, currentUserId, t, activityFeedMode } = this.props;
     const { following } = this.state;
     return (
-      <div styleName='people'>
+      <div className={activityFeedMode && styles['people-activity-feed']} styleName='people'>
         <Link styleName='people-left' to={{
           pathname: `/${currentLocale}/profile/${item.get('uuid')}`,
           state: { dc: getDetailsDcFromLinks(item.get('links').toJS()) }
@@ -90,6 +91,7 @@ export default class UserListItem extends Component {
           </div>
           <div styleName='people-name'>
             {`${item.get('firstName')} ${item.get('lastName')}`}
+            {activityFeedMode && <span styleName='people-following-you'>started following you.</span>}
           </div>
         </Link>
         {currentUserId !== item.get('uuid') &&
