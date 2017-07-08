@@ -85,16 +85,26 @@ export default class Sidebars extends Component {
     }
   }
 
-  onProductClick (productId, productName, dc = null) {
-    const { currentLocale, location, params } = this.props;
-    this.props.routerPush({
-      pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(productName)}/{${params.spottId}}{${productId}}`,
-      state: {
-        modal: true,
-        returnTo: (location.state && location.state.returnTo) || '/',
-        dc: (location.state && location.state.dc) || dc
-      }
-    });
+  onProductClick (product, dc = null) {
+    const { currentLocale, location, params, singleMode } = this.props;
+    if (singleMode) {
+      this.props.routerPush({
+        pathname: `/${currentLocale}/product/${slugify(product.get('shortName'))}/${slugify(product.getIn([ 'brand', 'name' ]))}/${product.get('uuid')}`,
+        state: {
+          modal: true,
+          returnTo: (location.state && location.state.returnTo) || '/'
+        }
+      });
+    } else {
+      this.props.routerPush({
+        pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(product.get('shortName'))}/{${params.spottId}}{${product.get('uuid')}}`,
+        state: {
+          modal: true,
+          returnTo: (location.state && location.state.returnTo) || '/',
+          dc: (location.state && location.state.dc) || dc
+        }
+      });
+    }
   }
 
   render () {

@@ -3,6 +3,9 @@
 
 .dd-container {
   position: relative;
+  @media (max-width: $phoneBreakpoint) {
+    position: static;
+  }
 }
 
 .dd-trigger {
@@ -13,6 +16,13 @@
   position: absolute;
   right: -50px;
   top: 40px;
+  @media (max-width: $phoneBreakpoint) {
+    right: 0;
+    left: 50%;
+    margin-left: -150px;
+    top: 60px;
+    width: 300px;
+  }
 }
 
 .feed-trigger {
@@ -47,6 +57,53 @@
   position: relative;
   height: 100%;
   overflow: hidden;
+  z-index: 200;
+  @media (max-width: $phoneBreakpoint) {
+    width: 300px;
+  }
+}
+
+.feed-overlay {
+  display: none;
+  position: fixed;
+  width: 100%;
+  min-height: 100%;
+  background-color: $overlayColorBlack;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  @media (max-width: $phoneBreakpoint) {
+    display: block;
+  }
+}
+
+.feed-overlay-close {
+  display: none;
+  cursor: pointer;
+  width: 21px;
+  height: 21px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  transition: transform 0.5s ease;
+  z-index: 150;
+  i {
+    :global {
+      .fill {
+        fill: white;
+      }
+    }
+    svg {
+      width: 21px;
+      height: 21px;
+    }
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+  @media (max-width: $phoneBreakpoint) {
+    display: block;
+  }
 }
 
 .feed-nav {
@@ -57,6 +114,9 @@
   justify-content: space-between;
   padding: 16px 67px 0 55px;
   border-bottom: 1px solid $colorGrayLighter;
+  @media (max-width: $phoneBreakpoint) {
+    padding: 16px 40px 0 40px;
+  }
 }
 
 .feed-nav-item {

@@ -9,7 +9,7 @@ import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdow
 import localized from '../../../_common/localized';
 import * as actions from '../../actions';
 import { activityFeedSelector } from '../../selectors';
-import { IconLightning, IconAvatar } from '../icons';
+import { IconLightning, IconAvatar, IconClose } from '../icons';
 import { slugify, getDetailsDcFromLinks } from '../../../../utils';
 import UserListItem from '../usersListItem';
 import CustomScrollbars from '../customScrollbars';
@@ -42,6 +42,7 @@ export default class ActivityFeed extends PureComponent {
     super(props);
     this.loadMoreActivity = ::this.loadMoreActivity;
     this.loadMoreFollowers = ::this.loadMoreFollowers;
+    this.hideDropdown = ::this.hideDropdown;
 
     this.state = {
       feedTabIndex: 0
@@ -72,12 +73,16 @@ export default class ActivityFeed extends PureComponent {
     }
   }
 
+  hideDropdown () {
+    this.dropdown && this.dropdown.hide();
+  }
+
   render () {
     const { activityFeed, currentLocale, userFollowers, currentUserId } = this.props;
     const { feedTabIndex } = this.state;
 
     return (
-    <Dropdown className={styles['dd-container']}>
+    <Dropdown className={styles['dd-container']} ref={(ref) => { this.dropdown = ref; }}>
       <DropdownTrigger className={styles['dd-trigger']}>
         <div styleName='feed-trigger'>
           <i><IconLightning/></i>
@@ -149,12 +154,20 @@ export default class ActivityFeed extends PureComponent {
                             returnTo: `${location.pathname}${location.search}`,
                             spottDc: getDetailsDcFromLinks(item.getIn([ 'activityPost', 'links' ]).toJS())
                           }
-                        }}/>}
+                        }}
+                        onClick={this.hideDropdown}/>}
                     {item.get('type') === 'PRODUCT_WISHLISTED' &&
                       <Link
                         style={{ backgroundImage: `url(${item.getIn([ 'activityProduct', 'image', 'url' ])}?width=56&height=56)` }}
                         styleName='action-product'
-                        to={`/${currentLocale}/product/${slugify(item.getIn([ 'activityProduct', 'shortName' ]))}/${item.getIn([ 'activityProduct', 'uuid' ])}`}/>}
+                        to={{
+                          pathname: `/${currentLocale}/product/${slugify(item.getIn([ 'activityProduct', 'shortName' ]))}/${slugify(item.getIn([ 'activityProduct', 'brand', 'name' ]))}/${item.getIn([ 'activityProduct', 'uuid' ])}`,
+                          state: {
+                            modal: true,
+                            returnTo: `${location.pathname}${location.search}`
+                          }
+                        }}
+                        onClick={this.hideDropdown}/>}
                   </div>
                 </div>
               )}
@@ -172,6 +185,10 @@ export default class ActivityFeed extends PureComponent {
               )}
             </div>
           </CustomScrollbars>
+        </div>
+        <div styleName='feed-overlay' onClick={this.hideDropdown}/>
+        <div styleName='feed-overlay-close' onClick={this.hideDropdown}>
+          <i><IconClose/></i>
         </div>
       </DropdownContent>
     </Dropdown>

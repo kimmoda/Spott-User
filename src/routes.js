@@ -33,6 +33,7 @@ import SearchResultsPosts from './pages/newHome/view/searchResultsPage/view/post
 import SearchResultsPeople from './pages/newHome/view/searchResultsPage/view/people';
 import NewResetPassword from './pages/newHome/view/resetPassword';
 import CardModal from './pages/newHome/view/cardModal';
+import ProductModal from './pages/newHome/view/productModal';
 import PromoPage from './pages/newHome/view/promoPage';
 
 /**
@@ -141,6 +142,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:spottId'/>
         <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
         <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
+        <Route component={ProductModal} modalPage newDesign path='product/:productTitle/:brandTitle/:productId'/>
         <Route component={SearchResults} newDesign path='search'>
           <IndexRedirect to='posts'/>
           <Route component={SearchResultsPosts} newDesign path='posts'/>

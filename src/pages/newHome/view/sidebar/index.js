@@ -279,7 +279,7 @@ export default class Sidebar extends Component {
                       key={`product_${index}`}
                       style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=160&height=160'` }}
                       styleName='sidebar-similar'
-                      onClick={onProductClick.bind(this, item.get('uuid'), item.get('shortName'), product.get('dc'))}/>
+                      onClick={onProductClick.bind(this, item, product.get('dc'))}/>
                   </ProductImpressionSensor>
                 )}
               </Tiles>

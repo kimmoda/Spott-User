@@ -4,10 +4,10 @@ import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
+import { push as routerPush } from 'react-router-redux';
 import localized from '../../../../../_common/localized';
 import { formatPrice } from '../../../../../_common/buildingBlocks';
 import * as actions from '../../../../actions';
-import ProductModal from '../../../productModal';
 import ProductImpressionSensor from '../../../productImpressionSensor';
 import { getDetailsDcFromLinks, slugify } from '../../../../../../utils';
 
@@ -15,7 +15,8 @@ const styles = require('./index.scss');
 
 @localized
 @connect(null, (dispatch) => ({
-  loadUserWishlist: bindActionCreators(actions.loadUserWishlist, dispatch)
+  loadUserWishlist: bindActionCreators(actions.loadUserWishlist, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class NewUserWishlistProduct extends Component {
@@ -23,6 +24,7 @@ export default class NewUserWishlistProduct extends Component {
     currentLocale: PropTypes.string.isRequired,
     item: PropTypes.any.isRequired,
     location: PropTypes.object.isRequired,
+    routerPush: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired
   };
 
@@ -36,7 +38,14 @@ export default class NewUserWishlistProduct extends Component {
   }
 
   onProductClick () {
-    this.setState({ isProductModalOpen: true });
+    const { location, currentLocale, item: product } = this.props;
+    this.props.routerPush({
+      pathname: `/${currentLocale}/product/${slugify(product.get('shortName'))}/${slugify(product.getIn([ 'brand', 'name' ]))}/${product.get('uuid')}`,
+      state: {
+        modal: true,
+        returnTo: `${location.pathname}${location.search}`
+      }
+    });
   }
 
   onProductModalClose () {
@@ -46,12 +55,11 @@ export default class NewUserWishlistProduct extends Component {
   }
 
   render () {
-    const { item, location, currentLocale } = this.props;
+    const { item, currentLocale } = this.props;
 
     return (
       <ProductImpressionSensor productId={item.get('uuid')} productLinks={item.get('links')}>
         <div styleName='product' onClick={this.onProductClick}>
-          {this.state.isProductModalOpen && <ProductModal location={location} productId={item.get('uuid')} onClose={this.onProductModalClose}/>}
           <div style={{ backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=264&height=264)` }} styleName='product-image'/>
           <Link styleName='product-brand' to={{
             pathname: `/${currentLocale}/topic/${slugify(item.getIn([ 'brand', 'name' ], ''))}/BRAND%7C${item.getIn([ 'brand', 'uuid' ])}`,
