@@ -119,9 +119,9 @@ export default class ActivityFeed extends PureComponent {
                   </Link>
                   <div styleName='user-r'>
                     <div styleName='action-text'>
-                      <span styleName='user-name'>
+                      <Link styleName='user-name' to={`/${currentLocale}/profile/${item.getIn([ 'user', 'user', 'uuid' ])}`}>
                         {item.getIn([ 'user', 'firstName' ])} {item.getIn([ 'user', 'lastName' ])}
-                      </span>
+                      </Link>
                       {item.get('type') === 'PRODUCT_WISHLISTED' &&
                         <span styleName='action-type'>wishlisted an item.</span>}
                       {item.get('type') === 'USER_FOLLOWED' &&
