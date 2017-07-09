@@ -45,7 +45,6 @@ export default class NewHome extends Component {
     this.loadData = ::this.loadData;
     this.loadMore = ::this.loadMore;
     this.loadOnScroll = ::this.loadOnScroll;
-    this.loadMoreVisibility = ::this.loadMoreVisibility;
     this.handleLoadSpotts = ::this.handleLoadSpotts;
     this.state = {
       width: 280,
@@ -103,19 +102,6 @@ export default class NewHome extends Component {
     this.handleLoadSpotts();
   }
 
-  /*
-  loadOnScroll (isVisible) {
-    const { spotts: s, spottsSubscribed: ss } = this.props;
-    const { lazyLoadMode } = this.state;
-    if (isVisible && lazyLoadMode && (ss.get('_status') === LOADED || s.get('_status') === LOADED) && (ss.get('data').size + s.get('data').size < 21)) {
-      this.handleLoadSpotts();
-    }
-    if (ss.get('data').size + s.get('data').size >= 21) {
-      this.setState({ lazyLoadMode: false });
-    }
-  }
-  */
-
   loadOnScroll (isVisible) {
     const { spotts: s, spottsSubscribed: ss } = this.props;
     if (isVisible && ((ss.get('data').size && ss.get('_status') === LOADED) || (s.get('data').size && s.get('_status') === LOADED))) {
@@ -131,21 +117,6 @@ export default class NewHome extends Component {
       spottsPromotedPage: sp.get('page', -1) + 1 < sp.get('pageCount', 1) ? sp.get('page', -1) + 1 : -1
     };
     this.props.loadSpottsList(Boolean(this.props.isAuthenticated), pages);
-  }
-
-  loadMoreVisibility () {
-    const { spotts: s, spottsSubscribed: ss } = this.props;
-    const { lazyLoadMode } = this.state;
-    if (lazyLoadMode) {
-      return false;
-    }
-    if (s.get('data').size && s.get('_status') !== FETCHING && s.get('page') + 1 < s.get('pageCount')) {
-      return true;
-    }
-    if (ss.get('data').size && ss.get('_status') !== FETCHING && ss.get('page') + 1 < ss.get('pageCount')) {
-      return true;
-    }
-    return false;
   }
 
   setTopicsTabIndex (index) {
@@ -207,7 +178,6 @@ export default class NewHome extends Component {
           </div>
         </div>
         <VisibilitySensor active={lazyLoadMode} delay={500} delayedCall onChange={this.loadOnScroll}/>
-        {this.loadMoreVisibility() && <div styleName='load-more responsive-element' onClick={this.loadMore}>{t('common.loadMore')}</div>}
       </section>
     );
   }
