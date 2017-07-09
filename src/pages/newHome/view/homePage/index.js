@@ -10,7 +10,7 @@ import Topics from '../topics';
 import Card from '../card';
 import * as actions from '../../actions';
 import { newHomeSelector } from '../../selectors';
-import { FETCHING, LOADED } from '../../../../data/statusTypes';
+import { LOADED } from '../../../../data/statusTypes';
 
 const styles = require('./index.scss');
 
@@ -177,7 +177,7 @@ export default class NewHome extends Component {
             </Masonry>
           </div>
         </div>
-        <VisibilitySensor active={lazyLoadMode} delay={500} delayedCall onChange={this.loadOnScroll}/>
+        <VisibilitySensor active={lazyLoadMode} delayedCall intervalDelay={500} onChange={this.loadOnScroll}/>
       </section>
     );
   }

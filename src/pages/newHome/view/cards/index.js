@@ -94,7 +94,7 @@ export default class Cards extends Component {
         {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') &&
           spotts.get('totalResultCount') > spotts.get('pageSize') &&
           spotts.get('page') + 1 !== spotts.get('pageCount')) &&
-          <VisibilitySensor delay={500} delayedCall onChange={this.loadOnScroll}/>
+          <VisibilitySensor delayedCall intervalDelay={500} onChange={this.loadOnScroll}/>
         }
       </div>
     );
