@@ -155,18 +155,21 @@ export default class NewHome extends Component {
   render () {
     const { trendingSeries, trendingTopics, location, feedSpotts, t, params } = this.props;
     const { width, lazyLoadMode, topicsTabIndex } = this.state;
+    const trendingSeriesExist = Boolean(trendingSeries && trendingSeries.get('data') && trendingSeries.get('data').size);
+
     return (
       <section styleName='wrapper'>
         <div styleName='topics-nav-wrapper responsive-container'>
           <div styleName='topics-nav'>
+            {trendingSeriesExist &&
+              <div
+                className={topicsTabIndex === 0 ? styles['topics-nav-item-active'] : null}
+                styleName='topics-nav-item'
+                onClick={this.setTopicsTabIndex.bind(this, 0)}>
+                {t('topic.series')}
+              </div>}
             <div
-              className={topicsTabIndex === 0 ? styles['topics-nav-item-active'] : null}
-              styleName='topics-nav-item'
-              onClick={this.setTopicsTabIndex.bind(this, 0)}>
-              {t('topic.series')}
-            </div>
-            <div
-              className={topicsTabIndex === 1 ? styles['topics-nav-item-active'] : null}
+              className={topicsTabIndex === 1 || !trendingSeriesExist ? styles['topics-nav-item-active'] : null}
               styleName='topics-nav-item'
               onClick={this.setTopicsTabIndex.bind(this, 1)}>
               {t('topic.trendingTopics')}
@@ -174,13 +177,14 @@ export default class NewHome extends Component {
           </div>
         </div>
         <div styleName='topics responsive-container'>
+          {trendingSeriesExist &&
+            <div
+              className={topicsTabIndex === 0 ? styles['topics-content-active'] : null}
+              styleName='topics-content'>
+              <Topics items={trendingSeries}/>
+            </div>}
           <div
-            className={topicsTabIndex === 0 ? styles['topics-content-active'] : null}
-            styleName='topics-content'>
-            <Topics items={trendingSeries}/>
-          </div>
-          <div
-            className={topicsTabIndex === 1 ? styles['topics-content-active'] : null}
+            className={topicsTabIndex === 1 || !trendingSeriesExist ? styles['topics-content-active'] : null}
             styleName='topics-content'>
             <Topics items={trendingTopics}/>
           </div>
