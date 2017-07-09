@@ -177,7 +177,8 @@ export default function newHomeReducer (state = Map({
     case oldActions.LOGOUT_SUCCESS:
       return state
         .set('spotts', Map({ _error: null, _status: LOADED, data: OrderedMap() }))
-        .set('spottsSubscribed', Map({ _error: null, _status: LOADED, data: OrderedMap() }));
+        .set('spottsSubscribed', Map({ _error: null, _status: LOADED, data: OrderedMap() }))
+        .set('userActivityFeed', Map({ _error: null, _status: LOADED, data: List() }));
 
     case actions.GET_SPOTT_START:
       return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: null, _status: FETCHING }));

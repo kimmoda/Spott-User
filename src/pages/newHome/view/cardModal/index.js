@@ -234,6 +234,7 @@ export default class CardModal extends Component {
               <div styleName='modal-close' onClick={this.onCloseHandler}>
                 <i><IconClose/></i>
               </div>
+              <a href='#' ref={(ref) => { ref && ref.focus(); }} style={{ position: 'relative', top: '40px', width: '0', height: '0' }} onClick={(e) => e.preventDefault()}/>
               <div ref={(ref) => { this.imageContainer = ref; }} styleName='image'>
                 {spott.get('image') &&
                   <ImageLoader

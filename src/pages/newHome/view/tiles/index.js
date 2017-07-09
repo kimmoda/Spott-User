@@ -105,6 +105,7 @@ export default class Tiles extends Component {
 
     return (
     <Swipeable
+      className={styles['tiles-wrapper']}
       onSwipedLeft={this.onMoveRight}
       onSwipedRight={this.onMoveLeft}>
       <div ref={(ref) => { this.tilesContainer = ref; }} styleName='tiles-wrapper'>

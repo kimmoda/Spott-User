@@ -39,13 +39,13 @@
     margin-left: $gutterSmallWidth;
     transform: rotate(180deg);
   }
+  @media (max-width: $phoneBreakpoint) {
+    display: none;
+  }
 }
 
 .tiles-btn {
   @include btnSmallRound(true);
-  @media (max-width: $phoneBreakpoint) {
-    display: none;
-  }
 }
 
 .tiles-btn-right {
@@ -55,6 +55,9 @@
   justify-content: flex-end;
   .tiles-btn {
     margin-right: $gutterSmallWidth;
+  }
+  @media (max-width: $phoneBreakpoint) {
+    display: none;
   }
 }
 
