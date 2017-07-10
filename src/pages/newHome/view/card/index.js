@@ -89,7 +89,9 @@ export default class Card extends Component {
 
   shareSpott (event) {
     event.preventDefault();
-    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.spottDetails.get('shareUrl'))}&title=Discover ${this.props.spottDetails.get('title')} now on Spott`, 'name', 'width=600,height=400');
+    const { spottDetails: spott } = this.props;
+    const topicsString = spott.get('topics') ? spott.get('topics').map((topic) => ` | ${topic.get('text').trim()}`).join('') : '';
+    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(spott.get('shareUrl'))}&title=Discover ${spott.get('title')} now on Spott&description=${spott.get('comment')}%0A%0A${topicsString}`, 'name', 'width=600,height=400');
   }
 
   onCardMarkerClick (marker, event) {

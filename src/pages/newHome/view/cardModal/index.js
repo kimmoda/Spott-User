@@ -151,7 +151,9 @@ export default class CardModal extends Component {
 
   shareSpott (event) {
     event.preventDefault();
-    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.spott.get('shareUrl'))}&title=Discover ${this.props.spott.get('title')} now on Spott&description=${this.props.spott.get('comment')}`, 'name', 'width=600,height=400');
+    const { spott } = this.props;
+    const topicsString = spott.get('topics') ? spott.get('topics').map((topic) => ` | ${topic.get('text').trim()}`).join('') : '';
+    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(spott.get('shareUrl'))}&title=Discover ${spott.get('title')} now on Spott&description=${spott.get('comment')}%0A%0A${topicsString}`, 'name', 'width=600,height=400');
   }
 
   onCloseHandler () {
@@ -217,6 +219,7 @@ export default class CardModal extends Component {
       spott.getIn([ 'relatedTopics', '_status' ]) === LOADED &&
       spott.getIn([ 'lovers', '_status' ]) === LOADED &&
       spott.getIn([ 'similar', '_status' ]) === LOADED;
+    const topicsString = spott.get('topics') ? spott.get('topics').map((topic) => ` | ${topic.get('text').trim()}`).join('') : '';
 
     return (
       <ReactModal
@@ -341,7 +344,7 @@ export default class CardModal extends Component {
         </div>
         {share &&
           <FacebookShareData
-            description={spott.get('comment')}
+            description={`${spott.get('comment')}\r\n\r\n${topicsString}`}
             imageHeight={share.getIn([ 'image', 'dimension', 'height' ])}
             imageUrl={share.getIn([ 'image', 'url' ])}
             imageWidth={share.getIn([ 'image', 'dimension', 'width' ])}
