@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { registerWithFacebook } from '../../../register/actions';
+import { registerWithFacebook } from '../../actions';
 import { facebookAppIdSelector } from '../../../app/selector';
 import localized from '../../../_common/localized';
 

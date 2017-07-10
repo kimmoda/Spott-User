@@ -3,11 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Helmet from 'react-helmet';
-import { mediaQueries } from '../../_common/buildingBlocks';
-import Footer from './footer';
 import { init, pageView } from './googleAnalytics';
-import Header from './header';
-// import Cookies from './cookies';
 import { locales } from '../../../locales';
 import { appSelector } from '../selector';
 import { acceptCookies as acceptCookiesFunc } from '../actions';
@@ -76,25 +72,6 @@ class HrefLang extends Component {
 // App Component
 // /////////////
 
-const styles = {
-  container: {
-    minHeight: '100%',
-    position: 'relative'
-  },
-  footerCompensation: {
-    paddingBottom: '7.7em',
-    [mediaQueries.medium]: {
-      paddingBottom: '3.7em'
-    }
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: '100%'
-  }
-};
-
 @connect(appSelector, (dispatch) => ({
   acceptCookiesFunc: bindActionCreators(acceptCookiesFunc, dispatch)
 }))
@@ -149,56 +126,30 @@ export default class App extends Component {
       this.props.acceptCookiesFunc();
     }
 
-    const standalone = routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
-    const floating = routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
-    const noSignInButtonInHeader = routes.reduce((acc, curr) => typeof curr.noSignInButtonInHeader === 'undefined' ? acc : curr.noSignInButtonInHeader, false);
-    const newDesign = routes.reduce((acc, curr) => typeof curr.newDesign === 'undefined' ? acc : curr.newDesign, false);
     const modalPage = routes.reduce((acc, curr) => typeof curr.modalPage === 'undefined' ? acc : curr.modalPage, false);
-    if (!newDesign && location.state && location.state.modal && this.previousChildren) {
-      // Render containing page (previousChildren) and modal (children)
-      return (
-        <div style={styles.container}>
-          <HrefLang location={location} />
-          {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
-          <div style={standalone ? {} : styles.footerCompensation}>{this.previousChildren}</div>
-          <div>{children}</div>
-          {!standalone && <Footer style={styles.footer} />}
-        </div>
-      );
-    }
-    if (newDesign) {
-      if (location.state && location.state.modal && this.previousChildren) {
-        return (
-          <div>
-            <HrefLang location={location} />
-            <NewDesign location={location}>{this.previousChildren}</NewDesign>
-            <div>{children}</div>
-          </div>
-        );
-      }
-      if ((!location.state && modalPage) || (location.state && modalPage && !this.previousChildren)) {
-        return (
-          <div>
-            <HrefLang location={location} />
-            <NewDesign location={location}><NewHomePage location={location} params={params}/></NewDesign>
-            <div>{children}</div>
-          </div>
-        );
-      }
+
+    if (location.state && location.state.modal && this.previousChildren) {
       return (
         <div>
-          <HrefLang location={location} />
-          <NewDesign location={location}>{children}</NewDesign>
+          <HrefLang location={location}/>
+          <NewDesign location={location}>{this.previousChildren}</NewDesign>
+          <div>{children}</div>
         </div>
       );
     }
-    // Standard route, nothing special here.
+    if ((!location.state && modalPage) || (location.state && modalPage && !this.previousChildren)) {
+      return (
+        <div>
+          <HrefLang location={location}/>
+          <NewDesign location={location}><NewHomePage location={location} params={params}/></NewDesign>
+          <div>{children}</div>
+        </div>
+      );
+    }
     return (
-      <div style={styles.container}>
-        <HrefLang location={location} />
-        {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
-        <div style={standalone ? {} : styles.footerCompensation}>{children}</div>
-        {!standalone && <Footer style={styles.footer} />}
+      <div>
+        <HrefLang location={location}/>
+        <NewDesign location={location}>{children}</NewDesign>
       </div>
     );
   }

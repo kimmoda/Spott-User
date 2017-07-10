@@ -103,26 +103,21 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
     // When entering a page, the locale is dispatched.
     function onLocaleEnter (state, replace) {
-      /* const isUbAuthenticated = isUbAuthenticatedSelector(getState());
-      if (isUbAuthenticated) {
-        dispatch(updateUbLocale(locale));
-      }
-      */
       dispatch(changeLocale(locale));
     }
 
     return (
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
         <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
-        <Route component={Privacy} newDesign path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
-        <Route component={Terms} newDesign path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
-        <Route component={Cookies} newDesign path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Privacy} path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
         <Route component={Mobile} path='mobile/download' standalone/>
 
         <Route component={PromoPage} path='douweegberts' standalone/>
 
-        <IndexRoute component={NewHome} newDesign />
+        <IndexRoute component={NewHome} />
         <Route
           component={Topic}
           newDesign
@@ -132,32 +127,32 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
             topicId && dispatch(trackTopicView({ uuid: topicId, dc }));
           }}>
           <IndexRoute component={TopicSpotts} newDesign/>
-          <Route component={SeasonSpotts} newDesign path='season/:seasonSlug/:seasonId'/>
-          <Route component={EpisodeSpotts} newDesign path='season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId'/>
+          <Route component={SeasonSpotts} path='season/:seasonSlug/:seasonId'/>
+          <Route component={EpisodeSpotts} path='season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId'/>
         </Route>
-        <Route component={NewLogin} newDesign path='login'/>
-        <Route component={NewRegistration} newDesign path='registration'/>
-        <Route component={NewResetPassword} newDesign path='resetpassword'/>
-        <Route component={ChangePassword} newDesign path='user/changepwd'/>
-        <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:spottId'/>
-        <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
-        <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
-        <Route component={ProductModal} modalPage newDesign path='product/:productTitle/:brandTitle/:productId'/>
-        <Route component={SearchResults} newDesign path='search'>
+        <Route component={NewLogin} path='login'/>
+        <Route component={NewRegistration} path='registration'/>
+        <Route component={NewResetPassword} path='resetpassword'/>
+        <Route component={ChangePassword} path='user/changepwd'/>
+        <Route component={CardModal} modalPage path='spott/:spottTitle/:spottId'/>
+        <Route component={CardModal} modalPage path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
+        <Route component={CardModal} modalPage path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
+        <Route component={ProductModal} modalPage path='product/:productTitle/:brandTitle/:productId'/>
+        <Route component={SearchResults} path='search'>
           <IndexRedirect to='posts'/>
-          <Route component={SearchResultsPosts} newDesign path='posts'/>
-          <Route component={SearchResultsPeople} newDesign path='people'/>
+          <Route component={SearchResultsPosts} path='posts'/>
+          <Route component={SearchResultsPeople} path='people'/>
         </Route>
-        <Route component={NewUserSettingsPage} newDesign path='user'>
+        <Route component={NewUserSettingsPage} path='user'>
           <IndexRedirect to='settings'/>
-          <Route component={NewUserSettings} newDesign path='settings'/>
-          <Route component={NewUserAccount} newDesign path='account'/>
-          <Route component={NewUserSubscriptions} newDesign path='subscriptions'/>
+          <Route component={NewUserSettings} path='settings'/>
+          <Route component={NewUserAccount} path='account'/>
+          <Route component={NewUserSubscriptions} path='subscriptions'/>
         </Route>
-        <Route component={NewUserProfilePage} newDesign path='profile/:userId'>
+        <Route component={NewUserProfilePage} path='profile/:userId'>
           <IndexRedirect to='loves'/>
-          <Route component={NewUserLoves} newDesign path='loves'/>
-          <Route component={NewUserWishlist} newDesign path='wishlist'/>
+          <Route component={NewUserLoves} path='loves'/>
+          <Route component={NewUserWishlist} path='wishlist'/>
         </Route>
       </Route>
     );
@@ -168,7 +163,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <IndexRedirect to={`/${getBrowserLanguage()}`} />
       {locales.map((locale) => makeLocalizedRoutes(locale))}
 
-      <Route component={Error404} newDesign path='*' showCookies={false} />
+      <Route component={Error404} path='*' showCookies={false} />
     </Route>
   );
 };

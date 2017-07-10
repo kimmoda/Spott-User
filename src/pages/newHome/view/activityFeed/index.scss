@@ -1,6 +1,18 @@
 @import "../vars";
 
 
+:global {
+  .dropdown {
+    display: inline-block;
+  }
+  .dropdown__content {
+    display: none;
+  }
+  .dropdown--active .dropdown__content {
+    display: block;
+  }
+}
+
 .dd-container {
   position: relative;
   @media (max-width: $phoneBreakpoint) {

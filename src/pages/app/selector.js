@@ -22,8 +22,6 @@ export const isUbAuthenticatedSelector = (state) => Boolean(state.getIn([ 'app',
 export const currentUrlSelector = (state) => state.getIn([ 'routing', 'locationBeforeTransitions', 'pathname' ]);
 export const isDownloadPageShowedSelector = (state) => state.getIn([ 'app', 'configuration', 'downloadPageShowed' ]);
 
-export const ubAuthenticationTokenSelector = (state) => state.getIn([ 'app', 'authentication', 'ubAuthenticationToken' ]);
-
 export const appSelector = createStructuredSelector({
   acceptCookies: acceptCookiesSelector
 });

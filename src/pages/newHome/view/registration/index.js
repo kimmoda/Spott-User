@@ -10,19 +10,18 @@ import ReactModal from 'react-modal';
 import { reduxForm, Field } from 'redux-form/immutable';
 import moment from 'moment';
 import localized from '../../../_common/localized';
-import * as actions from '../../../register/actions';
 import { validateRegistrationForm } from './validateForm';
 import { FormInput, FormRadio, FormSelect, FormCheckbox } from '../form';
 import FacebookRegisterButton from './facebookRegisterButton';
 import { IconClose } from '../icons';
-import * as newActions from '../../actions';
+import * as actions from '../../actions';
 import { registrationFormSelector } from '../../selectors';
 
 const styles = require('./index.scss');
 
 @localized
 @connect(registrationFormSelector, (dispatch) => ({
-  loadRegistrationFormDefaults: bindActionCreators(newActions.loadRegistrationFormDefaults, dispatch),
+  loadRegistrationFormDefaults: bindActionCreators(actions.loadRegistrationFormDefaults, dispatch),
   submit: bindActionCreators(actions.submit, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
 }))
