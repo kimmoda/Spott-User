@@ -73,7 +73,7 @@
     "findYourStyle": "Find your style",
     "recentSearches": "Recente zoekopdrachten",
     "clearSearchHistory": "Zoekgeschiedenis verwijderen",
-    "topicsForYou": "Onderwerpen voor jou",
+    "topicsForYou": "Topics voor jou",
     "searchForInspiration": "Inspiratie zoeken",
     "search": "Zoeken",
     "spotts": {
@@ -93,8 +93,8 @@
     "PERSON": "Persoon",
     "MANUAL": "",
     "BRAND": "Merk",
-    "trendingTopics": "Populaire Onderwerpen",
-    "relatedTopics": "Gerelateerde Onderwerpen",
+    "trendingTopics": "Populaire Topics",
+    "relatedTopics": "Gerelateerde Topics",
     "series": "Serie"
   },
   "spott": {
