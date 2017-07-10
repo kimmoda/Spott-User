@@ -119,7 +119,7 @@ export default class NewResetPassword extends Component {
                   submitFailed={submitFailed}
                   type='email'/>
               </div>
-              {error && <div className='form-error'>{error}</div>}
+              {error && <div className='form-error'>{t(error)}</div>}
               <button className='form-submit' type='submit'>{t('common.send')}</button>
             </form>
         }

@@ -174,6 +174,12 @@ export async function resetUserPassword (baseUrl, authenticationToken, locale, d
     const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/register/resetpassword`, data);
     return body;
   } catch (error) {
+    if (error.name === 'BadRequestError' && error.body) {
+      if (error.body.message === 'user already has a reset token') {
+        throw new SubmissionError({ _error: 'forgotPassword.alreadySendMail' });
+      }
+      throw new SubmissionError({ _error: 'forgotPassword.invalidEmail' });
+    }
     throw new SubmissionError({ _error: error.body.message });
   }
 }

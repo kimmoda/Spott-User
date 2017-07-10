@@ -66,8 +66,10 @@
   "forgotPassword": {
     "forgotPassword": "Wachtwoord vergeten",
     "dontPanic": "Geen zorgen! De instructies om jouw wachtwoord te resetten worden verzonden naar jouw e-mailadres.",
-    "emailSent!": "E-mail is verzonden!",
-    "successfullyReset": "Jouw wachtwoord is succesvol gereset. Gelieve jouw e-mail te bekijken voor verdere instructies."
+    "emailSent": "E-mail is verzonden!",
+    "successfullyReset": "Jouw wachtwoord is succesvol gereset. Gelieve jouw e-mail te bekijken voor verdere instructies.",
+    "alreadySendMail": "Er is reeds een e-mail verstuurd. Controleer je e-mail voor verdere instructies.",
+    "invalidEmail": "Ongeldig e-mailadres."
   },
   "search": {
     "findYourStyle": "Find your style",

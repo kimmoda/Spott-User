@@ -67,7 +67,9 @@
     "forgotPassword": "Forgot password",
     "dontPanic": "Don’t panic! We’ll send the password reset instructions to your e-mail address.",
     "emailSent": "E-mail has been sent!",
-    "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions."
+    "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions.",
+    "alreadySendMail": "E-mail was already send. Please check your e-mail for further instructions.",
+    "invalidEmail": "Invalid e-mail."
   },
   "search": {
     "findYourStyle": "Find your style",

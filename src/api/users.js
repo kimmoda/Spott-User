@@ -1,15 +1,4 @@
-import { get, post } from './request';
-import { transformUser } from './transformers';
-
-/**
- * @throws NetworkError
- * @throws NotFoundError
- * @throws UnexpectedError
- */
-export async function getUser (baseUrl, authenticationToken, locale, { userId }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v003/user/users/${userId}`);
-  return transformUser(body);
-}
+import { post } from './request';
 
 export function register (baseUrl, data) {
   return post(null, null, `${baseUrl}/v004/user/users/register/username`, data);
