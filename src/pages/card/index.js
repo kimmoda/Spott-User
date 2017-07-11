@@ -242,7 +242,7 @@ class CardProducts extends PureComponent {
       <Tiles tileOffsetWidth={16} tilesCount={productMarkers.size}>
         {productMarkers.map((product, index) =>
           <ProductImpressionSensor
-            delay={2000}
+            delay={3000}
             key={`product_${index}_${product.getIn([ 'product', 'uuid' ])}`}
             productId={product.getIn([ 'product', 'uuid' ])}
             productLinks={product.getIn([ 'product', 'links' ])}>

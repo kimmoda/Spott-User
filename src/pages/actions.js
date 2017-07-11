@@ -27,6 +27,7 @@ export const GET_TOPIC_SUCCESS = 'NEW/GET_TOPIC_SUCCESS';
 export const GET_TOPIC_ERROR = 'NEW/GET_TOPIC_ERROR';
 
 export const GET_TOPIC_SPOTTS_START = 'NEW/GET_TOPIC_SPOTTS_START';
+export const GET_TOPIC_SPOTTS_MORE_START = 'NEW/GET_TOPIC_SPOTTS_MORE_START';
 export const GET_TOPIC_SPOTTS_SUCCESS = 'NEW/GET_TOPIC_SPOTTS_SUCCESS';
 export const GET_TOPIC_SPOTTS_MORE_SUCCESS = 'NEW/GET_TOPIC_SPOTTS_MORE_SUCCESS';
 export const GET_TOPIC_SPOTTS_ERROR = 'NEW/GET_TOPIC_SPOTTS_ERROR';
@@ -285,7 +286,7 @@ export const loadTopic = makeApiActionCreator(api.getTopic, GET_TOPIC_START, GET
 
 export const loadTopicSpotts = makeApiActionCreator(api.getTopicSpotts, GET_TOPIC_SPOTTS_START, GET_TOPIC_SPOTTS_SUCCESS, GET_TOPIC_SPOTTS_ERROR);
 
-export const loadTopicSpottsMore = makeApiActionCreator(api.getTopicSpotts, GET_TOPIC_SPOTTS_START, GET_TOPIC_SPOTTS_MORE_SUCCESS, GET_TOPIC_SPOTTS_ERROR);
+export const loadTopicSpottsMore = makeApiActionCreator(api.getTopicSpotts, GET_TOPIC_SPOTTS_MORE_START, GET_TOPIC_SPOTTS_MORE_SUCCESS, GET_TOPIC_SPOTTS_ERROR);
 
 export const loadTopicSeasons = makeApiActionCreator(api.getTvSeriesSeasons, GET_TOPIC_SEASONS_START, GET_TOPIC_SEASONS_SUCCESS, GET_TOPIC_SEASONS_ERROR);
 
