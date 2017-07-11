@@ -156,5 +156,12 @@
     "passwordLengthError": "This password isn't long enough!",
     "passwordMatchError": "Passwords don't match!",
     "submitButton": "Change Password"
+  },
+  "activityFeed": {
+    "wishlistedItem": "wishlisted an item",
+    "subscribedTo": "subscribed to",
+    "nowFollows" : "now follows",
+    "lovedSpott": "loved a spott",
+    "startedFollowingYou": "started following you."
   }
 }

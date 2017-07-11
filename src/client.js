@@ -18,7 +18,7 @@ import { reducer as form } from 'redux-form/immutable';
 import { LOGIN_SUCCESS, DOWNLOAD_PAGE_SHOWED, doInit } from './pages/app/actions';
 import { getRoutes } from './routes';
 import app from './pages/app/reducer';
-import newHome from './pages/newHome/reducer';
+import newHome from './pages/reducer';
 // import { getLocalStorage, isServer } from './utils';
 import { getLocalStorage } from './utils';
 

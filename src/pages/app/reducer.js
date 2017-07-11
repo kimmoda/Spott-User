@@ -1,6 +1,6 @@
 import { Map, fromJS } from 'immutable';
 import * as actions from './actions';
-import * as newActions from '../newHome/actions';
+import * as newActions from '../actions';
 import { combineReducers } from 'redux-immutablejs';
 
 function authentication (state = fromJS({

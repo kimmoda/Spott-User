@@ -8,8 +8,8 @@ import { locales } from '../../../locales';
 import { appSelector } from '../selector';
 import { acceptCookies as acceptCookiesFunc } from '../actions';
 
-import NewDesign from '../../newHome/view';
-import NewHomePage from '../../newHome/view/homePage';
+import NewDesign from '../../index';
+import NewHomePage from '../../homePage';
 
 require('./reset.css');
 require('./basic.scss');
