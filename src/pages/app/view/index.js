@@ -126,8 +126,17 @@ export default class App extends Component {
       this.props.acceptCookiesFunc();
     }
 
+    const standalone = routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
     const modalPage = routes.reduce((acc, curr) => typeof curr.modalPage === 'undefined' ? acc : curr.modalPage, false);
 
+    if (standalone) {
+      return (
+        <div>
+          <HrefLang location={location}/>
+          <div>{children}</div>
+        </div>
+      );
+    }
     if (location.state && location.state.modal && this.previousChildren) {
       return (
         <div>
