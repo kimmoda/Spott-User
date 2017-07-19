@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import Masonry from 'react-masonry-component';
-import VisibilitySensor from 'react-visibility-sensor';
+import InfiniteLoader from '../_common/infiniteLoader/index';
 import localized from '../_common/localized';
 import Card from '../card';
 import { FETCHING, LOADED } from '../../data/statusTypes';
@@ -27,6 +27,7 @@ export default class Cards extends Component {
     this.handleResize = ::this.handleResize;
     this.handleLayoutComplete = ::this.handleLayoutComplete;
     this.loadOnScroll = ::this.loadOnScroll;
+    this.canLoadMore = ::this.canLoadMore;
     this.state = {
       cardWidth: 280,
       cardCount: 0
@@ -71,6 +72,13 @@ export default class Cards extends Component {
     }
   }
 
+  canLoadMore () {
+    const { spotts } = this.props;
+
+    return Boolean(spotts.get('totalResultCount') && spotts.get('totalResultCount') > spotts.get('pageSize') &&
+      spotts.get('page') + 1 !== spotts.get('pageCount'));
+  }
+
   render () {
     const { spotts, location, params } = this.props;
     const { cardWidth, cardCount } = this.state;
@@ -91,10 +99,8 @@ export default class Cards extends Component {
           </div>
           )}
         </Masonry>
-        {Boolean(spotts.get('_status') !== FETCHING && spotts.get('totalResultCount') &&
-          spotts.get('totalResultCount') > spotts.get('pageSize') &&
-          spotts.get('page') + 1 !== spotts.get('pageCount')) &&
-          <VisibilitySensor delayedCall intervalDelay={500} onChange={this.loadOnScroll}/>
+        { this.canLoadMore() &&
+          <InfiniteLoader active={spotts.get('_status') !== FETCHING} delayedCall intervalDelay={500} onChange={this.loadOnScroll}/>
         }
       </div>
     );

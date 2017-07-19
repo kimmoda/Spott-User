@@ -4,7 +4,7 @@ import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Masonry from 'react-masonry-component';
-import VisibilitySensor from 'react-visibility-sensor';
+import InfiniteLoader from '../_common/infiniteLoader/index';
 import localized from '../_common/localized';
 import Topics from '../topics';
 import Card from '../card';
@@ -177,7 +177,7 @@ export default class NewHome extends Component {
             </Masonry>
           </div>
         </div>
-        <VisibilitySensor active={lazyLoadMode} delayedCall intervalDelay={500} onChange={this.loadOnScroll}/>
+        <InfiniteLoader active={lazyLoadMode} delayedCall intervalDelay={500} onChange={this.loadOnScroll}/>
       </section>
     );
   }
