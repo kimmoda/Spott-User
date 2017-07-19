@@ -16,6 +16,7 @@ import { LOADED } from '../../data/statusTypes';
 import { slugify, getDetailsDcFromLinks } from '../../utils';
 import ProductImpressionSensor from '../productImpressionSensor';
 import Tiles from '../tiles';
+import VisibilitySensor from 'react-visibility-sensor';
 
 const styles = require('./index.scss');
 
@@ -25,6 +26,7 @@ const styles = require('./index.scss');
   loadSpottLovers: bindActionCreators(actions.loadSpottLovers, dispatch),
   removeSpottLover: bindActionCreators(actions.removeSpottLover, dispatch),
   setSpottLover: bindActionCreators(actions.setSpottLover, dispatch),
+  trackSpottImpression: bindActionCreators(actions.trackSpottImpression, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
@@ -43,6 +45,7 @@ export default class Card extends Component {
     spottDetails: PropTypes.any.isRequired,
     spottId: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
+    trackSpottImpression: PropTypes.func.isRequired,
     userId: PropTypes.string,
     width: PropTypes.number.isRequired
   };
@@ -50,6 +53,7 @@ export default class Card extends Component {
   constructor (props) {
     super(props);
     this.onCardMarkerClick = ::this.onCardMarkerClick;
+    this.onCardVisible = ::this.onCardVisible;
     this.state = {
       isCardModalOpen: false,
       sidebarProductId: null,
@@ -137,6 +141,13 @@ export default class Card extends Component {
     }
   }
 
+  onCardVisible () {
+    console.log("Card visible");
+    const { spottDetails: spott, trackSpottImpression, spottId } = this.props;
+    const spottLinks = spott.getIn([ 'links' ]).toJS();
+    trackSpottImpression({ uuid: spottId, dc: getDetailsDcFromLinks(spottLinks) });
+  }
+
   render () {
     const { item, currentLocale, spottDetails, width, location, t } = this.props;
     const { loved, loverCount } = this.state;
@@ -144,85 +155,87 @@ export default class Card extends Component {
     const isReady = spottDetails.getIn([ 'lovers', '_status' ]) === LOADED;
 
     return (
-      <div styleName='card'>
-        <div styleName='image' onClick={(event) => this.showSpott(event)}>
-          <ImageLoader
-            height={Math.ceil(item.getIn([ 'image', 'dimension', 'height' ]) * (width / item.getIn([ 'image', 'dimension', 'width' ])))}
-            imgOriginal={item.get('image')}
-            width={width}/>
-          {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onMarkerClick={this.onCardMarkerClick}/>}
-          {spottDetails.get('personMarkers') &&
-            <div styleName='persons'>
-              {spottDetails.get('personMarkers').map((person) => {
-                if (person.get('person', null)) {
+      <VisibilitySensor active={isReady} delayedCall intervalDelay={300} onChange={this.onCardVisible}>
+        <div styleName='card'>
+          <div styleName='image' onClick={(event) => this.showSpott(event)}>
+            <ImageLoader
+              height={Math.ceil(item.getIn([ 'image', 'dimension', 'height' ]) * (width / item.getIn([ 'image', 'dimension', 'width' ])))}
+              imgOriginal={item.get('image')}
+              width={width}/>
+            {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onMarkerClick={this.onCardMarkerClick}/>}
+            {spottDetails.get('personMarkers') &&
+              <div styleName='persons'>
+                {spottDetails.get('personMarkers').map((person) => {
+                  if (person.get('person', null)) {
+                    return <div
+                      key={`person_marker_${person.get('uuid')}`}
+                      style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=90&height=90)` }}
+                      styleName='person'
+                      title={person.getIn([ 'person', 'name' ])}
+                      onClick={this.onPersonClick.bind(this, `/${currentLocale}/topic/${slugify(person.getIn([ 'person', 'name' ], ''))}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`)}/>;
+                  }
                   return <div
                     key={`person_marker_${person.get('uuid')}`}
-                    style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=90&height=90)` }}
+                    style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=90&height=90)` }}
                     styleName='person'
-                    title={person.getIn([ 'person', 'name' ])}
-                    onClick={this.onPersonClick.bind(this, `/${currentLocale}/topic/${slugify(person.getIn([ 'person', 'name' ], ''))}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`)}/>;
+                    title={person.getIn([ 'character', 'name' ])}
+                    onClick={this.onPersonClick.bind(this, `/${currentLocale}/topic/${slugify(person.getIn([ 'character', 'name' ], ''))}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`)}/>;
                 }
-                return <div
-                  key={`person_marker_${person.get('uuid')}`}
-                  style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=90&height=90)` }}
-                  styleName='person'
-                  title={person.getIn([ 'character', 'name' ])}
-                  onClick={this.onPersonClick.bind(this, `/${currentLocale}/topic/${slugify(person.getIn([ 'character', 'name' ], ''))}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`)}/>;
-              }
+                )}
+              </div>}
+            {item.get('imageSource') && <div styleName='spott-image-source'>{item.get('imageSource')}</div>}
+          </div>
+          <div styleName='content'>
+            <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
+            {width >= 280 && <div styleName='products'>
+              {Boolean(spottDetails.get('productMarkers') && isReady) &&
+                <CardProducts
+                  productMarkers={spottDetails.get('productMarkers')}
+                  onCardMarkerClick={this.onCardMarkerClick}/>}
+            </div>}
+            {item.get('promoted') && <div styleName='reason'>{t('common.promoted')}</div>}
+            <h3 styleName='title'>{item.get('title')}</h3>
+            <div styleName='description'>
+              {item.get('comment')}
+            </div>
+            {width >= 280 && <div styleName='topic-links'>
+              {item.get('topics').map((topic, index) =>
+                <Link
+                  key={`c_topic_${index}_${topic.get('uuid')}`}
+                  styleName='topic-link'
+                  to={{
+                    pathname: `/${currentLocale}/topic/${slugify(topic.get('text', ''))}/${topic.get('uuid')}`,
+                    state: { dc: getDetailsDcFromLinks(topic.get('links').toJS()) }
+                  }}>
+                  {topic.get('text').trim()}
+                </Link>
               )}
             </div>}
-          {item.get('imageSource') && <div styleName='spott-image-source'>{item.get('imageSource')}</div>}
-        </div>
-        <div styleName='content'>
-          <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
-          {width >= 280 && <div styleName='products'>
-            {Boolean(spottDetails.get('productMarkers') && isReady) &&
-              <CardProducts
-                productMarkers={spottDetails.get('productMarkers')}
-                onCardMarkerClick={this.onCardMarkerClick}/>}
-          </div>}
-          {item.get('promoted') && <div styleName='reason'>{t('common.promoted')}</div>}
-          <h3 styleName='title'>{item.get('title')}</h3>
-          <div styleName='description'>
-            {item.get('comment')}
           </div>
-          {width >= 280 && <div styleName='topic-links'>
-            {item.get('topics').map((topic, index) =>
-              <Link
-                key={`c_topic_${index}_${topic.get('uuid')}`}
-                styleName='topic-link'
-                to={{
-                  pathname: `/${currentLocale}/topic/${slugify(topic.get('text', ''))}/${topic.get('uuid')}`,
-                  state: { dc: getDetailsDcFromLinks(topic.get('links').toJS()) }
-                }}>
-                {topic.get('text').trim()}
-              </Link>
-            )}
+          {width >= 280 && <div styleName='footer'>
+            <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
+            <div
+              className={loved && styles['likes-liked']}
+              styleName='likes'
+              onClick={this.onLoveClick.bind(this, item.get('uuid'), loved)}>
+              <i><IconHeart/></i>
+              <span>{loverCount}</span>
+            </div>
+            <div styleName='users'>
+              {spottDetails.getIn([ 'lovers', 'data' ]) &&
+                <Users
+                  isSpottLoved={loved}
+                  items={spottDetails.getIn([ 'lovers', 'data' ])}
+                  location={location}
+                  maxNum={6}
+                  spottId={spottDetails.get('uuid')}/>}
+            </div>
+            <div styleName='share' onClick={(event) => this.shareSpott(event)}>
+              <i><IconForward/></i>
+            </div>
           </div>}
         </div>
-        {width >= 280 && <div styleName='footer'>
-          <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
-          <div
-            className={loved && styles['likes-liked']}
-            styleName='likes'
-            onClick={this.onLoveClick.bind(this, item.get('uuid'), loved)}>
-            <i><IconHeart/></i>
-            <span>{loverCount}</span>
-          </div>
-          <div styleName='users'>
-            {spottDetails.getIn([ 'lovers', 'data' ]) &&
-              <Users
-                isSpottLoved={loved}
-                items={spottDetails.getIn([ 'lovers', 'data' ])}
-                location={location}
-                maxNum={6}
-                spottId={spottDetails.get('uuid')}/>}
-          </div>
-          <div styleName='share' onClick={(event) => this.shareSpott(event)}>
-            <i><IconForward/></i>
-          </div>
-        </div>}
-      </div>
+      </VisibilitySensor>
     );
   }
 }
