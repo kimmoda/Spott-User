@@ -142,7 +142,6 @@ export default class Card extends Component {
   }
 
   onCardVisible () {
-    console.log("Card visible");
     const { spottDetails: spott, trackSpottImpression, spottId } = this.props;
     const spottLinks = spott.getIn([ 'links' ]).toJS();
     trackSpottImpression({ uuid: spottId, dc: getDetailsDcFromLinks(spottLinks) });
