@@ -47,7 +47,13 @@ export default class NewLogin extends Component {
     routerPush: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired,
     submitFailed: PropTypes.bool,
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    onCloseClick: PropTypes.func,
+    onLoginSuccess: PropTypes.func
+  };
+
+  static defaultProps = {
+    isOpen: true
   };
 
   constructor (props) {
@@ -66,12 +72,20 @@ export default class NewLogin extends Component {
   }
 
   onClose () {
-    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || `/${this.props.currentLocale}/`);
+    const { location, currentLocale, onCloseClick } = this.props;
+    if (onCloseClick) {
+      onCloseClick();
+    } else {
+      this.props.routerPush((location.state && location.state.returnTo) || `/${currentLocale}/`);
+    }
   }
 
   async onSubmit (values) {
     try {
       await this.props.submit(values.toJS());
+      if (this.props.onLoginSuccess) {
+        this.props.onLoginSuccess();
+      }
       this.onClose();
     } catch (e) {
       throw e;

@@ -22,10 +22,12 @@ import ProductImpressionSensor from '../productImpressionSensor';
 import { slugify, getDetailsDcFromLinks } from '../../utils';
 import FacebookShareData from '../_common/facebookShareData';
 import { LOADED } from '../../data/statusTypes';
+import withLoginDialog from '../_common/withLoginDialog';
 
 const styles = require('./index.scss');
 
 @localized
+@withLoginDialog
 @connect(spottDetailsSelector, (dispatch) => ({
   clearSidebarProducts: bindActionCreators(actions.clearSidebarProducts, dispatch),
   loadSidebarProduct: bindActionCreators(actions.loadSidebarProduct, dispatch),
@@ -66,6 +68,7 @@ export default class CardModal extends Component {
     removeSpottLover: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
+    showLoginDialog: PropTypes.func,
     sidebarProducts: PropTypes.any.isRequired,
     spott: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired,
@@ -78,6 +81,7 @@ export default class CardModal extends Component {
     this.onProductClick = ::this.onProductClick;
     this.onSidebarClose = ::this.onSidebarClose;
     this.handleResize = ::this.handleResize;
+    this.performLoveAction = ::this.performLoveAction;
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
     this.state = {
       width: 280
@@ -156,6 +160,14 @@ export default class CardModal extends Component {
     window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(spott.get('shareUrl'))}&title=Discover ${spott.get('title')} now on Spott&description=${spott.get('comment')}%0A%0A${topicsString}`, 'name', 'width=600,height=400');
   }
 
+  performLoveAction (spottId, loved) {
+    if (loved) {
+      this.props.removeSpottLover({ uuid: spottId });
+    } else {
+      this.props.setSpottLover({ uuid: spottId });
+    }
+  }
+
   onCloseHandler () {
     const { currentLocale, location, routerPush: routePush, sidebarProducts, spott } = this.props;
     if (sidebarProducts.get('data').size) {
@@ -200,13 +212,9 @@ export default class CardModal extends Component {
 
   onLoveClick (spottId, loved) {
     if (this.props.currentUserId) {
-      if (loved) {
-        this.props.removeSpottLover({ uuid: spottId });
-      } else {
-        this.props.setSpottLover({ uuid: spottId });
-      }
+      this.performLoveAction(spottId, loved);
     } else {
-      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location && this.props.location.pathname) || '/') } });
+      this.props.showLoginDialog(() => this.performLoveAction(spottId, loved));
     }
   }
 
@@ -234,9 +242,11 @@ export default class CardModal extends Component {
                styleName='main-sidebar-wrapper'>
             <div styleName='modal-close-layer' onClick={this.onCloseHandler}/>
             <div styleName='card'>
-              <div styleName='modal-close' onClick={this.onCloseHandler}>
-                <i><IconClose/></i>
-              </div>
+              {!this.state.showLogin &&
+                <div styleName='modal-close' onClick={this.onCloseHandler}>
+                  <i><IconClose/></i>
+                </div>
+              }
               <a href='#' ref={(ref) => { ref && ref.focus(); }} style={{ position: 'relative', top: '40px', width: '0', height: '0' }} onClick={(e) => e.preventDefault()}/>
               <div ref={(ref) => { this.imageContainer = ref; }} styleName='image'>
                 {spott.get('image') &&

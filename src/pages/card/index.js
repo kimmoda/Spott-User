@@ -17,10 +17,12 @@ import { slugify, getDetailsDcFromLinks } from '../../utils';
 import ProductImpressionSensor from '../productImpressionSensor';
 import Tiles from '../tiles';
 import VisibilitySensor from 'react-visibility-sensor';
+import withLoginDialog from '../_common/withLoginDialog';
 
 const styles = require('./index.scss');
 
 @localized
+@withLoginDialog
 @connect(spottCardDetailsSelector, (dispatch) => ({
   loadSpottCardDetails: bindActionCreators(actions.loadSpottCardDetails, dispatch),
   loadSpottLovers: bindActionCreators(actions.loadSpottLovers, dispatch),
@@ -42,6 +44,7 @@ export default class Card extends Component {
     removeSpottLover: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
+    showLoginDialog: PropTypes.func,
     spottDetails: PropTypes.any.isRequired,
     spottId: PropTypes.string.isRequired,
     t: PropTypes.func.isRequired,
@@ -53,6 +56,7 @@ export default class Card extends Component {
   constructor (props) {
     super(props);
     this.onCardMarkerClick = ::this.onCardMarkerClick;
+    this.performLoveAction = ::this.performLoveAction;
     this.onCardVisible = ::this.onCardVisible;
     this.state = {
       isCardModalOpen: false,
@@ -91,6 +95,22 @@ export default class Card extends Component {
     });
   }
 
+  async performLoveAction (spottId, loved) {
+    if (loved) {
+      this.setState({
+        loved: !this.state.loved,
+        loverCount: this.state.loverCount - 1
+      });
+      await this.props.removeSpottLover({ uuid: spottId });
+    } else {
+      this.setState({
+        loved: !this.state.loved,
+        loverCount: this.state.loverCount + 1
+      });
+      await this.props.setSpottLover({ uuid: spottId });
+    }
+  }
+
   shareSpott (event) {
     event.preventDefault();
     const { spottDetails: spott } = this.props;
@@ -122,22 +142,16 @@ export default class Card extends Component {
 
   async onLoveClick (spottId, loved) {
     if (this.props.userId) {
-      if (loved) {
-        this.setState({
-          loved: !this.state.loved,
-          loverCount: this.state.loverCount - 1
-        });
-        await this.props.removeSpottLover({ uuid: spottId });
-      } else {
-        this.setState({
-          loved: !this.state.loved,
-          loverCount: this.state.loverCount + 1
-        });
-        await this.props.setSpottLover({ uuid: spottId });
-      }
+      this.performLoveAction(spottId, loved);
       // this.props.loadSpottLovers({ uuid: spottId });
     } else {
-      this.props.routerPush({ pathname: `/${this.props.currentLocale}/login`, state: { modal: true, returnTo: ((this.props.location && `${this.props.location.pathname}${this.props.location.search}`) || '/') } });
+      this.props.showLoginDialog(() => {
+        if (loved) {
+          this.props.removeSpottLover({ uuid: spottId });
+        } else {
+          this.props.setSpottLover({ uuid: spottId });
+        }
+      });
     }
   }
 
