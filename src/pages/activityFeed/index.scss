@@ -54,6 +54,13 @@
     }
     :global {
       .fill {
+        fill: $colorGray;
+      }
+    }
+  }
+  &:hover {
+    :global {
+      .fill {
         fill: $colorGrayDark;
       }
     }
