@@ -21,21 +21,21 @@ class AutocompleteInput extends Component {
     super(props);
     this.onBlur = ::this.onBlur;
     this.onFocus = ::this.onFocus;
-
-    this.state = {
-      isInputFocused: false
-    };
+    this.onClose = ::this.onClose;
   }
 
   onBlur () {
     this.props.onBlur();
-    this.setState({ isInputFocused: false });
   }
 
   onFocus () {
     this.props.onFocus();
     this.textInput.focus();
-    this.setState({ isInputFocused: true });
+  }
+
+  onClose () {
+    this.textInput.blur();
+    this.props.onSearchClose();
   }
 
   render () {
@@ -50,7 +50,7 @@ class AutocompleteInput extends Component {
           value={value}
           onChange={onChange}
           onKeyDown={onKeyDown}/>
-        <div styleName='search-input-close' onClick={this.props.onSearchClose}>
+        <div styleName='search-input-close' onClick={this.onClose}>
           <i><IconClose/></i>
         </div>
       </div>
