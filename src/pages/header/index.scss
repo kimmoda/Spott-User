@@ -312,6 +312,21 @@
   }
 }
 
+:global {
+  .react-autosuggest__suggestion--focused {
+    border-radius: 4px;
+    background-color: $colorGrayWhite;
+    padding: 0 8px;
+    :local {
+      .search-suggestion-aicon {
+        i {
+          display: flex;
+        }
+      }
+    }
+  }
+}
+
 .search-suggestion-title {
   @include titleMedium;
 }
