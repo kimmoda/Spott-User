@@ -55,7 +55,7 @@ export default class Footer extends Component {
                 {t('footer.followUs')}
               </div>
               <div styleName='footer-socials'>
-                <a href='https://www.facebook.com/Spott.it/?fref=ts' target='_blank'> <i><IconFacebook /></i></a>
+                <a href='https://www.facebook.com/Spott.tv/?fref=ts' target='_blank'> <i><IconFacebook /></i></a>
                 {currentLocale === 'fr' && <a href='https://twitter.com/SpottBE_fr' target='_blank'> <i><IconTwitter /></i></a>}
                 {currentLocale === 'nl' && <a href='https://twitter.com/SpottBE_nl' target='_blank'> <i><IconTwitter /></i></a>}
                 {currentLocale === 'en' && <a href='https://twitter.com/Spott_eng' target='_blank'> <i><IconTwitter /></i></a>}
