@@ -184,3 +184,16 @@ export function transformDataPagingList (data) {
     data: data.data
   };
 }
+
+export function transformActivityFeed (data) {
+  return {
+    meta: {
+      page: data.page,
+      pageCount: data.pageCount,
+      pageSize: data.pageSize,
+      totalResultCount: data.totalResultCount,
+      newItemCount: data.newItemCount
+    },
+    data: data.data
+  };
+}

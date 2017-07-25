@@ -407,6 +407,9 @@ export default function newHomeReducer (state = Map({
         .updateIn([ 'userActivityFeed', 'data' ], (data) => data.concat(fromJS(action.data.data)));
     case actions.GET_USER_ACTIVITY_FEED_ERROR:
       return state.mergeIn([ 'userActivityFeed' ], Map({ _error: action.error, _status: ERROR }));
+    case actions.RESET_USER_ACTIVITY_FEED_COUNTER_SUCCESS:
+      return state
+        .mergeIn([ 'userActivityFeed' ], fromJS({ newItemCount: 0 }));
 
     case actions.SET_REGISTRATION_DEFAULTS:
       return state.set('registrationFormDefaults', Map({ ...action.data }));

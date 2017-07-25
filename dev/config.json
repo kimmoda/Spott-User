@@ -1,8 +1,8 @@
 {
   "facebookAppId": "542103419315710",
   "urls": {
-    "api": "https://spott-ios-rest-prd.appiness.mobi/rest",
-    "cmsApi": "https://spott-cms-rest-prd.appiness.mobi/rest"
+    "api": "https://spott-ios-rest-tst.appiness.mobi/rest",
+    "cmsApi": "https://spott-cms-rest-tst.appiness.mobi/rest"
   },
   "environment": "tst"
 }

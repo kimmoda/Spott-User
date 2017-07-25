@@ -1,6 +1,6 @@
 import { SubmissionError } from 'redux-form';
 import { get, post, del } from './request';
-import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList, transformFollowersList, transformDataPagingList } from './transformers';
+import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList, transformFollowersList, transformActivityFeed } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=30`);
@@ -332,5 +332,10 @@ export async function getTvSeriesSeasonEpisodes (baseUrl, authenticationToken, l
 
 export async function getUserActivityFeed (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/followedUserActivity?page=${page}&pageSize=20`);
-  return transformDataPagingList(body);
+  return transformActivityFeed(body);
+}
+
+export async function resetUserActivityFeedCounter (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/actions/resetFollowedUserActivityCounter`);
+  return body;
 }

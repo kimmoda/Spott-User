@@ -11,6 +11,21 @@
   .dropdown--active .dropdown__content {
     display: block;
   }
+  .dropdown--active {
+    :local {
+      .feed-trigger {
+        :global {
+          .fill {
+            fill: $colorPinkDark;
+          }
+        }
+      }
+    }
+  }
+}
+
+.dd-wrapper {
+  margin-left: 26px;
 }
 
 .dd-container {
@@ -27,7 +42,8 @@
 .dd-content {
   position: absolute;
   right: -50px;
-  top: 40px;
+  top: 0;
+  padding-top: 40px;
   @media (max-width: $phoneBreakpoint) {
     right: 0;
     left: 50%;
@@ -44,7 +60,7 @@
   width: 24px;
   height: 24px;
   cursor: pointer;
-  margin-left: 26px;
+  position: relative;
   i {
     width: 13.3px;
     height: 18.7px;
@@ -54,16 +70,25 @@
     }
     :global {
       .fill {
-        fill: $colorGray;
+        fill: $colorPink;
       }
     }
   }
   &:hover {
     :global {
       .fill {
-        fill: $colorGrayDark;
+        fill: $colorPinkDark;
       }
     }
+  }
+  .feed-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: $colorPink;
+    position: absolute;
+    top: -2px;
+    right: -2px;
   }
 }
 
