@@ -91,7 +91,7 @@
 .card-selector {
   width: 316px;
   padding: 0 16px;
-  & > div {
+  & > div > div {
     width: 100% !important;
   }
 }
