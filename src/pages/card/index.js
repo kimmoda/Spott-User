@@ -155,10 +155,12 @@ export default class Card extends Component {
     }
   }
 
-  onCardVisible () {
+  onCardVisible (isVisible) {
     const { spottDetails: spott, trackSpottImpression, spottId } = this.props;
-    const spottLinks = spott.getIn([ 'links' ]).toJS();
-    trackSpottImpression({ uuid: spottId, dc: getDetailsDcFromLinks(spottLinks) });
+    if (isVisible) {
+      const spottLinks = spott.getIn([ 'links' ]).toJS();
+      trackSpottImpression({ uuid: spottId, dc: getDetailsDcFromLinks(spottLinks) });
+    }
   }
 
   render () {
@@ -168,7 +170,7 @@ export default class Card extends Component {
     const isReady = spottDetails.getIn([ 'lovers', '_status' ]) === LOADED;
 
     return (
-      <VisibilitySensor active={isReady} delayedCall intervalDelay={300} onChange={this.onCardVisible}>
+      <VisibilitySensor active={isReady} delayedCall intervalDelay={1500} onChange={this.onCardVisible}>
         <div styleName='card'>
           <div styleName='image' onClick={(event) => this.showSpott(event)}>
             <ImageLoader
