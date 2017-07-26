@@ -173,6 +173,7 @@ export default class Sidebar extends Component {
       ? product.getIn([ 'spotts', 'data' ]).filter((item) => item.get('uuid') !== spottId)
       : null;
     const share = product.get('share');
+    const productAvailable = Boolean(product.getIn([ 'offerings', '0', 'buyUrl' ]) && product.get('available'));
 
     return (
       <div styleName='sidebar'>
@@ -219,10 +220,10 @@ export default class Sidebar extends Component {
           <div styleName='sidebar-title2'>{product.get('longName')}</div>
           <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
           <div styleName='sidebar-options'>
-            <button disabled={!product.get('available')} styleName='sidebar-add' onClick={this.onBuyClick}>
-              {Boolean(!product.get('available')) && t('product.outOfStock')}
-              {Boolean(product.get('available') && product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('product.buyNow')}
-              {Boolean(product.get('available') && !product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('product.moreInfo')}
+            <button disabled={!productAvailable} styleName='sidebar-add' onClick={this.onBuyClick}>
+              {Boolean(!productAvailable) && t('product.outOfStock')}
+              {Boolean(productAvailable && product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('product.buyNow')}
+              {Boolean(productAvailable && !product.getIn([ 'offerings', '0', 'price', 'amount' ])) && t('product.moreInfo')}
             </button>
           </div>
         </div>
