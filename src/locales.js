@@ -1,6 +1,7 @@
 export const localesHash = {
   en: 'English',
   fr: 'Français',
-  nl: 'Nederlands'
+  nl: 'Nederlands',
+  pt: 'Portuguese'
 };
-export const locales = [ 'en', 'fr', 'nl' ];
+export const locales = [ 'en', 'fr', 'nl', 'pt' ];
