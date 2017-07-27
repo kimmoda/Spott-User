@@ -14,7 +14,6 @@ import { spottCardDetailsSelector } from '../selectors';
 import ImageLoader from '../imageLoader/index';
 import { LOADED } from '../../data/statusTypes';
 import { slugify, getDetailsDcFromLinks } from '../../utils';
-import ProductImpressionSensor from '../productImpressionSensor';
 import Tiles from '../tiles';
 import VisibilitySensor from 'react-visibility-sensor';
 import withLoginDialog from '../_common/withLoginDialog';
@@ -269,18 +268,12 @@ class CardProducts extends PureComponent {
     return (
       <Tiles tileOffsetWidth={16} tilesCount={productMarkers.size}>
         {productMarkers.map((product, index) =>
-          <ProductImpressionSensor
-            delay={3000}
-            key={`product_${index}_${product.getIn([ 'product', 'uuid' ])}`}
-            productId={product.getIn([ 'product', 'uuid' ])}
-            productLinks={product.getIn([ 'product', 'links' ])}>
-            <div
-              className={product.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
-              key={`product_${index}`}
-              style={{ backgroundImage: `url('${product.getIn([ 'product', 'image', 'url' ])}?width=160&height=160')` }}
-              styleName='product'
-              onClick={onCardMarkerClick.bind(this, product)}/>
-          </ProductImpressionSensor>
+          <div
+            className={product.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
+            key={`product_${index}`}
+            style={{ backgroundImage: `url('${product.getIn([ 'product', 'image', 'url' ])}?width=160&height=160')` }}
+            styleName='product'
+            onClick={onCardMarkerClick.bind(this, product)}/>
         )}
       </Tiles>
     );
