@@ -56,7 +56,7 @@ export default class MobileDownload extends Component {
     },
     content: {
       padding: '1.5em',
-      backgroundColor: colors.whiteGray,
+      backgroundColor: colors.white,
       height: '100%',
       width: '100%',
       textAlign: 'center'

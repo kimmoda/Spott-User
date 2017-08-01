@@ -1,0 +1,68 @@
+@import "../vars";
+
+.tiles-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+@mixin tilesArrow {
+  position: absolute;
+  cursor: pointer;
+  height: 100%;
+  max-height: 90px;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.tiles-btn-active {
+  transition: opacity 0.3s ease, width 0s ease;
+  opacity: 1;
+  width: 80px;
+}
+
+.tiles-btn-inactive {
+  transition: opacity 0.3s ease, width 2s 0.3s ease;
+  opacity: 0;
+  width: 0;
+}
+
+.tiles-btn-left {
+  @include tilesArrow;
+  left: 0;
+  background-image: $gradientWhiteLeft;
+  justify-content: flex-start;
+  .tiles-btn {
+    margin-left: $gutterSmallWidth;
+    transform: rotate(180deg);
+  }
+  @media (max-width: $phoneBreakpoint) {
+    display: none;
+  }
+}
+
+.tiles-btn {
+  @include btnSmallRound(true);
+}
+
+.tiles-btn-right {
+  @include tilesArrow;
+  right: 0;
+  background-image: $gradientWhiteRight;
+  justify-content: flex-end;
+  .tiles-btn {
+    margin-right: $gutterSmallWidth;
+  }
+  @media (max-width: $phoneBreakpoint) {
+    display: none;
+  }
+}
+
+.tiles-list {
+  position: relative;
+  display: flex;
+  transition: transform 0.3s ease;
+}

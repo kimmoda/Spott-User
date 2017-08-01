@@ -1,14 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import * as actions from './actions';
-import * as ubActions from '../basket/actions';
-import * as newActions from '../newHome/actions';
+import * as newActions from '../actions';
 import { combineReducers } from 'redux-immutablejs';
-import {
-  REGISTER_USER_START,
-  REGISTER_FACEBOOK_USER_START,
-  REGISTER_FACEBOOK_USER_SUCCESS,
-  REGISTER_FACEBOOK_USER_ERROR
-} from '../register/actions';
 
 function authentication (state = fromJS({
   isLoading: false,
@@ -53,12 +46,6 @@ function authentication (state = fromJS({
         .set('ubAuthenticationToken', null)
         .set('user', Map({}))
         .set('initialValues', null);
-    case ubActions.LOAD_UB_TOKEN_SUCCESS:
-      return state
-        .set('ubAuthenticationToken', action.data);
-    case ubActions.SET_UB_TOKEN_SUCCESS:
-      return state
-        .set('ubAuthenticationToken', action.data);
     default:
       return state;
   }
@@ -66,19 +53,19 @@ function authentication (state = fromJS({
 
 function registration (state = fromJS({ isLoading: false }), action) {
   switch (action.type) {
-    case REGISTER_FACEBOOK_USER_START:
+    case newActions.REGISTER_FACEBOOK_USER_START:
       return state
         .set('error', null)
         .set('isLoading', true);
-    case REGISTER_FACEBOOK_USER_SUCCESS:
+    case newActions.REGISTER_FACEBOOK_USER_SUCCESS:
       return state
         .set('error', null)
         .set('isLoading', false);
-    case REGISTER_FACEBOOK_USER_ERROR:
+    case newActions.REGISTER_FACEBOOK_USER_ERROR:
       return state
         .set('error', action.error)
         .set('isLoading', false);
-    case REGISTER_USER_START: // Remove facebook error on standard register
+    case newActions.REGISTER_USER_START: // Remove facebook error on standard register
       return state
         .set('error', null);
     default:

@@ -1,0 +1,103 @@
+@import "../vars";
+
+.people {
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid $colorGrayLighter;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.people-activity-feed {
+  @include smallRegular($colorGrayDark);
+  min-height: 64px;
+  border-bottom: 1px solid $colorGrayLighter;
+  padding: 16px;
+  display: flex;
+  &:last-child {
+    border-bottom: none;
+  }
+  .people-name {
+    @include smallMedium;
+  }
+  .people-avatar {
+    margin-right: 18px;
+  }
+}
+
+.people-left {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.people-avatar {
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+  background-size: cover;
+  background-position: 50%;
+  svg {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+}
+
+.people-name {
+  @include titleMedium;
+  text-decoration: none;
+}
+
+.people-following-you {
+  @include smallRegular($colorGrayDark);
+  text-decoration: none;
+  padding-left: 4px;
+}
+
+.people-follow {
+  @include btnMedium;
+  margin-left: auto;
+  width: 100px;
+  span {
+    display: block;
+  }
+  i {
+    display: none;
+  }
+  @media (max-width: $phoneBreakpoint) {
+    padding: 7px;
+    width: auto;
+    span {
+      display: none;
+    }
+    i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.people-follow-active {
+  @include btnPink;
+  margin-left: auto;
+  @media (max-width: $phoneBreakpoint) {
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
+  }
+}

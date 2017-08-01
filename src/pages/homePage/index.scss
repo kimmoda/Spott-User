@@ -1,0 +1,119 @@
+@import "../vars";
+@import "../responsive";
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.topics {
+  width: 100%;
+  padding: 28px $offsetWidth;
+  background-color: $colorWhite;
+  box-sizing: border-box;
+  border-bottom: 1px solid $colorGrayLighter;
+}
+
+.topics-nav-wrapper {
+  width: 100%;
+  border-bottom: 1px solid $colorGrayLighter;
+  box-sizing: border-box;
+  background-color: $colorWhite;
+  height: 80px;
+  padding: 0 $offsetWidth 0 $offsetWidth;
+}
+
+.topics-nav {
+  margin: 0 auto;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.topics-nav-item {
+  @include titleMedium($colorGray);
+  margin-right: 48px;
+  padding-bottom: 28px;
+  box-sizing: border-box;
+  transition: color 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover {
+    color: $colorBlack;
+    text-decoration: none;
+  }
+}
+
+.topics-nav-item-active {
+  color: $colorBlack;
+  border-bottom: 2px solid $colorPink;
+  text-decoration: none;
+}
+
+.topics-content {
+  margin: 0 auto;
+  width: 100%;
+  display: none;
+}
+
+.topics-content-active {
+  display: block;
+}
+
+.topics-title {
+  @include titleMedium;
+  margin-bottom: 14px;
+}
+
+.cards {
+  margin: auto;
+  padding: $gutterWidth 0 0 0;
+}
+
+.cards-wrapper {
+  margin-left: -16px;
+  margin-right: -16px;
+  & > div {
+    margin: 0 auto 32px auto;
+    width: 100%;
+  }
+}
+
+.load-more {
+  @include btnBig;
+  @include btnGray;
+  display: block;
+  margin: 40px auto 60px auto;
+}
+
+.card-selector {
+  width: 316px;
+  padding: 0 16px;
+  & > div > div {
+    width: 100% !important;
+  }
+}
+
+//phone view
+@media (max-width: 650px) {
+  .card-selector {
+    width: 50%;
+  }
+  .cards-wrapper {
+    & > div {
+      width: 100% !important;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .card-selector {
+    padding: 0 8px;
+  }
+  .cards-wrapper {
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+}

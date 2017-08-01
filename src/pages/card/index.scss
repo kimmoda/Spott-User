@@ -1,0 +1,228 @@
+@import "../vars";
+@import "../responsive";
+
+.card {
+  width: gridWidth(3);
+  break-inside: avoid;
+  margin-bottom: $gutterWidth;
+  background-color: $colorWhite;
+  box-shadow: $boxShadowBlurInit;
+  border-radius: 4px;
+  transition: box-shadow 0.4s ease;
+  position: relative;
+  transform: translateX(0);
+  &:hover {
+    box-shadow: $boxShadowBlurHover;
+    z-index: 100;
+  }
+}
+
+.image {
+  width: 100%;
+  background-size: cover;
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  cursor: zoom-in;
+  img {
+    width: 100%;
+    display: block;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  &:hover {
+    .persons {
+      display: flex;
+    }
+    .spott-image-source {
+      opacity: 0;
+    }
+  }
+}
+
+.spott-image-source {
+  @include tinyMedium($colorWhite);
+  width: 100%;
+  word-wrap: break-word;
+  padding: 0 15px;
+  left: 0;
+  display: inline-block;
+  position: absolute;
+  bottom: 16px;
+  z-index: 10;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.83);
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.persons {
+  z-index: 100;
+  position: absolute;
+  height: 32px;
+  left: 16px;
+  bottom: 16px;
+  display: none;
+}
+
+.person {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border-radius: 2px;
+  background-size: cover;
+  background-color: $colorGray;
+  box-shadow: $boxShadow;
+  cursor: pointer;
+}
+
+.content {
+  padding: 12px 16px 16px 16px;
+  position: relative;
+}
+
+.click-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.products {
+  margin: 6px 0 12px 0;
+  box-sizing: border-box;
+  min-height: 32px;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  & > div {
+    width: 100%;
+  }
+  @media (max-width: $phoneBreakpoint) {
+    display: none;
+  }
+}
+
+.product {
+  $size: 32px;
+  width: $size;
+  height: $size;
+  min-width: $size;
+  min-height: $size;
+  border-radius: 4px;
+  background-color: $colorGrayLight;
+  background-size: cover;
+  background-position: 50%;
+  position: relative;
+  cursor: pointer;
+  margin-right: $gutterSmallWidth / 2;
+  backface-visibility: hidden;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 4px;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+  }
+}
+
+.product-exact {
+  &:after {
+    background-color: $colorGreen;
+  }
+}
+
+.product-medium {
+  &:after {
+    background-color: $colorYellow;
+  }
+}
+
+
+.reason {
+  @include smallRegular($colorGray);
+  margin-bottom: 8px;
+}
+
+.title {
+  @include titleMedium();
+}
+
+.description {
+  @include smallRegular($colorGrayDark);
+  margin-top: 7px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.topic-links {
+  display: flex;
+  margin-top: 17px;
+  flex-wrap: wrap;
+}
+
+.topic-link {
+  @include tinyRegular();
+  @include link();
+  display: block;
+  margin: 0 7px 8px 0;
+}
+
+.footer {
+  position: relative;
+  padding: 12px 16px 16px 16px;
+  border-top: 1px solid $colorGrayLighter;
+  display: flex;
+  align-items: center;
+}
+
+.likes {
+  @include btnSmall($icon: true);
+  position: relative;
+}
+
+.likes-liked {
+  @include btnSmall($icon: true);
+  @include btnPink;
+}
+
+.users {
+  margin-left: 8px;
+  position: relative;
+}
+
+.share {
+  @include btnSmallRound($icon: true);
+  margin-left: auto;
+  position: relative;
+}
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1) {
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .persons {
+    display: none !important;
+  }
+}
+
+@media (max-width: 425px) {
+  .card {
+    margin-bottom: 16px;
+  }
+}

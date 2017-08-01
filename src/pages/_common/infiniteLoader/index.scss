@@ -1,0 +1,28 @@
+@import "../../vars";
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loadIndicator {
+  display: flex;
+  justify-content: center;
+  height: 90px;
+  &:before {
+    content: '';
+    border-top: 5px solid $colorGrayLight;
+    border-right: 5px solid $colorGrayLight;
+    border-bottom: 5px solid $colorGrayLight;
+    border-left: 5px solid rgba(255, 255, 255, 0.4);
+    animation: loader 1.1s infinite linear;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
+  }
+}

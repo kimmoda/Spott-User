@@ -1,0 +1,336 @@
+@import "../../../vars";
+@import "../../../responsive";
+
+.content-profile {
+  padding: 24px;
+}
+
+.content-title {
+  @include headlineMedium;
+}
+
+.user-photos {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.user-avatar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 96px;
+  margin-right: 40px;
+  text-align: center;
+}
+
+.avatar-image {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: $colorGrayLighter;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+.avatar-link {
+  @include bodyRegular($colorPink);
+  margin-top: 16px;
+  overflow: hidden;
+  position: relative;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  [type=file] {
+    cursor: inherit;
+    display: block;
+    font-size: 999px;
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+  }
+}
+
+.user-bg {
+  display: block;
+}
+
+.bg-image {
+  width: 250px;
+  height: 96px;
+  border-radius: 4px;
+  background-color: $colorGrayLighter;
+  background-size: cover;
+}
+
+.bg-link {
+  @include bodyRegular($colorPink);
+  margin-top: 16px;
+  overflow: hidden;
+  position: relative;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  [type=file] {
+    cursor: inherit;
+    display: block;
+    font-size: 999px;
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+  }
+}
+
+.user-form {
+  margin-top: 40px;
+}
+
+.user-form-wrapper {
+  width: 360px;
+}
+
+.user-form-row {
+  margin-top: 32px;
+}
+
+.user-form-high-row {
+  margin-top: 37px;
+}
+
+.user-form-submit {
+  border-top: 1px solid $colorGrayLighter;
+  margin: 64px -24px 0 -24px;
+  padding: 20px 24px 0 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.user-form-submit-btn {
+  @include btnMedium;
+  @include btnPink;
+}
+
+.modal-overlay {
+  background-color: $overlayColorBlack;
+  z-index: 5000;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-content {
+  overflow: hidden;
+  display: flex;
+  max-width: 400px;
+  width: 100%;
+  backface-visibility: hidden;
+  height: auto;
+  border-radius: 4px;
+  background-color: $colorWhite;
+  margin: 96px auto 0 auto;
+}
+
+.modal-close {
+  cursor: pointer;
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  transition: transform 0.5s ease;
+  z-index: 10;
+  i {
+    :global {
+      .fill {
+        fill: white;
+      }
+    }
+    svg {
+      width: 21px;
+      height: 21px;
+    }
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.content {
+  width: 100%;
+}
+
+.cropper-title {
+  @include headlineMedium;
+  padding: 24px;
+}
+
+.cropper {
+  padding: 0 24px 32px 24px;
+}
+
+.cropper-buttons {
+  border-top: 1px solid $colorGrayLighter;
+  margin-top: 24px;
+  padding: 20px 24px;
+}
+
+.cropper-buttons-row {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  &:first-child {
+    margin-bottom: 24px;
+    justify-content: space-between;
+  }
+}
+
+.cropper-buttons-group {
+  display: flex;
+}
+
+.cropper-move {
+  @include btnMedium;
+  i {
+    :global {
+      .fill {
+        fill: $colorGray;
+      }
+    }
+  }
+  width: 32px;
+  padding: 0 15px;
+  margin-right: 4px;
+}
+
+.cropper-move-left {
+  i {
+    transform: rotate(-180deg);
+  }
+}
+
+.cropper-move-right {
+  i {
+    transform: rotate(0deg);
+  }
+}
+
+.cropper-move-top {
+  i {
+    transform: rotate(-90deg);
+  }
+}
+
+.cropper-move-bottom {
+  i {
+    transform: rotate(90deg);
+  }
+}
+
+.cropper-zoom {
+  @include btnMedium;
+  width: 32px;
+  padding: 0 15px;
+  margin-right: 4px;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.cropper-rotate {
+  @include btnMedium;
+  i {
+    :global {
+      .fill {
+        fill: $colorGray;
+      }
+    }
+  }
+  width: 32px;
+  padding: 0 15px;
+  margin-right: 4px;
+}
+
+.cropper-reset {
+  @include btnMedium;
+  margin-right: 16px;
+}
+
+.cropper-save {
+  @include btnMedium;
+  @include btnPink;
+}
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1){
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .user-avatar {
+    margin: 0 40px 32px 0;
+  }
+  .user-bg {
+    width: 100%;
+  }
+  .bg-image {
+    width: 100%;
+  }
+  .user-form-wrapper {
+    width: 100%;
+  }
+  .cropper-buttons {
+    padding: 20px 12px;
+  }
+  .cropper-buttons-row {
+    flex-wrap: wrap;
+  }
+  .cropper-reset {
+    max-width: 110px;
+  }
+  .cropper-save {
+    max-width: 82px;
+  }
+  .modal-content {
+    margin: 32px auto 0 auto;
+    position: relative;
+    max-width: 343px;
+    width: 100%;
+  }
+  .modal-overlay {
+    padding: 0 16px;
+  }
+  .modal-close {
+    right: 23.7px;
+    top: 23.7px;
+    i {
+      :global {
+        .fill {
+          fill: #a7a6a9;
+        }
+      }
+      svg {
+        width: 16.6px;
+        height: 16.6px;
+      }
+    }
+  }
+}

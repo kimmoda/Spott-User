@@ -1,42 +1,40 @@
 import React from 'react';
 import { IndexRoute, IndexRedirect, Route } from 'react-router';
-import { isIos, isAndroid } from './pages/_common/downloadAppButtons';
+// import { isIos, isAndroid } from './pages/_common/downloadAppButtons';
 import App from './pages/app/view';
 import ChangePassword from './pages/changePassword';
-// import Cookies from './pages/cookies';
-import Cookies from './pages/newHome/view/legal/view/cookies';
+import Cookies from './pages/legal/view/cookies';
 import Error404 from './pages/error404';
 import Mobile from './pages/mobile';
-// import Privacy from './pages/privacy';
-import Privacy from './pages/newHome/view/legal/view/privacy';
+import Privacy from './pages/legal/view/privacy';
 import Redirect from './pages/redirect';
-// import ResetPassword from './pages/resetPassword';
-// import ResetPasswordSuccess from './pages/resetPassword/success';
-// import SeriesProducts from './pages/series/view/products';
-// import SeriesScenes from './pages/series/view/scenes';
-// import Terms from './pages/terms';
-import Terms from './pages/newHome/view/legal/view/terms';
-import { changeLocale, downloadPageShowed } from './pages/app/actions';
+import Terms from './pages/legal/view/terms';
+// import { changeLocale, downloadPageShowed } from './pages/app/actions';
+import { changeLocale } from './pages/app/actions';
 import { locales } from './locales';
-import { currentLocaleSelector, isDownloadPageShowedSelector } from './pages/app/selector';
-// import { updateLocale as updateUbLocale } from './pages/basket/actions';
-import { trackTopicView } from './pages/newHome/actions';
-import NewHome from './pages/newHome/view/homePage';
-import NewTopic from './pages/newHome/view/topicPage';
-import NewLogin from './pages/newHome/view/login';
-import NewRegistration from './pages/newHome/view/registration';
-import NewUserSettingsPage from './pages/newHome/view/settingsPage/view';
-import NewUserSettings from './pages/newHome/view/settingsPage/view/settings';
-import NewUserAccount from './pages/newHome/view/settingsPage/view/account';
-import NewUserSubscriptions from './pages/newHome/view/settingsPage/view/susbcriptions';
-import NewUserProfilePage from './pages/newHome/view/profilePage/view';
-import NewUserLoves from './pages/newHome/view/profilePage/view/loves';
-import NewUserWishlist from './pages/newHome/view/profilePage/view/wishlist';
-import SearchResults from './pages/newHome/view/searchResultsPage/view';
-import SearchResultsPosts from './pages/newHome/view/searchResultsPage/view/posts';
-import SearchResultsPeople from './pages/newHome/view/searchResultsPage/view/people';
-import NewResetPassword from './pages/newHome/view/resetPassword';
-import CardModal from './pages/newHome/view/cardModal';
+// import { currentLocaleSelector, isDownloadPageShowedSelector } from './pages/app/selector';
+import { trackTopicView } from './pages/actions';
+import NewHome from './pages/homePage';
+import Topic from './pages/topicPage';
+import TopicSpotts from './pages/topicPage/topicSpotts';
+import SeasonSpotts from './pages/topicPage/seasonSpotts';
+import EpisodeSpotts from './pages/topicPage/episodeSpotts';
+import NewLogin from './pages/login';
+import NewRegistration from './pages/registration';
+import NewUserSettingsPage from './pages/settingsPage/view';
+import NewUserSettings from './pages/settingsPage/view/settings';
+import NewUserAccount from './pages/settingsPage/view/account';
+import NewUserSubscriptions from './pages/settingsPage/view/susbcriptions';
+import NewUserProfilePage from './pages/profilePage/view';
+import NewUserLoves from './pages/profilePage/view/loves';
+import NewUserWishlist from './pages/profilePage/view/wishlist';
+import SearchResults from './pages/searchResultsPage/view';
+import SearchResultsPosts from './pages/searchResultsPage/view/posts';
+import SearchResultsPeople from './pages/searchResultsPage/view/people';
+import NewResetPassword from './pages/resetPassword';
+import CardModal from './pages/cardModal';
+import ProductModal from './pages/productModal';
+import PromoPage from './pages/promoPage';
 
 /**
  * The application routes
@@ -92,6 +90,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
   }
   // Factory for localized routes
   function makeLocalizedRoutes (locale) {
+    /*
     function goToDownloadPage (state, replace) {
       const isDownloadPageShowed = isDownloadPageShowedSelector(getState());
       if ((isAndroid() || isIos()) && (!isDownloadPageShowed)) {
@@ -100,57 +99,60 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         replace({ pathname: `${lang}/mobile/download`, state: { returnTo: state.location.pathname } });
       }
     }
+    */
 
     // When entering a page, the locale is dispatched.
     function onLocaleEnter (state, replace) {
-      /* const isUbAuthenticated = isUbAuthenticatedSelector(getState());
-      if (isUbAuthenticated) {
-        dispatch(updateUbLocale(locale));
-      }
-      */
       dispatch(changeLocale(locale));
     }
 
     return (
       <Route key={locale} path={locale} onEnter={onLocaleEnter}>
         <Route component={Redirect} noSignInButtonInHeader path='app' showCookies={false} />
-        <Route component={Privacy} newDesign path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
-        <Route component={Terms} newDesign path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
-        <Route component={Cookies} newDesign path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Privacy} path='privacy' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Terms} path='terms' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
+        <Route component={Cookies} path='cookies' showCookies={false} onEnter={() => window.scrollTo(0, 0)} />
 
         <Route component={Mobile} path='mobile/download' standalone/>
 
-        <IndexRoute component={NewHome} newDesign />
+        <Route component={PromoPage} path='douweegberts' standalone/>
+
+        <IndexRoute component={NewHome} />
         <Route
-          component={NewTopic}
+          component={Topic}
           newDesign
           path='topic/:topicTitle/:topicId'
           onEnter={({ params: { topicId }, location }) => {
             const dc = location.state && location.state.dc || '';
             topicId && dispatch(trackTopicView({ uuid: topicId, dc }));
-          }}/>
-        <Route component={NewLogin} newDesign path='login'/>
-        <Route component={NewRegistration} newDesign path='registration'/>
-        <Route component={NewResetPassword} newDesign path='resetpassword'/>
-        <Route component={ChangePassword} newDesign path='user/changepwd'/>
-        <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:spottId'/>
-        <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
-        <Route component={CardModal} modalPage newDesign path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
-        <Route component={SearchResults} newDesign path='search'>
+          }}>
+          <IndexRoute component={TopicSpotts} newDesign/>
+          <Route component={SeasonSpotts} path='season/:seasonSlug/:seasonId'/>
+          <Route component={EpisodeSpotts} path='season/:seasonSlug/:seasonId/episode/:episodeSlug/:episodeId'/>
+        </Route>
+        <Route component={NewLogin} path='login'/>
+        <Route component={NewRegistration} path='registration'/>
+        <Route component={NewResetPassword} path='resetpassword'/>
+        <Route component={ChangePassword} path='user/changepwd'/>
+        <Route component={CardModal} modalPage path='spott/:spottTitle/:spottId'/>
+        <Route component={CardModal} modalPage path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
+        <Route component={CardModal} modalPage path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
+        <Route component={ProductModal} modalPage path='product/:productTitle/:brandTitle/:productId'/>
+        <Route component={SearchResults} path='search'>
           <IndexRedirect to='posts'/>
-          <Route component={SearchResultsPosts} newDesign path='posts'/>
-          <Route component={SearchResultsPeople} newDesign path='people'/>
+          <Route component={SearchResultsPosts} path='posts'/>
+          <Route component={SearchResultsPeople} path='people'/>
         </Route>
-        <Route component={NewUserSettingsPage} newDesign path='user'>
+        <Route component={NewUserSettingsPage} path='user'>
           <IndexRedirect to='settings'/>
-          <Route component={NewUserSettings} newDesign path='settings'/>
-          <Route component={NewUserAccount} newDesign path='account'/>
-          <Route component={NewUserSubscriptions} newDesign path='subscriptions'/>
+          <Route component={NewUserSettings} path='settings'/>
+          <Route component={NewUserAccount} path='account'/>
+          <Route component={NewUserSubscriptions} path='subscriptions'/>
         </Route>
-        <Route component={NewUserProfilePage} newDesign path='profile/:userId'>
+        <Route component={NewUserProfilePage} path='profile/:userId'>
           <IndexRedirect to='loves'/>
-          <Route component={NewUserLoves} newDesign path='loves'/>
-          <Route component={NewUserWishlist} newDesign path='wishlist'/>
+          <Route component={NewUserLoves} path='loves'/>
+          <Route component={NewUserWishlist} path='wishlist'/>
         </Route>
       </Route>
     );

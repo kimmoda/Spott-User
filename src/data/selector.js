@@ -2,45 +2,6 @@ import { LAZY } from './statusTypes';
 import { Map, List } from 'immutable';
 import { createSelector } from 'reselect';
 
-// Entities selectors
-// //////////////////
-
-export const charactersEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'characters' ]);
-export const mediaEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'media' ]);
-export const productsEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'products' ]);
-export const usersEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'users' ]);
-export const wishlistsEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'wishlists' ]);
-export const scenesEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'scenes' ]);
-export const tvGuideEntriesEntitiesSelector = (state) => state.getIn([ 'data', 'entities', 'tvGuideEntries' ]);
-
-// Relations selectors
-// ///////////////////
-
-export const characterHasProductsSelector = (state) => state.getIn([ 'data', 'relations', 'characterHasProducts' ]);
-export const mediumHasCharactersSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasCharacters' ]);
-export const mediumHasEpisodesSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasEpisodes' ]);
-export const mediumHasNewScenesForYouSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasNewScenesForYou' ]);
-export const mediumHasProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasProducts' ]);
-export const mediumHasScenesSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasScenes' ]);
-export const mediumHasSeasonsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasSeasons' ]);
-export const mediumHasTopProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasTopProducts' ]);
-export const mediumHasTopUserProductsSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasTopUserProducts' ]);
-export const userHasSavedScenesRelationsSelector = (state) => state.getIn([ 'data', 'relations', 'userHasSavedScenes' ]);
-export const userHasWishlistsRelationsSelector = (state) => state.getIn([ 'data', 'relations', 'userHasWishlists' ]);
-export const wishlistHasProductsRelationsSelector = (state) => state.getIn([ 'data', 'relations', 'wishlistHasProducts' ]);
-export const mediumHasRecentEpisodesSelector = (state) => state.getIn([ 'data', 'relations', 'mediumHasRecentEpisodes' ]);
-
-// List selectors
-// //////////////
-
-export const newEpisodesListSelector = (state) => state.getIn([ 'data', 'lists', 'newEpisodes' ]);
-export const newScenesForYouListSelector = (state) => state.getIn([ 'data', 'lists', 'newScenesForYou' ]);
-export const popularProductsListSelector = (state) => state.getIn([ 'data', 'lists', 'popularProducts' ]);
-export const popularMediaListSelector = (state) => state.getIn([ 'data', 'lists', 'popularMedia' ]);
-export const recentlyAddedMediaListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedMedia' ]);
-export const recentlyAddedToWishlistProductsListSelector = (state) => state.getIn([ 'data', 'lists', 'recentlyAddedToWishlistProducts' ]);
-export const tvGuideEntriesListSelector = (state) => state.getIn([ 'data', 'lists', 'tvGuideEntries' ]);
-
 // Selector utils
 // //////////////
 

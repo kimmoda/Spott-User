@@ -6,6 +6,7 @@
     "currency": "Currency",
     "dateOfBirth": "Date of birth",
     "description": "Description",
+    "editImage": "Edit image",
     "email": "E-mail",
     "emailAddress": "Email address",
     "female": "Female",
@@ -29,6 +30,7 @@
     "privacy": "Privacy",
     "profile": "Profile",
     "promoted": "Promoted",
+    "reset": "Reset",
     "save": "Save",
     "send": "Send",
     "settings": "Settings",
@@ -65,13 +67,17 @@
     "forgotPassword": "Forgot password",
     "dontPanic": "Don’t panic! We’ll send the password reset instructions to your e-mail address.",
     "emailSent": "E-mail has been sent!",
-    "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions."
+    "successfullyReset": "Your password has been successfully reset. Please check your e-mail for further instructions.",
+    "alreadySendMail": "E-mail was already send. Please check your e-mail for further instructions.",
+    "invalidEmail": "Invalid e-mail."
   },
   "search": {
+    "findYourStyle": "Find your style...",
     "recentSearches": "Recent searches",
     "clearSearchHistory": "Clear search history",
     "topicsForYou": "Topics for you",
     "searchForInspiration": "Search for inspiration",
+    "search": "Search",
     "spotts": {
       "noResults": "Unfortunately, we weren’t able to find Spotts for your request. Please try again!"
     },
@@ -90,7 +96,8 @@
     "MANUAL": "",
     "BRAND": "Brand",
     "trendingTopics": "Trending Topics",
-    "relatedTopics": "Related Topics"
+    "relatedTopics": "Related Topics",
+    "series": "Series"
   },
   "spott": {
     "similarSpotts": "Similar Spotts"
@@ -114,7 +121,7 @@
     "cookiePolicy": "Cookie policy",
     "copyright": "Appiness, Hertshage 10, 9300 Aalst, Belgium",
     "followUs": "Follow us on social media",
-    "spottDscr": "Spott allows you to find products in the things you watch"
+    "spottDscr": "Watch. Click. Discover."
   },
   "product": {
     "similarItems": "Similar Items",
@@ -133,5 +140,28 @@
     "moreInfo": "This website uses cookies to enhance your user experience. [[More info]]",
     "policy": "We adapted our [[terms]] and [[privacy regulations]].",
     "continue": "Continue"
+  },
+  "error404": {
+    "pageDoesNotExist": "The page you requested doesn't exist.",
+    "returnToSpott": "Return to Spott.it",
+    "somethingWentWrong": "Something went wrong!",
+    "title": "Whoops!"
+  },
+  "changePassword": {
+    "successMessage": "Your password has been changed!",
+    "errorMessage": "We encountered an error while trying to change your password :(",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "title": "Change your Spott password",
+    "passwordLengthError": "This password isn't long enough!",
+    "passwordMatchError": "Passwords don't match!",
+    "submitButton": "Change Password"
+  },
+  "activityFeed": {
+    "wishlistedItem": "wishlisted an item",
+    "subscribedTo": "subscribed to",
+    "nowFollows" : "now follows",
+    "lovedSpott": "loved a spott",
+    "startedFollowingYou": "started following you."
   }
 }

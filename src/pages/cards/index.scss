@@ -1,0 +1,59 @@
+@import "../vars";
+
+.load-more {
+  @include btnBig;
+  @include btnGray;
+  width: 100%;
+  display: block;
+  max-width: $maxWidth;
+  margin: 40px auto 60px auto;
+}
+
+.cards-wrapper {
+  margin-left: -16px;
+  margin-right: -16px;
+  & > div {
+    margin: 0 auto 32px auto;
+    width: 100%;
+  }
+}
+
+.cards-container {
+  margin: auto;
+}
+
+.card-selector {
+  width: 316px;
+  padding: 0 16px;
+  & > div > div {
+    width: 100% !important;
+  }
+}
+
+.left-align {
+  margin: initial !important;
+}
+//phone view
+@media (max-width: 650px) {
+  .card-selector {
+    width: 50%;
+  }
+  .cards-wrapper {
+    & > div {
+      width: 100% !important;
+    }
+  }
+  .left-align {
+    margin: auto !important;
+  }
+}
+
+@media (max-width: 425px) {
+  .card-selector {
+    padding: 0 8px;
+  }
+  .cards-wrapper {
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+}

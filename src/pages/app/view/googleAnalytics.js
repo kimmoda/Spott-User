@@ -1,4 +1,4 @@
-export const ID = 'UA-75892848-1';
+export const ID = 'UA-75892848-2';
 
 /**
  * Initialize Google Analytics.

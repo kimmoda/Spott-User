@@ -1,22 +1,18 @@
 import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Helmet from 'react-helmet';
-import { mediaQueries } from '../../_common/buildingBlocks';
-import Footer from './footer';
 import { init, pageView } from './googleAnalytics';
-import Header from './header';
-import Cookies from './cookies';
 import { locales } from '../../../locales';
 import { appSelector } from '../selector';
+import { acceptCookies as acceptCookiesFunc } from '../actions';
 
-import NewDesign from '../../newHome/view';
-import NewHomePage from '../../newHome/view/homePage';
+import NewDesign from '../../index';
+import NewHomePage from '../../homePage';
 
 require('./reset.css');
-require('./fonts/index.css');
-require('./base.scss');
-require('./slick.css');
+require('./basic.scss');
 
 // HrefLang Component
 // //////////////////
@@ -76,30 +72,14 @@ class HrefLang extends Component {
 // App Component
 // /////////////
 
-const styles = {
-  container: {
-    minHeight: '100%',
-    position: 'relative'
-  },
-  footerCompensation: {
-    paddingBottom: '7.7em',
-    [mediaQueries.medium]: {
-      paddingBottom: '3.7em'
-    }
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: '100%'
-  }
-};
-
-@connect(appSelector)
+@connect(appSelector, (dispatch) => ({
+  acceptCookiesFunc: bindActionCreators(acceptCookiesFunc, dispatch)
+}))
 @Radium
 export default class App extends Component {
   static propTypes = {
-    acceptCookies: PropTypes.number,
+    acceptCookies: PropTypes.any,
+    acceptCookiesFunc: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
     location: PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -141,61 +121,44 @@ export default class App extends Component {
     const { acceptCookies, children, location, routes, params } = this.props;
     // Show the cookies note if the user did not accept the cookies policy.
     const showCookies = !acceptCookies && routes.reduce((acc, curr) => typeof curr.showCookies === 'undefined' ? acc : curr.showCookies, true);
-    const standalone = routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
-    const floating = routes.reduce((acc, curr) => typeof curr.floating === 'undefined' ? acc : curr.floating, false);
-    const noSignInButtonInHeader = routes.reduce((acc, curr) => typeof curr.noSignInButtonInHeader === 'undefined' ? acc : curr.noSignInButtonInHeader, false);
-    const newDesign = routes.reduce((acc, curr) => typeof curr.newDesign === 'undefined' ? acc : curr.newDesign, false);
-    const modalPage = routes.reduce((acc, curr) => typeof curr.modalPage === 'undefined' ? acc : curr.modalPage, false);
-    if (!newDesign && location.state && location.state.modal && this.previousChildren) {
-      // Render containing page (previousChildren) and modal (children)
-      return (
-        <div style={styles.container}>
-          <HrefLang location={location} />
-          {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
-          <div style={standalone ? {} : styles.footerCompensation}>{this.previousChildren}</div>
-          <div>{children}</div>
-          {showCookies && <Cookies />}
-          {!standalone && <Footer style={styles.footer} />}
-        </div>
-      );
+
+    if (showCookies) {
+      this.props.acceptCookiesFunc();
     }
-    if (newDesign) {
-      if (location.state && location.state.modal && this.previousChildren) {
-        return (
-          <div>
-            <HrefLang location={location} />
-            <NewDesign location={location}>{this.previousChildren}</NewDesign>
-            <div>{children}</div>
-            {showCookies && <Cookies />}
-          </div>
-        );
-      }
-      if ((!location.state && modalPage) || (location.state && modalPage && !this.previousChildren)) {
-        return (
-          <div>
-            <HrefLang location={location} />
-            <NewDesign location={location}><NewHomePage location={location} params={params}/></NewDesign>
-            <div>{children}</div>
-            {showCookies && <Cookies />}
-          </div>
-        );
-      }
+
+    const standalone = routes.reduce((acc, curr) => typeof curr.standalone === 'undefined' ? acc : curr.standalone, false);
+    const modalPage = routes.reduce((acc, curr) => typeof curr.modalPage === 'undefined' ? acc : curr.modalPage, false);
+
+    if (standalone) {
       return (
         <div>
-          <HrefLang location={location} />
-          <NewDesign location={location}>{children}</NewDesign>
-          {showCookies && <Cookies />}
+          <HrefLang location={location}/>
+          <div>{children}</div>
         </div>
       );
     }
-    // Standard route, nothing special here.
+    if (location.state && location.state.modal && this.previousChildren) {
+      return (
+        <div>
+          <HrefLang location={location}/>
+          <NewDesign location={location}>{this.previousChildren}</NewDesign>
+          <div>{children}</div>
+        </div>
+      );
+    }
+    if ((!location.state && modalPage) || (location.state && modalPage && !this.previousChildren)) {
+      return (
+        <div>
+          <HrefLang location={location}/>
+          <NewDesign location={location}><NewHomePage location={location} params={params}/></NewDesign>
+          <div>{children}</div>
+        </div>
+      );
+    }
     return (
-      <div style={styles.container}>
-        <HrefLang location={location} />
-        {!standalone && <Header currentPathname={location.pathname} floating={floating} noSignInButtonInHeader={noSignInButtonInHeader} />}
-        <div style={standalone ? {} : styles.footerCompensation}>{children}</div>
-        {showCookies && <Cookies />}
-        {!standalone && <Footer style={styles.footer} />}
+      <div>
+        <HrefLang location={location}/>
+        <NewDesign location={location}>{children}</NewDesign>
       </div>
     );
   }

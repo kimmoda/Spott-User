@@ -1,9 +1,14 @@
 import { SubmissionError } from 'redux-form';
 import { get, post, del } from './request';
-import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList, transformFollowersList } from './transformers';
+import { transformUser, transformNewSuggestions, transformSpottsList, transformPersonsList, transformFollowersList, transformActivityFeed } from './transformers';
 
 export async function getTrendingTopics (baseUrl, authenticationToken, locale) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=20`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/searches/trending?page=0&pageSize=30`);
+  return body;
+}
+
+export async function getTrendingSeries (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/searches/topics?page=0&pageSize=30`);
   return body;
 }
 
@@ -19,16 +24,6 @@ export async function getTopicSpotts (baseUrl, authenticationToken, locale, { uu
 
 export async function getTopicRelated (baseUrl, authenticationToken, locale, { uuid }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/data/topics/${uuid}/searches/related?page=0&pageSize=10`);
-  return body;
-}
-
-export async function getTopicMediaSeasons (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/${uuid}/seasons`);
-  return body;
-}
-
-export async function getTopicMediaSeries (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/${uuid}/seasons`);
   return body;
 }
 
@@ -124,8 +119,8 @@ export async function getUserSubscriptions (baseUrl, authenticationToken, locale
   return body;
 }
 
-export async function getUserProfile (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}`);
+export async function getUserProfile (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}?dc=${dc}`);
   return body;
 }
 
@@ -179,6 +174,12 @@ export async function resetUserPassword (baseUrl, authenticationToken, locale, d
     const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/register/resetpassword`, data);
     return body;
   } catch (error) {
+    if (error.name === 'BadRequestError' && error.body) {
+      if (error.body.message === 'user already has a reset token') {
+        throw new SubmissionError({ _error: 'forgotPassword.alreadySendMail' });
+      }
+      throw new SubmissionError({ _error: 'forgotPassword.invalidEmail' });
+    }
     throw new SubmissionError({ _error: error.body.message });
   }
 }
@@ -193,8 +194,8 @@ export async function removeUserFollowing (baseUrl, authenticationToken, locale,
   return body;
 }
 
-export async function getUserFollowers (baseUrl, authenticationToken, locale, { uuid }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/followedBy`);
+export async function getUserFollowers (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/followedBy?page=${page}&pageSize=20`);
   return transformFollowersList(body);
 }
 
@@ -299,6 +300,11 @@ export async function trackSpottView (baseUrl, authenticationToken, locale, { uu
   return body;
 }
 
+export async function trackSpottImpression (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/post/posts/${uuid}/impressionEvents?dc=${dc}`);
+  return body;
+}
+
 export async function trackProductImpression (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/impressionEvents?dc=${dc}`);
   return body;
@@ -306,5 +312,30 @@ export async function trackProductImpression (baseUrl, authenticationToken, loca
 
 export async function trackProductView (baseUrl, authenticationToken, locale, { uuid, dc = '' }) {
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/product/products/${uuid}/viewEvents?dc=${dc}`);
+  return body;
+}
+
+export async function getTvSeriesSeasons (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/series/${uuid}/seasons?sortDirection=DESC`);
+  return body;
+}
+
+export async function getTvSeriesPosts (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/media/${uuid}/posts?pageSize=20&page=${page}`);
+  return transformSpottsList(body);
+}
+
+export async function getTvSeriesSeasonEpisodes (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/media/serieSeasons/${uuid}/episodes?pageSize=80&sortDirection=DESC`);
+  return body;
+}
+
+export async function getUserActivityFeed (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/followedUserActivity?page=${page}&pageSize=20`);
+  return transformActivityFeed(body);
+}
+
+export async function resetUserActivityFeedCounter (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/actions/resetFollowedUserActivityCounter`);
   return body;
 }

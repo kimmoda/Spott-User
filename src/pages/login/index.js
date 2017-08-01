@@ -1,132 +1,42 @@
+/* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
+import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import Radium from 'radium';
 import { bindActionCreators } from 'redux';
-import { buttonStyle, colors, fontWeights, makeTextStyle, pinkButtonStyle, Modal, RadiumLink } from '../_common/buildingBlocks';
-import FacebookLoginButton from './facebookLoginButton';
-import * as actions from '../app/actions';
-import { authenticationErrorSelector, authenticationIsLoadingSelector }
-  from '../app/selector';
 import { push as routerPush } from 'react-router-redux';
+import { Link } from 'react-router';
+import ReactModal from 'react-modal';
+import { reduxForm, Field } from 'redux-form/immutable';
 import localized from '../_common/localized';
+import * as actions from '../app/actions';
+import { validateLoginForm } from './validateForm';
+import { FormInput } from '../form';
+import { authenticationErrorSelector, authenticationIsLoadingSelector } from '../app/selector';
+import FacebookLoginButton from './facebookLoginButton';
+import { IconClose } from '../icons';
+
+const styles = require('./index.scss');
 
 @localized
-class Form extends Component {
-
+@connect((state, ownProps) => ({
+  errorSubmit: authenticationErrorSelector(state),
+  isLoading: authenticationIsLoadingSelector(state)
+}),
+(dispatch) => ({
+  submit: bindActionCreators(actions.doLogin, dispatch),
+  routerPush: bindActionCreators(routerPush, dispatch)
+}))
+@reduxForm({
+  form: 'loginForm',
+  validate: validateLoginForm
+})
+@CSSModules(styles, { allowMultiple: true })
+export default class NewLogin extends Component {
   static propTypes = {
     currentLocale: PropTypes.string.isRequired,
     error: PropTypes.any,
-    isLoading: PropTypes.bool,
-    location: PropTypes.object.isRequired,
-    routerPush: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
-  }
-
-  constructor (props) {
-    super(props);
-    this.onSubmit = ::this.onSubmit;
-  }
-
-  // The autofocus attribute will only work when the page loads initially.
-  // When a popup opens we still need to manually focus the field.
-  componentDidMount () {
-    setTimeout(() => {
-      ReactDOM.findDOMNode(this._email).focus();
-    }, 0);
-  }
-
-  onClose () {
-    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || '/');
-  }
-
-  async onSubmit (e) {
-    e.preventDefault();
-    const email = this._email.value;
-    const password = this._password.value;
-    await this.props.submit({ email, password });
-    this.props.onClose();
-  }
-
-  static styles = {
-    button: {
-      marginTop: '0.938em',
-      width: '100%',
-      padding: '1.1em'
-    },
-    error: {
-      color: '#ff0000',
-      fontSize: '16px',
-      margin: '5px 0'
-    },
-    line: {
-      height: 1,
-      width: '100%',
-      backgroundColor: '#e9e9e9',
-      margin: '1.25em 0'
-    },
-    textInput: {
-      padding: '0.556em 1.111em',
-      fontSize: '1.125em',
-      width: '100%',
-      borderRadius: 2,
-      border: '0.056em #d7d7d7 solid',
-      boxShadow: 'transparent 0 0 0',
-      margin: '0.278em 0'
-    },
-    link: {
-      color: '#ff0000'
-    }
-  }
-
-  render () {
-    const styles = this.constructor.styles;
-    const { currentLocale, error, isLoading, t } = this.props;
-    return (
-      <form onSubmit={this.onSubmit}>
-        <div style={styles.line}>&nbsp;</div>
-        <input
-          autoFocus
-          disabled={isLoading}
-          name='email'
-          placeholder={t('login.email')}
-          ref={(c) => { this._email = c; }}
-          style={styles.textInput} type='email' />
-        <input
-          disabled={isLoading}
-          name='password'
-          placeholder={t('login.password')}
-          ref={(c) => { this._password = c; }}
-          style={styles.textInput} type='password' />
-        {typeof error === 'string' &&
-          <div style={styles.error}>
-            {error === 'login.invalidFacebook'
-              ? t(error, {}, (contents, key) => (
-              <RadiumLink key={key} style={styles.link} to={
-                this.props.location.state && this.props.location.state.modal
-                  ? {
-                    pathname: `/${currentLocale}/register`,
-                    state: { modal: true, returnTo: this.props.location.state.returnTo }
-                  } : `/${currentLocale}/register`}>
-                  {contents}
-              </RadiumLink>
-            )) : t(error)}
-        </div>}
-        <input disabled={isLoading} style={{ ...buttonStyle, ...pinkButtonStyle, ...styles.button }} type='submit' value={t('login.submitButton')}/>
-      </form>
-    );
-  }
-}
-
-@localized
-@Radium
-class Login extends Component {
-
-  static propTypes = {
-    currentLocale: PropTypes.string.isRequired,
+    errorSubmit: PropTypes.any,
+    handleSubmit: PropTypes.func.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
       state: PropTypes.shape({
@@ -136,92 +46,112 @@ class Login extends Component {
     }).isRequired,
     routerPush: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired
-  }
+    submitFailed: PropTypes.bool,
+    t: PropTypes.func.isRequired,
+    onCloseClick: PropTypes.func,
+    onLoginSuccess: PropTypes.func
+  };
+
+  static defaultProps = {
+    isOpen: true
+  };
 
   constructor (props) {
     super(props);
     this.onClose = ::this.onClose;
+    this.onSubmit = ::this.onSubmit;
+  }
+
+  componentDidMount () {
+    this._originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+  }
+
+  componentWillUnmount () {
+    document.body.style.overflow = this._originalOverflow;
   }
 
   onClose () {
-    this.props.routerPush((this.props.location.state && this.props.location.state.returnTo) || '/');
+    const { location, currentLocale, onCloseClick } = this.props;
+    if (onCloseClick) {
+      onCloseClick();
+    } else {
+      this.props.routerPush((location.state && location.state.returnTo) || `/${currentLocale}/`);
+    }
   }
 
-  static styles = {
-    container: {
-      padding: '1.813em 1.875em',
-      maxWidth: '26.25em',
-      margin: '0 auto'
-    },
-    title: {
-      ...makeTextStyle(fontWeights.light, '1.875em'),
-      color: colors.dark
-    },
-    subText: {
-      ...makeTextStyle(fontWeights.regular, '0.875em'),
-      textAlign: 'center',
-      color: colors.coolGray,
-      paddingTop: '1.75em'
-    },
-    subTextLink: {
-      ...makeTextStyle(fontWeights.bold, '0.875em'),
-      color: colors.slateGray,
-      textDecoration: 'none'
+  async onSubmit (values) {
+    try {
+      await this.props.submit(values.toJS());
+      if (this.props.onLoginSuccess) {
+        this.props.onLoginSuccess();
+      }
+      this.onClose();
+    } catch (e) {
+      throw e;
     }
-  };
+  }
 
   render () {
-    const { styles } = this.constructor;
-    const { currentLocale, t } = this.props;
+    const { errorSubmit, handleSubmit, t, submitFailed, currentLocale } = this.props;
 
-    // Depending on the context (popup/no popup), another link is used.
-    const toLinkRegister = this.props.location.state && this.props.location.state.modal
-      ? {
-        pathname: `/${currentLocale}/register`,
-        state: { modal: true, returnTo: this.props.location.state.returnTo }
-      } : `/${currentLocale}/register`;
-    const toLinkForgotPassword = this.props.location.state && this.props.location.state.modal
-      ? {
-        pathname: `/${currentLocale}/resetpassword`,
-        state: { modal: true, returnTo: this.props.location.state.returnTo }
-      } : `/${currentLocale}/resetpassword`;
-
-    const content =
-      <section style={styles.container}>
-        <h2 style={styles.title}>{t('login.title')}</h2>
-        <FacebookLoginButton onClose={this.onClose} />
-        <Form {...this.props} onClose={this.onClose} />
-        <p style={styles.subText}>
-          {t('login.newUser')}&nbsp;
-          <Link style={styles.subTextLink} to={toLinkRegister}>
-            {t('login.createAccount')}
-          </Link>
-        </p>
-        <p style={[ styles.subText, { paddingTop: '0.5em' } ]}>
-          <Link style={styles.subTextLink} to={toLinkForgotPassword}>
+    return (
+      <ReactModal
+        className={styles['modal-content']}
+        isOpen
+        overlayClassName={styles['modal-overlay']}
+        onRequestClose={this.onClose}>
+        <div styleName='modal-close'><i onClick={this.onClose}><IconClose /></i></div>
+        <form className='form' onSubmit={handleSubmit(this.onSubmit)}>
+          <div className='form-title'>
+            {t('common.logIn')}
+          </div>
+          <div styleName='facebook-btn-wrapper'>
+            <FacebookLoginButton onClose={this.onClose}/>
+          </div>
+          <div className='form-row'>
+            <label className='form-label'>{t('common.email')}</label>
+            <Field
+              component={FormInput}
+              name='email'
+              placeholder={t('common.yourEmail')}
+              submitFailed={submitFailed}
+              type='email'/>
+          </div>
+          <div className='form-row'>
+            <label className='form-label'>{t('common.password')}</label>
+            <Field
+              component={FormInput}
+              name='password'
+              placeholder={t('common.yourPassword')}
+              submitFailed={submitFailed}
+              type='password'/>
+          </div>
+          <Link
+            styleName='forgot-password'
+            to={this.props.location.state && this.props.location.state.modal
+              ? {
+                pathname: `/${currentLocale}/resetpassword`,
+                state: { modal: true, returnTo: this.props.location.state.returnTo }
+              } : `/${currentLocale}/resetpassword`}>
             {t('login.forgotPassword')}
           </Link>
-        </p>
-      </section>;
-
-    if (this.props.location.state && this.props.location.state.modal) {
-      return (
-        <Modal
-          isOpen
-          onClose={this.onClose}>
-          {content}
-        </Modal>
-      );
-    }
-    return content;
+          {Boolean(errorSubmit && typeof errorSubmit === 'string') && <div className='form-error'>{t(errorSubmit)}</div>}
+          <button className='form-submit' type='submit'>{t('common.logIn')}</button>
+          <div styleName='new-user'>
+            {t('login.newUser')}
+            <Link
+              styleName='sign-up'
+              to={this.props.location.state && this.props.location.state.modal
+                ? {
+                  pathname: `/${currentLocale}/registration`,
+                  state: { modal: true, returnTo: this.props.location.state.returnTo }
+                } : `/${currentLocale}/registration`}>
+              {t('login.signUpHere')}
+            </Link>
+          </div>
+        </form>
+      </ReactModal>
+    );
   }
 }
-
-export default connect((state, ownProps) => ({
-  error: authenticationErrorSelector(state),
-  isLoading: authenticationIsLoadingSelector(state)
-}), (dispatch) => ({
-  submit: bindActionCreators(actions.doLogin, dispatch),
-  routerPush: bindActionCreators(routerPush, dispatch)
-}))(Login);

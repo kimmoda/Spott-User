@@ -1,0 +1,15 @@
+@import "vars";
+
+.wrapper {
+  background-color: $colorGrayWhite;
+  padding-top: $headerHeight;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1 0 auto;
+  width: 100%;
+  margin: 0 auto;
+}
