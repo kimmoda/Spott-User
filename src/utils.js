@@ -55,6 +55,11 @@ export function slugify (text) {
     .replace(/-+$/, ''); // Trim - from end of text
 }
 
+export function getPath (text) {
+  const parser = document.createElement('a');
+  parser.href = text;
+  return parser.pathname.slice(4);
+}
 function pad (number) {
   return number < 10 ? `0${number}` : number.toString();
 }

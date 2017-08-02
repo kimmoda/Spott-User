@@ -19,7 +19,7 @@ import * as actions from '../actions';
 import { spottDetailsSelector } from '../selectors';
 import Cards from '../cards/index';
 import ProductImpressionSensor from '../productImpressionSensor';
-import { slugify, getDetailsDcFromLinks } from '../../utils';
+import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
 import FacebookShareData from '../_common/facebookShareData';
 import { LOADED } from '../../data/statusTypes';
 import withLoginDialog from '../_common/withLoginDialog';
@@ -172,7 +172,7 @@ export default class CardModal extends Component {
     const { currentLocale, location, routerPush: routePush, sidebarProducts, spott } = this.props;
     if (sidebarProducts.get('data').size) {
       this.props.routerPush({
-        pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
+        pathname: `/${currentLocale}/${getPath(spott.get('shareUrl'))}`,
         state: {
           modal: true,
           returnTo: (location.state && location.state.returnTo) || '/',
@@ -187,7 +187,7 @@ export default class CardModal extends Component {
   onProductClick (marker) {
     const { currentLocale, location, spott } = this.props;
     this.props.routerPush({
-      pathname: `/${currentLocale}/spott/${slugify(spott.get('title'))}/${slugify(marker.getIn([ 'product', 'shortName' ]))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
+      pathname: `/${currentLocale}/${getPath(marker.getIn([ 'product', 'shareUrl' ]))}`,
       state: {
         modal: true,
         returnTo: (location.state && location.state.returnTo) || '/',
@@ -201,7 +201,7 @@ export default class CardModal extends Component {
   onSidebarClose () {
     const { currentLocale, location, spott, params } = this.props;
     this.props.routerPush({
-      pathname: `/${currentLocale}/spott/${slugify(spott.get('title'))}/${spott.get('uuid')}`,
+      pathname: `/${currentLocale}/${getPath(spott.get('shareUrl'))}`,
       state: {
         modal: true,
         returnTo: ((location.state && params.productId ? location.state.returnTo : location.pathname) || '/'),
