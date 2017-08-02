@@ -9,7 +9,7 @@ import localized from '../../../_common/localized';
 import { formatPrice } from '../../../_common/buildingBlocks';
 import * as actions from '../../../actions';
 import ProductImpressionSensor from '../../../productImpressionSensor';
-import { getDetailsDcFromLinks, slugify } from '../../../../utils';
+import { getDetailsDcFromLinks, slugify, getPath } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -40,7 +40,7 @@ export default class NewUserWishlistProduct extends Component {
   onProductClick () {
     const { location, currentLocale, item: product } = this.props;
     this.props.routerPush({
-      pathname: `/${currentLocale}/product/${slugify(product.get('shortName'))}/${slugify(product.getIn([ 'brand', 'name' ]))}/${product.get('uuid')}`,
+      pathname: `/${currentLocale}/${getPath(product.get('shareUrl'))}`,
       state: {
         modal: true,
         returnTo: `${location.pathname}${location.search}`

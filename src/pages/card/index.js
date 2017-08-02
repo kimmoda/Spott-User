@@ -13,7 +13,7 @@ import * as actions from '../actions';
 import { spottCardDetailsSelector } from '../selectors';
 import ImageLoader from '../imageLoader/index';
 import { LOADED } from '../../data/statusTypes';
-import { slugify, getDetailsDcFromLinks } from '../../utils';
+import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
 import Tiles from '../tiles';
 import VisibilitySensor from 'react-visibility-sensor';
 import withLoginDialog from '../_common/withLoginDialog';
@@ -81,11 +81,11 @@ export default class Card extends Component {
     }
   }
 
-  showSpott (event) {
+  showSpott (event, shareUrl) {
     event.stopPropagation();
     const { location, params, currentLocale, item: spott } = this.props;
     this.props.routerPush({
-      pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${spott.get('uuid')}`,
+      pathname: `/${currentLocale}/${getPath(shareUrl)}`,
       state: {
         modal: true,
         returnTo: location.state && params.spottId ? location.state.returnTo : `${location.pathname}${location.search}`,
@@ -121,7 +121,7 @@ export default class Card extends Component {
     event.stopPropagation();
     const { location, currentLocale, item: spott } = this.props;
     this.props.routerPush({
-      pathname: `/${currentLocale}/spott/${slugify(spott.get('title', ''))}/${slugify(marker.getIn([ 'product', 'shortName' ], ''))}/{${spott.get('uuid')}}{${marker.getIn([ 'product', 'uuid' ])}}`,
+      pathname: `/${currentLocale}/${getPath(marker.getIn([ 'product', 'shareUrl' ]))}`,
       state: {
         modal: true,
         returnTo: location.state && location.state.returnTo ? location.state.returnTo : `${location.pathname}${location.search}`,
@@ -171,7 +171,7 @@ export default class Card extends Component {
     return (
       <VisibilitySensor active={isReady} delayedCall intervalDelay={1500} onChange={this.onCardVisible}>
         <div styleName='card'>
-          <div styleName='image' onClick={(event) => this.showSpott(event)}>
+          <div styleName='image' onClick={(event) => this.showSpott(event, spottDetails.get('shareUrl'))}>
             <ImageLoader
               height={Math.ceil(item.getIn([ 'image', 'dimension', 'height' ]) * (width / item.getIn([ 'image', 'dimension', 'width' ])))}
               imgOriginal={item.get('image')}

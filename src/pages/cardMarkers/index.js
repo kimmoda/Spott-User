@@ -23,7 +23,7 @@ export default class CardMarkers extends Component {
     <div styleName='markers-wrapper'>
       <div styleName='markers-overlay'/>
       <div styleName='markers'>
-        {markers && markers.map((item, index) =>
+        {markers && markers.filter((item) => { return item.has('point'); }).map((item, index) =>
           <CardMarker item={item} key={`marker_${index}`} onMarkerClick={onMarkerClick}/>
         )}
       </div>

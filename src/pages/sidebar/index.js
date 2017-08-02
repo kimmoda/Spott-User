@@ -14,7 +14,7 @@ import { sidebarSelector } from '../selectors';
 import ImageLoader from '../imageLoader/index';
 import ProductImpressionSensor from '../productImpressionSensor';
 import FacebookShareData from '../_common/facebookShareData';
-import { slugify, getDetailsDcFromLinks } from '../../utils';
+import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
 
 const styles = require('./index.scss');
 
@@ -109,14 +109,14 @@ export default class Sidebar extends Component {
     window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.product.get('shareUrl'))}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
   }
 
-  showSpott (uuid, title) {
+  showSpott (shareUrl) {
     const { currentLocale, location, clearSidebarProducts, params, onSidebarClose } = this.props;
     if (!params || !params.spottId) {
       onSidebarClose && onSidebarClose();
       clearSidebarProducts();
     }
     this.props.routerPush({
-      pathname: `/${currentLocale}/spott/${slugify(title)}/${uuid}`,
+      pathname: `/${currentLocale}/${getPath(shareUrl)}`,
       state: {
         modal: true,
         returnTo: ((location.state && location.state.returnTo ? location.state.returnTo : location.pathname) || '/')
@@ -264,7 +264,7 @@ export default class Sidebar extends Component {
                       minWidth: item.getIn([ 'image', 'dimension', 'width' ], 80) * (80 / item.getIn([ 'image', 'dimension', 'height' ], 1))
                     }}
                     styleName='sidebar-seen'
-                    onClick={this.showSpott.bind(this, item.get('uuid'), item.get('title'))}/>
+                    onClick={this.showSpott.bind(this, item.get('shareUrl'))}/>
                 )}
               </Tiles>
             </div>

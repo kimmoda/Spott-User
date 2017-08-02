@@ -10,7 +10,7 @@ import localized from '../_common/localized';
 import * as actions from '../actions';
 import { activityFeedSelector } from '../selectors';
 import { IconLightning, IconAvatar, IconClose } from '../icons';
-import { slugify, getDetailsDcFromLinks } from '../../utils';
+import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
 import UserListItem from '../usersListItem';
 import CustomScrollbars from '../customScrollbars';
 import { FETCHING } from '../../data/statusTypes';
@@ -171,7 +171,7 @@ export default class ActivityFeed extends PureComponent {
                           style={{ backgroundImage: `url(${item.getIn([ 'activityPost', 'image', 'url' ])}?width=48&height=56)` }}
                           styleName='action-spott'
                           to={{
-                            pathname: `/${currentLocale}/spott/${slugify(item.getIn([ 'activityPost', 'title' ]))}/${item.getIn([ 'activityPost', 'uuid' ])}`,
+                            pathname: `/${currentLocale}/${getPath(item.getIn([ 'activityPost', 'shareUrl' ]))}`,
                             state: {
                               modal: true,
                               returnTo: `${location.pathname}${location.search}`,
@@ -184,7 +184,7 @@ export default class ActivityFeed extends PureComponent {
                           style={{ backgroundImage: `url(${item.getIn([ 'activityProduct', 'image', 'url' ])}?width=56&height=56)` }}
                           styleName='action-product'
                           to={{
-                            pathname: `/${currentLocale}/product/${slugify(item.getIn([ 'activityProduct', 'shortName' ]))}/${slugify(item.getIn([ 'activityProduct', 'brand', 'name' ]))}/${item.getIn([ 'activityProduct', 'uuid' ])}`,
+                            pathname: `/${currentLocale}/${getPath(item.getIn([ 'activityProduct', 'shareUrl' ]))}`,
                             state: {
                               modal: true,
                               returnTo: `${location.pathname}${location.search}`

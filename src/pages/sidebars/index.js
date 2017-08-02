@@ -10,7 +10,7 @@ import Sidebar from '../sidebar/index';
 import CustomScrollbars from '../customScrollbars';
 import * as actions from '../actions';
 import { sidebarProductsSelector } from '../selectors';
-import { slugify } from '../../utils';
+import { getPath } from '../../utils';
 
 const styles = require('./index.scss');
 
@@ -64,7 +64,7 @@ export default class Sidebars extends Component {
       const previousProduct = sidebarProducts.getIn([ 'data', -2 ], null);
       if (previousProduct && previousProduct.get('uuid') !== params.productId) {
         this.props.routerPush({
-          pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(previousProduct.get('shortName'))}/{${params.spottId}}{${previousProduct.get('uuid')}}`,
+          pathname: `/${currentLocale}/${getPath(previousProduct.get('shareUrl'))}`,
           state: {
             modal: true,
             returnTo: (location.state && location.state.returnTo) || '/',
@@ -86,10 +86,10 @@ export default class Sidebars extends Component {
   }
 
   onProductClick (product, dc = null) {
-    const { currentLocale, location, params, singleMode } = this.props;
+    const { currentLocale, location, singleMode } = this.props;
     if (singleMode) {
       this.props.routerPush({
-        pathname: `/${currentLocale}/product/${slugify(product.get('shortName'))}/${slugify(product.getIn([ 'brand', 'name' ]))}/${product.get('uuid')}`,
+        pathname: `/${currentLocale}/${getPath(product.get('shareUrl'))}`,
         state: {
           modal: true,
           returnTo: (location.state && location.state.returnTo) || '/'
@@ -97,7 +97,7 @@ export default class Sidebars extends Component {
       });
     } else {
       this.props.routerPush({
-        pathname: `/${currentLocale}/spott/${params.spottTitle}/${slugify(product.get('shortName'))}/{${params.spottId}}{${product.get('uuid')}}`,
+        pathname: `/${currentLocale}/${getPath(product.get('shareUrl'))})`,
         state: {
           modal: true,
           returnTo: (location.state && location.state.returnTo) || '/',
