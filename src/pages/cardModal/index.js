@@ -21,6 +21,7 @@ import Cards from '../cards/index';
 import ProductImpressionSensor from '../productImpressionSensor';
 import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
 import FacebookShareData from '../_common/facebookShareData';
+import TwitterShareData from '../_common/twitterShareData';
 import { LOADED } from '../../data/statusTypes';
 import withLoginDialog from '../_common/withLoginDialog';
 
@@ -354,12 +355,17 @@ export default class CardModal extends Component {
         </div>
         {share &&
           <FacebookShareData
-            description={`${spott.get('comment')}\r\n\r\n${topicsString}`}
+            description={`${spott.get('comment') ? spott.get('comment') : ''}${topicsString}`}
             imageHeight={share.getIn([ 'image', 'dimension', 'height' ])}
             imageUrl={share.getIn([ 'image', 'url' ])}
             imageWidth={share.getIn([ 'image', 'dimension', 'width' ])}
             title={share.get('title')}
             url={window.location.href}/>}
+        {share &&
+          <TwitterShareData
+            description={`${spott.get('comment') ? spott.get('comment') : ''}${topicsString}`}
+            imageUrl={share.getIn([ 'image', 'url' ])}
+            title={share.get('title')}/>}
         <Sidebars location={location} params={params} onSidebarClose={this.onSidebarClose}/>
       </ReactModal>
     );

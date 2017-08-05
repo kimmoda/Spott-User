@@ -14,6 +14,7 @@ import { sidebarSelector } from '../selectors';
 import ImageLoader from '../imageLoader/index';
 import ProductImpressionSensor from '../productImpressionSensor';
 import FacebookShareData from '../_common/facebookShareData';
+import TwitterShareData from '../_common/twitterShareData';
 import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
 
 const styles = require('./index.scss');
@@ -294,6 +295,11 @@ export default class Sidebar extends Component {
             imageWidth={share.getIn([ 'image', 'dimension', 'width' ])}
             title={share.get('title')}
             url={window.location.href}/>}
+        {share &&
+          <TwitterShareData
+            description={share.get('description')}
+            imageUrl={share.getIn([ 'image', 'url' ])}
+            title={share.get('title')}/>}
       </div>
     );
   }
