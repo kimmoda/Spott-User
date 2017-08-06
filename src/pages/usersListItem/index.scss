@@ -64,6 +64,7 @@
 
 .people-follow {
   @include btnMedium;
+  @include btnPinkWhite;
   margin-left: auto;
   width: 100px;
   span {
@@ -89,7 +90,7 @@
 }
 
 .people-follow-active {
-  @include btnPink;
+  @include btnGreen;
   margin-left: auto;
   @media (max-width: $phoneBreakpoint) {
     i {

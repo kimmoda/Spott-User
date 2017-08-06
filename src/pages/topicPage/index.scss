@@ -108,6 +108,7 @@
 
 .info-subscribe-btn {
   @include btnMedium;
+  @include btnPinkWhite;
   margin-left: 16.5px;
   span {
     display: block;
@@ -120,7 +121,7 @@
 
 .info-subscribe-btn-subscribed {
   @include btnMedium;
-  @include btnPink;
+  @include btnGreen;
   span {
     display: block;
   }

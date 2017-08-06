@@ -168,9 +168,29 @@
 
 .topic-link {
   @include tinyRegular();
-  @include link();
-  display: block;
-  margin: 0 7px 8px 0;
+  display: flex;
+  margin: 0 7px 10px 0;
+  text-decoration: none;
+  align-items: center;
+  i {
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin-right: 3px;
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+    :global {
+      .fill {
+        fill: $colorGreen;
+      }
+    }
+  }
+  span {
+    @include link();
+    display: block;
+  }
 }
 
 .footer {

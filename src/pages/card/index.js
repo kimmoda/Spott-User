@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
-import { IconHeart, IconForward } from '../icons';
+import { IconHeart, IconForward, IconCheckmark } from '../icons';
 import CardMarkers from '../cardMarkers';
 import Users from '../users/index';
 import * as actions from '../actions';
@@ -221,7 +221,8 @@ export default class Card extends Component {
                     pathname: `/${currentLocale}/topic/${slugify(topic.get('text', ''))}/${topic.get('uuid')}`,
                     state: { dc: getDetailsDcFromLinks(topic.get('links').toJS()) }
                   }}>
-                  {topic.get('text').trim()}
+                  {topic.get('subscribed') && <i><IconCheckmark/></i>}
+                  <span>{topic.get('text').trim()}</span>
                 </Link>
               )}
             </div>}

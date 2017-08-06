@@ -265,6 +265,56 @@ $phoneBreakpoint: 599px;
   }
 }
 
+@mixin btnPinkWhite {
+  color: $colorPink;
+  background-color: $colorWhite;
+  border: solid 1px $colorPink;
+  i {
+    :global {
+      .fill {
+        fill: $colorPink;
+      }
+    }
+  }
+  &:hover {
+    color: $colorPinkMid;
+    background-color: $colorWhite;
+    border: solid 1px $colorPinkMid;
+    i {
+      :global {
+        .fill {
+          fill: $colorPinkMid;
+        }
+      }
+    }
+  }
+  &:active {
+    color: $colorPinkDark;
+    background-color: $colorWhite;
+    border: solid 1px $colorPinkDark;
+    i {
+      :global {
+        .fill {
+          fill: $colorPinkDark;
+        }
+      }
+    }
+  }
+  &:disabled {
+    color: $colorWhite;
+    background-color: $colorGray;
+    border: solid 1px $colorGray;
+    opacity: 0.5;
+    i {
+      :global {
+        .fill {
+          fill: $colorWhite;
+        }
+      }
+    }
+  }
+}
+
 @mixin btnGreen {
   color: $colorWhite;
   background-color: $colorGreen;

@@ -67,9 +67,29 @@
 
 .topic-title {
   @include bodyRegular($colorWhite);
-  @include link($borderColor: $colorWhite);
   position: absolute;
   left: 16px;
   bottom: 13px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  i {
+    display: block;
+    width: 14px;
+    height: 14px;
+    margin: 1px 6px 0 0;
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+    :global {
+      .fill {
+        fill: $colorWhite;
+      }
+    }
+  }
+  span {
+    @include link($borderColor: $colorWhite);
+    display: block;
+  }
 }

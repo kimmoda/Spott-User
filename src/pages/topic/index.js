@@ -3,6 +3,7 @@ import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../_common/localized';
 import { slugify, getDetailsDcFromLinks } from '../../utils';
+import { IconCheckmark } from '../icons';
 
 const styles = require('./index.scss');
 
@@ -32,7 +33,10 @@ export default class Topics extends Component {
           style={{ backgroundImage: `url(${item.getIn([ 'profileImage', 'url' ])}?width=160&height=90)` }}
           styleName='topic-image'/>
         <div styleName='topic-overlay'/>
-        <div styleName='topic-title'>{item.get('text')}</div>
+        <div styleName='topic-title'>
+          {item.get('subscribed') && <i><IconCheckmark/></i>}
+          <span>{item.get('text')}</span>
+        </div>
       </Link>
     );
   }
