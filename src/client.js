@@ -13,6 +13,8 @@ import { fromJS } from 'immutable';
 import { AsyncRouterContext } from 'redux-async-props';
 import { combineReducers } from 'redux-immutablejs';
 import { reducer as form } from 'redux-form/immutable';
+import SmartBanner from 'react-smartbanner';
+import '../node_modules/react-smartbanner/dist/main.css';
 // import { initBasketData } from './pages/basket/actions';
 
 import { LOGIN_SUCCESS, DOWNLOAD_PAGE_SHOWED, doInit } from './pages/app/actions';
@@ -118,6 +120,11 @@ async function boot () {
       </Provider>
     </StyleRoot>,
     document.getElementById('root'));
+
+  // Render app banner
+  if (navigator.userAgent.match(/Android/i)) {
+    ReactDOM.render(<SmartBanner force={'android'} title={'Spott'}/>, document.getElementById('banner-content'));
+  }
 }
 
 boot();
