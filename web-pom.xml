@@ -125,6 +125,14 @@
 									</fileset>
 								</copy>
 
+								<!-- Other external files -->
+								<copy todir="${stage.dir}">
+									<fileset dir="${basedir}/external">
+										<include name="**/**" />
+									</fileset>
+								</copy>
+
+
 								<zip destfile="${website.dist.file}" basedir="${stage.dir}" />
 							</target>
 						</configuration>
