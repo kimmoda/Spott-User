@@ -100,6 +100,13 @@
 								<echo message=" &quot;timestamp&quot;:&quot;${build.time}&quot;${line.separator}" file="${basedir}/dist/version.json" append="true" />
 								<echo message="}${line.separator}" file="${basedir}/dist/version.json" append="true" />
 
+								<!-- Other external files -->
+								<copy todir="${basedir}/dist">
+									<fileset dir="${basedir}/external">
+										<include name="**/**" />
+									</fileset>
+								</copy>
+
 								<!-- Website code -->
 								<delete dir="${stage.dir}" />
 								<mkdir dir="${stage.website.dir}" />
@@ -116,7 +123,6 @@
 									</fileset>
 								</copy>
 
-
 								<!-- AWS config -->
 								<mkdir dir="${stage.dir}/.ebextensions" />
 								<copy todir="${stage.dir}/.ebextensions">
@@ -124,14 +130,6 @@
 										<include name="**/**" />
 									</fileset>
 								</copy>
-
-								<!-- Other external files -->
-								<copy todir="${stage.dir}">
-									<fileset dir="${basedir}/external">
-										<include name="**/**" />
-									</fileset>
-								</copy>
-
 
 								<zip destfile="${website.dist.file}" basedir="${stage.dir}" />
 							</target>
