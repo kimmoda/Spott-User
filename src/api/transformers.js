@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import moment from 'moment';
+import { slugify } from '../utils';
 
 function stripDomain (url) {
   return url.substring(url.indexOf('/', 9));
@@ -84,26 +85,31 @@ export function transformSuggestions (data) {
 }
 
 export function transformNewSuggestions (data) {
-  function toUrlPart (type, uuid) {
-    if (type === 'TV_SERIE' || type === 'CHARACTER' || type === 'MOVIE') {
-      return `topic/MEDIUM%7C${uuid}`;
+  function toUrlPart (type, uuid, text) {
+    if (type === 'USER' || type === 'ANNOTATED_POST') {
+      return null;
+    } else if (type === 'TV_SERIE' || type === 'MOVIE') {
+      return `topic/${slugify(text)}/MEDIUM%7C${uuid}`;
+    } else if (type === 'ACTOR') {
+      return `topic/${slugify(text)}/PERSON%7C${uuid}`;
+    } else if (type === 'DATA_TOPIC') {
+      return `topic/${slugify(text)}/${uuid}`;
     }
-    if (type === 'BRAND') {
-      return `topic/BRAND%7C${uuid}`;
-    }
+    return `topic/${slugify(text)}/${type}%7C${uuid}`;
+    /*
     if (type === 'USER') {
       return `profile/${uuid}`;
     }
     if (type === 'ANNOTATED_POST') {
       return '';
     }
-    return '';
+    */
   }
 
   return data.map((val) => {
     return {
       text: val.suggestions[0].value,
-      urlPart: toUrlPart(val.type, val.entity.uuid)
+      urlPart: toUrlPart(val.type, val.entity.uuid, val.suggestions[0].value)
     };
   });
 }

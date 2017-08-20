@@ -164,7 +164,11 @@ export default class Header extends Component {
 
   onSuggestionSelected (event, { suggestion }) {
     this.setState({ searchValue: suggestion.text });
-    this.props.routerPush(`/${this.props.currentLocale}/search?q=${suggestion.text}`);
+    if (suggestion.urlPart) {
+      this.props.routerPush(`/${this.props.currentLocale}/${suggestion.urlPart}`);
+    } else {
+      this.props.routerPush(`/${this.props.currentLocale}/search?q=${suggestion.text}`);
+    }
     this.setState({
       isInputFocused: false
     });
