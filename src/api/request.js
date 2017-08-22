@@ -130,7 +130,9 @@ function optionsWithoutBody (method, authenticationToken, locale = 'en') {
   const headers = new Headers({ // Request headers
     Accept: 'application/json, text/javascript, */*; q=0.01',
     'Accept-Language': locale,
-    api_key: apiKey // eslint-disable-line camelcase
+    api_key: apiKey, // eslint-disable-line camelcase
+    device_type: 'WEB', // eslint-disable-line camelcase
+    application_id: 'mobi.appiness.spott' // eslint-disable-line camelcase
   });
   if (authenticationToken) {
     headers.append('authtoken', authenticationToken);
@@ -149,7 +151,9 @@ function optionsWithBody (method, authenticationToken, locale = 'en', body) {
     'Content-Type': 'application/json; charset=UTF-8',
     Accept: 'application/json, text/javascript, */*; q=0.01',
     'Accept-Language': locale,
-    api_key: apiKey // eslint-disable-line camelcase
+    api_key: apiKey, // eslint-disable-line camelcase
+    device_type: 'WEB', // eslint-disable-line camelcase
+    application_id: 'mobi.appiness.spott' // eslint-disable-line camelcase
   });
   if (authenticationToken) {
     headers.append('authtoken', authenticationToken);
