@@ -38,10 +38,17 @@
       width: 86px;
     }
   }
+  @media (min-width: $tabletPortraitBreakpoint) {
+    width: 33%;
+  }
 }
 
 .header-right {
   display: flex;
+  @media (min-width: $tabletPortraitBreakpoint) {
+    width: 33%;
+    justify-content: flex-end;
+  }
 }
 
 .languages-bar {
@@ -203,9 +210,6 @@
   align-items: center;
   height: 34px;
   transition: margin-left 0.3s ease, width 0s ease;
-  width: 270px;
-  margin-left: 50%;
-  transform: translateX(-50%);
   :global {
     .react-autosuggest__container {
       width: 100%;
@@ -238,10 +242,12 @@
   height: 34px;
   border: 0;
   outline: 0;
-  width: 100%;
   &::placeholder {
     @include headlineLight($colorGray);
     line-height: 34px;
+  }
+  @media (max-width: $phoneBreakpoint) {
+    width: 100%;
   }
 }
 
@@ -485,5 +491,8 @@
 @media (max-width: 800px) {
   .search-wrapper {
     width: 16px;
+  }
+  .search-input {
+    width: 100%;
   }
 }
