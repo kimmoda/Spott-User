@@ -143,19 +143,19 @@ export default class NewTopic extends Component {
           <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
-                {topic.get('sourceType') === 'BRAND' &&
+                {Boolean(topic.get('sourceType') === 'BRAND' && topic.getIn([ 'brand', 'logo', 'url' ])) &&
                   <div
                     style={{ backgroundImage: `url('${topic.getIn([ 'brand', 'logo', 'url' ])}?width=160&height=160')` }}
                     styleName='info-image info-image-square'/>}
-                {topic.get('sourceType') === 'MEDIUM' &&
+                {Boolean(topic.get('sourceType') === 'MEDIUM' && topic.getIn([ 'medium', 'posterImage', 'url' ])) &&
                   <div
                     style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'posterImage', 'url' ])}?width=160&height=160')` }}
                     styleName='info-image'/>}
-                {topic.get('sourceType') === 'CHARACTER' &&
+                {Boolean(topic.get('sourceType') === 'CHARACTER' && topic.getIn([ 'character', 'avatar', 'url' ])) &&
                   <div
                     style={{ backgroundImage: `url('${topic.getIn([ 'character', 'avatar', 'url' ])}?width=160&height=160')` }}
                     styleName='info-image info-image-square'/>}
-                {topic.get('sourceType') === 'PERSON' &&
+                {Boolean(topic.get('sourceType') === 'PERSON' && topic.getIn([ 'person', 'avatar', 'url' ])) &&
                   <div
                     style={{ backgroundImage: `url('${topic.getIn([ 'person', 'avatar', 'url' ])}?width=160&height=160')` }}
                     styleName='info-image info-image-square'/>}
