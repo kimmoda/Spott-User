@@ -2,7 +2,6 @@ import cookie from 'react-cookie';
 import * as api from '../../api/configuration';
 import { apiBaseUrlSelector } from './selector';
 import { getLocalStorage } from '../../utils';
-// import { initUbToken, initBasketData, updateLocale as updateUbLocale } from '../basket/actions';
 
 const storage = getLocalStorage();
 
@@ -44,20 +43,12 @@ export function doLogin ({ email, password }) {
     dispatch({ type: LOGIN_REQUEST });
     try {
       const baseUrl = apiBaseUrlSelector(getState());
-      // const currentLocale = currentLocaleSelector(getState());
       const data = await api.login(baseUrl, { email, password });
       dispatch({ data, type: LOGIN_SUCCESS });
       storage.setItem('session', JSON.stringify(data));
-      /*
-      if (data.user.id) {
-        const ubToken = await dispatch(initUbToken(data.user.id));
-        if (ubToken) {
-          data.ubAuthenticationToken = ubToken;
-        }
-        dispatch(updateUbLocale(currentLocale));
+      if (data.user.id && window && window.appboy) {
+        window.appboy.changeUser(data.user.id);
       }
-      */
-      // dispatch(initBasketData());
       return data;
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });
@@ -69,22 +60,14 @@ export function doLogin ({ email, password }) {
 export function doLoginFacebook ({ facebookAccessToken }) {
   return async (dispatch, getState) => {
     const baseUrl = apiBaseUrlSelector(getState());
-    // const currentLocale = currentLocaleSelector(getState());
     dispatch({ type: LOGIN_REQUEST });
     try {
       const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
       dispatch({ data, type: LOGIN_SUCCESS });
-      /*
-      if (data.user.id) {
-        const ubToken = await dispatch(initUbToken(data.user.id));
-        if (ubToken) {
-          data.ubAuthenticationToken = ubToken;
-        }
-        dispatch(updateUbLocale(currentLocale));
+      if (data.user.id && window && window.appboy) {
+        window.appboy.changeUser(data.user.id);
       }
-      */
       storage.setItem('session', JSON.stringify(data));
-      // dispatch(initBasketData());
     } catch (error) {
       dispatch({ error, type: LOGIN_FAILURE });
       throw error;
@@ -95,20 +78,12 @@ export function doLoginFacebook ({ facebookAccessToken }) {
 export function doTryLoginFacebook ({ facebookAccessToken }) {
   return async (dispatch, getState) => {
     const baseUrl = apiBaseUrlSelector(getState());
-    // const currentLocale = currentLocaleSelector(getState());
     const data = await api.loginFacebook(baseUrl, { facebookAccessToken });
     dispatch({ data, type: LOGIN_SUCCESS });
-    /*
-    if (data.user.id) {
-      const ubToken = await dispatch(initUbToken(data.user.id));
-      if (ubToken) {
-        data.ubAuthenticationToken = ubToken;
-      }
-      dispatch(updateUbLocale(currentLocale));
+    if (data.user.id && window && window.appboy) {
+      window.appboy.changeUser(data.user.id);
     }
-    */
     storage.setItem('session', JSON.stringify(data));
-    // dispatch(initBasketData());
   };
 }
 

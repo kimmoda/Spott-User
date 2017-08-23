@@ -101,6 +101,9 @@ async function boot () {
       const sessionData = JSON.parse(session);
       Reflect.deleteProperty(sessionData, 'initialValues');
       store.dispatch({ data: sessionData, type: LOGIN_SUCCESS });
+      if (sessionData.user.id && window && window.appboy) {
+        window.appboy.changeUser(sessionData.user.id);
+      }
     } catch (e) {
       console.log(e);
     }
