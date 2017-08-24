@@ -200,7 +200,7 @@ export default class Card extends Component {
             {item.get('imageSource') && <div styleName='spott-image-source'>{item.get('imageSource')}</div>}
           </div>
           <div styleName='content'>
-            <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
+            <div styleName='click-overlay' onClick={(event) => this.showSpott(event, spottDetails.get('shareUrl'))}/>
             {width >= 280 && <div styleName='products'>
               {Boolean(spottDetails.get('productMarkers') && isReady) &&
                 <CardProducts
@@ -228,7 +228,7 @@ export default class Card extends Component {
             </div>}
           </div>
           {width >= 280 && <div styleName='footer'>
-            <div styleName='click-overlay' onClick={(event) => this.showSpott(event)}/>
+            <div styleName='click-overlay' onClick={(event) => this.showSpott(event, spottDetails.get('shareUrl'))}/>
             <div
               className={loved && styles['likes-liked']}
               styleName='likes'

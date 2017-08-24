@@ -339,3 +339,8 @@ export async function resetUserActivityFeedCounter (baseUrl, authenticationToken
   const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/actions/resetFollowedUserActivityCounter`);
   return body;
 }
+
+export async function getAppboyApiKey (baseUrl, authenticationToken, locale) {
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/appboy/applications?id=mobi.appiness.spott&type=WEB`);
+  return body;
+}
