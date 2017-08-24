@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../../_common/localized';
+import SEOWidget from '../../_common/seoWidget';
 import { IconAvatar, IconCheck } from '../../icons';
 import * as actions from '../../actions';
 import { userProfileDetailsSelector } from '../../selectors';
@@ -220,6 +221,7 @@ export default class NewUserProfile extends Component {
         <div styleName='content responsive-container'>
           {children}
         </div>
+        <SEOWidget description={t('seo.profile.description')} title={`${t('seo.title')} - ${t('seo.profile.title')}`}/>
       </section>
     );
   }

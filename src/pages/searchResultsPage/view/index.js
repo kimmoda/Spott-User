@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import localized from '../../_common/localized';
+import SEOWidget from '../../_common/seoWidget';
 import Topics from '../../topics';
 import * as actions from '../../actions';
 import { searchResultsSelector } from '../../selectors';
@@ -75,6 +76,7 @@ export default class SearchResults extends Component {
           </div>
         </div>
         {children}
+        <SEOWidget description={t('seo.search.description')} title={`${t('seo.title')} - ${t('seo.search.title')}`}/>
       </section>
     );
   }

@@ -163,5 +163,43 @@
     "nowFollows" : "now follows",
     "lovedSpott": "loved a spott",
     "startedFollowingYou": "started following you."
+  },
+  "seo": {
+    "title": "Spott",
+    "home": {
+      "title": "Watch. Click. Discover.",
+      "description": "Be inspired by your favourite celebrities. Get the look of popular characters, actors and influencers."
+    },
+    "topic": {
+      "description": "A topic is a tag used on Spott, which makes it possible for users to find Spotts with a specific theme or content."
+    },
+    "search": {
+      "title": "Search Results",
+      "description": "Discover the lifestyle of your favorite celebrity."
+    },
+    "profile": {
+      "title": "User Profile",
+      "description": "Create your Spott profile."
+    },
+    "settings": {
+      "title": "User Settings",
+      "description": "Manage your Spott account."
+    },
+    "account": {
+      "title": "User Account",
+      "description": "Personalize your Spott profile by adding a profile picture and describing yourself."
+    },
+    "terms": {
+      "title": "Terms and Conditions",
+      "description": "Discover Spott’s terms and conditions."
+    },
+    "privacy": {
+      "title": "Privacy Regulations",
+      "description": "Discover Spott’s tasks and responsibilities."
+    },
+    "cookie": {
+      "title": "Cookie Policy",
+      "description": "Discover Spott’s cookie policy."
+    }
   }
 }

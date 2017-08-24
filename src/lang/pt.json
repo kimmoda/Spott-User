@@ -1,167 +1,205 @@
 {
-    "common": {
-        "account": "Conta",
-        "bio": "Descrição",
-        "change": "Trocar",
-        "currency": "Moeda",
-        "dateOfBirth": "Data de Nascimento",
-        "description": "Descrição",
-        "editImage": "Editar imagem",
-        "email": "E-mail",
-        "emailAddress": "Endereço de e-mail",
-        "female": "Feminino",
-        "firstName": "Nome",
-        "followers": "Seguidores [[0]]",
-        "following": "Seguindo",
-        "follow": "Seguir",
-        "gender": "Gênero",
-        "home": "Home",
-        "language": "Idioma",
-        "lastName": "Sobrenome",
-        "loadMore": "Carregar mais...",
-        "localization": "Localização",
-        "logIn": "Entrar",
-        "logOut": "Sair",
-        "loves": "Curtidas",
-        "male": "Masculino",
-        "name": "Nome",
-        "password": "Senha",
-        "people": "Pessoas",
-        "privacy": "Privacidade",
-        "profile": "Perfil",
-        "promoted": "Promovido",
-        "reset": "Redefinir",
-        "save": "Salvar",
-        "send": "Enviar",
-        "settings": "Configurações",
-        "signIn": "Entrar",
-        "signUp": "Criar Conta",
-        "spotts": "Spotts",
-        "subscribe": "Inscreva-se",
-        "subscribed": "Inscrito",
-        "subscribers": "Inscritos",
-        "terms": "Termos e condições",
-        "wishlist": "Lista de Desejos",
-        "unspecified": "Não especificado",
-        "yourEmail": "Seu endereço de e-mail",
-        "yourPassword": "Sua Senha"
+  "common": {
+    "account": "Conta",
+    "bio": "Descrição",
+    "change": "Trocar",
+    "currency": "Moeda",
+    "dateOfBirth": "Data de Nascimento",
+    "description": "Descrição",
+    "editImage": "Editar imagem",
+    "email": "E-mail",
+    "emailAddress": "Endereço de e-mail",
+    "female": "Feminino",
+    "firstName": "Nome",
+    "followers": "Seguidores [[0]]",
+    "following": "Seguindo",
+    "follow": "Seguir",
+    "gender": "Gênero",
+    "home": "Home",
+    "language": "Idioma",
+    "lastName": "Sobrenome",
+    "loadMore": "Carregar mais...",
+    "localization": "Localização",
+    "logIn": "Entrar",
+    "logOut": "Sair",
+    "loves": "Curtidas",
+    "male": "Masculino",
+    "name": "Nome",
+    "password": "Senha",
+    "people": "Pessoas",
+    "privacy": "Privacidade",
+    "profile": "Perfil",
+    "promoted": "Promovido",
+    "reset": "Redefinir",
+    "save": "Salvar",
+    "send": "Enviar",
+    "settings": "Configurações",
+    "signIn": "Entrar",
+    "signUp": "Criar Conta",
+    "spotts": "Spotts",
+    "subscribe": "Inscreva-se",
+    "subscribed": "Inscrito",
+    "subscribers": "Inscritos",
+    "terms": "Termos e condições",
+    "wishlist": "Lista de Desejos",
+    "unspecified": "Não especificado",
+    "yourEmail": "Seu endereço de e-mail",
+    "yourPassword": "Sua Senha"
+  },
+  "login": {
+    "logInWithFacebook": "Entrar com Facebook",
+    "newUser": "Usuário novo?",
+    "signUpHere": "Crie sua conta aqui",
+    "createAccount": "Criar uma conta",
+    "forgotPassword": "Esqueceu a senha?",
+    "invalid": "A combinação de Email/password está incorreta.",
+    "invalidFacebook": "Sua conta do Facebook não está vinculada a uma conta Spott. Cadastre [[aqui]]."
+  },
+  "register": {
+    "registerWithFacebookButton": "Cadastrar com Facebook",
+    "confirm": "Eu confirmo que li, compreendo e aceito os termos e condições e a declaração de privacidade da Appiness - Spott e ter mantido uma cópia desta página. Eu tenho consciência de que este aplicativo apresenta apenas preços indicativos de terceiros não vinculados à Appiness.",
+    "termsAndConditions": "Termos",
+    "privacyStatement": "Privacidade",
+    "haveAccount": "Já existe um usuário Spott registado com este email.",
+    "userAlreadyExist": "Já existe um usuário Spott registado com este email."
+  },
+  "forgotPassword": {
+    "forgotPassword": "Esqueceu a senha?",
+    "dontPanic": "Não se assuste! Estamos enviando a instruções de redefinição de senha para o seu e-mail.",
+    "emailSent": "Sucesso!",
+    "successfullyReset": "Sua senha foi redefinida com sucesso. Verifique seu email para obter mais instruções.",
+    "alreadySendMail": "E-mail foi enviado. Por favor, verifique seu e-mail para mais informações",
+    "invalidEmail": "E-mail inválido."
+  },
+  "search": {
+    "findYourStyle": "Encontre o seu estilo...",
+    "recentSearches": "Últimas buscas",
+    "clearSearchHistory": "Limpar histórico de busca",
+    "topicsForYou": "Tópicos para você",
+    "searchForInspiration": "Busque a sua inspiração",
+    "search": "Buscar",
+    "spotts": {
+      "noResults": "Infelizmente, não fomos capazes de encontrar Spotts para sua busca. Por favor, tente outra vez!"
     },
-    "login": {
-        "logInWithFacebook": "Entrar com Facebook",
-        "newUser": "Usuário novo?",
-        "signUpHere": "Crie sua conta aqui",
-        "createAccount": "Criar uma conta",
-        "forgotPassword": "Esqueceu a senha?",
-        "invalid": "A combinação de Email/password está incorreta.",
-        "invalidFacebook": "Sua conta do Facebook não está vinculada a uma conta Spott. Cadastre [[aqui]]."
+    "people": {
+      "noResults": "Infelizmente, não fomos capazes de encontrar pessoas para sua busca. Por favor, tente outra vez!"
     },
-    "register": {
-        "registerWithFacebookButton": "Cadastrar com Facebook",
-        "confirm": "Eu confirmo que li, compreendo e aceito os termos e condições e a declaração de privacidade da Appiness - Spott e ter mantido uma cópia desta página. Eu tenho consciência de que este aplicativo apresenta apenas preços indicativos de terceiros não vinculados à Appiness.",
-        "termsAndConditions": "Termos",
-        "privacyStatement": "Privacidade",
-        "haveAccount": "Já existe um usuário Spott registado com este email.",
-        "userAlreadyExist": "Já existe um usuário Spott registado com este email."
-    },
-    "forgotPassword": {
-        "forgotPassword": "Esqueceu a senha?",
-        "dontPanic": "Não se assuste! Estamos enviando a instruções de redefinição de senha para o seu e-mail.",
-        "emailSent": "Sucesso!",
-        "successfullyReset": "Sua senha foi redefinida com sucesso. Verifique seu email para obter mais instruções.",
-        "alreadySendMail": "E-mail foi enviado. Por favor, verifique seu e-mail para mais informações",
-        "invalidEmail": "E-mail inválido."
-    },
-    "search": {
-        "findYourStyle": "Encontre o seu estilo...",
-        "recentSearches": "Últimas buscas",
-        "clearSearchHistory": "Limpar histórico de busca",
-        "topicsForYou": "Tópicos para você",
-        "searchForInspiration": "Busque a sua inspiração",
-        "search": "Buscar",
-        "spotts": {
-            "noResults": "Infelizmente, não fomos capazes de encontrar Spotts para sua busca. Por favor, tente outra vez!"
-        },
-        "people": {
-            "noResults": "Infelizmente, não fomos capazes de encontrar pessoas para sua busca. Por favor, tente outra vez!"
-        },
-        "loadingResults": "Carregando resultados...",
-        "noResults": "Oops! Não podemos encontrar resultados para esta busca"
+    "loadingResults": "Carregando resultados...",
+    "noResults": "Oops! Não podemos encontrar resultados para esta busca"
+  },
+  "topic": {
+    "COMMERCIAL": "Comerciais",
+    "MOVIE": "Filmes",
+    "TV_SERIE": "Programas de televisão",
+    "CHARACTER": "Personagem",
+    "PERSON": "Pessoa",
+    "MANUAL": "Insira aqui",
+    "BRAND": "Marca",
+    "trendingTopics": "Tópicos mais populares",
+    "relatedTopics": "Tópicos relacionados",
+    "series": "Séries"
+  },
+  "spott": {
+    "similarSpotts": "Spotts similares"
+  },
+  "userMenu": {
+    "myProfile": "Meu perfil"
+  },
+  "userSettings": {
+    "manageSubscriptions": "Gerenciar Inscrições",
+    "changePhoto": "Trocar foto",
+    "changeBackground": "Trocar plano de fundo",
+    "otherLanguages": "Trocar idioma",
+    "contentRegions": "Conteúdo por região",
+    "localContent": "Conteúdo local",
+    "shopRegions": "Lojas pela sua região",
+    "preferredShoppingRegions": "Lojas preferidas na sua região",
+    "primaryLanguage": "Idioma preferido",
+    "aboutYou": "Sobre você..."
+  },
+  "footer": {
+    "cookiePolicy": "Políticas de cookie",
+    "copyright": "Appiness, Hertshage 10, 9300 Aalst, Bélgica",
+    "followUs": "Siga-nos nas redes sociais",
+    "spottDscr": "Assista. Clique. Descubra"
+  },
+  "product": {
+    "similarItems": "Itens similares.",
+    "alsoSeenIn": "Também visto em",
+    "buyNow": "Comprar Agora",
+    "unavailable": "Este produto não está disponível.",
+    "outOfStock": "Este produto não está disponível.",
+    "moreInfo": "Mais informações"
+  },
+  "relevance": {
+    "EXACT": "Combinação perfeita",
+    "MEDIUM": "Combinando",
+    "LOW": "Quase"
+  },
+  "cookies": {
+    "moreInfo": "Este site usa cookies para melhorar a sua experiência de usuário. [[Mais informações]]",
+    "policy": "Nós alteramos nossos [[termos]] e [[declarações de privacidade]].",
+    "continue": "Continuar"
+  },
+  "error404": {
+    "pageDoesNotExist": "A página solicitada não existe.",
+    "returnToSpott": "Voltar para Spott.it",
+    "somethingWentWrong": "Algo deu errado!",
+    "title": "Whoops!"
+  },
+  "changePassword": {
+    "successMessage": "Sua senha foi alterada!",
+    "errorMessage": "Encontramos um erro ao mudar sua senha :(",
+    "newPasswordPlaceholder": "Digite um a nova senha",
+    "confirmPasswordPlaceholder": "Confirmar Senha",
+    "title": "Mudou sua senha do Spott",
+    "passwordLengthError": "Essa senha não é longa o suficiente",
+    "passwordMatchError": "As senhas não conferem",
+    "submitButton": "Mudar Senha"
+  },
+  "activityFeed": {
+    "wishlistedItem": "adicionou a lista de desejos",
+    "subscribedTo": "se inscreveu",
+    "nowFollows": "agora segue",
+    "lovedSpott": "gostou de um spott",
+    "startedFollowingYou": "Começou a te seguir"
+  },
+  "seo": {
+    "title": "Spott",
+    "home": {
+      "title": "Assista. Clique. Descubra.",
+      "description": "Seja inspirado pelas suas celebridades preferidas. Consiga o estilo de personagens, atores e infleuciadores populares."
     },
     "topic": {
-        "COMMERCIAL": "Comerciais",
-        "MOVIE": "Filmes",
-        "TV_SERIE": "Programas de televisão",
-        "CHARACTER": "Personagem",
-        "PERSON": "Pessoa",
-        "MANUAL": "Insira aqui",
-        "BRAND": "Marca",
-        "trendingTopics": "Tópicos mais populares",
-        "relatedTopics": "Tópicos relacionados",
-        "series": "Séries"
+      "description": "Um tópico é uma tag utilizada no Spott, poissibilitando que os usuários achem Spotts com um tema ou conteúdo específicos."
     },
-    "spott": {
-        "similarSpotts": "Spotts similares"
+    "search": {
+      "title": "Resultados da busca",
+      "description": "Descubra o estilo de vida da sua celebridade favorita."
     },
-    "userMenu": {
-        "myProfile": "Meu perfil"
+    "profile": {
+      "title": "Perfil do Usuário",
+      "description": "Crie seu perfil Spott."
     },
-    "userSettings": {
-        "manageSubscriptions": "Gerenciar Inscrições",
-        "changePhoto": "Trocar foto",
-        "changeBackground": "Trocar plano de fundo",
-        "otherLanguages": "Trocar idioma",
-        "contentRegions": "Conteúdo por região",
-        "localContent": "Conteúdo local",
-        "shopRegions": "Lojas pela sua região",
-        "preferredShoppingRegions": "Lojas preferidas na sua região",
-        "primaryLanguage": "Idioma preferido",
-        "aboutYou": "Sobre você..."
+    "settings": {
+      "title": "Configurações do Usuário",
+      "description": "Gerencie sua conta Spott."
     },
-    "footer": {
-        "cookiePolicy": "Políticas de cookie",
-        "copyright": "Appiness, Hertshage 10, 9300 Aalst, Bélgica",
-        "followUs": "Siga-nos nas redes sociais",
-        "spottDscr": "Assista. Clique. Descubra"
+    "account": {
+      "title": "Conta do Usuário",
+      "description": "Personalize seu perfil Spott adicionando uma foto de perfil e uma descrição sobre você."
     },
-    "product": {
-        "similarItems": "Itens similares.",
-        "alsoSeenIn": "Também visto em",
-        "buyNow": "Comprar Agora",
-        "unavailable": "Este produto não está disponível.",
-        "outOfStock": "Este produto não está disponível.",
-        "moreInfo": "Mais informações"
+    "terms": {
+      "title": "Termos e Condições",
+      "description": "Descubra os termos e condições do Spott."
     },
-    "relevance": {
-        "EXACT": "Combinação perfeita",
-        "MEDIUM": "Combinando",
-        "LOW": "Quase"
+    "privacy": {
+      "title": "Regulamentos de Privacidade",
+      "description": "Descubra as tarefas e responsabilidades do Spott."
     },
-    "cookies": {
-        "moreInfo": "Este site usa cookies para melhorar a sua experiência de usuário. [[Mais informações]]",
-        "policy": "Nós alteramos nossos [[termos]] e [[declarações de privacidade]].",
-        "continue": "Continuar"
-    },
-    "error404": {
-        "pageDoesNotExist": "A página solicitada não existe.",
-        "returnToSpott": "Voltar para Spott.it",
-        "somethingWentWrong": "Algo deu errado!",
-        "title": "Whoops!"
-    },
-    "changePassword": {
-        "successMessage": "Sua senha foi alterada!",
-        "errorMessage": "Encontramos um erro ao mudar sua senha :(",
-        "newPasswordPlaceholder": "Digite um a nova senha",
-        "confirmPasswordPlaceholder": "Confirmar Senha",
-        "title": "Mudou sua senha do Spott",
-        "passwordLengthError": "Essa senha não é longa o suficiente",
-        "passwordMatchError": "As senhas não conferem",
-        "submitButton": "Mudar Senha"
-    },
-    "activityFeed": {
-        "wishlistedItem": "adicionou a lista de desejos",
-        "subscribedTo": "se inscreveu",
-        "nowFollows": "agora segue",
-        "lovedSpott": "gostou de um spott",
-        "startedFollowingYou": "Começou a te seguir"
+    "cookie": {
+      "title": "Política de Cookies",
+      "description": "Descubra as políticas de Cookie do Spott."
     }
+  }
 }

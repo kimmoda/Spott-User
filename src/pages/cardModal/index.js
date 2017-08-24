@@ -8,6 +8,7 @@ import ReactModal from 'react-modal';
 import { Link } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
+import SEOWidget from '../_common/seoWidget';
 import { IconHeart, IconForward, IconClose } from '../icons';
 import CardMarkers from '../cardMarkers';
 import Topics from '../topics';
@@ -366,6 +367,7 @@ export default class CardModal extends Component {
             description={`${spott.get('comment') ? spott.get('comment') : ''}${topicsString}`}
             imageUrl={share.getIn([ 'image', 'url' ])}
             title={share.get('title')}/>}
+        {spott.get('title') && <SEOWidget description={spott.get('comment')} title={`${t('seo.title')} - ${spott.get('title')}`}/>}
         <Sidebars location={location} params={params} onSidebarClose={this.onSidebarClose}/>
       </ReactModal>
     );

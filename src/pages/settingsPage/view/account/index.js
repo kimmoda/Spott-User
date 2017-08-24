@@ -7,6 +7,7 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import { Link } from 'react-router';
 import { List } from 'immutable';
 import localized from '../../../_common/localized';
+import SEOWidget from '../../../_common/seoWidget';
 import * as actions from '../../../actions';
 import { userAccountDetailsSelector } from '../../../selectors';
 import { validateAccountForm } from '../../validateForm';
@@ -202,6 +203,7 @@ export default class NewUserAccount extends Component {
             </button>
           </div>
         </form>
+        <SEOWidget description={t('seo.account.description')} title={`${t('seo.title')} - ${t('seo.account.title')}`}/>
       </div>
     );
   }

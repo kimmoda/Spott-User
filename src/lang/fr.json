@@ -156,5 +156,43 @@
     "passwordLengthError": "Votre mot de passe est trop court!",
     "passwordMatchError": "Les mots de passe ne correspondent pas!",
     "submitButton": "Changez le mot de passe"
+  },
+  "seo": {
+    "title": "Spott",
+    "home": {
+      "title": "Regardez. Cliquez. Découvrez.",
+      "description": "Inspirez-vous de vos célébrités préférées. Obtenez le style de personnages, acteurs et influenceurs populaires."
+    },
+    "topic": {
+      "description": "Un sujet est une étiquette utilisée dans Spott, ce qui permet aux utilisateurs de trouver des Spotts avec un thème ou un contenu spécifique."
+    },
+    "search": {
+      "title": "Résultats de la recherche",
+      "description": "Découvrez le style de vie de votre célébrité préférée."
+    },
+    "profile": {
+      "title": "Profil d’utilisateur",
+      "description": "Créez votre profil Spott."
+    },
+    "settings": {
+      "title": "Paramètres d’’utilisateur",
+      "description": "Gérez votre compte Spott."
+    },
+    "account": {
+      "title": "Compte d’utilisateur",
+      "description": "personnalisez votre profil Spott en ajoutant une image de profil et en vous décrivant."
+    },
+    "terms": {
+      "title": "Les termes et conditions",
+      "description": "Découvrez les termes et conditions de Spott."
+    },
+    "privacy": {
+      "title": "Règlement sur la protection de la vie privée",
+      "description": "Découvrez les tâches et les responsabilités de Spott."
+    },
+    "cookie": {
+      "title": "Politique sur les cookies",
+      "description": "Découvrez la politique de cookie de Spott."
+    }
   }
 }

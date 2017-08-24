@@ -174,6 +174,7 @@ export const userProfileDetailsSelector = createStructuredSelector({
 });
 
 export const sidebarSelector = createStructuredSelector({
+  spott: spottSelector,
   isAuthenticated: authenticationTokenSelector,
   currentUserId: currentUserIdSelector
 });

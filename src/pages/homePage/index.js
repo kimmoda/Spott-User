@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import Masonry from 'react-masonry-component';
 import InfiniteLoader from '../_common/infiniteLoader/index';
 import localized from '../_common/localized';
+import SEOWidget from '../_common/seoWidget';
 import Topics from '../topics';
 import Card from '../card';
 import * as actions from '../actions';
@@ -178,6 +179,7 @@ export default class NewHome extends Component {
           </div>
         </div>
         <InfiniteLoader active={lazyLoadMode} delayedCall intervalDelay={500} onChange={this.loadOnScroll}/>
+        <SEOWidget description={t('seo.home.description')} title={`${t('seo.title')} - ${t('seo.home.title')}`}/>
       </section>
     );
   }

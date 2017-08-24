@@ -9,6 +9,7 @@ import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import ReactModal from 'react-modal';
 import localized from '../../../_common/localized';
+import SEOWidget from '../../../_common/seoWidget';
 import * as actions from '../../../actions';
 import { userSettingsDetailsSelector } from '../../../selectors';
 import { validateUserForm } from '../../validateForm';
@@ -391,6 +392,7 @@ export default class NewUserSettings extends Component {
             </button>
           </div>
         </form>
+        <SEOWidget description={t('seo.settings.description')} title={`${t('seo.title')} - ${t('seo.settings.title')}`}/>
       </div>
     );
   }

@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
+import SEOWidget from '../_common/seoWidget';
 import { IconForward, IconStar, IconClose } from '../icons';
 import Tiles from '../tiles';
 import { formatPrice } from '../_common/buildingBlocks';
@@ -53,6 +54,7 @@ export default class Sidebar extends Component {
     product: PropTypes.any.isRequired,
     removeProductFromWishlist: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
+    spott: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired,
     onBackClick: PropTypes.func.isRequired,
     onProductClick: PropTypes.func.isRequired,
@@ -167,7 +169,7 @@ export default class Sidebar extends Component {
   }
 
   render () {
-    const { product, onBackClick, onProductClick, t, currentLocale } = this.props;
+    const { product, onBackClick, onProductClick, spott, t, currentLocale } = this.props;
     const { width } = this.state;
     const spottId = this.props.params && this.props.params.spottId;
     const productSpotts = product && product.getIn([ 'spotts', 'data' ]) && product.getIn([ 'spotts', 'data' ]).size
@@ -300,6 +302,7 @@ export default class Sidebar extends Component {
             description={share.get('description')}
             imageUrl={share.getIn([ 'image', 'url' ])}
             title={share.get('title')}/>}
+        {product.get('shortName') && spott && <SEOWidget description={spottId ? spott.get('comment') : ''} title={`${t('seo.title')} - ${spottId ? `${spott.get('title')} (${product.get('longName')})` : product.get('longName')}`}/>}
       </div>
     );
   }

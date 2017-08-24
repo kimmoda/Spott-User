@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
 import { Link } from 'react-router';
 import localized from '../_common/localized';
+import SEOWidget from '../_common/seoWidget';
 import Topics from '../topics';
 import { IconCheck, IconArrow3 } from '../icons';
 import * as actions from '../actions';
@@ -235,6 +236,7 @@ export default class NewTopic extends Component {
         <div styleName='cards-wrapper responsive-container'>
           {children}
         </div>
+        {topic.get('text') && <SEOWidget description={t('seo.topic.description')} title={`${t('seo.title')} - ${topic.get('text')}`}/>}
       </section>
     );
   }

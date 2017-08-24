@@ -156,5 +156,43 @@
     "passwordLengthError": "Dit wachtwoord is niet lang genoeg!",
     "passwordMatchError": "Wachtwoorden stemmen niet overeen!",
     "submitButton": "Verander wachtwoord"
+  },
+  "seo": {
+    "title": "Spott",
+    "home": {
+      "title": "Kijk. Klik. Ontdek.",
+      "description": "Laat je inspireren door je favoriete celebrities. Ontdek de look van populaire personages, acteurs en influencers."
+    },
+    "topic": {
+      "description": "Een topic is een label van een Spott, dat de gebruikers toelaat verschillende Spotts van hetzelfde thema of dezelfde content terug te vinden."
+    },
+    "search": {
+      "title": "Zoekresultaten",
+      "description": "Ontdek de levensstijl van je favoriete celebrity."
+    },
+    "profile": {
+      "title": "Gebruikersprofiel",
+      "description": "Creëer jouw Spott profiel."
+    },
+    "settings": {
+      "title": "Gebruikersinstellingen",
+      "description": "Beheer jouw Spott account."
+    },
+    "account": {
+      "title": "Gebruikersaccount",
+      "description": "Personaliseer jouw Spott profiel door een profielfoto en beschrijving van jezelf toe te voegen."
+    },
+    "terms": {
+      "title": "Algemene Voorwaarden",
+      "description": "Ontdek Spott’s Algemene Voorwaarden."
+    },
+    "privacy": {
+      "title": "Privacyreglement",
+      "description": "Ontdek de taken en verantwoordelijkheden van Spott."
+    },
+    "cookie": {
+      "title": "Cookie beleid",
+      "description": "Ontdek Spott’s cookie beleid."
+    }
   }
 }
