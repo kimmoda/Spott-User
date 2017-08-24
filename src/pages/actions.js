@@ -698,3 +698,8 @@ export function registerWithFacebook ({ email, firstname, lastname, facebookAcce
     }
   };
 }
+
+export const LOAD_APPBOY_API_KEY_START = 'LOAD_APPBOY_API_KEY_START';
+export const LOAD_APPBOY_API_KEY_SUCCESS = 'LOAD_APPBOY_API_KEY_SUCCESS';
+export const LOAD_APPBOY_API_KEY_ERROR = 'LOAD_APPBOY_API_KEY_ERROR';
+export const loadAppboyApiKey = makeApiActionCreator(api.getAppboyApiKey, LOAD_APPBOY_API_KEY_START, LOAD_APPBOY_API_KEY_SUCCESS, LOAD_APPBOY_API_KEY_ERROR);
