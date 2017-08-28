@@ -6,5 +6,6 @@ ADD /files/docroot /var/www/html
 
 RUN ln -s /var/lib/appiness/nginx/external.conf.d /etc/nginx/external.conf.d
 RUN ln -s /var/lib/appiness/website/config /var/www/html/config
+RUN ln -s /var/lib/appiness/website/robots.txt /var/www/html/robots.txt
 
 CMD ["nginx"]
