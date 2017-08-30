@@ -175,6 +175,7 @@ export default class Card extends Component {
             <ImageLoader
               height={Math.ceil(item.getIn([ 'image', 'dimension', 'height' ]) * (width / item.getIn([ 'image', 'dimension', 'width' ])))}
               imgOriginal={item.get('image')}
+              title={item.get('title')}
               width={width}/>
             {spottDetails.get('productMarkers') && <CardMarkers markers={spottDetails.get('productMarkers')} onMarkerClick={this.onCardMarkerClick}/>}
             {spottDetails.get('personMarkers') &&

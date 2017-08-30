@@ -31,7 +31,8 @@ export default class Topics extends Component {
       }}>
         <div
           style={{ backgroundImage: `url(${item.getIn([ 'profileImage', 'url' ])}?width=160&height=90)` }}
-          styleName='topic-image'/>
+          styleName='topic-image'
+          title={item.get('text')}/>
         <div styleName='topic-overlay'/>
         <div styleName='topic-title'>
           {item.get('subscribed') && <i><IconCheckmark/></i>}
