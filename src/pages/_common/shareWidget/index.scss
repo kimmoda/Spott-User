@@ -1,0 +1,48 @@
+@import "../../vars";
+
+.icons-container {
+  position: relative;
+  display: inline-flex;
+  margin-left: auto;
+  min-width: 64px;
+  height: 18px;
+  z-index: 1;
+}
+
+.icon-container {
+  margin-left: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.icon-twitter {
+  &:hover {
+    :global {
+      .fill {
+        fill: #20b8ff;
+      }
+    }
+  }
+}
+
+.icon-facebook {
+  &:hover {
+    :global {
+      .fill {
+        fill: #4a6ea9;
+      }
+    }
+  }
+}
+
+.icon-pinterest {
+  &:hover {
+    :global {
+      .fill {
+        fill: #bd191c;
+      }
+    }
+  }
+}

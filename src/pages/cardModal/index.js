@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
 import SEOWidget from '../_common/seoWidget';
-import { IconHeart, IconForward, IconClose } from '../icons';
+import { IconHeart, IconClose } from '../icons';
 import CardMarkers from '../cardMarkers';
 import Topics from '../topics';
 import Sidebars from '../sidebars';
@@ -25,6 +25,7 @@ import FacebookShareData from '../_common/facebookShareData';
 import TwitterShareData from '../_common/twitterShareData';
 import { LOADED } from '../../data/statusTypes';
 import withLoginDialog from '../_common/withLoginDialog';
+import ShareWidget from '../_common/shareWidget/index';
 
 const styles = require('./index.scss');
 
@@ -84,6 +85,9 @@ export default class CardModal extends Component {
     this.onSidebarClose = ::this.onSidebarClose;
     this.handleResize = ::this.handleResize;
     this.performLoveAction = ::this.performLoveAction;
+    this.shareFacebook = ::this.shareFacebook;
+    this.shareTwitter = ::this.shareTwitter;
+    this.sharePinterest = ::this.sharePinterest;
     this.tileOffsetWidth = parseInt(styles.cssTileOffsetWidth, 10);
     this.state = {
       width: 280
@@ -155,11 +159,23 @@ export default class CardModal extends Component {
     }
   }
 
-  shareSpott (event) {
+  shareFacebook (event) {
     event.preventDefault();
     const { spott } = this.props;
     const topicsString = spott.get('topics') ? spott.get('topics').map((topic) => ` | ${topic.get('text').trim()}`).join('') : '';
     window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(spott.get('shareUrl'))}&title=Discover ${spott.get('title')} now on Spott&description=${spott.get('comment')}%0A%0A${topicsString}`, 'name', 'width=600,height=400');
+  }
+
+  shareTwitter (event) {
+    event.preventDefault();
+    const { spott } = this.props;
+    window.open(`https://twitter.com/share?url=${encodeURIComponent(spott.get('shareUrl'))}`, 'name', 'width=600, height=400');
+  }
+
+  sharePinterest (event) {
+    event.preventDefault();
+    const { spott } = this.props;
+    window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(spott.get('shareUrl'))}&amp;media=${encodeURIComponent(spott.getIn([ 'image', 'url' ]))}&amp;description=${spott.get('title')}`, '', 'width=600,height=400');
   }
 
   performLoveAction (spottId, loved) {
@@ -329,12 +345,13 @@ export default class CardModal extends Component {
                       items={spott.getIn([ 'lovers', 'data' ])}
                       large
                       location={location}
-                      maxNum={16}
+                      maxNum={13}
                       spottId={spott.get('uuid')}/>}
                 </div>
-                <div styleName='moar' onClick={(event) => this.shareSpott(event)}>
-                  <i><IconForward/></i>
-                </div>
+                <ShareWidget
+                  onShareFacebook={this.shareFacebook}
+                  onSharePinterest={this.sharePinterest}
+                  onShareTwitter={this.shareTwitter}/>
               </div>
             </div>
             {Boolean(spott.getIn([ 'relatedTopics', 'data' ]) && spott.getIn([ 'relatedTopics', 'data' ]).size) &&
