@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
-import { IconHeart, IconForward, IconCheckmark } from '../icons';
+import { IconHeart, IconCheckmark } from '../icons';
 import CardMarkers from '../cardMarkers';
 import Users from '../users/index';
 import * as actions from '../actions';
@@ -17,6 +17,7 @@ import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
 import Tiles from '../tiles';
 import VisibilitySensor from 'react-visibility-sensor';
 import withLoginDialog from '../_common/withLoginDialog';
+import ShareWidget from '../_common/shareWidget/index';
 
 const styles = require('./index.scss');
 
@@ -57,6 +58,9 @@ export default class Card extends Component {
     this.onCardMarkerClick = ::this.onCardMarkerClick;
     this.performLoveAction = ::this.performLoveAction;
     this.onCardVisible = ::this.onCardVisible;
+    this.shareFacebook = ::this.shareFacebook;
+    this.shareTwitter = ::this.shareTwitter;
+    this.sharePinterest = ::this.sharePinterest;
     this.state = {
       isCardModalOpen: false,
       sidebarProductId: null,
@@ -110,11 +114,23 @@ export default class Card extends Component {
     }
   }
 
-  shareSpott (event) {
+  shareFacebook (event) {
     event.preventDefault();
     const { spottDetails: spott } = this.props;
     const topicsString = spott.get('topics') ? spott.get('topics').map((topic) => ` | ${topic.get('text').trim()}`).join('') : '';
     window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(spott.get('shareUrl'))}&title=Discover ${spott.get('title')} now on Spott&description=${spott.get('comment')}%0A%0A${topicsString}`, 'name', 'width=600,height=400');
+  }
+
+  shareTwitter (event) {
+    event.preventDefault();
+    const { spottDetails: spott } = this.props;
+    window.open(`https://twitter.com/share?url=${encodeURIComponent(spott.get('shareUrl'))}`, 'name', 'width=600, height=400');
+  }
+
+  sharePinterest (event) {
+    event.preventDefault();
+    const { spottDetails: spott } = this.props;
+    window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(spott.get('shareUrl'))}&amp;media=${encodeURIComponent(spott.getIn([ 'image', 'url' ]))}&amp;description=${spott.get('title')}`, '', 'width=600,height=400');
   }
 
   onCardMarkerClick (marker, event) {
@@ -243,12 +259,13 @@ export default class Card extends Component {
                   isSpottLoved={loved}
                   items={spottDetails.getIn([ 'lovers', 'data' ])}
                   location={location}
-                  maxNum={6}
+                  maxNum={3}
                   spottId={spottDetails.get('uuid')}/>}
             </div>
-            <div styleName='share' onClick={(event) => this.shareSpott(event)}>
-              <i><IconForward/></i>
-            </div>
+            <ShareWidget
+              onShareFacebook={this.shareFacebook}
+              onSharePinterest={this.sharePinterest}
+              onShareTwitter={this.shareTwitter}/>
           </div>}
         </div>
       </VisibilitySensor>

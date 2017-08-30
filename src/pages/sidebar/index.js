@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
 import localized from '../_common/localized';
 import SEOWidget from '../_common/seoWidget';
-import { IconForward, IconStar, IconClose } from '../icons';
+import { IconStar, IconClose } from '../icons';
 import Tiles from '../tiles';
 import { formatPrice } from '../_common/buildingBlocks';
 import * as actions from '../actions';
@@ -16,6 +16,7 @@ import ImageLoader from '../imageLoader/index';
 import ProductImpressionSensor from '../productImpressionSensor';
 import FacebookShareData from '../_common/facebookShareData';
 import TwitterShareData from '../_common/twitterShareData';
+import ShareWidget from '../_common/shareWidget/index';
 import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
 
 const styles = require('./index.scss');
@@ -67,7 +68,9 @@ export default class Sidebar extends Component {
     this.onBuyClick = ::this.onBuyClick;
     this.onWishlistClick = ::this.onWishlistClick;
     this.handleResize = ::this.handleResize;
-
+    this.shareFacebook = ::this.shareFacebook;
+    this.shareTwitter = ::this.shareTwitter;
+    this.sharePinterest = ::this.sharePinterest;
     const { product } = this.props;
     this.state = {
       currentImage: product ? product.getIn([ 'images', '0' ], null) : null,
@@ -106,10 +109,22 @@ export default class Sidebar extends Component {
     }
   }
 
-  shareProduct (event) {
+  shareFacebook (event) {
     event.preventDefault();
-    // console.log(this.props.product.get('shareUrl'));
-    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.props.product.get('shareUrl'))}&title=Discover ${this.props.product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
+    const { product } = this.props;
+    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(product.get('shareUrl'))}&title=Discover ${product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
+  }
+
+  shareTwitter (event) {
+    event.preventDefault();
+    const { product } = this.props;
+    window.open(`https://twitter.com/share?url=${encodeURIComponent(product.get('shareUrl'))}`, 'name', 'width=600, height=400');
+  }
+
+  sharePinterest (event) {
+    event.preventDefault();
+    const { product } = this.props;
+    window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(product.get('shareUrl'))}&amp;media=${encodeURIComponent(product.getIn([ 'image', 'url' ]))}&amp;description=${product.get('shortName')}`, '', 'width=600,height=400');
   }
 
   showSpott (shareUrl) {
@@ -176,6 +191,7 @@ export default class Sidebar extends Component {
       ? product.getIn([ 'spotts', 'data' ]).filter((item) => item.get('uuid') !== spottId)
       : null;
     const share = product.get('share');
+    console.log(product.toJS());
     const productAvailable = Boolean(product.getIn([ 'offerings', '0', 'buyUrl' ]) && product.get('available'));
 
     return (
@@ -244,9 +260,10 @@ export default class Sidebar extends Component {
              <Users large maxNum={8} />
            </div>
           */}
-          <div styleName='sidebar-share' onClick={(event) => this.shareProduct(event)}>
-            <i><IconForward/></i>
-          </div>
+          <ShareWidget
+            onShareFacebook={this.shareFacebook}
+            onSharePinterest={this.sharePinterest}
+            onShareTwitter={this.shareTwitter}/>
         </div>
         {product.get('description') &&
           <div styleName='sidebar-panel'>
