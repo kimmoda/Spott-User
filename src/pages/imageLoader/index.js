@@ -14,6 +14,7 @@ export default class ImageLoader extends Component {
     heightThumb: PropTypes.number,
     imgOriginal: PropTypes.object.isRequired,
     imgThumb: PropTypes.object,
+    title: PropTypes.string,
     width: PropTypes.number.isRequired,
     widthThumb: PropTypes.number
   };
@@ -33,7 +34,7 @@ export default class ImageLoader extends Component {
   }
 
   render () {
-    const { imgThumb, imgOriginal, width, height, heightThumb, widthThumb } = this.props;
+    const { imgThumb, imgOriginal, width, height, heightThumb, title, widthThumb } = this.props;
     const imageWidth = parseInt(width, 10);
 
     return (
@@ -43,11 +44,13 @@ export default class ImageLoader extends Component {
         styleName='image'>
         {imgThumb &&
         <img
+          alt={title}
           src={`${imgThumb.get('url')}?width=${widthThumb || imageWidth}&height=${heightThumb || height}`}
           style={{ height: imgThumb.getIn([ 'dimension', 'height' ]) * (width / imgThumb.getIn([ 'dimension', 'width' ])) }}
           styleName='image-thumb'/>}
         {imgOriginal &&
         <img
+          alt={title}
           src={`${imgOriginal.get('url')}?width=${imageWidth}&height=${height}`}
           style={{ height: imgOriginal.getIn([ 'dimension', 'height' ]) * (width / imgOriginal.getIn([ 'dimension', 'width' ])) }}
           styleName='image-original'

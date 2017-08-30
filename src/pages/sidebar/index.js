@@ -197,6 +197,7 @@ export default class Sidebar extends Component {
             heightThumb={80}
             imgOriginal={this.state.currentImage}
             imgThumb={this.state.currentImage}
+            title={product.get('shortName')}
             width={width}
             widthThumb={80}/>}
         </div>

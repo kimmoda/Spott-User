@@ -257,6 +257,7 @@ export default class CardModal extends Component {
                     heightThumb={Math.ceil(spott.getIn([ 'image', 'dimension', 'height' ]) * (280 / spott.getIn([ 'image', 'dimension', 'width' ])))}
                     imgOriginal={spott.get('image')}
                     imgThumb={spott.get('image')}
+                    title={spott.get('title')}
                     width={width}
                     widthThumb={280}/>}
                 {spott.get('productMarkers') && <CardMarkers markers={spott.get('productMarkers')} onMarkerClick={this.onProductClick}/>}
@@ -291,6 +292,7 @@ export default class CardModal extends Component {
                         key={`product_${index}`}
                         style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=160&height=160')` }}
                         styleName='product'
+                        title={item.getIn([ 'product', 'shortName' ])}
                         onClick={this.onProductClick.bind(this, item)}/>
                     </ProductImpressionSensor>
                   )}
