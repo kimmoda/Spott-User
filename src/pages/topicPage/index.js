@@ -139,7 +139,7 @@ export default class NewTopic extends Component {
 
     return (
       <section styleName='wrapper'>
-        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200&height=480')` }} styleName='poster'/>}
+        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200&height=480')` }} styleName='poster' title={topic.get('text')}/>}
         <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: infoContainerHeight }} styleName='info-wrapper'>
           <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
