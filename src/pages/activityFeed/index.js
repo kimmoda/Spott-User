@@ -198,14 +198,7 @@ export default class ActivityFeed extends PureComponent {
               </CustomScrollbars>
               <CustomScrollbars autoHeight autoHeightMax={400} autoHeightMin={0} onScrollFrame={this.loadMoreFollowers}>
                 <div className={feedTabIndex === 1 ? styles['feed-tab-active'] : null} styleName='feed-tab'>
-                  {userFollowers && userFollowers.get('data', []).map((item, index) =>
-                    <UserListItem
-                      activityFeedMode
-                      currentUserId={currentUserId}
-                      item={item}
-                      key={`activity_feed_user_${index}_${item.get('uuid')}`}
-                      location={location}/>
-                  )}
+                  <UsersList currentUserId={currentUserId} userFollowers={userFollowers} />
                 </div>
               </CustomScrollbars>
             </div>
@@ -215,6 +208,32 @@ export default class ActivityFeed extends PureComponent {
             </div>
           </DropdownContent>
         </Dropdown>
+      </div>
+    );
+  }
+}
+
+@localized
+@CSSModules(styles, { allowMultiple: true })
+class UsersList extends PureComponent {
+  static propTypes = {
+    currentUserId: PropTypes.any,
+    location: PropTypes.any,
+    userFollowers: PropTypes.any
+  };
+
+  render () {
+    const { userFollowers, currentUserId } = this.props;
+    return (
+      <div>
+        {userFollowers && userFollowers.get('data', []).map((item, index) =>
+          <UserListItem
+            activityFeedMode
+            currentUserId={currentUserId}
+            item={item}
+            key={`activity_feed_user_${index}_${item.get('uuid')}`}
+            location={location}/>
+        )}
       </div>
     );
   }
