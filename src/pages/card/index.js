@@ -58,9 +58,6 @@ export default class Card extends Component {
     this.onCardMarkerClick = ::this.onCardMarkerClick;
     this.performLoveAction = ::this.performLoveAction;
     this.onCardVisible = ::this.onCardVisible;
-    this.shareFacebook = ::this.shareFacebook;
-    this.shareTwitter = ::this.shareTwitter;
-    this.sharePinterest = ::this.sharePinterest;
     this.state = {
       isCardModalOpen: false,
       sidebarProductId: null,
@@ -114,25 +111,6 @@ export default class Card extends Component {
     }
   }
 
-  shareFacebook (event) {
-    event.preventDefault();
-    const { spottDetails: spott } = this.props;
-    const topicsString = spott.get('topics') ? spott.get('topics').map((topic) => ` | ${topic.get('text').trim()}`).join('') : '';
-    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(spott.get('shareUrl'))}&title=Discover ${spott.get('title')} now on Spott&description=${spott.get('comment')}%0A%0A${topicsString}`, 'name', 'width=600,height=400');
-  }
-
-  shareTwitter (event) {
-    event.preventDefault();
-    const { spottDetails: spott } = this.props;
-    window.open(`https://twitter.com/share?url=${encodeURIComponent(spott.get('shareUrl'))}`, 'name', 'width=600, height=400');
-  }
-
-  sharePinterest (event) {
-    event.preventDefault();
-    const { spottDetails: spott } = this.props;
-    window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(spott.get('shareUrl'))}&amp;media=${encodeURIComponent(spott.getIn([ 'image', 'url' ]))}&amp;description=${spott.get('title')}`, '', 'width=600,height=400');
-  }
-
   onCardMarkerClick (marker, event) {
     event.stopPropagation();
     const { location, currentLocale, item: spott } = this.props;
@@ -182,6 +160,7 @@ export default class Card extends Component {
     const { item, currentLocale, spottDetails, width, location, t } = this.props;
     const { loved, loverCount } = this.state;
 
+    const share = spottDetails.get('share');
     const isReady = spottDetails.getIn([ 'lovers', '_status' ]) === LOADED;
 
     return (
@@ -262,10 +241,11 @@ export default class Card extends Component {
                   maxNum={3}
                   spottId={spottDetails.get('uuid')}/>}
             </div>
-            <ShareWidget
-              onShareFacebook={this.shareFacebook}
-              onSharePinterest={this.sharePinterest}
-              onShareTwitter={this.shareTwitter}/>
+            {share &&
+              <ShareWidget
+                imageUrl={share.getIn([ 'image', 'url' ])}
+                shareUrl={spottDetails.get('shareUrl')}
+                title={`Discover ${spottDetails.get('title')} now on Spott`}/>}
           </div>}
         </div>
       </VisibilitySensor>

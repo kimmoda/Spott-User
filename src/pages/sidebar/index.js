@@ -68,9 +68,6 @@ export default class Sidebar extends Component {
     this.onBuyClick = ::this.onBuyClick;
     this.onWishlistClick = ::this.onWishlistClick;
     this.handleResize = ::this.handleResize;
-    this.shareFacebook = ::this.shareFacebook;
-    this.shareTwitter = ::this.shareTwitter;
-    this.sharePinterest = ::this.sharePinterest;
     const { product } = this.props;
     this.state = {
       currentImage: product ? product.getIn([ 'images', '0' ], null) : null,
@@ -107,24 +104,6 @@ export default class Sidebar extends Component {
     if (this.imageContainer) {
       this.setState({ width: this.imageContainer.clientWidth });
     }
-  }
-
-  shareFacebook (event) {
-    event.preventDefault();
-    const { product } = this.props;
-    window.open(`http://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(product.get('shareUrl'))}&title=Discover ${product.get('shortName')} now on Spott`, 'name', 'width=600,height=400');
-  }
-
-  shareTwitter (event) {
-    event.preventDefault();
-    const { product } = this.props;
-    window.open(`https://twitter.com/share?url=${encodeURIComponent(product.get('shareUrl'))}`, 'name', 'width=600, height=400');
-  }
-
-  sharePinterest (event) {
-    event.preventDefault();
-    const { product } = this.props;
-    window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(product.get('shareUrl'))}&amp;media=${encodeURIComponent(product.getIn([ 'image', 'url' ]))}&amp;description=${product.get('shortName')}`, '', 'width=600,height=400');
   }
 
   showSpott (shareUrl) {
@@ -191,7 +170,6 @@ export default class Sidebar extends Component {
       ? product.getIn([ 'spotts', 'data' ]).filter((item) => item.get('uuid') !== spottId)
       : null;
     const share = product.get('share');
-    console.log(product.toJS());
     const productAvailable = Boolean(product.getIn([ 'offerings', '0', 'buyUrl' ]) && product.get('available'));
 
     return (
@@ -260,10 +238,11 @@ export default class Sidebar extends Component {
              <Users large maxNum={8} />
            </div>
           */}
-          <ShareWidget
-            onShareFacebook={this.shareFacebook}
-            onSharePinterest={this.sharePinterest}
-            onShareTwitter={this.shareTwitter}/>
+          {share &&
+            <ShareWidget
+              imageUrl={share.getIn([ 'image', 'url' ])}
+              shareUrl={product.get('shareUrl')}
+              title={`Discover ${product.get('shortName')} now on Spott`}/>}
         </div>
         {product.get('description') &&
           <div styleName='sidebar-panel'>
