@@ -32,7 +32,7 @@ export default class Footer extends Component {
             <div styleName='footer-sub-col'>
               <div styleName='footer-left'>
                 <Link styleName='logo' to={`/${currentLocale}`}>
-                  <img alt={t('_common.header.home')} src={spottGrayLogo}/>
+                  <img alt={t('common.home')} src={spottGrayLogo}/>
                 </Link>
                 <div styleName='footer-dsc'>
                   {t('footer.spottDscr')}
