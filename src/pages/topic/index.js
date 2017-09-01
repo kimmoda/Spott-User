@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import { Link } from 'react-router';
 import localized from '../_common/localized';
-import { slugify, getDetailsDcFromLinks } from '../../utils';
+import { slugify, getDetailsDcFromLinks, backgroundImageStyle } from '../../utils';
 import { IconCheckmark } from '../icons';
 
 const styles = require('./index.scss');
@@ -23,14 +23,13 @@ export default class Topics extends Component {
 
   render () {
     const { currentLocale, item } = this.props;
-
     return (
       <Link styleName='topic' to={{
         pathname: `/${currentLocale}/topic/${slugify(item.get('text', ''))}/${item.get('uuid')}`,
         state: { dc: getDetailsDcFromLinks(item.get('links').toJS()) }
       }}>
         <div
-          style={{ backgroundImage: `url(${item.getIn([ 'profileImage', 'url' ])}?width=160&height=90)` }}
+          style={backgroundImageStyle(item.getIn([ 'profileImage', 'url' ]), 160, 90)}
           styleName='topic-image'
           title={item.get('text')}/>
         <div styleName='topic-overlay'/>

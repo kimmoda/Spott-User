@@ -10,7 +10,7 @@ import localized from '../_common/localized';
 import * as actions from '../actions';
 import { activityFeedSelector } from '../selectors';
 import { IconLightning, IconAvatar, IconClose } from '../icons';
-import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
+import { slugify, getDetailsDcFromLinks, getPath, backgroundImageStyle } from '../../utils';
 import UserListItem from '../usersListItem';
 import CustomScrollbars from '../customScrollbars';
 import { FETCHING } from '../../data/statusTypes';
@@ -133,9 +133,7 @@ export default class ActivityFeed extends PureComponent {
                   {activityFeed.get('data', []).map((item, index) =>
                     <div key={`activity_${index}`} styleName='user-action'>
                       <Link
-                        style={{
-                          backgroundImage: item.getIn([ 'user', 'avatar', 'url' ]) ? `url(${item.getIn([ 'user', 'avatar', 'url' ])}?width=64&height=64)` : null
-                        }}
+                        style={backgroundImageStyle(item.getIn([ 'user', 'avatar', 'url' ]), 64, 64)}
                         styleName='user-avatar'
                         to={`/${currentLocale}/profile/${item.getIn([ 'user', 'user', 'uuid' ])}`}>
                         {!item.getIn([ 'user', 'avatar', 'url' ]) && <IconAvatar/>}
@@ -168,10 +166,10 @@ export default class ActivityFeed extends PureComponent {
                         </div>
                         {item.get('type') === 'ANNOTATED_POST_LOVED' &&
                         <Link
-                          style={{ backgroundImage: `url(${item.getIn([ 'activityPost', 'image', 'url' ])}?width=48&height=56)` }}
+                          style={backgroundImageStyle(item.getIn([ 'activityPost', 'image', 'url' ]), 48, 56)}
                           styleName='action-spott'
                           to={{
-                            pathname: `/${currentLocale}/${getPath(item.getIn([ 'activityPost', 'shareUrl' ]))}`,
+                            pathname: `/${currentLocale}/modal/${getPath(item.getIn([ 'activityPost', 'shareUrl' ]))}`,
                             state: {
                               modal: true,
                               returnTo: `${location.pathname}${location.search}`,
@@ -181,7 +179,7 @@ export default class ActivityFeed extends PureComponent {
                           onClick={this.hideDropdown}/>}
                         {item.get('type') === 'PRODUCT_WISHLISTED' &&
                         <Link
-                          style={{ backgroundImage: `url(${item.getIn([ 'activityProduct', 'image', 'url' ])}?width=56&height=56)` }}
+                          style={backgroundImageStyle(item.getIn([ 'activityProduct', 'image', 'url' ]), 56, 56)}
                           styleName='action-product'
                           to={{
                             pathname: `/${currentLocale}/${getPath(item.getIn([ 'activityProduct', 'shareUrl' ]))}`,

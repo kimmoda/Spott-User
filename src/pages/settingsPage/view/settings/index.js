@@ -295,14 +295,14 @@ export default class NewUserSettings extends Component {
         <h2 styleName='content-title'>{t('common.profile')}</h2>
         <div styleName='user-photos'>
           <div styleName='user-avatar'>
-            <div style={{ backgroundImage: `url(${avatarPreviewUrl})` }} styleName='avatar-image'/>
+            <div style={avatarPreviewUrl && { backgroundImage: `url(${avatarPreviewUrl})` }} styleName='avatar-image'/>
             <label styleName='avatar-link'>
               {t('userSettings.changePhoto')}
               <input type='file' onChange={this.onAvatarChange}/>
             </label>
           </div>
           <div styleName='user-bg'>
-            <div style={{ backgroundImage: `url(${backgroundPreviewUrl})` }} styleName='bg-image'/>
+            <div style={backgroundPreviewUrl && { backgroundImage: `url(${backgroundPreviewUrl})` }} styleName='bg-image'/>
             <label styleName='bg-link'>
               {t('userSettings.changeBackground')}
               <input type='file' onChange={this.onBackgroundChange}/>

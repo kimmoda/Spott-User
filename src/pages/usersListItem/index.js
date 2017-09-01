@@ -8,7 +8,7 @@ import { Link } from 'react-router';
 import localized from '../_common/localized';
 import { IconAvatar, IconCheck } from '../icons';
 import * as actions from '../actions';
-import { getDetailsDcFromLinks } from '../../utils';
+import { backgroundImageStyle, getDetailsDcFromLinks } from '../../utils';
 
 const styles = require('./index.scss');
 
@@ -85,7 +85,7 @@ export default class UserListItem extends Component {
           state: { dc: getDetailsDcFromLinks(item.get('links').toJS()) }
         }}>
           <div
-            style={{ backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?height=32&width=32)` : null }}
+            style={backgroundImageStyle(item.getIn([ 'avatar', 'url' ]), 32, 32)}
             styleName='people-avatar'>
             {!item.getIn([ 'avatar', 'url' ]) && <IconAvatar/>}
           </div>

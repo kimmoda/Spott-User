@@ -17,7 +17,7 @@ import ProductImpressionSensor from '../productImpressionSensor';
 import FacebookShareData from '../_common/facebookShareData';
 import TwitterShareData from '../_common/twitterShareData';
 import ShareWidget from '../_common/shareWidget/index';
-import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
+import { slugify, getDetailsDcFromLinks, getPath, backgroundImageStyle } from '../../utils';
 
 const styles = require('./index.scss');
 
@@ -207,7 +207,7 @@ export default class Sidebar extends Component {
             <div
               className={this.state.currentImage && this.state.currentImage.get('url') === item.get('url') && styles['sidebar-photo-active']}
               key={`sidebar_photo_${index}`}
-              style={{ backgroundImage: `url('${item.get('url')}?width=80&height=80'` }}
+              style={backgroundImageStyle(item.get('url'), 80, 80)}
               styleName='sidebar-photo'
               onClick={this.onImageClick.bind(this, item)}/>
           )}
@@ -267,7 +267,7 @@ export default class Sidebar extends Component {
                   <div
                     key={`spott_${index}`}
                     style={{
-                      backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?with=160&height=160'`,
+                      backgroundImage: item.getIn([ 'image', 'url' ]) && `url('${item.getIn([ 'image', 'url' ])}?with=160&height=160'`,
                       minWidth: item.getIn([ 'image', 'dimension', 'width' ], 80) * (80 / item.getIn([ 'image', 'dimension', 'height' ], 1))
                     }}
                     styleName='sidebar-seen'
@@ -285,7 +285,7 @@ export default class Sidebar extends Component {
                   <ProductImpressionSensor delay={2000} key={`product_imp_${index}`} productId={item.get('uuid')} productLinks={product.get('links')}>
                     <div
                       key={`product_${index}`}
-                      style={{ backgroundImage: `url('${item.getIn([ 'image', 'url' ])}?width=160&height=160'` }}
+                      style={backgroundImageStyle(item.getIn([ 'image', 'url' ]), 160, 160)}
                       styleName='sidebar-similar'
                       onClick={onProductClick.bind(this, item, product.get('dc'))}/>
                   </ProductImpressionSensor>

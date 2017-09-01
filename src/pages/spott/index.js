@@ -13,7 +13,7 @@ import Users from '../users/index';
 import ProductImpressionSensor from '../productImpressionSensor/index';
 import Tiles from '../tiles/index';
 import { LOADED } from '../../data/statusTypes';
-import { getDetailsDcFromLinks, slugify } from '../../utils';
+import { backgroundImageStyle, getDetailsDcFromLinks, slugify } from '../../utils';
 import localized from '../_common/localized';
 import SEOWidget from '../_common/seoWidget';
 import { connect } from 'react-redux';
@@ -156,14 +156,14 @@ export default class SpottDetails extends Component {
                 if (person.get('person', null)) {
                   return <Link
                     key={`person_marker_${person.get('uuid')}`}
-                    style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=90&height=90)` }}
+                    style={backgroundImageStyle(person.getIn([ 'person', 'avatar', 'url' ]), 90, 90)}
                     styleName='person'
                     title={person.getIn([ 'person', 'name' ])}
                     to={`/${currentLocale}/topic/${person.getIn([ 'person', 'name' ]).replace(/\W+/g, '-')}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`}/>;
                 }
                 return <Link
                   key={`person_marker_${person.get('uuid')}`}
-                  style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=90&height=90)` }}
+                  style={backgroundImageStyle(person.getIn([ 'character', 'avatar', 'url' ]), 90, 90)}
                   styleName='person'
                   title={person.getIn([ 'character', 'name' ])}
                   to={`/${currentLocale}/topic/${person.getIn([ 'character', 'name' ]).replace(/\W+/g, '-')}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`}/>; }
@@ -178,7 +178,7 @@ export default class SpottDetails extends Component {
                   <div
                     className={item.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
                     key={`product_${index}`}
-                    style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=160&height=160')` }}
+                    style={backgroundImageStyle(item.getIn([ 'product', 'image', 'url' ]), 160, 160)}
                     styleName='product'
                     title={item.getIn([ 'product', 'shortName' ])}
                     onClick={() => onProductClick(item)}/>

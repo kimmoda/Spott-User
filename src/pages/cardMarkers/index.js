@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import localized from '../_common/localized';
 import { formatPrice } from '../_common/buildingBlocks';
+import { backgroundImageStyle } from '../../utils';
 
 const styles = require('./index.scss');
 
@@ -54,7 +55,7 @@ class CardMarker extends Component {
         onClick={(e) => onMarkerClick(item, e)}>
         <div styleName='marker-wrapper'>
           <div styleName='marker-content'>
-            <div style={{ backgroundImage: `url('${item.getIn([ 'product', 'image', 'url' ])}?width=80&height=80')` }} styleName='marker-image'/>
+            <div style={backgroundImageStyle(item.getIn([ 'product', 'image', 'url' ]), 80, 80)} styleName='marker-image'/>
             <div styleName='marker-right'>
               <div className={item.get('relevance') === 'EXACT' ? styles['marker-rel-exact'] : styles['marker-rel-medium']}
                 styleName='marker-rel'>

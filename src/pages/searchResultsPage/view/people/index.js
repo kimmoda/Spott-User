@@ -10,7 +10,7 @@ import * as actions from '../../../actions';
 import UserListItem from '../../../usersListItem';
 import { LOADED } from '../../../../data/statusTypes';
 import { IconAvatar } from '../../../icons';
-import { slugify } from '../../../../utils';
+import { backgroundImageStyle, slugify } from '../../../../utils';
 
 const styles = require('../index.scss');
 
@@ -59,7 +59,7 @@ export default class SearchResultsPeople extends Component {
                 styleName='people'
                 to={`/${currentLocale}/topic/${slugify(item.get('name'))}/PERSON%7C${item.get('uuid')}`}>
                 <div
-                  style={{ backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?height=32&width=32)` : null }}
+                  style={backgroundImageStyle(item.getIn([ 'avatar', 'url' ]), 32, 32)}
                   styleName='people-avatar'>
                   {!item.getIn([ 'avatar', 'url' ]) && <IconAvatar/>}
                 </div>
@@ -74,7 +74,7 @@ export default class SearchResultsPeople extends Component {
                 styleName='people'
                 to={`/${currentLocale}/topic/${slugify(item.get('name'))}/CHARACTER%7C${item.get('uuid')}`}>
                 <div
-                  style={{ backgroundImage: item.getIn([ 'avatar', 'url' ]) ? `url(${item.getIn([ 'avatar', 'url' ])}?height=32&width=32)` : null }}
+                  style={backgroundImageStyle(item.getIn([ 'avatar', 'url' ]), 32, 32)}
                   styleName='people-avatar'>
                   {!item.getIn([ 'avatar', 'url' ]) && <IconAvatar/>}
                 </div>

@@ -189,19 +189,3 @@ export class LoadComponent extends Component {
   }
 
 }
-
-// Same for media or characters.
-export function responsiveBackgroundImage (url) {
-  return {
-    backgroundImage: `url("${url}?height=422&width=750")`,
-    [mediaQueries.large]: {
-      backgroundImage: `url("${url}?height=699&width=1242")`
-    },
-    [mediaQueries.extraLarge]: {
-      backgroundImage: `url("${url}?height=985&width=1750")`
-    },
-    [mediaQueries.extraExtraLarge]: {
-      backgroundImage: `url("${url}?height=1125&width=2000")`
-    }
-  };
-}

@@ -9,7 +9,7 @@ import localized from '../../../_common/localized';
 import { formatPrice } from '../../../_common/buildingBlocks';
 import * as actions from '../../../actions';
 import ProductImpressionSensor from '../../../productImpressionSensor';
-import { getDetailsDcFromLinks, slugify, getPath } from '../../../../utils';
+import { getDetailsDcFromLinks, slugify, getPath, backgroundImageStyle } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -60,7 +60,7 @@ export default class NewUserWishlistProduct extends Component {
     return (
       <ProductImpressionSensor productId={item.get('uuid')} productLinks={item.get('links')}>
         <div styleName='product' onClick={this.onProductClick}>
-          <div style={{ backgroundImage: `url(${item.getIn([ 'image', 'url' ])}?width=264&height=264)` }} styleName='product-image'/>
+          <div style={backgroundImageStyle(item.getIn([ 'image', 'url' ]), 264, 264)} styleName='product-image'/>
           <Link styleName='product-brand' to={{
             pathname: `/${currentLocale}/topic/${slugify(item.getIn([ 'brand', 'name' ], ''))}/BRAND%7C${item.getIn([ 'brand', 'uuid' ])}`,
             state: { dc: getDetailsDcFromLinks(item.getIn([ 'brand', 'links' ]).toJS()) }

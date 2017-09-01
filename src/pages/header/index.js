@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
 import Autosuggest from 'react-autosuggest';
-import { slowdown } from '../../utils';
+import { backgroundImageStyle, slowdown } from '../../utils';
 import localized from '../_common/localized';
 import Topics from '../topics';
 import { IconArrow3, IconAvatar } from '../icons';
@@ -276,7 +276,7 @@ export default class Header extends Component {
                     <div styleName='user-menu'>
                       <Link
                         className={styles['user-avatar']}
-                        style={{ backgroundImage: (currentUserAvatar && currentUserAvatar.get('url')) ? `url(${currentUserAvatar.get('url')}?height=24&width=24)` : null }}
+                        style={currentUserAvatar && backgroundImageStyle(currentUserAvatar.get('url'), 24, 24)}
                         to={`/${currentLocale}/profile/${currentUserId}`}>
                         {Boolean(!currentUserAvatar || !currentUserAvatar.get('url')) && <IconAvatar/>}
                       </Link>

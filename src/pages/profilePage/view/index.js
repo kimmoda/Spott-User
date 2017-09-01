@@ -11,6 +11,7 @@ import { IconAvatar, IconCheck } from '../../icons';
 import * as actions from '../../actions';
 import { userProfileDetailsSelector } from '../../selectors';
 import UsersModal from './usersModal';
+import { backgroundImageStyle } from '../../../utils';
 
 const styles = require('./index.scss');
 const { cssHeaderHeight } = require('../../vars.scss');
@@ -150,13 +151,13 @@ export default class NewUserProfile extends Component {
     const { isScrolledToInfo, isFollowersModalOpen, isFollowingModalOpen } = this.state;
     return (
       <section styleName='wrapper'>
-        {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={{ backgroundImage: `url('${userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ])}?width=1200&height=480')` }} styleName='poster'/>}
+        {userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]) && <div style={backgroundImageStyle(userProfile.getIn([ 'profile', 'profile', 'picture', 'url' ]), 1200, 480)} styleName='poster'/>}
         <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: this.infoContainerHeight }} styleName='info-wrapper'>
           <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoContainerChild = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 <div
-                  style={{ backgroundImage: userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ]) ? `url('${userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ])}?width=64&height=64')` : null }}
+                  style={backgroundImageStyle(userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ]), 64, 64)}
                   styleName='info-image'>
                   {!userProfile.getIn([ 'profile', 'profile', 'avatar', 'url' ]) && <IconAvatar/>}
                 </div>

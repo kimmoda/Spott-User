@@ -12,7 +12,7 @@ import { IconCheck, IconArrow3 } from '../icons';
 import * as actions from '../actions';
 import { topicDetailsSelector } from '../selectors';
 import DropdownMenu from '../dropdownMenu';
-import { slugify } from '../../utils';
+import { backgroundImageStyle, slugify } from '../../utils';
 import Tiles from '../tiles';
 
 const styles = require('./index.scss');
@@ -139,26 +139,26 @@ export default class NewTopic extends Component {
 
     return (
       <section styleName='wrapper'>
-        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'profileImage', 'url' ])}?width=1200&height=480')` }} styleName='poster' title={topic.get('text')}/>}
+        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={backgroundImageStyle(topic.getIn([ 'medium', 'profileImage', 'url' ]), 1200, 480)} styleName='poster' title={topic.get('text')}/>}
         <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: infoContainerHeight }} styleName='info-wrapper'>
           <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
             <div styleName='info-content'>
               <div styleName='info-left'>
                 {Boolean(topic.get('sourceType') === 'BRAND' && topic.getIn([ 'brand', 'logo', 'url' ])) &&
                   <div
-                    style={{ backgroundImage: `url('${topic.getIn([ 'brand', 'logo', 'url' ])}?width=160&height=160')` }}
+                    style={backgroundImageStyle(topic.getIn([ 'brand', 'logo', 'url' ]), 160, 160)}
                     styleName='info-image info-image-square'/>}
                 {Boolean(topic.get('sourceType') === 'MEDIUM' && topic.getIn([ 'medium', 'posterImage', 'url' ])) &&
                   <div
-                    style={{ backgroundImage: `url('${topic.getIn([ 'medium', 'posterImage', 'url' ])}?width=160&height=160')` }}
+                    style={backgroundImageStyle(topic.getIn([ 'medium', 'posterImage', 'url' ]), 160, 160)}
                     styleName='info-image'/>}
                 {Boolean(topic.get('sourceType') === 'CHARACTER' && topic.getIn([ 'character', 'avatar', 'url' ])) &&
                   <div
-                    style={{ backgroundImage: `url('${topic.getIn([ 'character', 'avatar', 'url' ])}?width=160&height=160')` }}
+                    style={backgroundImageStyle(topic.getIn([ 'character', 'avatar', 'url' ]), 160, 160)}
                     styleName='info-image info-image-square'/>}
                 {Boolean(topic.get('sourceType') === 'PERSON' && topic.getIn([ 'person', 'avatar', 'url' ])) &&
                   <div
-                    style={{ backgroundImage: `url('${topic.getIn([ 'person', 'avatar', 'url' ])}?width=160&height=160')` }}
+                    style={backgroundImageStyle(topic.getIn([ 'person', 'avatar', 'url' ]), 160, 160)}
                     styleName='info-image info-image-square'/>}
                 <div styleName='info-header'>
                   <h2 styleName='info-title'>{topic.get('text')}</h2>
@@ -223,7 +223,7 @@ export default class NewTopic extends Component {
                     to={`/${currentLocale}/topic/${slugify(topicTitle)}/${topicId}/season/${seasonSlug}/${seasonId}/episode/${slugify(item.get('title', ''))}/${item.get('uuid')}`}>
                     <div styleName='episode'>
                       <div
-                        style={{ backgroundImage: `url(${item.getIn([ 'profileImage', 'url' ])}?width=160&height=90)` }}
+                        style={backgroundImageStyle(item.getIn([ 'profileImage', 'url' ]), 160, 90)}
                         styleName='episode-image'/>
                       <div styleName='episode-overlay'/>
                       <div styleName='episode-title'>{item.get('title')}</div>

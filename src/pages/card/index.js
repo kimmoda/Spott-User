@@ -13,7 +13,7 @@ import * as actions from '../actions';
 import { spottCardDetailsSelector } from '../selectors';
 import ImageLoader from '../imageLoader/index';
 import { LOADED } from '../../data/statusTypes';
-import { slugify, getDetailsDcFromLinks, getPath } from '../../utils';
+import { slugify, getDetailsDcFromLinks, getPath, backgroundImageStyle } from '../../utils';
 import Tiles from '../tiles';
 import VisibilitySensor from 'react-visibility-sensor';
 import withLoginDialog from '../_common/withLoginDialog';
@@ -177,14 +177,14 @@ export default class Card extends Component {
                   if (person.get('person', null)) {
                     return <div
                       key={`person_marker_${person.get('uuid')}`}
-                      style={{ backgroundImage: `url(${person.getIn([ 'person', 'avatar', 'url' ])}?width=90&height=90)` }}
+                      style={backgroundImageStyle(person.getIn([ 'person', 'avatar', 'url' ]), 90, 90)}
                       styleName='person'
                       title={person.getIn([ 'person', 'name' ])}
                       onClick={this.onPersonClick.bind(this, `/${currentLocale}/topic/${slugify(person.getIn([ 'person', 'name' ], ''))}/PERSON%7C${person.getIn([ 'person', 'uuid' ])}`)}/>;
                   }
                   return <div
                     key={`person_marker_${person.get('uuid')}`}
-                    style={{ backgroundImage: `url(${person.getIn([ 'character', 'avatar', 'url' ])}?width=90&height=90)` }}
+                    style={backgroundImageStyle(person.getIn([ 'character', 'avatar', 'url' ]), 90, 90)}
                     styleName='person'
                     title={person.getIn([ 'character', 'name' ])}
                     onClick={this.onPersonClick.bind(this, `/${currentLocale}/topic/${slugify(person.getIn([ 'character', 'name' ], ''))}/CHARACTER%7C${person.getIn([ 'character', 'uuid' ])}`)}/>;
@@ -268,7 +268,7 @@ class CardProducts extends PureComponent {
           <div
             className={product.get('relevance') === 'EXACT' ? styles['product-exact'] : styles['product-medium']}
             key={`product_${index}`}
-            style={{ backgroundImage: `url('${product.getIn([ 'product', 'image', 'url' ])}?width=160&height=160')` }}
+            style={backgroundImageStyle(product.getIn([ 'product', 'image', 'url' ]), 160, 160)}
             styleName='product'
             onClick={onCardMarkerClick.bind(this, product)}/>
         )}

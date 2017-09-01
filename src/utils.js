@@ -174,3 +174,10 @@ export function isModal (props) {
   }
   return false;
 }
+
+
+export function backgroundImageStyle(imageUrl, width, height){
+  return imageUrl ? {
+    backgroundImage: `url(${imageUrl}?width=${width}&height=${height})`
+  } : {};
+}

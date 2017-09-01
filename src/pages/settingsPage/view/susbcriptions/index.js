@@ -8,7 +8,7 @@ import localized from '../../../_common/localized';
 import * as actions from '../../../actions';
 import { userSettingsDetailsSelector } from '../../../selectors';
 import { IconCheck } from '../../../icons';
-import { slugify, getDetailsDcFromLinks } from '../../../../utils';
+import { slugify, getDetailsDcFromLinks, backgroundImageStyle } from '../../../../utils';
 
 const styles = require('./index.scss');
 
@@ -55,7 +55,7 @@ export default class NewUserSubscriptions extends Component {
           {subscriptions.get('data') && subscriptions.get('data').map((item, index) =>
             <div key={`user_subs_${index}`} styleName='topic'>
               <Link
-                style={{ backgroundImage: `url('${item.getIn([ 'icon', 'url' ])}?width=68&height=38')` }}
+                style={backgroundImageStyle(item.getIn([ 'icon', 'url' ]), 68, 38)}
                 styleName='topic-image'
                 to={{
                   pathname: `/${currentLocale}/topic/${slugify(item.get('text', ''))}/${item.get('uuid')}`,
