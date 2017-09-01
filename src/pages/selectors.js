@@ -42,7 +42,7 @@ export const productEntitiesSelector = (state) => state.getIn([ 'newHome', 'prod
 export const currentProductUuidSelector = (state, props) => props.params && props.params.productId;
 export const productSelector = createEntityByIdSelector(productEntitiesSelector, currentProductUuidSelector);
 
-export const sidebarProductsListSelector = (state) => state.getIn([ 'newHome', 'sidebarProducts' ]);
+export const sidebarProductsListSelector = (state, props) => state.getIn([ 'newHome', 'sidebarProducts', props.params ? props.params.spottId : '' ]);
 export const sidebarProductsSelector = createStructuredSelector({
   sidebarProducts: createEntitiesByListSelector(sidebarProductsListSelector, productEntitiesSelector)
 });

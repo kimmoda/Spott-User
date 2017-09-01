@@ -112,11 +112,18 @@ export default class Sidebar extends Component {
       onSidebarClose && onSidebarClose();
       clearSidebarProducts();
     }
+    let returnTo = location.state && location.state.returnTo ? location.state.returnTo : location.pathname;
+    if (this.isModal) {
+      returnTo = location.state && location.state.returnTo ? location.state.returnTo : '/';
+    } else {
+      returnTo = location.pathname;
+    }
+
     this.props.routerPush({
-      pathname: `/${currentLocale}/${getPath(shareUrl)}`,
+      pathname: `/${currentLocale}/modal/${getPath(shareUrl)}`,
       state: {
         modal: true,
-        returnTo: ((location.state && location.state.returnTo ? location.state.returnTo : location.pathname) || '/')
+        returnTo
       }
     });
   }

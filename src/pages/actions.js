@@ -419,10 +419,10 @@ export function loadProductDetails ({ uuid }) {
   };
 }
 
-export function loadSidebarProduct ({ uuid, relevance, dc = '' }) {
+export function loadSidebarProduct ({ uuid, spottUuid = '', relevance, dc = '' }) {
   return async (dispatch, getState) => {
     try {
-      dispatch({ type: LOAD_SIDEBAR_PRODUCT_START, uuid });
+      dispatch({ type: LOAD_SIDEBAR_PRODUCT_START, uuid, spottUuid });
       const product = productSelector(getState(), { params: { productId: uuid } });
       if (product.get('_status') !== LOADED || (!product.get('relevance') && relevance) || (dc && product.get('dc') !== dc)) {
         await dispatch(loadProduct({ uuid, relevance, dc }));
@@ -433,7 +433,7 @@ export function loadSidebarProduct ({ uuid, relevance, dc = '' }) {
       product.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadProductSimilar({ uuid }));
       dispatch(trackProductView({ uuid, dc }));
     } catch (error) {
-      return dispatch({ type: LOAD_SIDEBAR_PRODUCT_ERROR, uuid, error });
+      return dispatch({ type: LOAD_SIDEBAR_PRODUCT_ERROR, uuid, spottUuid, error });
     }
   };
 }
@@ -447,29 +447,29 @@ export function loadSpottAndSidebarProduct ({ spottId, productId, spottDc = '' }
       const relevance = currentProductMarker && currentProductMarker.relevance ? currentProductMarker.relevance : null;
       const dc = (currentProductMarker && getDetailsDcFromLinks(currentProductMarker.product.links)) ||
         firstMarker && firstMarker.product && getDetailsDcFromLinks(firstMarker.product.links) || null;
-      dispatch(loadSidebarProduct({ uuid: productId, relevance, dc }));
+      dispatch(loadSidebarProduct({ uuid: productId, spottUuid: spottId, relevance, dc }));
     } catch (error) {
       throw error;
     }
   };
 }
 
-export function removeSidebarProduct ({ uuid }) {
+export function removeSidebarProduct ({ uuid, spottUuid }) {
   return async (dispatch, getState) => {
     try {
-      dispatch({ type: REMOVE_SIDEBAR_PRODUCT_START, uuid });
+      dispatch({ type: REMOVE_SIDEBAR_PRODUCT_START, uuid, spottUuid });
     } catch (error) {
-      return dispatch({ type: REMOVE_SIDEBAR_PRODUCT_ERROR, uuid, error });
+      return dispatch({ type: REMOVE_SIDEBAR_PRODUCT_ERROR, uuid, error, spottUuid });
     }
   };
 }
 
-export function clearSidebarProducts () {
+export function clearSidebarProducts (spottUuid = '') {
   return async (dispatch, getState) => {
     try {
-      dispatch({ type: CLEAR_SIDEBAR_PRODUCTS_START });
+      dispatch({ type: CLEAR_SIDEBAR_PRODUCTS_START, spottUuid });
     } catch (error) {
-      return dispatch({ type: CLEAR_SIDEBAR_PRODUCTS_ERROR, error });
+      return dispatch({ type: CLEAR_SIDEBAR_PRODUCTS_ERROR, error, spottUuid });
     }
   };
 }

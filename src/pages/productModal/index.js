@@ -21,6 +21,7 @@ const styles = require('./index.scss');
 }))
 @CSSModules(styles, { allowMultiple: true })
 export default class ProductModal extends Component {
+
   static propTypes = {
     clearSidebarProducts: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,

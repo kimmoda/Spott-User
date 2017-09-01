@@ -40,7 +40,6 @@ export default class Card extends Component {
     loadSpottCardDetails: PropTypes.func.isRequired,
     loadSpottLovers: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
     removeSpottLover: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     setSpottLover: PropTypes.func.isRequired,
@@ -59,7 +58,6 @@ export default class Card extends Component {
     this.performLoveAction = ::this.performLoveAction;
     this.onCardVisible = ::this.onCardVisible;
     this.state = {
-      isCardModalOpen: false,
       sidebarProductId: null,
       loved: this.props.spottDetails.get('loved'),
       loverCount: this.props.spottDetails.get('loverCount')
@@ -84,12 +82,12 @@ export default class Card extends Component {
 
   showSpott (event, shareUrl) {
     event.stopPropagation();
-    const { location, params, currentLocale, item: spott } = this.props;
+    const { location, currentLocale, item: spott, spottId } = this.props;
     this.props.routerPush({
-      pathname: `/${currentLocale}/${getPath(shareUrl)}`,
+      pathname: `/${currentLocale}/modal/${getPath(shareUrl)}`,
       state: {
         modal: true,
-        returnTo: location.state && params.spottId ? location.state.returnTo : `${location.pathname}${location.search}`,
+        returnTo: location.state && spottId ? location.state.returnTo : `${location.pathname}${location.search}`,
         spottDc: getDetailsDcFromLinks(spott.get('links').toJS())
       }
     });
@@ -115,7 +113,7 @@ export default class Card extends Component {
     event.stopPropagation();
     const { location, currentLocale, item: spott } = this.props;
     this.props.routerPush({
-      pathname: `/${currentLocale}/${getPath(marker.getIn([ 'product', 'shareUrl' ]))}`,
+      pathname: `/${currentLocale}/modal/${getPath(marker.getIn([ 'product', 'shareUrl' ]))}`,
       state: {
         modal: true,
         returnTo: location.state && location.state.returnTo ? location.state.returnTo : `${location.pathname}${location.search}`,

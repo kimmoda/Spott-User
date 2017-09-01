@@ -49,8 +49,8 @@ export default function withLoginDialog (WrappedComponent) {
 
       render () {
         return (
-          <div>
-            <WrappedComponent {...this.props} showLoginDialog={this.showLoginDialog}/>
+          <div style={{ width: '100%' }}>
+            <WrappedComponent {...this.props} isLoginShown={this.state.showLogin} showLoginDialog={this.showLoginDialog}/>
             {this.state.showLogin &&
               <NewLogin location={this.props.location} onCloseClick={this.onLoginCloseClick} onLoginSuccess={this.state.onLoginSuccess}/>
             }

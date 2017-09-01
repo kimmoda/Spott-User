@@ -18,7 +18,7 @@ export default function newHomeReducer (state = Map({
   spottsPromoted: Map({ data: OrderedMap() }),
   spottsDetails: Map(),
   spottLovers: Map(),
-  sidebarProducts: Map({ data: List() }),
+  sidebarProducts: Map(),
   productsDetails: Map(),
   profile: Map({ subscriptions: Map() }),
   searchSuggestions: Map({
@@ -184,8 +184,14 @@ export default function newHomeReducer (state = Map({
 
     case actions.GET_SPOTT_START:
       return state.mergeIn([ 'spottsDetails', action.uuid ], Map({ _error: null, _status: FETCHING }));
-    case actions.GET_SPOTT_SUCCESS:
+    case actions.GET_SPOTT_SUCCESS: {
+      const relatedTopics = state.getIn([ 'spottsDetails', action.uuid, 'relatedTopics' ]) || Map();
+      const similarSpotts = state.getIn([ 'spottsDetails', action.uuid, 'similar' ]) || Map();
+      const spott = action.data;
+      spott.relatedTopics = relatedTopics;
+      spott.similar = similarSpotts;
       return state.setIn([ 'spottsDetails', action.uuid ], fromJS({ ...action.data, _error: null, _status: LOADED }));
+    }
     case actions.GET_SPOTT_ERROR:
       return state.mergeIn([ 'spottsDetails', action.uuid ], action.error);
 
@@ -245,20 +251,25 @@ export default function newHomeReducer (state = Map({
     case actions.GET_PRODUCT_SPOTTS_ERROR:
       return state.mergeIn([ 'productsDetails', action.uuid, 'spotts' ], Map({ _error: action.error, _status: ERROR }));
 
-    case actions.LOAD_SIDEBAR_PRODUCT_START:
-      return state.updateIn([ 'sidebarProducts', 'data' ], (data) => data.push(action.uuid));
+    case actions.LOAD_SIDEBAR_PRODUCT_START: {
+      let newState = state;
+      if (!state.getIn([ 'sidebarProducts', action.spottUuid ])) {
+        newState = state.setIn([ 'sidebarProducts', action.spottUuid ], Map({ data: List() }));
+      }
+      return newState.updateIn([ 'sidebarProducts', action.spottUuid, 'data' ], (data) => data.push(action.uuid));
+    }
     case actions.LOAD_SIDEBAR_PRODUCT_ERROR:
-      return state.mergeIn([ 'sidebarProducts' ], Map({ _error: action.error }));
+      return state.mergeIn([ 'sidebarProducts', action.spottUuid ], Map({ _error: action.error }));
 
     case actions.REMOVE_SIDEBAR_PRODUCT_START:
-      return state.updateIn([ 'sidebarProducts', 'data' ], (data) => data.filter((item) => item !== action.uuid));
+      return state.updateIn([ 'sidebarProducts', action.spottUuid, 'data' ], (data) => data.filter((item) => item !== action.uuid));
     case actions.REMOVE_SIDEBAR_PRODUCT_ERROR:
-      return state.mergeIn([ 'sidebarProducts' ], Map({ _error: action.error }));
+      return state.mergeIn([ 'sidebarProducts', action.spottUuid ], Map({ _error: action.error }));
 
     case actions.CLEAR_SIDEBAR_PRODUCTS_START:
-      return state.updateIn([ 'sidebarProducts', 'data' ], (data) => List());
+      return state.updateIn([ 'sidebarProducts', action.spottUuid, 'data' ], (data) => List());
     case actions.CLEAR_SIDEBAR_PRODUCTS_ERROR:
-      return state.mergeIn([ 'sidebarProducts' ], Map({ _error: action.error }));
+      return state.mergeIn([ 'sidebarProducts', action.spottUuid ], Map({ _error: action.error }));
 
     case actions.GET_USER_SUBSCRIPTIONS_START:
       return state.mergeIn([ 'profile', 'subscriptions' ], Map({ _error: null, _status: FETCHING }));

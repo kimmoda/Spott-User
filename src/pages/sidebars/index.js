@@ -10,7 +10,7 @@ import Sidebar from '../sidebar/index';
 import CustomScrollbars from '../customScrollbars';
 import * as actions from '../actions';
 import { sidebarProductsSelector } from '../selectors';
-import { getPath } from '../../utils';
+import { getPath, getPathnameBegin, isModal } from '../../utils';
 
 const styles = require('./index.scss');
 
@@ -24,6 +24,7 @@ const styles = require('./index.scss');
 @CSSModules(styles, { allowMultiple: true })
 export default class Sidebars extends Component {
   static propTypes = {
+    classes: PropTypes.any,
     currentLocale: PropTypes.string.isRequired,
     loadSidebarProduct: PropTypes.func.isRequired,
     location: PropTypes.shape({
@@ -48,10 +49,15 @@ export default class Sidebars extends Component {
     onSidebarClose: PropTypes.func.isRequired
   };
 
+  static defaultProps = {
+    classes: ''
+  };
+
   constructor (props) {
     super(props);
     this.onBackClick = ::this.onBackClick;
     this.onProductClick = ::this.onProductClick;
+    this.isModal = isModal(this.props);
   }
 
   closeSidebar () {
@@ -59,23 +65,23 @@ export default class Sidebars extends Component {
   }
 
   onBackClick () {
-    const { location, currentLocale, params, sidebarProducts, onSidebarClose } = this.props;
+    const { location, params, sidebarProducts, onSidebarClose } = this.props;
     if (params && params.spottId) {
       const previousProduct = sidebarProducts.getIn([ 'data', -2 ], null);
       if (previousProduct && previousProduct.get('uuid') !== params.productId) {
         this.props.routerPush({
-          pathname: `/${currentLocale}/${getPath(previousProduct.get('shareUrl'))}`,
+          pathname: `${getPathnameBegin(this.props)}/${getPath(previousProduct.get('shareUrl'))}`,
           state: {
-            modal: true,
+            modal: this.isModal,
             returnTo: (location.state && location.state.returnTo) || '/',
             dc: location.state && location.state.dc
           }
         });
       } else {
         this.props.routerPush({
-          pathname: `/${currentLocale}/spott/${params.spottTitle}/${params.spottId}`,
+          pathname: `${getPathnameBegin(this.props)}/spott/${params.spottTitle}/${params.spottId}`,
           state: {
-            modal: true,
+            modal: this.isModal,
             returnTo: (location.state && location.state.returnTo) || '/'
           }
         });
@@ -91,15 +97,15 @@ export default class Sidebars extends Component {
       this.props.routerPush({
         pathname: `/${currentLocale}/${getPath(product.get('shareUrl'))}`,
         state: {
-          modal: true,
+          modal: this.isModal,
           returnTo: (location.state && location.state.returnTo) || '/'
         }
       });
     } else {
       this.props.routerPush({
-        pathname: `/${currentLocale}/${getPath(product.get('shareUrl'))})`,
+        pathname: `/${currentLocale}/${getPath(product.get('shareUrl'))}`,
         state: {
-          modal: true,
+          modal: this.isModal,
           returnTo: (location.state && location.state.returnTo) || '/',
           dc: (location.state && location.state.dc) || dc
         }
@@ -108,10 +114,10 @@ export default class Sidebars extends Component {
   }
 
   render () {
-    const { sidebarProducts, singleMode, location, params, onSidebarClose } = this.props;
+    const { classes, sidebarProducts, singleMode, location, params, onSidebarClose } = this.props;
 
     return (
-      <div className={!singleMode && (sidebarProducts.getIn([ 'data', '0' ]) ? styles['sidebars-active'] : styles['sidebars-inactive'])} styleName='sidebars'>
+      <div className={`${!singleMode && (sidebarProducts.getIn([ 'data', '0' ]) ? styles['sidebars-active'] : styles['sidebars-inactive'])} ${classes}`} styleName='sidebars'>
         <div styleName='overlay' onClick={this.closeSidebar.bind(this)}/>
         <div styleName='sidebars-content'>
           <ReactCSSTransitionGroup

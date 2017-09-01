@@ -32,7 +32,7 @@ import SearchResults from './pages/searchResultsPage/view';
 import SearchResultsPosts from './pages/searchResultsPage/view/posts';
 import SearchResultsPeople from './pages/searchResultsPage/view/people';
 import NewResetPassword from './pages/resetPassword';
-import CardModal from './pages/cardModal';
+import SpottDetailsContainer from './pages/spottDetailsContainer';
 import ProductModal from './pages/productModal';
 import PromoPage from './pages/promoPage';
 
@@ -134,9 +134,12 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
         <Route component={NewRegistration} path='registration'/>
         <Route component={NewResetPassword} path='resetpassword'/>
         <Route component={ChangePassword} path='user/changepwd'/>
-        <Route component={CardModal} modalPage path='spott/:spottTitle/:spottId'/>
-        <Route component={CardModal} modalPage path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
-        <Route component={CardModal} modalPage path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
+        <Route component={SpottDetailsContainer} modalPage path='modal/spott/:spottTitle/:spottId'/>
+        <Route component={SpottDetailsContainer} modalPage path='modal/spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
+        <Route component={SpottDetailsContainer} modalPage path='modal/spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
+        <Route component={SpottDetailsContainer} path='spott/:spottTitle/:spottId'/>
+        <Route component={SpottDetailsContainer} path='spott/:spottTitle/:productTitle/%7B:spottId%7D%7B:productId%7D'/>
+        <Route component={SpottDetailsContainer} path='spott/:spottTitle/:productTitle/{:spottId}{:productId}'/>
         <Route component={ProductModal} modalPage path='product/:productTitle/:brandTitle/:productId'/>
         <Route component={SearchResults} path='search'>
           <IndexRedirect to='posts'/>

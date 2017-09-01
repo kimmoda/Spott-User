@@ -17,7 +17,6 @@ export default class Cards extends Component {
     currentLocale: PropTypes.string.isRequired,
     loadMore: PropTypes.func,
     location: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
     spotts: PropTypes.any.isRequired,
     t: PropTypes.func.isRequired
   };
@@ -80,7 +79,7 @@ export default class Cards extends Component {
   }
 
   render () {
-    const { spotts, location, params } = this.props;
+    const { spotts, location } = this.props;
     const { cardWidth, cardCount } = this.state;
 
     return (
@@ -93,7 +92,6 @@ export default class Cards extends Component {
               item={item}
               key={`home_card_${item.get('uuid')}_${index}`}
               location={location}
-              params={params}
               spottId={item.get('uuid')}
               width={cardWidth} />
           </div>

@@ -147,5 +147,30 @@ export function getDetailsDcFromLinks (links) {
   const detailsUrl = links.find((item) => item.rel === 'details');
   const viewUrl = links.find((item) => item.rel === 'viewEvent');
   const link = detailsUrl || viewUrl || null;
+
   return (link && link.href && getQueryString('dc', link.href)) || '';
+}
+
+export function getPathnameBegin (props){
+  let result = '';
+  if(props.currentLocale) {
+    if (isModal(props)){
+      result = `/${props.currentLocale}/modal`;
+    } else {
+      result = `/${props.currentLocale}`;
+    }
+  } else {
+    result = '/';
+  }
+  return result;
+}
+
+export function isModal (props) {
+  if(props.route && props.route.modalPage !== undefined){
+    return props.route.modalPage;
+  } else if(props.location){
+    const parts = props.location.pathname.split('/');
+    return parts[2] === 'modal';
+  }
+  return false;
 }

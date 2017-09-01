@@ -1,0 +1,169 @@
+@import "../vars";
+@import "../responsive";
+
+// pass variables to react component
+//:export {
+//  cssTileOffsetWidth: $gutterSmallWidth / 2;
+//}
+
+.modal-overlay {
+  background-color: rgba(249, 249, 249, 0.95);
+  z-index: 5000;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-content {
+  overflow: hidden;
+  will-change: overflow;
+  display: flex;
+  width: 100%;
+  position: relative;
+  backface-visibility: hidden;
+  height: 100vh;
+}
+
+.modal-close {
+  cursor: pointer;
+  width: 21px;
+  height: 21px;
+  position: absolute;
+  top: -20px;
+  right: 50px;
+  transition: transform 0.5s ease;
+  z-index: 2000;
+  i {
+    :global {
+      .fill {
+        fill: $colorBlack;
+      }
+    }
+    svg {
+      width: 21px;
+      height: 21px;
+    }
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.modal-close-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+  background-color: transparent;
+  top: 0;
+  left: 0;
+}
+
+.main {
+  padding-top: 60px;
+  transition: transform 0.5s 0.2s ease;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: auto;
+  width: 100%;
+  will-change: transform;
+}
+
+.main-sidebar-active {
+  transform: translateX(0);
+  z-index: 200;
+}
+
+.main-sidebar-inactive {
+  transform: translateX(0);
+  transition: transform 0.4s ease;
+  z-index: 300;
+}
+
+.main-sidebar-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column;
+  align-items: center;
+  transition: transform 0.5s 0.2s ease;
+  height: auto;
+  width: 100%;
+  will-change: transform;
+  margin-bottom: 100px;
+}
+
+.main-sidebar-wrapper-active {
+  transform: translateX(-#{gridSmallWidth(5) / 2});
+}
+
+.main-sidebar-wrapper-inactive {
+  transform: translateX(0);
+  transition: transform 0.4s ease;
+}
+
+.embedded-content {
+  width: 100%;
+  position: relative;
+  margin-right: -15px;
+}
+
+.embedded-container {
+  transition: transform 0.5s 0.2s ease;
+  will-change: transform;
+}
+
+.embedded-details {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  transition: transform 0.5s 0.2s ease;
+  will-change: transform;
+}
+
+.embedded-sidebar {
+  margin-right: -15px;
+}
+
+//large desktop view
+@media (min-width: $lgDesktopBreakpoint) {
+
+}
+//tablet landscape view
+@media (max-width: $desktopBreakpoint - 1) {
+
+}
+//tablet portrait view
+@media (max-width: $tabletLandscapeBreakpoint - 1) {
+
+}
+//phone view
+@media (max-width: $phoneBreakpoint) {
+  .main {
+    padding-top: 32px;
+  }
+  .modal-close {
+    width: 16px;
+    height: 16px;
+    top: 20px;
+    right: 20px;
+    i {
+      :global {
+        .fill {
+          fill: white;
+        }
+      }
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  .main-sidebar-wrapper {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
