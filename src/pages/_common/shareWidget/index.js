@@ -26,7 +26,7 @@ export default class ShareWidget extends Component {
   sharePinterest (event) {
     event.preventDefault();
     const { imageUrl, shareUrl, title } = this.props;
-    window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&amp;media=${encodeURIComponent(imageUrl)}&amp;description=${title}`, '', 'width=600,height=400');
+    window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&media=${encodeURIComponent(imageUrl)}&description=${title}`, '', 'width=600,height=400');
   }
 
   render () {
