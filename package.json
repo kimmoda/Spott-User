@@ -71,7 +71,7 @@
     "raw-loader": "0.5.1",
     "react": "15.3.0",
     "react-addons-css-transition-group": "^15.4.2",
-    "react-autosuggest": "^7.0.1",
+    "react-autosuggest": "^9.3.2",
     "react-cookie": "^0.4.8",
     "react-cropper": "^0.12.0",
     "react-css-modules": "^4.1.0",

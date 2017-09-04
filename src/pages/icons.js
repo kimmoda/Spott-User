@@ -116,6 +116,19 @@ export function IconClose () {
   )
 }
 
+export function IconMenu () {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10">
+      <g fill="none" fillRule="evenodd" transform="translate(-3 -4)">
+        <path d="M0 0h18v18H0z"/>
+        <rect className='fill' width="12" height="2" x="3" y="4" fill="#A7A6A9" rx=".5"/>
+        <rect className='fill' width="12" height="2" x="3" y="8" fill="#A7A6A9" rx=".5"/>
+        <rect className='fill' width="12" height="2" x="3" y="12" fill="#A7A6A9" rx=".5"/>
+      </g>
+    </svg>
+  );
+}
+
 export function IconDots () {
   return (
     <svg width="14px" height="4px" viewBox="0 0 14 4" version="1.1" xmlns="http://www.w3.org/2000/svg">

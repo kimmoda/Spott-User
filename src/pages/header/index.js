@@ -10,7 +10,7 @@ import Autosuggest from 'react-autosuggest';
 import { backgroundImageStyle, slowdown } from '../../utils';
 import localized from '../_common/localized';
 import Topics from '../topics';
-import { IconArrow3, IconAvatar } from '../icons';
+import { IconArrow3, IconAvatar, IconClose, IconDots, IconMenu, IconSearch } from '../icons';
 import DropdownMenu, { DropdownDivider } from '../dropdownMenu';
 import * as actions from '../actions';
 import * as appActions from '../app/actions';
@@ -21,7 +21,6 @@ import { localesHash, locales } from '../../locales';
 import ActivityFeed from '../activityFeed';
 
 const styles = require('./index.scss');
-
 const spottLogo = require('./spott.svg');
 
 @localized
@@ -99,6 +98,15 @@ export default class Header extends Component {
     }
     if (!nextProps.isAuthenticated && this.props.isAuthenticated) {
       this.props.removeSearchHistory();
+    }
+  }
+
+  componentDidUpdate (prevProps, prevState, prevContext) {
+    if (!prevState.isInputFocused && this.state.isInputFocused) {
+      const inputs = document.getElementsByTagName('input');
+      if (inputs.length > 0) {
+        inputs[0].focus();
+      }
     }
   }
 
@@ -218,11 +226,11 @@ export default class Header extends Component {
     const suggestions = searchSuggestions.get('items').toJS();
 
     const inputProps = {
+      autoFocus: 'true',
       value: searchValue,
       onBlur: this.onBlur,
       onChange: this.onChange,
       onSearchClose: this.onSearchClose,
-      onFocus: this.onFocus,
       onKeyDown: this.onKeyDown,
       placeholder: t('search.findYourStyle')
     };
@@ -231,11 +239,51 @@ export default class Header extends Component {
       <div>
         <header className={this.state.isInputFocused && styles['header-search-active']} styleName='header responsive-container '>
           <div styleName='header-wrapper'>
+            <div styleName='menu-link menu-toggler'>
+              <DropdownMenu
+                customAlignClass={styles['full-width-menu']}
+                dropdownClassName={styles['menu-dropdown-content']}
+                openedView={
+                  <div className={styles['menu-dropdown']}>
+                    <i><IconClose/></i>
+                  </div>
+                }
+                trigger={
+                  <div className={styles['menu-dropdown']}>
+                    <i><IconMenu/></i>
+                  </div>
+                }>
+                <a href='http://blog.spott.tv' styleName='menu-link big-dropdown-item' target='_blank'>{t('common.blog')}</a>
+                <DropdownDivider/>
+                <Link to={`/${currentLocale}/terms`}>{t('common.terms')}</Link>
+                <DropdownDivider/>
+                <Link to={`/${currentLocale}/privacy`}>{t('common.privacy')}</Link>
+              </DropdownMenu>
+            </div>
+
             <Link styleName='logo' to={`/${currentLocale}/`}>
               <img alt={t('common.home')} src={spottLogo}/>
             </Link>
+            <div styleName='header-nav-bar '>
+              <div>
+                <a href='http://blog.spott.tv' styleName='menu-link' target='_blank'>{t('common.blog')}</a>
+              </div>
+              <div styleName='menu-link menu-overflow'>
+                <DropdownMenu alignRight trigger={
+                    <div className={styles['menu-dropdown']}>
+                      <i><IconDots/></i>
+                    </div>
+                  }>
+                  <Link to={`/${currentLocale}/terms`}>{t('common.terms')}</Link>
+                  <Link to={`/${currentLocale}/privacy`}>{t('common.privacy')}</Link>
+                </DropdownMenu>
+              </div>
+            </div>
+            {this.state.isInputFocused &&
             <div className={this.state.isInputFocused && styles['search-active']} styleName='search'>
-              <div className={this.state.isInputFocused && (`${styles['search-wrapper-active']} ${styles['responsive-container']}`)} styleName='search-wrapper'>
+              <div
+                className={this.state.isInputFocused && (`${styles['search-wrapper-active']} ${styles['responsive-container']}`)}
+                styleName='search-wrapper'>
                 <Autosuggest
                   focusFirstSuggestion={false}
                   focusInputOnSuggestionClick={false}
@@ -250,7 +298,10 @@ export default class Header extends Component {
                   onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}/>
               </div>
             </div>
+            }
+
             <div styleName='header-right'>
+              {!this.state.isInputFocused && <i styleName='search-icon' onClick={this.onFocus}><IconSearch/></i>}
               <div styleName='languages-bar'>
                 <DropdownMenu
                   alignLeft

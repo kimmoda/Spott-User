@@ -19,7 +19,6 @@
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .header-search-active {
@@ -38,17 +37,13 @@
       width: 86px;
     }
   }
-  @media (min-width: $tabletPortraitBreakpoint) {
-    width: 33%;
-  }
 }
 
 .header-right {
   display: flex;
-  @media (min-width: $tabletPortraitBreakpoint) {
-    width: 33%;
-    justify-content: flex-end;
-  }
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .languages-bar {
@@ -459,6 +454,132 @@
   width: 70%;
   flex-grow: 1;
   padding-left: 20px;
+}
+
+.search-icon {
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  :global {
+    .fill {
+      fill: $colorGray
+    }
+  }
+
+  &:hover {
+    :global {
+      .fill {
+        fill: $colorGrayDark;
+      }
+    }
+  }
+}
+
+.header-nav-bar {
+  margin-left: 40px;
+  display: flex;
+  align-items: center;
+  @media (max-width: $phoneBreakpoint) {
+    margin-left: 10px;
+    display: none;
+  }
+}
+
+a.big-dropdown-item {
+  @include titleRegular($colorGrayDark);
+  padding: 0 18px;
+}
+
+.menu-link {
+  @include titleRegular($colorGrayDark);
+  display: block;
+  text-decoration: none;
+  padding: 8px 10px;
+  cursor: pointer;
+
+  @media (max-width: $phoneBreakpoint) {
+    padding: 8px 5px;
+  }
+
+  i {
+    margin-left: 0;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.full-width-menu {
+  user-select: none;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  :global {
+    .dd-menu-items {
+      position: absolute;
+      top: $headerHeight;
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+.menu-toggler {
+  margin-right: 15px;
+  display: none;
+  @media (max-width: $phoneBreakpoint) {
+    display: block;
+  }
+}
+
+.menu-dropdown-content {
+  margin-top: 0;
+  border-radius: 0;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.menu-overflow {
+  margin-left: 20px;
+}
+
+.menu-dropdown {
+  display: flex;
+  align-items: center;
+  i {
+    display: flex;
+    align-items: center;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+    :global {
+      .fill {
+        fill: $colorGray;
+      }
+    }
+  }
+  &:hover {
+    :global {
+      .fill {
+        fill: $colorGrayDark;
+      }
+    }
+  }
+}
+
+.menu-link:hover {
+  @include titleRegular($colorBlack);
 }
 
 .search-topics-title {

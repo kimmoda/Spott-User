@@ -15,6 +15,9 @@ export default class OurDropdownMenu extends Component {
     alignLeft: PropTypes.bool,
     alignTop: PropTypes.bool,
     children: PropTypes.node.isRequired,
+    customAlignClass: PropTypes.string,
+    dropdownClassName: PropTypes.string,
+    openedView: PropTypes.node,
     trigger: PropTypes.node.isRequired
   };
 
@@ -36,23 +39,28 @@ export default class OurDropdownMenu extends Component {
   }
 
   render () {
-    const { children, trigger, alignLeft, alignTop } = this.props;
-    const cx = alignLeft && styles['dropdown-container-left'] ||
-      alignTop && styles['dropdown-container-top'] ||
-      styles['dropdown-container'];
+    const { children, trigger, alignLeft, alignTop, openedView, customAlignClass, dropdownClassName } = this.props;
+    let cx;
+    if (customAlignClass) {
+      cx = customAlignClass;
+    } else {
+      cx = alignLeft && styles['dropdown-container-left'] ||
+        alignTop && styles['dropdown-container-top'] ||
+        styles['dropdown-container'];
+    }
 
     const menuOptions = {
       isOpen: this.state.isMenuOpen,
       close: this.close,
       className: cx,
-      toggle: <div onClick={this.toggle}>{trigger}</div>,
+      toggle: <div onClick={this.toggle}>{openedView && this.state.isMenuOpen ? openedView : trigger}</div>,
       enterTimeout: 1,
       leaveTimeout: 1
     };
 
     return (
       <DropdownMenu {...menuOptions}>
-        <div className={styles['dropdown-content']}>
+        <div className={`${styles['dropdown-content']} ${dropdownClassName}`}>
           {children}
         </div>
       </DropdownMenu>

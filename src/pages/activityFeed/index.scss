@@ -16,7 +16,7 @@
       .feed-trigger {
         :global {
           .fill {
-            fill: $colorPinkDark;
+            fill: $colorGrayDark;
           }
         }
       }
@@ -70,14 +70,14 @@
     }
     :global {
       .fill {
-        fill: $colorPink;
+        fill: $colorGray;
       }
     }
   }
   &:hover {
     :global {
       .fill {
-        fill: $colorPinkDark;
+        fill: $colorGrayDark;
       }
     }
   }

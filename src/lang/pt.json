@@ -1,6 +1,7 @@
 {
   "common": {
     "account": "Conta",
+    "blog": "Blog",
     "bio": "Descrição",
     "change": "Trocar",
     "currency": "Moeda",

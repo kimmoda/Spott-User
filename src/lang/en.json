@@ -1,6 +1,7 @@
 {
   "common": {
     "account": "Account",
+    "blog": "Blog",
     "bio": "Bio",
     "change": "Change",
     "currency": "Currency",
