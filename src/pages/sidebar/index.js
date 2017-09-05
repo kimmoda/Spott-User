@@ -80,7 +80,6 @@ export default class Sidebar extends Component {
   componentDidMount () {
     window.addEventListener('resize', this.handleResize);
     this.getWidth();
-    this.loadAwinScript();
   }
 
   componentWillReceiveProps (nextProps) {
@@ -95,19 +94,6 @@ export default class Sidebar extends Component {
 
   componentWillUnmount () {
     window.removeEventListener('resize', this.handleResize);
-  }
-
-  loadAwinScript () {
-    const scripts = Array.from(document.getElementsByTagName('script'));
-    const awinScript = scripts.filter((script) => script.src === 'https://www.dwin2.com/pub.375373.min.js');
-    if (awinScript.length > 0) {
-      awinScript[0].parentNode.removeChild(awinScript[0]);
-    }
-    const awMastertag = document.createElement('script');
-    awMastertag.setAttribute('defer', 'defer');
-    awMastertag.src = 'https://www.dwin2.com/pub.375373.min.js';
-    awMastertag.type = 'text/javascript';
-    document.getElementsByTagName('body')[0].appendChild(awMastertag);
   }
 
   handleResize () {
