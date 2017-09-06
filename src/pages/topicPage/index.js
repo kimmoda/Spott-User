@@ -14,6 +14,7 @@ import { topicDetailsSelector } from '../selectors';
 import DropdownMenu from '../dropdownMenu';
 import { backgroundImageStyle, slugify } from '../../utils';
 import Tiles from '../tiles';
+import { LOADED } from '../../data/statusTypes';
 
 const styles = require('./index.scss');
 const { cssHeaderHeight } = require('../vars.scss');
@@ -68,7 +69,7 @@ export default class NewTopic extends Component {
     this.isScrolledToInfo = false;
   }
 
-  componentDidMount () {
+  componentWillMount () {
     const { location, params, topicSpotts, loadTopicDetails, loadTopicSeasonEpisodes } = this.props;
     const dc = location.state && location.state.dc || '';
     loadTopicDetails({ uuid: params.topicId, page: topicSpotts.get('page') || 0, dc });
@@ -137,64 +138,65 @@ export default class NewTopic extends Component {
     const { isScrolledToInfo, infoContainerHeight } = this.state;
     const currentSeason = topicSeasons.get('data', []).find((item) => item.get('uuid') === seasonId);
 
-    return (
-      <section styleName='wrapper'>
-        {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={backgroundImageStyle(topic.getIn([ 'medium', 'profileImage', 'url' ]), 1200, 480)} styleName='poster' title={topic.get('text')}/>}
-        <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: infoContainerHeight }} styleName='info-wrapper'>
-          <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
-            <div styleName='info-content'>
-              <div styleName='info-left'>
-                {Boolean(topic.get('sourceType') === 'BRAND' && topic.getIn([ 'brand', 'logo', 'url' ])) &&
+    if (topic.get('_status') === LOADED && topicRelated.get('_status') === LOADED) {
+      return (
+        <section styleName='wrapper'>
+          {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={backgroundImageStyle(topic.getIn([ 'medium', 'profileImage', 'url' ]), 1200, 480)} styleName='poster' title={topic.get('text')}/>}
+          <div ref={(ref) => { this.infoContainer = ref; }} style={{ height: infoContainerHeight }} styleName='info-wrapper'>
+            <div className={isScrolledToInfo && styles['info-sticky']} ref={(ref) => { this.infoChildContainer = ref; }} styleName='info responsive-container'>
+              <div styleName='info-content'>
+                <div styleName='info-left'>
+                  {Boolean(topic.get('sourceType') === 'BRAND' && topic.getIn([ 'brand', 'logo', 'url' ])) &&
                   <div
                     style={backgroundImageStyle(topic.getIn([ 'brand', 'logo', 'url' ]), 160, 160)}
                     styleName='info-image info-image-square'/>}
-                {Boolean(topic.get('sourceType') === 'MEDIUM' && topic.getIn([ 'medium', 'posterImage', 'url' ])) &&
+                  {Boolean(topic.get('sourceType') === 'MEDIUM' && topic.getIn([ 'medium', 'posterImage', 'url' ])) &&
                   <div
                     style={backgroundImageStyle(topic.getIn([ 'medium', 'posterImage', 'url' ]), 160, 160)}
                     styleName='info-image'/>}
-                {Boolean(topic.get('sourceType') === 'CHARACTER' && topic.getIn([ 'character', 'avatar', 'url' ])) &&
+                  {Boolean(topic.get('sourceType') === 'CHARACTER' && topic.getIn([ 'character', 'avatar', 'url' ])) &&
                   <div
                     style={backgroundImageStyle(topic.getIn([ 'character', 'avatar', 'url' ]), 160, 160)}
                     styleName='info-image info-image-square'/>}
-                {Boolean(topic.get('sourceType') === 'PERSON' && topic.getIn([ 'person', 'avatar', 'url' ])) &&
+                  {Boolean(topic.get('sourceType') === 'PERSON' && topic.getIn([ 'person', 'avatar', 'url' ])) &&
                   <div
                     style={backgroundImageStyle(topic.getIn([ 'person', 'avatar', 'url' ]), 160, 160)}
                     styleName='info-image info-image-square'/>}
-                <div styleName='info-header'>
-                  <h2 styleName='info-title'>{topic.get('text')}</h2>
-                  {topic.get('sourceType') &&
+                  <div styleName='info-header'>
+                    <h2 styleName='info-title'>{topic.get('text')}</h2>
+                    {topic.get('sourceType') &&
                     <div styleName='info-type'>
                       {topic.get('sourceType') === 'MEDIUM'
                         ? t(`topic.${topic.getIn([ 'medium', 'type' ])}`)
                         : t(`topic.${topic.get('sourceType')}`)
                       }
                     </div>}
+                  </div>
                 </div>
-              </div>
-              <div styleName='info-right'>
-                <div styleName='info-subscribers'>
-                  <div styleName='info-subscribers-count'>{topic.get('subscriberCount')}</div>
-                  <div styleName='info-subscribers-text'>{t('common.subscribers')}</div>
-                </div>
-                <div
-                  className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
-                  styleName='info-subscribe-btn'
-                  onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
-                  <span>{topic.get('subscribed') ? t('common.subscribed') : t('common.subscribe')}</span>
-                  <i><IconCheck /></i>
+                <div styleName='info-right'>
+                  <div styleName='info-subscribers'>
+                    <div styleName='info-subscribers-count'>{topic.get('subscriberCount')}</div>
+                    <div styleName='info-subscribers-text'>{t('common.subscribers')}</div>
+                  </div>
+                  <div
+                    className={topic.get('subscribed') && styles['info-subscribe-btn-subscribed']}
+                    styleName='info-subscribe-btn'
+                    onClick={this.onSubscribeClick.bind(this, topic.get('uuid'), topic.get('subscribed'))}>
+                    <span>{topic.get('subscribed') ? t('common.subscribed') : t('common.subscribe')}</span>
+                    <i><IconCheck /></i>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        {Boolean(topicRelated && topicRelated.get('data') && topicRelated.get('data').size) &&
+          {Boolean(topicRelated && topicRelated.get('data') && topicRelated.get('data').size) &&
           <div styleName='topics responsive-container'>
             <div styleName='topics-content'>
               <div styleName='topics-title'>{t('topic.relatedTopics')}</div>
               <Topics items={topicRelated} />
             </div>
           </div>}
-        {(topic.get('sourceType') === 'MEDIUM' && topic.getIn([ 'medium', 'type' ]) === 'TV_SERIE') &&
+          {(topic.get('sourceType') === 'MEDIUM' && topic.getIn([ 'medium', 'type' ]) === 'TV_SERIE') &&
           <div styleName='cards-filters-container responsive-container'>
             <div styleName='cards-filters'>
               <div styleName='cards-filter'>
@@ -233,11 +235,13 @@ export default class NewTopic extends Component {
               </Tiles>}
             </div>
           </div>}
-        <div styleName='cards-wrapper responsive-container'>
-          {children}
-        </div>
-        {topic.get('text') && <SEOWidget description={t('seo.topic.description')} title={`${t('seo.title')} - ${topic.get('text')}`}/>}
-      </section>
-    );
+          <div styleName='cards-wrapper responsive-container'>
+            {children}
+          </div>
+          {topic.get('text') && <SEOWidget description={t('seo.topic.description')} title={`${t('seo.title')} - ${topic.get('text')}`}/>}
+        </section>
+      );
+    }
+    return null;
   }
 }

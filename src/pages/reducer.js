@@ -57,7 +57,7 @@ export default function newHomeReducer (state = Map({
       return state.mergeIn([ 'trendingSeries' ], Map({ _error: action.error, _status: ERROR }));
 
     case actions.GET_TOPIC_START:
-      return state.mergeIn([ 'topic' ], Map({ _error: null, _status: FETCHING, data: Map() }));
+      return state.mergeIn([ 'topic' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_TOPIC_SUCCESS:
       return state.set('topic', fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_TOPIC_ERROR:
