@@ -22,7 +22,9 @@
     <!-- Webpack injects styles here -->
     <script type="text/javascript">
       var url = window.location.href || '';
-      if (url.indexOf('localhost') === -1 && url.indexOf('www-tst') === -1) {
+      var isTestEnv = url.indexOf('localhost') === -1 && url.indexOf('www-tst') === -1;
+      var isServer = navigator.userAgent.toLowerCase().indexOf('phantomjs') > -1;
+      if (!isTestEnv && !isServer) {
         setTimeout(function(){
           var a=document.createElement("script");
           var b=document.getElementsByTagName("script")[0];
@@ -32,9 +34,8 @@
       }
     </script>
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-      var url = window.location.href || '';
-      if (url.indexOf('localhost') === -1 && url.indexOf('www-tst') === -1) {
+    <script type="text/javascript">
+      if (!isTestEnv && !isServer) {
         (function (d, w, c) {
           (w[ c ] = w[ c ] || []).push(function () {
             try {
@@ -67,8 +68,7 @@
     <!-- /Yandex.Metrika counter -->
     <!-- Google Tag Manager -->
   <script>
-    var url = window.location.href || '';
-    if (url.indexOf('localhost') === -1 && url.indexOf('www-tst') === -1) {
+    if (!isTestEnv && !isServer) {
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
