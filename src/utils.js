@@ -73,6 +73,11 @@ export function isServer () {
   return navigator.userAgent.toLowerCase().indexOf('phantomjs') > -1;
 }
 
+export function isTestEnv () {
+  const url = window.location.href || '';
+  return url.indexOf('localhost') > -1 || url.indexOf('www-tst') > -1;
+}
+
 /**
  * Creates and returns a new debounced version of the passed function which
  * will postpone its execution until after wait milliseconds have elapsed since

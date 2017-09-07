@@ -22,7 +22,7 @@
     <!-- Webpack injects styles here -->
     <script type="text/javascript">
       var url = window.location.href || '';
-      var isTestEnv = url.indexOf('localhost') === -1 && url.indexOf('www-tst') === -1;
+      var isTestEnv = url.indexOf('localhost') > -1 || url.indexOf('www-tst') > -1;;
       var isServer = navigator.userAgent.toLowerCase().indexOf('phantomjs') > -1;
       if (!isTestEnv && !isServer) {
         setTimeout(function(){
