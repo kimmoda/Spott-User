@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
 import Autosuggest from 'react-autosuggest';
-import { backgroundImageStyle, slowdown } from '../../utils';
+import { backgroundImageStyle, getPath, slowdown } from '../../utils';
 import localized from '../_common/localized';
 import Topics from '../topics';
 import { IconArrow3, IconAvatar, IconClose, IconDots, IconMenu, IconSearch } from '../icons';
@@ -78,16 +78,19 @@ export default class Header extends Component {
     this.state = {
       isInputFocused: false,
       searchValue: this.props.location.query && this.props.location.query.q ? this.props.location.query.q : '',
-      prevSearchValue: ''
+      prevSearchValue: '',
+      isTrendsLoaded: false
     };
   }
 
   componentDidMount () {
     this.props.isAuthenticated && this.props.loadSearchHistory();
-    this.props.loadTrendingTopics();
+    if (!this.checkIfFromShareUrl()) {
+      this.loadTrendingTopics();
+    }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps (nextProps, nextState) {
     if (this.props.location.query.q !== nextProps.location.query.q) {
       this.state = {
         searchValue: nextProps.location.query && nextProps.location.query.q ? nextProps.location.query.q : ''
@@ -108,6 +111,18 @@ export default class Header extends Component {
         inputs[0].focus();
       }
     }
+  }
+
+  loadTrendingTopics () {
+    if (this.state.isTrendsLoaded) {
+      return;
+    }
+    this.setState({ isTrendsLoaded: true });
+    this.props.loadTrendingTopics();
+  }
+
+  checkIfFromShareUrl () {
+    return getPath(this.props.location.pathname).slice(0, 6) === 'spott/';
   }
 
   getSuggestionValue (suggestion) {
@@ -142,6 +157,9 @@ export default class Header extends Component {
 
   onFocus () {
     this.setState({ isInputFocused: true });
+    if (this.checkIfFromShareUrl()) {
+      this.loadTrendingTopics();
+    }
   }
 
   onChange (event, { newValue }) {
