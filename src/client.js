@@ -116,7 +116,7 @@ async function boot () {
         y.onreadystatechange = b;
       }
     }(document, 'script', 'link', function() {
-      appboy.initialize(data.appBoyApiKey, { baseUrl: 'https://customer.api.appboy.eu/api/v3' });
+      appboy.initialize(data.appBoyApiKey, { baseUrl: 'https://customer.api.appboy.eu/api/v3', enableHtmlInAppMessages: true });
       appboy.display.automaticallyShowNewInAppMessages();
       if (session) {
         const sessionData = JSON.parse(session);
