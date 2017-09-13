@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+    {
+      "appID": "5RRSWVJT6X.mobi.appiness.spott",
+      "paths": ["*/live/*", "*/home/*", "*/activityfeed/*", "*/profile/*"]
+    }
+    ]
+  }
+}

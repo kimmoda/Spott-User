@@ -104,6 +104,7 @@
 								<copy todir="${basedir}/dist">
 									<fileset dir="${basedir}/external">
 										<include name="**/**" />
+										<include name=".well-known/**" />
 									</fileset>
 								</copy>
 
