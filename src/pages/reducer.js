@@ -402,6 +402,9 @@ export default function newHomeReducer (state = Map({
         });
     case actions.GET_USER_FOLLOWERS_ERROR:
       return state.mergeIn([ 'users', action.uuid, 'followers' ], Map({ _error: action.error, _status: ERROR }));
+    case actions.RESET_USER_FOLLOWERS_COUNTER_SUCCESS:
+      return state
+        .mergeIn([ 'users', action.uuid, 'followers' ], fromJS({ newItemCount: 0 }));
 
     case actions.GET_USER_FOLLOWING_START:
       return state.mergeIn([ 'users', action.uuid, 'following' ], Map({ _error: null, _status: FETCHING }));

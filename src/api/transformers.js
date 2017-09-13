@@ -161,6 +161,7 @@ export function transformPersonsList (data) {
 export function transformFollowersList (data) {
   return {
     meta: {
+      newItemCount: data.newItemCount,
       page: data.page,
       pageCount: data.pageCount,
       pageSize: data.pageSize,
