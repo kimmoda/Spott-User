@@ -199,6 +199,11 @@ export async function getUserFollowers (baseUrl, authenticationToken, locale, { 
   return transformFollowersList(body);
 }
 
+export async function resetUserFollowersCounter (baseUrl, authenticationToken, locale, { uuid }) {
+  const { body } = await post(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/actions/resetFollowedUserCounter`);
+  return body;
+}
+
 export async function getUserFollowing (baseUrl, authenticationToken, locale, { uuid }) {
   const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/following`);
   return transformFollowersList(body);

@@ -22,6 +22,7 @@ const styles = require('./index.scss');
   loadUserActivityFeed: bindActionCreators(actions.loadUserActivityFeed, dispatch),
   loadUserFollowers: bindActionCreators(actions.loadUserFollowersMore, dispatch),
   resetUserActivityFeedCounter: bindActionCreators(actions.resetUserActivityFeedCounter, dispatch),
+  resetUserFollowersCounter: bindActionCreators(actions.resetUserFollowersCounter, dispatch),
   routerPush: bindActionCreators(routerPush, dispatch)
 }))
 @CSSModules(styles, { allowMultiple: true })
@@ -35,6 +36,7 @@ export default class ActivityFeed extends PureComponent {
     loadUserFollowers: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     resetUserActivityFeedCounter: PropTypes.func.isRequired,
+    resetUserFollowersCounter: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     userFollowers: PropTypes.any
@@ -48,6 +50,7 @@ export default class ActivityFeed extends PureComponent {
     this.handleMouseEnter = ::this.handleMouseEnter;
     this.handleMouseLeave = ::this.handleMouseLeave;
     this.resetActivityFeedCounter = ::this.resetActivityFeedCounter;
+    this.resetUserFollowersCounter = ::this.resetUserFollowersCounter;
 
     this.state = {
       feedTabIndex: 0
@@ -95,6 +98,11 @@ export default class ActivityFeed extends PureComponent {
     activityFeed.get('newItemCount', 0) > 0 && resetUserActivityFeedCounter({ uuid: currentUserId });
   }
 
+  resetUserFollowersCounter () {
+    const { resetUserFollowersCounter, currentUserId, userFollowers } = this.props;
+    userFollowers.get('newItemCount', 0) > 0 && resetUserFollowersCounter({ uuid: currentUserId });
+  }
+
   render () {
     const { activityFeed, currentLocale, userFollowers, currentUserId } = this.props;
     const { feedTabIndex } = this.state;
@@ -117,15 +125,20 @@ export default class ActivityFeed extends PureComponent {
                 <div
                   className={feedTabIndex === 0 ? styles['feed-nav-item-active'] : null}
                   styleName='feed-nav-item'
-                  onClick={this.setFeedTabIndex.bind(this, 0)}>
+                  onClick={(event) => {
+                    this.setFeedTabIndex(0);
+                  }}>
                   Following
                 </div>
                 <div
                   className={feedTabIndex === 1 ? styles['feed-nav-item-active'] : null}
                   styleName='feed-nav-item'
-                  onClick={this.setFeedTabIndex.bind(this, 1)}>
+                  onClick={(event) => {
+                    this.resetUserFollowersCounter();
+                    this.setFeedTabIndex(1);
+                  }}>
                   You
-                  {userFollowers && <span>{userFollowers.get('totalResultCount', 0)}</span>}
+                  {userFollowers && userFollowers.get('newItemCount', 0) > 0 && <span>{userFollowers.get('newItemCount', 0)}</span>}
                 </div>
               </div>
               <CustomScrollbars autoHeight autoHeightMax={400} autoHeightMin={0} onScrollFrame={this.loadMoreActivity}>
