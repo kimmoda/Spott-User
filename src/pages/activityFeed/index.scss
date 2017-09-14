@@ -82,10 +82,14 @@
     }
   }
   .feed-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
+    @include tinyMedium($colorWhite);
+    line-height: 14px;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
     background-color: $colorPink;
+    color: white;
+    text-align: center;
     position: absolute;
     top: -2px;
     right: -2px;

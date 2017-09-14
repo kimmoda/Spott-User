@@ -116,7 +116,7 @@ export default class ActivityFeed extends PureComponent {
           <DropdownTrigger className={styles['dd-trigger']}>
             <div styleName='feed-trigger'>
               <i><IconLightning/></i>
-              {activityFeed.get('newItemCount', 0) > 0 && <div styleName='feed-dot'/>}
+              {activityFeed.get('newItemCount', 0) > 0 && <div styleName='feed-dot'>{activityFeed.get('newItemCount', 0)}</div>}
             </div>
           </DropdownTrigger>
           <DropdownContent className={styles['dd-content']}>
