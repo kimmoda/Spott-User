@@ -117,9 +117,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
 
         <Route component={PromoPage} path='douweegberts' standalone/>
 
-        <RouterRedirect from='live' to='/'/>
-        <RouterRedirect from='home' to='/'/>
-        <RouterRedirect from='activityfeed' to='/'/>
+        <RouterRedirect from='live/*' to='/'/>
+        <RouterRedirect from='home/*' to='/'/>
+        <RouterRedirect from='activityfeed/*' to='/'/>
         <RouterRedirect from='profile' to='/'/>
 
         <IndexRoute component={NewHome} />
@@ -170,9 +170,9 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     <Route component={App} path='/' onEnter={onRootEnter}>
       <IndexRedirect to={`/${getBrowserLanguage()}`} />
       {locales.map((locale) => makeLocalizedRoutes(locale))}
-      <RouterRedirect from='live' to='/'/>
-      <RouterRedirect from='home' to='/'/>
-      <RouterRedirect from='activityfeed' to='/'/>
+      <RouterRedirect from='live/*' to='/'/>
+      <RouterRedirect from='home/*' to='/'/>
+      <RouterRedirect from='activityfeed/*' to='/'/>
       <RouterRedirect from='profile' to='/'/>
       <Route component={Error404} path='*' showCookies={false} />
     </Route>
