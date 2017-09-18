@@ -20,18 +20,29 @@ class LocalStorageAlternative {
     this.structureLocalStorage[key] = undefined;
   }
 }
+
 let storage;
+
+function initLocalStorageAlternative () {
+  console.warn('No local storage support. Return alternative.');
+  storage = new LocalStorageAlternative();
+  return storage;
+}
+
 export function getLocalStorage () {
   // Check cache first.
   if (storage) {
     return storage;
   }
-  // Check if the browser supports local storage.
-  if (!localStorage) {
-    console.warn('No local storage support. Return alternative.');
-    storage = new LocalStorageAlternative();
-    return storage;
+  try {
+    // Check if the browser supports local storage.
+    if (!localStorage) {
+      return initLocalStorageAlternative();
+    }
+  } catch (e) {
+    return initLocalStorageAlternative();
   }
+
   try {
     // If there is local storage but browser is in private mode,
     // the next lines will fail.
@@ -39,9 +50,7 @@ export function getLocalStorage () {
     localStorage.removeItem('__TEST__');
     storage = localStorage;
   } catch (err) {
-    console.warn('No local storage support. Return alternative.');
-    console.warn(err);
-    storage = new LocalStorageAlternative();
+    storage = initLocalStorageAlternative();
   }
   return storage;
 }
