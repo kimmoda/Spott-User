@@ -2,9 +2,7 @@ import Radium from 'radium';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Helmet from 'react-helmet';
 import { init, pageView } from './googleAnalytics';
-import { locales } from '../../../locales';
 import { appSelector } from '../selector';
 import { acceptCookies as acceptCookiesFunc } from '../actions';
 
@@ -13,61 +11,6 @@ import NewHomePage from '../../homePage';
 
 require('./reset.css');
 require('./basic.scss');
-
-// HrefLang Component
-// //////////////////
-
-class HrefLang extends Component {
-  static propTypes = {
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-      state: PropTypes.shape({
-        modal: PropTypes.bool
-      })
-    }).isRequired
-  }
-
-  render () {
-    const { location: { pathname, search } } = this.props;
-    const { origin } = window.location;
-    // Split pathname in pathnameLocale and pathnameRest
-    let pathnameLocale;
-    let pathnameRest;
-    for (const locale of locales) {
-      // case: /xx where xx is a locale
-      if (pathname === `/${locale}`) {
-        pathnameLocale = locale;
-        pathnameRest = '';
-        break;
-      }
-      // case: /xx/(...) where xx is a locale
-      if (pathname.startsWith(`/${locale}/`)) {
-        pathnameLocale = locale;
-        pathnameRest = pathname.substr(`/${locale}/`.length);
-        if (pathnameRest !== '') { pathnameRest = `/${pathnameRest}`; }
-        break;
-      }
-    }
-    if (!pathnameLocale && !pathnameRest) { // case /xx where xx is not a locale
-      pathnameRest = pathname.substr(1); // Strip slash
-    }
-    // Determine hrefLangLinks
-    let hrefLangLinks;
-    if (!pathnameRest) { // We requested the home page
-      // Add locales + x-default (which is for language selector pages and redirecting pages)
-      hrefLangLinks = locales.map((locale) =>
-        ({ href: `${origin}/${locale}${search}`, hreflang: locale, rel: 'alternate' }));
-      hrefLangLinks.push({ href: `${origin}${search}`, hreflang: 'x-default', rel: 'alternate' });
-    } else if (pathnameLocale) { // Standard localized resource
-      hrefLangLinks = locales.map((locale) =>
-        ({ href: `${origin}/${locale}${pathnameRest}${search}`, hreflang: locale, rel: 'alternate' }));
-    } else { // If we're on a non-localized page (e.g. 404), render no hreflang.
-      hrefLangLinks = [];
-    }
-    // Render using react-helmet
-    return (<Helmet link={hrefLangLinks} />);
-  }
-}
 
 // App Component
 // /////////////
@@ -132,7 +75,6 @@ export default class App extends Component {
     if (standalone) {
       return (
         <div>
-          <HrefLang location={location}/>
           <div>{children}</div>
         </div>
       );
@@ -140,7 +82,6 @@ export default class App extends Component {
     if (location.state && location.state.modal && this.previousChildren) {
       return (
         <div>
-          <HrefLang location={location}/>
           <NewDesign location={location}>{this.previousChildren}</NewDesign>
           <div>{children}</div>
         </div>
@@ -149,7 +90,6 @@ export default class App extends Component {
     if ((!location.state && modalPage) || (location.state && modalPage && !this.previousChildren)) {
       return (
         <div>
-          <HrefLang location={location}/>
           <NewDesign location={location}><NewHomePage location={location} params={params}/></NewDesign>
           <div>{children}</div>
         </div>
@@ -157,7 +97,6 @@ export default class App extends Component {
     }
     return (
       <div>
-        <HrefLang location={location}/>
         <NewDesign location={location}>{children}</NewDesign>
       </div>
     );
