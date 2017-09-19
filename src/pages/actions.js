@@ -378,12 +378,12 @@ export const setSpottLover = makeApiActionCreator(api.setSpottLover, SET_SPOTT_L
 
 export const removeSpottLover = makeApiActionCreator(api.removeSpottLover, REMOVE_SPOTT_LOVER_START, REMOVE_SPOTT_LOVER_SUCCESS, REMOVE_SPOTT_LOVER_ERROR);
 
-export function loadSpottDetails ({ uuid, dc = '' }) {
+export function loadSpottDetails ({ uuid, dc = '', isModal = true}) {
   return async (dispatch, getState) => {
     try {
       const spott = spottSelector(getState(), { params: { spottId: uuid } });
       const result = spott.get('_status') === LOADED ? spott.toJS() : await dispatch(loadSpott({ uuid, dc }));
-      spott.getIn([ 'relatedTopics', '_status' ], null) !== LOADED && dispatch(loadSpottRelatedTopics({ uuid }));
+      isModal && spott.getIn([ 'relatedTopics', '_status' ], null) !== LOADED && dispatch(loadSpottRelatedTopics({ uuid }));
       spott.getIn([ 'similar', '_status' ], null) !== LOADED && dispatch(loadSpottSimilar({ uuid }));
       spott.getIn([ 'lovers', '_status' ], null) !== LOADED && dispatch(loadSpottLovers({ uuid }));
       return result;
@@ -442,10 +442,10 @@ export function loadSidebarProduct ({ uuid, spottUuid = '', relevance, dc = '' }
   };
 }
 
-export function loadSpottAndSidebarProduct ({ spottId, productId, spottDc = '' }) {
+export function loadSpottAndSidebarProduct ({ spottId, productId, spottDc = '', isModal = true }) {
   return async (dispatch, getState) => {
     try {
-      const spott = await dispatch(loadSpottDetails({ uuid: spottId, dc: spottDc }));
+      const spott = await dispatch(loadSpottDetails({ uuid: spottId, dc: spottDc, isModal }));
       const currentProductMarker = spott.productMarkers && spott.productMarkers.find((item) => item.product.uuid === productId);
       const firstMarker = spott.productMarkers && spott.productMarkers.length && spott.productMarkers[0];
       const relevance = currentProductMarker && currentProductMarker.relevance ? currentProductMarker.relevance : null;

@@ -77,9 +77,9 @@ export default class SpottDetailsContainer extends Component {
     const { params, loadSpottDetails, loadSpottAndSidebarProduct, location, trackSpottView } = this.props;
     const spottDc = location.state && location.state.spottDc || '';
     if (params.productId) {
-      loadSpottAndSidebarProduct({ spottId: params.spottId, productId: params.productId, spottDc });
+      loadSpottAndSidebarProduct({ spottId: params.spottId, productId: params.productId, spottDc, isModal: this.isModal });
     } else {
-      loadSpottDetails({ uuid: params.spottId, dc: spottDc });
+      loadSpottDetails({ uuid: params.spottId, dc: spottDc, isModal: this.isModal });
     }
     trackSpottView({ uuid: params.spottId, dc: spottDc });
 
@@ -103,12 +103,14 @@ export default class SpottDetailsContainer extends Component {
         loadSpottAndSidebarProduct({
           spottId: nextProps.params.spottId,
           productId: nextProps.params.productId,
-          spottDc
+          spottDc,
+          isModal: this.isModal
         });
       } else {
         loadSpottDetails({
           uuid: nextProps.params.spottId,
-          dc: spottDc
+          dc: spottDc,
+          isModal: this.isModal
         });
       }
       trackSpottView({ uuid: nextProps.params.spottId, dc: spottDc });

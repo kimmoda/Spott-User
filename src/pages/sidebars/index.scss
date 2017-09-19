@@ -65,7 +65,7 @@
     box-shadow: none;
     transform: translateX(100%);
   }
-  z-index: 200;
+  z-index: -1;
 }
 
 .sidebar-enter {
