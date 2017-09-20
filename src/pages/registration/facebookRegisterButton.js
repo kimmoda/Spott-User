@@ -30,7 +30,7 @@ class FacebookLoginButton extends Component {
         appId: facebookAppId,
         cookie: true,
         xfbml: true,
-        version: 'v2.6'
+        version: 'v2.10'
       });
     };
 

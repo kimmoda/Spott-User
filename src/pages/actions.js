@@ -378,7 +378,7 @@ export const setSpottLover = makeApiActionCreator(api.setSpottLover, SET_SPOTT_L
 
 export const removeSpottLover = makeApiActionCreator(api.removeSpottLover, REMOVE_SPOTT_LOVER_START, REMOVE_SPOTT_LOVER_SUCCESS, REMOVE_SPOTT_LOVER_ERROR);
 
-export function loadSpottDetails ({ uuid, dc = '', isModal = true}) {
+export function loadSpottDetails ({ uuid, dc = '', isModal = true }) {
   return async (dispatch, getState) => {
     try {
       const spott = spottSelector(getState(), { params: { spottId: uuid } });
