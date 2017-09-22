@@ -68,9 +68,19 @@ export default function newHomeReducer (state = Map({
     case actions.GET_TOPIC_SPOTTS_MORE_START:
       return state.mergeIn([ 'topicSpotts' ], Map({ _error: null, _status: FETCHING }));
     case actions.GET_TOPIC_SPOTTS_SUCCESS:
-      return state.mergeIn([ 'topicSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).setIn([ 'topicSpotts', 'data' ], fromJS(action.data.data).toOrderedMap());
+      return state
+        .mergeIn([ 'topicSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .setIn([ 'topicSpotts', 'data' ], fromJS(action.data.data, (key, value) => {
+          const isIndexed = Iterable.isIndexed(value);
+          return isIndexed ? value.toList() : value.toOrderedMap();
+        }));
     case actions.GET_TOPIC_SPOTTS_MORE_SUCCESS:
-      return state.mergeIn([ 'topicSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED })).mergeIn([ 'topicSpotts', 'data' ], fromJS(action.data.data));
+      return state
+        .mergeIn([ 'topicSpotts' ], fromJS({ ...action.data.meta, _error: null, _status: LOADED }))
+        .mergeIn([ 'topicSpotts', 'data' ], fromJS(action.data.data, (key, value) => {
+          const isIndexed = Iterable.isIndexed(value);
+          return isIndexed ? value.toList() : value.toOrderedMap();
+        }));
     case actions.GET_TOPIC_SPOTTS_ERROR:
       return state.mergeIn([ 'topicSpotts' ], Map({ _error: action.error, _status: ERROR }));
 
