@@ -163,7 +163,7 @@ export default class NewTopic extends Component {
                     style={backgroundImageStyle(topic.getIn([ 'person', 'avatar', 'url' ]), 160, 160)}
                     styleName='info-image info-image-square'/>}
                   <div styleName='info-header'>
-                    <h2 styleName='info-title'>{topic.get('text')}</h2>
+                    <h1 styleName='info-title'>{topic.get('text')}</h1>
                     {topic.get('sourceType') &&
                     <div styleName='info-type'>
                       {topic.get('sourceType') === 'MEDIUM'

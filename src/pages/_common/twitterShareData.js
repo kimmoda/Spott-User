@@ -14,7 +14,7 @@ export default class TwitterShareData extends Component {
       { property: 'twitter:card', content: 'summary_large_image' },
       { property: 'twitter:site', content: '@SpottBE_nl' },
       { property: 'twitter:title', content: title },
-      { property: 'twitter:image', content: `${imageUrl}?width=1000&height=500` }
+      { property: 'twitter:image', content: `${imageUrl}?width=500&height=1000` }
     ];
     description && meta.push({ property: 'twitter:description', content: description });
     return <Helmet meta={meta} />;
