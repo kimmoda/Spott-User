@@ -53,7 +53,8 @@ export default class ActivityFeed extends PureComponent {
     this.resetUserFollowersCounter = ::this.resetUserFollowersCounter;
 
     this.state = {
-      feedTabIndex: 0
+      feedTabIndex: 0,
+      newsFeedLoaded: false
     };
   }
 
@@ -87,6 +88,10 @@ export default class ActivityFeed extends PureComponent {
 
   handleMouseEnter () {
     window.outerWidth >= 640 && this.dropdown && this.dropdown.show();
+    if (this.state.feedTabIndex === 0 && !this.state.newsFeedLoaded) {
+      window.appboy.display.toggleFeed(document.getElementById('appboy-feed'));
+      this.setState({ newsFeedLoaded: true });
+    }
   }
 
   handleMouseLeave () {
@@ -128,21 +133,32 @@ export default class ActivityFeed extends PureComponent {
                   onClick={(event) => {
                     this.setFeedTabIndex(0);
                   }}>
-                  Following
+                  Latest
                 </div>
                 <div
                   className={feedTabIndex === 1 ? styles['feed-nav-item-active'] : null}
                   styleName='feed-nav-item'
                   onClick={(event) => {
-                    this.resetUserFollowersCounter();
                     this.setFeedTabIndex(1);
+                  }}>
+                  Following
+                </div>
+                <div
+                  className={feedTabIndex === 2 ? styles['feed-nav-item-active'] : null}
+                  styleName='feed-nav-item'
+                  onClick={(event) => {
+                    this.resetUserFollowersCounter();
+                    this.setFeedTabIndex(2);
                   }}>
                   You
                   {userFollowers && userFollowers.get('newItemCount', 0) > 0 && <span>{userFollowers.get('newItemCount', 0)}</span>}
                 </div>
               </div>
+              <CustomScrollbars autoHeight autoHeightMax={400} autoHeightMin={0} onScrollFrame={this.loadMoreFollowers}>
+                <div className={feedTabIndex === 0 ? styles['feed-tab-active'] : null} id='appboy-feed' styleName='feed-tab' />
+              </CustomScrollbars>
               <CustomScrollbars autoHeight autoHeightMax={400} autoHeightMin={0} onScrollFrame={this.loadMoreActivity}>
-                <div className={feedTabIndex === 0 ? styles['feed-tab-active'] : null} styleName='feed-tab'>
+                <div className={feedTabIndex === 1 ? styles['feed-tab-active'] : null} styleName='feed-tab'>
                   {activityFeed.get('data', []).map((item, index) =>
                     <div key={`activity_${index}`} styleName='user-action'>
                       <Link
@@ -208,7 +224,7 @@ export default class ActivityFeed extends PureComponent {
                 </div>
               </CustomScrollbars>
               <CustomScrollbars autoHeight autoHeightMax={400} autoHeightMin={0} onScrollFrame={this.loadMoreFollowers}>
-                <div className={feedTabIndex === 1 ? styles['feed-tab-active'] : null} styleName='feed-tab'>
+                <div className={feedTabIndex === 2 ? styles['feed-tab-active'] : null} styleName='feed-tab'>
                   <UsersList currentUserId={currentUserId} userFollowers={userFollowers} />
                 </div>
               </CustomScrollbars>

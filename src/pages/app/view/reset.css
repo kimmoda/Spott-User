@@ -426,3 +426,16 @@ textarea {
   -webkit-appearance: button; /* 1 */
   font: inherit; /* 2 */
 }
+
+.ab-feed {
+  width: 100%;
+  background-color: #f9f9f9;
+}
+
+.ab-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ab-feed-buttons-wrapper {
+  display: none;
+}
