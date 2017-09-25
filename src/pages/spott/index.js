@@ -187,7 +187,7 @@ export default class SpottDetails extends Component {
             </Tiles>}
           </div>
           <div styleName='content'>
-            <h3 styleName='title'>{spott.get('title')}</h3>
+            <h1 styleName='title'>{spott.get('title')}</h1>
             <div styleName='description'>
               {spott.get('comment')}
             </div>
