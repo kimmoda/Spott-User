@@ -150,6 +150,10 @@
   .sidebars-content {
     max-width: 320px;
     width: calc(100% - 56px);
+
+    & > span > div {
+      width: 100% !important;
+    }
   }
   .overlay {
     display: block;
