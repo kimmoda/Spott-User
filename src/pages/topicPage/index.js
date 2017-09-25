@@ -137,7 +137,7 @@ export default class NewTopic extends Component {
     const { topicTitle, topicId, seasonId, seasonSlug } = this.props.params;
     const { isScrolledToInfo, infoContainerHeight } = this.state;
     const currentSeason = topicSeasons.get('data', []).find((item) => item.get('uuid') === seasonId);
-
+    console.log(topic.toJS());
     if (topic.get('_status') === LOADED && topicRelated.get('_status') === LOADED) {
       return (
         <section styleName='wrapper'>
