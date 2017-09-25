@@ -17,6 +17,7 @@ import ProductImpressionSensor from '../productImpressionSensor';
 import FacebookShareData from '../_common/facebookShareData';
 import TwitterShareData from '../_common/twitterShareData';
 import ShareWidget from '../_common/shareWidget/index';
+import { LOADED } from '../../data/statusTypes';
 import { slugify, getDetailsDcFromLinks, getPath, backgroundImageStyle } from '../../utils';
 
 const styles = require('./index.scss');
@@ -225,11 +226,12 @@ export default class Sidebar extends Component {
           <div styleName='sidebar-title2'>{product.get('longName')}</div>
           <div styleName='sidebar-cost'>{formatPrice(product.getIn([ 'offerings', '0', 'price' ]))}</div>
           <div styleName='sidebar-options'>
-            <button disabled={!productAvailable} styleName='sidebar-add' onClick={this.onBuyClick}>
-              {Boolean(!productAvailable) && (product.get('buyLabelText') || t('product.outOfStock'))}
-              {Boolean(productAvailable && product.getIn([ 'offerings', '0', 'price', 'amount' ])) && (product.get('buyLabelText') || t('product.buyNow'))}
-              {Boolean(productAvailable && !product.getIn([ 'offerings', '0', 'price', 'amount' ])) && (product.get('buyLabelText') || t('product.moreInfo'))}
-            </button>
+            {product.get('_status') === LOADED &&
+              <button disabled={!productAvailable} styleName='sidebar-add' onClick={this.onBuyClick}>
+                {Boolean(!productAvailable) && (product.get('buyLabelText') || t('product.outOfStock'))}
+                {Boolean(productAvailable && product.getIn([ 'offerings', '0', 'price', 'amount' ])) && (product.get('buyLabelText') || t('product.buyNow'))}
+                {Boolean(productAvailable && !product.getIn([ 'offerings', '0', 'price', 'amount' ])) && (product.get('buyLabelText') || t('product.moreInfo'))}
+              </button>}
           </div>
         </div>
         <div styleName='sidebar-footer'>
