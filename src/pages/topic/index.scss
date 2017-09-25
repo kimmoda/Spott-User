@@ -69,6 +69,7 @@
   @include bodyRegular($colorWhite);
   position: absolute;
   left: 16px;
+  right: 16px;
   bottom: 13px;
   white-space: nowrap;
   display: flex;
@@ -91,5 +92,8 @@
   span {
     @include link($borderColor: $colorWhite);
     display: block;
+    line-height: 19px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
