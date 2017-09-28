@@ -3,7 +3,7 @@
   "short_name" : "Spott",
   "description" : "Discover all there is to know about your favorite shows & series",
   "icons" : [{
-    "src" : "icon.png",
+    "src" : "favicon.ico",
     "sizes" : "144x144",
     "type" : "image/png"
   }],

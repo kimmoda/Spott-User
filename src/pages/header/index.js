@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
 import Autosuggest from 'react-autosuggest';
-import { backgroundImageStyle, getPath, slowdown } from '../../utils';
+import { backgroundImageStyle, slowdown } from '../../utils';
 import localized from '../_common/localized';
 import Topics from '../topics';
 import { IconArrow3, IconAvatar, IconClose, IconDots, IconMenu, IconSearch } from '../icons';
@@ -85,9 +85,6 @@ export default class Header extends Component {
 
   componentDidMount () {
     this.props.isAuthenticated && this.props.loadSearchHistory();
-    if (!this.checkIfFromShareUrl()) {
-      this.loadTrendingTopics();
-    }
   }
 
   componentWillReceiveProps (nextProps, nextState) {
@@ -119,10 +116,6 @@ export default class Header extends Component {
     }
     this.setState({ isTrendsLoaded: true });
     this.props.loadTrendingTopics();
-  }
-
-  checkIfFromShareUrl () {
-    return getPath(this.props.location.pathname).slice(0, 6) === 'spott/';
   }
 
   getSuggestionValue (suggestion) {
@@ -157,9 +150,7 @@ export default class Header extends Component {
 
   onFocus () {
     this.setState({ isInputFocused: true });
-    if (this.checkIfFromShareUrl()) {
-      this.loadTrendingTopics();
-    }
+    this.loadTrendingTopics();
   }
 
   onChange (event, { newValue }) {

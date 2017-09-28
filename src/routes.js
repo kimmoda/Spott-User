@@ -180,6 +180,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <RouterRedirect from='activityfeed' to='/'/>
       <RouterRedirect from='activityfeed/*' to='/'/>
       <RouterRedirect from='profile' to='/'/>
+      <RouterRedirect from=':unknownLocale/*' to={`/${getBrowserLanguage()}/*`}/>
       <Route component={Error404} path='*' showCookies={false} />
     </Route>
   );
