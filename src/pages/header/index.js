@@ -339,9 +339,9 @@ export default class Header extends Component {
                   )}
                 </DropdownMenu>
               </div>
+              <ActivityFeed location={location}/>
               {isAuthenticated
                 ? <div styleName='user-bar'>
-                    <ActivityFeed location={location}/>
                     <div styleName='user-menu'>
                       <Link
                         className={styles['user-avatar']}

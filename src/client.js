@@ -117,7 +117,35 @@ async function boot () {
       }
     }(document, 'script', 'link', function() {
       appboy.initialize(data.appBoyApiKey, { baseUrl: 'https://customer.api.appboy.eu/api/v3', enableHtmlInAppMessages: true });
-      appboy.display.automaticallyShowNewInAppMessages();
+      store.dispatch({ type: actions.APPBOY_LOAD_SUCCESS })
+      appboy.subscribeToNewInAppMessages(function(inAppMessages) {
+
+        appboy.display.showInAppMessage(inAppMessages[0]);
+        if (inAppMessages[0].clickAction === 'NEWS_FEED') {
+
+          // remove existing go to news feed button
+          var gotoFeedButton = document.getElementsByClassName('ab-message-button')[0];
+          var parent = gotoFeedButton.parentNode;
+          parent.removeChild(gotoFeedButton);
+
+          // ad new go to news feed button
+
+          var closeButton = document.getElementsByClassName('ab-close-button')[0];
+          var closeFunc = closeButton.onclick;
+          var newButton = document.createElement("button");
+          newButton.innerHTML = inAppMessages[0].buttons[0].text;
+          newButton.setAttribute('style', 'background-color: rgb(27, 120, 207); color: rgb(255, 255, 255);');
+          newButton.setAttribute('class', 'ab-message-button');
+          newButton.onclick = function() {
+            store.dispatch({ type: actions.APPBOY_FEED_OPEN });
+            closeFunc();
+          };
+          parent.appendChild(newButton);
+
+        }
+
+        return inAppMessages.slice(1);
+      });
       if (session) {
         const sessionData = JSON.parse(session);
         if (!isServer() && sessionData.user.id && window && window.appboy) {

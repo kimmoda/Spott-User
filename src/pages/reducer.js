@@ -4,6 +4,7 @@ import * as oldActions from './app/actions';
 import { FETCHING, ERROR, LOADED } from '../data/statusTypes';
 
 export default function newHomeReducer (state = Map({
+  appboy: Map(),
   trendingTopics: Map(),
   trendingSeries: Map(),
   topic: Map(),
@@ -465,6 +466,17 @@ export default function newHomeReducer (state = Map({
       return state.setIn([ 'systemCurrencies' ], fromJS({ ...action.data, _error: null, _status: LOADED }));
     case actions.GET_CURRENCIES_ERROR:
       return state.mergeIn([ 'systemCurrencies' ], Map({ _error: action.error, _status: ERROR }));
+
+    case actions.APPBOY_LOAD_START:
+      return state.mergeIn([ 'appboy' ], Map({ _error: null, _status: FETCHING }));
+    case actions.APPBOY_LOAD_SUCCESS:
+      return state.set('appboy', fromJS({ ...action.data, _error: null, _status: LOADED }));
+    case actions.APPBOY_LOAD_ERROR:
+      return state.mergeIn([ 'appboy' ], Map({ _error: action.error, _status: ERROR }));
+    case actions.APPBOY_FEED_OPEN:
+      return state.mergeIn([ 'appboy' ], Map({ open: true }));
+    case actions.APPBOY_FEED_CLOSE:
+      return state.mergeIn([ 'appboy' ], Map({ open: false }));
 
     default:
       return state;

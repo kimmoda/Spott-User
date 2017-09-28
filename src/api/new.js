@@ -195,7 +195,7 @@ export async function removeUserFollowing (baseUrl, authenticationToken, locale,
 }
 
 export async function getUserFollowers (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/followedBy?page=${page}&pageSize=20`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/followedBy?page=${page}&pageSize=50`);
   return transformFollowersList(body);
 }
 
@@ -336,7 +336,7 @@ export async function getTvSeriesSeasonEpisodes (baseUrl, authenticationToken, l
 }
 
 export async function getUserActivityFeed (baseUrl, authenticationToken, locale, { uuid, page = 0 }) {
-  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/followedUserActivity?page=${page}&pageSize=20`);
+  const { body } = await get(authenticationToken, locale, `${baseUrl}/v004/user/users/${uuid}/followedUserActivity?page=${page}&pageSize=100`);
   return transformActivityFeed(body);
 }
 

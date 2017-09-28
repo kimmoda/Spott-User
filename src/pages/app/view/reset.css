@@ -427,9 +427,29 @@ textarea {
   font: inherit; /* 2 */
 }
 
-.ab-feed {
+#appboy-feed .ab-feed {
   width: 100%;
   background-color: #f9f9f9;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+#appboy-feed .ab-feed .ab-card {
+  border: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);
+}
+
+#appboy-feed .ab-feed.ab-show {
+  animation-duration: 0s;
+  -webkit-animation-duration: 0s;
+}
+#appboy-feed .ab-feed a {
+  color: #cf315b;
+  text-decoration: none;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+#appboy-feed .ab-feed a:hover {
+  text-decoration: underline;
 }
 
 .ab-card {
