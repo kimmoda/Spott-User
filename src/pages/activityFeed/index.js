@@ -13,7 +13,8 @@ import { IconLightning, IconAvatar, IconClose } from '../icons';
 import { slugify, getDetailsDcFromLinks, getPath, backgroundImageStyle } from '../../utils';
 import UserListItem from '../usersListItem';
 import CustomScrollbars from '../customScrollbars';
-import { FETCHING } from '../../data/statusTypes';
+import { FETCHING, LOADED } from '../../data/statusTypes';
+import moment from 'moment';
 
 const styles = require('./index.scss');
 
@@ -29,6 +30,7 @@ const styles = require('./index.scss');
 export default class ActivityFeed extends PureComponent {
   static propTypes = {
     activityFeed: PropTypes.any.isRequired,
+    appboy: PropTypes.any.isRequired,
     currentLocale: PropTypes.string.isRequired,
     currentUserId: PropTypes.string,
     isAuthenticated: PropTypes.string,
@@ -47,21 +49,44 @@ export default class ActivityFeed extends PureComponent {
     this.loadMoreActivity = ::this.loadMoreActivity;
     this.loadMoreFollowers = ::this.loadMoreFollowers;
     this.hideDropdown = ::this.hideDropdown;
-    this.handleMouseEnter = ::this.handleMouseEnter;
-    this.handleMouseLeave = ::this.handleMouseLeave;
+    this.openFeed = ::this.openFeed;
+    this.closeFeed = ::this.closeFeed;
     this.resetActivityFeedCounter = ::this.resetActivityFeedCounter;
     this.resetUserFollowersCounter = ::this.resetUserFollowersCounter;
 
     this.state = {
       feedTabIndex: 0,
-      newsFeedLoaded: false
+      newsFeedLoaded: false,
+      feedData: []
     };
   }
 
   componentDidMount () {
     const { loadUserActivityFeed, currentUserId, loadUserFollowers } = this.props;
-    loadUserActivityFeed({ uuid: currentUserId, page: 0 });
-    loadUserFollowers({ uuid: currentUserId });
+    if (currentUserId) {
+      loadUserActivityFeed({ uuid: currentUserId, page: 0 });
+      loadUserFollowers({ uuid: currentUserId });
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { activityFeed, appboy, loadUserActivityFeed, currentUserId, loadUserFollowers } = this.props;
+    if (appboy.get('open') !== nextProps.appboy.get('open')) {
+      if (nextProps.appboy.get('open')) {
+        this.openFeed();
+      }
+    }
+
+    if (currentUserId !== nextProps.currentUserId) {
+      if (nextProps.currentUserId) {
+        loadUserActivityFeed({ uuid: nextProps.currentUserId, page: 0 });
+        loadUserFollowers({ uuid: nextProps.currentUserId });
+      }
+    }
+
+    if (activityFeed.get('data', []).toJS().length !== nextProps.activityFeed.get('data', []).toJS().length) {
+      this.setState({ feedData: this.parseFeedData(nextProps.activityFeed.get('data', []).toJS()) });
+    }
   }
 
   setFeedTabIndex (index) {
@@ -86,7 +111,7 @@ export default class ActivityFeed extends PureComponent {
     this.dropdown && this.dropdown.hide();
   }
 
-  handleMouseEnter () {
+  openFeed () {
     window.outerWidth >= 640 && this.dropdown && this.dropdown.show();
     if (this.state.feedTabIndex === 0 && !this.state.newsFeedLoaded) {
       window.appboy.display.toggleFeed(document.getElementById('appboy-feed'));
@@ -94,7 +119,7 @@ export default class ActivityFeed extends PureComponent {
     }
   }
 
-  handleMouseLeave () {
+  closeFeed () {
     window.outerWidth >= 640 && this.dropdown && this.dropdown.hide();
   }
 
@@ -108,24 +133,118 @@ export default class ActivityFeed extends PureComponent {
     userFollowers.get('newItemCount', 0) > 0 && resetUserFollowersCounter({ uuid: currentUserId });
   }
 
+  renderUnreadCount () {
+    let totalCount = 0;
+    const { activityFeed, appboy, userFollowers } = this.props;
+
+    if (appboy.get('_status') === LOADED && window.appboy.getCachedFeed().getUnreadCardCount() > 0) {
+      totalCount += window.appboy.getCachedFeed().getUnreadCardCount();
+    }
+
+    if (activityFeed.get('newItemCount', 0) > 0) {
+      totalCount += activityFeed.get('newItemCount', 0);
+    }
+
+    if (userFollowers && userFollowers.get('newItemCount', 0) > 0) {
+      totalCount += userFollowers.get('newItemCount', 0);
+    }
+
+    if (totalCount > 0) {
+      return (
+        <div styleName='feed-dot'>{totalCount}</div>
+      );
+    }
+    return null;
+  }
+
+  parseFeedData (activityFeed) {
+    const tempFeed = activityFeed.slice();
+    const indexObject = {};
+    const resultData = [];
+    tempFeed.map((feed) => {
+      const difference = moment(feed.date).toNow(true);
+      const name = `${feed.user.firstName} ${feed.user.lastName}`;
+      const url = (feed.user.user && feed.user.user.avatar && feed.user.user.avatar.url) ? feed.user.user.avatar.url : '';
+      const id = feed.user.user.uuid;
+      const feedArray = [];
+      feedArray.push(feed);
+      if (indexObject[difference] === undefined) {
+        indexObject[difference] = resultData.length;
+        const tempData = {};
+        tempData[name] = {
+          name,
+          url,
+          id,
+          data: {
+            [feed.type]: {
+              type: feed.type,
+              data: feedArray
+            }
+          }
+        };
+        resultData.push({
+          date: difference,
+          data: tempData
+        });
+      } else {
+        const index = indexObject[difference];
+        const tempData = resultData[index].data;
+        if (tempData.hasOwnProperty(name)) {
+          const tempUserData = tempData[name].data;
+          if (tempUserData.hasOwnProperty(feed.type)) {
+            const tempTypeData = tempUserData[feed.type].data;
+            tempTypeData.push(feed);
+            tempUserData[feed.type].data = tempTypeData;
+          } else {
+            tempUserData[feed.type] = {
+              type: feed.type,
+              data: feedArray
+            };
+          }
+          tempData[name].data = tempUserData;
+        } else {
+          tempData[name] = {
+            name,
+            url,
+            id,
+            data: {
+              [feed.type]: {
+                type: feed.type,
+                data: feedArray
+              }
+            }
+          };
+        }
+        resultData[index].data = tempData;
+      }
+    });
+
+    return resultData;
+  }
+
   render () {
-    const { activityFeed, currentLocale, userFollowers, currentUserId } = this.props;
-    const { feedTabIndex } = this.state;
+    const { activityFeed, appboy, currentLocale, userFollowers, currentUserId } = this.props;
+    const { feedTabIndex, feedData } = this.state;
 
     return (
-      <div styleName='dd-wrapper' onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+      <div styleName='dd-wrapper'>
         <Dropdown
           className={styles['dd-container']}
-          ref={(ref) => { this.dropdown = ref; }}
-          onShow={this.resetActivityFeedCounter}>
+          ref={(ref) => { this.dropdown = ref; }}>
           <DropdownTrigger className={styles['dd-trigger']}>
-            <div styleName='feed-trigger'>
+            <div styleName='feed-trigger' onClick={this.openFeed}>
               <i><IconLightning/></i>
-              {activityFeed.get('newItemCount', 0) > 0 && <div styleName='feed-dot'>{activityFeed.get('newItemCount', 0)}</div>}
+              {this.renderUnreadCount()}
             </div>
           </DropdownTrigger>
           <DropdownContent className={styles['dd-content']}>
             <div styleName='feed-wrapper'>
+              <div styleName='feed-title-wrapper'>
+                <h3 styleName='feed-title'>Notification</h3>
+                <div styleName='feed-close' onClick={this.closeFeed}>
+                  <i><IconClose /></i>
+                </div>
+              </div>
               <div styleName='feed-nav'>
                 <div
                   className={feedTabIndex === 0 ? styles['feed-nav-item-active'] : null}
@@ -134,15 +253,20 @@ export default class ActivityFeed extends PureComponent {
                     this.setFeedTabIndex(0);
                   }}>
                   Latest
+                  {appboy.get('_status') === LOADED && window.appboy.getCachedFeed().getUnreadCardCount() > 0 && <span>{window.appboy.getCachedFeed().getUnreadCardCount()}</span>}
                 </div>
+                {currentUserId &&
                 <div
                   className={feedTabIndex === 1 ? styles['feed-nav-item-active'] : null}
                   styleName='feed-nav-item'
                   onClick={(event) => {
+                    this.resetActivityFeedCounter();
                     this.setFeedTabIndex(1);
                   }}>
                   Following
-                </div>
+                  {activityFeed.get('newItemCount', 0) > 0 && <span>{activityFeed.get('newItemCount', 0)}</span>}
+                </div>}
+                {currentUserId &&
                 <div
                   className={feedTabIndex === 2 ? styles['feed-nav-item-active'] : null}
                   styleName='feed-nav-item'
@@ -151,80 +275,130 @@ export default class ActivityFeed extends PureComponent {
                     this.setFeedTabIndex(2);
                   }}>
                   You
-                  {userFollowers && userFollowers.get('newItemCount', 0) > 0 && <span>{userFollowers.get('newItemCount', 0)}</span>}
+                  {userFollowers && userFollowers.get('newItemCount', 0) > 0 &&
+                  <span>{userFollowers.get('newItemCount', 0)}</span>}
                 </div>
+                }
               </div>
-              <CustomScrollbars autoHeight autoHeightMax={400} autoHeightMin={0} onScrollFrame={this.loadMoreFollowers}>
-                <div className={feedTabIndex === 0 ? styles['feed-tab-active'] : null} id='appboy-feed' styleName='feed-tab' />
+              <CustomScrollbars
+                className={feedTabIndex === 0 ? styles['feed-tab-active'] : null}
+                styleName='feed-tab-wrapper feed-tab'>
+                <div id='appboy-feed'/>
               </CustomScrollbars>
-              <CustomScrollbars autoHeight autoHeightMax={400} autoHeightMin={0} onScrollFrame={this.loadMoreActivity}>
-                <div className={feedTabIndex === 1 ? styles['feed-tab-active'] : null} styleName='feed-tab'>
-                  {activityFeed.get('data', []).map((item, index) =>
-                    <div key={`activity_${index}`} styleName='user-action'>
-                      <Link
-                        style={backgroundImageStyle(item.getIn([ 'user', 'avatar', 'url' ]), 64, 64)}
-                        styleName='user-avatar'
-                        to={`/${currentLocale}/profile/${item.getIn([ 'user', 'user', 'uuid' ])}`}>
-                        {!item.getIn([ 'user', 'avatar', 'url' ]) && <IconAvatar/>}
-                      </Link>
-                      <div styleName='user-r'>
-                        <div styleName='action-text'>
-                          <Link styleName='user-name' to={`/${currentLocale}/profile/${item.getIn([ 'user', 'user', 'uuid' ])}`}>
-                            {item.getIn([ 'user', 'firstName' ])} {item.getIn([ 'user', 'lastName' ])}
-                          </Link>
-                          {item.get('type') === 'PRODUCT_WISHLISTED' &&
-                          <span styleName='action-type'>wishlisted an item.</span>}
-                          {item.get('type') === 'USER_FOLLOWED' &&
-                          <span styleName='action-type'>
-                          now follows
+              <CustomScrollbars
+                autoHeight
+                autoHeightMax={900}
+                autoHeightMin={0}
+                className={feedTabIndex === 1 ? styles['feed-tab-active'] : null}
+                styleName='feed-tab-wrapper feed-tab'
+                onScrollFrame={this.loadMoreActivity}>
+                {feedData.length > 0 &&
+                <div>
+                  {feedData.map((item, index) =>
+                    Object.keys(item.data).map((user, userIndex) =>
+                      Object.keys((item.data)[user].data).map((type, actionIndex) =>
+                        <div key={`activity_${index}_${userIndex}_${actionIndex}`} styleName='user-action'>
                           <Link
-                            to={`/${currentLocale}/profile/${item.getIn([ 'activityUser', 'user', 'uuid' ])}`}>
-                            {item.getIn([ 'activityUser', 'firstName' ])} {item.getIn([ 'activityUser', 'lastName' ])}
+                            style={backgroundImageStyle((item.data)[user].url, 64, 64)}
+                            styleName='user-avatar'
+                            to={`/${currentLocale}/profile/${(item.data)[user].id}`}>
+                            {!(item.data)[user].url && <IconAvatar/>}
                           </Link>
-                        </span>}
-                          {item.get('type') === 'ANNOTATED_POST_LOVED' &&
-                          <span styleName='action-type'>loved a spott.</span>}
-                          {item.get('type') === 'DATA_TOPIC_SUBSCRIPTION' &&
-                          <span styleName='action-type'>
-                          subscribed to
-                          <Link
-                            to={`/${currentLocale}/topic/${slugify(item.getIn([ 'activityTopic', 'text' ]))}/${item.getIn([ 'activityTopic', 'uuid' ])}`}>
-                            {item.getIn([ 'activityTopic', 'text' ])}
-                          </Link>
-                        </span>}
+                          <div styleName='user-r'>
+                            <div styleName='action-text'>
+                              <Link styleName='user-name' to={`/${currentLocale}/profile/${(item.data)[user].id}`}>
+                                {user}
+                              </Link>
+                              {type === 'PRODUCT_WISHLISTED' &&
+                              <span styleName='action-type'>wishlisted an item. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
+                              {type === 'USER_FOLLOWED' &&
+                              <span styleName='action-type'>
+                                followed <span style={{ color: '#b2b1b3' }}>{item.date} ago</span>
+                              </span>}
+                              {type === 'ANNOTATED_POST_LOVED' &&
+                              <span styleName='action-type'>loved a spott. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
+                              {type === 'DATA_TOPIC_SUBSCRIPTION' &&
+                              <span styleName='action-type'>
+                                subscribed to <span style={{ color: '#b2b1b3' }}>{item.date} ago</span>
+                              </span>}
+                            </div>
+                            {type === 'USER_FOLLOWED' &&
+                            <div styleName='action-type'>
+                              {((item.data)[user].data)[type].data.map((feed, feedIndex) =>
+                                <span key={feedIndex}>
+                                  <Link
+                                    to={`/${currentLocale}/profile/${feed.activityUser.user.uuid}`}>
+                                    {`${feed.activityUser.firstName} ${feed.activityUser.lastName}`}
+                                  </Link>
+                                  {feedIndex < ((item.data)[user].data)[type].data.length - 1 ? ', ' : ''}
+                                </span>
+                              )}
+                            </div>}
+                            {type === 'ANNOTATED_POST_LOVED' &&
+                              <div style={{ display: 'inline-block', marginTop: '5px' }}>
+                                {((item.data)[user].data)[type].data.map((feed, feedIndex) =>
+                                  <Link
+                                    key={feedIndex}
+                                    styleName='action-spott'
+                                    to={{
+                                      pathname: `/${currentLocale}/modal/${getPath(feed.activityPost.shareUrl)}`,
+                                      state: {
+                                        modal: true,
+                                        returnTo: `${location.pathname}${location.search}`,
+                                        spottDc: getDetailsDcFromLinks(feed.activityPost.links)
+                                      }
+                                    }}
+                                    onClick={this.hideDropdown}>
+                                    <img src={feed.activityPost.image.url} style={{ width: 'auto', height: '56px' }} />
+                                  </Link>
+                                )}
+                              </div>
+                            }
+                            {type === 'PRODUCT_WISHLISTED' &&
+                            <div>
+                              {((item.data)[user].data)[type].data.map((feed, feedIndex) =>
+                                <Link
+                                  key={feedIndex}
+                                  styleName='action-product'
+                                  to={{
+                                    pathname: `/${currentLocale}/${getPath(feed.activityProduct.shareUrl)}`,
+                                    state: {
+                                      modal: true,
+                                      returnTo: `${location.pathname}${location.search}`
+                                    }
+                                  }}
+                                  onClick={this.hideDropdown}>
+                                  <img src={feed.activityProduct.image.url} style={{ width: 'auto', height: '56px' }} />
+                                </Link>
+                              )}
+                            </div>}
+                            {type === 'DATA_TOPIC_SUBSCRIPTION' &&
+                            <div styleName='action-type'>
+                              {((item.data)[user].data)[type].data.map((feed, feedIndex) =>
+                                <span key={feedIndex}>
+                                    <Link
+                                      to={`/${currentLocale}/topic/${slugify(feed.activityTopic.text)}/${feed.activityTopic.uuid}`}>
+                                      {feed.activityTopic.text}
+                                    </Link>
+                                  {feedIndex < ((item.data)[user].data)[type].data.length - 1 ? ', ' : ''}
+                                  </span>
+                              )}
+                            </div>}
+                          </div>
                         </div>
-                        {item.get('type') === 'ANNOTATED_POST_LOVED' &&
-                        <Link
-                          style={backgroundImageStyle(item.getIn([ 'activityPost', 'image', 'url' ]), 48, 56)}
-                          styleName='action-spott'
-                          to={{
-                            pathname: `/${currentLocale}/modal/${getPath(item.getIn([ 'activityPost', 'shareUrl' ]))}`,
-                            state: {
-                              modal: true,
-                              returnTo: `${location.pathname}${location.search}`,
-                              spottDc: getDetailsDcFromLinks(item.getIn([ 'activityPost', 'links' ]).toJS())
-                            }
-                          }}
-                          onClick={this.hideDropdown}/>}
-                        {item.get('type') === 'PRODUCT_WISHLISTED' &&
-                        <Link
-                          style={backgroundImageStyle(item.getIn([ 'activityProduct', 'image', 'url' ]), 56, 56)}
-                          styleName='action-product'
-                          to={{
-                            pathname: `/${currentLocale}/${getPath(item.getIn([ 'activityProduct', 'shareUrl' ]))}`,
-                            state: {
-                              modal: true,
-                              returnTo: `${location.pathname}${location.search}`
-                            }
-                          }}
-                          onClick={this.hideDropdown}/>}
-                      </div>
-                    </div>
+                      )
+                    )
                   )}
-                </div>
+                </div>}
               </CustomScrollbars>
-              <CustomScrollbars autoHeight autoHeightMax={400} autoHeightMin={0} onScrollFrame={this.loadMoreFollowers}>
-                <div className={feedTabIndex === 2 ? styles['feed-tab-active'] : null} styleName='feed-tab'>
+              <CustomScrollbars
+                autoHeight
+                autoHeightMax={900}
+                autoHeightMin={0}
+                className={feedTabIndex === 2 ? styles['feed-tab-active'] : null}
+                styleName='feed-tab-wrapper feed-tab'
+                onScrollFrame={this.loadMoreFollowers}>
+                <div>
                   <UsersList currentUserId={currentUserId} userFollowers={userFollowers} />
                 </div>
               </CustomScrollbars>
