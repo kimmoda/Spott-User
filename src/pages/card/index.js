@@ -203,9 +203,6 @@ export default class Card extends Component {
             </div>}
             {item.get('promoted') && <div styleName='reason'>{t('common.promoted')}</div>}
             <h3 styleName='title'>{item.get('title')}</h3>
-            <div styleName='description'>
-              {item.get('comment')}
-            </div>
             {width >= 280 && <div styleName='topic-links'>
               {item.get('topics').map((topic, index) =>
                 <Link
