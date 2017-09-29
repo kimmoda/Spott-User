@@ -276,8 +276,9 @@
 }
 
 .action-product {
-  display: block;
+  display: inline-block;
   margin-top: 10px;
+  margin-right: 5px;
   width: 56px;
   height: 56px;
   background-size: cover;
@@ -319,10 +320,10 @@
 
 .feed-tab-wrapper {
   position: absolute !important;
+  max-height: calc(100% - 90px) !important;
   top: 105px;
   & > div {
     margin-bottom: 0 !important;
-    height: calc(100% - 90px);
     overflow-x: hidden !important;
     overflow-y: scroll !important;
   }

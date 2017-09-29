@@ -57,7 +57,8 @@ export default class ActivityFeed extends PureComponent {
     this.state = {
       feedTabIndex: 0,
       newsFeedLoaded: false,
-      feedData: []
+      feedData: [],
+      height: window.innerHeight
     };
   }
 
@@ -287,7 +288,7 @@ export default class ActivityFeed extends PureComponent {
               </CustomScrollbars>
               <CustomScrollbars
                 autoHeight
-                autoHeightMax={900}
+                autoHeightMax={this.state.height - 184}
                 autoHeightMin={0}
                 className={feedTabIndex === 1 ? styles['feed-tab-active'] : null}
                 styleName='feed-tab-wrapper feed-tab'
@@ -310,13 +311,13 @@ export default class ActivityFeed extends PureComponent {
                                 {user}
                               </Link>
                               {type === 'PRODUCT_WISHLISTED' &&
-                              <span styleName='action-type'>wishlisted an item. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
+                              <span styleName='action-type'>wishlisted {((item.data)[user].data)[type].data.length} item{((item.data)[user].data)[type].data.length > 1 ? 's' : '' }. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
                               {type === 'USER_FOLLOWED' &&
                               <span styleName='action-type'>
                                 followed <span style={{ color: '#b2b1b3' }}>{item.date} ago</span>
                               </span>}
                               {type === 'ANNOTATED_POST_LOVED' &&
-                              <span styleName='action-type'>loved a spott. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
+                              <span styleName='action-type'>loved {((item.data)[user].data)[type].data.length} spott{((item.data)[user].data)[type].data.length > 1 ? 's' : ''}. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
                               {type === 'DATA_TOPIC_SUBSCRIPTION' &&
                               <span styleName='action-type'>
                                 subscribed to <span style={{ color: '#b2b1b3' }}>{item.date} ago</span>
@@ -355,7 +356,7 @@ export default class ActivityFeed extends PureComponent {
                               </div>
                             }
                             {type === 'PRODUCT_WISHLISTED' &&
-                            <div>
+                            <div style={{ display: 'inline-block', marginTop: '5px' }}>
                               {((item.data)[user].data)[type].data.map((feed, feedIndex) =>
                                 <Link
                                   key={feedIndex}
@@ -393,7 +394,7 @@ export default class ActivityFeed extends PureComponent {
               </CustomScrollbars>
               <CustomScrollbars
                 autoHeight
-                autoHeightMax={900}
+                autoHeightMax={this.state.height - 184}
                 autoHeightMin={0}
                 className={feedTabIndex === 2 ? styles['feed-tab-active'] : null}
                 styleName='feed-tab-wrapper feed-tab'
