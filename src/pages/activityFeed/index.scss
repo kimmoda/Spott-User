@@ -31,7 +31,7 @@
 .dd-container {
   position: relative;
   @media (max-width: $phoneBreakpoint) {
-    position: static;
+    // position: static;
   }
 }
 
@@ -51,11 +51,11 @@
   }
 
   @media (max-width: $phoneBreakpoint) {
-    right: 0;
-    left: 50%;
-    margin-left: -150px;
-    top: 60px;
-    width: 300px;
+    //right: 0;
+    //left: 50%;
+    //margin-left: -150px;
+    //top: 60px;
+    //width: 300px;
   }
 }
 
@@ -113,7 +113,7 @@
   overflow: hidden;
   z-index: 200;
   @media (max-width: $phoneBreakpoint) {
-    width: 300px;
+    //width: 300px;
   }
 }
 
@@ -123,7 +123,7 @@
   width: 100%;
   min-height: 100%;
   background-color: $overlayColorBlack;
-  top: 0;
+  top: 80px;
   left: 0;
   z-index: 100;
   @media (max-width: $phoneBreakpoint) {
@@ -156,7 +156,7 @@
     transform: scale(1.1);
   }
   @media (max-width: $phoneBreakpoint) {
-    display: block;
+    //display: block;
   }
 }
 
@@ -169,7 +169,7 @@
   padding: 16px 67px 0 55px;
   border-bottom: 1px solid $colorGrayLighter;
   @media (max-width: $phoneBreakpoint) {
-    padding: 16px 40px 0 40px;
+    //padding: 16px 40px 0 40px;
   }
 }
 
@@ -276,8 +276,9 @@
 }
 
 .action-product {
-  display: block;
+  display: inline-block;
   margin-top: 10px;
+  margin-right: 5px;
   width: 56px;
   height: 56px;
   background-size: cover;
@@ -319,11 +320,17 @@
 
 .feed-tab-wrapper {
   position: absolute !important;
+  max-height: calc(100% - 90px) !important;
   top: 105px;
   & > div {
     margin-bottom: 0 !important;
-    height: calc(100% - 90px);
     overflow-x: hidden !important;
     overflow-y: scroll !important;
+  }
+}
+
+.infinite-scroll-tab {
+  & > div {
+    max-height: calc(100% - 75px);
   }
 }

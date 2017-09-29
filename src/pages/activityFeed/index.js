@@ -57,7 +57,8 @@ export default class ActivityFeed extends PureComponent {
     this.state = {
       feedTabIndex: 0,
       newsFeedLoaded: false,
-      feedData: []
+      feedData: [],
+      height: window.innerHeight
     };
   }
 
@@ -70,17 +71,10 @@ export default class ActivityFeed extends PureComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { activityFeed, appboy, loadUserActivityFeed, currentUserId, loadUserFollowers } = this.props;
+    const { activityFeed, appboy } = this.props;
     if (appboy.get('open') !== nextProps.appboy.get('open')) {
       if (nextProps.appboy.get('open')) {
         this.openFeed();
-      }
-    }
-
-    if (currentUserId !== nextProps.currentUserId) {
-      if (nextProps.currentUserId) {
-        loadUserActivityFeed({ uuid: nextProps.currentUserId, page: 0 });
-        loadUserFollowers({ uuid: nextProps.currentUserId });
       }
     }
 
@@ -112,7 +106,7 @@ export default class ActivityFeed extends PureComponent {
   }
 
   openFeed () {
-    window.outerWidth >= 640 && this.dropdown && this.dropdown.show();
+    this.dropdown && this.dropdown.show();
     if (this.state.feedTabIndex === 0 && !this.state.newsFeedLoaded) {
       window.appboy.display.toggleFeed(document.getElementById('appboy-feed'));
       this.setState({ newsFeedLoaded: true });
@@ -120,7 +114,7 @@ export default class ActivityFeed extends PureComponent {
   }
 
   closeFeed () {
-    window.outerWidth >= 640 && this.dropdown && this.dropdown.hide();
+    this.dropdown && this.dropdown.hide();
   }
 
   resetActivityFeedCounter () {
@@ -287,10 +281,10 @@ export default class ActivityFeed extends PureComponent {
               </CustomScrollbars>
               <CustomScrollbars
                 autoHeight
-                autoHeightMax={900}
+                autoHeightMax={this.state.height - 184}
                 autoHeightMin={0}
                 className={feedTabIndex === 1 ? styles['feed-tab-active'] : null}
-                styleName='feed-tab-wrapper feed-tab'
+                styleName='feed-tab-wrapper feed-tab infinite-scroll-tab'
                 onScrollFrame={this.loadMoreActivity}>
                 {feedData.length > 0 &&
                 <div>
@@ -310,13 +304,13 @@ export default class ActivityFeed extends PureComponent {
                                 {user}
                               </Link>
                               {type === 'PRODUCT_WISHLISTED' &&
-                              <span styleName='action-type'>wishlisted an item. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
+                              <span styleName='action-type'>wishlisted {((item.data)[user].data)[type].data.length} item{((item.data)[user].data)[type].data.length > 1 ? 's' : '' }. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
                               {type === 'USER_FOLLOWED' &&
                               <span styleName='action-type'>
                                 followed <span style={{ color: '#b2b1b3' }}>{item.date} ago</span>
                               </span>}
                               {type === 'ANNOTATED_POST_LOVED' &&
-                              <span styleName='action-type'>loved a spott. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
+                              <span styleName='action-type'>loved {((item.data)[user].data)[type].data.length} spott{((item.data)[user].data)[type].data.length > 1 ? 's' : ''}. <span style={{ color: '#b2b1b3' }}>{item.date} ago</span></span>}
                               {type === 'DATA_TOPIC_SUBSCRIPTION' &&
                               <span styleName='action-type'>
                                 subscribed to <span style={{ color: '#b2b1b3' }}>{item.date} ago</span>
@@ -355,7 +349,7 @@ export default class ActivityFeed extends PureComponent {
                               </div>
                             }
                             {type === 'PRODUCT_WISHLISTED' &&
-                            <div>
+                            <div style={{ display: 'inline-block', marginTop: '5px' }}>
                               {((item.data)[user].data)[type].data.map((feed, feedIndex) =>
                                 <Link
                                   key={feedIndex}
@@ -393,10 +387,10 @@ export default class ActivityFeed extends PureComponent {
               </CustomScrollbars>
               <CustomScrollbars
                 autoHeight
-                autoHeightMax={900}
+                autoHeightMax={this.state.height - 184}
                 autoHeightMin={0}
                 className={feedTabIndex === 2 ? styles['feed-tab-active'] : null}
-                styleName='feed-tab-wrapper feed-tab'
+                styleName='feed-tab-wrapper feed-tab infinite-scroll-tab'
                 onScrollFrame={this.loadMoreFollowers}>
                 <div>
                   <UsersList currentUserId={currentUserId} userFollowers={userFollowers} />
