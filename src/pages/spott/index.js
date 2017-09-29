@@ -188,9 +188,6 @@ export default class SpottDetails extends Component {
           </div>
           <div styleName='content'>
             <h1 styleName='title'>{spott.get('title')}</h1>
-            <div styleName='description'>
-              {spott.get('comment')}
-            </div>
             <div styleName='topic-links'>
               {spott.get('topics') && spott.get('topics').map((topic, index) =>
                 <Link
