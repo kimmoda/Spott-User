@@ -29,7 +29,7 @@ export async function login (baseUrl, { email: emailIn, password }) {
     if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
       throw 'login.invalid';
     }
-    throw '_common.unknown';
+    throw 'common.unknown';
   }
 }
 
@@ -47,7 +47,7 @@ export async function loginFacebook (baseUrl, { facebookAccessToken }) {
     if (error.body.message === 'verkeerde gebruikersnaam/password combinatie') {
       throw 'login.invalidFacebook';
     }
-    throw '_common.unknown';
+    throw 'common.unknown';
   }
 }
 

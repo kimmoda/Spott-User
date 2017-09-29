@@ -706,7 +706,7 @@ export function registerWithFacebook ({ email, firstname, lastname, facebookAcce
           throw e;
         }
       }
-      dispatch({ error: '_common.unknown', email, firstname, lastname, dateOfBirth, gender, type: REGISTER_FACEBOOK_USER_ERROR });
+      dispatch({ error: 'common.unknown', email, firstname, lastname, dateOfBirth, gender, type: REGISTER_FACEBOOK_USER_ERROR });
       throw error;
     }
   };

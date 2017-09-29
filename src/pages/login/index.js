@@ -14,6 +14,7 @@ import { FormInput } from '../form';
 import { authenticationErrorSelector, authenticationIsLoadingSelector } from '../app/selector';
 import FacebookLoginButton from './facebookLoginButton';
 import { IconClose } from '../icons';
+import { RadiumLink } from '../_common/buildingBlocks';
 
 const styles = require('./index.scss');
 
@@ -136,7 +137,7 @@ export default class NewLogin extends Component {
               } : `/${currentLocale}/resetpassword`}>
             {t('login.forgotPassword')}
           </Link>
-          {Boolean(errorSubmit && typeof errorSubmit === 'string') && <div className='form-error'>{t(errorSubmit)}</div>}
+          {Boolean(errorSubmit && typeof errorSubmit === 'string') && <div className='form-error'>{errorSubmit === 'login.invalidFacebook' ? t('login.invalidFacebook', {}, (content, key) => <RadiumLink key={key} style={styles.link} to={`/${currentLocale}/registration`}>{content}</RadiumLink>) : t(errorSubmit)}</div>}
           <button className='form-submit' type='submit'>{t('common.logIn')}</button>
           <div styleName='new-user'>
             {t('login.newUser')}
