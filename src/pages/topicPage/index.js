@@ -137,8 +137,7 @@ export default class NewTopic extends Component {
     const { topicTitle, topicId, seasonId, seasonSlug } = this.props.params;
     const { isScrolledToInfo, infoContainerHeight } = this.state;
     const currentSeason = topicSeasons.get('data', []).find((item) => item.get('uuid') === seasonId);
-    console.log(topic.toJS());
-    if (topic.get('_status') === LOADED && topicRelated.get('_status') === LOADED) {
+    if (topic.get('_status') === LOADED) {
       return (
         <section styleName='wrapper'>
           {topic.getIn([ 'medium', 'profileImage', 'url' ]) && <div style={backgroundImageStyle(topic.getIn([ 'medium', 'profileImage', 'url' ]), 1200, 480)} styleName='poster' title={topic.get('text')}/>}
