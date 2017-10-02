@@ -144,6 +144,8 @@
   @include btnBig;
   @include btnGreen;
   width: 100%;
+  display: block;
+  text-align: center;
 }
 
 .sidebar-footer {
