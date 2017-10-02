@@ -63,10 +63,12 @@ export default class ActivityFeed extends PureComponent {
   }
 
   componentDidMount () {
-    const { loadUserActivityFeed, currentUserId, loadUserFollowers } = this.props;
+    const { loadUserActivityFeed, currentUserId, loadUserFollowers, userFollowers } = this.props;
     if (currentUserId) {
       loadUserActivityFeed({ uuid: currentUserId, page: 0 });
-      loadUserFollowers({ uuid: currentUserId });
+      if (!userFollowers) {
+        loadUserFollowers({ uuid: currentUserId });
+      }
     }
   }
 
