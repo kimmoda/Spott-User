@@ -217,7 +217,7 @@ export default class ActivityFeed extends PureComponent {
   }
 
   render () {
-    const { activityFeed, appboy, currentLocale, userFollowers, currentUserId } = this.props;
+    const { activityFeed, appboy, currentLocale, t, userFollowers, currentUserId } = this.props;
     const { feedTabIndex, feedData } = this.state;
 
     return (
@@ -286,8 +286,8 @@ export default class ActivityFeed extends PureComponent {
                 className={feedTabIndex === 1 ? styles['feed-tab-active'] : null}
                 styleName='feed-tab-wrapper feed-tab infinite-scroll-tab'
                 onScrollFrame={this.loadMoreActivity}>
-                {feedData.length > 0 &&
-                <div>
+                {feedData.length > 0
+                  ? <div>
                   {feedData.map((item, index) =>
                     Object.keys(item.data).map((user, userIndex) =>
                       Object.keys((item.data)[user].data).map((type, actionIndex) =>
@@ -383,7 +383,12 @@ export default class ActivityFeed extends PureComponent {
                       )
                     )
                   )}
-                </div>}
+                </div>
+                : <div style={{ textAlign: 'center', color: '#a7a6a9', padding: '0 20px' }}>
+                    <h4>{t('activityFeed.noFeedTitle')}</h4>
+                    <h5>{t('activityFeed.noFeedSubtitle')}</h5>
+                  </div>
+                }
               </CustomScrollbars>
               <CustomScrollbars
                 autoHeight
