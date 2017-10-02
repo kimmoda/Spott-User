@@ -77,6 +77,11 @@
 .sidebar-image {
   overflow: hidden;
   max-height: 370px;
+
+  @media (max-width: $phoneBreakpoint) {
+    max-width: 150px;
+    margin: auto;
+  }
 }
 
 .sidebar-photos {
