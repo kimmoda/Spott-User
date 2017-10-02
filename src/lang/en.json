@@ -164,7 +164,9 @@
     "subscribedTo": "subscribed to",
     "nowFollows" : "now follows",
     "lovedSpott": "loved a spott",
-    "startedFollowingYou": "started following you."
+    "startedFollowingYou": "started following you.",
+    "noFeedTitle": "No activity yet",
+    "noFeedSubtitle": "Try to follow some interesting topics or people"
   },
   "seo": {
     "title": "Spott",
