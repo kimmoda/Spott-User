@@ -159,6 +159,10 @@
     "passwordMatchError": "Les mots de passe ne correspondent pas!",
     "submitButton": "Changez le mot de passe"
   },
+  "activityFeed": {
+    "noFeedTitle": "Pas encore d'activité",
+    "noFeedSubtitle": "Essayez de suivre des sujets ou des personnes intéressants"
+  },
   "seo": {
     "title": "Spott",
     "home": {
