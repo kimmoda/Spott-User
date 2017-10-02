@@ -23,6 +23,7 @@ import { spottDetailsSelector } from '../selectors';
 import withLoginDialog from '../_common/withLoginDialog';
 import * as actions from '../actions';
 import ShareWidget from '../_common/shareWidget/index';
+import Breadcrumb from '../_common/breadcrumb';
 
 const styles = require('./index.scss');
 
@@ -255,6 +256,7 @@ export default class SpottDetails extends Component {
             imageUrl={share.getIn([ 'image', 'url' ])}
             title={share.get('title')}/>}
         {spott.get('title') && <SEOWidget description={spott.get('comment')} title={`${t('seo.title')} - ${spott.get('title')}`}/>}
+        {spott.get('title') && <Breadcrumb imgUrl={spott.getIn([ 'image', 'url' ]) ? spott.getIn([ 'image', 'url' ]) : ''} name={spott.get('title')} />}
       </div>
     );
   }
