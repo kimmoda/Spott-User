@@ -151,6 +151,7 @@
 
 .title {
   @include titleMedium();
+  word-wrap: break-word;
 }
 
 .description {
