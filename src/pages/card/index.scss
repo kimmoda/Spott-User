@@ -152,6 +152,10 @@
 .title {
   @include titleMedium();
   word-wrap: break-word;
+  @media (max-width: $phoneBreakpoint) {
+    font-size: 12px;
+    font-weight: 100;
+  }
 }
 
 .description {
