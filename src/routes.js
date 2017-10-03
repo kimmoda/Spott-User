@@ -70,6 +70,12 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
     return 'en';
   }
 
+  function getRedirectLanguage () {
+    const state = getState();
+    const userProfileLanguage = state.getIn([ 'app', 'authentication', 'user', 'languages', '0', 'uuid' ]);
+    return userProfileLanguage ? userProfileLanguage : getBrowserLanguage();
+  }
+
   function onRootEnter (state, replace) {
     const { location } = state;
     // Hash url for terms and privacy will be replaced by a url without a hash!
@@ -180,7 +186,7 @@ export const getRoutes = ({ dispatch, getState }) => { // eslint-disable-line re
       <RouterRedirect from='activityfeed' to='/'/>
       <RouterRedirect from='activityfeed/*' to='/'/>
       <RouterRedirect from='profile' to='/'/>
-      <RouterRedirect from=':unknownLocale/*' to={`/${getBrowserLanguage()}/*`}/>
+      <RouterRedirect from=':unknownLocale/*' to={`/${getRedirectLanguage()}/*`}/>
       <Route component={Error404} path='*' showCookies={false} />
     </Route>
   );
