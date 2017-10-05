@@ -256,7 +256,7 @@ export default class SpottDetails extends Component {
             imageUrl={share.getIn([ 'image', 'url' ])}
             title={share.get('title')}/>}
         {spott.get('title') && <SEOWidget description={spott.get('comment')} title={`${t('seo.title')} - ${spott.get('title')}`}/>}
-        {spott.get('title') && firstTopic && <Breadcrumb imgUrl={spott.getIn([ 'image', 'url' ]) ? spott.getIn([ 'image', 'url' ]) : ''} name={spott.get('title')} topicImg={firstTopic.getIn([ 'profileImage', 'url' ])} topicName={firstTopic.get('text')} topicUrl={`${window.location.origin}/${currentLocale}/topic/${slugify(firstTopic.get('text', ''))}/${firstTopic.get('uuid')}`}/>}
+        {sidebarProducts.get('data').size === 0 && spott.get('title') && firstTopic && <Breadcrumb imgUrl={spott.getIn([ 'image', 'url' ]) ? spott.getIn([ 'image', 'url' ]) : ''} name={spott.get('title')} topicImg={firstTopic.getIn([ 'profileImage', 'url' ])} topicName={firstTopic.get('text')} topicUrl={`${window.location.origin}/${currentLocale}/topic/${slugify(firstTopic.get('text', ''))}/${firstTopic.get('uuid')}`}/>}
       </div>
     );
   }
