@@ -161,7 +161,11 @@
   },
   "activityFeed": {
     "noFeedTitle": "Pas encore d'activité",
-    "noFeedSubtitle": "Essayez de suivre des sujets ou des personnes intéressants"
+    "noFeedSubtitle": "Essayez de suivre des sujets ou des personnes intéressants",
+    "notification": "Notification",
+    "latest": "Dernier",
+    "following": "Suivant",
+    "you": "Toi"
   },
   "seo": {
     "title": "Spott",

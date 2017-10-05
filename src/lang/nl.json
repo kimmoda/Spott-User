@@ -161,7 +161,11 @@
   },
   "activityFeed": {
     "noFeedTitle": "Nog geen activiteit",
-    "noFeedSubtitle": "Volg trending topics en personen die jou interesseren"
+    "noFeedSubtitle": "Volg trending topics en personen die jou interesseren",
+    "notification": "Kennisgeving",
+    "latest": "Laatste",
+    "following": "Volgend",
+    "you": "U"
   },
   "seo": {
     "title": "Spott",

@@ -166,7 +166,11 @@
     "lovedSpott": "loved a spott",
     "startedFollowingYou": "started following you.",
     "noFeedTitle": "No activity yet",
-    "noFeedSubtitle": "Try to follow some interesting topics or people"
+    "noFeedSubtitle": "Try to follow some interesting topics or people",
+    "notification": "Notification",
+    "latest": "Latest",
+    "following": "Following",
+    "you": "You"
   },
   "seo": {
     "title": "Spott",

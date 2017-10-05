@@ -236,7 +236,7 @@ export default class ActivityFeed extends PureComponent {
           <DropdownContent className={styles['dd-content']}>
             <div styleName='feed-wrapper'>
               <div styleName='feed-title-wrapper'>
-                <h3 styleName='feed-title'>Notification</h3>
+                <h3 styleName='feed-title'>{t('activityFeed.notification')}</h3>
                 <div styleName='feed-close' onClick={this.closeFeed}>
                   <i><IconClose /></i>
                 </div>
@@ -248,7 +248,7 @@ export default class ActivityFeed extends PureComponent {
                   onClick={(event) => {
                     this.setFeedTabIndex(0);
                   }}>
-                  Latest
+                  {t('activityFeed.latest')}
                   {appboy.get('_status') === LOADED && window.appboy.getCachedFeed().getUnreadCardCount() > 0 && <span>{window.appboy.getCachedFeed().getUnreadCardCount()}</span>}
                 </div>
                 {currentUserId &&
@@ -259,7 +259,7 @@ export default class ActivityFeed extends PureComponent {
                     this.resetActivityFeedCounter();
                     this.setFeedTabIndex(1);
                   }}>
-                  Following
+                  {t('activityFeed.following')}
                   {activityFeed.get('newItemCount', 0) > 0 && <span>{activityFeed.get('newItemCount', 0)}</span>}
                 </div>}
                 {currentUserId &&
@@ -270,7 +270,7 @@ export default class ActivityFeed extends PureComponent {
                     this.resetUserFollowersCounter();
                     this.setFeedTabIndex(2);
                   }}>
-                  You
+                  {t('activityFeed.you')}
                   {userFollowers && userFollowers.get('newItemCount', 0) > 0 &&
                   <span>{userFollowers.get('newItemCount', 0)}</span>}
                 </div>
