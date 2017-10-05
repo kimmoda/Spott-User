@@ -17,6 +17,7 @@ import ProductImpressionSensor from '../productImpressionSensor';
 import FacebookShareData from '../_common/facebookShareData';
 import TwitterShareData from '../_common/twitterShareData';
 import ShareWidget from '../_common/shareWidget/index';
+import ProductStructuredData from '../_common/productStructuredData';
 import { LOADED } from '../../data/statusTypes';
 import { slugify, getDetailsDcFromLinks, getPath, backgroundImageStyle } from '../../utils';
 
@@ -309,6 +310,7 @@ export default class Sidebar extends Component {
             imageUrl={share.getIn([ 'image', 'url' ])}
             title={share.get('title')}/>}
         {product.get('shortName') && spott && <SEOWidget description={spottId ? spott.get('comment') : ''} title={`${t('seo.title')} - ${spottId ? `${spott.get('title')} (${product.get('longName')})` : product.get('longName')}`}/>}
+        {product.get('_status') === LOADED && <ProductStructuredData product={product.toJS()}/>}
       </div>
     );
   }
