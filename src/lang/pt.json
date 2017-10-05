@@ -164,7 +164,13 @@
     "subscribedTo": "se inscreveu",
     "nowFollows": "agora segue",
     "lovedSpott": "gostou de um spott",
-    "startedFollowingYou": "Começou a te seguir"
+    "startedFollowingYou": "Começou a te seguir",
+    "noFeedTitle": "Ainda não há atividade",
+    "noFeedSubtitle": "Tente seguir alguns tópicos ou pessoas interessantes",
+    "notification": "Notificação",
+    "latest": "Ultimas",
+    "following": "Seguindo",
+    "you": "Você"
   },
   "seo": {
     "title": "Spott",
