@@ -22,7 +22,6 @@ export default class ProductStructuredData extends Component {
               ${product.images.map((image, index) => `"${image.url}"`)}
              ],
             "description": "${product.description ? product.description : ''}",
-            "mpn": "925872",
             "brand": {
               "@type": "Thing",
               "name": "${product.brand.name}"
@@ -36,9 +35,6 @@ export default class ProductStructuredData extends Component {
               "@type": "Offer",
               "priceCurrency": "${product.offerings[0].price.currency}",
               "price": "${product.offerings[0].price.amount}",
-              "priceValidUntil": "2020-11-05",
-              "itemCondition": "http://schema.org/UsedCondition",
-              "availability": "http://schema.org/InStock",
               "seller": {
                 "@type": "Organization",
                 "name": "${product.offerings[0].shop.name}"
