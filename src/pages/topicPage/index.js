@@ -16,6 +16,7 @@ import { backgroundImageStyle, slugify } from '../../utils';
 import Tiles from '../tiles';
 import { LOADED } from '../../data/statusTypes';
 import Breadcrumb from '../_common/breadcrumb';
+import PersonStructuredData from '../_common/personStructuredData';
 
 const styles = require('./index.scss');
 const { cssHeaderHeight } = require('../vars.scss');
@@ -240,6 +241,7 @@ export default class NewTopic extends Component {
           </div>
           {topic.get('text') && <SEOWidget description={t('seo.topic.description')} title={`${t('seo.title')} - ${topic.get('text')}`}/>}
           {topic.get('text') && <Breadcrumb imgUrl={topic.getIn([ 'medium', 'profileImage', 'url' ]) ? topic.getIn([ 'medium', 'profileImage', 'url' ]) : ''} name={topic.get('text')} />}
+          {topic.get('text') && topic.get('sourceType') === 'PERSON' && <PersonStructuredData topic={topic.toJS()} />}
         </section>
       );
     }
